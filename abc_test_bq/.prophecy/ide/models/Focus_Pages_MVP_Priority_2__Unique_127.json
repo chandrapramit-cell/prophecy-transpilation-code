@@ -1,0 +1,129 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Unique_127",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Unique_127",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Unique_127_127_Unique" : {
+      "id" : "Unique_127_127_Unique",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Unique_127"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Unique_127\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_33",
+          "slug" : "input_port_33"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_33",
+          "slug" : "output_port_33"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "127" : {
+      "id" : "127",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_127",
+        "x" : 14690,
+        "y" : 1050,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY",
+            "_row_id" : null
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "ao4_erD9_iqgk168c4Dou"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "127_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "127_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_110_110_Unique" : {
+      "id" : "Unique_110_110_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_110"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_31",
+          "id" : "output_port_31",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Unique_110') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_31",
+          "slug" : "input_port_31"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_31",
+          "slug" : "output_port_31"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_127_127_Unique_Unique_127_127_Unique",
+    "source" : "127",
+    "sourcePort" : "127_Unique",
+    "target" : "Unique_127_127_Unique",
+    "targetPort" : "input_port_33",
+    "isWireless" : false
+  }, {
+    "id" : "edge_176",
+    "source" : "Unique_110_110_Unique",
+    "sourcePort" : "output_port_31",
+    "target" : "127",
+    "targetPort" : "127_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,160 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Summarize_145",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Summarize_145",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_145_OxDij-YQYzjib7ISaG94F" : {
+      "id" : "Summarize_145_OxDij-YQYzjib7ISaG94F",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_145"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_145\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_38",
+          "slug" : "input_port_38"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_38",
+          "slug" : "output_port_38"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "145" : {
+      "id" : "145",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_145",
+        "x" : 9470,
+        "y" : 258,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((Trimester IS NULL) OR (CAST(Trimester AS STRING) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "NZl3PZxh01muLjT87SGC4"
+        }, {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT MBR_ID)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_MBR_ID",
+          "description" : null,
+          "_row_id" : "0gY9NWKSF790u7E3D7ZZI"
+        }, {
+          "expression" : {
+            "expression" : "Trimester",
+            "_row_id" : null
+          },
+          "alias" : "Trimester",
+          "description" : null,
+          "_row_id" : "v7w3AY_WagU3e-qcNZ5vv"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Trimester",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "epx5TB_lL7XPg1MDTjdVc"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "145_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "OxDij-YQYzjib7ISaG94F",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_107_left_fr5p2fdJg9S7XAgidrDzJ" : {
+      "id" : "Join_107_left_fr5p2fdJg9S7XAgidrDzJ",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_107_left"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_25",
+          "id" : "output_port_25",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Join_107_left') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_25",
+          "slug" : "input_port_25"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_25",
+          "slug" : "output_port_25"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_145_OxDij-YQYzjib7ISaG94F_Summarize_145_OxDij-YQYzjib7ISaG94F",
+    "source" : "145",
+    "sourcePort" : "OxDij-YQYzjib7ISaG94F",
+    "target" : "Summarize_145_OxDij-YQYzjib7ISaG94F",
+    "targetPort" : "input_port_38",
+    "isWireless" : false
+  }, {
+    "id" : "edge_233",
+    "source" : "Join_107_left_fr5p2fdJg9S7XAgidrDzJ",
+    "sourcePort" : "output_port_25",
+    "target" : "145",
+    "targetPort" : "145_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

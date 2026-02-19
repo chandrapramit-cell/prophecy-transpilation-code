@@ -1,0 +1,728 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__Sort_135",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__Sort_135",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "GenerateRows_128_128_Output" : {
+      "id" : "GenerateRows_128_128_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GenerateRows_128"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_8",
+          "id" : "output_port_8",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Health_Buckets_MVP_Priority_2', 'GenerateRows_128') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "135" : {
+      "id" : "135",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_135",
+        "x" : 8318,
+        "y" : 1260,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "135_Input##MBR_INDV_BE_KEY", "135_Input##YearMonth" ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "YearMonth"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "135_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "135_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "xeUpSY9-0BSxs6K9VdqHx" : {
+      "id" : "xeUpSY9-0BSxs6K9VdqHx",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_131_row_id_0",
+        "x" : 6518,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER ())"
+          },
+          "alias" : "prophecy_row_id",
+          "_row_id" : "oJ27rE-5ajo6UU9AYNQAu"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "350548191"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "st-VBhsM5qF3gKIZGoFDl",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "j5QjUHy9h9wIEqnbZ3Qvc",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "134" : {
+      "id" : "134",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_134",
+        "x" : 7358,
+        "y" : 1260,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "134_Input##MBR_INDV_BE_KEY", "134_Input##YearMonth", "134_Input##previous", "134_Input##weight field" ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "YearMonth"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "previous"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "`weight field`"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "134_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "134_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "126_inner" : {
+      "id" : "126_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_126_inner",
+        "x" : 7118,
+        "y" : 1260,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.MBR_INDV_BE_KEY = in1.MBR_INDV_BE_KEY) AND (in0.previous = in1.RecordNum))"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.MBR_INDV_BE_KEY"
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "_row_id" : "CEVWj9J2tRTJ1lPKXYO1c"
+        }, {
+          "expression" : {
+            "expression" : "in0.RecordNum"
+          },
+          "alias" : "RecordNum",
+          "_row_id" : "j6PGoLfEHVizTnQ7M6Ydv"
+        }, {
+          "expression" : {
+            "expression" : "in0.NumRows"
+          },
+          "alias" : "NumRows",
+          "_row_id" : "d7zE_FcRt5TbIylvklkrQ"
+        }, {
+          "expression" : {
+            "expression" : "in0.previous"
+          },
+          "alias" : "previous",
+          "_row_id" : "Ec_D8ZCjy4RgPeIeYhGeY"
+        }, {
+          "expression" : {
+            "expression" : "in1.RecordNum"
+          },
+          "alias" : "Right_RecordNum",
+          "_row_id" : "SYha4Yg8TBBAHITUEyq3S"
+        }, {
+          "expression" : {
+            "expression" : "in0.`weight field`"
+          },
+          "alias" : "`weight field`",
+          "_row_id" : "qt6kvdKOy7AqNDFjWe3uT"
+        }, {
+          "expression" : {
+            "expression" : "in0.YearMonth"
+          },
+          "alias" : "YearMonth",
+          "_row_id" : "LVdIRXsgtLKI37Wbz0SN4"
+        }, {
+          "expression" : {
+            "expression" : "in1.TotalRVU"
+          },
+          "alias" : "TotalRVU",
+          "_row_id" : "KlrtopGFrxTRzCzu_rjvg"
+        }, {
+          "expression" : {
+            "expression" : "in1.V"
+          },
+          "alias" : "V",
+          "_row_id" : "QVVuvQMOkjwMIBtvrdTNe"
+        }, {
+          "expression" : {
+            "expression" : "in1.VPP"
+          },
+          "alias" : "VPP",
+          "_row_id" : "0cP4mX7GEUSqjIrxnuIS0"
+        }, {
+          "expression" : {
+            "expression" : "in1.ACC"
+          },
+          "alias" : "ACC",
+          "_row_id" : "fILb1rCXMiWTBJn4er04g"
+        }, {
+          "expression" : {
+            "expression" : "in1.RunTot_Inflection"
+          },
+          "alias" : "RunTot_Inflection",
+          "_row_id" : "WsIdhV7Yd0mMHWo9wa1xg"
+        }, {
+          "expression" : {
+            "expression" : "in1.Avg_TotalRVU"
+          },
+          "alias" : "Avg_TotalRVU",
+          "_row_id" : "UxqyR7twRXHMeYUsFLoNe"
+        }, {
+          "expression" : {
+            "expression" : "in1.Avg_TotalRVU_Full"
+          },
+          "alias" : "Avg_TotalRVU_Full",
+          "_row_id" : "rJ_8foc_eOfIT9IFFNGra"
+        }, {
+          "expression" : {
+            "expression" : "in1.Avg_TotalRVU_Pred"
+          },
+          "alias" : "Avg_TotalRVU_Pred",
+          "_row_id" : "w0lQ80L85J7sMeUbehMYF"
+        }, {
+          "expression" : {
+            "expression" : "in1.CountDistinct_CLM_ID"
+          },
+          "alias" : "CountDistinct_CLM_ID",
+          "_row_id" : "ocD14b_Bwsb2XwzQ3hJKC"
+        }, {
+          "expression" : {
+            "expression" : "in1.MBR_AGE_RANGE"
+          },
+          "alias" : "MBR_AGE_RANGE",
+          "_row_id" : "9pb7b1jsjacthOT0THrQP"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`MBR_INDV_BE_KEY`, `RecordNum`, `YearMonth`, `TotalRVU`, `V`, `VPP`, `ACC`, `RunTot_Inflection`, `Avg_TotalRVU`, `Avg_TotalRVU_Full`, `Avg_TotalRVU_Pred`, `CountDistinct_CLM_ID`, `MBR_AGE_RANGE`)"
+          },
+          "_row_id" : "1565076129"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "1JWzjysLZ5owdwbVyhxoi##MBR_INDV_BE_KEY", "Ot-Yr7cI9rc9ecXPj8Rc-##MBR_INDV_BE_KEY", "1JWzjysLZ5owdwbVyhxoi##previous", "Ot-Yr7cI9rc9ecXPj8Rc-##RecordNum", "1JWzjysLZ5owdwbVyhxoi##MBR_INDV_BE_KEY", "1JWzjysLZ5owdwbVyhxoi##RecordNum", "1JWzjysLZ5owdwbVyhxoi##NumRows", "1JWzjysLZ5owdwbVyhxoi##previous", "Ot-Yr7cI9rc9ecXPj8Rc-##RecordNum", "1JWzjysLZ5owdwbVyhxoi##weight field", "1JWzjysLZ5owdwbVyhxoi##YearMonth", "Ot-Yr7cI9rc9ecXPj8Rc-##TotalRVU", "Ot-Yr7cI9rc9ecXPj8Rc-##V", "Ot-Yr7cI9rc9ecXPj8Rc-##VPP", "Ot-Yr7cI9rc9ecXPj8Rc-##ACC", "Ot-Yr7cI9rc9ecXPj8Rc-##RunTot_Inflection", "Ot-Yr7cI9rc9ecXPj8Rc-##Avg_TotalRVU", "Ot-Yr7cI9rc9ecXPj8Rc-##Avg_TotalRVU_Full", "Ot-Yr7cI9rc9ecXPj8Rc-##Avg_TotalRVU_Pred", "Ot-Yr7cI9rc9ecXPj8Rc-##CountDistinct_CLM_ID", "Ot-Yr7cI9rc9ecXPj8Rc-##MBR_AGE_RANGE" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1JWzjysLZ5owdwbVyhxoi",
+          "slug" : "in0"
+        }, {
+          "id" : "Ot-Yr7cI9rc9ecXPj8Rc-",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "UYvY1WAhYChiocojdDC66",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "137" : {
+      "id" : "137",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_137",
+        "x" : 7838,
+        "y" : 1260,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "AVG(TotalRVU)"
+          },
+          "alias" : "Avg_TotalRVU",
+          "_row_id" : "UfzSkNKAb8_RcAwy0iGD4"
+        }, {
+          "expression" : {
+            "expression" : "MAX(MBR_AGE_RANGE)"
+          },
+          "alias" : "Max_MBR_AGE_RANGE",
+          "_row_id" : "u2SJTm2myMpA63v_fW9Et"
+        }, {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "_row_id" : "WvfbMRXqTCZjJ2d3gP3Ha"
+        }, {
+          "expression" : {
+            "expression" : "YearMonth"
+          },
+          "alias" : "YearMonth",
+          "_row_id" : "uq494k-aBwbfA2T1TpdJ1"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "_row_id" : "Mp-s3g0TlZr7g00_DKPBm"
+        }, {
+          "expression" : {
+            "expression" : "YearMonth"
+          },
+          "_row_id" : "lCTXmla-9BC6620SNgoBD"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "137_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "137_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "162" : {
+      "id" : "162",
+      "component" : "MultiColumnRename",
+      "metadata" : {
+        "label" : "DynamicRename_162",
+        "x" : 8078,
+        "y" : 1260,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Summarize_137" ],
+        "columnNames" : [ "Max_MBR_AGE_RANGE" ],
+        "suffix" : "",
+        "editWith" : "",
+        "schema" : "[{\"name\": \"MBR_INDV_BE_KEY\", \"dataType\": \"String\"}, {\"name\": \"YearMonth\", \"dataType\": \"String\"}, {\"name\": \"Avg_TotalRVU\", \"dataType\": \"Double\"}, {\"name\": \"Max_MBR_AGE_RANGE\", \"dataType\": \"String\"}]",
+        "customExpression" : "\nCASE\n  WHEN column_name LIKE 'Max_%' THEN SUBSTRING(column_name, LENGTH('Max_') + 1, LENGTH(column_name) - LENGTH('Max_'))\n  ELSE column_name\nEND\n",
+        "renameMethod" : "advancedRename",
+        "editType" : "Suffix"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "162_Targets",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "162_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Sort_135_135_Output" : {
+      "id" : "Sort_135_135_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Sort_135"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Sort_135\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_9",
+          "slug" : "input_port_9"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_9",
+          "slug" : "output_port_9"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "130" : {
+      "id" : "130",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_130",
+        "x" : 6278,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "130_Input##MBR_INDV_BE_KEY", "130_Input##YearMonth", "130_Input##previous" ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "YearMonth"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "previous"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "130_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "130_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MultiRowFormula_129_row_id_drop_0_SMluFrKLFR06kgFv_mT-e" : {
+      "id" : "MultiRowFormula_129_row_id_drop_0_SMluFrKLFR06kgFv_mT-e",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "MultiRowFormula_129_row_id_drop_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__MultiRowFormula_129_row_id_drop_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2-b47ukSNJW7XKz05vOHw" : {
+      "id" : "2-b47ukSNJW7XKz05vOHw",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_131_row_id_drop_0",
+        "x" : 7058,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`prophecy_row_id`)"
+          },
+          "_row_id" : "1804775202"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "5JFggnZtnfq_n318AaKy6",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "314PWLM9POOEoRBuqVzC8",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "131" : {
+      "id" : "131",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "MultiRowFormula_131",
+        "x" : 6698,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "MultiRowFormula_131_row_id_0" ],
+        "_oldMacroProperties" : {
+          "macroName" : "ToDo",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "diag_message",
+            "value" : "Multi Row Formula tool for this case is not supported by transpiler in SQL"
+          } ]
+        },
+        "code_string" : "<Node ToolID=\"131\">\n      <GuiSettings Plugin=\"AlteryxBasePluginsGui.MultiRowFormula.MultiRowFormula\">\n        <Position y=\"330\" x=\"1928\"/>\n      </GuiSettings>\n      <Properties>\n        <Configuration>\n          <UpdateField value=\"False\"/>\n          <UpdateField_Name>MBR_INDV_BE_KEY</UpdateField_Name>\n          <CreateField_Name>weight field</CreateField_Name>\n          <CreateField_Type>Int32</CreateField_Type>\n          <CreateField_Size>4</CreateField_Size>\n          <OtherRows>Empty</OtherRows>\n          <NumRows value=\"1\"/>\n          <Expression>[Row-1:weight field] + 1</Expression>\n          <GroupByFields/>\n        </Configuration>\n        <Annotation DisplayMode=\"0\">\n          <Name/>\n          <DefaultAnnotationText>[Row-1:weight field] + 1</DefaultAnnotationText>\n          <Left value=\"False\"/>\n        </Annotation>\n      </Properties>\n      <EngineSettings EngineDllEntryPoint=\"AlteryxMultiRowFormula\" EngineDll=\"AlteryxBasePluginsEngine.dll\"/>\n    </Node>",
+        "diag_message" : "Multi Row Formula tool for this case is not supported by transpiler in SQL",
+        "error_string" : "Multi Row Formula tool for this case is not supported by transpiler in SQL"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "131_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "131_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "136" : {
+      "id" : "136",
+      "component" : "MultiColumnEdit",
+      "metadata" : {
+        "label" : "MultiFieldFormula_136",
+        "x" : 7598,
+        "y" : 1260,
+        "phase" : 0
+      },
+      "properties" : {
+        "changeOutputFieldName" : false,
+        "relation_name" : [ "Sort_134" ],
+        "columnNames" : [ "TotalRVU" ],
+        "_oldMacroProperties" : {
+          "macroName" : "MultiColumnEdit",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Sort_134\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"MBR_INDV_BE_KEY\", \"dataType\": \"String\"}, {\"name\": \"RecordNum\", \"dataType\": \"Numeric\"}, {\"name\": \"NumRows\", \"dataType\": \"Numeric\"}, {\"name\": \"previous\", \"dataType\": \"Numeric\"}, {\"name\": \"Right_RecordNum\", \"dataType\": \"Numeric\"}, {\"name\": \"weight field\", \"dataType\": \"Numeric\"}, {\"name\": \"YearMonth\", \"dataType\": \"String\"}, {\"name\": \"TotalRVU\", \"dataType\": \"Float\"}, {\"name\": \"V\", \"dataType\": \"Float\"}, {\"name\": \"VPP\", \"dataType\": \"Float\"}, {\"name\": \"ACC\", \"dataType\": \"Float\"}, {\"name\": \"RunTot_Inflection\", \"dataType\": \"Numeric\"}, {\"name\": \"Avg_TotalRVU\", \"dataType\": \"Float\"}, {\"name\": \"Avg_TotalRVU_Full\", \"dataType\": \"Float\"}, {\"name\": \"Avg_TotalRVU_Pred\", \"dataType\": \"Float\"}, {\"name\": \"CountDistinct_CLM_ID\", \"dataType\": \"Float\"}, {\"name\": \"MBR_AGE_RANGE\", \"dataType\": \"String\"}, {\"name\": \"DOB\", \"dataType\": \"String\"}, {\"name\": \"SUB_ID\", \"dataType\": \"String\"}, {\"name\": \"32CNTY_FLAG\", \"dataType\": \"String\"}, {\"name\": \"RURAL_FLAG\", \"dataType\": \"String\"}, {\"name\": \"MBR_EMAIL_ADDR\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_PHN_NO\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_CITY_NM\", \"dataType\": \"String\"}, {\"name\": \"MAX_ENR_TERM_DT\", \"dataType\": \"String\"}, {\"name\": \"SUB_CNTGS_CNTY_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_LN_2\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ZIP_CD_5\", \"dataType\": \"String\"}, {\"name\": \"UNRELIABLE_HOME_ADDR_FLAG\", \"dataType\": \"String\"}, {\"name\": \"SUB_OR_DPNDT_UNDER_18_FLAG\", \"dataType\": \"String\"}, {\"name\": \"PROD_SH_NM_CAT_CD\", \"dataType\": \"String\"}, {\"name\": \"SUB_MKTNG_METRO_RURAL_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_CELL_PHN_NO\", \"dataType\": \"String\"}, {\"name\": \"GRP_NM\", \"dataType\": \"String\"}, {\"name\": \"GRP_ID\", \"dataType\": \"String\"}, {\"name\": \"EXPRNC_CAT_CD\", \"dataType\": \"String\"}, {\"name\": \"FUND_CAT_CD\", \"dataType\": \"String\"}, {\"name\": \"GRP_INDUSTRY\", \"dataType\": \"String\"}, {\"name\": \"MAX_ENR_EFF_DT\", \"dataType\": \"String\"}, {\"name\": \"CLS_PLN_DESC\", \"dataType\": \"String\"}, {\"name\": \"TOTAL_LIVING_IN_HOUSEHOLD\", \"dataType\": \"String\"}, {\"name\": \"PROD_SH_NM_DLVRY_METH_CD\", \"dataType\": \"String\"}, {\"name\": \"SPIRA_FLAG\", \"dataType\": \"String\"}, {\"name\": \"PROD_SK\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_CNTY_NM\", \"dataType\": \"String\"}, {\"name\": \"PROD_SH_NM\", \"dataType\": \"String\"}, {\"name\": \"MBR_FULL_NM\", \"dataType\": \"String\"}, {\"name\": \"FNCL_LOB_DESC\", \"dataType\": \"String\"}, {\"name\": \"CLS_ID\", \"dataType\": \"String\"}, {\"name\": \"SPIRA_BNF_ID\", \"dataType\": \"String\"}, {\"name\": \"MBR_GNDR_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_LN_1\", \"dataType\": \"String\"}, {\"name\": \"FUND_CAT_DESC\", \"dataType\": \"String\"}, {\"name\": \"SUB_FLAG\", \"dataType\": \"String\"}, {\"name\": \"POPULATION_TYPE\", \"dataType\": \"String\"}, {\"name\": \"GRP_INDUSTRY_ROLLUP\", \"dataType\": \"String\"}, {\"name\": \"MBR_ID\", \"dataType\": \"String\"}, {\"name\": \"MBR_RELSHP_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ST_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_AGE\", \"dataType\": \"String\"}, {\"name\": \"DIRECT_PAY_IN\", \"dataType\": \"String\"}, {\"name\": \"FNCL_LOB_CD\", \"dataType\": \"String\"}, {\"name\": \"FNCL_MKT_SEG_NM\", \"dataType\": \"String\"}, {\"name\": \"TOTAL_POLICY_MEMBERS\", \"dataType\": \"String\"}, {\"name\": \"MIN_RELATIONSHIP_EFF_DT\", \"dataType\": \"String\"}, {\"name\": \"MBR_UNIQ_KEY\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "columnNames",
+            "value" : "[\"TotalRVU\"]"
+          }, {
+            "name" : "expressionToBeApplied",
+            "value" : "CASE WHEN (pmod(`weight field`, 3) = 1) THEN (column_value / 3) WHEN (pmod(`weight field`, 3) = 2) THEN ((column_value * 2) / 3) ELSE column_value END"
+          }, {
+            "name" : "changeOutputFieldName",
+            "value" : "false"
+          }, {
+            "name" : "prefixSuffixOption",
+            "value" : "Suffix"
+          }, {
+            "name" : "prefixSuffixToBeAdded",
+            "value" : ""
+          } ]
+        },
+        "schema" : "[{\"name\": \"MBR_INDV_BE_KEY\", \"dataType\": \"String\"}, {\"name\": \"RecordNum\", \"dataType\": \"Numeric\"}, {\"name\": \"NumRows\", \"dataType\": \"Numeric\"}, {\"name\": \"previous\", \"dataType\": \"Numeric\"}, {\"name\": \"Right_RecordNum\", \"dataType\": \"Numeric\"}, {\"name\": \"weight field\", \"dataType\": \"Numeric\"}, {\"name\": \"YearMonth\", \"dataType\": \"String\"}, {\"name\": \"TotalRVU\", \"dataType\": \"Float\"}, {\"name\": \"V\", \"dataType\": \"Float\"}, {\"name\": \"VPP\", \"dataType\": \"Float\"}, {\"name\": \"ACC\", \"dataType\": \"Float\"}, {\"name\": \"RunTot_Inflection\", \"dataType\": \"Numeric\"}, {\"name\": \"Avg_TotalRVU\", \"dataType\": \"Float\"}, {\"name\": \"Avg_TotalRVU_Full\", \"dataType\": \"Float\"}, {\"name\": \"Avg_TotalRVU_Pred\", \"dataType\": \"Float\"}, {\"name\": \"CountDistinct_CLM_ID\", \"dataType\": \"Float\"}, {\"name\": \"MBR_AGE_RANGE\", \"dataType\": \"String\"}, {\"name\": \"DOB\", \"dataType\": \"String\"}, {\"name\": \"SUB_ID\", \"dataType\": \"String\"}, {\"name\": \"32CNTY_FLAG\", \"dataType\": \"String\"}, {\"name\": \"RURAL_FLAG\", \"dataType\": \"String\"}, {\"name\": \"MBR_EMAIL_ADDR\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_PHN_NO\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_CITY_NM\", \"dataType\": \"String\"}, {\"name\": \"MAX_ENR_TERM_DT\", \"dataType\": \"String\"}, {\"name\": \"SUB_CNTGS_CNTY_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_LN_2\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ZIP_CD_5\", \"dataType\": \"String\"}, {\"name\": \"UNRELIABLE_HOME_ADDR_FLAG\", \"dataType\": \"String\"}, {\"name\": \"SUB_OR_DPNDT_UNDER_18_FLAG\", \"dataType\": \"String\"}, {\"name\": \"PROD_SH_NM_CAT_CD\", \"dataType\": \"String\"}, {\"name\": \"SUB_MKTNG_METRO_RURAL_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_CELL_PHN_NO\", \"dataType\": \"String\"}, {\"name\": \"GRP_NM\", \"dataType\": \"String\"}, {\"name\": \"GRP_ID\", \"dataType\": \"String\"}, {\"name\": \"EXPRNC_CAT_CD\", \"dataType\": \"String\"}, {\"name\": \"FUND_CAT_CD\", \"dataType\": \"String\"}, {\"name\": \"GRP_INDUSTRY\", \"dataType\": \"String\"}, {\"name\": \"MAX_ENR_EFF_DT\", \"dataType\": \"String\"}, {\"name\": \"CLS_PLN_DESC\", \"dataType\": \"String\"}, {\"name\": \"TOTAL_LIVING_IN_HOUSEHOLD\", \"dataType\": \"String\"}, {\"name\": \"PROD_SH_NM_DLVRY_METH_CD\", \"dataType\": \"String\"}, {\"name\": \"SPIRA_FLAG\", \"dataType\": \"String\"}, {\"name\": \"PROD_SK\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_CNTY_NM\", \"dataType\": \"String\"}, {\"name\": \"PROD_SH_NM\", \"dataType\": \"String\"}, {\"name\": \"MBR_FULL_NM\", \"dataType\": \"String\"}, {\"name\": \"FNCL_LOB_DESC\", \"dataType\": \"String\"}, {\"name\": \"CLS_ID\", \"dataType\": \"String\"}, {\"name\": \"SPIRA_BNF_ID\", \"dataType\": \"String\"}, {\"name\": \"MBR_GNDR_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_LN_1\", \"dataType\": \"String\"}, {\"name\": \"FUND_CAT_DESC\", \"dataType\": \"String\"}, {\"name\": \"SUB_FLAG\", \"dataType\": \"String\"}, {\"name\": \"POPULATION_TYPE\", \"dataType\": \"String\"}, {\"name\": \"GRP_INDUSTRY_ROLLUP\", \"dataType\": \"String\"}, {\"name\": \"MBR_ID\", \"dataType\": \"String\"}, {\"name\": \"MBR_RELSHP_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ST_CD\", \"dataType\": \"String\"}, {\"name\": \"MBR_AGE\", \"dataType\": \"String\"}, {\"name\": \"DIRECT_PAY_IN\", \"dataType\": \"String\"}, {\"name\": \"FNCL_LOB_CD\", \"dataType\": \"String\"}, {\"name\": \"FNCL_MKT_SEG_NM\", \"dataType\": \"String\"}, {\"name\": \"TOTAL_POLICY_MEMBERS\", \"dataType\": \"String\"}, {\"name\": \"MIN_RELATIONSHIP_EFF_DT\", \"dataType\": \"String\"}, {\"name\": \"MBR_UNIQ_KEY\", \"dataType\": \"String\"}]",
+        "expressionToBeApplied" : "CASE WHEN (pmod(`weight field`, 3) = 1) THEN (column_value / 3) WHEN (pmod(`weight field`, 3) = 2) THEN ((column_value * 2) / 3) ELSE column_value END",
+        "prefixSuffixToBeAdded" : "",
+        "prefixSuffixOption" : "Suffix"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "136_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "136_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_135_135_Output_Sort_135_135_Output",
+    "source" : "135",
+    "sourcePort" : "135_Output",
+    "target" : "Sort_135_135_Output",
+    "targetPort" : "input_port_9",
+    "isWireless" : false
+  }, {
+    "id" : "edge_102",
+    "source" : "162",
+    "sourcePort" : "162_Output",
+    "target" : "135",
+    "targetPort" : "135_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_97",
+    "source" : "137",
+    "sourcePort" : "137_Output",
+    "target" : "162",
+    "targetPort" : "162_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_96",
+    "source" : "136",
+    "sourcePort" : "136_Output",
+    "target" : "137",
+    "targetPort" : "137_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_93",
+    "source" : "134",
+    "sourcePort" : "134_Output",
+    "target" : "136",
+    "targetPort" : "136_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_121",
+    "source" : "126_inner",
+    "sourcePort" : "UYvY1WAhYChiocojdDC66",
+    "target" : "134",
+    "targetPort" : "134_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_148",
+    "source" : "2-b47ukSNJW7XKz05vOHw",
+    "sourcePort" : "314PWLM9POOEoRBuqVzC8",
+    "target" : "126_inner",
+    "targetPort" : "1JWzjysLZ5owdwbVyhxoi",
+    "isWireless" : false
+  }, {
+    "id" : "edge_142",
+    "source" : "MultiRowFormula_129_row_id_drop_0_SMluFrKLFR06kgFv_mT-e",
+    "sourcePort" : "output_port_6",
+    "target" : "126_inner",
+    "targetPort" : "Ot-Yr7cI9rc9ecXPj8Rc-",
+    "isWireless" : false
+  }, {
+    "id" : "edge_149",
+    "source" : "131",
+    "sourcePort" : "131_Output",
+    "target" : "2-b47ukSNJW7XKz05vOHw",
+    "targetPort" : "5JFggnZtnfq_n318AaKy6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_146",
+    "source" : "xeUpSY9-0BSxs6K9VdqHx",
+    "sourcePort" : "j5QjUHy9h9wIEqnbZ3Qvc",
+    "target" : "131",
+    "targetPort" : "131_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_147",
+    "source" : "130",
+    "sourcePort" : "130_Output",
+    "target" : "xeUpSY9-0BSxs6K9VdqHx",
+    "targetPort" : "st-VBhsM5qF3gKIZGoFDl",
+    "isWireless" : false
+  }, {
+    "id" : "edge_91",
+    "source" : "GenerateRows_128_128_Output",
+    "sourcePort" : "output_port_8",
+    "target" : "130",
+    "targetPort" : "130_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

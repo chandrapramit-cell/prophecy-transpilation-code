@@ -1,0 +1,263 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__AlteryxSelect_133",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__AlteryxSelect_133",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "auX14uKbZVeMAty4EyFtN" : {
+      "id" : "auX14uKbZVeMAty4EyFtN",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_131_0",
+        "x" : 9050,
+        "y" : 1086,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CAST((DATEDIFF((PARSE_DATE('%Y-%m-%d', CLM_SVC_STRT_DT_SK)), (PARSE_DATE('%Y-%m-%d', CAST(CURRENT_DATE AS STRING))))) AS INTEGER) / 7) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Timed",
+          "description" : null,
+          "_row_id" : "XajhJdLs5hD1_aWcgDnpc"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dQ5lnqw3-WCW4y0DMycQO",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "bAETm5XiD0c2AbBWqxELo",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "132" : {
+      "id" : "132",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_132",
+        "x" : 9950,
+        "y" : 1086,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(Timeout <> CAST('1' AS INT64))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "132_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "132_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_107_left_fr5p2fdJg9S7XAgidrDzJ" : {
+      "id" : "Join_107_left_fr5p2fdJg9S7XAgidrDzJ",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_107_left"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_25",
+          "id" : "output_port_25",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Join_107_left') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_25",
+          "slug" : "input_port_25"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_25",
+          "slug" : "output_port_25"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "133" : {
+      "id" : "133",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_133",
+        "x" : 10430,
+        "y" : 1050,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`Timed`, `Timeout`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "133_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "133_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "swFZWKwNR5KYK_mQHPmUb" : {
+      "id" : "swFZWKwNR5KYK_mQHPmUb",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_131_1",
+        "x" : 9230,
+        "y" : 1086,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((((((Trimester = '> 40 Weeks') AND (Timed < -4)) OR ((Trimester = 'Third Trimester') AND (Timed < -17))) OR ((Trimester = 'Second Trimester') AND (Timed < -31))) OR ((Trimester = 'First Trimester') AND (Timed < -44))) OR ((Trimester = 'Unspecified Trimester') AND (Timed < -44))) THEN 1 ELSE 0 END)",
+            "_row_id" : null
+          },
+          "alias" : "Timeout",
+          "description" : null,
+          "_row_id" : "xylxrD7B8jTlqJjDSN7O3"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "tIxkIXNe0H5-CNGNMdx35",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "T6k6MV3_PneFtL6HWS6-Q",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_133_133_Output" : {
+      "id" : "AlteryxSelect_133_133_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_133"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_133\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_26",
+          "slug" : "input_port_26"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_26",
+          "slug" : "output_port_26"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_133_133_Output_AlteryxSelect_133_133_Output",
+    "source" : "133",
+    "sourcePort" : "133_Output",
+    "target" : "AlteryxSelect_133_133_Output",
+    "targetPort" : "input_port_26",
+    "isWireless" : false
+  }, {
+    "id" : "edge_190",
+    "source" : "132",
+    "sourcePort" : "132_True",
+    "target" : "133",
+    "targetPort" : "133_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_286",
+    "source" : "swFZWKwNR5KYK_mQHPmUb",
+    "sourcePort" : "T6k6MV3_PneFtL6HWS6-Q",
+    "target" : "132",
+    "targetPort" : "132_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_285",
+    "source" : "auX14uKbZVeMAty4EyFtN",
+    "sourcePort" : "bAETm5XiD0c2AbBWqxELo",
+    "target" : "swFZWKwNR5KYK_mQHPmUb",
+    "targetPort" : "tIxkIXNe0H5-CNGNMdx35",
+    "isWireless" : false
+  }, {
+    "id" : "edge_287",
+    "source" : "Join_107_left_fr5p2fdJg9S7XAgidrDzJ",
+    "sourcePort" : "output_port_25",
+    "target" : "auX14uKbZVeMAty4EyFtN",
+    "targetPort" : "dQ5lnqw3-WCW4y0DMycQO",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

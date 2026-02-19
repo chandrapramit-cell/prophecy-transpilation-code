@@ -1,0 +1,168 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Summarize_94",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Summarize_94",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_94_QWQnzA8izKyamwVGWxcfW" : {
+      "id" : "Summarize_94_QWQnzA8izKyamwVGWxcfW",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_94"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_94\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_40",
+          "slug" : "input_port_40"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_40",
+          "slug" : "output_port_40"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "94" : {
+      "id" : "94",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_94",
+        "x" : 5270,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((PregnancyDiagDesc IS NULL) OR (CAST(PregnancyDiagDesc AS STRING) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "Kl04-BoM-sbmcvduPBraK"
+        }, {
+          "expression" : {
+            "expression" : "PregnancyDiag",
+            "_row_id" : null
+          },
+          "alias" : "PregnancyDiag",
+          "description" : null,
+          "_row_id" : "cRnx5A9Doj3T10Zl9Vepk"
+        }, {
+          "expression" : {
+            "expression" : "PregnancyDiagDesc",
+            "_row_id" : null
+          },
+          "alias" : "PregnancyDiagDesc",
+          "description" : null,
+          "_row_id" : "j8jOxKqZj77f1YI-hokyB"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "PregnancyDiag",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "BFhWvkQjyw4EgzUnG96Iq"
+        }, {
+          "expression" : {
+            "expression" : "PregnancyDiagDesc",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "1r11cwhQaIakWWK-K4FVc"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "94_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "QWQnzA8izKyamwVGWxcfW",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_92_92_True" : {
+      "id" : "Filter_92_92_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_92"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_18",
+          "id" : "output_port_18",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Filter_92') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_94_QWQnzA8izKyamwVGWxcfW_Summarize_94_QWQnzA8izKyamwVGWxcfW",
+    "source" : "94",
+    "sourcePort" : "QWQnzA8izKyamwVGWxcfW",
+    "target" : "Summarize_94_QWQnzA8izKyamwVGWxcfW",
+    "targetPort" : "input_port_40",
+    "isWireless" : false
+  }, {
+    "id" : "edge_170",
+    "source" : "Filter_92_92_True",
+    "sourcePort" : "output_port_18",
+    "target" : "94",
+    "targetPort" : "94_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

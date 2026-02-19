@@ -1,0 +1,282 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__Sort_141",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__Sort_141",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "138_inner" : {
+      "id" : "138_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_138_inner",
+        "x" : 8798,
+        "y" : 1296,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((t.MBR_INDV_BE_KEY0 = t0.MBR_INDV_BE_KEY0) AND (t.YearMonth = t0.YearMonth0))"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.MBR_INDV_BE_KEY"
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "_row_id" : "McP3QvSnxCUzJ8xw-Ot4m"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`MBR_INDV_BE_KEY`)"
+          },
+          "_row_id" : "618080069"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`MBR_INDV_BE_KEY`, `YearMonth`)"
+          },
+          "_row_id" : "1270909639"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "xBAW00ik7z8XiYbYcfi56##MBR_INDV_BE_KEY" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "xBAW00ik7z8XiYbYcfi56",
+          "slug" : "in0"
+        }, {
+          "id" : "NA7BTnX99GqshwL-mu_4S",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "S-xVie9l2mIgdBKc4v0m0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "141" : {
+      "id" : "141",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_141",
+        "x" : 9278,
+        "y" : 1800,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "YearMonth"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "141_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "DXVNMSio7lACQ-rofgwtV",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "139" : {
+      "id" : "139",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_139",
+        "x" : 4718,
+        "y" : 1620,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "_row_id" : "lQJ8CwjkP8XTTOGcHP3Gy"
+        }, {
+          "expression" : {
+            "expression" : "YearMonth"
+          },
+          "alias" : "YearMonth",
+          "_row_id" : "3EnHo5-I7hubFdf7S5viK"
+        }, {
+          "expression" : {
+            "expression" : "TotalRVU"
+          },
+          "alias" : "TotalRVU",
+          "_row_id" : "U3aAG52ciqZrpUlvpn6kL"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "139_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "139_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Sort_141_DXVNMSio7lACQ-rofgwtV" : {
+      "id" : "Sort_141_DXVNMSio7lACQ-rofgwtV",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Sort_141"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Sort_141\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_16",
+          "slug" : "input_port_16"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_16",
+          "slug" : "output_port_16"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_99_99_True" : {
+      "id" : "Filter_99_99_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_99"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_5",
+          "id" : "output_port_5",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Filter_99') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Sample_143_143_Output" : {
+      "id" : "Sample_143_143_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Sample_143"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Sample_143') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_141_DXVNMSio7lACQ-rofgwtV_Sort_141_DXVNMSio7lACQ-rofgwtV",
+    "source" : "141",
+    "sourcePort" : "DXVNMSio7lACQ-rofgwtV",
+    "target" : "Sort_141_DXVNMSio7lACQ-rofgwtV",
+    "targetPort" : "input_port_16",
+    "isWireless" : false
+  }, {
+    "id" : "edge_124",
+    "source" : "138_inner",
+    "sourcePort" : "S-xVie9l2mIgdBKc4v0m0",
+    "target" : "141",
+    "targetPort" : "141_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_122",
+    "source" : "139",
+    "sourcePort" : "139_Output",
+    "target" : "138_inner",
+    "targetPort" : "NA7BTnX99GqshwL-mu_4S",
+    "isWireless" : false
+  }, {
+    "id" : "edge_123",
+    "source" : "Sample_143_143_Output",
+    "sourcePort" : "output_port_10",
+    "target" : "138_inner",
+    "targetPort" : "xBAW00ik7z8XiYbYcfi56",
+    "isWireless" : false
+  }, {
+    "id" : "edge_118",
+    "source" : "Filter_99_99_True",
+    "sourcePort" : "output_port_5",
+    "target" : "139",
+    "targetPort" : "139_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,328 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Join_109_inner_formula_0",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Join_109_inner_formula_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "6znc07dzX7wQaPV3ZW_t4" : {
+      "id" : "6znc07dzX7wQaPV3ZW_t4",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Join_109_inner_formula_0",
+        "x" : 12770,
+        "y" : 1086,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLM_SVC_STRT_DT_SK",
+            "_row_id" : null
+          },
+          "alias" : "`Service Date`",
+          "description" : null,
+          "_row_id" : "azRrbOSlE7Y6AoKG3-EeK"
+        }, {
+          "expression" : {
+            "expression" : "CLM_ID",
+            "_row_id" : null
+          },
+          "alias" : "`Claim ID`",
+          "description" : null,
+          "_row_id" : "kgg-hdVeVF6vguH04duNU"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RSi5r18a6apV-84yrv8eS",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "5yYyrk3PUKh__oN47u4zq",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_109_inner_formula_0_5yYyrk3PUKh__oN47u4zq" : {
+      "id" : "Join_109_inner_formula_0_5yYyrk3PUKh__oN47u4zq",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_109_inner_formula_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_109_inner_formula_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_28",
+          "slug" : "input_port_28"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_28",
+          "slug" : "output_port_28"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "cTnYcNY1-GeqKuLBiBBQ1" : {
+      "id" : "cTnYcNY1-GeqKuLBiBBQ1",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Summarize_108_filter",
+        "x" : 12290,
+        "y" : 834,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((Max_Trimester_INT = Trimester_INT) AND (Max_CLM_SVC_STRT_DT_SK = CLM_SVC_STRT_DT_SK))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "h4Ik99FEkfomXHUuUW9Kx",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Wc1PDXFcBPt4xwyKLocnk",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_125_125_Unique" : {
+      "id" : "Unique_125_125_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_125"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Unique_125') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "atwEKQAfIZW40h0oV3Laf" : {
+      "id" : "atwEKQAfIZW40h0oV3Laf",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_108",
+        "x" : 12110,
+        "y" : 834,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(MAX(Trimester_INT) OVER (PARTITION BY MBR_ID ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))",
+            "_row_id" : null
+          },
+          "alias" : "Max_Trimester_INT",
+          "description" : null,
+          "_row_id" : "UN3w7U2DeJxoH2B_SEgZL"
+        }, {
+          "expression" : {
+            "expression" : "(MAX(CLM_SVC_STRT_DT_SK) OVER (PARTITION BY MBR_ID ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))",
+            "_row_id" : null
+          },
+          "alias" : "Max_CLM_SVC_STRT_DT_SK",
+          "description" : null,
+          "_row_id" : "IkWmwmyKphvoxIKLIyYLO"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1KuFpSA2aHDEZfiXOs76d",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "wsDAmv1kM6oI2x53c2VAB",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "126_left" : {
+      "id" : "126_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_126_left",
+        "x" : 11870,
+        "y" : 978,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.MBR_SK = in1.MBR_SK)",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "a1AojbcKY1QB1nIg9Kcym",
+          "slug" : "in0"
+        }, {
+          "id" : "NDaLhG1q5l5wqUE0C_Pq5",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "Pf6dOToBT9cgAJQ9deV9I",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_133_133_Output" : {
+      "id" : "AlteryxSelect_133_133_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_133"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_26",
+          "id" : "output_port_26",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__AlteryxSelect_133') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_26",
+          "slug" : "input_port_26"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_26",
+          "slug" : "output_port_26"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_6znc07dzX7wQaPV3ZW_t4_5yYyrk3PUKh__oN47u4zq_Join_109_inner_formula_0_5yYyrk3PUKh__oN47u4zq",
+    "source" : "6znc07dzX7wQaPV3ZW_t4",
+    "sourcePort" : "5yYyrk3PUKh__oN47u4zq",
+    "target" : "Join_109_inner_formula_0_5yYyrk3PUKh__oN47u4zq",
+    "targetPort" : "input_port_28",
+    "isWireless" : false
+  }, {
+    "id" : "edge_290",
+    "source" : "cTnYcNY1-GeqKuLBiBBQ1",
+    "sourcePort" : "Wc1PDXFcBPt4xwyKLocnk",
+    "target" : "6znc07dzX7wQaPV3ZW_t4",
+    "targetPort" : "RSi5r18a6apV-84yrv8eS",
+    "isWireless" : false
+  }, {
+    "id" : "edge_254",
+    "source" : "atwEKQAfIZW40h0oV3Laf",
+    "sourcePort" : "wsDAmv1kM6oI2x53c2VAB",
+    "target" : "cTnYcNY1-GeqKuLBiBBQ1",
+    "targetPort" : "h4Ik99FEkfomXHUuUW9Kx",
+    "isWireless" : false
+  }, {
+    "id" : "edge_255",
+    "source" : "126_left",
+    "sourcePort" : "Pf6dOToBT9cgAJQ9deV9I",
+    "target" : "atwEKQAfIZW40h0oV3Laf",
+    "targetPort" : "1KuFpSA2aHDEZfiXOs76d",
+    "isWireless" : false
+  }, {
+    "id" : "edge_239",
+    "source" : "Unique_125_125_Unique",
+    "sourcePort" : "output_port_4",
+    "target" : "126_left",
+    "targetPort" : "NDaLhG1q5l5wqUE0C_Pq5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_240",
+    "source" : "AlteryxSelect_133_133_Output",
+    "sourcePort" : "output_port_26",
+    "target" : "126_left",
+    "targetPort" : "a1AojbcKY1QB1nIg9Kcym",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,150 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__Summarize_188",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__Summarize_188",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_188_Ykzup8etXnoRtYl8_5BLR" : {
+      "id" : "Summarize_188_Ykzup8etXnoRtYl8_5BLR",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_188"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_188\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_12",
+          "slug" : "input_port_12"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_12",
+          "slug" : "output_port_12"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "188" : {
+      "id" : "188",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_188",
+        "x" : 10418,
+        "y" : 2124,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "MIN(`Standardized RVU`)"
+          },
+          "alias" : "`Min_Standardized RVU`",
+          "_row_id" : "sygbM7GdP_9ufWGUqkms9"
+        }, {
+          "expression" : {
+            "expression" : "MAX(`Standardized RVU`)"
+          },
+          "alias" : "`Max_Standardized RVU`",
+          "_row_id" : "Giv2GcfZJQdfCugaAyL_A"
+        }, {
+          "expression" : {
+            "expression" : "Bucket"
+          },
+          "alias" : "Bucket",
+          "_row_id" : "GAx14Wm-Y9PU6zKztsbrX"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "188_Input##Bucket", "188_Input##Standardized RVU" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Bucket"
+          },
+          "_row_id" : "hcYe95jOLKN7keojpgIIM"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "188_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Ykzup8etXnoRtYl8_5BLR",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_146_inner_formula_to_Formula_148_1_0LFCB8gns3SUl66Y16LuM" : {
+      "id" : "Join_146_inner_formula_to_Formula_148_1_0LFCB8gns3SUl66Y16LuM",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_146_inner_formula_to_Formula_148_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_11",
+          "id" : "output_port_11",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Join_146_inner_formula_to_Formula_148_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_188_Ykzup8etXnoRtYl8_5BLR_Summarize_188_Ykzup8etXnoRtYl8_5BLR",
+    "source" : "188",
+    "sourcePort" : "Ykzup8etXnoRtYl8_5BLR",
+    "target" : "Summarize_188_Ykzup8etXnoRtYl8_5BLR",
+    "targetPort" : "input_port_12",
+    "isWireless" : false
+  }, {
+    "id" : "edge_153",
+    "source" : "Join_146_inner_formula_to_Formula_148_1_0LFCB8gns3SUl66Y16LuM",
+    "sourcePort" : "output_port_11",
+    "target" : "188",
+    "targetPort" : "188_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

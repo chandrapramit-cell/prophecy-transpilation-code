@@ -1,0 +1,178 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Join_107_inner",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Join_107_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_107_inner_bf2tdrVex1jQDYkeUR2uj" : {
+      "id" : "Join_107_inner_bf2tdrVex1jQDYkeUR2uj",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_107_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_107_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_22",
+          "slug" : "input_port_22"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_22",
+          "slug" : "output_port_22"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "107_inner" : {
+      "id" : "107_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_107_inner",
+        "x" : 8570,
+        "y" : 1302,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.MBR_ID = in1.MBR_ID)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "OIaSHemXDWopQww2_0LVy",
+          "slug" : "in0"
+        }, {
+          "id" : "Kf67UTv4i5mTkXJ7q0f0Q",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "bf2tdrVex1jQDYkeUR2uj",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_106_106_Unique" : {
+      "id" : "Unique_106_106_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_106"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_15",
+          "id" : "output_port_15",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Unique_106') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_15",
+          "slug" : "input_port_15"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_15",
+          "slug" : "output_port_15"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_103_103_Output" : {
+      "id" : "Union_103_103_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_103"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_21",
+          "id" : "output_port_21",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Union_103') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_107_inner_bf2tdrVex1jQDYkeUR2uj_Join_107_inner_bf2tdrVex1jQDYkeUR2uj",
+    "source" : "107_inner",
+    "sourcePort" : "bf2tdrVex1jQDYkeUR2uj",
+    "target" : "Join_107_inner_bf2tdrVex1jQDYkeUR2uj",
+    "targetPort" : "input_port_22",
+    "isWireless" : false
+  }, {
+    "id" : "edge_235",
+    "source" : "Unique_106_106_Unique",
+    "sourcePort" : "output_port_15",
+    "target" : "107_inner",
+    "targetPort" : "Kf67UTv4i5mTkXJ7q0f0Q",
+    "isWireless" : false
+  }, {
+    "id" : "edge_234",
+    "source" : "Union_103_103_Output",
+    "sourcePort" : "output_port_21",
+    "target" : "107_inner",
+    "targetPort" : "OIaSHemXDWopQww2_0LVy",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

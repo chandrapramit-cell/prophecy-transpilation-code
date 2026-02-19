@@ -1,0 +1,152 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Summarize_96",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Summarize_96",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_96_fC7oc697fGCXUbfyyjk59" : {
+      "id" : "Summarize_96_fC7oc697fGCXUbfyyjk59",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_96"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_96\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "96" : {
+      "id" : "96",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_96",
+        "x" : 4790,
+        "y" : 2130,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((PregnancyDiagDesc IS NULL) OR (CAST(PregnancyDiagDesc AS STRING) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "pUJvo73npQh7YQXSbc3NN"
+        }, {
+          "expression" : {
+            "expression" : "PregnancyDiagDesc",
+            "_row_id" : null
+          },
+          "alias" : "PregnancyDiagDesc",
+          "description" : null,
+          "_row_id" : "g1kw4LgpUTRPSuz2a2iI8"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "PregnancyDiagDesc",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "Qp2A58nJ3mRpn2xUqgm_0"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "96_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "fC7oc697fGCXUbfyyjk59",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_157_to_Filter_97_RwM_bWFkVKajOmRTZi5s1" : {
+      "id" : "Filter_157_to_Filter_97_RwM_bWFkVKajOmRTZi5s1",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_157_to_Filter_97"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Filter_157_to_Filter_97') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_96_fC7oc697fGCXUbfyyjk59_Summarize_96_fC7oc697fGCXUbfyyjk59",
+    "source" : "96",
+    "sourcePort" : "fC7oc697fGCXUbfyyjk59",
+    "target" : "Summarize_96_fC7oc697fGCXUbfyyjk59",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_257",
+    "source" : "Filter_157_to_Filter_97_RwM_bWFkVKajOmRTZi5s1",
+    "sourcePort" : "output_port_10",
+    "target" : "96",
+    "targetPort" : "96_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

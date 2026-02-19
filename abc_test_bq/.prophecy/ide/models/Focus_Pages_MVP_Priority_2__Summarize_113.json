@@ -1,0 +1,152 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Summarize_113",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Summarize_113",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_113_ySvzMa68wNHZ1eX7JAKOK" : {
+      "id" : "Summarize_113_ySvzMa68wNHZ1eX7JAKOK",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_113"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_113\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "113" : {
+      "id" : "113",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_113",
+        "x" : 4790,
+        "y" : 2382,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((PregnancyDiagDesc IS NULL) OR (CAST(PregnancyDiagDesc AS STRING) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "dZwjkBpGdpEgLB6sXdgiz"
+        }, {
+          "expression" : {
+            "expression" : "PregnancyDiagDesc",
+            "_row_id" : null
+          },
+          "alias" : "PregnancyDiagDesc",
+          "description" : null,
+          "_row_id" : "iWMNzmE7iTiA0BXu2l-fd"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "PregnancyDiagDesc",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "9AQHX-GUI0bC496ABIlnC"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "113_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ySvzMa68wNHZ1eX7JAKOK",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_114_114_True" : {
+      "id" : "Filter_114_114_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_114"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_13",
+          "id" : "output_port_13",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Filter_114') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_113_ySvzMa68wNHZ1eX7JAKOK_Summarize_113_ySvzMa68wNHZ1eX7JAKOK",
+    "source" : "113",
+    "sourcePort" : "ySvzMa68wNHZ1eX7JAKOK",
+    "target" : "Summarize_113_ySvzMa68wNHZ1eX7JAKOK",
+    "targetPort" : "input_port_14",
+    "isWireless" : false
+  }, {
+    "id" : "edge_225",
+    "source" : "Filter_114_114_True",
+    "sourcePort" : "output_port_13",
+    "target" : "113",
+    "targetPort" : "113_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

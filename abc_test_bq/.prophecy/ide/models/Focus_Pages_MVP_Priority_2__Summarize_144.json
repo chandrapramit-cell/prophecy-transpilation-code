@@ -1,0 +1,160 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Summarize_144",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Summarize_144",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_144_W6LFfJMv93HibE8fkig7R" : {
+      "id" : "Summarize_144_W6LFfJMv93HibE8fkig7R",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_144"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_144\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_39",
+          "slug" : "input_port_39"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_39",
+          "slug" : "output_port_39"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "144" : {
+      "id" : "144",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_144",
+        "x" : 8330,
+        "y" : 762,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((Trimester IS NULL) OR (CAST(Trimester AS STRING) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "b_X65EKrMaiDuvMn7ufHM"
+        }, {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT MBR_ID)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_MBR_ID",
+          "description" : null,
+          "_row_id" : "Pv8rJ6Eku4I22Ix1GtXgg"
+        }, {
+          "expression" : {
+            "expression" : "Trimester",
+            "_row_id" : null
+          },
+          "alias" : "Trimester",
+          "description" : null,
+          "_row_id" : "QuMWpdjy0yBwxEzHMQFZ8"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Trimester",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "jFQIMCM2LgUMQMBAFq5D4"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "144_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "W6LFfJMv93HibE8fkig7R",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_103_103_Output" : {
+      "id" : "Union_103_103_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_103"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_21",
+          "id" : "output_port_21",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Union_103') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_144_W6LFfJMv93HibE8fkig7R_Summarize_144_W6LFfJMv93HibE8fkig7R",
+    "source" : "144",
+    "sourcePort" : "W6LFfJMv93HibE8fkig7R",
+    "target" : "Summarize_144_W6LFfJMv93HibE8fkig7R",
+    "targetPort" : "input_port_39",
+    "isWireless" : false
+  }, {
+    "id" : "edge_174",
+    "source" : "Union_103_103_Output",
+    "sourcePort" : "output_port_21",
+    "target" : "144",
+    "targetPort" : "144_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

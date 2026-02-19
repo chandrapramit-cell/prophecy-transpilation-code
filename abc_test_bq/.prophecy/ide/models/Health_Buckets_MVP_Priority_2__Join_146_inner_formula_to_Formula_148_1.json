@@ -1,0 +1,286 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__Join_146_inner_formula_to_Formula_148_1",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__Join_146_inner_formula_to_Formula_148_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Pam3rPi082GwH6PXTJwJC" : {
+      "id" : "Pam3rPi082GwH6PXTJwJC",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Join_146_inner_formula_to_Formula_148_0",
+        "x" : 9518,
+        "y" : 1152,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "EEPY3rWzDJmqcbbnM_8aD##Avg_TotalRVU", "EEPY3rWzDJmqcbbnM_8aD##Avg_Avg_TotalRVU", "EEPY3rWzDJmqcbbnM_8aD##StdDev_Avg_TotalRVU" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "((Avg_TotalRVU - Avg_Avg_TotalRVU) / StdDev_Avg_TotalRVU)"
+          },
+          "alias" : "`Standardized RVU`",
+          "_row_id" : "yc7DwcrXzuV8Uy8_ktqeT"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "1850933877"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EEPY3rWzDJmqcbbnM_8aD",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "rxIXRvCwuAfZ6geTlP3Wt",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "hUTGFqBb--weI4DX9oPac" : {
+      "id" : "hUTGFqBb--weI4DX9oPac",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_145",
+        "x" : 9278,
+        "y" : 1260,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "H4m7ZsVy8zdc4Mq5bfUXU##MBR_AGE_RANGE", "H4m7ZsVy8zdc4Mq5bfUXU##YearMonth" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "((CASE WHEN ((COUNT(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) > 0) THEN (COALESCE((SUM(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)), 0)) ELSE NULL END) / (COUNT(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)))"
+          },
+          "alias" : "Avg_Avg_TotalRVU",
+          "_row_id" : "B0q0OA7Jacaw0cZAP9ALl"
+        }, {
+          "expression" : {
+            "expression" : "POWER(\n  (\n    (\n      (\n        CASE\n          WHEN ((COUNT((Avg_TotalRVU * Avg_TotalRVU)) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) > 0)\n            THEN (\n              COALESCE(\n                (SUM((Avg_TotalRVU * Avg_TotalRVU)) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)), \n                0)\n            )\n          ELSE NULL\n        END\n      )\n      - (\n          (\n            (\n              CASE\n                WHEN ((COUNT(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) > 0)\n                  THEN (\n                    COALESCE(\n                      (SUM(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)), \n                      0)\n                  )\n                ELSE NULL\n              END\n            )\n            * (\n                CASE\n                  WHEN ((COUNT(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) > 0)\n                    THEN (\n                      COALESCE(\n                        (SUM(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)), \n                        0)\n                    )\n                  ELSE NULL\n                END\n              )\n          )\n          / CAST((COUNT(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) AS FLOAT64)\n        )\n    )\n    / (\n        CASE\n          WHEN ((COUNT(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) = 1)\n            THEN NULL\n          ELSE (\n            (COUNT(Avg_TotalRVU) OVER (PARTITION BY MBR_AGE_RANGE, YearMonth ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))\n            - 1\n          )\n        END\n      )\n  ), \n  0.5)"
+          },
+          "alias" : "StdDev_Avg_TotalRVU",
+          "_row_id" : "OHPFqK3G2eGIVLVIcg1fJ"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "59613278"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "H4m7ZsVy8zdc4Mq5bfUXU",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "0lV8m0TSJGIBStZyfeWz1",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "144" : {
+      "id" : "144",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_144",
+        "x" : 8798,
+        "y" : 1116,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "_row_id" : "mUr1rn0j1eX1fgMk2QwFG"
+        }, {
+          "expression" : {
+            "expression" : "YearMonth"
+          },
+          "alias" : "YearMonth",
+          "_row_id" : "sy-iR4DrHn6ynymHDJRFp"
+        }, {
+          "expression" : {
+            "expression" : "MBR_AGE_RANGE"
+          },
+          "alias" : "MBR_AGE_RANGE",
+          "_row_id" : "45QqKx3pWCqfqTDuCTX6b"
+        }, {
+          "expression" : {
+            "expression" : "Avg_TotalRVU"
+          },
+          "alias" : "Avg_TotalRVU",
+          "_row_id" : "vHMY7vjx761JVvEj37XuQ"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ "144_Input##MBR_INDV_BE_KEY", "144_Input##YearMonth", "144_Input##MBR_AGE_RANGE", "144_Input##Avg_TotalRVU" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "144_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "144_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "JPO4I12e4otI68ei_OodN" : {
+      "id" : "JPO4I12e4otI68ei_OodN",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Join_146_inner_formula_to_Formula_148_1",
+        "x" : 9698,
+        "y" : 1152,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "jHfmnO7LByJjMgItkm48v##Standardized RVU" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (`Standardized RVU` <= 0) THEN '1. Low      ' WHEN (`Standardized RVU` <= 1) THEN '2. Moderate ' WHEN (`Standardized RVU` <= 3) THEN '3. High     ' WHEN (`Standardized RVU` > 3) THEN '4. Very High' ELSE '99999       ' END) AS STRING)"
+          },
+          "alias" : "Bucket",
+          "_row_id" : "aWKeTnih1oiDpYppAWcnz"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "1332804461"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "jHfmnO7LByJjMgItkm48v",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "0LFCB8gns3SUl66Y16LuM",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Sample_143_143_Output" : {
+      "id" : "Sample_143_143_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Sample_143"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Sample_143') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_146_inner_formula_to_Formula_148_1_0LFCB8gns3SUl66Y16LuM" : {
+      "id" : "Join_146_inner_formula_to_Formula_148_1_0LFCB8gns3SUl66Y16LuM",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_146_inner_formula_to_Formula_148_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_146_inner_formula_to_Formula_148_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_JPO4I12e4otI68ei_OodN_0LFCB8gns3SUl66Y16LuM_Join_146_inner_formula_to_Formula_148_1_0LFCB8gns3SUl66Y16LuM",
+    "source" : "JPO4I12e4otI68ei_OodN",
+    "sourcePort" : "0LFCB8gns3SUl66Y16LuM",
+    "target" : "Join_146_inner_formula_to_Formula_148_1_0LFCB8gns3SUl66Y16LuM",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_150",
+    "source" : "Pam3rPi082GwH6PXTJwJC",
+    "sourcePort" : "rxIXRvCwuAfZ6geTlP3Wt",
+    "target" : "JPO4I12e4otI68ei_OodN",
+    "targetPort" : "jHfmnO7LByJjMgItkm48v",
+    "isWireless" : false
+  }, {
+    "id" : "edge_154",
+    "source" : "hUTGFqBb--weI4DX9oPac",
+    "sourcePort" : "0lV8m0TSJGIBStZyfeWz1",
+    "target" : "Pam3rPi082GwH6PXTJwJC",
+    "targetPort" : "EEPY3rWzDJmqcbbnM_8aD",
+    "isWireless" : false
+  }, {
+    "id" : "edge_137",
+    "source" : "144",
+    "sourcePort" : "144_Output",
+    "target" : "hUTGFqBb--weI4DX9oPac",
+    "targetPort" : "H4m7ZsVy8zdc4Mq5bfUXU",
+    "isWireless" : false
+  }, {
+    "id" : "edge_98",
+    "source" : "Sample_143_143_Output",
+    "sourcePort" : "output_port_10",
+    "target" : "144",
+    "targetPort" : "144_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

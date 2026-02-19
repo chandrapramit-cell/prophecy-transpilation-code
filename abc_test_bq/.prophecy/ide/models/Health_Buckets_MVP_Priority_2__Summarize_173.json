@@ -1,0 +1,147 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__Summarize_173",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__Summarize_173",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_173_173_Output" : {
+      "id" : "Summarize_173_173_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_173"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_173\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "173" : {
+      "id" : "173",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_173",
+        "x" : 480,
+        "y" : 324,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT YearMonth)"
+          },
+          "alias" : "CountDistinct_YearMonth",
+          "_row_id" : "oXBX2mOeDqBHsdAl8SonO"
+        }, {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`"
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "_row_id" : "0cKhPiCHWsD1RIFo5Ctmh"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "173_Input##Member Individual Business Entity Key", "173_Input##YearMonth" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`"
+          },
+          "_row_id" : "COWRrqydbs8NJ12BDm4Ea"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "173_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "173_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "171" : {
+      "id" : "171",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "TOTAL_INF_predi_171",
+        "x" : 0,
+        "y" : 534,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "TOTAL_INF_predi_171_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "171_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_173_173_Output_Summarize_173_173_Output",
+    "source" : "173",
+    "sourcePort" : "173_Output",
+    "target" : "Summarize_173_173_Output",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_107",
+    "source" : "171",
+    "sourcePort" : "171_Output",
+    "target" : "173",
+    "targetPort" : "173_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

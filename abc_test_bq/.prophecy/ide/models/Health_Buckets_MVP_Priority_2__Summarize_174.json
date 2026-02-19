@@ -1,0 +1,127 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__Summarize_174",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__Summarize_174",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_174_BpkFruu6oW85YAQjeHmth" : {
+      "id" : "Summarize_174_BpkFruu6oW85YAQjeHmth",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_174"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_174\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "174" : {
+      "id" : "174",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_174",
+        "x" : 1200,
+        "y" : 108,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "174_Input##CountDistinct_YearMonth" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "MIN(CountDistinct_YearMonth)"
+          },
+          "alias" : "Min_CountDistinct_YearMonth",
+          "_row_id" : "cWlXmHI_8ObxIGMXZog6T"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "174_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "BpkFruu6oW85YAQjeHmth",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_173_173_Output" : {
+      "id" : "Summarize_173_173_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_173"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Summarize_173') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_174_BpkFruu6oW85YAQjeHmth_Summarize_174_BpkFruu6oW85YAQjeHmth",
+    "source" : "174",
+    "sourcePort" : "BpkFruu6oW85YAQjeHmth",
+    "target" : "Summarize_174_BpkFruu6oW85YAQjeHmth",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_109",
+    "source" : "Summarize_173_173_Output",
+    "sourcePort" : "output_port_0",
+    "target" : "174",
+    "targetPort" : "174_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

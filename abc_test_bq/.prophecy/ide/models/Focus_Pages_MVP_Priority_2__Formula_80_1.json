@@ -1,0 +1,186 @@
+{
+  "id" : "Focus_Pages_MVP_Priority_2__Formula_80_1",
+  "metainfo" : {
+    "label" : "Focus_Pages_MVP_Priority_2__Formula_80_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_80_1_XeuFsO9_-TA6v7inPq0KL" : {
+      "id" : "Formula_80_1_XeuFsO9_-TA6v7inPq0KL",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_80_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_80_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "kH-yKgSW6ciDMWDMUniUp" : {
+      "id" : "kH-yKgSW6ciDMWDMUniUp",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_80_1",
+        "x" : 2776,
+        "y" : 618,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (`Time Since First Diagnosis` <= 24) THEN '1. 1-2 years            ' WHEN (`Time Since First Diagnosis` <= 72) THEN '2. 3-6 years            ' WHEN (`Time Since First Diagnosis` <= 120) THEN '3. 7-10 years           ' ELSE '4. Greater than 10 Years' END) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "`Time Since First Diagnosis paranthesesOpenCatparanthesesClose`",
+          "description" : null,
+          "_row_id" : "Mhhwm2GMN85tTxySihbBS"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "XRGm4f_qNQFfm1I_NZNDq",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "XeuFsO9_-TA6v7inPq0KL",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "tt050YNAq5t4FAKHCYqKE" : {
+      "id" : "tt050YNAq5t4FAKHCYqKE",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_80_0",
+        "x" : 2596,
+        "y" : 618,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CAST(DATE_DIFF((PARSE_DATE('%Y-%m-%d', CAST(CURRENT_DATE AS STRING))), (PARSE_DATE('%Y-%m-%d', MIN_CLM_SVC_STRT_DT_SK)), MONTH) AS INTEGER) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "`Time Since First Diagnosis`",
+          "description" : null,
+          "_row_id" : "jX1uUAgfc56zNhBv-EQGj"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Lk5R5RrQfqAxox_ew2EFP",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "_jujOKcA8qOU3Mq4CDs5H",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Sort_39_39_Output" : {
+      "id" : "Sort_39_39_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Sort_39"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Focus_Pages_MVP_Priority_2__Sort_39') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_kH-yKgSW6ciDMWDMUniUp_XeuFsO9_-TA6v7inPq0KL_Formula_80_1_XeuFsO9_-TA6v7inPq0KL",
+    "source" : "kH-yKgSW6ciDMWDMUniUp",
+    "sourcePort" : "XeuFsO9_-TA6v7inPq0KL",
+    "target" : "Formula_80_1_XeuFsO9_-TA6v7inPq0KL",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_304",
+    "source" : "tt050YNAq5t4FAKHCYqKE",
+    "sourcePort" : "_jujOKcA8qOU3Mq4CDs5H",
+    "target" : "kH-yKgSW6ciDMWDMUniUp",
+    "targetPort" : "XRGm4f_qNQFfm1I_NZNDq",
+    "isWireless" : false
+  }, {
+    "id" : "edge_307",
+    "source" : "Sort_39_39_Output",
+    "sourcePort" : "output_port_0",
+    "target" : "tt050YNAq5t4FAKHCYqKE",
+    "targetPort" : "Lk5R5RrQfqAxox_ew2EFP",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
