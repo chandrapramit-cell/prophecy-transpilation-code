@@ -6,19 +6,19 @@
   })
 }}
 
-WITH CKD_Risk_List_c_1675 AS (
-
-  SELECT * 
-  
-  FROM {{ source('transpiled_sources', 'CKD_Risk_List_c_1675_ref') }}
-
-),
-
-Join_805_left_UnionLeftOuter AS (
+WITH Join_805_left_UnionLeftOuter AS (
 
   SELECT *
   
   FROM {{ ref('intervention__Join_805_left_UnionLeftOuter')}}
+
+),
+
+CKD_Risk_List_c_1675 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('intervention', 'CKD_Risk_List_c_1675') }}
 
 ),
 

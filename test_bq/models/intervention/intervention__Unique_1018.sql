@@ -8,9 +8,9 @@
 
 WITH EDW_PROD_csv_1664 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'EDW_PROD_csv_1664_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'EDW_PROD_csv_1664') }}
 
 ),
 
@@ -26,9 +26,9 @@ AlteryxSelect_998 AS (
 
 HRHCReportLive__1679 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'HRHCReportLive__1679_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'HRHCReportLive__1679') }}
 
 ),
 

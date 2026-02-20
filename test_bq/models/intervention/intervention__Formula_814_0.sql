@@ -8,9 +8,9 @@
 
 WITH TOTAL_INF_CONDI_1676 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'TOTAL_INF_CONDI_1676_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'TOTAL_INF_CONDI_1676') }}
 
 ),
 
@@ -48,9 +48,9 @@ Filter_813 AS (
 
 ProviderDetailR_1677 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'ProviderDetailR_1677_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'ProviderDetailR_1677') }}
 
 ),
 

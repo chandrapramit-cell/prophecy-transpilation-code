@@ -8,9 +8,9 @@
 
 WITH PCMH_csv_1671 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'PCMH_csv_1671_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'PCMH_csv_1671') }}
 
 ),
 
@@ -43,17 +43,17 @@ Unique_794 AS (
 
 ),
 
-Sample_796 AS (
-
-  {{ prophecy_basics.Sample('Unique_794', ['INDV_BE_KEY'], 1002, 'firstN', 1) }}
-
-),
-
 Join_792_left_UnionLeftOuter AS (
 
   SELECT *
   
   FROM {{ ref('intervention__Join_792_left_UnionLeftOuter')}}
+
+),
+
+Sample_796 AS (
+
+  {{ prophecy_basics.Sample('Unique_794', ['INDV_BE_KEY'], 1002, 'firstN', 1) }}
 
 ),
 

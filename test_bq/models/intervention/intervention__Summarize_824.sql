@@ -8,9 +8,9 @@
 
 WITH CKD_Risk_List_c_1675 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'CKD_Risk_List_c_1675_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'CKD_Risk_List_c_1675') }}
 
 ),
 

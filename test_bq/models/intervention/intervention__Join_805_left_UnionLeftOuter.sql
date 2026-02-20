@@ -6,11 +6,19 @@
   })
 }}
 
-WITH experianMappedT_1673 AS (
+WITH Join_800_left_UnionLeftOuter AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'experianMappedT_1673_ref') }}
+  FROM {{ ref('intervention__Join_800_left_UnionLeftOuter')}}
+
+),
+
+experianMappedT_1673 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('intervention', 'experianMappedT_1673') }}
 
 ),
 
@@ -30,14 +38,6 @@ AlteryxSelect_804 AS (
 Sample_808 AS (
 
   {{ prophecy_basics.Sample('AlteryxSelect_804', ['MBR_INDV_BE_KEY'], 1002, 'firstN', 1) }}
-
-),
-
-Join_800_left_UnionLeftOuter AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Join_800_left_UnionLeftOuter')}}
 
 ),
 

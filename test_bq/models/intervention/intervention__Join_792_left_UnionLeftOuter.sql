@@ -16,9 +16,9 @@ WITH Union_784 AS (
 
 vulnerability_s_1670 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'vulnerability_s_1670_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'vulnerability_s_1670') }}
 
 ),
 

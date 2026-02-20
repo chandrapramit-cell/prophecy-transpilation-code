@@ -8,9 +8,9 @@
 
 WITH Productioned_xl_1669 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'Productioned_xl_1669_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'Productioned_xl_1669') }}
 
 ),
 

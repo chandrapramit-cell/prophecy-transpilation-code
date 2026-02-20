@@ -6,19 +6,19 @@
   })
 }}
 
-WITH Join_776_left_UnionFullOuter AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Join_776_left_UnionFullOuter')}}
-
-),
-
-Formula_782_0 AS (
+WITH Formula_782_0 AS (
 
   SELECT *
   
   FROM {{ ref('intervention__Formula_782_0')}}
+
+),
+
+Join_776_left_UnionFullOuter AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Join_776_left_UnionFullOuter')}}
 
 ),
 

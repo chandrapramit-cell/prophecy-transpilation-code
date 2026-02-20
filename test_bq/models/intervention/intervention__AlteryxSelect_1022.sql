@@ -1,7 +1,6 @@
 {{
   config({    
-    "materialized": "table",
-    "alias": "INTERVENTION_LI_765_ref",
+    "materialized": "ephemeral",
     "database": "prophecy-databricks-qa",
     "schema": "qa_test_dataset"
   })

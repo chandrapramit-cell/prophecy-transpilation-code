@@ -8,9 +8,9 @@
 
 WITH TOTAL_INF_CONDI_1674 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'TOTAL_INF_CONDI_1674_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'TOTAL_INF_CONDI_1674') }}
 
 ),
 

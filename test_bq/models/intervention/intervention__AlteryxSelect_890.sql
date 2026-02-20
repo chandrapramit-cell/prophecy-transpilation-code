@@ -16,9 +16,9 @@ WITH AlteryxSelect_838 AS (
 
 Past_120_Rx_cou_1678 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'Past_120_Rx_cou_1678_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'Past_120_Rx_cou_1678') }}
 
 ),
 

@@ -8,9 +8,9 @@
 
 WITH TOTAL_INF_CONDI_1662 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'TOTAL_INF_CONDI_1662_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'TOTAL_INF_CONDI_1662') }}
 
 ),
 
@@ -36,9 +36,9 @@ Summarize_1642 AS (
 
 ProviderDetailR_1661 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'ProviderDetailR_1661_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'ProviderDetailR_1661') }}
 
 ),
 
@@ -127,9 +127,9 @@ CrossTab_846 AS (
 
 selectdistinct__1663 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'selectdistinct__1663_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'selectdistinct__1663') }}
 
 ),
 

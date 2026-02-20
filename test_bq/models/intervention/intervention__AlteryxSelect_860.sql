@@ -8,9 +8,9 @@
 
 WITH selectsum_csv_1667 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'selectsum_csv_1667_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'selectsum_csv_1667') }}
 
 ),
 

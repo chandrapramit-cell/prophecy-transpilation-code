@@ -8,17 +8,9 @@
 
 WITH ENROLLMENT_EXPE_1672 AS (
 
-  SELECT * 
-  
-  FROM {{ source('transpiled_sources', 'ENROLLMENT_EXPE_1672_ref') }}
-
-),
-
-Join_798_left_UnionLeftOuter AS (
-
   SELECT *
   
-  FROM {{ ref('intervention__Join_798_left_UnionLeftOuter')}}
+  FROM {{ prophecy_tmp_source('intervention', 'ENROLLMENT_EXPE_1672') }}
 
 ),
 
@@ -49,6 +41,14 @@ Sample_807 AS (
       1
     )
   }}
+
+),
+
+Join_798_left_UnionLeftOuter AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Join_798_left_UnionLeftOuter')}}
 
 ),
 

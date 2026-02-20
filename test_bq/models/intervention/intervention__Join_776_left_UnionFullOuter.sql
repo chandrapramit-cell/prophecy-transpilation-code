@@ -8,9 +8,17 @@
 
 WITH Production_xlsx_1668 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'Production_xlsx_1668_ref') }}
+  FROM {{ prophecy_tmp_source('intervention', 'Production_xlsx_1668') }}
+
+),
+
+Union_866 AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Union_866')}}
 
 ),
 
@@ -35,14 +43,6 @@ Formula_775_0 AS (
     *
   
   FROM AlteryxSelect_774 AS in0
-
-),
-
-Union_866 AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Union_866')}}
 
 ),
 
