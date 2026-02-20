@@ -1,0 +1,124 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__Filter_99",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__Filter_99",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_99_99_True" : {
+      "id" : "Filter_99_99_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_99"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_99\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "99" : {
+      "id" : "99",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_99",
+        "x" : 4238,
+        "y" : 756,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((((Avg_TotalRVU <> 0) OR (Avg_TotalRVU IS NULL)) OR (CountDistinct_CLM_ID <> 0)) OR (CountDistinct_CLM_ID IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "99_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "99_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Sort_125_125_Output" : {
+      "id" : "Sort_125_125_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Sort_125"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_5",
+          "id" : "output_port_5",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Sort_125') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_99_99_True_Filter_99_99_True",
+    "source" : "99",
+    "sourcePort" : "99_True",
+    "target" : "Filter_99_99_True",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_25",
+    "source" : "Sort_125_125_Output",
+    "sourcePort" : "output_port_5",
+    "target" : "99",
+    "targetPort" : "99_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

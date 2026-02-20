@@ -1,0 +1,169 @@
+{
+  "id" : "Household_Clustering_1_Household_Creation_Priority_2__Summarize_24",
+  "metainfo" : {
+    "label" : "Household_Clustering_1_Household_Creation_Priority_2__Summarize_24",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_24_uzfzOkDP9hSN3O6nPqtnA" : {
+      "id" : "Summarize_24_uzfzOkDP9hSN3O6nPqtnA",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_24"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_24\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "24" : {
+      "id" : "24",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_24",
+        "x" : 50,
+        "y" : 183,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "MBR_HOME_ADDR_CITY_NM",
+            "_row_id" : null
+          },
+          "alias" : "MBR_HOME_ADDR_CITY_NM",
+          "description" : null,
+          "_row_id" : "BbVpI28YXVgkA1RuTID3o"
+        }, {
+          "expression" : {
+            "expression" : "MBR_HOME_ADDR_LN_2",
+            "_row_id" : null
+          },
+          "alias" : "MBR_HOME_ADDR_LN_2",
+          "description" : null,
+          "_row_id" : "EGZfooauVnIahA3H0LJ4X"
+        }, {
+          "expression" : {
+            "expression" : "MBR_HOME_ADDR_ZIP_CD_5",
+            "_row_id" : null
+          },
+          "alias" : "MBR_HOME_ADDR_ZIP_CD_5",
+          "description" : null,
+          "_row_id" : "YCZpRrnXeP28Snz6CwsS2"
+        }, {
+          "expression" : {
+            "expression" : "MBR_HOME_ADDR_CNTY_NM",
+            "_row_id" : null
+          },
+          "alias" : "MBR_HOME_ADDR_CNTY_NM",
+          "description" : null,
+          "_row_id" : "TCjYrFj5DsEJZv3R5xGrn"
+        }, {
+          "expression" : {
+            "expression" : "MBR_HOME_ADDR_LN_1",
+            "_row_id" : null
+          },
+          "alias" : "MBR_HOME_ADDR_LN_1",
+          "description" : null,
+          "_row_id" : "XXPJ4whxHSdFjV5W_lXD3"
+        }, {
+          "expression" : {
+            "expression" : "MBR_HOME_ADDR_ST_CD",
+            "_row_id" : null
+          },
+          "alias" : "MBR_HOME_ADDR_ST_CD",
+          "description" : null,
+          "_row_id" : "3GsxfYPLQ02iTtr5WNKGd"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "24_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "uzfzOkDP9hSN3O6nPqtnA",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_4_4_Unique" : {
+      "id" : "Unique_4_4_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_4"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Household_Clustering_1_Household_Creation_Priority_2__Unique_4') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_24_uzfzOkDP9hSN3O6nPqtnA_Summarize_24_uzfzOkDP9hSN3O6nPqtnA",
+    "source" : "24",
+    "sourcePort" : "uzfzOkDP9hSN3O6nPqtnA",
+    "target" : "Summarize_24_uzfzOkDP9hSN3O6nPqtnA",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_83",
+    "source" : "Unique_4_4_Unique",
+    "sourcePort" : "output_port_0",
+    "target" : "24",
+    "targetPort" : "24_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

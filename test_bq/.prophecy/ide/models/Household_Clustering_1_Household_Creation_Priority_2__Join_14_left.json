@@ -1,0 +1,178 @@
+{
+  "id" : "Household_Clustering_1_Household_Creation_Priority_2__Join_14_left",
+  "metainfo" : {
+    "label" : "Household_Clustering_1_Household_Creation_Priority_2__Join_14_left",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_14_left_ZZjmkVGWhtaRubzIOTwu7" : {
+      "id" : "Join_14_left_ZZjmkVGWhtaRubzIOTwu7",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_14_left"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_14_left\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "14_left" : {
+      "id" : "14_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_14_left",
+        "x" : 2270,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((((in0.Address = in1.Address) AND (in0.MBR_HOME_ADDR_CITY_NM = in1.MBR_HOME_ADDR_CITY_NM)) AND (in0.MBR_HOME_ADDR_ST_CD = in1.MBR_HOME_ADDR_ST_CD)) AND (in0.MBR_HOME_ADDR_ZIP_CD_5 = in1.MBR_HOME_ADDR_ZIP_CD_5))",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "XnFXug5CiYG035sZ_P-ou",
+          "slug" : "in0"
+        }, {
+          "id" : "6SEA7clJIy9Uaf65B6c9F",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "ZZjmkVGWhtaRubzIOTwu7",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Cleanse_11_11_Output26" : {
+      "id" : "Cleanse_11_11_Output26",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Cleanse_11"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Household_Clustering_1_Household_Creation_Priority_2__Cleanse_11') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_13_13_True" : {
+      "id" : "Filter_13_13_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_13"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Household_Clustering_1_Household_Creation_Priority_2__Filter_13') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_14_left_ZZjmkVGWhtaRubzIOTwu7_Join_14_left_ZZjmkVGWhtaRubzIOTwu7",
+    "source" : "14_left",
+    "sourcePort" : "ZZjmkVGWhtaRubzIOTwu7",
+    "target" : "Join_14_left_ZZjmkVGWhtaRubzIOTwu7",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_94",
+    "source" : "Cleanse_11_11_Output26",
+    "sourcePort" : "output_port_3",
+    "target" : "14_left",
+    "targetPort" : "XnFXug5CiYG035sZ_P-ou",
+    "isWireless" : false
+  }, {
+    "id" : "edge_95",
+    "source" : "Filter_13_13_True",
+    "sourcePort" : "output_port_6",
+    "target" : "14_left",
+    "targetPort" : "6SEA7clJIy9Uaf65B6c9F",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

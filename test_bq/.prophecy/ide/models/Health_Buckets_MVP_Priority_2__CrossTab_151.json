@@ -1,0 +1,649 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__CrossTab_151",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__CrossTab_151",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "CrossTab_151_1RvAnwTtFRBs6tRXG7vr3" : {
+      "id" : "CrossTab_151_1RvAnwTtFRBs6tRXG7vr3",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CrossTab_151"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CrossTab_151\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "164" : {
+      "id" : "164",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_164",
+        "x" : 11318,
+        "y" : 108,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT MBR_INDV_BE_KEY)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "wsOBpJywDGwUa5Wcap8sC"
+        }, {
+          "expression" : {
+            "expression" : "YearMonth",
+            "_row_id" : null
+          },
+          "alias" : "YearMonth",
+          "description" : null,
+          "_row_id" : "-Xd3Cmf2S8662zy4pRYHw"
+        }, {
+          "expression" : {
+            "expression" : "MBR_AGE_RANGE",
+            "_row_id" : null
+          },
+          "alias" : "MBR_AGE_RANGE",
+          "description" : null,
+          "_row_id" : "rx08u4dbibB3pB65W02ZB"
+        }, {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : "Bucket",
+          "description" : null,
+          "_row_id" : "jIe77N8WI_W-IlLJIIJ3a"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "YearMonth",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "uglBYS01BxFx92DBhBDnN"
+        }, {
+          "expression" : {
+            "expression" : "MBR_AGE_RANGE",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "o6lfFW6m8lG022RO6h6bl"
+        }, {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "fdmyTQ_ueq-4nZppuWVWg"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "164_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "164_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_159_0_xC3rLQy7nYziYzBpwoTyz" : {
+      "id" : "Formula_159_0_xC3rLQy7nYziYzBpwoTyz",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_159_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_19",
+          "id" : "output_port_19",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Formula_159_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "163" : {
+      "id" : "163",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_163",
+        "x" : 11978,
+        "y" : 684,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Union_163_reformat_0", "Union_163_reformat_1" ],
+        "schemas" : [ "[{\"name\": \"MBR_AGE_RANGE\", \"dataType\": \"String\"}, {\"name\": \"YearMonth\", \"dataType\": \"Integer\"}, {\"name\": \"Bucket\", \"dataType\": \"String\"}, {\"name\": \"CountDistinct_MBR_INDV_BE_KEY\", \"dataType\": \"Double\"}]", "[{\"name\": \"YearMonth\", \"dataType\": \"String\"}, {\"name\": \"MBR_AGE_RANGE\", \"dataType\": \"String\"}, {\"name\": \"Bucket\", \"dataType\": \"String\"}, {\"name\": \"CountDistinct_MBR_INDV_BE_KEY\", \"dataType\": \"Double\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "163_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "163_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "163_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "xNbo2zhLT9VVDtF2Ulz9O" : {
+      "id" : "xNbo2zhLT9VVDtF2Ulz9O",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Union_163_reformat_0",
+        "x" : 11798,
+        "y" : 504,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : "Bucket",
+          "description" : null,
+          "_row_id" : "Z_YGtExgWh7MDJf7ebkUq"
+        }, {
+          "expression" : {
+            "expression" : "CountDistinct_MBR_INDV_BE_KEY",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "2odnvT9gnAxDlz90g9-9O"
+        }, {
+          "expression" : {
+            "expression" : "MBR_AGE_RANGE",
+            "_row_id" : null
+          },
+          "alias" : "MBR_AGE_RANGE",
+          "description" : null,
+          "_row_id" : "ZnLlkvXVsaDHkRer5FatY"
+        }, {
+          "expression" : {
+            "expression" : "CAST(YearMonth AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "YearMonth",
+          "description" : null,
+          "_row_id" : "o8Fbyg8DYWyiOG69gmk93"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vZ8Uai9_EvwHnza0EoWVz",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "oca3Iu5ShOcSC_RLaISDW",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "151" : {
+      "id" : "151",
+      "component" : "BQPivot",
+      "metadata" : {
+        "label" : "CrossTab_151",
+        "x" : 12458,
+        "y" : 684,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnGroups" : [ "MBR_AGE_RANGE", "YearMonth" ],
+        "separator" : {
+          "expression" : {
+            "expression" : "', '",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        },
+        "inputAlias" : "in0",
+        "allowSelection" : true,
+        "pivotColumnValues" : [ {
+          "expression" : {
+            "expression" : "4__Very_High",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "PGk9Dmr5wHm8G-lMNcGsn"
+        }, {
+          "expression" : {
+            "expression" : "2__Moderate",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "2VP3QNfQB52zKYtADMJbL"
+        }, {
+          "expression" : {
+            "expression" : "5__Unknown",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "ZRoBR1ZmZo87Yo-dSUu5w"
+        }, {
+          "expression" : {
+            "expression" : "1__Low",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "7FDl2RKK2wCnaHCprSypR"
+        }, {
+          "expression" : {
+            "expression" : "3__High",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "RGl9ExCqYoF7pWxjQeSSb"
+        } ],
+        "isStringAggSelected" : false,
+        "pivotColumn" : {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "tb3OLWFjUdSlyPQIUqDXT"
+        },
+        "isValueColumnString" : true,
+        "isPivotColumnString" : true,
+        "aggregateFunctions" : [ {
+          "expression" : {
+            "expression" : "SUM",
+            "_row_id" : null
+          },
+          "alias" : "Sum",
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "valueColumn" : {
+          "expression" : {
+            "expression" : "COUNTDISTINCT_MBR_INDV_BE_KEY",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "AyA2jEn2Y3cD42Tpi1VrH"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "151_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1RvAnwTtFRBs6tRXG7vr3",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "149" : {
+      "id" : "149",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_149",
+        "x" : 10658,
+        "y" : 684,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT MBR_INDV_BE_KEY)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "G1zlpmd7YmG6k5ackFHWk"
+        }, {
+          "expression" : {
+            "expression" : "MBR_AGE_RANGE",
+            "_row_id" : null
+          },
+          "alias" : "MBR_AGE_RANGE",
+          "description" : null,
+          "_row_id" : "XYPaNWclezWLwNW_v6TQ_"
+        }, {
+          "expression" : {
+            "expression" : "YearMonth",
+            "_row_id" : null
+          },
+          "alias" : "YearMonth",
+          "description" : null,
+          "_row_id" : "ntzCXYXexQQ39qBLjgJSn"
+        }, {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : "Bucket",
+          "description" : null,
+          "_row_id" : "tCNk9GV-XDOgXYex920RC"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "MBR_AGE_RANGE",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "cmUhkqYl2M1Bfd4zmSpOY"
+        }, {
+          "expression" : {
+            "expression" : "YearMonth",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "ELskkOMychDvia7Ozfs30"
+        }, {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "6l68VMUQ6sFMWkVNCQA7b"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "149_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "149_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "7gTFtrty9CLmRVac-SDIJ" : {
+      "id" : "7gTFtrty9CLmRVac-SDIJ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Union_163_reformat_1",
+        "x" : 11798,
+        "y" : 864,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : "Bucket",
+          "description" : null,
+          "_row_id" : "YFPQB3CG6WZILld4TmcP5"
+        }, {
+          "expression" : {
+            "expression" : "CountDistinct_MBR_INDV_BE_KEY",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "JsZ31tjjtmAJO_kvUiZ0p"
+        }, {
+          "expression" : {
+            "expression" : "MBR_AGE_RANGE",
+            "_row_id" : null
+          },
+          "alias" : "MBR_AGE_RANGE",
+          "description" : null,
+          "_row_id" : "n91E19gW8ceCNXgZYIZML"
+        }, {
+          "expression" : {
+            "expression" : "CAST(YearMonth AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "YearMonth",
+          "description" : null,
+          "_row_id" : "EzDzAVgUEkddYZNGKuItG"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "QULcAdPcjPngF5MUGBD86",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "_JBIR1CRNXaoT9A79yRNo",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_146_inner_formula_to_Formula_148_1_t6pe6yXM5SKa-w4f-ipsa" : {
+      "id" : "Join_146_inner_formula_to_Formula_148_1_t6pe6yXM5SKa-w4f-ipsa",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_146_inner_formula_to_Formula_148_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_14",
+          "id" : "output_port_14",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Join_146_inner_formula_to_Formula_148_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "150" : {
+      "id" : "150",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_150",
+        "x" : 11318,
+        "y" : 684,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "YearMonth",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "MBR_AGE_RANGE",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "150_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "150_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_151_1RvAnwTtFRBs6tRXG7vr3_CrossTab_151_1RvAnwTtFRBs6tRXG7vr3",
+    "source" : "151",
+    "sourcePort" : "1RvAnwTtFRBs6tRXG7vr3",
+    "target" : "CrossTab_151_1RvAnwTtFRBs6tRXG7vr3",
+    "targetPort" : "input_port_21",
+    "isWireless" : false
+  }, {
+    "id" : "edge_13",
+    "source" : "163",
+    "sourcePort" : "163_Output",
+    "target" : "151",
+    "targetPort" : "151_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_72",
+    "source" : "xNbo2zhLT9VVDtF2Ulz9O",
+    "sourcePort" : "oca3Iu5ShOcSC_RLaISDW",
+    "target" : "163",
+    "targetPort" : "163_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_74",
+    "source" : "7gTFtrty9CLmRVac-SDIJ",
+    "sourcePort" : "_JBIR1CRNXaoT9A79yRNo",
+    "target" : "163",
+    "targetPort" : "163_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_71",
+    "source" : "150",
+    "sourcePort" : "150_Output",
+    "target" : "xNbo2zhLT9VVDtF2Ulz9O",
+    "targetPort" : "vZ8Uai9_EvwHnza0EoWVz",
+    "isWireless" : false
+  }, {
+    "id" : "edge_73",
+    "source" : "164",
+    "sourcePort" : "164_Output",
+    "target" : "7gTFtrty9CLmRVac-SDIJ",
+    "targetPort" : "QULcAdPcjPngF5MUGBD86",
+    "isWireless" : false
+  }, {
+    "id" : "edge_9",
+    "source" : "149",
+    "sourcePort" : "149_Output",
+    "target" : "150",
+    "targetPort" : "150_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_65",
+    "source" : "Formula_159_0_xC3rLQy7nYziYzBpwoTyz",
+    "sourcePort" : "output_port_19",
+    "target" : "164",
+    "targetPort" : "164_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_62",
+    "source" : "Join_146_inner_formula_to_Formula_148_1_t6pe6yXM5SKa-w4f-ipsa",
+    "sourcePort" : "output_port_14",
+    "target" : "149",
+    "targetPort" : "149_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

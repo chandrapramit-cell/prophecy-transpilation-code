@@ -1,0 +1,160 @@
+{
+  "id" : "Health_Buckets_MVP_Priority_2__Summarize_188",
+  "metainfo" : {
+    "label" : "Health_Buckets_MVP_Priority_2__Summarize_188",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_188_4xjE_xtIEvFhT25GwHCVe" : {
+      "id" : "Summarize_188_4xjE_xtIEvFhT25GwHCVe",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_188"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_188\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_15",
+          "slug" : "input_port_15"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_15",
+          "slug" : "output_port_15"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "188" : {
+      "id" : "188",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_188",
+        "x" : 10418,
+        "y" : 2124,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "MIN(`Standardized RVU`)",
+            "_row_id" : null
+          },
+          "alias" : "`Min_Standardized RVU`",
+          "description" : null,
+          "_row_id" : "yqMHExFV5eIcN8pZ6BkEq"
+        }, {
+          "expression" : {
+            "expression" : "MAX(`Standardized RVU`)",
+            "_row_id" : null
+          },
+          "alias" : "`Max_Standardized RVU`",
+          "description" : null,
+          "_row_id" : "JqQjYrd9Z1aRAC-EfBvrd"
+        }, {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : "Bucket",
+          "description" : null,
+          "_row_id" : "dlJcb3DDN5flNyOKSDa6j"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Bucket",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "_ibVg3wYisoReY2gowwyT"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "188_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "4xjE_xtIEvFhT25GwHCVe",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_146_inner_formula_to_Formula_148_1_t6pe6yXM5SKa-w4f-ipsa" : {
+      "id" : "Join_146_inner_formula_to_Formula_148_1_t6pe6yXM5SKa-w4f-ipsa",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_146_inner_formula_to_Formula_148_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_14",
+          "id" : "output_port_14",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Health_Buckets_MVP_Priority_2__Join_146_inner_formula_to_Formula_148_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_188_4xjE_xtIEvFhT25GwHCVe_Summarize_188_4xjE_xtIEvFhT25GwHCVe",
+    "source" : "188",
+    "sourcePort" : "4xjE_xtIEvFhT25GwHCVe",
+    "target" : "Summarize_188_4xjE_xtIEvFhT25GwHCVe",
+    "targetPort" : "input_port_15",
+    "isWireless" : false
+  }, {
+    "id" : "edge_63",
+    "source" : "Join_146_inner_formula_to_Formula_148_1_t6pe6yXM5SKa-w4f-ipsa",
+    "sourcePort" : "output_port_14",
+    "target" : "188",
+    "targetPort" : "188_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

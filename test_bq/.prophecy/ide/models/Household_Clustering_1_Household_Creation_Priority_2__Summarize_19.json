@@ -1,0 +1,137 @@
+{
+  "id" : "Household_Clustering_1_Household_Creation_Priority_2__Summarize_19",
+  "metainfo" : {
+    "label" : "Household_Clustering_1_Household_Creation_Priority_2__Summarize_19",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_19_1WzFWErcY6ODt7T0MFjJn" : {
+      "id" : "Summarize_19_1WzFWErcY6ODt7T0MFjJn",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_19"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_19\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "19" : {
+      "id" : "19",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_19",
+        "x" : 2030,
+        "y" : 1191,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "AVG(CountDistinct_MBR_INDV_BE_KEY)",
+            "_row_id" : null
+          },
+          "alias" : "Avg_CountDistinct_MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "kiarkU5OzURtzwUOFlXBm"
+        }, {
+          "expression" : {
+            "expression" : "STDDEV(CountDistinct_MBR_INDV_BE_KEY)",
+            "_row_id" : null
+          },
+          "alias" : "StdDev_CountDistinct_MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "jx0fk2FlYW2Dxr_WaKnBA"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "19_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1WzFWErcY6ODt7T0MFjJn",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_12_12_Output" : {
+      "id" : "Summarize_12_12_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_12"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Household_Clustering_1_Household_Creation_Priority_2__Summarize_12') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_19_1WzFWErcY6ODt7T0MFjJn_Summarize_19_1WzFWErcY6ODt7T0MFjJn",
+    "source" : "19",
+    "sourcePort" : "1WzFWErcY6ODt7T0MFjJn",
+    "target" : "Summarize_19_1WzFWErcY6ODt7T0MFjJn",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_88",
+    "source" : "Summarize_12_12_Output",
+    "sourcePort" : "output_port_4",
+    "target" : "19",
+    "targetPort" : "19_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

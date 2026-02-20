@@ -1,0 +1,137 @@
+{
+  "id" : "Household_Clustering_1_Household_Creation_Priority_2__Summarize_20",
+  "metainfo" : {
+    "label" : "Household_Clustering_1_Household_Creation_Priority_2__Summarize_20",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_20_1EYwSOeApGyEHzYHja7kU" : {
+      "id" : "Summarize_20_1EYwSOeApGyEHzYHja7kU",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_20"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_20\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "20" : {
+      "id" : "20",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_20",
+        "x" : 50,
+        "y" : 363,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT MBR_INDV_BE_KEY)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "rLg_mkSDkWLapS3QUaXtU"
+        }, {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT SUB_ID)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_SUB_ID",
+          "description" : null,
+          "_row_id" : "4DBLzlEGd-Hs8GDRzHzTo"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "20_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1EYwSOeApGyEHzYHja7kU",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_4_4_Unique" : {
+      "id" : "Unique_4_4_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_4"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Household_Clustering_1_Household_Creation_Priority_2__Unique_4') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_20_1EYwSOeApGyEHzYHja7kU_Summarize_20_1EYwSOeApGyEHzYHja7kU",
+    "source" : "20",
+    "sourcePort" : "1EYwSOeApGyEHzYHja7kU",
+    "target" : "Summarize_20_1EYwSOeApGyEHzYHja7kU",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_82",
+    "source" : "Unique_4_4_Unique",
+    "sourcePort" : "output_port_0",
+    "target" : "20",
+    "targetPort" : "20_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

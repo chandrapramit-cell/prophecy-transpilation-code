@@ -1,0 +1,124 @@
+{
+  "id" : "Household_Clustering_1_Household_Creation_Priority_2__Filter_27_reject",
+  "metainfo" : {
+    "label" : "Household_Clustering_1_Household_Creation_Priority_2__Filter_27_reject",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_27_reject_CFKKVZ4F81xs1s-46bnhj" : {
+      "id" : "Filter_27_reject_CFKKVZ4F81xs1s-46bnhj",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_27_reject"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_27_reject\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "27_reject" : {
+      "id" : "27_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_27_reject",
+        "x" : 2270,
+        "y" : 1047,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(\n  (\n    NOT(\n      (\n        CAST(((STRPOS((coalesce(LOWER(Address), '')), LOWER('suite'))) > 0) AS BOOL)\n        OR CAST(((STRPOS((coalesce(LOWER(Address), '')), LOWER('PO box'))) > 0) AS BOOL)\n      )\n      OR CAST(((STRPOS((coalesce(LOWER(Address), '')), LOWER('state highway'))) > 0) AS BOOL))\n  )\n  OR (\n       (\n         (\n           CAST(((STRPOS((coalesce(LOWER(Address), '')), LOWER('suite'))) > 0) AS BOOL)\n           OR CAST(((STRPOS((coalesce(LOWER(Address), '')), LOWER('PO box'))) > 0) AS BOOL)\n         )\n         OR CAST(((STRPOS((coalesce(LOWER(Address), '')), LOWER('state highway'))) > 0) AS BOOL)\n       ) IS NULL\n     )\n)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "UMEjv8men8XvTiT5qY_OR",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CFKKVZ4F81xs1s-46bnhj",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_13_13_True" : {
+      "id" : "Filter_13_13_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_13"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Household_Clustering_1_Household_Creation_Priority_2__Filter_13') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_27_reject_CFKKVZ4F81xs1s-46bnhj_Filter_27_reject_CFKKVZ4F81xs1s-46bnhj",
+    "source" : "27_reject",
+    "sourcePort" : "CFKKVZ4F81xs1s-46bnhj",
+    "target" : "Filter_27_reject_CFKKVZ4F81xs1s-46bnhj",
+    "targetPort" : "input_port_13",
+    "isWireless" : false
+  }, {
+    "id" : "edge_93",
+    "source" : "Filter_13_13_True",
+    "sourcePort" : "output_port_6",
+    "target" : "27_reject",
+    "targetPort" : "UMEjv8men8XvTiT5qY_OR",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
