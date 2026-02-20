@@ -8,9 +8,9 @@
 
 WITH aka_alxaa2_Quer_1 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', 'aka_alxaa2_Quer_1_ref') }}
+  FROM {{ prophecy_tmp_source('Household_Clustering_1_Household_Creation_Priority_2', 'aka_alxaa2_Quer_1') }}
 
 ),
 

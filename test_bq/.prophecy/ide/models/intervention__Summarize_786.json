@@ -1,0 +1,152 @@
+{
+  "id" : "intervention__Summarize_786",
+  "metainfo" : {
+    "label" : "intervention__Summarize_786",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_786_IRMRq7UdU81su8bnQ3R32" : {
+      "id" : "Summarize_786_IRMRq7UdU81su8bnQ3R32",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_786"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_786\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_48",
+          "slug" : "input_port_48"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_48",
+          "slug" : "output_port_48"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "786" : {
+      "id" : "786",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_786",
+        "x" : 10130,
+        "y" : 1650,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT `Member Individual Business Entity Key`)",
+            "_row_id" : null
+          },
+          "alias" : "`CountDistinct_Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "hHE48mQu1CHpXJKuhNwOM"
+        }, {
+          "expression" : {
+            "expression" : "`ED Prediction Score`",
+            "_row_id" : null
+          },
+          "alias" : "`ED Prediction Score`",
+          "description" : null,
+          "_row_id" : "NAqzZAv71OGl9VeuWf_YG"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`ED Prediction Score`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "tRj5yWG_z-Pr-mqWmkI3y"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "786_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "IRMRq7UdU81su8bnQ3R32",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_782_0_GTVjLU7hbk40WyjlDenEt" : {
+      "id" : "Formula_782_0_GTVjLU7hbk40WyjlDenEt",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_782_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_23",
+          "id" : "output_port_23",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Formula_782_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_23",
+          "slug" : "input_port_23"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_23",
+          "slug" : "output_port_23"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_786_IRMRq7UdU81su8bnQ3R32_Summarize_786_IRMRq7UdU81su8bnQ3R32",
+    "source" : "786",
+    "sourcePort" : "IRMRq7UdU81su8bnQ3R32",
+    "target" : "Summarize_786_IRMRq7UdU81su8bnQ3R32",
+    "targetPort" : "input_port_48",
+    "isWireless" : false
+  }, {
+    "id" : "edge_498",
+    "source" : "Formula_782_0_GTVjLU7hbk40WyjlDenEt",
+    "sourcePort" : "output_port_23",
+    "target" : "786",
+    "targetPort" : "786_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

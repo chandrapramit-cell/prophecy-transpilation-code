@@ -1,0 +1,186 @@
+{
+  "id" : "intervention__Join_864_inner",
+  "metainfo" : {
+    "label" : "intervention__Join_864_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_864_inner_rikiHA63j5ysPmzsCrQPq" : {
+      "id" : "Join_864_inner_rikiHA63j5ysPmzsCrQPq",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_864_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_864_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "864_inner" : {
+      "id" : "864_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_864_inner",
+        "x" : 7010,
+        "y" : 1035,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Member Individual Business Entity Key` = in1.MBR_INDV_BE_KEY)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`MBR_INDV_BE_KEY`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "aJNa1iTUn882x6l5LOuNK",
+          "slug" : "in0"
+        }, {
+          "id" : "anfm_Lo14rFEbjOj6Q_JK",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "rikiHA63j5ysPmzsCrQPq",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_860_860_Output" : {
+      "id" : "AlteryxSelect_860_860_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_860"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__AlteryxSelect_860') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_1018_1018_Unique" : {
+      "id" : "Unique_1018_1018_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_1018"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Unique_1018') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_864_inner_rikiHA63j5ysPmzsCrQPq_Join_864_inner_rikiHA63j5ysPmzsCrQPq",
+    "source" : "864_inner",
+    "sourcePort" : "rikiHA63j5ysPmzsCrQPq",
+    "target" : "Join_864_inner_rikiHA63j5ysPmzsCrQPq",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_443",
+    "source" : "AlteryxSelect_860_860_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "864_inner",
+    "targetPort" : "anfm_Lo14rFEbjOj6Q_JK",
+    "isWireless" : false
+  }, {
+    "id" : "edge_444",
+    "source" : "Unique_1018_1018_Unique",
+    "sourcePort" : "output_port_7",
+    "target" : "864_inner",
+    "targetPort" : "aJNa1iTUn882x6l5LOuNK",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

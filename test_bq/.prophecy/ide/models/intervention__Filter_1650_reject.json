@@ -1,0 +1,124 @@
+{
+  "id" : "intervention__Filter_1650_reject",
+  "metainfo" : {
+    "label" : "intervention__Filter_1650_reject",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_1650_reject_goEsYbrWKqJWFWbt-MOvs" : {
+      "id" : "Filter_1650_reject_goEsYbrWKqJWFWbt-MOvs",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_1650_reject"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_1650_reject\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1650_reject" : {
+      "id" : "1650_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1650_reject",
+        "x" : 5570,
+        "y" : 1839,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((`Member Individual Business Entity Key` <> '10000010052') OR ((`Member Individual Business Entity Key` = '10000010052') IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dN0GIe4bdJKvroRSeEBJ9",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "goEsYbrWKqJWFWbt-MOvs",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_1018_1018_Unique" : {
+      "id" : "Unique_1018_1018_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_1018"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Unique_1018') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_1650_reject_goEsYbrWKqJWFWbt-MOvs_Filter_1650_reject_goEsYbrWKqJWFWbt-MOvs",
+    "source" : "1650_reject",
+    "sourcePort" : "goEsYbrWKqJWFWbt-MOvs",
+    "target" : "Filter_1650_reject_goEsYbrWKqJWFWbt-MOvs",
+    "targetPort" : "input_port_19",
+    "isWireless" : false
+  }, {
+    "id" : "edge_432",
+    "source" : "Unique_1018_1018_Unique",
+    "sourcePort" : "output_port_7",
+    "target" : "1650_reject",
+    "targetPort" : "dN0GIe4bdJKvroRSeEBJ9",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

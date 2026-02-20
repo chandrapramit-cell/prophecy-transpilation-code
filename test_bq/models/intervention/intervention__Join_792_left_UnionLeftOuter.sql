@@ -1,0 +1,83 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "prophecy-databricks-qa",
+    "schema": "qa_test_dataset"
+  })
+}}
+
+WITH Union_784 AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Union_784')}}
+
+),
+
+vulnerability_s_1670 AS (
+
+  SELECT * 
+  
+  FROM {{ source('transpiled_sources', 'vulnerability_s_1670_ref') }}
+
+),
+
+AlteryxSelect_790 AS (
+
+  SELECT 
+    MBR_INDV_BE_KEY AS MBR_INDV_BE_KEY,
+    MBR_UNIQ_KEY AS MBR_UNIQ_KEY,
+    MBR_FULL_NM AS MBR_FULL_NM,
+    PROD_SH_NM AS PROD_SH_NM,
+    MBR_GNDR_CD AS MBR_GNDR_CD,
+    MBR_AGE AS MBR_AGE,
+    AGE_RANGE AS AGE_RANGE,
+    MBR_RELSHP_CD AS MBR_RELSHP_CD,
+    GRP_FUNDING_ARRANGEMENT AS GRP_FUNDING_ARRANGEMENT,
+    GRP_ID AS GRP_ID,
+    GRP_NM AS GRP_NM,
+    PRNT_GRP_SIC_NACIS_CD AS PRNT_GRP_SIC_NACIS_CD,
+    PRNT_GRP_SIC_NACIS_NM AS PRNT_GRP_SIC_NACIS_NM,
+    SUB_CNTGS_CNTY_CD AS SUB_CNTGS_CNTY_CD,
+    SUB_MKTNG_METRO_RURAL_CD AS SUB_MKTNG_METRO_RURAL_CD,
+    MBR_HOME_ADDR_LN_1 AS MBR_HOME_ADDR_LN_1,
+    MBR_HOME_ADDR_LN_2 AS MBR_HOME_ADDR_LN_2,
+    MBR_HOME_ADDR_CITY_NM AS MBR_HOME_ADDR_CITY_NM,
+    MBR_HOME_ADDR_ST_CD AS MBR_HOME_ADDR_ST_CD,
+    MBR_HOME_ADDR_ZIP_CD_5 AS MBR_HOME_ADDR_ZIP_CD_5,
+    MBR_HOME_ADDR_CNTY_NM AS MBR_HOME_ADDR_CNTY_NM,
+    SPIRA_BNF_ID AS SPIRA_BNF_ID,
+    SPIRA_CARE_IND AS SPIRA_CARE_IND,
+    MED_HOME_GRP_DESC AS MED_HOME_GRP_DESC,
+    MED_HOME_LOC_DESC AS MED_HOME_LOC_DESC,
+    PROV_REL_GRP_PROV_NM AS PROV_REL_GRP_PROV_NM,
+    MBR_HOME_ADDR_PHN_NO AS MBR_HOME_ADDR_PHN_NO,
+    CELL_PHN_NO AS CELL_PHN_NO,
+    TOTAL_DX_SCORE AS TOTAL_DX_SCORE,
+    TOTAL_TX_SCORE AS TOTAL_TX_SCORE,
+    TOTAL_AS_SCORE AS TOTAL_AS_SCORE,
+    VULNERABILITY_INDEX AS VULNERABILITY_INDEX,
+    DOB AS DOB,
+    NULL AS `Likelihood Factor`,
+    NULL AS `Comprehensive Risk Score`,
+    NULL AS Population
+  
+  FROM vulnerability_s_1670 AS in0
+
+),
+
+Join_792_left_UnionLeftOuter AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCEPT (`MBR_INDV_BE_KEY`)
+  
+  FROM Union_784 AS in0
+  LEFT JOIN AlteryxSelect_790 AS in1
+     ON (in0.`Member Individual Business Entity Key` = in1.MBR_INDV_BE_KEY)
+
+)
+
+SELECT *
+
+FROM Join_792_left_UnionLeftOuter
