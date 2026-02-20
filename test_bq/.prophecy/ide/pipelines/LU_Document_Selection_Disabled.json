@@ -78,42 +78,13 @@
     },
     "isTranspiledPipeline" : false,
     "publishDiagnosticMetrics" : true,
-    "transpilerType" : "alteryx",
-    "processesVsModelFiles" : {
-      "302" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "324" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "313_inner" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "298" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "303" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "318_inner" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "303_reject" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "299_inner" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "310_inner" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "317" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "292" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "306_inner" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "323_reject" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "289" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "290" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "322_inner" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "293" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "326" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "304" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "AlteryxSelect_294_gtqGwRO6LvOBKuIdYXvGZ" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "294" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "h0lRuA6BUF1_S7KwQvs_K" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "nBc9D03r3XDvpvc-EbTPh" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "323" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "305" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "316" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "327" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql",
-      "312" : "models/LU_Document_Selection_Disabled/LU_Document_Selection_Disabled__AlteryxSelect_294.sql"
-    }
+    "transpilerType" : "alteryx"
   },
   "processes" : {
     "302" : {
       "id" : "302",
-      "component" : "Dataset",
+      "component" : "OrchestrationSource",
+      "kind" : "OracleSource",
       "metadata" : {
         "label" : "aka_GPDIP_EDLUD_302",
         "x" : 50,
@@ -121,14 +92,68 @@
         "phase" : 0
       },
       "properties" : {
-        "table" : {
-          "name" : "aka_GPDIP_EDLUD_302_ref",
-          "sourceType" : "Table",
-          "sourceName" : "transpiled_sources",
-          "alias" : ""
+        "connector" : {
+          "kind" : "oracle",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "database" : "dbName",
+            "server" : "aka:5d5fcee94d51281464f2fed5",
+            "username" : "${username_aka_GPDIP_EDLUD_302}",
+            "id" : "transpiled_connection",
+            "port" : "1521",
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
         },
-        "writeOptions" : {
-          "writeMode" : "overwrite"
+        "properties" : {
+          "pathSelection" : "warehouseQuery",
+          "tableFullName" : {
+            "schema" : "schema",
+            "name" : "aka_GPDIP_EDLUD_302"
+          },
+          "warehouseQuery" : {
+            "query" : "SELECT r_object_id\n       , i_position\n       , name\n       , value\n FROM gpdip_prd.gpdip_uddl_regulatory.gdms_coredatasheet_repeating \n where name in ('PFLEET_SUB_COUNTRY_ROW_ID','R_VERSION_LABEL');"
+          }
+        },
+        "format" : {
+          "kind" : "oracle",
+          "category" : "table",
+          "properties" : {
+            "kind" : "oracle",
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "BigQuery",
+              "fields" : [ {
+                "name" : "r_object_id",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "i_position",
+                "dataType" : {
+                  "type" : "Numeric"
+                }
+              }, {
+                "name" : "name",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "value",
+                "dataType" : {
+                  "type" : "String"
+                }
+              } ]
+            }
+          }
         }
       },
       "ports" : {
@@ -142,7 +167,8 @@
     },
     "324" : {
       "id" : "324",
-      "component" : "Dataset",
+      "component" : "OrchestrationSource",
+      "kind" : "OracleSource",
       "metadata" : {
         "label" : "aka_GPDIP_EDLUD_324",
         "x" : 50,
@@ -150,14 +176,68 @@
         "phase" : 0
       },
       "properties" : {
-        "table" : {
-          "name" : "aka_GPDIP_EDLUD_324_ref",
-          "sourceType" : "Table",
-          "sourceName" : "transpiled_sources",
-          "alias" : ""
+        "connector" : {
+          "kind" : "oracle",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "database" : "dbName",
+            "server" : "aka:5d5fcee94d51281464f2fed5",
+            "username" : "${username_aka_GPDIP_EDLUD_324}",
+            "id" : "transpiled_connection",
+            "port" : "1521",
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
         },
-        "writeOptions" : {
-          "writeMode" : "overwrite"
+        "properties" : {
+          "pathSelection" : "warehouseQuery",
+          "tableFullName" : {
+            "schema" : "schema",
+            "name" : "aka_GPDIP_EDLUD_324"
+          },
+          "warehouseQuery" : {
+            "query" : "SELECT r_object_id\n       , i_position\n       , name\n       , value\n FROM gpdip_prd.gpdip_uddl_regulatory.gdms_prescribinginfo_repeating\n where name in ('PFLEET_SUB_COUNTRY_ROW_ID','R_VERSION_LABEL');"
+          }
+        },
+        "format" : {
+          "kind" : "oracle",
+          "category" : "table",
+          "properties" : {
+            "kind" : "oracle",
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "BigQuery",
+              "fields" : [ {
+                "name" : "r_object_id",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "i_position",
+                "dataType" : {
+                  "type" : "Numeric"
+                }
+              }, {
+                "name" : "name",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "value",
+                "dataType" : {
+                  "type" : "String"
+                }
+              } ]
+            }
+          }
         }
       },
       "ports" : {
@@ -196,7 +276,7 @@
           },
           "alias" : "sub_country_id",
           "description" : null,
-          "_row_id" : "8jzrs85Fmikiah25EtHOo"
+          "_row_id" : "XxfKN9bdk18__vT_V1Mxz"
         }, {
           "expression" : {
             "expression" : "in0.country_name",
@@ -204,7 +284,7 @@
           },
           "alias" : "sub_country_name",
           "description" : null,
-          "_row_id" : "8KVlJ6Y0VOlIOtf7juXdp"
+          "_row_id" : "akIFp0k75W0RcA2yrjTgz"
         }, {
           "expression" : {
             "expression" : "in0.r_object_id",
@@ -212,7 +292,7 @@
           },
           "alias" : "r_object_id",
           "description" : null,
-          "_row_id" : "Q3n0pHAa3PbWt9tWgbE_1"
+          "_row_id" : "-IKSJrPfYdLFtp6feqMIi"
         }, {
           "expression" : {
             "expression" : "in1.i_chronicle_id",
@@ -220,7 +300,7 @@
           },
           "alias" : "i_chronicle_id",
           "description" : null,
-          "_row_id" : "aA1J_klfkbgnsRXBYKCrr"
+          "_row_id" : "hTofO4FzI-F4j2sA2MQKZ"
         }, {
           "expression" : {
             "expression" : "in1.object_name",
@@ -228,7 +308,7 @@
           },
           "alias" : "object_name",
           "description" : null,
-          "_row_id" : "AtASREThb6FbWgPmlj-VN"
+          "_row_id" : "q8ch0BnBRa_qhrGS4tAFu"
         }, {
           "expression" : {
             "expression" : "in1.title",
@@ -236,7 +316,7 @@
           },
           "alias" : "title",
           "description" : null,
-          "_row_id" : "yue2UQWstgOQWNRms4iXc"
+          "_row_id" : "3ssTo2B3Xbilydc2fFWV0"
         }, {
           "expression" : {
             "expression" : "in1.xm_status",
@@ -244,7 +324,7 @@
           },
           "alias" : "xm_status",
           "description" : null,
-          "_row_id" : "EIvldArrDv-jgpYaskkk5"
+          "_row_id" : "7d6DfEQMZPfs9NpzDPhIH"
         }, {
           "expression" : {
             "expression" : "in1.subtype",
@@ -252,7 +332,7 @@
           },
           "alias" : "subtype",
           "description" : null,
-          "_row_id" : "5JVV1tuJ2_fTtSxKaU4LL"
+          "_row_id" : "N8kB1HNDEdYjSSqcOBTPe"
         }, {
           "expression" : {
             "expression" : "in0.r_version_label",
@@ -260,7 +340,7 @@
           },
           "alias" : "r_version_label",
           "description" : null,
-          "_row_id" : "Kh3SqIhrqhFQ6N13JdpAs"
+          "_row_id" : "sSm-Y2E_-GYfP8ZRDNC6j"
         }, {
           "expression" : {
             "expression" : "in1.xm_language",
@@ -268,7 +348,7 @@
           },
           "alias" : "xm_language",
           "description" : null,
-          "_row_id" : "Rqlz49oxTEsgM53X6Ijci"
+          "_row_id" : "aANCYXWdh0zXm4C9sfbqS"
         }, {
           "expression" : {
             "expression" : "in0.extract_date",
@@ -276,7 +356,7 @@
           },
           "alias" : "extract_date",
           "description" : null,
-          "_row_id" : "LTYwMyPSWoeKgD2fosH4z"
+          "_row_id" : "8Se-85Z7APivnPKZDgLO7"
         } ],
         "activeTab" : "conditions",
         "columnsSelector" : [ ],
@@ -284,17 +364,16 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "GCtR9p4ThgXPoMP5hs6i4",
+          "id" : "R_vuH0iJ-jKTrRHzKbjqU",
           "slug" : "in0"
         }, {
-          "id" : "nYnxal8I3QWhPkumHPocG",
+          "id" : "aOmRs8PIOdFsDCnMmWISo",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "stHAEaqDyNXaqR8tJ9i1z",
+          "id" : "fY9NVbWJWpFL-PvB4FLc7",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "315"
     },
@@ -319,7 +398,8 @@
     },
     "298" : {
       "id" : "298",
-      "component" : "Dataset",
+      "component" : "OrchestrationSource",
+      "kind" : "OracleSource",
       "metadata" : {
         "label" : "aka_GPDIP_EDLUD_298",
         "x" : 50,
@@ -327,14 +407,88 @@
         "phase" : 0
       },
       "properties" : {
-        "table" : {
-          "name" : "aka_GPDIP_EDLUD_298_ref",
-          "sourceType" : "Table",
-          "sourceName" : "transpiled_sources",
-          "alias" : ""
+        "connector" : {
+          "kind" : "oracle",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "database" : "dbName",
+            "server" : "aka:5d5fcee94d51281464f2fed5",
+            "username" : "${username_aka_GPDIP_EDLUD_298}",
+            "id" : "transpiled_connection",
+            "port" : "1521",
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
         },
-        "writeOptions" : {
-          "writeMode" : "overwrite"
+        "properties" : {
+          "pathSelection" : "warehouseQuery",
+          "tableFullName" : {
+            "schema" : "schema",
+            "name" : "aka_GPDIP_EDLUD_298"
+          },
+          "warehouseQuery" : {
+            "query" : "SELECT r_object_id\n       , i_chronicle_id\n       , object_name\n       , title\n       , xm_status\n       , i_has_folder\n       , subtype\n       , xm_language\n FROM gpdip_prd.gpdip_uddl_regulatory.gdms_coredatasheet_single\nWHERE i_has_folder = 1"
+          }
+        },
+        "format" : {
+          "kind" : "oracle",
+          "category" : "table",
+          "properties" : {
+            "kind" : "oracle",
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "BigQuery",
+              "fields" : [ {
+                "name" : "subtype",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "object_name",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "xm_status",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "i_has_folder",
+                "dataType" : {
+                  "type" : "Numeric"
+                }
+              }, {
+                "name" : "xm_language",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "r_object_id",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "title",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "i_chronicle_id",
+                "dataType" : {
+                  "type" : "String"
+                }
+              } ]
+            }
+          }
         }
       },
       "ports" : {
@@ -370,8 +524,7 @@
         "outputs" : [ {
           "id" : "303_True",
           "slug" : "out1"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "311"
     },
@@ -418,17 +571,16 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "YlBhZolHr_VAFsGHwDhQv",
+          "id" : "UuI0B_nlkJcRwrUfCBcbp",
           "slug" : "in0"
         }, {
-          "id" : "mlFesBVN1-vvWQe1Z8V2H",
+          "id" : "HUy4F2lRQp9be_5J6a-4u",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "NvqWI-wKz65Gfxf3ZS0OO",
+          "id" : "8gLgHb6Q9f5FXaSg0Wa48",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "325"
     },
@@ -450,14 +602,13 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "e3hYc310PYMSm1JZOP-sb",
+          "id" : "5aP1E1Ij_qqsZJNjAh7mT",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "E26J0JDo23GlKXkaggdIm",
+          "id" : "xyT2rzrA2fTBUcN02-ooS",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "311"
     },
@@ -507,7 +658,7 @@
           },
           "alias" : "sub_country_id",
           "description" : null,
-          "_row_id" : "s4Bl3uZr3UaDIHSTzgExq"
+          "_row_id" : "Rwj-7xOdVgX-NbxW_EXDS"
         }, {
           "expression" : {
             "expression" : "in0.country_name",
@@ -515,7 +666,7 @@
           },
           "alias" : "sub_country_name",
           "description" : null,
-          "_row_id" : "4NTA9R0f6CMRYE7D8iwlZ"
+          "_row_id" : "ku4ZvUm4byIjWuxyIE6_2"
         }, {
           "expression" : {
             "expression" : "in0.r_object_id",
@@ -523,7 +674,7 @@
           },
           "alias" : "r_object_id",
           "description" : null,
-          "_row_id" : "LT46RBmiu7j7e-TuIM8Jp"
+          "_row_id" : "dy6JCkyxInYkqq1QhJBjU"
         }, {
           "expression" : {
             "expression" : "in1.i_chronicle_id",
@@ -531,7 +682,7 @@
           },
           "alias" : "i_chronicle_id",
           "description" : null,
-          "_row_id" : "mPKWBHDQUiT5McNUX-qZI"
+          "_row_id" : "xbXR1X87JqusKvqfWtiFr"
         }, {
           "expression" : {
             "expression" : "in1.object_name",
@@ -539,7 +690,7 @@
           },
           "alias" : "object_name",
           "description" : null,
-          "_row_id" : "eFoMEpDEVBUblXbGhGtPo"
+          "_row_id" : "Wuerm5Xz3e5E0axpsq0Ll"
         }, {
           "expression" : {
             "expression" : "in1.title",
@@ -547,7 +698,7 @@
           },
           "alias" : "title",
           "description" : null,
-          "_row_id" : "dGROicb7wmc37BpnoPc6C"
+          "_row_id" : "a6kSMjNukRxTxhpNgsz6s"
         }, {
           "expression" : {
             "expression" : "in1.xm_status",
@@ -555,7 +706,7 @@
           },
           "alias" : "xm_status",
           "description" : null,
-          "_row_id" : "x5FLi_Z3SQrDdB5tjhcuk"
+          "_row_id" : "8pwJAXLBejnB45bI-q1l1"
         }, {
           "expression" : {
             "expression" : "in1.subtype",
@@ -563,7 +714,7 @@
           },
           "alias" : "subtype",
           "description" : null,
-          "_row_id" : "Cw673YjhJ-sV9EDusNb9C"
+          "_row_id" : "33IurtE1yifr1phfIqbTC"
         }, {
           "expression" : {
             "expression" : "in0.r_version_label",
@@ -571,7 +722,7 @@
           },
           "alias" : "r_version_label",
           "description" : null,
-          "_row_id" : "7UcEM9am7kQjCIzSHfL9Q"
+          "_row_id" : "j0Yzt-8nD6NUIrS8Frov-"
         }, {
           "expression" : {
             "expression" : "in1.xm_language",
@@ -579,7 +730,7 @@
           },
           "alias" : "xm_language",
           "description" : null,
-          "_row_id" : "vEJF7-wR9XmfRuo3zJNMK"
+          "_row_id" : "IgF_GfJlu5zG_YuqlUwcq"
         }, {
           "expression" : {
             "expression" : "in0.extract_date",
@@ -587,7 +738,7 @@
           },
           "alias" : "extract_date",
           "description" : null,
-          "_row_id" : "LC9vzu04aKHDaDN71QeNt"
+          "_row_id" : "SqAu1JY2PqZV8wCSTwKjC"
         } ],
         "activeTab" : "conditions",
         "columnsSelector" : [ ],
@@ -595,17 +746,16 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "qWZzMFkw-r-slUsJMosjD",
+          "id" : "RbIqF2V9lKXy3j46IemaU",
           "slug" : "in0"
         }, {
-          "id" : "y8BCD-aygImafecgJXTfE",
+          "id" : "wTrfKRiuwdDKixvOolRSR",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "yWp6oTAWN2sQW2vvp5C_z",
+          "id" : "MypkXQLqF0nRRN1EALOW3",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "301"
     },
@@ -652,17 +802,16 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "rVT1Z2PqzAaijik-r740b",
+          "id" : "37sx-QA05IU-DVEiM3ZZV",
           "slug" : "in0"
         }, {
-          "id" : "1tpoCU7EWszPVWLhRgN9M",
+          "id" : "bQBeoiqS0W2JPEJ0Si114",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "13XwAwBfviQ7K-0_SUOdh",
+          "id" : "v7Jq4z8N9TvQXPIO1ABQi",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "311"
     },
@@ -683,7 +832,7 @@
           },
           "alias" : "r_version_label",
           "description" : null,
-          "_row_id" : "wFMahWx4JCW4UxbORISr9"
+          "_row_id" : "Av9uAf-QUBc0G1kAVTBCo"
         }, {
           "expression" : {
             "expression" : "r_object_id",
@@ -691,7 +840,7 @@
           },
           "alias" : "r_object_id",
           "description" : null,
-          "_row_id" : "R6ATGQclblb9XlMkeC8WI"
+          "_row_id" : "h4JogdJM8v-8gOjzNSk2F"
         } ],
         "allowSelection" : true,
         "condition" : {
@@ -707,7 +856,7 @@
           },
           "alias" : null,
           "description" : null,
-          "_row_id" : "W46tPcek-ML1xOTXIuhDe"
+          "_row_id" : "tsOBx0Z4UQMf3m-xGMG2O"
         } ]
       },
       "ports" : {
@@ -718,8 +867,7 @@
         "outputs" : [ {
           "id" : "317_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "325"
     },
@@ -763,8 +911,7 @@
         "outputs" : [ {
           "id" : "292_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "297",
       "componentInfo" : {
@@ -801,7 +948,7 @@
           },
           "alias" : "r_object_id",
           "description" : null,
-          "_row_id" : "IIFG6WLUOQlPHZwecGL-1"
+          "_row_id" : "k-s9QhQ15VrY34e7giuk2"
         }, {
           "expression" : {
             "expression" : "in0.pfleet_subcountry_row_id",
@@ -809,7 +956,7 @@
           },
           "alias" : "pfleet_subcountry_row_id",
           "description" : null,
-          "_row_id" : "UzNMMKmd1NCUoGB33jIC-"
+          "_row_id" : "u3G1zu-zXOvSSUUvlicZM"
         }, {
           "expression" : {
             "expression" : "in1.r_version_label",
@@ -817,7 +964,7 @@
           },
           "alias" : "r_version_label",
           "description" : null,
-          "_row_id" : "IAV3TobqmnmH-4tf9pC1G"
+          "_row_id" : "YUlrLcH7KbHr1mH1q_AWs"
         } ],
         "activeTab" : "conditions",
         "columnsSelector" : [ ],
@@ -825,17 +972,16 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "VlcPzcZaA04WcbEFb7aK_",
+          "id" : "d7O8LoUmD9D5sDm9ZLoiV",
           "slug" : "in0"
         }, {
-          "id" : "SLK-S2-z6zgILyZ7tHADN",
+          "id" : "UYN0abivHQlTOqJGlztp8",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "K1A4N3hy_zKdBOP2bxT0K",
+          "id" : "XcP2hE6YBBGZDLfHZdjKW",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "311"
     },
@@ -876,20 +1022,20 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "sMMudcdpbAjUOTh0s90KM",
+          "id" : "Xm1LklUuBD7ORrTpB_cGd",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "pRuSRng-cb99efP_Iazsb",
+          "id" : "YfUlwW9FApwyaFl6eEoCb",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "325"
     },
     "289" : {
       "id" : "289",
-      "component" : "Dataset",
+      "component" : "OrchestrationSource",
+      "kind" : "OracleSource",
       "metadata" : {
         "label" : "aka_GPDIP_EDLUD_289",
         "x" : 50,
@@ -897,14 +1043,83 @@
         "phase" : 0
       },
       "properties" : {
-        "table" : {
-          "name" : "aka_GPDIP_EDLUD_289_ref",
-          "sourceType" : "Table",
-          "sourceName" : "transpiled_sources",
-          "alias" : ""
+        "connector" : {
+          "kind" : "oracle",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "database" : "dbName",
+            "server" : "aka:5d5fcee94d51281464f2fed5",
+            "username" : "${username_aka_GPDIP_EDLUD_289}",
+            "id" : "transpiled_connection",
+            "port" : "1521",
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
         },
-        "writeOptions" : {
-          "writeMode" : "overwrite"
+        "properties" : {
+          "pathSelection" : "warehouseQuery",
+          "tableFullName" : {
+            "schema" : "schema",
+            "name" : "aka_GPDIP_EDLUD_289"
+          },
+          "warehouseQuery" : {
+            "query" : "SELECT app_country_id\n       , country_name\n       , country_abbreviation\n       , product_name\n       , is_static\n       , is_active\n       , extract_date\n FROM gpdip_prd.gpdip_uddl_regulatory.pfleet_country\nWHERE parent_app_country_id is not null and is_active = 1"
+          }
+        },
+        "format" : {
+          "kind" : "oracle",
+          "category" : "table",
+          "properties" : {
+            "kind" : "oracle",
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "BigQuery",
+              "fields" : [ {
+                "name" : "is_active",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "is_static",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "extract_date",
+                "dataType" : {
+                  "type" : "Timestamp"
+                }
+              }, {
+                "name" : "product_name",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "country_abbreviation",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "app_country_id",
+                "dataType" : {
+                  "type" : "Numeric"
+                }
+              }, {
+                "name" : "country_name",
+                "dataType" : {
+                  "type" : "String"
+                }
+              } ]
+            }
+          }
         }
       },
       "ports" : {
@@ -915,6 +1130,48 @@
         } ]
       },
       "parent" : "291"
+    },
+    "um6vQNmF_ObZg2723P5IB" : {
+      "id" : "um6vQNmF_ObZg2723P5IB",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_300_0",
+        "x" : 626,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('http://gdms.pfizer.com/gdms/drl/objectId/', r_object_id)) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "document_url",
+          "description" : null,
+          "_row_id" : "u45Ls_uSlh5Wl1451FW3x"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "YpfnQ__6BbKFx71fjWMpj",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "f72Fud7p5koVsN0A3qo9E",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      },
+      "parent" : "301"
     },
     "290" : {
       "id" : "290",
@@ -933,78 +1190,12 @@
         "removeRowNullAllCols" : false,
         "replaceNullTextFields" : false,
         "relation_name" : [ "aka_GPDIP_EDLUD_289" ],
-        "replaceNullDateWith" : "1970-01-01",
         "columnNames" : [ "country_name", "product_name" ],
-        "replaceNullTimeFields" : false,
-        "_oldMacroProperties" : {
-          "macroName" : "DataCleansing",
-          "projectName" : "prophecy_basics",
-          "parameters" : [ {
-            "name" : "relation_name",
-            "value" : "[\"aka_GPDIP_EDLUD_289\"]"
-          }, {
-            "name" : "schema",
-            "value" : "[{\"name\": \"is_active\", \"dataType\": \"String\"}, {\"name\": \"is_static\", \"dataType\": \"String\"}, {\"name\": \"extract_date\", \"dataType\": \"Timestamp\"}, {\"name\": \"product_name\", \"dataType\": \"String\"}, {\"name\": \"country_abbreviation\", \"dataType\": \"String\"}, {\"name\": \"app_country_id\", \"dataType\": \"Numeric\"}, {\"name\": \"country_name\", \"dataType\": \"String\"}]"
-          }, {
-            "name" : "modifyCase",
-            "value" : "makeUppercase"
-          }, {
-            "name" : "columnNames",
-            "value" : "[\"country_name\", \"product_name\"]"
-          }, {
-            "name" : "replaceNullTextFields",
-            "value" : "false"
-          }, {
-            "name" : "replaceNullTextWith",
-            "value" : ""
-          }, {
-            "name" : "replaceNullForNumericFields",
-            "value" : "false"
-          }, {
-            "name" : "replaceNullNumericWith",
-            "value" : "0"
-          }, {
-            "name" : "trimWhiteSpace",
-            "value" : "false"
-          }, {
-            "name" : "removeTabsLineBreaksAndDuplicateWhitespace",
-            "value" : "false"
-          }, {
-            "name" : "allWhiteSpace",
-            "value" : "false"
-          }, {
-            "name" : "cleanLetters",
-            "value" : "false"
-          }, {
-            "name" : "cleanPunctuations",
-            "value" : "false"
-          }, {
-            "name" : "cleanNumbers",
-            "value" : "false"
-          }, {
-            "name" : "removeRowNullAllCols",
-            "value" : "false"
-          }, {
-            "name" : "replaceNullDateFields",
-            "value" : "false"
-          }, {
-            "name" : "replaceNullDateWith",
-            "value" : "1970-01-01"
-          }, {
-            "name" : "replaceNullTimeFields",
-            "value" : "false"
-          }, {
-            "name" : "replaceNullTimeWith",
-            "value" : "1970-01-01 00:00:00.0"
-          } ]
-        },
-        "replaceNullTimeWith" : "1970-01-01 00:00:00.0",
-        "schema" : "[{\"name\": \"is_active\", \"dataType\": \"String\"}, {\"name\": \"is_static\", \"dataType\": \"String\"}, {\"name\": \"extract_date\", \"dataType\": \"Timestamp\"}, {\"name\": \"product_name\", \"dataType\": \"String\"}, {\"name\": \"country_abbreviation\", \"dataType\": \"String\"}, {\"name\": \"app_country_id\", \"dataType\": \"Numeric\"}, {\"name\": \"country_name\", \"dataType\": \"String\"}]",
+        "schema" : "[{\"name\": \"is_active\", \"dataType\": \"String\"}, {\"name\": \"is_static\", \"dataType\": \"String\"}, {\"name\": \"extract_date\", \"dataType\": \"Timestamp\"}, {\"name\": \"product_name\", \"dataType\": \"String\"}, {\"name\": \"country_abbreviation\", \"dataType\": \"String\"}, {\"name\": \"app_country_id\", \"dataType\": \"Integer\"}, {\"name\": \"country_name\", \"dataType\": \"String\"}]",
         "allWhiteSpace" : false,
         "removeTabsLineBreaksAndDuplicateWhitespace" : false,
         "modifyCase" : "makeUppercase",
         "cleanPunctuations" : false,
-        "replaceNullDateFields" : false,
         "cleanNumbers" : false,
         "replaceNullNumericWith" : 0
       },
@@ -1015,9 +1206,48 @@
         } ],
         "outputs" : [ {
           "id" : "290_Output26",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "is_active",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "is_static",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "extract_date",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "product_name",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "country_abbreviation",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "app_country_id",
+              "dataType" : {
+                "type" : "Numeric"
+              }
+            }, {
+              "name" : "country_name",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "291",
       "componentInfo" : {
@@ -1054,7 +1284,7 @@
           },
           "alias" : "r_object_id",
           "description" : null,
-          "_row_id" : "_BHuymo0r2MGl9_ommS33"
+          "_row_id" : "soimr5NTaQseGYLWq6kPl"
         }, {
           "expression" : {
             "expression" : "in0.pfleet_subcountry_row_id",
@@ -1062,7 +1292,7 @@
           },
           "alias" : "pfleet_subcountry_row_id",
           "description" : null,
-          "_row_id" : "xJT1RaTq5eZ5lD-1Mzb81"
+          "_row_id" : "Vea94rLzd9AyLK1zQkEMh"
         }, {
           "expression" : {
             "expression" : "in1.r_version_label",
@@ -1070,7 +1300,7 @@
           },
           "alias" : "r_version_label",
           "description" : null,
-          "_row_id" : "F6jcig4GvT9_VrsyE-RVv"
+          "_row_id" : "rTsSAh7eUogPpCNiiIp9u"
         } ],
         "activeTab" : "conditions",
         "columnsSelector" : [ ],
@@ -1078,17 +1308,16 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "TiO_cb7upCQ8Fag8iKbxq",
+          "id" : "mriFQ7N6kLg4W8jdZxweV",
           "slug" : "in0"
         }, {
-          "id" : "J8JxjX5MaYTXUon94JneT",
+          "id" : "1mu_PUCbDhE2OoBU_EzJu",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "IebQwDV-NtmzM_L8WEtNg",
+          "id" : "YdjukA0qxmSSe5ZYEOhBG",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "325"
     },
@@ -1110,6 +1339,48 @@
         "inputs" : [ ],
         "outputs" : [ ]
       }
+    },
+    "8ntAIJDwv0f91zpL59faz" : {
+      "id" : "8ntAIJDwv0f91zpL59faz",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_314_0",
+        "x" : 626,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('http://gdms.pfizer.com/gdms/drl/objectId/', r_object_id)) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "document_url",
+          "description" : null,
+          "_row_id" : "Q6ZxwKCj3DkKWXeJMn43U"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vwNDgiiJzontrqsyZS1R2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Ioy3zZh55WmE7P6nqhk8Z",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      },
+      "parent" : "315"
     },
     "293" : {
       "id" : "293",
@@ -1146,8 +1417,7 @@
         "outputs" : [ {
           "id" : "293_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "297"
     },
@@ -1169,7 +1439,7 @@
           },
           "alias" : "pfleet_subcountry_row_id",
           "description" : null,
-          "_row_id" : "tPOZszcuU5GDCtNbps3Hb"
+          "_row_id" : "4fxMhhC5_Glc_yYzQKjTL"
         }, {
           "expression" : {
             "expression" : "* EXCEPT(`value`)",
@@ -1188,8 +1458,7 @@
         "outputs" : [ {
           "id" : "326_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "325"
     },
@@ -1247,8 +1516,7 @@
         "outputs" : [ {
           "id" : "304_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "311"
     },
@@ -1270,7 +1538,7 @@
           },
           "alias" : "sub_country_name",
           "description" : null,
-          "_row_id" : "FKVtTJ4AbAyySHSBPHKyj"
+          "_row_id" : "Wf4IFPBYHIjUOCk59ewJ6"
         }, {
           "expression" : {
             "expression" : "r_object_id",
@@ -1278,7 +1546,7 @@
           },
           "alias" : "r_object_id",
           "description" : null,
-          "_row_id" : "Rt5QZ6otJjRo24hfPOPNP"
+          "_row_id" : "mle_jf8oaGSOrPuV00DL9"
         }, {
           "expression" : {
             "expression" : "object_name",
@@ -1286,7 +1554,7 @@
           },
           "alias" : "object_name",
           "description" : null,
-          "_row_id" : "S4tsDxEQRAcjj-H0vjURU"
+          "_row_id" : "n4E0MXTxH1FOf0AI2rcZv"
         }, {
           "expression" : {
             "expression" : "title",
@@ -1294,7 +1562,7 @@
           },
           "alias" : "title",
           "description" : null,
-          "_row_id" : "G4_nFPQ95F-pNv3A9aWjo"
+          "_row_id" : "d-8IGfweaI9VKjU4kYifO"
         }, {
           "expression" : {
             "expression" : "xm_status",
@@ -1302,7 +1570,7 @@
           },
           "alias" : "xm_status",
           "description" : null,
-          "_row_id" : "UC2GN54RMBupSKT1Dk7vw"
+          "_row_id" : "LkHDuo6ZwRTsykoEwB-mt"
         }, {
           "expression" : {
             "expression" : "subtype",
@@ -1310,7 +1578,7 @@
           },
           "alias" : "subtype",
           "description" : null,
-          "_row_id" : "xv3jy_00r_XgAc9kBECnZ"
+          "_row_id" : "9UpiKxQyy_yKMdIjZ3Hmj"
         }, {
           "expression" : {
             "expression" : "* EXCEPT(`sub_country_name`, `r_object_id`, `object_name`, `title`, `xm_status`, `subtype`)",
@@ -1327,96 +1595,11 @@
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "gtqGwRO6LvOBKuIdYXvGZ",
+          "id" : "5DVJE0p2XnyRPLWPlSNiV",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "297"
-    },
-    "h0lRuA6BUF1_S7KwQvs_K" : {
-      "id" : "h0lRuA6BUF1_S7KwQvs_K",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "Formula_300_0",
-        "x" : 626,
-        "y" : 147,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CAST((CONCAT('http://gdms.pfizer.com/gdms/drl/objectId/', r_object_id)) AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "document_url",
-          "description" : null,
-          "_row_id" : "uZg7eAB2jetptLPQ72Adw"
-        }, {
-          "expression" : {
-            "expression" : "*",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "VaEhLPaY8ncSFeNYXqvxc",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "B0nelTZ-wgPPkzmWhL7Ff",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
-      },
-      "parent" : "301"
-    },
-    "nBc9D03r3XDvpvc-EbTPh" : {
-      "id" : "nBc9D03r3XDvpvc-EbTPh",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "Formula_314_0",
-        "x" : 626,
-        "y" : 147,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CAST((CONCAT('http://gdms.pfizer.com/gdms/drl/objectId/', r_object_id)) AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "document_url",
-          "description" : null,
-          "_row_id" : "NpQ6DTf3ps2CT39HVu0s0"
-        }, {
-          "expression" : {
-            "expression" : "*",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "ZONwcIrV9-znIzB1bfwI-",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "sPLmzgS0RWXq8Cp5VtpMX",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
-      },
-      "parent" : "315"
     },
     "323" : {
       "id" : "323",
@@ -1442,8 +1625,7 @@
         "outputs" : [ {
           "id" : "323_True",
           "slug" : "out1"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "325"
     },
@@ -1464,7 +1646,7 @@
           },
           "alias" : "r_version_label",
           "description" : null,
-          "_row_id" : "xbBnK3imFFUTuUy4Wris8"
+          "_row_id" : "LgSHC6wyqkVYqkwbgDdwC"
         }, {
           "expression" : {
             "expression" : "r_object_id",
@@ -1472,7 +1654,7 @@
           },
           "alias" : "r_object_id",
           "description" : null,
-          "_row_id" : "qDrqsv9HKel3AfIApKEjY"
+          "_row_id" : "RUPAmXX9MpyfRtx1tOoTF"
         } ],
         "allowSelection" : true,
         "condition" : {
@@ -1488,7 +1670,7 @@
           },
           "alias" : null,
           "description" : null,
-          "_row_id" : "QRuOAp5c_L6lT5z9SdX3-"
+          "_row_id" : "GgSnDeJbeq8DD6Xrmm04A"
         } ]
       },
       "ports" : {
@@ -1499,8 +1681,7 @@
         "outputs" : [ {
           "id" : "305_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "311"
     },
@@ -1539,8 +1720,7 @@
         "outputs" : [ {
           "id" : "316_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "325"
     },
@@ -1562,7 +1742,7 @@
           },
           "alias" : "pfleet_subcountry_row_id",
           "description" : null,
-          "_row_id" : "xXJbHLPmu0R0F0Y6zVfKE"
+          "_row_id" : "BEkFt_ngrpEtkUYs1gKxL"
         }, {
           "expression" : {
             "expression" : "* EXCEPT(`value`)",
@@ -1581,8 +1761,7 @@
         "outputs" : [ {
           "id" : "327_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "parent" : "311"
     },
@@ -1607,7 +1786,8 @@
     },
     "312" : {
       "id" : "312",
-      "component" : "Dataset",
+      "component" : "OrchestrationSource",
+      "kind" : "OracleSource",
       "metadata" : {
         "label" : "aka_GPDIP_EDLUD_312",
         "x" : 50,
@@ -1615,14 +1795,88 @@
         "phase" : 0
       },
       "properties" : {
-        "table" : {
-          "name" : "aka_GPDIP_EDLUD_312_ref",
-          "sourceType" : "Table",
-          "sourceName" : "transpiled_sources",
-          "alias" : ""
+        "connector" : {
+          "kind" : "oracle",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "database" : "dbName",
+            "server" : "aka:5d5fcee94d51281464f2fed5",
+            "username" : "${username_aka_GPDIP_EDLUD_312}",
+            "id" : "transpiled_connection",
+            "port" : "1521",
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
         },
-        "writeOptions" : {
-          "writeMode" : "overwrite"
+        "properties" : {
+          "pathSelection" : "warehouseQuery",
+          "tableFullName" : {
+            "schema" : "schema",
+            "name" : "aka_GPDIP_EDLUD_312"
+          },
+          "warehouseQuery" : {
+            "query" : "SELECT r_object_id\n       , i_chronicle_id\n       , object_name\n       , title\n       , xm_status\n       , i_has_folder\n       , subtype\n       , xm_language\n FROM gpdip_prd.gpdip_uddl_regulatory.gdms_prescribinginfo_single\nWHERE i_has_folder = 1"
+          }
+        },
+        "format" : {
+          "kind" : "oracle",
+          "category" : "table",
+          "properties" : {
+            "kind" : "oracle",
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "BigQuery",
+              "fields" : [ {
+                "name" : "subtype",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "object_name",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "xm_status",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "i_has_folder",
+                "dataType" : {
+                  "type" : "Numeric"
+                }
+              }, {
+                "name" : "xm_language",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "r_object_id",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "title",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "i_chronicle_id",
+                "dataType" : {
+                  "type" : "String"
+                }
+              } ]
+            }
+          }
         }
       },
       "ports" : {
@@ -1636,207 +1890,207 @@
     }
   },
   "connections" : [ {
-    "id" : "edge_247",
+    "id" : "edge_1",
     "source" : "289",
     "sourcePort" : "289_Output",
     "target" : "290",
     "targetPort" : "290_Input2",
     "isWireless" : false
   }, {
-    "id" : "edge_248",
+    "id" : "edge_2",
     "source" : "292",
     "sourcePort" : "292_Output",
     "target" : "293",
     "targetPort" : "293_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_249",
+    "id" : "edge_3",
     "source" : "293",
     "sourcePort" : "293_Output",
     "target" : "294",
     "targetPort" : "294_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_250",
+    "id" : "edge_4",
     "source" : "304",
     "sourcePort" : "304_Output",
     "target" : "305",
     "targetPort" : "305_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_251",
+    "id" : "edge_5",
     "source" : "316",
     "sourcePort" : "316_Output",
     "target" : "317",
     "targetPort" : "317_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_252",
+    "id" : "edge_6",
     "source" : "302",
     "sourcePort" : "302_Output",
     "target" : "303",
     "targetPort" : "303_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_253",
+    "id" : "edge_7",
     "source" : "302",
     "sourcePort" : "302_Output",
     "target" : "303_reject",
-    "targetPort" : "e3hYc310PYMSm1JZOP-sb",
+    "targetPort" : "5aP1E1Ij_qqsZJNjAh7mT",
     "isWireless" : false
   }, {
-    "id" : "edge_254",
+    "id" : "edge_8",
     "source" : "303_reject",
-    "sourcePort" : "E26J0JDo23GlKXkaggdIm",
+    "sourcePort" : "xyT2rzrA2fTBUcN02-ooS",
     "target" : "304",
     "targetPort" : "304_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_255",
+    "id" : "edge_9",
     "source" : "303",
     "sourcePort" : "303_True",
     "target" : "327",
     "targetPort" : "327_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_256",
+    "id" : "edge_10",
     "source" : "324",
     "sourcePort" : "324_Output",
     "target" : "323",
     "targetPort" : "323_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_257",
+    "id" : "edge_11",
     "source" : "324",
     "sourcePort" : "324_Output",
     "target" : "323_reject",
-    "targetPort" : "sMMudcdpbAjUOTh0s90KM",
+    "targetPort" : "Xm1LklUuBD7ORrTpB_cGd",
     "isWireless" : false
   }, {
-    "id" : "edge_258",
+    "id" : "edge_12",
     "source" : "323_reject",
-    "sourcePort" : "pRuSRng-cb99efP_Iazsb",
+    "sourcePort" : "YfUlwW9FApwyaFl6eEoCb",
     "target" : "316",
     "targetPort" : "316_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_259",
+    "id" : "edge_13",
     "source" : "323",
     "sourcePort" : "323_True",
     "target" : "326",
     "targetPort" : "326_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_260",
+    "id" : "edge_14",
     "source" : "298",
     "sourcePort" : "298_Output",
     "target" : "299_inner",
-    "targetPort" : "y8BCD-aygImafecgJXTfE",
+    "targetPort" : "wTrfKRiuwdDKixvOolRSR",
     "isWireless" : true
   }, {
-    "id" : "edge_261",
+    "id" : "edge_15",
     "source" : "305",
     "sourcePort" : "305_Output",
     "target" : "306_inner",
-    "targetPort" : "SLK-S2-z6zgILyZ7tHADN",
+    "targetPort" : "UYN0abivHQlTOqJGlztp8",
     "isWireless" : false
   }, {
-    "id" : "edge_262",
+    "id" : "edge_16",
     "source" : "327",
     "sourcePort" : "327_Output",
     "target" : "306_inner",
-    "targetPort" : "VlcPzcZaA04WcbEFb7aK_",
+    "targetPort" : "d7O8LoUmD9D5sDm9ZLoiV",
     "isWireless" : false
   }, {
-    "id" : "edge_263",
+    "id" : "edge_17",
     "source" : "290",
     "sourcePort" : "290_Output26",
     "target" : "310_inner",
-    "targetPort" : "rVT1Z2PqzAaijik-r740b",
+    "targetPort" : "37sx-QA05IU-DVEiM3ZZV",
     "isWireless" : true
   }, {
-    "id" : "edge_264",
+    "id" : "edge_18",
     "source" : "306_inner",
-    "sourcePort" : "K1A4N3hy_zKdBOP2bxT0K",
+    "sourcePort" : "XcP2hE6YBBGZDLfHZdjKW",
     "target" : "310_inner",
-    "targetPort" : "1tpoCU7EWszPVWLhRgN9M",
+    "targetPort" : "bQBeoiqS0W2JPEJ0Si114",
     "isWireless" : false
   }, {
-    "id" : "edge_265",
+    "id" : "edge_19",
     "source" : "310_inner",
-    "sourcePort" : "13XwAwBfviQ7K-0_SUOdh",
+    "sourcePort" : "v7Jq4z8N9TvQXPIO1ABQi",
     "target" : "299_inner",
-    "targetPort" : "qWZzMFkw-r-slUsJMosjD",
+    "targetPort" : "RbIqF2V9lKXy3j46IemaU",
     "isWireless" : false
   }, {
-    "id" : "edge_266",
+    "id" : "edge_20",
     "source" : "312",
     "sourcePort" : "312_Output",
     "target" : "313_inner",
-    "targetPort" : "nYnxal8I3QWhPkumHPocG",
+    "targetPort" : "aOmRs8PIOdFsDCnMmWISo",
     "isWireless" : true
   }, {
-    "id" : "edge_267",
+    "id" : "edge_21",
     "source" : "290",
     "sourcePort" : "290_Output26",
     "target" : "318_inner",
-    "targetPort" : "YlBhZolHr_VAFsGHwDhQv",
+    "targetPort" : "UuI0B_nlkJcRwrUfCBcbp",
     "isWireless" : true
   }, {
-    "id" : "edge_268",
+    "id" : "edge_22",
     "source" : "318_inner",
-    "sourcePort" : "NvqWI-wKz65Gfxf3ZS0OO",
+    "sourcePort" : "8gLgHb6Q9f5FXaSg0Wa48",
     "target" : "313_inner",
-    "targetPort" : "GCtR9p4ThgXPoMP5hs6i4",
+    "targetPort" : "R_vuH0iJ-jKTrRHzKbjqU",
     "isWireless" : false
   }, {
-    "id" : "edge_269",
+    "id" : "edge_23",
     "source" : "317",
     "sourcePort" : "317_Output",
     "target" : "322_inner",
-    "targetPort" : "J8JxjX5MaYTXUon94JneT",
+    "targetPort" : "1mu_PUCbDhE2OoBU_EzJu",
     "isWireless" : false
   }, {
-    "id" : "edge_270",
+    "id" : "edge_24",
     "source" : "326",
     "sourcePort" : "326_Output",
     "target" : "322_inner",
-    "targetPort" : "TiO_cb7upCQ8Fag8iKbxq",
+    "targetPort" : "mriFQ7N6kLg4W8jdZxweV",
     "isWireless" : false
   }, {
-    "id" : "edge_271",
+    "id" : "edge_25",
     "source" : "322_inner",
-    "sourcePort" : "IebQwDV-NtmzM_L8WEtNg",
+    "sourcePort" : "YdjukA0qxmSSe5ZYEOhBG",
     "target" : "318_inner",
-    "targetPort" : "mlFesBVN1-vvWQe1Z8V2H",
+    "targetPort" : "HUy4F2lRQp9be_5J6a-4u",
     "isWireless" : true
   }, {
-    "id" : "edge_272",
-    "source" : "nBc9D03r3XDvpvc-EbTPh",
-    "sourcePort" : "sPLmzgS0RWXq8Cp5VtpMX",
+    "id" : "edge_26",
+    "source" : "8ntAIJDwv0f91zpL59faz",
+    "sourcePort" : "Ioy3zZh55WmE7P6nqhk8Z",
     "target" : "292",
     "targetPort" : "292_#2_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_273",
+    "id" : "edge_27",
     "source" : "313_inner",
-    "sourcePort" : "stHAEaqDyNXaqR8tJ9i1z",
-    "target" : "nBc9D03r3XDvpvc-EbTPh",
-    "targetPort" : "ZONwcIrV9-znIzB1bfwI-",
+    "sourcePort" : "fY9NVbWJWpFL-PvB4FLc7",
+    "target" : "8ntAIJDwv0f91zpL59faz",
+    "targetPort" : "vwNDgiiJzontrqsyZS1R2",
     "isWireless" : false
   }, {
-    "id" : "edge_274",
-    "source" : "h0lRuA6BUF1_S7KwQvs_K",
-    "sourcePort" : "B0nelTZ-wgPPkzmWhL7Ff",
+    "id" : "edge_28",
+    "source" : "um6vQNmF_ObZg2723P5IB",
+    "sourcePort" : "f72Fud7p5koVsN0A3qo9E",
     "target" : "292",
     "targetPort" : "292_#1_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_275",
+    "id" : "edge_29",
     "source" : "299_inner",
-    "sourcePort" : "yWp6oTAWN2sQW2vvp5C_z",
-    "target" : "h0lRuA6BUF1_S7KwQvs_K",
-    "targetPort" : "VaEhLPaY8ncSFeNYXqvxc",
+    "sourcePort" : "MypkXQLqF0nRRN1EALOW3",
+    "target" : "um6vQNmF_ObZg2723P5IB",
+    "targetPort" : "YpfnQ__6BbKFx71fjWMpj",
     "isWireless" : false
   } ],
   "component" : "Pipeline"
