@@ -1,0 +1,303 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__Formula_93_1",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__Formula_93_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "tM4ICaYpFWEcu3jLHjvRv" : {
+      "id" : "tM4ICaYpFWEcu3jLHjvRv",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_93_1",
+        "x" : 12239.2001953125,
+        "y" : 1728,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (Prediction_05 >= 0.75) THEN '1. High  ' WHEN (Prediction_05 >= 0.4) THEN '2. Medium' ELSE '3. Low   ' END) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "`Prediction Cat`",
+          "description" : null,
+          "_row_id" : "O-x7ZdfxqqfdAyqYomYw3"
+        }, {
+          "expression" : {
+            "expression" : "((CASE WHEN (((Prediction / 0.1) < 0) AND (((Prediction / 0.1) - FLOOR((Prediction / 0.1))) = 0.5)) THEN CEIL((Prediction / 0.1)) ELSE ROUND((Prediction / 0.1)) END) * 0.1)",
+            "_row_id" : null
+          },
+          "alias" : "Prediction",
+          "description" : null,
+          "_row_id" : "VjA2kHfE29VT_9cRlP6kq"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`prediction`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "nRMCV90KzoPiGdiTlGiev",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RP_kwwI8f4oUB0Slh6GUn",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_112_inner_EEhH0YLyAC5cgzYP3SPMo" : {
+      "id" : "Join_112_inner_EEhH0YLyAC5cgzYP3SPMo",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_112_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_13",
+          "id" : "output_port_13",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__Join_112_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "260" : {
+      "id" : "260",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_260",
+        "x" : 11339.2001953125,
+        "y" : 1764,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(YMD = '2022-12-01')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "260_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "260_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "92" : {
+      "id" : "92",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_92",
+        "x" : 11819.2001953125,
+        "y" : 1731,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(`Number of Calls` AS INT64)",
+            "_row_id" : null
+          },
+          "alias" : "`Number of Calls`",
+          "description" : null,
+          "_row_id" : "Q7ql2F0Ym_-1_k5YtExzB"
+        }, {
+          "expression" : {
+            "expression" : "CAST(`Months Until Call` AS INT64)",
+            "_row_id" : null
+          },
+          "alias" : "`Months Until Call`",
+          "description" : null,
+          "_row_id" : "pejlL17lZBXofpvrSASiu"
+        }, {
+          "expression" : {
+            "expression" : "CAST(`Called in 3` AS INT64)",
+            "_row_id" : null
+          },
+          "alias" : "`Called in 3`",
+          "description" : null,
+          "_row_id" : "ItzOrVg9lwOcgwOoZ7KYk"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Number of Calls`, `Months Until Call`, `Called in 3`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "92_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "92_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "OPVKeg2SpYA2aG3jUsENp" : {
+      "id" : "OPVKeg2SpYA2aG3jUsENp",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_93_0",
+        "x" : 12059.2001953125,
+        "y" : 1728,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (CAST(`Unweighted Number of Calls` AS INT64) > 0) THEN 1 ELSE 0 END)",
+            "_row_id" : null
+          },
+          "alias" : "`Recent Call`",
+          "description" : null,
+          "_row_id" : "_zb3gh2JTqx4MUIMs3XD6"
+        }, {
+          "expression" : {
+            "expression" : "((CASE WHEN (((Prediction / 0.05) < 0) AND (((Prediction / 0.05) - FLOOR((Prediction / 0.05))) = 0.5)) THEN CEIL((Prediction / 0.05)) ELSE ROUND((Prediction / 0.05)) END) * 0.05)",
+            "_row_id" : null
+          },
+          "alias" : "Prediction_05",
+          "description" : null,
+          "_row_id" : "9P8wmQBUMlPadJiNfUQtO"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "7DXUCB15rieKE4ELXT8Of",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "OQAASzTd0La-wRbeFnw48",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_93_1_RP_kwwI8f4oUB0Slh6GUn" : {
+      "id" : "Formula_93_1_RP_kwwI8f4oUB0Slh6GUn",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_93_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_93_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_tM4ICaYpFWEcu3jLHjvRv_RP_kwwI8f4oUB0Slh6GUn_Formula_93_1_RP_kwwI8f4oUB0Slh6GUn",
+    "source" : "tM4ICaYpFWEcu3jLHjvRv",
+    "sourcePort" : "RP_kwwI8f4oUB0Slh6GUn",
+    "target" : "Formula_93_1_RP_kwwI8f4oUB0Slh6GUn",
+    "targetPort" : "input_port_14",
+    "isWireless" : false
+  }, {
+    "id" : "edge_210",
+    "source" : "OPVKeg2SpYA2aG3jUsENp",
+    "sourcePort" : "OQAASzTd0La-wRbeFnw48",
+    "target" : "tM4ICaYpFWEcu3jLHjvRv",
+    "targetPort" : "nRMCV90KzoPiGdiTlGiev",
+    "isWireless" : false
+  }, {
+    "id" : "edge_218",
+    "source" : "92",
+    "sourcePort" : "92_Output",
+    "target" : "OPVKeg2SpYA2aG3jUsENp",
+    "targetPort" : "7DXUCB15rieKE4ELXT8Of",
+    "isWireless" : false
+  }, {
+    "id" : "edge_146",
+    "source" : "260",
+    "sourcePort" : "260_True",
+    "target" : "92",
+    "targetPort" : "92_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_171",
+    "source" : "Join_112_inner_EEhH0YLyAC5cgzYP3SPMo",
+    "sourcePort" : "output_port_13",
+    "target" : "260",
+    "targetPort" : "260_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

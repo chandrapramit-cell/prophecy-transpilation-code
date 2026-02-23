@@ -1,0 +1,472 @@
+{
+  "id" : "boeing__Formula_78_0",
+  "metainfo" : {
+    "label" : "boeing__Formula_78_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_25_25_Output" : {
+      "id" : "AlteryxSelect_25_25_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_25"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('boeing__AlteryxSelect_25') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_78_0_3otoxawSYSZmTEWJyYQfg" : {
+      "id" : "Formula_78_0_3otoxawSYSZmTEWJyYQfg",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_78_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_78_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "73" : {
+      "id" : "73",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_73",
+        "x" : 6710,
+        "y" : 2142,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(REV)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_REV",
+          "description" : null,
+          "_row_id" : "WahZ-2RgdXpLhEeuIb-fZ"
+        }, {
+          "expression" : {
+            "expression" : "MO",
+            "_row_id" : null
+          },
+          "alias" : "MO",
+          "description" : null,
+          "_row_id" : "VrMLsjWP8YTrzMOO6gDY4"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "MO",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "HrnthxXJopi2AiLnVxsDU"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "73_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "73_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "75_inner" : {
+      "id" : "75_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_75_inner",
+        "x" : 6950,
+        "y" : 2250,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.MO = in1.MO)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.Sum_REV",
+            "_row_id" : null
+          },
+          "alias" : "Sum_REV",
+          "description" : null,
+          "_row_id" : "Dw47w1X-IrVRJgcGVLJ0c"
+        }, {
+          "expression" : {
+            "expression" : "in1.Sum_SPILL_REV",
+            "_row_id" : null
+          },
+          "alias" : "Sum_SPILL_REV",
+          "description" : null,
+          "_row_id" : "8xGATj5aEy0iMMQN-jiiq"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Sum_SPILL_REV`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "qARjrFnlXenJokb46zomg",
+          "slug" : "in0"
+        }, {
+          "id" : "ssUcBXZ69kddo5CkXk-9V",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "UOdVQQI4xmrb6ZNJCZadE",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "wLZGYmUq3J7rbDA8riXKo" : {
+      "id" : "wLZGYmUq3J7rbDA8riXKo",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_80_0",
+        "x" : 6230,
+        "y" : 2142,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(PARSE_DATE('%Y-%m-%d', (DATE_TRUNC(LEG_SC_DPTR_DATE, MONTH))))",
+            "_row_id" : null
+          },
+          "alias" : "MO",
+          "description" : null,
+          "_row_id" : "amm6_8KS4hzC4cDYLqG4H"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "nn7KYiLXZm5iDvLbhXiY2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "D-njSnQApLP4BOfxferL3",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2" : {
+      "id" : "2",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "Database__REPOR_2",
+        "x" : 2124,
+        "y" : 810,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "Database__REPOR_2_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "2_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "XmpOD5QjVDXxI_W6ziBMe" : {
+      "id" : "XmpOD5QjVDXxI_W6ziBMe",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_81_0",
+        "x" : 5990,
+        "y" : 2394,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(PARSE_DATE('%Y-%m-%d', (DATE_TRUNC(DPTR_DT, MONTH))))",
+            "_row_id" : null
+          },
+          "alias" : "MO",
+          "description" : null,
+          "_row_id" : "oEPqR56cDhwa2obwq7U63"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "LCB_8blxycaRFn1lDfahA",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "uPMC_JsQF7qL7J61wHhwX",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "inKRLCU7RqzTCoQ4JqEn4" : {
+      "id" : "inKRLCU7RqzTCoQ4JqEn4",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_78_0",
+        "x" : 7430,
+        "y" : 2250,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(Sum_SPILL_REV / Sum_REV)",
+            "_row_id" : null
+          },
+          "alias" : "percent",
+          "description" : null,
+          "_row_id" : "Trj3-lVTZyqydDRcNemxZ"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Wprjp87QBZNP-UjvDwteG",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3otoxawSYSZmTEWJyYQfg",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "74" : {
+      "id" : "74",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_74",
+        "x" : 6710,
+        "y" : 2358,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(SPILL_REV)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_SPILL_REV",
+          "description" : null,
+          "_row_id" : "6XmDU1mgXYYEgSKZjb-la"
+        }, {
+          "expression" : {
+            "expression" : "MO",
+            "_row_id" : null
+          },
+          "alias" : "MO",
+          "description" : null,
+          "_row_id" : "cIggygCk8PGjS_sTeDVru"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "MO",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "T31znb1Md3MCIv9TTX9xv"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "74_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "74_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_inKRLCU7RqzTCoQ4JqEn4_3otoxawSYSZmTEWJyYQfg_Formula_78_0_3otoxawSYSZmTEWJyYQfg",
+    "source" : "inKRLCU7RqzTCoQ4JqEn4",
+    "sourcePort" : "3otoxawSYSZmTEWJyYQfg",
+    "target" : "Formula_78_0_3otoxawSYSZmTEWJyYQfg",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_374",
+    "source" : "75_inner",
+    "sourcePort" : "UOdVQQI4xmrb6ZNJCZadE",
+    "target" : "inKRLCU7RqzTCoQ4JqEn4",
+    "targetPort" : "Wprjp87QBZNP-UjvDwteG",
+    "isWireless" : false
+  }, {
+    "id" : "edge_305",
+    "source" : "73",
+    "sourcePort" : "73_Output",
+    "target" : "75_inner",
+    "targetPort" : "qARjrFnlXenJokb46zomg",
+    "isWireless" : false
+  }, {
+    "id" : "edge_306",
+    "source" : "74",
+    "sourcePort" : "74_Output",
+    "target" : "75_inner",
+    "targetPort" : "ssUcBXZ69kddo5CkXk-9V",
+    "isWireless" : false
+  }, {
+    "id" : "edge_370",
+    "source" : "wLZGYmUq3J7rbDA8riXKo",
+    "sourcePort" : "D-njSnQApLP4BOfxferL3",
+    "target" : "73",
+    "targetPort" : "73_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_372",
+    "source" : "XmpOD5QjVDXxI_W6ziBMe",
+    "sourcePort" : "uPMC_JsQF7qL7J61wHhwX",
+    "target" : "74",
+    "targetPort" : "74_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_371",
+    "source" : "2",
+    "sourcePort" : "2_Output",
+    "target" : "wLZGYmUq3J7rbDA8riXKo",
+    "targetPort" : "nn7KYiLXZm5iDvLbhXiY2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_373",
+    "source" : "AlteryxSelect_25_25_Output",
+    "sourcePort" : "output_port_2",
+    "target" : "XmpOD5QjVDXxI_W6ziBMe",
+    "targetPort" : "LCB_8blxycaRFn1lDfahA",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

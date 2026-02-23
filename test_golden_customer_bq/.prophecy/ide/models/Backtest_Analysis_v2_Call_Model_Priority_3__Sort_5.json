@@ -1,0 +1,192 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__Sort_5",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__Sort_5",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Sort_5_BgZvpYSC269JphUdYEmdV" : {
+      "id" : "Sort_5_BgZvpYSC269JphUdYEmdV",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Sort_5"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Sort_5\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "5" : {
+      "id" : "5",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_5",
+        "x" : 7739.2001953125,
+        "y" : 867,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "YMD",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "5_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "BgZvpYSC269JphUdYEmdV",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "4" : {
+      "id" : "4",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_4",
+        "x" : 7259.2001953125,
+        "y" : 864,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(CAST(`Blue Connect Household` AS NUMERIC))",
+            "_row_id" : null
+          },
+          "alias" : "`Sum_Blue Connect Household`",
+          "description" : null,
+          "_row_id" : "CBCWudtXVce8kMwOjdcxG"
+        }, {
+          "expression" : {
+            "expression" : "YMD",
+            "_row_id" : null
+          },
+          "alias" : "YMD",
+          "description" : null,
+          "_row_id" : "7MQKJcrZC0vQaGLl-BDjI"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "YMD",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "ym9qrrQGb39y3Ginx8v4m"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "4_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "4_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5" : {
+      "id" : "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_57_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__Join_57_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_5_BgZvpYSC269JphUdYEmdV_Sort_5_BgZvpYSC269JphUdYEmdV",
+    "source" : "5",
+    "sourcePort" : "BgZvpYSC269JphUdYEmdV",
+    "target" : "Sort_5_BgZvpYSC269JphUdYEmdV",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_114",
+    "source" : "4",
+    "sourcePort" : "4_Output",
+    "target" : "5",
+    "targetPort" : "5_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_166",
+    "source" : "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+    "sourcePort" : "output_port_4",
+    "target" : "4",
+    "targetPort" : "4_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

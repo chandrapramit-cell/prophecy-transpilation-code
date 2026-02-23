@@ -1,0 +1,202 @@
+{
+  "id" : "alteryx_medio__Union_159",
+  "metainfo" : {
+    "label" : "alteryx_medio__Union_159",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_172_left_mqHc0MwJwX9ekKwJeiA5b" : {
+      "id" : "Join_172_left_mqHc0MwJwX9ekKwJeiA5b",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_172_left"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('alteryx_medio__Join_172_left') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "224" : {
+      "id" : "224",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "TextInput_224",
+        "x" : 530,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_224",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "224_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "159" : {
+      "id" : "159",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_159",
+        "x" : 6780,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Join_172_left", "TextInput_224_cast" ],
+        "schemas" : [ "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"Timestamp\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "159_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "159_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "159_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_159_159_Output" : {
+      "id" : "Union_159_159_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Union_159"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Union_159\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "uwC5yp-zG83kFv5eZWTcg" : {
+      "id" : "uwC5yp-zG83kFv5eZWTcg",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_224_cast",
+        "x" : 710,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(idf_pers_ods AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "R5F2S5qlSU1y--T6dYofF"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "uHkljS77YEoSNQIDsjj-0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "vZB_hJxTLXwDLsIpw8EBY",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_159_159_Output_Union_159_159_Output",
+    "source" : "159",
+    "sourcePort" : "159_Output",
+    "target" : "Union_159_159_Output",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_70",
+    "source" : "uwC5yp-zG83kFv5eZWTcg",
+    "sourcePort" : "vZB_hJxTLXwDLsIpw8EBY",
+    "target" : "159",
+    "targetPort" : "159_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_40",
+    "source" : "Join_172_left_mqHc0MwJwX9ekKwJeiA5b",
+    "sourcePort" : "output_port_2",
+    "target" : "159",
+    "targetPort" : "159_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_69",
+    "source" : "224",
+    "sourcePort" : "224_Output",
+    "target" : "uwC5yp-zG83kFv5eZWTcg",
+    "targetPort" : "uHkljS77YEoSNQIDsjj-0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

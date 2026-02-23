@@ -1,0 +1,129 @@
+{
+  "id" : "alteryx_medio__Summarize_158",
+  "metainfo" : {
+    "label" : "alteryx_medio__Summarize_158",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_158_158_Output" : {
+      "id" : "Summarize_158_158_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_158"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_158\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "158" : {
+      "id" : "158",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_158",
+        "x" : 10386,
+        "y" : 3,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((idf_pers_ods IS NULL) OR (CAST(idf_pers_ods AS STRING) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "o2bhylUyPuvECi3y5kYPq"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "158_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "158_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_159_159_Output" : {
+      "id" : "Union_159_159_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_159"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('alteryx_medio__Union_159') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_158_158_Output_Summarize_158_158_Output",
+    "source" : "158",
+    "sourcePort" : "158_Output",
+    "target" : "Summarize_158_158_Output",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_5",
+    "source" : "Union_159_159_Output",
+    "sourcePort" : "output_port_3",
+    "target" : "158",
+    "targetPort" : "158_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

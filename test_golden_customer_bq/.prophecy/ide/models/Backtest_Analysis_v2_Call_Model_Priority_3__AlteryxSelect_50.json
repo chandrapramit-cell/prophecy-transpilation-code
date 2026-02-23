@@ -1,0 +1,137 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__AlteryxSelect_50",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__AlteryxSelect_50",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_50_50_Output" : {
+      "id" : "AlteryxSelect_50_50_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_50"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_50\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "50" : {
+      "id" : "50",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_50",
+        "x" : 7019.2001953125,
+        "y" : 1764,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Prediction AS FLOAT64)",
+            "_row_id" : null
+          },
+          "alias" : "Prediction",
+          "description" : null,
+          "_row_id" : "_AfMUYCxWVOCcvCBtmzg-"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Prediction`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "50_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "50_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5" : {
+      "id" : "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_57_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__Join_57_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_50_50_Output_AlteryxSelect_50_50_Output",
+    "source" : "50",
+    "sourcePort" : "50_Output",
+    "target" : "AlteryxSelect_50_50_Output",
+    "targetPort" : "input_port_7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_165",
+    "source" : "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+    "sourcePort" : "output_port_4",
+    "target" : "50",
+    "targetPort" : "50_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

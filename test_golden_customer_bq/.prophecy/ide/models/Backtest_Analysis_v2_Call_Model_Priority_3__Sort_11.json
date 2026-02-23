@@ -1,0 +1,192 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__Sort_11",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__Sort_11",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Sort_11_tXaNRt-e-Et219CWr4vp9" : {
+      "id" : "Sort_11_tXaNRt-e-Et219CWr4vp9",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Sort_11"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Sort_11\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "11" : {
+      "id" : "11",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_11",
+        "x" : 8939.2001953125,
+        "y" : 867,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "YMD",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "11_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "tXaNRt-e-Et219CWr4vp9",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "10" : {
+      "id" : "10",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_10",
+        "x" : 8699.2001953125,
+        "y" : 867,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT Household)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_Household",
+          "description" : null,
+          "_row_id" : "-pEsL8WnH7dWCO00KckzR"
+        }, {
+          "expression" : {
+            "expression" : "YMD",
+            "_row_id" : null
+          },
+          "alias" : "YMD",
+          "description" : null,
+          "_row_id" : "rOLK5-0GGs6rQnypN1atj"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "YMD",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "BIyIvIC7fIqsI9WSzPCeu"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "10_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "10_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_3_inner_gAzjLh8OcOp1hsiV37SRH" : {
+      "id" : "Join_3_inner_gAzjLh8OcOp1hsiV37SRH",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_3_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__Join_3_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_11_tXaNRt-e-Et219CWr4vp9_Sort_11_tXaNRt-e-Et219CWr4vp9",
+    "source" : "11",
+    "sourcePort" : "tXaNRt-e-Et219CWr4vp9",
+    "target" : "Sort_11_tXaNRt-e-Et219CWr4vp9",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_117",
+    "source" : "10",
+    "sourcePort" : "10_Output",
+    "target" : "11",
+    "targetPort" : "11_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_159",
+    "source" : "Join_3_inner_gAzjLh8OcOp1hsiV37SRH",
+    "sourcePort" : "output_port_0",
+    "target" : "10",
+    "targetPort" : "10_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

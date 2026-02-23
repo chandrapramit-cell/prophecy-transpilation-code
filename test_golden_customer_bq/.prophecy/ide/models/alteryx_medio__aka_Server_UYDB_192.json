@@ -1,0 +1,3751 @@
+{
+  "id" : "alteryx_medio__aka_Server_UYDB_192",
+  "metainfo" : {
+    "label" : "alteryx_medio__aka_Server_UYDB_192",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"aka_Server_UYDB_192_ref\"",
+        "materialized" : "table",
+        "database" : "\"{{ var('db_name') }}\"",
+        "schema" : "\"{{ var('schema_name') }}\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "205_inner" : {
+      "id" : "205_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_205_inner",
+        "x" : 1010,
+        "y" : 942,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.idf_pers_ods = in1.idf_pers_ods) AND (in0.AAAAMM = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`idf_pers_ods`, `AAAAMM`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "VDW0z4B2MLyOrMhxcJF3F",
+          "slug" : "in0"
+        }, {
+          "id" : "kRQ1pr4d9m9ztZJFro04c",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "OUtU1c5QrHxiI3vCFhIZA",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "182" : {
+      "id" : "182",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_182",
+        "x" : 554,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(FIRST_VALUE(codigo_team_actual) OVER (PARTITION BY codigo_oficial, AAAAMM ORDER BY fecha_dato RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))",
+            "_row_id" : null
+          },
+          "alias" : "CodTeamBusqueda",
+          "description" : null,
+          "_row_id" : "M-wvKaMVz2FR0uijp7J59"
+        }, {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER (PARTITION BY codigo_oficial, AAAAMM))",
+            "_row_id" : null
+          },
+          "alias" : "row_number",
+          "description" : null,
+          "_row_id" : "vzCg0oLYQTqOiqpJ98CgT"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "182_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "182_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "223" : {
+      "id" : "223",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_223",
+        "x" : 290,
+        "y" : 2811,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "aka_Server_UYDB_223_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "223_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "216" : {
+      "id" : "216",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_216",
+        "x" : 290,
+        "y" : 3639,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "aka_Server_UYDB_216_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "216_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "197_left" : {
+      "id" : "197_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_197_left_UnionLeftOuter",
+        "x" : 1010,
+        "y" : 294,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.idf_pers_ods = in1.idf_pers_ods) AND (in0.`AAAAMM-1` = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`idf_pers_ods`, `AAAAMM`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "HLJ4PBF6DW9Ewjqpimcl6",
+          "slug" : "in0"
+        }, {
+          "id" : "btNvv8H9sYFYzNxTgEGR7",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "uwOzVJBkJscTNGN8FIqcb",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "175" : {
+      "id" : "175",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_175",
+        "x" : 50,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "MAX(AAAAMM)",
+            "_row_id" : null
+          },
+          "alias" : "AAAAMM",
+          "description" : null,
+          "_row_id" : "9U5NFBx4TBQnrEbQE3FJB"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "175_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "175_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "OQOfB2jMePMdpOyrMidAe" : {
+      "id" : "OQOfB2jMePMdpOyrMidAe",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_211_0",
+        "x" : 2930,
+        "y" : 438,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (codigo_team IS NULL) THEN CodTeamBusqueda ELSE codigo_team END) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "codigo_team",
+          "description" : null,
+          "_row_id" : "-9lr9NQAp3P0ezI-OGvUO"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`codigo_team`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "gDDGdGbtZkmQKZ8Ve7ghM",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "VkzGOpMeI-WgsLTZbb12A",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "208_left" : {
+      "id" : "208_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_208_left",
+        "x" : 2210,
+        "y" : 258,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.codigo_oficial_comercial = in1.codigo_oficial) AND (in0.AAAAMM = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "HLzUOORscB1r5kp3SMGYn",
+          "slug" : "in0"
+        }, {
+          "id" : "-ndKbFSC0SCqqhJrUQaLH",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "QlkC_KnTFapRZdQt6sN74",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "172_inner" : {
+      "id" : "172_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_172_inner",
+        "x" : 290,
+        "y" : 399,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.descripcion_encuesta = in1.descripcion_encuesta_sistema)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`descripcion_encuesta`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`descripcion_encuesta_sistema`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SX_uAC0uq2vszCXdY1MIp",
+          "slug" : "in0"
+        }, {
+          "id" : "fKpgygrSOMqGC_wCSCVo-",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "-ekxbKtraOyamVenMrYFE",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "181" : {
+      "id" : "181",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_181",
+        "x" : 314,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "fecha_dato",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "181_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "181_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_172_left_mqHc0MwJwX9ekKwJeiA5b" : {
+      "id" : "Join_172_left_mqHc0MwJwX9ekKwJeiA5b",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_172_left"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('alteryx_medio__Join_172_left') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "186" : {
+      "id" : "186",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_186",
+        "x" : 290,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "hora_extraccion_ticket",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "186_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "186_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "px-od2MDp_aT8O0T-lA7r" : {
+      "id" : "px-od2MDp_aT8O0T-lA7r",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "182_filter",
+        "x" : 734,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(row_number = 1)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "TfCMJLK2uAKwIXp8JCK-h",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1w0RWdnk0bOpyRUpvtXa0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "163" : {
+      "id" : "163",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_163",
+        "x" : 13266,
+        "y" : 1515,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "AAAAMM",
+            "_row_id" : null
+          },
+          "alias" : "AAAAMM",
+          "description" : null,
+          "_row_id" : "AQoHAMRV5HLrteBnoKDHl"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "vpQFAH1Pp7CmhmygSmA6e"
+        }, {
+          "expression" : {
+            "expression" : "encuestadora",
+            "_row_id" : null
+          },
+          "alias" : "encuestadora",
+          "description" : null,
+          "_row_id" : "vqStp5-A-JFz_v6OPML9L"
+        }, {
+          "expression" : {
+            "expression" : "codigo_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "codigo_encuesta",
+          "description" : null,
+          "_row_id" : "Kyzpw46JZgT9ZzrvHhq69"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_encuesta",
+          "description" : null,
+          "_row_id" : "Tja3lNyFt5CdTyBp9wY-3"
+        }, {
+          "expression" : {
+            "expression" : "grupo_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "grupo_encuesta",
+          "description" : null,
+          "_row_id" : "T1ILoGDwofNtguaCJm_z4"
+        }, {
+          "expression" : {
+            "expression" : "fecha_hora_respuesta",
+            "_row_id" : null
+          },
+          "alias" : "fecha_hora_respuesta",
+          "description" : null,
+          "_row_id" : "Tx6ys-dDVge4GiA_xl-rw"
+        }, {
+          "expression" : {
+            "expression" : "destino_contacto",
+            "_row_id" : null
+          },
+          "alias" : "destino_contacto",
+          "description" : null,
+          "_row_id" : "xNC-GlZmKSrArg6ikzroI"
+        }, {
+          "expression" : {
+            "expression" : "nps",
+            "_row_id" : null
+          },
+          "alias" : "nps",
+          "description" : null,
+          "_row_id" : "BhGmNXlnVq3LTuOfeJpL2"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps",
+          "description" : null,
+          "_row_id" : "Ykh87o8kZsrQpPxidXoEL"
+        }, {
+          "expression" : {
+            "expression" : "nps_ejecutivo",
+            "_row_id" : null
+          },
+          "alias" : "nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "tjiPO4Q7RybemgbZ1Eomr"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps_ejecutivo",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "tyIA9GPF8bPDmqRg-3RML"
+        }, {
+          "expression" : {
+            "expression" : "trato_ejecutivo",
+            "_row_id" : null
+          },
+          "alias" : "trato_ejecutivo",
+          "description" : null,
+          "_row_id" : "gWaclM0RgUiuvW-CrGklg"
+        }, {
+          "expression" : {
+            "expression" : "trato_mostrador",
+            "_row_id" : null
+          },
+          "alias" : "trato_mostrador",
+          "description" : null,
+          "_row_id" : "XIdgE8ZHMYLQ3o2R5gvcT"
+        }, {
+          "expression" : {
+            "expression" : "trato_caja",
+            "_row_id" : null
+          },
+          "alias" : "trato_caja",
+          "description" : null,
+          "_row_id" : "F3yJ8l-OxGBKdtH1yRUq9"
+        }, {
+          "expression" : {
+            "expression" : "codigo_team",
+            "_row_id" : null
+          },
+          "alias" : "codigo_team",
+          "description" : null,
+          "_row_id" : "Z4BrGZRg6ekWT4CBpLSCv"
+        }, {
+          "expression" : {
+            "expression" : "codigo_oficial_comercial",
+            "_row_id" : null
+          },
+          "alias" : "codigo_oficial_comercial",
+          "description" : null,
+          "_row_id" : "drImQfCGfOELjGEZmmcOm"
+        }, {
+          "expression" : {
+            "expression" : "codigo_segmento",
+            "_row_id" : null
+          },
+          "alias" : "codigo_segmento",
+          "description" : null,
+          "_row_id" : "cBBS4YCng7px50JVAy-pt"
+        }, {
+          "expression" : {
+            "expression" : "codigo_subsegmento",
+            "_row_id" : null
+          },
+          "alias" : "codigo_subsegmento",
+          "description" : null,
+          "_row_id" : "w55a-UnS6hVg_yT6XIz0O"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "163_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "163_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EgaPEOlpiLebwSGfFQqzY" : {
+      "id" : "EgaPEOlpiLebwSGfFQqzY",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_195_0",
+        "x" : 290,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE((REGEXP_REPLACE((FORMAT('%.0f', CAST(((EXTRACT (YEAR FROM (PARSE_DATE('%Y-%m-%d', fecha_hora_respuesta))) * 100) + EXTRACT (MONTH FROM (PARSE_DATE('%Y-%m-%d', fecha_hora_respuesta)))) AS FLOAT64))), ',', '__THS__')), '__THS__', '')) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "AAAAMM",
+          "description" : null,
+          "_row_id" : "9118w78Y1uLpIwhV0hMcJ"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE((REGEXP_REPLACE((FORMAT('%.0f', CAST(((EXTRACT (YEAR FROM (DATE_ADD(fecha_hora_respuesta ,INTERVAL -1  MONTH))) * 100) + EXTRACT (MONTH FROM (DATE_ADD(fecha_hora_respuesta ,INTERVAL -1  MONTH)))) AS FLOAT64))), ',', '__THS__')), '__THS__', '')) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "`AAAAMM-1`",
+          "description" : null,
+          "_row_id" : "kA33nE1IhZ7KvTr0sZwOK"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "e_TYrOzeOEShOoWmkeCPM",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "bDmvWgwN8HFQ4hW36RmMF",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "4veDEX_ZssF4Oi9lgNhS4" : {
+      "id" : "4veDEX_ZssF4Oi9lgNhS4",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_185_0",
+        "x" : 50,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE((REGEXP_REPLACE((FORMAT('%.0f', CAST(((EXTRACT (YEAR FROM hora_extraccion_ticket) * 100) + EXTRACT (MONTH FROM hora_extraccion_ticket)) AS FLOAT64))), ',', '__THS__')), '__THS__', '')) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "AAAAMM",
+          "description" : null,
+          "_row_id" : "L1JZas2HAGNW7qq-UdEYz"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3dlpf4w9yqaHgETF2PI0c",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Tjdgv5YlfFRb4xRdVtGC9",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "177" : {
+      "id" : "177",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_177",
+        "x" : 554,
+        "y" : 363,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "true",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "177_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "177_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "177_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "155" : {
+      "id" : "155",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_155",
+        "x" : 3858,
+        "y" : 2379,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "airUQLLIjuyLKT0H5CMsS"
+        }, {
+          "expression" : {
+            "expression" : "encuestadora",
+            "_row_id" : null
+          },
+          "alias" : "encuestadora",
+          "description" : null,
+          "_row_id" : "r91KUA467sSZdLDW5Z-Xs"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_encuesta",
+          "description" : null,
+          "_row_id" : "jhaVhLvzQZIHEafOkiMRT"
+        }, {
+          "expression" : {
+            "expression" : "nps",
+            "_row_id" : null
+          },
+          "alias" : "nps",
+          "description" : null,
+          "_row_id" : "EE-IwTtUvIwBPN-51Z3Kj"
+        }, {
+          "expression" : {
+            "expression" : "grupo_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "grupo_encuesta",
+          "description" : null,
+          "_row_id" : "f6JIifP-BZ2I-nx8Nh8TZ"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps",
+          "description" : null,
+          "_row_id" : "UI2yOhPFnpYHHjkY0uRTO"
+        }, {
+          "expression" : {
+            "expression" : "fecha_hora_respuesta",
+            "_row_id" : null
+          },
+          "alias" : "fecha_hora_respuesta",
+          "description" : null,
+          "_row_id" : "SKeSWN1iHPJlqqRFTnzPd"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "155_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "155_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "B3CwQ5iDL-rOmn58SSxVM" : {
+      "id" : "B3CwQ5iDL-rOmn58SSxVM",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "184_filter",
+        "x" : 890,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(row_number = 1)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CaAP0BHrG57umX_ek-BKU",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "rsquUHlF8KrEqbUkX8v4X",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "HknMncE7Zh_0ZBRnQ0tPb" : {
+      "id" : "HknMncE7Zh_0ZBRnQ0tPb",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Union_173_reformat_3",
+        "x" : 530,
+        "y" : 471,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(codigo_encuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "codigo_encuesta",
+          "description" : null,
+          "_row_id" : "sZiGK5pc38DmT2v3c3Crx"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_encuesta",
+          "description" : null,
+          "_row_id" : "_p0x_NYcbtZ8_LVxzXG6S"
+        }, {
+          "expression" : {
+            "expression" : "CAST(destino_contacto AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "destino_contacto",
+          "description" : null,
+          "_row_id" : "PsBHaNcXWIp7QG2fntoBn"
+        }, {
+          "expression" : {
+            "expression" : "encuestadora",
+            "_row_id" : null
+          },
+          "alias" : "encuestadora",
+          "description" : null,
+          "_row_id" : "cst_kTOsAYq2_03Gbj_7X"
+        }, {
+          "expression" : {
+            "expression" : "CAST(fecha_hora_respuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_hora_respuesta",
+          "description" : null,
+          "_row_id" : "-6xz8xs4XmYyKC8SSVWNO"
+        }, {
+          "expression" : {
+            "expression" : "CAST(grupo_encuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "grupo_encuesta",
+          "description" : null,
+          "_row_id" : "8j820c3YCdB5nI70xQciD"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "GFc44bqxQALgNZxF-Vs3-"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps",
+          "description" : null,
+          "_row_id" : "voG2HaZTGT6pDxrUvKAza"
+        }, {
+          "expression" : {
+            "expression" : "CAST(motivo_nps_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "Hi44rRLoavDmDlmqmn1mr"
+        }, {
+          "expression" : {
+            "expression" : "nps",
+            "_row_id" : null
+          },
+          "alias" : "nps",
+          "description" : null,
+          "_row_id" : "OrRAvHjZLyGD34MCD28mp"
+        }, {
+          "expression" : {
+            "expression" : "CAST(nps_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "xCAebNyzxI3DHinV0yiCb"
+        }, {
+          "expression" : {
+            "expression" : "CAST(trato_caja AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_caja",
+          "description" : null,
+          "_row_id" : "cCCmIeJzM0gAG02uNoQE-"
+        }, {
+          "expression" : {
+            "expression" : "CAST(trato_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_ejecutivo",
+          "description" : null,
+          "_row_id" : "Br5NXgD8vJfshdl85NrZJ"
+        }, {
+          "expression" : {
+            "expression" : "CAST(trato_mostrador AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_mostrador",
+          "description" : null,
+          "_row_id" : "Ae5kQ-8aDoxqrjml-Fzn2"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "XMyU7ge19tnhretUYOpnu",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "OlLhuGr46-9p4zdXlcMy9",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "192" : {
+      "id" : "192",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_192",
+        "phase" : 0
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_163\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "192_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "E4P1rgcu5cdb8TlpgxvL7",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "200_inner" : {
+      "id" : "200_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_200_inner",
+        "x" : 1010,
+        "y" : 402,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.idf_pers_ods = in1.idf_pers_ods) AND (in0.AAAAMM = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`idf_pers_ods`, `AAAAMM`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "oDQzwb6mqBVDrONhbjASF",
+          "slug" : "in0"
+        }, {
+          "id" : "4zCcUia_BbtDLjyu1p2rv",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "L8YaMAgwjVr9HzgOt3_To",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "199" : {
+      "id" : "199",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_199",
+        "x" : 770,
+        "y" : 762,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((descripcion_encuesta = 'Monitorizacion Sucursales') AND (NOT ((descripcion_encuesta = 'Monitorizacion Corporate') OR (descripcion_encuesta = 'Monitorizacion Select'))))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "199_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "199_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "LNYLJG5WwTKMI9fIPiCsR" : {
+      "id" : "LNYLJG5WwTKMI9fIPiCsR",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_180_0",
+        "x" : 50,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE((REGEXP_REPLACE((FORMAT('%.0f', CAST(((EXTRACT (YEAR FROM fecha_dato) * 100) + EXTRACT (MONTH FROM fecha_dato)) AS FLOAT64))), ',', '__THS__')), '__THS__', '')) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "AAAAMM",
+          "description" : null,
+          "_row_id" : "WD5bxxwMUJN5KP9qV54RF"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2vhhCahz256YKiw4drBI9",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "5hfKDHJCTsmi7O9Iwoo2l",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "208_inner" : {
+      "id" : "208_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_208_inner",
+        "x" : 2210,
+        "y" : 618,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.codigo_oficial_comercial = in1.codigo_oficial) AND (in0.AAAAMM = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`codigo_oficial`, `AAAAMM`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "DkMwTa77rw4eKBq6Hx6P7",
+          "slug" : "in0"
+        }, {
+          "id" : "MQ0ucuVsTWeudRHt1W-Uy",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "c31aCoZMXaxz1YhMSXAeP",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "200_left" : {
+      "id" : "200_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_200_left",
+        "x" : 1010,
+        "y" : 762,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.idf_pers_ods = in1.idf_pers_ods) AND (in0.AAAAMM = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "lb2U_sQM-LeoiDNmYyAW1",
+          "slug" : "in0"
+        }, {
+          "id" : "I1IHMYdfNLnowsZeGMU1e",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "7oOZ-pDsKgvN5yuW5oQtv",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "205_left" : {
+      "id" : "205_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_205_left",
+        "x" : 1010,
+        "y" : 942,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.idf_pers_ods = in1.idf_pers_ods) AND (in0.AAAAMM = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Ut19v9sx36SPlzTg-G9Y1",
+          "slug" : "in0"
+        }, {
+          "id" : "fW40KOOgUYRjqrGDlfRHF",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "MbIDjfWyFMGg0-v6YP8yc",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "196_left" : {
+      "id" : "196_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_196_left",
+        "x" : 770,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.AAAAMM = in1.AAAAMM) AND (in0.idf_pers_ods = in1.idf_pers_ods))",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "lR8RLRAeElFBUFuxuhLmN",
+          "slug" : "in0"
+        }, {
+          "id" : "sSXUe5eAlndfGnWhzGo5q",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "wAAhEDuEj30qrm4UhLa44",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "213" : {
+      "id" : "213",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_213",
+        "x" : 290,
+        "y" : 3279,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "aka_Server_UYDB_213_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "213_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "202" : {
+      "id" : "202",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_202",
+        "x" : 1250,
+        "y" : 186,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Join_196_inner", "Join_197_left_UnionLeftOuter" ],
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Join_196_inner\",\"Join_197_left_UnionLeftOuter\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"codigo_segmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_oficial_comercial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_subsegmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\",\"[{\\\"name\\\": \\\"codigo_segmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_oficial_comercial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_subsegmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        },
+        "schema" : "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]",
+        "schemas" : [ "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "202_#3_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "FmruXRGn0u-eTTJxyrg1U",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "202_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "201_left" : {
+      "id" : "201_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_201_left_UnionLeftOuter",
+        "x" : 1490,
+        "y" : 726,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.idf_pers_ods = in1.idf_pers_ods) AND (in0.`AAAAMM-1` = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`idf_pers_ods`, `AAAAMM`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "V7-_vi4ypCNGZBoPfCpSb",
+          "slug" : "in0"
+        }, {
+          "id" : "zzmme3aGb6hOc_vGKJS-h",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "yAhvm9om0PRwVwY6SjXqF",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "206_left" : {
+      "id" : "206_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_206_left_UnionLeftOuter",
+        "x" : 1490,
+        "y" : 1086,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.idf_pers_ods = in1.idf_pers_ods) AND (in0.`AAAAMM-1` = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`idf_pers_ods`, `AAAAMM`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "KzwT7UHPE4Vp1ER87Ah2f",
+          "slug" : "in0"
+        }, {
+          "id" : "5XFJOeX_AMqtR_ELBv1RB",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "_jAvDjI4G_oSCcQGkQJBe",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "0c0vTrTLeVWFPNim4mJ4A" : {
+      "id" : "0c0vTrTLeVWFPNim4mJ4A",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_184_drop_0",
+        "x" : 1430,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`row_number`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "PF_FmnMAWVVoEEqkEoWjw",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "8QztRxTpMDRp4DPXk3IpM",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "iki2vftC8coqktXcXwCIn" : {
+      "id" : "iki2vftC8coqktXcXwCIn",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_184_rename",
+        "x" : 710,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "codigo_team_tmp",
+            "_row_id" : null
+          },
+          "alias" : "codigo_team",
+          "description" : null,
+          "_row_id" : "w8givWmmSMRUcXo9A6zI8"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`codigo_team`, `codigo_team_tmp`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "x88KMk_ar7gPasR6mDcyg",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3wiDLwInLap4rF6R-suzQ",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "173" : {
+      "id" : "173",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_173",
+        "x" : 710,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Union_173_reformat_0", "Union_173_reformat_1", "Union_173_reformat_3", "Union_173_reformat_2" ],
+        "schemas" : [ "[{\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"Timestamp\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}]", "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"Timestamp\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"Timestamp\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "173_#3_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "173_#4_Input",
+          "slug" : "in1"
+        }, {
+          "id" : "173_#1_Input",
+          "slug" : "in2"
+        }, {
+          "id" : "173_#2_Input",
+          "slug" : "in3"
+        } ],
+        "outputs" : [ {
+          "id" : "173_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "221" : {
+      "id" : "221",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_221",
+        "x" : 290,
+        "y" : 2415,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "aka_Server_UYDB_221_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "221_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "47mql69XVDeplTRuyp5MZ" : {
+      "id" : "47mql69XVDeplTRuyp5MZ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Union_173_reformat_2",
+        "x" : 530,
+        "y" : 314,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(codigo_encuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "codigo_encuesta",
+          "description" : null,
+          "_row_id" : "krtvUbdwEj_0YLTS4V1Xz"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_encuesta",
+          "description" : null,
+          "_row_id" : "NjJLFlB-4ha2OeQEHLkX9"
+        }, {
+          "expression" : {
+            "expression" : "CAST(destino_contacto AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "destino_contacto",
+          "description" : null,
+          "_row_id" : "WnsIy_G8mrA2D7SbsVeKT"
+        }, {
+          "expression" : {
+            "expression" : "encuestadora",
+            "_row_id" : null
+          },
+          "alias" : "encuestadora",
+          "description" : null,
+          "_row_id" : "B4n21EOZjn9vNgPOLhbJh"
+        }, {
+          "expression" : {
+            "expression" : "CAST(fecha_hora_respuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_hora_respuesta",
+          "description" : null,
+          "_row_id" : "jNBWR8Jb6F4bS6gpdd8fl"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "iFUJCAfBEF5Oj7yW4zLSJ"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps",
+          "description" : null,
+          "_row_id" : "z3q8vXQkkhEM6qHoMPdmh"
+        }, {
+          "expression" : {
+            "expression" : "CAST(motivo_nps_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "jevmCtTleFeu6nEfPgRSx"
+        }, {
+          "expression" : {
+            "expression" : "nps",
+            "_row_id" : null
+          },
+          "alias" : "nps",
+          "description" : null,
+          "_row_id" : "LafnQkD0cKCNw6IVmfXZF"
+        }, {
+          "expression" : {
+            "expression" : "CAST(nps_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "NbNZH2hI32KrziaDeB2vd"
+        }, {
+          "expression" : {
+            "expression" : "CAST(trato_caja AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_caja",
+          "description" : null,
+          "_row_id" : "rH-IAXztsKXol63jB4vDg"
+        }, {
+          "expression" : {
+            "expression" : "CAST(trato_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_ejecutivo",
+          "description" : null,
+          "_row_id" : "lU1sQFqM4AgQAAmwgYO5c"
+        }, {
+          "expression" : {
+            "expression" : "CAST(trato_mostrador AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_mostrador",
+          "description" : null,
+          "_row_id" : "GddezidDv2KiiKPvM9tFF"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ZzVN3B60xTf-X6O5cTXoj",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "6LNqqp4KgtMFcjtSGPufF",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "wXOw64gZQABxxn7X9QOm1" : {
+      "id" : "wXOw64gZQABxxn7X9QOm1",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Union_173_reformat_0",
+        "x" : 530,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "descripcion_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_encuesta",
+          "description" : null,
+          "_row_id" : "oPLEABAKZGQgzXeHGs60w"
+        }, {
+          "expression" : {
+            "expression" : "encuestadora",
+            "_row_id" : null
+          },
+          "alias" : "encuestadora",
+          "description" : null,
+          "_row_id" : "CGeHJ_Kcm0x17HcTHK6Ja"
+        }, {
+          "expression" : {
+            "expression" : "CAST(fecha_hora_respuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_hora_respuesta",
+          "description" : null,
+          "_row_id" : "OG_9CmroqL46ZqDgA1ciW"
+        }, {
+          "expression" : {
+            "expression" : "CAST(grupo_encuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "grupo_encuesta",
+          "description" : null,
+          "_row_id" : "hd9EmaarRHGlY82leiA-o"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "w8PDbzDmLcWvH0fM9y3Kp"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps",
+          "description" : null,
+          "_row_id" : "DzWd5J9Qjl2lJbrZEJphH"
+        }, {
+          "expression" : {
+            "expression" : "nps",
+            "_row_id" : null
+          },
+          "alias" : "nps",
+          "description" : null,
+          "_row_id" : "T6HMd0OXEbGdC0-b6NVI2"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "_E7DlsiSdSf4WXmIqvfCj",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ApLUaQ5QrhC8A_3F0sZ6E",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "vG3b7Nvzx-nxB_4hNo56l" : {
+      "id" : "vG3b7Nvzx-nxB_4hNo56l",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Union_173_reformat_1",
+        "x" : 530,
+        "y" : 157,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(codigo_encuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "codigo_encuesta",
+          "description" : null,
+          "_row_id" : "NAGGssRbDNlwcYlthzh4L"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_encuesta",
+          "description" : null,
+          "_row_id" : "9LY84h9MhNSpDSm4LLbqA"
+        }, {
+          "expression" : {
+            "expression" : "CAST(destino_contacto AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "destino_contacto",
+          "description" : null,
+          "_row_id" : "TXDtuCIjFd4kzlEtMcG1i"
+        }, {
+          "expression" : {
+            "expression" : "encuestadora",
+            "_row_id" : null
+          },
+          "alias" : "encuestadora",
+          "description" : null,
+          "_row_id" : "-ayE3aWcTgOo_f985fp8z"
+        }, {
+          "expression" : {
+            "expression" : "CAST(fecha_hora_respuesta AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_hora_respuesta",
+          "description" : null,
+          "_row_id" : "UqvvcZUpkqHcU1A03Jnae"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "bpYshqPNTL1TA10fWy44l"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps",
+          "description" : null,
+          "_row_id" : "wMOyyVUjvYTHLrLZqkkUn"
+        }, {
+          "expression" : {
+            "expression" : "CAST(motivo_nps_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "MygNU8JSDF42hoD2R1xGE"
+        }, {
+          "expression" : {
+            "expression" : "nps",
+            "_row_id" : null
+          },
+          "alias" : "nps",
+          "description" : null,
+          "_row_id" : "FVismXwe-pjtE9uIeBYQ2"
+        }, {
+          "expression" : {
+            "expression" : "CAST(nps_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "1aTwPjSDYBO3fnOJ1mbVv"
+        }, {
+          "expression" : {
+            "expression" : "CAST(trato_ejecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_ejecutivo",
+          "description" : null,
+          "_row_id" : "ISLgQd5Oizk9qTd_sPW7W"
+        }, {
+          "expression" : {
+            "expression" : "CAST(trato_mostrador AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_mostrador",
+          "description" : null,
+          "_row_id" : "AJScmqfOSLpYLN-z22Is_"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "LwW2oPNhcG29R0-zZ2zUw",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "liPvNoNn5X9deuRNcQVs2",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "162" : {
+      "id" : "162",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_162",
+        "x" : 3858,
+        "y" : 2811,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(idf_pers_ods AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "9PzoVtCF2iU0LrqEatL6l"
+        }, {
+          "expression" : {
+            "expression" : "encuestadora",
+            "_row_id" : null
+          },
+          "alias" : "encuestadora",
+          "description" : null,
+          "_row_id" : "3Logeq903_15rGTAWSASi"
+        }, {
+          "expression" : {
+            "expression" : "codigoEncuesta",
+            "_row_id" : null
+          },
+          "alias" : "codigo_encuesta",
+          "description" : null,
+          "_row_id" : "RiC0LsCscyUJcPrAECEEa"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(fecha_respuesta AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(fecha_respuesta AS string)) WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(fecha_respuesta AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(fecha_respuesta AS string)) ELSE SAFE.PARSE_TIMESTAMP('%Y-%m-%d', CAST(fecha_respuesta AS string)) END)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_hora_respuesta",
+          "description" : null,
+          "_row_id" : "KNGYHrnnsR7if1gy8LQFn"
+        }, {
+          "expression" : {
+            "expression" : "destinoContacto",
+            "_row_id" : null
+          },
+          "alias" : "destino_contacto",
+          "description" : null,
+          "_row_id" : "O9GsrKf2DbvuLeoQ7ppgI"
+        }, {
+          "expression" : {
+            "expression" : "nps",
+            "_row_id" : null
+          },
+          "alias" : "nps",
+          "description" : null,
+          "_row_id" : "U1iPXLsvGXoutddIVC_Vq"
+        }, {
+          "expression" : {
+            "expression" : "descripcionEncuesta",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_encuesta",
+          "description" : null,
+          "_row_id" : "oZbPgNZkrFVPTpNfi-pU3"
+        }, {
+          "expression" : {
+            "expression" : "motivoNps",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps",
+          "description" : null,
+          "_row_id" : "Xik7uN7jX9upoQG0egl5j"
+        }, {
+          "expression" : {
+            "expression" : "CAST(npsEjecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "hp4n932pjkipgYzl2QlHc"
+        }, {
+          "expression" : {
+            "expression" : "motivoNpsEjecutivo",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "hC55RB36ZJVN7XXoNFT6i"
+        }, {
+          "expression" : {
+            "expression" : "CAST(tratoEjecutivo AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_ejecutivo",
+          "description" : null,
+          "_row_id" : "TKZlROmouil7-XqXXGiLv"
+        }, {
+          "expression" : {
+            "expression" : "CAST(tratoMostrador AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "trato_mostrador",
+          "description" : null,
+          "_row_id" : "xpRc2HIQrna25HWU6c5DW"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "162_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "162_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "196_inner" : {
+      "id" : "196_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_196_inner",
+        "x" : 770,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.AAAAMM = in1.AAAAMM) AND (in0.idf_pers_ods = in1.idf_pers_ods))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`idf_pers_ods`, `AAAAMM`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "VVBoTKlNsbYcvul2AZ1fd",
+          "slug" : "in0"
+        }, {
+          "id" : "4TzfJRrUdqQ16rpGWoeUK",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "q1Hsmh85V1Z6sHHtt3d5V",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "184" : {
+      "id" : "184",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_184",
+        "x" : 530,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(FIRST_VALUE(codigo_team) OVER (PARTITION BY idf_pers_ods, AAAAMM ORDER BY hora_extraccion_ticket RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))",
+            "_row_id" : null
+          },
+          "alias" : "codigo_team_tmp",
+          "description" : null,
+          "_row_id" : "0MVd4WyAac-jtPknc2RMr"
+        }, {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER (PARTITION BY idf_pers_ods, AAAAMM))",
+            "_row_id" : null
+          },
+          "alias" : "row_number",
+          "description" : null,
+          "_row_id" : "_Of267Qy_2bMABcgM1eKF"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "184_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "184_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "214" : {
+      "id" : "214",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_214",
+        "x" : 50,
+        "y" : 4323,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "aka_Server_UYDB_214_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "214_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "203" : {
+      "id" : "203",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_203",
+        "x" : 1730,
+        "y" : 582,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Join_200_inner", "Join_201_left_UnionLeftOuter" ],
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Join_200_inner\",\"Join_201_left_UnionLeftOuter\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"hora_extraccion_ticket\\\", \\\"dataType\\\": \\\"Timestamp\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\",\"[{\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"hora_extraccion_ticket\\\", \\\"dataType\\\": \\\"Timestamp\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        },
+        "schema" : "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]",
+        "schemas" : [ "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "203_#3_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "aMkd1NvMJZ2DSXrerqg2I",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "203_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "156" : {
+      "id" : "156",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_156",
+        "x" : 12546,
+        "y" : 1515,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "AAAAMM",
+            "_row_id" : null
+          },
+          "alias" : "AAAAMM",
+          "description" : null,
+          "_row_id" : "lkbh8z5LH3hDbcJVeQT1b"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "32J3NMQbyTq3lxl-7sKG8"
+        }, {
+          "expression" : {
+            "expression" : "encuestadora",
+            "_row_id" : null
+          },
+          "alias" : "encuestadora",
+          "description" : null,
+          "_row_id" : "yU3xNN0-P3p5IhmSg6Ykw"
+        }, {
+          "expression" : {
+            "expression" : "codigo_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "codigo_encuesta",
+          "description" : null,
+          "_row_id" : "-IoKyag3hbqep7uWUkewG"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_encuesta",
+          "description" : null,
+          "_row_id" : "d35TCFXX9nWr6hfsWwcvQ"
+        }, {
+          "expression" : {
+            "expression" : "grupo_encuesta",
+            "_row_id" : null
+          },
+          "alias" : "grupo_encuesta",
+          "description" : null,
+          "_row_id" : "jm4g7nQIjcOqcdFTO0iwe"
+        }, {
+          "expression" : {
+            "expression" : "fecha_hora_respuesta",
+            "_row_id" : null
+          },
+          "alias" : "fecha_hora_respuesta",
+          "description" : null,
+          "_row_id" : "FQuTJyY1iqHo_-E3bwUiQ"
+        }, {
+          "expression" : {
+            "expression" : "destino_contacto",
+            "_row_id" : null
+          },
+          "alias" : "destino_contacto",
+          "description" : null,
+          "_row_id" : "CjmxWDooUSHFDyHZ3kPNN"
+        }, {
+          "expression" : {
+            "expression" : "nps",
+            "_row_id" : null
+          },
+          "alias" : "nps",
+          "description" : null,
+          "_row_id" : "vOZu1BZq6qes9Eg3zK_TO"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps",
+          "description" : null,
+          "_row_id" : "EVMSbdT9AugqCS4_4-MNG"
+        }, {
+          "expression" : {
+            "expression" : "nps_ejecutivo",
+            "_row_id" : null
+          },
+          "alias" : "nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "yWiHY2wrSKbqTgLcouWJM"
+        }, {
+          "expression" : {
+            "expression" : "motivo_nps_ejecutivo",
+            "_row_id" : null
+          },
+          "alias" : "motivo_nps_ejecutivo",
+          "description" : null,
+          "_row_id" : "quOqysR7NSP-hQdqrhGDN"
+        }, {
+          "expression" : {
+            "expression" : "trato_ejecutivo",
+            "_row_id" : null
+          },
+          "alias" : "trato_ejecutivo",
+          "description" : null,
+          "_row_id" : "H-RQ7NF57uwK1Y1Pw84Kk"
+        }, {
+          "expression" : {
+            "expression" : "trato_mostrador",
+            "_row_id" : null
+          },
+          "alias" : "trato_mostrador",
+          "description" : null,
+          "_row_id" : "den_D4UxWH2rRFZR7urE1"
+        }, {
+          "expression" : {
+            "expression" : "trato_caja",
+            "_row_id" : null
+          },
+          "alias" : "trato_caja",
+          "description" : null,
+          "_row_id" : "DYUeflGdnUWR8NHvpRUCC"
+        }, {
+          "expression" : {
+            "expression" : "codigo_team",
+            "_row_id" : null
+          },
+          "alias" : "codigo_team",
+          "description" : null,
+          "_row_id" : "KvsOr0hynr6x86J9lq5BR"
+        }, {
+          "expression" : {
+            "expression" : "codigo_oficial_comercial",
+            "_row_id" : null
+          },
+          "alias" : "codigo_oficial_comercial",
+          "description" : null,
+          "_row_id" : "_xeQzZZbDFZoyfh9vj8g1"
+        }, {
+          "expression" : {
+            "expression" : "codigo_segmento",
+            "_row_id" : null
+          },
+          "alias" : "codigo_segmento",
+          "description" : null,
+          "_row_id" : "_WP2KyisrM2-5C7l0cb3t"
+        }, {
+          "expression" : {
+            "expression" : "codigo_subsegmento",
+            "_row_id" : null
+          },
+          "alias" : "codigo_subsegmento",
+          "description" : null,
+          "_row_id" : "l1QW5KaYLirw59twV9lXl"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`AAAAMM-1`, `CodTeamBusqueda`, `AAAAMM`, `idf_pers_ods`, `encuestadora`, `codigo_encuesta`, `descripcion_encuesta`, `grupo_encuesta`, `fecha_hora_respuesta`, `destino_contacto`, `nps`, `motivo_nps`, `nps_ejecutivo`, `motivo_nps_ejecutivo`, `trato_ejecutivo`, `trato_mostrador`, `trato_caja`, `codigo_team`, `codigo_oficial_comercial`, `codigo_segmento`, `codigo_subsegmento`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "156_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "156_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "209_left" : {
+      "id" : "209_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_209_left_UnionLeftOuter",
+        "x" : 2450,
+        "y" : 582,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.codigo_oficial_comercial = in1.codigo_oficial) AND (in0.`AAAAMM-1` = in1.AAAAMM))",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`codigo_oficial`, `AAAAMM`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Sud5IZYdhUD8kwwNp-eQ4",
+          "slug" : "in0"
+        }, {
+          "id" : "WyzRjUKRPGtXOV8M88ZYJ",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "UJhLg8GXHNSCsFMhxXLPX",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "178" : {
+      "id" : "178",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_178",
+        "x" : 794,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "AppendFields_177", "aka_Server_UYDB_213" ],
+        "schemas" : [ "[{\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_segmento\", \"dataType\": \"String\"}]", "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"AppendFields_177\", \"aka_Server_UYDB_213\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_oficial_comercial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_subsegmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_segmento\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"codigo_segmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_oficial_comercial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_subsegmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "178_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "178_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "178_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "xE1-5wVe9QgjK5z1K0w3W" : {
+      "id" : "xE1-5wVe9QgjK5z1K0w3W",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_176_0",
+        "x" : 290,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "select *  REPLACE( CAST((CASE WHEN (CAST((SUBSTRING( AAAAMM, (((LENGTH(AAAAMM)) - 2) + 1), 2)) AS STRING) = '12') THEN (REGEXP_REPLACE((REGEXP_REPLACE((FORMAT('%.0f', ((coalesce(CAST(AAAAMM AS FLOAT64), CAST((REGEXP_EXTRACT(AAAAMM, '^[0-9]+', 0)) AS INT64), 0)) + 100))), ',', '__THS__')), '__THS__', '')) ELSE (REGEXP_REPLACE((REGEXP_REPLACE((FORMAT('%.0f', ((coalesce(CAST(AAAAMM AS FLOAT64), CAST((REGEXP_EXTRACT(AAAAMM, '^[0-9]+', 0)) AS INT64), 0)) + 1))), ',', '__THS__')), '__THS__', '')) END) AS STRING) as `AAAAMM` ) from Summarize_175"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "QLoFeuZEZAUMPxomLMC-8",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "yI7VrvZrYlRQijHqCxOP-",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "210" : {
+      "id" : "210",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_210",
+        "x" : 2690,
+        "y" : 438,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Join_208_inner", "Join_209_left_UnionLeftOuter" ],
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Join_208_inner\",\"Join_209_left_UnionLeftOuter\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"codigo_segmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_oficial_comercial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_dato\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"CodTeamBusqueda\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team_actual\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_subsegmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"hora_extraccion_ticket\\\", \\\"dataType\\\": \\\"Timestamp\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\",\"[{\\\"name\\\": \\\"codigo_segmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_oficial_comercial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_dato\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"CodTeamBusqueda\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team_actual\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_subsegmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"hora_extraccion_ticket\\\", \\\"dataType\\\": \\\"Timestamp\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        },
+        "schema" : "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_dato\", \"dataType\": \"Date\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"CodTeamBusqueda\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"codigo_team_actual\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]",
+        "schemas" : [ "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_dato\", \"dataType\": \"Date\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"CodTeamBusqueda\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"codigo_team_actual\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_dato\", \"dataType\": \"Date\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"CodTeamBusqueda\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"codigo_team_actual\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "210_#2_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "z5iJDuFF4HXPArHRFe3SD",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "210_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "198" : {
+      "id" : "198",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_198",
+        "x" : 50,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((((NOT CAST(((STRPOS((coalesce(LOWER(nps), '')), LOWER(';'))) > 0) AS BOOL)) AND ((motivo_nps <> 'Lia') OR (motivo_nps IS NULL))) AND ((motivo_nps <> 'Lia') OR (motivo_nps IS NULL))) AND ((motivo_nps <> 'Diego') OR (motivo_nps IS NULL)))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "198_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "198_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "171" : {
+      "id" : "171",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_171",
+        "x" : 976.4000244140625,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "select *  REPLACE( idf_pers_ods as `idf_pers_ods` ,  encuestadora as `encuestadora` ,  codigo_encuesta as `codigo_encuesta` ,  fecha_hora_respuesta as `fecha_hora_respuesta` ,  destino_contacto as `destino_contacto` ,  nps as `nps` ,  descripcion_encuesta as `descripcion_encuesta` ,  grupo_encuesta as `grupo_encuesta` ,  motivo_nps as `motivo_nps` ,  nps_ejecutivo as `nps_ejecutivo` ,  motivo_nps_ejecutivo as `motivo_nps_ejecutivo` ,  trato_ejecutivo as `trato_ejecutivo` ,  trato_mostrador as `trato_mostrador` ,  trato_caja as `trato_caja` ) from Union_173"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "171_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "171_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "199_reject" : {
+      "id" : "199_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_199_reject",
+        "x" : 770,
+        "y" : 402,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((((descripcion_encuesta <> 'Monitorizacion Sucursales') OR (descripcion_encuesta IS NULL)) OR ((descripcion_encuesta = 'Monitorizacion Sucursales') IS NULL)) AND (NOT ((descripcion_encuesta = 'Monitorizacion Corporate') OR (descripcion_encuesta = 'Monitorizacion Select'))))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "YEUhP3JZRCPQQK8f1U9aJ",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "TIWmGkjWqeCGJ2g9pN57j",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "n3bOjgYxH4BHnEAhKSfpa" : {
+      "id" : "n3bOjgYxH4BHnEAhKSfpa",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_182_drop_0",
+        "x" : 1094,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`row_number`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SapGzLDq8pwUByY2a8T3s",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "8irl_-YvMZlY_WNo3_set",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "194" : {
+      "id" : "194",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_194",
+        "x" : 530,
+        "y" : 150,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((descripcion_encuesta = 'Monitorizacion Corporate') OR (descripcion_encuesta = 'Monitorizacion Select'))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "194_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "194_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "215" : {
+      "id" : "215",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_215",
+        "x" : 50,
+        "y" : 5223,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "aka_Server_UYDB_215_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "215_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "220" : {
+      "id" : "220",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_220",
+        "x" : 290,
+        "y" : 2019,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "aka_Server_UYDB_220_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "220_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "207" : {
+      "id" : "207",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_207",
+        "x" : 1730,
+        "y" : 942,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Join_205_inner", "Join_206_left_UnionLeftOuter" ],
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Join_205_inner\",\"Join_206_left_UnionLeftOuter\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"hora_extraccion_ticket\\\", \\\"dataType\\\": \\\"Timestamp\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\",\"[{\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"hora_extraccion_ticket\\\", \\\"dataType\\\": \\\"Timestamp\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        },
+        "schema" : "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]",
+        "schemas" : [ "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "207_#3_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "NceAObZnLkPYGzTT_MoAj",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "207_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_170_170_Output" : {
+      "id" : "Union_170_170_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_170"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('alteryx_medio__Union_170') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "204" : {
+      "id" : "204",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_204",
+        "x" : 1970,
+        "y" : 438,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Union_202", "Union_203", "Union_207" ],
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Union_202\",\"Union_203\",\"Union_207\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"codigo_segmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_oficial_comercial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_subsegmento\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\",\"[{\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"hora_extraccion_ticket\\\", \\\"dataType\\\": \\\"Timestamp\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\",\"[{\\\"name\\\": \\\"nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"descripcion_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"encuestadora\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grupo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_encuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"fecha_hora_respuesta\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_caja\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"codigo_team\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM-1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps_ejecutivo\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"idf_pers_ods\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"trato_mostrador\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AAAAMM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"motivo_nps\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"hora_extraccion_ticket\\\", \\\"dataType\\\": \\\"Timestamp\\\"}, {\\\"name\\\": \\\"destino_contacto\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        },
+        "schema" : "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]",
+        "schemas" : [ "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]", "[{\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM-1\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "204_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "204_#2_Input",
+          "slug" : "in1"
+        }, {
+          "id" : "204_#3_Input",
+          "slug" : "in2"
+        } ],
+        "outputs" : [ {
+          "id" : "204_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "161" : {
+      "id" : "161",
+      "component" : "MultiColumnEdit",
+      "metadata" : {
+        "label" : "MultiFieldFormula_161",
+        "x" : 12786,
+        "y" : 1515,
+        "phase" : 0
+      },
+      "properties" : {
+        "copyOriginalColumns" : false,
+        "changeOutputFieldType" : false,
+        "changeOutputFieldName" : false,
+        "relation_name" : [ "AlteryxSelect_156" ],
+        "columnNames" : [ "nps", "motivo_nps", "nps_ejecutivo", "motivo_nps_ejecutivo", "trato_ejecutivo", "trato_mostrador" ],
+        "isPrefix" : false,
+        "schema" : "[{\"name\": \"codigo_segmento\", \"dataType\": \"String\"}, {\"name\": \"codigo_oficial_comercial\", \"dataType\": \"String\"}, {\"name\": \"nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"descripcion_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_dato\", \"dataType\": \"Date\"}, {\"name\": \"encuestadora\", \"dataType\": \"String\"}, {\"name\": \"trato_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"grupo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"codigo_encuesta\", \"dataType\": \"String\"}, {\"name\": \"fecha_hora_respuesta\", \"dataType\": \"String\"}, {\"name\": \"trato_caja\", \"dataType\": \"String\"}, {\"name\": \"codigo_team\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps_ejecutivo\", \"dataType\": \"String\"}, {\"name\": \"codigo_team_actual\", \"dataType\": \"String\"}, {\"name\": \"idf_pers_ods\", \"dataType\": \"String\"}, {\"name\": \"nps\", \"dataType\": \"String\"}, {\"name\": \"trato_mostrador\", \"dataType\": \"String\"}, {\"name\": \"codigo_subsegmento\", \"dataType\": \"String\"}, {\"name\": \"AAAAMM\", \"dataType\": \"String\"}, {\"name\": \"motivo_nps\", \"dataType\": \"String\"}, {\"name\": \"hora_extraccion_ticket\", \"dataType\": \"Timestamp\"}, {\"name\": \"destino_contacto\", \"dataType\": \"String\"}]",
+        "castOutputTypeName" : "StringType",
+        "expressionToBeApplied" : "CASE WHEN (column_value = '') THEN NULL ELSE column_value END",
+        "dataType" : "All",
+        "prefixSuffixToBeAdded" : "",
+        "prefixSuffixOption" : "Suffix"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "161_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "161_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "157" : {
+      "id" : "157",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_157",
+        "x" : 13026,
+        "y" : 1515,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(((((NOT ((nps IS NULL) OR ((LENGTH(nps)) = 0))) OR (NOT ((nps_ejecutivo IS NULL) OR ((LENGTH(nps_ejecutivo)) = 0)))) OR (NOT ((trato_ejecutivo IS NULL) OR ((LENGTH(trato_ejecutivo)) = 0)))) OR (NOT ((trato_mostrador IS NULL) OR ((LENGTH(trato_mostrador)) = 0)))) OR (NOT ((trato_caja IS NULL) OR ((LENGTH(trato_caja)) = 0))))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "157_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "157_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_8",
+    "source" : "163",
+    "sourcePort" : "163_Output",
+    "target" : "192",
+    "targetPort" : "192_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_4",
+    "source" : "157",
+    "sourcePort" : "157_True",
+    "target" : "163",
+    "targetPort" : "163_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_7",
+    "source" : "161",
+    "sourcePort" : "161_Output",
+    "target" : "157",
+    "targetPort" : "157_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_3",
+    "source" : "156",
+    "sourcePort" : "156_Output",
+    "target" : "161",
+    "targetPort" : "161_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_97",
+    "source" : "OQOfB2jMePMdpOyrMidAe",
+    "sourcePort" : "VkzGOpMeI-WgsLTZbb12A",
+    "target" : "156",
+    "targetPort" : "156_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_98",
+    "source" : "210",
+    "sourcePort" : "210_Output",
+    "target" : "OQOfB2jMePMdpOyrMidAe",
+    "targetPort" : "gDDGdGbtZkmQKZ8Ve7ghM",
+    "isWireless" : false
+  }, {
+    "id" : "edge_56",
+    "source" : "208_inner",
+    "sourcePort" : "c31aCoZMXaxz1YhMSXAeP",
+    "target" : "210",
+    "targetPort" : "210_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_66",
+    "source" : "209_left",
+    "sourcePort" : "UJhLg8GXHNSCsFMhxXLPX",
+    "target" : "210",
+    "targetPort" : "z5iJDuFF4HXPArHRFe3SD",
+    "isWireless" : false
+  }, {
+    "id" : "edge_55",
+    "source" : "204",
+    "sourcePort" : "204_Output",
+    "target" : "208_inner",
+    "targetPort" : "DkMwTa77rw4eKBq6Hx6P7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_92",
+    "source" : "n3bOjgYxH4BHnEAhKSfpa",
+    "sourcePort" : "8irl_-YvMZlY_WNo3_set",
+    "target" : "208_inner",
+    "targetPort" : "MQ0ucuVsTWeudRHt1W-Uy",
+    "isWireless" : false
+  }, {
+    "id" : "edge_65",
+    "source" : "208_left",
+    "sourcePort" : "QlkC_KnTFapRZdQt6sN74",
+    "target" : "209_left",
+    "targetPort" : "Sud5IZYdhUD8kwwNp-eQ4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_93",
+    "source" : "n3bOjgYxH4BHnEAhKSfpa",
+    "sourcePort" : "8irl_-YvMZlY_WNo3_set",
+    "target" : "209_left",
+    "targetPort" : "WyzRjUKRPGtXOV8M88ZYJ",
+    "isWireless" : false
+  }, {
+    "id" : "edge_24",
+    "source" : "202",
+    "sourcePort" : "202_Output",
+    "target" : "204",
+    "targetPort" : "204_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_25",
+    "source" : "203",
+    "sourcePort" : "203_Output",
+    "target" : "204",
+    "targetPort" : "204_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_26",
+    "source" : "207",
+    "sourcePort" : "207_Output",
+    "target" : "204",
+    "targetPort" : "204_#3_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_94",
+    "source" : "px-od2MDp_aT8O0T-lA7r",
+    "sourcePort" : "1w0RWdnk0bOpyRUpvtXa0",
+    "target" : "n3bOjgYxH4BHnEAhKSfpa",
+    "targetPort" : "SapGzLDq8pwUByY2a8T3s",
+    "isWireless" : false
+  }, {
+    "id" : "edge_54",
+    "source" : "204",
+    "sourcePort" : "204_Output",
+    "target" : "208_left",
+    "targetPort" : "HLzUOORscB1r5kp3SMGYn",
+    "isWireless" : false
+  }, {
+    "id" : "edge_91",
+    "source" : "n3bOjgYxH4BHnEAhKSfpa",
+    "sourcePort" : "8irl_-YvMZlY_WNo3_set",
+    "target" : "208_left",
+    "targetPort" : "-ndKbFSC0SCqqhJrUQaLH",
+    "isWireless" : false
+  }, {
+    "id" : "edge_47",
+    "source" : "196_inner",
+    "sourcePort" : "q1Hsmh85V1Z6sHHtt3d5V",
+    "target" : "202",
+    "targetPort" : "202_#3_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_60",
+    "source" : "197_left",
+    "sourcePort" : "uwOzVJBkJscTNGN8FIqcb",
+    "target" : "202",
+    "targetPort" : "FmruXRGn0u-eTTJxyrg1U",
+    "isWireless" : false
+  }, {
+    "id" : "edge_50",
+    "source" : "200_inner",
+    "sourcePort" : "L8YaMAgwjVr9HzgOt3_To",
+    "target" : "203",
+    "targetPort" : "203_#3_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_62",
+    "source" : "201_left",
+    "sourcePort" : "yAhvm9om0PRwVwY6SjXqF",
+    "target" : "203",
+    "targetPort" : "aMkd1NvMJZ2DSXrerqg2I",
+    "isWireless" : false
+  }, {
+    "id" : "edge_53",
+    "source" : "205_inner",
+    "sourcePort" : "OUtU1c5QrHxiI3vCFhIZA",
+    "target" : "207",
+    "targetPort" : "207_#3_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_64",
+    "source" : "206_left",
+    "sourcePort" : "_jAvDjI4G_oSCcQGkQJBe",
+    "target" : "207",
+    "targetPort" : "NceAObZnLkPYGzTT_MoAj",
+    "isWireless" : false
+  }, {
+    "id" : "edge_71",
+    "source" : "182",
+    "sourcePort" : "182_Output",
+    "target" : "px-od2MDp_aT8O0T-lA7r",
+    "targetPort" : "TfCMJLK2uAKwIXp8JCK-h",
+    "isWireless" : false
+  }, {
+    "id" : "edge_45",
+    "source" : "178",
+    "sourcePort" : "178_Output",
+    "target" : "196_inner",
+    "targetPort" : "4TzfJRrUdqQ16rpGWoeUK",
+    "isWireless" : false
+  }, {
+    "id" : "edge_46",
+    "source" : "194",
+    "sourcePort" : "194_True",
+    "target" : "196_inner",
+    "targetPort" : "VVBoTKlNsbYcvul2AZ1fd",
+    "isWireless" : false
+  }, {
+    "id" : "edge_58",
+    "source" : "178",
+    "sourcePort" : "178_Output",
+    "target" : "197_left",
+    "targetPort" : "btNvv8H9sYFYzNxTgEGR7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_59",
+    "source" : "196_left",
+    "sourcePort" : "wAAhEDuEj30qrm4UhLa44",
+    "target" : "197_left",
+    "targetPort" : "HLJ4PBF6DW9Ewjqpimcl6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_49",
+    "source" : "199",
+    "sourcePort" : "199_True",
+    "target" : "200_inner",
+    "targetPort" : "oDQzwb6mqBVDrONhbjASF",
+    "isWireless" : false
+  }, {
+    "id" : "edge_81",
+    "source" : "0c0vTrTLeVWFPNim4mJ4A",
+    "sourcePort" : "8QztRxTpMDRp4DPXk3IpM",
+    "target" : "200_inner",
+    "targetPort" : "4zCcUia_BbtDLjyu1p2rv",
+    "isWireless" : false
+  }, {
+    "id" : "edge_61",
+    "source" : "200_left",
+    "sourcePort" : "7oOZ-pDsKgvN5yuW5oQtv",
+    "target" : "201_left",
+    "targetPort" : "V7-_vi4ypCNGZBoPfCpSb",
+    "isWireless" : false
+  }, {
+    "id" : "edge_84",
+    "source" : "0c0vTrTLeVWFPNim4mJ4A",
+    "sourcePort" : "8QztRxTpMDRp4DPXk3IpM",
+    "target" : "201_left",
+    "targetPort" : "zzmme3aGb6hOc_vGKJS-h",
+    "isWireless" : false
+  }, {
+    "id" : "edge_52",
+    "source" : "199_reject",
+    "sourcePort" : "TIWmGkjWqeCGJ2g9pN57j",
+    "target" : "205_inner",
+    "targetPort" : "VDW0z4B2MLyOrMhxcJF3F",
+    "isWireless" : false
+  }, {
+    "id" : "edge_83",
+    "source" : "0c0vTrTLeVWFPNim4mJ4A",
+    "sourcePort" : "8QztRxTpMDRp4DPXk3IpM",
+    "target" : "205_inner",
+    "targetPort" : "kRQ1pr4d9m9ztZJFro04c",
+    "isWireless" : false
+  }, {
+    "id" : "edge_63",
+    "source" : "205_left",
+    "sourcePort" : "MbIDjfWyFMGg0-v6YP8yc",
+    "target" : "206_left",
+    "targetPort" : "KzwT7UHPE4Vp1ER87Ah2f",
+    "isWireless" : false
+  }, {
+    "id" : "edge_85",
+    "source" : "0c0vTrTLeVWFPNim4mJ4A",
+    "sourcePort" : "8QztRxTpMDRp4DPXk3IpM",
+    "target" : "206_left",
+    "targetPort" : "5XFJOeX_AMqtR_ELBv1RB",
+    "isWireless" : false
+  }, {
+    "id" : "edge_22",
+    "source" : "181",
+    "sourcePort" : "181_Output",
+    "target" : "182",
+    "targetPort" : "182_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_20",
+    "source" : "177",
+    "sourcePort" : "177_Output",
+    "target" : "178",
+    "targetPort" : "178_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_21",
+    "source" : "213",
+    "sourcePort" : "213_Output",
+    "target" : "178",
+    "targetPort" : "178_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_74",
+    "source" : "EgaPEOlpiLebwSGfFQqzY",
+    "sourcePort" : "bDmvWgwN8HFQ4hW36RmMF",
+    "target" : "194",
+    "targetPort" : "194_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_43",
+    "source" : "178",
+    "sourcePort" : "178_Output",
+    "target" : "196_left",
+    "targetPort" : "sSXUe5eAlndfGnWhzGo5q",
+    "isWireless" : false
+  }, {
+    "id" : "edge_44",
+    "source" : "194",
+    "sourcePort" : "194_True",
+    "target" : "196_left",
+    "targetPort" : "lR8RLRAeElFBUFuxuhLmN",
+    "isWireless" : false
+  }, {
+    "id" : "edge_75",
+    "source" : "EgaPEOlpiLebwSGfFQqzY",
+    "sourcePort" : "bDmvWgwN8HFQ4hW36RmMF",
+    "target" : "199",
+    "targetPort" : "199_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_86",
+    "source" : "B3CwQ5iDL-rOmn58SSxVM",
+    "sourcePort" : "rsquUHlF8KrEqbUkX8v4X",
+    "target" : "0c0vTrTLeVWFPNim4mJ4A",
+    "targetPort" : "PF_FmnMAWVVoEEqkEoWjw",
+    "isWireless" : false
+  }, {
+    "id" : "edge_48",
+    "source" : "199",
+    "sourcePort" : "199_True",
+    "target" : "200_left",
+    "targetPort" : "lb2U_sQM-LeoiDNmYyAW1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_80",
+    "source" : "0c0vTrTLeVWFPNim4mJ4A",
+    "sourcePort" : "8QztRxTpMDRp4DPXk3IpM",
+    "target" : "200_left",
+    "targetPort" : "I1IHMYdfNLnowsZeGMU1e",
+    "isWireless" : false
+  }, {
+    "id" : "edge_76",
+    "source" : "EgaPEOlpiLebwSGfFQqzY",
+    "sourcePort" : "bDmvWgwN8HFQ4hW36RmMF",
+    "target" : "199_reject",
+    "targetPort" : "YEUhP3JZRCPQQK8f1U9aJ",
+    "isWireless" : false
+  }, {
+    "id" : "edge_51",
+    "source" : "199_reject",
+    "sourcePort" : "TIWmGkjWqeCGJ2g9pN57j",
+    "target" : "205_left",
+    "targetPort" : "Ut19v9sx36SPlzTg-G9Y1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_82",
+    "source" : "0c0vTrTLeVWFPNim4mJ4A",
+    "sourcePort" : "8QztRxTpMDRp4DPXk3IpM",
+    "target" : "205_left",
+    "targetPort" : "fW40KOOgUYRjqrGDlfRHF",
+    "isWireless" : false
+  }, {
+    "id" : "edge_87",
+    "source" : "LNYLJG5WwTKMI9fIPiCsR",
+    "sourcePort" : "5hfKDHJCTsmi7O9Iwoo2l",
+    "target" : "181",
+    "targetPort" : "181_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_19",
+    "source" : "216",
+    "sourcePort" : "216_Output",
+    "target" : "177",
+    "targetPort" : "177_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_89",
+    "source" : "xE1-5wVe9QgjK5z1K0w3W",
+    "sourcePort" : "yI7VrvZrYlRQijHqCxOP-",
+    "target" : "177",
+    "targetPort" : "177_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_77",
+    "source" : "198",
+    "sourcePort" : "198_True",
+    "target" : "EgaPEOlpiLebwSGfFQqzY",
+    "targetPort" : "e_TYrOzeOEShOoWmkeCPM",
+    "isWireless" : false
+  }, {
+    "id" : "edge_72",
+    "source" : "iki2vftC8coqktXcXwCIn",
+    "sourcePort" : "3wiDLwInLap4rF6R-suzQ",
+    "target" : "B3CwQ5iDL-rOmn58SSxVM",
+    "targetPort" : "CaAP0BHrG57umX_ek-BKU",
+    "isWireless" : false
+  }, {
+    "id" : "edge_88",
+    "source" : "215",
+    "sourcePort" : "215_Output",
+    "target" : "LNYLJG5WwTKMI9fIPiCsR",
+    "targetPort" : "2vhhCahz256YKiw4drBI9",
+    "isWireless" : false
+  }, {
+    "id" : "edge_90",
+    "source" : "175",
+    "sourcePort" : "175_Output",
+    "target" : "xE1-5wVe9QgjK5z1K0w3W",
+    "targetPort" : "QLoFeuZEZAUMPxomLMC-8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_17",
+    "source" : "171",
+    "sourcePort" : "171_Output",
+    "target" : "198",
+    "targetPort" : "198_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_73",
+    "source" : "184",
+    "sourcePort" : "184_Output",
+    "target" : "iki2vftC8coqktXcXwCIn",
+    "targetPort" : "x88KMk_ar7gPasR6mDcyg",
+    "isWireless" : false
+  }, {
+    "id" : "edge_27",
+    "source" : "213",
+    "sourcePort" : "213_Output",
+    "target" : "175",
+    "targetPort" : "175_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_18",
+    "source" : "173",
+    "sourcePort" : "173_Output",
+    "target" : "171",
+    "targetPort" : "171_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_23",
+    "source" : "186",
+    "sourcePort" : "186_Output",
+    "target" : "184",
+    "targetPort" : "184_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_100",
+    "source" : "wXOw64gZQABxxn7X9QOm1",
+    "sourcePort" : "ApLUaQ5QrhC8A_3F0sZ6E",
+    "target" : "173",
+    "targetPort" : "173_#3_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_102",
+    "source" : "vG3b7Nvzx-nxB_4hNo56l",
+    "sourcePort" : "liPvNoNn5X9deuRNcQVs2",
+    "target" : "173",
+    "targetPort" : "173_#4_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_104",
+    "source" : "47mql69XVDeplTRuyp5MZ",
+    "sourcePort" : "6LNqqp4KgtMFcjtSGPufF",
+    "target" : "173",
+    "targetPort" : "173_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_106",
+    "source" : "HknMncE7Zh_0ZBRnQ0tPb",
+    "sourcePort" : "OlLhuGr46-9p4zdXlcMy9",
+    "target" : "173",
+    "targetPort" : "173_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_78",
+    "source" : "4veDEX_ZssF4Oi9lgNhS4",
+    "sourcePort" : "Tjdgv5YlfFRb4xRdVtGC9",
+    "target" : "186",
+    "targetPort" : "186_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_99",
+    "source" : "155",
+    "sourcePort" : "155_Output",
+    "target" : "wXOw64gZQABxxn7X9QOm1",
+    "targetPort" : "_E7DlsiSdSf4WXmIqvfCj",
+    "isWireless" : false
+  }, {
+    "id" : "edge_101",
+    "source" : "162",
+    "sourcePort" : "162_Output",
+    "target" : "vG3b7Nvzx-nxB_4hNo56l",
+    "targetPort" : "LwW2oPNhcG29R0-zZ2zUw",
+    "isWireless" : false
+  }, {
+    "id" : "edge_103",
+    "source" : "Join_172_left_mqHc0MwJwX9ekKwJeiA5b",
+    "sourcePort" : "output_port_2",
+    "target" : "47mql69XVDeplTRuyp5MZ",
+    "targetPort" : "ZzVN3B60xTf-X6O5cTXoj",
+    "isWireless" : false
+  }, {
+    "id" : "edge_105",
+    "source" : "172_inner",
+    "sourcePort" : "-ekxbKtraOyamVenMrYFE",
+    "target" : "HknMncE7Zh_0ZBRnQ0tPb",
+    "targetPort" : "XMyU7ge19tnhretUYOpnu",
+    "isWireless" : false
+  }, {
+    "id" : "edge_79",
+    "source" : "214",
+    "sourcePort" : "214_Output",
+    "target" : "4veDEX_ZssF4Oi9lgNhS4",
+    "targetPort" : "3dlpf4w9yqaHgETF2PI0c",
+    "isWireless" : false
+  }, {
+    "id" : "edge_30",
+    "source" : "221",
+    "sourcePort" : "221_Output",
+    "target" : "155",
+    "targetPort" : "155_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_32",
+    "source" : "223",
+    "sourcePort" : "223_Output",
+    "target" : "162",
+    "targetPort" : "162_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_42",
+    "source" : "220",
+    "sourcePort" : "220_Output",
+    "target" : "172_inner",
+    "targetPort" : "fKpgygrSOMqGC_wCSCVo-",
+    "isWireless" : false
+  }, {
+    "id" : "edge_41",
+    "source" : "Union_170_170_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "172_inner",
+    "targetPort" : "SX_uAC0uq2vszCXdY1MIp",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

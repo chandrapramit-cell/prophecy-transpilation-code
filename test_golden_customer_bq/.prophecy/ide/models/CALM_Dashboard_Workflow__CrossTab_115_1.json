@@ -1,0 +1,458 @@
+{
+  "id" : "CALM_Dashboard_Workflow__CrossTab_115_1",
+  "metainfo" : {
+    "label" : "CALM_Dashboard_Workflow__CrossTab_115_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "us50EZ_rCNFdC-tvg5jCI" : {
+      "id" : "us50EZ_rCNFdC-tvg5jCI",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CrossTab_115_1",
+        "x" : 1310,
+        "y" : 195,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(REGEXP_REPLACE(KPI, '[\\\\s!@#$%^&*(),.?\":{}|<>\\\\[\\\\]=;/\\\\-+]', '_'))",
+            "_row_id" : null
+          },
+          "alias" : "KPI",
+          "description" : null,
+          "_row_id" : "3ZNyRZMxQX7bvKatGnPdI"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`kpi`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "H2Gf7FT7IadmxJNqFLd7Z",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "OMLyEEhYzHkTkYhRJtVYk",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CrossTab_115_1_OMLyEEhYzHkTkYhRJtVYk" : {
+      "id" : "CrossTab_115_1_OMLyEEhYzHkTkYhRJtVYk",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CrossTab_115_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CrossTab_115_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "109_reject" : {
+      "id" : "109_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_109_reject",
+        "x" : 1490,
+        "y" : 771,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(\n  (\n    NOT(\n      ((PARSE_DATE('%Y-%m-%d', DT)) > (PARSE_DATE('%Y-%m-%d', (DATE_ADD(CAST(CURRENT_DATE AS STRING), INTERVAL CAST(-98 AS INTEGER) DAY)))))\n      OR ((PARSE_DATE('%Y-%m-%d', DT)) >= (PARSE_DATE('%Y-%m-%d', (DATE_ADD(DATE_TRUNC(CURRENT_DATE, YEAR), INTERVAL CAST(0 AS INTEGER) DAY))))))\n  )\n  OR (\n       (\n         ((PARSE_DATE('%Y-%m-%d', DT)) > (PARSE_DATE('%Y-%m-%d', (DATE_ADD(CAST(CURRENT_DATE AS STRING), INTERVAL CAST(-98 AS INTEGER) DAY)))))\n         OR ((PARSE_DATE('%Y-%m-%d', DT)) >= (PARSE_DATE('%Y-%m-%d', (DATE_ADD(DATE_TRUNC(CURRENT_DATE, YEAR), INTERVAL CAST(0 AS INTEGER) DAY)))))\n       ) IS NULL\n     )\n)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "6PcYaFiqkIVzk4DOZ8cJh",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "s9wzrBBBPbYyVW1_aUhzQ",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "tiINryl2wcj539SnSmAjC" : {
+      "id" : "tiINryl2wcj539SnSmAjC",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_110",
+        "x" : 470,
+        "y" : 411,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(SUM(ANC_REV) OVER (PARTITION BY KPI, MONTH ORDER BY 1 NULLS FIRST))",
+            "_row_id" : null
+          },
+          "alias" : "MTH_ANC_REV",
+          "description" : null,
+          "_row_id" : "jA-h4QL1jSGqnUFzJmKae"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "OeNdlpvJ36qICF65POUPa",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "4CQsICkg9nv7Ph36FJypv",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "OaE9YA8qTLrya8pDRSw4x" : {
+      "id" : "OaE9YA8qTLrya8pDRSw4x",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_111_0",
+        "x" : 50,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', (DATE_ADD(DT ,INTERVAL 12  MONTH))))",
+            "_row_id" : null
+          },
+          "alias" : "DT",
+          "description" : null,
+          "_row_id" : "nkZu583bmUGy83EBgJCpQ"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`dt`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vsHy1dgY_fGcc1fn9muz8",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "PKMPAGtESzltPvlWHNh-K",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "6i1CDZhEzB4NuommZzzpT" : {
+      "id" : "6i1CDZhEzB4NuommZzzpT",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_111_1",
+        "x" : 230,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(PARSE_DATE('%Y-%m-%d', (DATE_TRUNC(DT, MONTH))))",
+            "_row_id" : null
+          },
+          "alias" : "MONTH",
+          "description" : null,
+          "_row_id" : "RXGIWXaFDFotbhYbP9FT8"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "luKYhwWJYsF_gBx4p3lBU",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "H9K95rI0RVycAq15I4PlD",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "G4X0ZL6YKreXprDw8k5YC" : {
+      "id" : "G4X0ZL6YKreXprDw8k5YC",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Join_113_inner_formula_to_Formula_114_1",
+        "x" : 890,
+        "y" : 195,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CAST(ANC_REV AS NUMERIC) / CAST(MTH_ANC_REV AS NUMERIC)) AS FLOAT64)",
+            "_row_id" : null
+          },
+          "alias" : "ANC_PCT",
+          "description" : null,
+          "_row_id" : "hD3Xlvw-x1hD9ADckXQiA"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "uxP_aqF5yy5E5ptvGkfzF",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "7SHiHp8Sik970wnYqd-_a",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1" : {
+      "id" : "1",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "Database__repor_1",
+        "x" : 290,
+        "y" : 951,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "Database__repor_1_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "1_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "P5mRR8RiWJPE-NQw0-Eiu" : {
+      "id" : "P5mRR8RiWJPE-NQw0-Eiu",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_113_inner_formula_to_Formula_114_0",
+        "x" : 710,
+        "y" : 195,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "select *  REPLACE( MONTH as `MONTH` ,  DT as `DT` ,  KPI as `KPI` ,  ANC_REV as `ANC_REV` ,  MTH_ANC_REV as `MTH_ANC_REV` ) from Summarize_110"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MS1ctvznzlu886Zxb4Scs",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "vk9POf8s-77_O1HEcbwBp",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "8qhoXuJlVSdWiKi6xh3ct" : {
+      "id" : "8qhoXuJlVSdWiKi6xh3ct",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CrossTab_115_0",
+        "x" : 1130,
+        "y" : 195,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (KPI IS NULL) THEN '_Null_' ELSE KPI END)",
+            "_row_id" : null
+          },
+          "alias" : "KPI",
+          "description" : null,
+          "_row_id" : "O8j7t1UzxgYwonq-jbzY9"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`kpi`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "mAnp1HnwJLStJwNyaK8DK",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "-LYAETFHf50SgQjXRaZ2c",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_us50EZ_rCNFdC-tvg5jCI_OMLyEEhYzHkTkYhRJtVYk_CrossTab_115_1_OMLyEEhYzHkTkYhRJtVYk",
+    "source" : "us50EZ_rCNFdC-tvg5jCI",
+    "sourcePort" : "OMLyEEhYzHkTkYhRJtVYk",
+    "target" : "CrossTab_115_1_OMLyEEhYzHkTkYhRJtVYk",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_830",
+    "source" : "8qhoXuJlVSdWiKi6xh3ct",
+    "sourcePort" : "-LYAETFHf50SgQjXRaZ2c",
+    "target" : "us50EZ_rCNFdC-tvg5jCI",
+    "targetPort" : "H2Gf7FT7IadmxJNqFLd7Z",
+    "isWireless" : false
+  }, {
+    "id" : "edge_832",
+    "source" : "G4X0ZL6YKreXprDw8k5YC",
+    "sourcePort" : "7SHiHp8Sik970wnYqd-_a",
+    "target" : "8qhoXuJlVSdWiKi6xh3ct",
+    "targetPort" : "mAnp1HnwJLStJwNyaK8DK",
+    "isWireless" : false
+  }, {
+    "id" : "edge_828",
+    "source" : "P5mRR8RiWJPE-NQw0-Eiu",
+    "sourcePort" : "vk9POf8s-77_O1HEcbwBp",
+    "target" : "G4X0ZL6YKreXprDw8k5YC",
+    "targetPort" : "uxP_aqF5yy5E5ptvGkfzF",
+    "isWireless" : false
+  }, {
+    "id" : "edge_829",
+    "source" : "tiINryl2wcj539SnSmAjC",
+    "sourcePort" : "4CQsICkg9nv7Ph36FJypv",
+    "target" : "P5mRR8RiWJPE-NQw0-Eiu",
+    "targetPort" : "MS1ctvznzlu886Zxb4Scs",
+    "isWireless" : false
+  }, {
+    "id" : "edge_826",
+    "source" : "6i1CDZhEzB4NuommZzzpT",
+    "sourcePort" : "H9K95rI0RVycAq15I4PlD",
+    "target" : "tiINryl2wcj539SnSmAjC",
+    "targetPort" : "OeNdlpvJ36qICF65POUPa",
+    "isWireless" : false
+  }, {
+    "id" : "edge_825",
+    "source" : "OaE9YA8qTLrya8pDRSw4x",
+    "sourcePort" : "PKMPAGtESzltPvlWHNh-K",
+    "target" : "6i1CDZhEzB4NuommZzzpT",
+    "targetPort" : "luKYhwWJYsF_gBx4p3lBU",
+    "isWireless" : false
+  }, {
+    "id" : "edge_827",
+    "source" : "109_reject",
+    "sourcePort" : "s9wzrBBBPbYyVW1_aUhzQ",
+    "target" : "OaE9YA8qTLrya8pDRSw4x",
+    "targetPort" : "vsHy1dgY_fGcc1fn9muz8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_725",
+    "source" : "1",
+    "sourcePort" : "1_Output",
+    "target" : "109_reject",
+    "targetPort" : "6PcYaFiqkIVzk4DOZ8cJh",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

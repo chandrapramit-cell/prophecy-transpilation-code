@@ -1,0 +1,171 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__Sort_85",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__Sort_85",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Sort_85_Z0VWSShG_36C72lrOSjko" : {
+      "id" : "Sort_85_Z0VWSShG_36C72lrOSjko",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Sort_85"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Sort_85\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "85" : {
+      "id" : "85",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_85",
+        "x" : 8219.2001953125,
+        "y" : 2451,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "Household",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        }, {
+          "expression" : {
+            "expression" : "YMD",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "85_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Z0VWSShG_36C72lrOSjko",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "87" : {
+      "id" : "87",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_87",
+        "x" : 7499.2001953125,
+        "y" : 2451,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(YMD = '2022-12-01')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "87_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "87_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_50_50_Output" : {
+      "id" : "AlteryxSelect_50_50_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_50"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__AlteryxSelect_50') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_85_Z0VWSShG_36C72lrOSjko_Sort_85_Z0VWSShG_36C72lrOSjko",
+    "source" : "85",
+    "sourcePort" : "Z0VWSShG_36C72lrOSjko",
+    "target" : "Sort_85_Z0VWSShG_36C72lrOSjko",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_134",
+    "source" : "87",
+    "sourcePort" : "87_True",
+    "target" : "85",
+    "targetPort" : "85_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_128",
+    "source" : "AlteryxSelect_50_50_Output",
+    "sourcePort" : "output_port_7",
+    "target" : "87",
+    "targetPort" : "87_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

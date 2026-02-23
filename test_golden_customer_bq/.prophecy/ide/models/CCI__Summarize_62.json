@@ -1,0 +1,129 @@
+{
+  "id" : "CCI__Summarize_62",
+  "metainfo" : {
+    "label" : "CCI__Summarize_62",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_62_62_Output" : {
+      "id" : "Summarize_62_62_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_62"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_62\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "62" : {
+      "id" : "62",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_62",
+        "x" : 5119.2001953125,
+        "y" : 2124,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "EFF_DATE",
+            "_row_id" : null
+          },
+          "alias" : "YR_MO",
+          "description" : null,
+          "_row_id" : "Beixvmdjk8mYf7yBtmL2o"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "62_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "62_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_69_69_Output" : {
+      "id" : "AlteryxSelect_69_69_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_69"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CCI__AlteryxSelect_69') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_62_62_Output_Summarize_62_62_Output",
+    "source" : "62",
+    "sourcePort" : "62_Output",
+    "target" : "Summarize_62_62_Output",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_271",
+    "source" : "AlteryxSelect_69_69_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "62",
+    "targetPort" : "62_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,165 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__Summarize_61",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__Summarize_61",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_61_en8yoCT_ly3pkJvH88DKL" : {
+      "id" : "Summarize_61_en8yoCT_ly3pkJvH88DKL",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_61"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_61\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_9",
+          "slug" : "input_port_9"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_9",
+          "slug" : "output_port_9"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "61" : {
+      "id" : "61",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_61",
+        "x" : 8459.2001953125,
+        "y" : 2091,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT Household)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_Household",
+          "description" : null,
+          "_row_id" : "gbn6fTuigj2Sq_cpRgF-m"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "61_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "en8yoCT_ly3pkJvH88DKL",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "60" : {
+      "id" : "60",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_60",
+        "x" : 7979.2001953125,
+        "y" : 2127,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(`Blue Connect Household` = '1')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "60_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "60_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_50_50_Output" : {
+      "id" : "AlteryxSelect_50_50_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_50"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__AlteryxSelect_50') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_61_en8yoCT_ly3pkJvH88DKL_Summarize_61_en8yoCT_ly3pkJvH88DKL",
+    "source" : "61",
+    "sourcePort" : "en8yoCT_ly3pkJvH88DKL",
+    "target" : "Summarize_61_en8yoCT_ly3pkJvH88DKL",
+    "targetPort" : "input_port_9",
+    "isWireless" : false
+  }, {
+    "id" : "edge_133",
+    "source" : "60",
+    "sourcePort" : "60_True",
+    "target" : "61",
+    "targetPort" : "61_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_127",
+    "source" : "AlteryxSelect_50_50_Output",
+    "sourcePort" : "output_port_7",
+    "target" : "60",
+    "targetPort" : "60_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

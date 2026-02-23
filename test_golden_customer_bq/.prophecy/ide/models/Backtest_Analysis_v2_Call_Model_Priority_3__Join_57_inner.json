@@ -1,0 +1,809 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__Join_57_inner",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__Join_57_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "45" : {
+      "id" : "45",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "post_tree_join__45",
+        "x" : 50,
+        "y" : 903,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "post_tree_join__45_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "45_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "38_right" : {
+      "id" : "38_right",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_38_right_UnionRightOuter",
+        "x" : 1490,
+        "y" : 363,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.Household = in1.Household)",
+            "_row_id" : null
+          },
+          "joinType" : "right",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (in0.Household = in1.Household) THEN NULL ELSE in1.Household END)",
+            "_row_id" : null
+          },
+          "alias" : "Household",
+          "description" : null,
+          "_row_id" : "_A5bWMJhBWAn78DvjSZKX"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Household`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Household`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3YBo4UVXEGvc2xzXfsjpP",
+          "slug" : "in0"
+        }, {
+          "id" : "BUzuerEAQnZ9-bRBLUAKb",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "s2Ow2NaGbW6cCHjSmdHnl",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "nmpDDv6LOabpwyWzvHeSb" : {
+      "id" : "nmpDDv6LOabpwyWzvHeSb",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_42_0",
+        "x" : 1250,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((`Max_April Caller` = 0) AND (`Max_Non-April Caller` = 0)) THEN 1 ELSE 0 END)",
+            "_row_id" : null
+          },
+          "alias" : "`Non-Caller`",
+          "description" : null,
+          "_row_id" : "aEesIcdEjYzMOu0qspr3z"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "QqMPl9wlgrxltriPwHDrO",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ZzK0rlWjxxM16ZreBVxWr",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "OlHv_QS-tVKVKDzaD82r1" : {
+      "id" : "OlHv_QS-tVKVKDzaD82r1",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_40_0",
+        "x" : 770,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((YMD = '2023-03-01') AND (`Months Until Call` = '1')) THEN 1 ELSE 0 END)",
+            "_row_id" : null
+          },
+          "alias" : "`April Caller`",
+          "description" : null,
+          "_row_id" : "wPmD3WsU0zsOV1Gh9DEac"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (((YMD > '2022-09-01') AND (YMD < '2023-03-01')) AND (`Months Until Call` = '1')) THEN 1 ELSE 0 END)",
+            "_row_id" : null
+          },
+          "alias" : "`Non-April Caller`",
+          "description" : null,
+          "_row_id" : "GYdXPaVQUXNt8b7yT7gwg"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "R3MV-MVXbDHzMvt7zXGqH",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "zedT3Ujo_SNh6aSxIOila",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_3_inner_gAzjLh8OcOp1hsiV37SRH" : {
+      "id" : "Join_3_inner_gAzjLh8OcOp1hsiV37SRH",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_3_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__Join_3_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "44" : {
+      "id" : "44",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "post_tree_join__44",
+        "x" : 50,
+        "y" : 543,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "post_tree_join__44_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "44_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_34_34_Unique" : {
+      "id" : "Unique_34_34_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_34"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__Unique_34') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "37" : {
+      "id" : "37",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_37",
+        "x" : 1010,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "MAX(`April Caller`)",
+            "_row_id" : null
+          },
+          "alias" : "`Max_April Caller`",
+          "description" : null,
+          "_row_id" : "nt2r-K-e8BC9-JgXskJqB"
+        }, {
+          "expression" : {
+            "expression" : "MAX(`Non-April Caller`)",
+            "_row_id" : null
+          },
+          "alias" : "`Max_Non-April Caller`",
+          "description" : null,
+          "_row_id" : "EuRGHb8EzWymmj4PeNkp3"
+        }, {
+          "expression" : {
+            "expression" : "Household",
+            "_row_id" : null
+          },
+          "alias" : "Household",
+          "description" : null,
+          "_row_id" : "3GglJgybw30xCPNSq0xaY"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Household",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "SMQ3AZu5MBtKvmLi3dD93"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "37_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "37_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "46" : {
+      "id" : "46",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_46",
+        "x" : 530,
+        "y" : 435,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "post_tree_join__43", "post_tree_join__44", "post_tree_join__45" ],
+        "schemas" : [ "[{\"name\": \"Days in Care Not Covered Received\", \"dataType\": \"String\"}, {\"name\": \"MA\", \"dataType\": \"String\"}, {\"name\": \"HoldDurationSeconds\", \"dataType\": \"String\"}, {\"name\": \"Months Until Call\", \"dataType\": \"String\"}, {\"name\": \"Total Member Pay Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_10_14\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_33_40\", \"dataType\": \"String\"}, {\"name\": \"Days Covered Received\", \"dataType\": \"String\"}, {\"name\": \"months since last call\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_33_40\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_50_64\", \"dataType\": \"String\"}, {\"name\": \"YMD\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_5_9\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_19_24\", \"dataType\": \"String\"}, {\"name\": \"ACA_GOLD_PLAN\", \"dataType\": \"String\"}, {\"name\": \"ED Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Days Not Covered Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_25_33\", \"dataType\": \"String\"}, {\"name\": \"Months on Plan\", \"dataType\": \"String\"}, {\"name\": \"Active Cases\", \"dataType\": \"String\"}, {\"name\": \"PPO_BRONZE_PLAN\", \"dataType\": \"String\"}, {\"name\": \"OOA Claims Received\", \"dataType\": \"String\"}, {\"name\": \"SUB_CNTGS_CNTY_CD\", \"dataType\": \"String\"}, {\"name\": \"TRAD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ZIP_CD_5\", \"dataType\": \"String\"}, {\"name\": \"Terminated\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_65_74\", \"dataType\": \"String\"}, {\"name\": \"PCP_FLAG\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_25_33\", \"dataType\": \"String\"}, {\"name\": \"GRP_DP_IN\", \"dataType\": \"String\"}, {\"name\": \"OOA Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"New_Retirement_Member\", \"dataType\": \"String\"}, {\"name\": \"IP Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"Product_Change\", \"dataType\": \"String\"}, {\"name\": \"GRP_ID\", \"dataType\": \"String\"}, {\"name\": \"Max CCI Score\", \"dataType\": \"String\"}, {\"name\": \"PPO\", \"dataType\": \"String\"}, {\"name\": \"Days in Care Paid\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_0_4\", \"dataType\": \"String\"}, {\"name\": \"PPO_GOLD_PLAN\", \"dataType\": \"String\"}, {\"name\": \"MBR_DSBLTY_IN\", \"dataType\": \"String\"}, {\"name\": \"Number of Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Out of Area Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"TotalRVU\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_74_\", \"dataType\": \"String\"}, {\"name\": \"PA Approved Count\", \"dataType\": \"String\"}, {\"name\": \"IP Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_40_49\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_15_18\", \"dataType\": \"String\"}, {\"name\": \"Called in 3\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"HMO\", \"dataType\": \"String\"}, {\"name\": \"Longest Processing Claim Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_0_4\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_74_\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Claims Outstanding\", \"dataType\": \"String\"}, {\"name\": \"Member Balance Received\", \"dataType\": \"String\"}, {\"name\": \"OP Visits Received\", \"dataType\": \"String\"}, {\"name\": \"ACA\", \"dataType\": \"String\"}, {\"name\": \"SPIRA_BNF_ID\", \"dataType\": \"String\"}, {\"name\": \"PA Denial Count\", \"dataType\": \"String\"}, {\"name\": \"Number of Calls\", \"dataType\": \"String\"}, {\"name\": \"ACA_BRONZE_PLAN\", \"dataType\": \"String\"}, {\"name\": \"MBR_ENR_COBRA_IN\", \"dataType\": \"String\"}, {\"name\": \"Number of Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"grp_change\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_15_18\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_65_74\", \"dataType\": \"String\"}, {\"name\": \"Specialty Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Allowed Amount of Prior Auth Denial\", \"dataType\": \"String\"}, {\"name\": \"Most Complex Case\", \"dataType\": \"String\"}, {\"name\": \"OP Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"Number of Claims Received\", \"dataType\": \"String\"}, {\"name\": \"Out of Area Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Total Dental Member Pay Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_5_9\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"MEDSUP\", \"dataType\": \"String\"}, {\"name\": \"Number of Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"RunTot_Inflection\", \"dataType\": \"String\"}, {\"name\": \"ACC\", \"dataType\": \"String\"}, {\"name\": \"Allowed Amount of Prior Auth Approval\", \"dataType\": \"String\"}, {\"name\": \"Re_Enroll\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_50_64\", \"dataType\": \"String\"}, {\"name\": \"PRNT_GRP_SIC_NACIS_CD\", \"dataType\": \"String\"}, {\"name\": \"Dental Member Month\", \"dataType\": \"String\"}, {\"name\": \"ACA_SILVER_PLAN\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_10_14\", \"dataType\": \"String\"}, {\"name\": \"Member Balance Paid\", \"dataType\": \"String\"}, {\"name\": \"ACA_CATASTROPHIC_PLAN\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Claims Received\", \"dataType\": \"String\"}, {\"name\": \"Claim with Most Reversals Paid\", \"dataType\": \"String\"}, {\"name\": \"Household\", \"dataType\": \"String\"}, {\"name\": \"Days Covered Paid\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ST_CD\", \"dataType\": \"String\"}, {\"name\": \"Days in Care Received\", \"dataType\": \"String\"}, {\"name\": \"CallDurationSeconds\", \"dataType\": \"String\"}, {\"name\": \"HPN\", \"dataType\": \"String\"}, {\"name\": \"Dependents\", \"dataType\": \"String\"}, {\"name\": \"Specialty Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"CSAT Score\", \"dataType\": \"String\"}, {\"name\": \"New_ACA_Member\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_19_24\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_40_49\", \"dataType\": \"String\"}, {\"name\": \"ED Visits Paid\", \"dataType\": \"String\"}]", "[{\"name\": \"Days in Care Not Covered Received\", \"dataType\": \"String\"}, {\"name\": \"MA\", \"dataType\": \"String\"}, {\"name\": \"HoldDurationSeconds\", \"dataType\": \"String\"}, {\"name\": \"Months Until Call\", \"dataType\": \"String\"}, {\"name\": \"Total Member Pay Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_10_14\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_33_40\", \"dataType\": \"String\"}, {\"name\": \"Days Covered Received\", \"dataType\": \"String\"}, {\"name\": \"months since last call\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_33_40\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_50_64\", \"dataType\": \"String\"}, {\"name\": \"YMD\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_5_9\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_19_24\", \"dataType\": \"String\"}, {\"name\": \"ACA_GOLD_PLAN\", \"dataType\": \"String\"}, {\"name\": \"ED Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Days Not Covered Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_25_33\", \"dataType\": \"String\"}, {\"name\": \"Months on Plan\", \"dataType\": \"String\"}, {\"name\": \"Active Cases\", \"dataType\": \"String\"}, {\"name\": \"PPO_BRONZE_PLAN\", \"dataType\": \"String\"}, {\"name\": \"OOA Claims Received\", \"dataType\": \"String\"}, {\"name\": \"SUB_CNTGS_CNTY_CD\", \"dataType\": \"String\"}, {\"name\": \"TRAD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ZIP_CD_5\", \"dataType\": \"String\"}, {\"name\": \"Terminated\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_65_74\", \"dataType\": \"String\"}, {\"name\": \"PCP_FLAG\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_25_33\", \"dataType\": \"String\"}, {\"name\": \"GRP_DP_IN\", \"dataType\": \"String\"}, {\"name\": \"OOA Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"New_Retirement_Member\", \"dataType\": \"String\"}, {\"name\": \"IP Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"Product_Change\", \"dataType\": \"String\"}, {\"name\": \"GRP_ID\", \"dataType\": \"String\"}, {\"name\": \"Max CCI Score\", \"dataType\": \"String\"}, {\"name\": \"PPO\", \"dataType\": \"String\"}, {\"name\": \"Days in Care Paid\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_0_4\", \"dataType\": \"String\"}, {\"name\": \"PPO_GOLD_PLAN\", \"dataType\": \"String\"}, {\"name\": \"MBR_DSBLTY_IN\", \"dataType\": \"String\"}, {\"name\": \"Number of Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Out of Area Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"TotalRVU\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_74_\", \"dataType\": \"String\"}, {\"name\": \"PA Approved Count\", \"dataType\": \"String\"}, {\"name\": \"IP Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_40_49\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_15_18\", \"dataType\": \"String\"}, {\"name\": \"Called in 3\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"HMO\", \"dataType\": \"String\"}, {\"name\": \"Longest Processing Claim Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_0_4\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_74_\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Claims Outstanding\", \"dataType\": \"String\"}, {\"name\": \"Member Balance Received\", \"dataType\": \"String\"}, {\"name\": \"OP Visits Received\", \"dataType\": \"String\"}, {\"name\": \"ACA\", \"dataType\": \"String\"}, {\"name\": \"SPIRA_BNF_ID\", \"dataType\": \"String\"}, {\"name\": \"PA Denial Count\", \"dataType\": \"String\"}, {\"name\": \"Number of Calls\", \"dataType\": \"String\"}, {\"name\": \"ACA_BRONZE_PLAN\", \"dataType\": \"String\"}, {\"name\": \"MBR_ENR_COBRA_IN\", \"dataType\": \"String\"}, {\"name\": \"Number of Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"grp_change\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_15_18\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_65_74\", \"dataType\": \"String\"}, {\"name\": \"Specialty Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Allowed Amount of Prior Auth Denial\", \"dataType\": \"String\"}, {\"name\": \"Most Complex Case\", \"dataType\": \"String\"}, {\"name\": \"OP Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"Number of Claims Received\", \"dataType\": \"String\"}, {\"name\": \"Out of Area Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Total Dental Member Pay Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_5_9\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"MEDSUP\", \"dataType\": \"String\"}, {\"name\": \"Number of Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"RunTot_Inflection\", \"dataType\": \"String\"}, {\"name\": \"ACC\", \"dataType\": \"String\"}, {\"name\": \"Allowed Amount of Prior Auth Approval\", \"dataType\": \"String\"}, {\"name\": \"Re_Enroll\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_50_64\", \"dataType\": \"String\"}, {\"name\": \"PRNT_GRP_SIC_NACIS_CD\", \"dataType\": \"String\"}, {\"name\": \"Dental Member Month\", \"dataType\": \"String\"}, {\"name\": \"ACA_SILVER_PLAN\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_10_14\", \"dataType\": \"String\"}, {\"name\": \"Member Balance Paid\", \"dataType\": \"String\"}, {\"name\": \"ACA_CATASTROPHIC_PLAN\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Claims Received\", \"dataType\": \"String\"}, {\"name\": \"Claim with Most Reversals Paid\", \"dataType\": \"String\"}, {\"name\": \"Household\", \"dataType\": \"String\"}, {\"name\": \"Days Covered Paid\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ST_CD\", \"dataType\": \"String\"}, {\"name\": \"Days in Care Received\", \"dataType\": \"String\"}, {\"name\": \"CallDurationSeconds\", \"dataType\": \"String\"}, {\"name\": \"HPN\", \"dataType\": \"String\"}, {\"name\": \"Dependents\", \"dataType\": \"String\"}, {\"name\": \"Specialty Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"CSAT Score\", \"dataType\": \"String\"}, {\"name\": \"New_ACA_Member\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_19_24\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_40_49\", \"dataType\": \"String\"}, {\"name\": \"ED Visits Paid\", \"dataType\": \"String\"}]", "[{\"name\": \"Days in Care Not Covered Received\", \"dataType\": \"String\"}, {\"name\": \"MA\", \"dataType\": \"String\"}, {\"name\": \"HoldDurationSeconds\", \"dataType\": \"String\"}, {\"name\": \"Months Until Call\", \"dataType\": \"String\"}, {\"name\": \"Total Member Pay Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_10_14\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_33_40\", \"dataType\": \"String\"}, {\"name\": \"Days Covered Received\", \"dataType\": \"String\"}, {\"name\": \"months since last call\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_33_40\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_50_64\", \"dataType\": \"String\"}, {\"name\": \"YMD\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_5_9\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_19_24\", \"dataType\": \"String\"}, {\"name\": \"ACA_GOLD_PLAN\", \"dataType\": \"String\"}, {\"name\": \"ED Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Days Not Covered Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_25_33\", \"dataType\": \"String\"}, {\"name\": \"Months on Plan\", \"dataType\": \"String\"}, {\"name\": \"Active Cases\", \"dataType\": \"String\"}, {\"name\": \"PPO_BRONZE_PLAN\", \"dataType\": \"String\"}, {\"name\": \"OOA Claims Received\", \"dataType\": \"String\"}, {\"name\": \"SUB_CNTGS_CNTY_CD\", \"dataType\": \"String\"}, {\"name\": \"TRAD\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ZIP_CD_5\", \"dataType\": \"String\"}, {\"name\": \"Terminated\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_65_74\", \"dataType\": \"String\"}, {\"name\": \"PCP_FLAG\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_25_33\", \"dataType\": \"String\"}, {\"name\": \"GRP_DP_IN\", \"dataType\": \"String\"}, {\"name\": \"OOA Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"New_Retirement_Member\", \"dataType\": \"String\"}, {\"name\": \"IP Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"Product_Change\", \"dataType\": \"String\"}, {\"name\": \"GRP_ID\", \"dataType\": \"String\"}, {\"name\": \"Max CCI Score\", \"dataType\": \"String\"}, {\"name\": \"PPO\", \"dataType\": \"String\"}, {\"name\": \"Days in Care Paid\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_0_4\", \"dataType\": \"String\"}, {\"name\": \"PPO_GOLD_PLAN\", \"dataType\": \"String\"}, {\"name\": \"MBR_DSBLTY_IN\", \"dataType\": \"String\"}, {\"name\": \"Number of Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Out of Area Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"TotalRVU\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_74_\", \"dataType\": \"String\"}, {\"name\": \"PA Approved Count\", \"dataType\": \"String\"}, {\"name\": \"IP Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_40_49\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_15_18\", \"dataType\": \"String\"}, {\"name\": \"Called in 3\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"HMO\", \"dataType\": \"String\"}, {\"name\": \"Longest Processing Claim Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_0_4\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_74_\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Claims Outstanding\", \"dataType\": \"String\"}, {\"name\": \"Member Balance Received\", \"dataType\": \"String\"}, {\"name\": \"OP Visits Received\", \"dataType\": \"String\"}, {\"name\": \"ACA\", \"dataType\": \"String\"}, {\"name\": \"SPIRA_BNF_ID\", \"dataType\": \"String\"}, {\"name\": \"PA Denial Count\", \"dataType\": \"String\"}, {\"name\": \"Number of Calls\", \"dataType\": \"String\"}, {\"name\": \"ACA_BRONZE_PLAN\", \"dataType\": \"String\"}, {\"name\": \"MBR_ENR_COBRA_IN\", \"dataType\": \"String\"}, {\"name\": \"Number of Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"grp_change\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_15_18\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_65_74\", \"dataType\": \"String\"}, {\"name\": \"Specialty Visits Received\", \"dataType\": \"String\"}, {\"name\": \"Allowed Amount of Prior Auth Denial\", \"dataType\": \"String\"}, {\"name\": \"Most Complex Case\", \"dataType\": \"String\"}, {\"name\": \"OP Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"Number of Claims Received\", \"dataType\": \"String\"}, {\"name\": \"Out of Area Dental Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"Total Dental Member Pay Paid\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_5_9\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Claims Paid\", \"dataType\": \"String\"}, {\"name\": \"MEDSUP\", \"dataType\": \"String\"}, {\"name\": \"Number of Dental Claims Received\", \"dataType\": \"String\"}, {\"name\": \"RunTot_Inflection\", \"dataType\": \"String\"}, {\"name\": \"ACC\", \"dataType\": \"String\"}, {\"name\": \"Allowed Amount of Prior Auth Approval\", \"dataType\": \"String\"}, {\"name\": \"Re_Enroll\", \"dataType\": \"String\"}, {\"name\": \"Male_Aged_50_64\", \"dataType\": \"String\"}, {\"name\": \"PRNT_GRP_SIC_NACIS_CD\", \"dataType\": \"String\"}, {\"name\": \"Dental Member Month\", \"dataType\": \"String\"}, {\"name\": \"ACA_SILVER_PLAN\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_10_14\", \"dataType\": \"String\"}, {\"name\": \"Member Balance Paid\", \"dataType\": \"String\"}, {\"name\": \"ACA_CATASTROPHIC_PLAN\", \"dataType\": \"String\"}, {\"name\": \"Out of Network Claims Received\", \"dataType\": \"String\"}, {\"name\": \"Claim with Most Reversals Paid\", \"dataType\": \"String\"}, {\"name\": \"Household\", \"dataType\": \"String\"}, {\"name\": \"Days Covered Paid\", \"dataType\": \"String\"}, {\"name\": \"MBR_HOME_ADDR_ST_CD\", \"dataType\": \"String\"}, {\"name\": \"Days in Care Received\", \"dataType\": \"String\"}, {\"name\": \"CallDurationSeconds\", \"dataType\": \"String\"}, {\"name\": \"HPN\", \"dataType\": \"String\"}, {\"name\": \"Dependents\", \"dataType\": \"String\"}, {\"name\": \"Specialty Visits Paid\", \"dataType\": \"String\"}, {\"name\": \"CSAT Score\", \"dataType\": \"String\"}, {\"name\": \"New_ACA_Member\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_19_24\", \"dataType\": \"String\"}, {\"name\": \"Woman_Aged_40_49\", \"dataType\": \"String\"}, {\"name\": \"ED Visits Paid\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"post_tree_join__43\", \"post_tree_join__44\", \"post_tree_join__45\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"Days in Care Not Covered Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MA\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HoldDurationSeconds\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Months Until Call\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Total Member Pay Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_10_14\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_33_40\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Covered Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"months since last call\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_33_40\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_50_64\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"YMD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_5_9\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_19_24\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_GOLD_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ED Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Not Covered Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_25_33\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Months on Plan\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Active Cases\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO_BRONZE_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OOA Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"SUB_CNTGS_CNTY_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"TRAD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_HOME_ADDR_ZIP_CD_5\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Terminated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_65_74\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PCP_FLAG\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_25_33\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"GRP_DP_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OOA Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"New_Retirement_Member\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"IP Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Product_Change\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"GRP_ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Max CCI Score\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days in Care Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_0_4\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO_GOLD_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_DSBLTY_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Area Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"TotalRVU\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_74_\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PA Approved Count\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"IP Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_40_49\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_15_18\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Called in 3\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HMO\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Longest Processing Claim Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_0_4\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_74_\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Claims Outstanding\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Member Balance Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OP Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"SPIRA_BNF_ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PA Denial Count\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Calls\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_BRONZE_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_ENR_COBRA_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grp_change\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_15_18\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_65_74\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Specialty Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Allowed Amount of Prior Auth Denial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Most Complex Case\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OP Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Area Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Total Dental Member Pay Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_5_9\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MEDSUP\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"RunTot_Inflection\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACC\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Allowed Amount of Prior Auth Approval\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Re_Enroll\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_50_64\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PRNT_GRP_SIC_NACIS_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Dental Member Month\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_SILVER_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_10_14\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Member Balance Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_CATASTROPHIC_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Claim with Most Reversals Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Household\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Covered Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_HOME_ADDR_ST_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days in Care Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"CallDurationSeconds\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HPN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Dependents\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Specialty Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"CSAT Score\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"New_ACA_Member\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_19_24\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_40_49\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ED Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"Days in Care Not Covered Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MA\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HoldDurationSeconds\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Months Until Call\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Total Member Pay Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_10_14\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_33_40\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Covered Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"months since last call\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_33_40\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_50_64\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"YMD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_5_9\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_19_24\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_GOLD_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ED Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Not Covered Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_25_33\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Months on Plan\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Active Cases\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO_BRONZE_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OOA Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"SUB_CNTGS_CNTY_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"TRAD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_HOME_ADDR_ZIP_CD_5\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Terminated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_65_74\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PCP_FLAG\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_25_33\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"GRP_DP_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OOA Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"New_Retirement_Member\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"IP Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Product_Change\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"GRP_ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Max CCI Score\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days in Care Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_0_4\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO_GOLD_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_DSBLTY_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Area Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"TotalRVU\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_74_\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PA Approved Count\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"IP Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_40_49\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_15_18\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Called in 3\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HMO\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Longest Processing Claim Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_0_4\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_74_\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Claims Outstanding\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Member Balance Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OP Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"SPIRA_BNF_ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PA Denial Count\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Calls\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_BRONZE_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_ENR_COBRA_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grp_change\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_15_18\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_65_74\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Specialty Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Allowed Amount of Prior Auth Denial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Most Complex Case\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OP Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Area Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Total Dental Member Pay Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_5_9\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MEDSUP\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"RunTot_Inflection\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACC\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Allowed Amount of Prior Auth Approval\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Re_Enroll\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_50_64\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PRNT_GRP_SIC_NACIS_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Dental Member Month\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_SILVER_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_10_14\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Member Balance Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_CATASTROPHIC_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Claim with Most Reversals Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Household\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Covered Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_HOME_ADDR_ST_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days in Care Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"CallDurationSeconds\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HPN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Dependents\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Specialty Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"CSAT Score\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"New_ACA_Member\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_19_24\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_40_49\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ED Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"Days in Care Not Covered Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MA\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HoldDurationSeconds\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Months Until Call\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Total Member Pay Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_10_14\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_33_40\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Covered Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"months since last call\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_33_40\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_50_64\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"YMD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_5_9\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_19_24\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_GOLD_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ED Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Not Covered Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_25_33\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Months on Plan\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Active Cases\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO_BRONZE_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OOA Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"SUB_CNTGS_CNTY_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"TRAD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_HOME_ADDR_ZIP_CD_5\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Terminated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_65_74\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PCP_FLAG\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_25_33\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"GRP_DP_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OOA Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"New_Retirement_Member\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"IP Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Product_Change\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"GRP_ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Max CCI Score\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days in Care Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_0_4\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PPO_GOLD_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_DSBLTY_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Area Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"TotalRVU\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_74_\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PA Approved Count\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"IP Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_40_49\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_15_18\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Called in 3\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HMO\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Longest Processing Claim Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_0_4\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_74_\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Claims Outstanding\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Member Balance Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OP Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"SPIRA_BNF_ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PA Denial Count\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Calls\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_BRONZE_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_ENR_COBRA_IN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"grp_change\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_15_18\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_65_74\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Specialty Visits Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Allowed Amount of Prior Auth Denial\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Most Complex Case\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"OP Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Area Dental Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Total Dental Member Pay Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_5_9\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Claims Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MEDSUP\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Number of Dental Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"RunTot_Inflection\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACC\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Allowed Amount of Prior Auth Approval\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Re_Enroll\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Male_Aged_50_64\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"PRNT_GRP_SIC_NACIS_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Dental Member Month\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_SILVER_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_10_14\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Member Balance Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACA_CATASTROPHIC_PLAN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Out of Network Claims Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Claim with Most Reversals Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Household\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days Covered Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"MBR_HOME_ADDR_ST_CD\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Days in Care Received\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"CallDurationSeconds\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"HPN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Dependents\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Specialty Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"CSAT Score\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"New_ACA_Member\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_19_24\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Woman_Aged_40_49\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ED Visits Paid\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "46_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "46_#2_Input",
+          "slug" : "in1"
+        }, {
+          "id" : "46_#3_Input",
+          "slug" : "in2"
+        } ],
+        "outputs" : [ {
+          "id" : "46_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "43" : {
+      "id" : "43",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "post_tree_join__43",
+        "x" : 290,
+        "y" : 186,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "post_tree_join__43_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "43_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "57_inner" : {
+      "id" : "57_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_57_inner",
+        "x" : 6779.2001953125,
+        "y" : 1725,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.Household = in1.Household) AND (in0.YMD = in1.YMD))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.ID",
+            "_row_id" : null
+          },
+          "alias" : "Right_ID",
+          "description" : null,
+          "_row_id" : "_F9FXcJ7blZx9TpPtAPbY"
+        }, {
+          "expression" : {
+            "expression" : "in1.`Most Complex Case`",
+            "_row_id" : null
+          },
+          "alias" : "`Right_Most Complex Case`",
+          "description" : null,
+          "_row_id" : "vuK1fIzGfzzih_2XtgMDj"
+        }, {
+          "expression" : {
+            "expression" : "in1.`Active Cases`",
+            "_row_id" : null
+          },
+          "alias" : "`Right_Active Cases`",
+          "description" : null,
+          "_row_id" : "CqcGGFyMamHjEtHV7W0lH"
+        }, {
+          "expression" : {
+            "expression" : "in1.`PA Approved Count`",
+            "_row_id" : null
+          },
+          "alias" : "`Right_PA Approved Count`",
+          "description" : null,
+          "_row_id" : "i2ZYTKMYGbgf02l_2CBUK"
+        }, {
+          "expression" : {
+            "expression" : "in1.`PA Denial Count`",
+            "_row_id" : null
+          },
+          "alias" : "`Right_PA Denial Count`",
+          "description" : null,
+          "_row_id" : "Wu4i4sSDFyjkPte5w_vZC"
+        }, {
+          "expression" : {
+            "expression" : "in1.`Allowed Amount of Prior Auth Approval`",
+            "_row_id" : null
+          },
+          "alias" : "`Right_Allowed Amount of Prior Auth Approval`",
+          "description" : null,
+          "_row_id" : "Mj13r_FyrhpWnhLes7LaQ"
+        }, {
+          "expression" : {
+            "expression" : "in1.`Allowed Amount of Prior Auth Denial`",
+            "_row_id" : null
+          },
+          "alias" : "`Right_Allowed Amount of Prior Auth Denial`",
+          "description" : null,
+          "_row_id" : "T7lA5TH2bwlsv_OKQv9SY"
+        }, {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Household`, `GRP_ID`, `ID`, `YMD`, `PRNT_GRP_SIC_NACIS_CD`, `Male_Aged_0_4`, `Male_Aged_5_9`, `Male_Aged_10_14`, `Male_Aged_15_18`, `Male_Aged_19_24`, `Male_Aged_25_33`, `Male_Aged_33_40`, `Male_Aged_40_49`, `Male_Aged_50_64`, `Woman_Aged_0_4`, `Woman_Aged_5_9`, `Woman_Aged_10_14`, `Woman_Aged_15_18`, `Woman_Aged_19_24`, `Woman_Aged_25_33`, `Woman_Aged_33_40`, `Woman_Aged_40_49`, `Woman_Aged_50_64`, `Male_Aged_65_74`, `Male_Aged_74_`, `Woman_Aged_65_74`, `Woman_Aged_74_`, `Dependents`, `grp_change`, `Dental Member Month`, `Terminated`, `MBR_HOME_ADDR_ST_CD`, `MBR_HOME_ADDR_ZIP_CD_5`, `SUB_CNTGS_CNTY_CD`, `Number of Calls`, `CallDurationSeconds`, `HoldDurationSeconds`, `Months Until Call`, `New_ACA_Member`, `New_Retirement_Member`, `Re_Enroll`, `Product_Change`, `Months on Plan`, `months since last call`, `CSAT Score`, `Days in Care Not Covered Received`, `Out of Network Claims Received`, `OOA Claims Received`, `Days in Care Received`, `Days Covered Received`, `Member Balance Received`, `Specialty Visits Received`, `ED Visits Received`, `OP Visits Received`, `IP Visits Received`, `Number of Claims Received`, `Member Balance Paid`, `Days Not Covered Paid`, `Out of Network Claims Paid`, `OOA Visits Paid`, `Total Member Pay Paid`, `Days in Care Paid`, `Days Covered Paid`, `Claim with Most Reversals Paid`, `Specialty Visits Paid`, `ED Visits Paid`, `OP Visits Paid`, `IP Visits Paid`, `Longest Processing Claim Paid`, `Number of Claims Paid`, `Out of Network Dental Claims Received`, `Out of Area Dental Claims Received`, `Number of Dental Claims Received`, `Total Dental Member Pay Paid`, `Out of Network Dental Claims Paid`, `Out of Area Dental Claims Paid`, `Number of Dental Claims Paid`, `Max CCI Score`, `RunTot_Inflection`, `TotalRVU`, `ACC`, `Claims Outstanding`, `Called in 3`, `MBR_DSBLTY_IN`, `GRP_DP_IN`, `SPIRA_BNF_ID`, `PCP_FLAG`, `MBR_ENR_COBRA_IN`, `ACA`, `ACA_BRONZE_PLAN`, `ACA_CATASTROPHIC_PLAN`, `ACA_GOLD_PLAN`, `ACA_SILVER_PLAN`, `HMO`, `HPN`, `MA`, `MEDSUP`, `PPO`, `PPO_BRONZE_PLAN`, `PPO_GOLD_PLAN`, `TRAD`, `Most Complex Case`, `Active Cases`, `PA Approved Count`, `PA Denial Count`, `Allowed Amount of Prior Auth Approval`, `Allowed Amount of Prior Auth Denial`, `month`, `GRP_ID1`, `GRP_ID2`, `GRP_ID3`, `GRP_ID4`, `GRP_ID5`, `GRP_ID6`, `GRP_ID7`, `GRP_ID8`, `Right_GRP_ID`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "97HNM8p-1rUBaQwJChu8j",
+          "slug" : "in0"
+        }, {
+          "id" : "uhSI0FeEgOmIcOjBcCdSU",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "WGzqjvXIl1sDRAIrSPzO5",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5" : {
+      "id" : "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_57_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_57_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "41" : {
+      "id" : "41",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_41",
+        "x" : 1730,
+        "y" : 363,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Max_Non-April Caller`",
+            "_row_id" : null
+          },
+          "alias" : "`Max_Non-April Caller`",
+          "description" : null,
+          "_row_id" : "GYXG3QoatewUsqkub6zDv"
+        }, {
+          "expression" : {
+            "expression" : "`Months Until Call`",
+            "_row_id" : null
+          },
+          "alias" : "`Months Until Call`",
+          "description" : null,
+          "_row_id" : "fKDn3EvncXm6eu-idWAKB"
+        }, {
+          "expression" : {
+            "expression" : "`Max_April Caller`",
+            "_row_id" : null
+          },
+          "alias" : "`Max_April Caller`",
+          "description" : null,
+          "_row_id" : "zvZ-bMt4XnWvucW6ugPpi"
+        }, {
+          "expression" : {
+            "expression" : "`Non-Caller`",
+            "_row_id" : null
+          },
+          "alias" : "`Non-Caller`",
+          "description" : null,
+          "_row_id" : "qKyuPQLE9nHP_31Ui5LRE"
+        }, {
+          "expression" : {
+            "expression" : "YMD",
+            "_row_id" : null
+          },
+          "alias" : "YMD",
+          "description" : null,
+          "_row_id" : "8GRO-A4alDiIOGznsOFTw"
+        }, {
+          "expression" : {
+            "expression" : "Household",
+            "_row_id" : null
+          },
+          "alias" : "Household",
+          "description" : null,
+          "_row_id" : "o7frv5YD2-IGwVLe-8Mvh"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "41_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "41_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "48_inner" : {
+      "id" : "48_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_48_inner",
+        "x" : 5459.2001953125,
+        "y" : 432,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.Household = in1.Household) AND (in0.YMD = in1.YMD))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Household`, `YMD`, `Months Until Call`, `Non-Caller`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "BIwGiUAvOs-zFmVDJmctL",
+          "slug" : "in0"
+        }, {
+          "id" : "FdjK2LUSw9OFLcTfh8Xrj",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "mqUFKrYE-7RnohRWgWrJb",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_57_inner_WGzqjvXIl1sDRAIrSPzO5_Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+    "source" : "57_inner",
+    "sourcePort" : "WGzqjvXIl1sDRAIrSPzO5",
+    "target" : "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+    "targetPort" : "input_port_4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_164",
+    "source" : "48_inner",
+    "sourcePort" : "mqUFKrYE-7RnohRWgWrJb",
+    "target" : "57_inner",
+    "targetPort" : "uhSI0FeEgOmIcOjBcCdSU",
+    "isWireless" : false
+  }, {
+    "id" : "edge_163",
+    "source" : "Join_3_inner_gAzjLh8OcOp1hsiV37SRH",
+    "sourcePort" : "output_port_0",
+    "target" : "57_inner",
+    "targetPort" : "97HNM8p-1rUBaQwJChu8j",
+    "isWireless" : false
+  }, {
+    "id" : "edge_162",
+    "source" : "41",
+    "sourcePort" : "41_Output",
+    "target" : "48_inner",
+    "targetPort" : "FdjK2LUSw9OFLcTfh8Xrj",
+    "isWireless" : false
+  }, {
+    "id" : "edge_161",
+    "source" : "Unique_34_34_Unique",
+    "sourcePort" : "output_port_3",
+    "target" : "48_inner",
+    "targetPort" : "BIwGiUAvOs-zFmVDJmctL",
+    "isWireless" : false
+  }, {
+    "id" : "edge_173",
+    "source" : "38_right",
+    "sourcePort" : "s2Ow2NaGbW6cCHjSmdHnl",
+    "target" : "41",
+    "targetPort" : "41_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_172",
+    "source" : "46",
+    "sourcePort" : "46_Output",
+    "target" : "38_right",
+    "targetPort" : "BUzuerEAQnZ9-bRBLUAKb",
+    "isWireless" : false
+  }, {
+    "id" : "edge_208",
+    "source" : "nmpDDv6LOabpwyWzvHeSb",
+    "sourcePort" : "ZzK0rlWjxxM16ZreBVxWr",
+    "target" : "38_right",
+    "targetPort" : "3YBo4UVXEGvc2xzXfsjpP",
+    "isWireless" : false
+  }, {
+    "id" : "edge_122",
+    "source" : "43",
+    "sourcePort" : "43_Output",
+    "target" : "46",
+    "targetPort" : "46_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_123",
+    "source" : "44",
+    "sourcePort" : "44_Output",
+    "target" : "46",
+    "targetPort" : "46_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_124",
+    "source" : "45",
+    "sourcePort" : "45_Output",
+    "target" : "46",
+    "targetPort" : "46_#3_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_209",
+    "source" : "37",
+    "sourcePort" : "37_Output",
+    "target" : "nmpDDv6LOabpwyWzvHeSb",
+    "targetPort" : "QqMPl9wlgrxltriPwHDrO",
+    "isWireless" : false
+  }, {
+    "id" : "edge_206",
+    "source" : "OlHv_QS-tVKVKDzaD82r1",
+    "sourcePort" : "zedT3Ujo_SNh6aSxIOila",
+    "target" : "37",
+    "targetPort" : "37_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_207",
+    "source" : "46",
+    "sourcePort" : "46_Output",
+    "target" : "OlHv_QS-tVKVKDzaD82r1",
+    "targetPort" : "R3MV-MVXbDHzMvt7zXGqH",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

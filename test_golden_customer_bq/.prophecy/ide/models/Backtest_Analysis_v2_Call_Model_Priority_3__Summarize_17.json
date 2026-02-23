@@ -1,0 +1,152 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__Summarize_17",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__Summarize_17",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_17_zGpb1H-U0OAqJrLgXWUdL" : {
+      "id" : "Summarize_17_zGpb1H-U0OAqJrLgXWUdL",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_17"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_17\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "17" : {
+      "id" : "17",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_17",
+        "x" : 9899.2001953125,
+        "y" : 867,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT Household)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_Household",
+          "description" : null,
+          "_row_id" : "gwPYQWuQ1AHJMrf6YZMPj"
+        }, {
+          "expression" : {
+            "expression" : "`Max_April Caller`",
+            "_row_id" : null
+          },
+          "alias" : "`Max_April Caller`",
+          "description" : null,
+          "_row_id" : "X9nv2abLxAcgc5ig6ryqq"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Max_April Caller`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "xcVoj-slEa7rnQS46Uj1Z"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "17_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "zGpb1H-U0OAqJrLgXWUdL",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5" : {
+      "id" : "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_57_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Backtest_Analysis_v2_Call_Model_Priority_3__Join_57_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_17_zGpb1H-U0OAqJrLgXWUdL_Summarize_17_zGpb1H-U0OAqJrLgXWUdL",
+    "source" : "17",
+    "sourcePort" : "zGpb1H-U0OAqJrLgXWUdL",
+    "target" : "Summarize_17_zGpb1H-U0OAqJrLgXWUdL",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_167",
+    "source" : "Join_57_inner_WGzqjvXIl1sDRAIrSPzO5",
+    "sourcePort" : "output_port_4",
+    "target" : "17",
+    "targetPort" : "17_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

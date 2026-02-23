@@ -1,0 +1,266 @@
+{
+  "id" : "Backtest_Analysis_v2_Call_Model_Priority_3__Join_3_inner",
+  "metainfo" : {
+    "label" : "Backtest_Analysis_v2_Call_Model_Priority_3__Join_3_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "ZXA5alTivNVVlOv1Oxj-k" : {
+      "id" : "ZXA5alTivNVVlOv1Oxj-k",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_3_inner_rightRecordPosition",
+        "x" : 6179.2001953125,
+        "y" : 1764,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n      *,\n      row_number() OVER (ORDER BY 1) AS `recordPositionForJoin`\n    FROM OverallTestFilt_90\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "QYjiiUygbC0TN_0IujisV",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "hUSBsZVkvkVswuIE0ovs-",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_3_inner_gAzjLh8OcOp1hsiV37SRH" : {
+      "id" : "Join_3_inner_gAzjLh8OcOp1hsiV37SRH",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_3_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_3_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "90" : {
+      "id" : "90",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "OverallTestFilt_90",
+        "x" : 5939.2001953125,
+        "y" : 2088,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "OverallTestFilt_90_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "90_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3_inner" : {
+      "id" : "3_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_3_inner",
+        "x" : 6719.2001953125,
+        "y" : 1764,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.recordPositionForJoin = in1.recordPositionForJoin)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`recordPositionForJoin`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`recordPositionForJoin`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "BF5C86xbCY-tlJUY0C9QB",
+          "slug" : "in0"
+        }, {
+          "id" : "wU9yj8IMURH7I5iwuHeRC",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "gAzjLh8OcOp1hsiV37SRH",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1" : {
+      "id" : "1",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "OverallSystemTe_1",
+        "x" : 2548,
+        "y" : 1443,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "OverallSystemTe_1_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "1_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "20JdIDsVT3FY_V6Nxdcn8" : {
+      "id" : "20JdIDsVT3FY_V6Nxdcn8",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_3_inner_leftRecordPosition",
+        "x" : 6359.2001953125,
+        "y" : 1764,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n      *,\n      row_number() OVER (ORDER BY 1) AS `recordPositionForJoin`\n    FROM OverallSystemTe_1\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Ygf9wO0HZbx7X5XEhHs0B",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "10dCZ2LjFSB4cK9VLgzOa",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3_inner_gAzjLh8OcOp1hsiV37SRH_Join_3_inner_gAzjLh8OcOp1hsiV37SRH",
+    "source" : "3_inner",
+    "sourcePort" : "gAzjLh8OcOp1hsiV37SRH",
+    "target" : "Join_3_inner_gAzjLh8OcOp1hsiV37SRH",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_189",
+    "source" : "20JdIDsVT3FY_V6Nxdcn8",
+    "sourcePort" : "10dCZ2LjFSB4cK9VLgzOa",
+    "target" : "3_inner",
+    "targetPort" : "BF5C86xbCY-tlJUY0C9QB",
+    "isWireless" : false
+  }, {
+    "id" : "edge_191",
+    "source" : "ZXA5alTivNVVlOv1Oxj-k",
+    "sourcePort" : "hUSBsZVkvkVswuIE0ovs-",
+    "target" : "3_inner",
+    "targetPort" : "wU9yj8IMURH7I5iwuHeRC",
+    "isWireless" : false
+  }, {
+    "id" : "edge_188",
+    "source" : "1",
+    "sourcePort" : "1_Output",
+    "target" : "20JdIDsVT3FY_V6Nxdcn8",
+    "targetPort" : "Ygf9wO0HZbx7X5XEhHs0B",
+    "isWireless" : false
+  }, {
+    "id" : "edge_190",
+    "source" : "90",
+    "sourcePort" : "90_Output",
+    "target" : "ZXA5alTivNVVlOv1Oxj-k",
+    "targetPort" : "QYjiiUygbC0TN_0IujisV",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
