@@ -1,0 +1,83 @@
+{
+  "id" : "pivot_pipeline",
+  "metainfo" : {
+    "label" : "pivot_pipeline",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ ]
+      }
+    },
+    "isTranspiledPipeline" : false
+  },
+  "processes" : {
+    "5e4N2z0Kal" : {
+      "id" : "5e4N2z0Kal",
+      "component" : "Script",
+      "metadata" : {
+        "label" : "pivot_script",
+        "x" : 160,
+        "y" : -140,
+        "phase" : 0,
+        "comment" : "Aggregates available inventory by item across locations, producing pivoted total quantities per item.",
+        "autoUpdateComment" : true
+      },
+      "properties" : {
+        "ports" : null,
+        "script" : "from pyspark.sql.functions import col, collect_list, lit, concat_ws, sum\n\ndf1 = in0.groupBy(col(\"ItemNumber\"))\ndf2 = df1.pivot(\"LocationCode\")\n\nreturn df2.agg(sum(col(\"Sum_AvailableQuantity\")).alias(\"Sum\"), lit(1).alias(\"_dummy_\"))",
+        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: DataFrame) -> DataFrame:"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "mQtc8kM11b",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2RHdDiMBtF",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "0KGgMYTn-aOuhldJqqB0V$$jyrxdrgYupVKLgsyFvJ-n" : {
+      "id" : "0KGgMYTn-aOuhldJqqB0V$$jyrxdrgYupVKLgsyFvJ-n",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "undetermined_format_missing_schema",
+        "x" : -140,
+        "y" : -140,
+        "phase" : 0,
+        "comment" : "Refreshes the 'wsfr' seed table by overwriting it to provide the latest baseline reference data for downstream pipelines.",
+        "autoUpdateComment" : true
+      },
+      "properties" : {
+        "table" : {
+          "name" : "wsfr",
+          "sourceType" : "Seed"
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "jkQLK1iPTdSmXg3c1A2CB$$mJVApecLYKKEzxm_PaZWv",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "qclkWV5WATLDB2WCdVZfX",
+    "source" : "0KGgMYTn-aOuhldJqqB0V$$jyrxdrgYupVKLgsyFvJ-n",
+    "sourcePort" : "jkQLK1iPTdSmXg3c1A2CB$$mJVApecLYKKEzxm_PaZWv",
+    "target" : "5e4N2z0Kal",
+    "targetPort" : "mQtc8kM11b"
+  } ],
+  "component" : "Pipeline"
+}
