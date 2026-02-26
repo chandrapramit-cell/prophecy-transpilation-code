@@ -1,0 +1,186 @@
+{
+  "id" : "APRA_Processes__Join_494_inner",
+  "metainfo" : {
+    "label" : "APRA_Processes__Join_494_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_494_inner_RiVQ8_I2V9bg_xQbTMxD8" : {
+      "id" : "Join_494_inner_RiVQ8_I2V9bg_xQbTMxD8",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_494_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_494_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_24",
+          "slug" : "input_port_24"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_24",
+          "slug" : "output_port_24"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "494_inner" : {
+      "id" : "494_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_494_inner",
+        "x" : 50,
+        "y" : 399,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.v_TZAC = in1.TZAC)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "r6WDbCjH50-0SWyaof5QE",
+          "slug" : "in0"
+        }, {
+          "id" : "SyEE3TwqTn4JwQssE0w5b",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "RiVQ8_I2V9bg_xQbTMxD8",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_482_482_Output" : {
+      "id" : "Union_482_482_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_482"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_23",
+          "id" : "output_port_23",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('APRA_Processes__Union_482') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_23",
+          "slug" : "input_port_23"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_23",
+          "slug" : "output_port_23"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DynamicInput_39_39_Output" : {
+      "id" : "DynamicInput_39_39_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DynamicInput_39"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_15",
+          "id" : "output_port_15",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('APRA_Processes', 'DynamicInput_39') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_15",
+          "slug" : "input_port_15"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_15",
+          "slug" : "output_port_15"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_494_inner_RiVQ8_I2V9bg_xQbTMxD8_Join_494_inner_RiVQ8_I2V9bg_xQbTMxD8",
+    "source" : "494_inner",
+    "sourcePort" : "RiVQ8_I2V9bg_xQbTMxD8",
+    "target" : "Join_494_inner_RiVQ8_I2V9bg_xQbTMxD8",
+    "targetPort" : "input_port_24",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1332",
+    "source" : "Union_482_482_Output",
+    "sourcePort" : "output_port_23",
+    "target" : "494_inner",
+    "targetPort" : "r6WDbCjH50-0SWyaof5QE",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1313",
+    "source" : "DynamicInput_39_39_Output",
+    "sourcePort" : "output_port_15",
+    "target" : "494_inner",
+    "targetPort" : "SyEE3TwqTn4JwQssE0w5b",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

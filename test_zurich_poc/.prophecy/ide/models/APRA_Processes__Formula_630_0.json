@@ -1,0 +1,937 @@
+{
+  "id" : "APRA_Processes__Formula_630_0",
+  "metainfo" : {
+    "label" : "APRA_Processes__Formula_630_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "_XZEYxUVkVAqrHsH8PLwX" : {
+      "id" : "_XZEYxUVkVAqrHsH8PLwX",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_612_1",
+        "x" : 2450,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (Month_End_Date_lag1 = CAST(NULL AS string)) THEN (CAST(Month_End_Date_lead1 AS DATE) = Month_End_Date) ELSE (CAST(Month_End_Date_lag1 AS DATE) = Month_End_Date) END) AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "S2_Date_Check",
+          "description" : null,
+          "_row_id" : "Ab9KiVxMo_iJpmlb8uDLo"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Month_End_Date_lag1`, `Month_End_Date_lead1`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MMu6hyfduMXqm5WWDyijh",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "6otwyC7yTze46CnOL3eMy",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_630_0_l-p8q48E460cMRySRjBjE" : {
+      "id" : "Formula_630_0_l-p8q48E460cMRySRjBjE",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_630_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_630_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GVxTkjBDPoysgPC0uNGDZ" : {
+      "id" : "GVxTkjBDPoysgPC0uNGDZ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_612_row_id_drop_0",
+        "x" : 2630,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`prophecy_row_id`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "TkOFoNyg2hZTlgNtEBvMk",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Rr5o0nZQH6LYB6PPCRoQO",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "606" : {
+      "id" : "606",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_606",
+        "x" : 890,
+        "y" : 402,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "CAST(FullPath_Matched AS BOOLEAN)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "606_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "606_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "609" : {
+      "id" : "609",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_609",
+        "x" : 1610,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((TRY_TO_TIMESTAMP(CAST(Month_End_Date AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) IS NOT NULL) THEN CAST((TRY_TO_TIMESTAMP(CAST(Month_End_Date AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) AS DATE) WHEN ((TRY_TO_TIMESTAMP(CAST(Month_End_Date AS string), 'yyyy-MM-dd HH:mm:ss')) IS NOT NULL) THEN CAST((TRY_TO_TIMESTAMP(CAST(Month_End_Date AS string), 'yyyy-MM-dd HH:mm:ss')) AS DATE) ELSE CAST((TRY_TO_TIMESTAMP(CAST(Month_End_Date AS string), 'yyyy-MM-dd')) AS DATE) END)",
+            "_row_id" : null
+          },
+          "alias" : "Month_End_Date",
+          "description" : null,
+          "_row_id" : "TUke86U90xM9U3Jxb_8jk"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Month_End_Date`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "609_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "609_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "s6UFBYe4Maupvhz-xwS2s" : {
+      "id" : "s6UFBYe4Maupvhz-xwS2s",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_608_0",
+        "x" : 1370,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((\n  CASE\n    WHEN ((DAY((TO_TIMESTAMP((REGEXP_REPLACE(Month_End_Date, '\\\\.\\\\d+', '')), 'ddMMyyyy')))) <= 3)\n      THEN (\n        TO_TIMESTAMP(\n          (\n            TO_TIMESTAMP(\n              (\n                REGEXP_REPLACE(\n                  (CONCAT('01', (SUBSTRING(Month_End_Date, (((LENGTH(Month_End_Date)) - 6) + 1), 6)))), \n                  '\\\\.\\\\d+', \n                  '')\n              ), \n              'ddMMyyyy')\n          ))\n      )\n    WHEN ((DAY((TO_TIMESTAMP((REGEXP_REPLACE(Month_End_Date, '\\\\.\\\\d+', '')), 'ddMMyyyy')))) >= 27)\n      THEN (\n        TO_TIMESTAMP(\n          (\n            TO_TIMESTAMP(\n              (\n                REGEXP_REPLACE(\n                  (\n                    CONCAT(\n                      '01', \n                      (\n                        DATE_FORMAT(\n                          (ADD_MONTHS((TO_TIMESTAMP((REGEXP_REPLACE(Month_End_Date, '\\\\.\\\\d+', '')), 'ddMMyyyy')), 1)), \n                          'MMyyyy')\n                      ))\n                  ), \n                  '\\\\.\\\\d+', \n                  '')\n              ), \n              'ddMMyyyy')\n          ))\n      )\n    ELSE (TO_TIMESTAMP((REGEXP_REPLACE(Month_End_Date, '\\\\.\\\\d+', '')), 'ddMMyyyy'))\n  END\n) AS VARCHAR (1000))",
+            "_row_id" : null
+          },
+          "alias" : "Month_End_Date",
+          "description" : null,
+          "_row_id" : "u5PUlaqbITBWHbQjIChMH"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`month_end_date`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "r_y8kRiZrz5IW_wzWefsa",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "uTiRgKHjU-18iNnDdbdoH",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "605" : {
+      "id" : "605",
+      "component" : "Regex",
+      "metadata" : {
+        "label" : "RegEx_605",
+        "x" : 470,
+        "y" : 402,
+        "phase" : 0
+      },
+      "properties" : {
+        "outputMethod" : "match",
+        "tokenizeOutputMethod" : "splitColumns",
+        "copyUnmatchedText" : false,
+        "caseInsensitive" : true,
+        "matchColumnName" : "FullPath_Matched",
+        "parseColumns" : [ {
+          "columnName" : "regex_col1",
+          "dataType" : "string",
+          "rgxExpression" : "(\\d*)"
+        } ],
+        "relation_name" : [ "Directory_604_reformat" ],
+        "errorIfNotMatched" : false,
+        "noOfColumns" : 1,
+        "_oldMacroProperties" : {
+          "macroName" : "Regex",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Directory_604_reformat\"]"
+          }, {
+            "name" : "parseColumns",
+            "value" : "[{\"columnName\": \"regex_col1\", \"dataType\": \"string\", \"rgxExpression\": \"(\\\\d*)\"}]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"FullPath\", \"dataType\": \"String\"}, {\"name\": \"Directory\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ShortFileName\", \"dataType\": \"String\"}, {\"name\": \"CreationTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastAccessTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastWriteTime\", \"dataType\": \"Bigint\"}, {\"name\": \"Size\", \"dataType\": \"Bigint\"}, {\"name\": \"AttributeArchive\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeCompressed\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeEncrypted\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeHidden\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeReadOnly\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeSystem\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeTemporary\", \"dataType\": \"Boolean\"}]"
+          }, {
+            "name" : "selectedColumnName",
+            "value" : "FileName"
+          }, {
+            "name" : "outputMethod",
+            "value" : "match"
+          }, {
+            "name" : "regexExpression",
+            "value" : "(?:S2TP|S2NZTP)_(\\d*).*.TXT"
+          }, {
+            "name" : "caseInsensitive",
+            "value" : "true"
+          }, {
+            "name" : "replacementText",
+            "value" : ""
+          }, {
+            "name" : "copyUnmatchedText",
+            "value" : "false"
+          }, {
+            "name" : "tokenizeOutputMethod",
+            "value" : "splitColumns"
+          }, {
+            "name" : "allowBlankTokens",
+            "value" : "false"
+          }, {
+            "name" : "noOfColumns",
+            "value" : "1"
+          }, {
+            "name" : "extraColumnsHandling",
+            "value" : "dropExtraWithoutWarning"
+          }, {
+            "name" : "outputRootName",
+            "value" : ""
+          }, {
+            "name" : "matchColumnName",
+            "value" : "FullPath_Matched"
+          }, {
+            "name" : "errorIfNotMatched",
+            "value" : "false"
+          } ]
+        },
+        "splitRowsColumnName" : "generated_column",
+        "schema" : "[{\"name\": \"FullPath\", \"dataType\": \"String\"}, {\"name\": \"Directory\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ShortFileName\", \"dataType\": \"String\"}, {\"name\": \"CreationTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastAccessTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastWriteTime\", \"dataType\": \"Bigint\"}, {\"name\": \"Size\", \"dataType\": \"Bigint\"}, {\"name\": \"AttributeArchive\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeCompressed\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeEncrypted\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeHidden\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeReadOnly\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeSystem\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeTemporary\", \"dataType\": \"Boolean\"}]",
+        "allowBlankTokens" : false,
+        "outputRootName" : "",
+        "extraColumnsHandling" : "dropExtraWithoutWarning",
+        "replacementText" : "",
+        "selectedColumnName" : "FileName",
+        "regexExpression" : "(?:S2TP|S2NZTP)_(\\d*).*.TXT"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "605_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "605_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "YDEPQS5-XCY5iBa1t5Zkc" : {
+      "id" : "YDEPQS5-XCY5iBa1t5Zkc",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_612_row_id_0",
+        "x" : 2090,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(monotonically_increasing_id())",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_row_id",
+          "description" : null,
+          "_row_id" : "gBRefZcNk8SbGJVIw4cfS"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "78oW26-uWihPbmXZ5S22G",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EjDW8OvNTqipDuzFIW5Rz",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "604_reformat" : {
+      "id" : "604_reformat",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Directory_604_reformat",
+        "x" : 230,
+        "y" : 402,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "path",
+            "_row_id" : null
+          },
+          "alias" : "FullPath",
+          "description" : null,
+          "_row_id" : "oq6Fal7s62BDp6KHoG7uy"
+        }, {
+          "expression" : {
+            "expression" : "parent_directory",
+            "_row_id" : null
+          },
+          "alias" : "Directory",
+          "description" : null,
+          "_row_id" : "frJNDXS2YntwS1PUwAaiQ"
+        }, {
+          "expression" : {
+            "expression" : "name",
+            "_row_id" : null
+          },
+          "alias" : "FileName",
+          "description" : null,
+          "_row_id" : "GkxU18FBxL1u4T6qJOJRb"
+        }, {
+          "expression" : {
+            "expression" : "name",
+            "_row_id" : null
+          },
+          "alias" : "ShortFileName",
+          "description" : null,
+          "_row_id" : "FLIGXSGqNEXGcXFh3sFk4"
+        }, {
+          "expression" : {
+            "expression" : "creation_time",
+            "_row_id" : null
+          },
+          "alias" : "CreationTime",
+          "description" : null,
+          "_row_id" : "nDfNMFej55alkc3kk7-Lk"
+        }, {
+          "expression" : {
+            "expression" : "modification_time",
+            "_row_id" : null
+          },
+          "alias" : "LastAccessTime",
+          "description" : null,
+          "_row_id" : "JxvWzzFXnKAIU2CfGjd4j"
+        }, {
+          "expression" : {
+            "expression" : "modification_time",
+            "_row_id" : null
+          },
+          "alias" : "LastWriteTime",
+          "description" : null,
+          "_row_id" : "3kDwEjzYlndBAxDY5ol7n"
+        }, {
+          "expression" : {
+            "expression" : "size_in_bytes",
+            "_row_id" : null
+          },
+          "alias" : "Size",
+          "description" : null,
+          "_row_id" : "Ed1d7hcPnTj4OueVESYbs"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeArchive",
+          "description" : null,
+          "_row_id" : "sWXo_L2_stnXGKtenr_aE"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeCompressed",
+          "description" : null,
+          "_row_id" : "TAtJlc2CUvtDkOiyrnMQB"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeEncrypted",
+          "description" : null,
+          "_row_id" : "4L1WO4kslICd9jYE9_CjG"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeHidden",
+          "description" : null,
+          "_row_id" : "VOaTdeHoqapo4unEmuHke"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeReadOnly",
+          "description" : null,
+          "_row_id" : "CYeep_O41FIrdVXe9vMEk"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeSystem",
+          "description" : null,
+          "_row_id" : "Ux8PZ3l0bLKv37aGmjKj_"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeTemporary",
+          "description" : null,
+          "_row_id" : "ahXNhDfeSR8BjmAKgEuSM"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "rBvI_Brd3zWJgHijWgQ78",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "lfSPyGpaLgWpRBasM5yHX",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "BC9pTwyWDPlBK9XixwuFg" : {
+      "id" : "BC9pTwyWDPlBK9XixwuFg",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_612_0",
+        "x" : 2270,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(LAG(Month_End_Date, 1) OVER (PARTITION BY 1 ORDER BY prophecy_row_id NULLS FIRST))",
+            "_row_id" : null
+          },
+          "alias" : "Month_End_Date_lag1",
+          "description" : null,
+          "_row_id" : "xZQ1ee8T-lQAtEl0mDEaO"
+        }, {
+          "expression" : {
+            "expression" : "(LEAD(Month_End_Date, 1) OVER (PARTITION BY 1 ORDER BY prophecy_row_id NULLS FIRST))",
+            "_row_id" : null
+          },
+          "alias" : "Month_End_Date_lead1",
+          "description" : null,
+          "_row_id" : "tFnuUGWatNMqgOk0_yGlJ"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RVZhZO856hfzZWH09BSYL",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CRFaTN9-95M2sk1AuiZXx",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "IDmvYJ4D9rKIaAFZRVQOO" : {
+      "id" : "IDmvYJ4D9rKIaAFZRVQOO",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_630_0",
+        "x" : 2870,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((\n  CASE\n    WHEN (\n      (\n        coalesce(\n          CAST((DATE_FORMAT((ADD_MONTHS(Month_End_Date, -1)), 'yyyyMM')) AS DOUBLE), \n          CAST((REGEXP_EXTRACT((DATE_FORMAT((ADD_MONTHS(Month_End_Date, -1)), 'yyyyMM')), '^[0-9]+', 0)) AS INTEGER), \n          0)\n      ) = (\n        coalesce(\n          CAST((DATE_FORMAT((DATE_ADD(CURRENT_TIMESTAMP, CAST(-27 AS INTEGER))), 'yyyyMM')) AS DOUBLE), \n          CAST((REGEXP_EXTRACT((DATE_FORMAT((DATE_ADD(CURRENT_TIMESTAMP, CAST(-27 AS INTEGER))), 'yyyyMM')), '^[0-9]+', 0)) AS INTEGER), \n          0)\n      )\n    )\n      THEN FullPath\n    ELSE '\\\\ms.zurich.com.au\\\\DFS\\\\AlteryX\\\\Prod\\\\Finance\\\\Reinsurance Processes\\\\MHC and APRA Reporting\\\\04_Inputs\\\\S2TP DUMMY.TXT'\n  END\n) AS VARCHAR (1000))",
+            "_row_id" : null
+          },
+          "alias" : "FullPath",
+          "description" : null,
+          "_row_id" : "wzfW6F9vbzk_Aq4Cz_BcW"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`fullpath`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "lTRDfZl5-2dv8j4dc9BNl",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "l-p8q48E460cMRySRjBjE",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "611" : {
+      "id" : "611",
+      "component" : "Sample",
+      "metadata" : {
+        "label" : "Sample_611",
+        "x" : 1850,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "AlteryxSelect_609" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Sample",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "['AlteryxSelect_609']"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[]"
+          }, {
+            "name" : "randomSeed",
+            "value" : "1002"
+          }, {
+            "name" : "currentModeSelection",
+            "value" : "firstN"
+          }, {
+            "name" : "numberN",
+            "value" : "2"
+          } ]
+        },
+        "currentModeSelection" : "firstN",
+        "dataColumns" : [ ],
+        "numberN" : 2,
+        "randomSeed" : 1002,
+        "schema" : "[{\"name\": \"Month_End_Date\", \"dataType\": \"Date\"}, {\"name\": \"FullPath_Matched\", \"dataType\": \"Boolean\"}, {\"name\": \"FullPath\", \"dataType\": \"String\"}, {\"name\": \"Directory\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ShortFileName\", \"dataType\": \"String\"}, {\"name\": \"CreationTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastAccessTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastWriteTime\", \"dataType\": \"Bigint\"}, {\"name\": \"Size\", \"dataType\": \"Bigint\"}, {\"name\": \"AttributeArchive\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeCompressed\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeEncrypted\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeHidden\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeReadOnly\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeSystem\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeTemporary\", \"dataType\": \"Boolean\"}]",
+        "sampleLevelSelection" : "sampleDataset"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "611_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "611_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "605_typeCastGem" : {
+      "id" : "605_typeCastGem",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RegEx_605_typeCastGem",
+        "x" : 650,
+        "y" : 402,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(FullPath_Matched AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "FullPath_Matched",
+          "description" : null,
+          "_row_id" : "C_azhN62A-GHGEIfpy9aj"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`FullPath_Matched`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1XXIPJJpm1F7XHEzNxOpV",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "bfQEkW___DlgZ2eXIc659",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Directory_604_604_Output" : {
+      "id" : "Directory_604_604_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Directory_604"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('APRA_Processes', 'Directory_604') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "607" : {
+      "id" : "607",
+      "component" : "Regex",
+      "metadata" : {
+        "label" : "RegEx_607",
+        "x" : 1130,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "outputMethod" : "parse",
+        "tokenizeOutputMethod" : "splitColumns",
+        "copyUnmatchedText" : false,
+        "caseInsensitive" : true,
+        "matchColumnName" : "",
+        "parseColumns" : [ {
+          "columnName" : "Month_End_Date",
+          "dataType" : "String",
+          "rgxExpression" : "(\\d*)"
+        } ],
+        "relation_name" : [ "Filter_606" ],
+        "errorIfNotMatched" : false,
+        "noOfColumns" : 1,
+        "_oldMacroProperties" : {
+          "macroName" : "Regex",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Filter_606\"]"
+          }, {
+            "name" : "parseColumns",
+            "value" : "[{\"columnName\": \"Month_End_Date\", \"dataType\": \"String\", \"rgxExpression\": \"(\\\\d*)\"}]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"FullPath_Matched\", \"dataType\": \"Boolean\"}, {\"name\": \"FullPath\", \"dataType\": \"String\"}, {\"name\": \"Directory\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ShortFileName\", \"dataType\": \"String\"}, {\"name\": \"CreationTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastAccessTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastWriteTime\", \"dataType\": \"Bigint\"}, {\"name\": \"Size\", \"dataType\": \"Bigint\"}, {\"name\": \"AttributeArchive\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeCompressed\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeEncrypted\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeHidden\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeReadOnly\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeSystem\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeTemporary\", \"dataType\": \"Boolean\"}]"
+          }, {
+            "name" : "selectedColumnName",
+            "value" : "FileName"
+          }, {
+            "name" : "outputMethod",
+            "value" : "parse"
+          }, {
+            "name" : "regexExpression",
+            "value" : "(?:S2TP|S2NZTP)_(\\d*).*.TXT"
+          }, {
+            "name" : "caseInsensitive",
+            "value" : "true"
+          }, {
+            "name" : "replacementText",
+            "value" : ""
+          }, {
+            "name" : "copyUnmatchedText",
+            "value" : "false"
+          }, {
+            "name" : "tokenizeOutputMethod",
+            "value" : "splitColumns"
+          }, {
+            "name" : "allowBlankTokens",
+            "value" : "false"
+          }, {
+            "name" : "noOfColumns",
+            "value" : "1"
+          }, {
+            "name" : "extraColumnsHandling",
+            "value" : "dropExtraWithoutWarning"
+          }, {
+            "name" : "outputRootName",
+            "value" : ""
+          }, {
+            "name" : "matchColumnName",
+            "value" : ""
+          }, {
+            "name" : "errorIfNotMatched",
+            "value" : "false"
+          } ]
+        },
+        "splitRowsColumnName" : "generated_column",
+        "schema" : "[{\"name\": \"FullPath_Matched\", \"dataType\": \"Boolean\"}, {\"name\": \"FullPath\", \"dataType\": \"String\"}, {\"name\": \"Directory\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ShortFileName\", \"dataType\": \"String\"}, {\"name\": \"CreationTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastAccessTime\", \"dataType\": \"Bigint\"}, {\"name\": \"LastWriteTime\", \"dataType\": \"Bigint\"}, {\"name\": \"Size\", \"dataType\": \"Bigint\"}, {\"name\": \"AttributeArchive\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeCompressed\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeEncrypted\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeHidden\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeReadOnly\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeSystem\", \"dataType\": \"Boolean\"}, {\"name\": \"AttributeTemporary\", \"dataType\": \"Boolean\"}]",
+        "allowBlankTokens" : false,
+        "outputRootName" : "",
+        "extraColumnsHandling" : "dropExtraWithoutWarning",
+        "replacementText" : "",
+        "selectedColumnName" : "FileName",
+        "regexExpression" : "(?:S2TP|S2NZTP)_(\\d*).*.TXT"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "607_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "607_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_IDmvYJ4D9rKIaAFZRVQOO_l-p8q48E460cMRySRjBjE_Formula_630_0_l-p8q48E460cMRySRjBjE",
+    "source" : "IDmvYJ4D9rKIaAFZRVQOO",
+    "sourcePort" : "l-p8q48E460cMRySRjBjE",
+    "target" : "Formula_630_0_l-p8q48E460cMRySRjBjE",
+    "targetPort" : "input_port_4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1406",
+    "source" : "GVxTkjBDPoysgPC0uNGDZ",
+    "sourcePort" : "Rr5o0nZQH6LYB6PPCRoQO",
+    "target" : "IDmvYJ4D9rKIaAFZRVQOO",
+    "targetPort" : "lTRDfZl5-2dv8j4dc9BNl",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1403",
+    "source" : "_XZEYxUVkVAqrHsH8PLwX",
+    "sourcePort" : "6otwyC7yTze46CnOL3eMy",
+    "target" : "GVxTkjBDPoysgPC0uNGDZ",
+    "targetPort" : "TkOFoNyg2hZTlgNtEBvMk",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1401",
+    "source" : "BC9pTwyWDPlBK9XixwuFg",
+    "sourcePort" : "CRFaTN9-95M2sk1AuiZXx",
+    "target" : "_XZEYxUVkVAqrHsH8PLwX",
+    "targetPort" : "MMu6hyfduMXqm5WWDyijh",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1402",
+    "source" : "YDEPQS5-XCY5iBa1t5Zkc",
+    "sourcePort" : "EjDW8OvNTqipDuzFIW5Rz",
+    "target" : "BC9pTwyWDPlBK9XixwuFg",
+    "targetPort" : "RVZhZO856hfzZWH09BSYL",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1400",
+    "source" : "611",
+    "sourcePort" : "611_Output",
+    "target" : "YDEPQS5-XCY5iBa1t5Zkc",
+    "targetPort" : "78oW26-uWihPbmXZ5S22G",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1476",
+    "source" : "609",
+    "sourcePort" : "609_Output",
+    "target" : "611",
+    "targetPort" : "611_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1398",
+    "source" : "s6UFBYe4Maupvhz-xwS2s",
+    "sourcePort" : "uTiRgKHjU-18iNnDdbdoH",
+    "target" : "609",
+    "targetPort" : "609_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1399",
+    "source" : "607",
+    "sourcePort" : "607_Output",
+    "target" : "s6UFBYe4Maupvhz-xwS2s",
+    "targetPort" : "r_y8kRiZrz5IW_wzWefsa",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1253",
+    "source" : "606",
+    "sourcePort" : "606_True",
+    "target" : "607",
+    "targetPort" : "607_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1285",
+    "source" : "605_typeCastGem",
+    "sourcePort" : "bfQEkW___DlgZ2eXIc659",
+    "target" : "606",
+    "targetPort" : "606_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1286",
+    "source" : "605",
+    "sourcePort" : "605_Output",
+    "target" : "605_typeCastGem",
+    "targetPort" : "1XXIPJJpm1F7XHEzNxOpV",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1370",
+    "source" : "604_reformat",
+    "sourcePort" : "lfSPyGpaLgWpRBasM5yHX",
+    "target" : "605",
+    "targetPort" : "605_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1371",
+    "source" : "Directory_604_604_Output",
+    "sourcePort" : "output_port_3",
+    "target" : "604_reformat",
+    "targetPort" : "rBvI_Brd3zWJgHijWgQ78",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

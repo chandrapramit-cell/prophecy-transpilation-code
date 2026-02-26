@@ -1,0 +1,186 @@
+{
+  "id" : "APRA_Processes__Join_477_inner",
+  "metainfo" : {
+    "label" : "APRA_Processes__Join_477_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_477_inner_ZCjQix4CzITItG6xvATHp" : {
+      "id" : "Join_477_inner_ZCjQix4CzITItG6xvATHp",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_477_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_477_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_26",
+          "slug" : "input_port_26"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_26",
+          "slug" : "output_port_26"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "477_inner" : {
+      "id" : "477_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_477_inner",
+        "x" : 50,
+        "y" : 363,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.v_Reinsurer = in1.Reinsurer)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Reinsurer`, `Account Type`, `Account Name`, `Account Branch`, `CRR`, `Deemed`, `FAC Account Type`, `Broker`, `Address 1`, `Address 2`, `Address 3`, `Postcode`, `GST No`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "VL3QCXpVUujuaZlGawgGh",
+          "slug" : "in0"
+        }, {
+          "id" : "2HtPNw1DRd_-GiCdt2ct6",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "ZCjQix4CzITItG6xvATHp",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_482_482_Output" : {
+      "id" : "Union_482_482_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_482"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_23",
+          "id" : "output_port_23",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('APRA_Processes__Union_482') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_23",
+          "slug" : "input_port_23"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_23",
+          "slug" : "output_port_23"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DynamicInput_464_464_Output" : {
+      "id" : "DynamicInput_464_464_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DynamicInput_464"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_14",
+          "id" : "output_port_14",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('APRA_Processes', 'DynamicInput_464') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_477_inner_ZCjQix4CzITItG6xvATHp_Join_477_inner_ZCjQix4CzITItG6xvATHp",
+    "source" : "477_inner",
+    "sourcePort" : "ZCjQix4CzITItG6xvATHp",
+    "target" : "Join_477_inner_ZCjQix4CzITItG6xvATHp",
+    "targetPort" : "input_port_26",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1330",
+    "source" : "Union_482_482_Output",
+    "sourcePort" : "output_port_23",
+    "target" : "477_inner",
+    "targetPort" : "VL3QCXpVUujuaZlGawgGh",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1310",
+    "source" : "DynamicInput_464_464_Output",
+    "sourcePort" : "output_port_14",
+    "target" : "477_inner",
+    "targetPort" : "2HtPNw1DRd_-GiCdt2ct6",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

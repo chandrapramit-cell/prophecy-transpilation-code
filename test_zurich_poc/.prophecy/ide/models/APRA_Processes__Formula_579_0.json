@@ -1,0 +1,137 @@
+{
+  "id" : "APRA_Processes__Formula_579_0",
+  "metainfo" : {
+    "label" : "APRA_Processes__Formula_579_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_579_0_OWFynPOWJgLaldQlS4ECy" : {
+      "id" : "Formula_579_0_OWFynPOWJgLaldQlS4ECy",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_579_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_579_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "QO9Idg5fv_DPd8XQqeni5" : {
+      "id" : "QO9Idg5fv_DPd8XQqeni5",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_579_0",
+        "x" : 290,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT((SUBSTRING( FileName, 1, (((LOCATE('|||', FileName)) - 1) + 3))), `Sheet Names`)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "File_Path_Sheet",
+          "description" : null,
+          "_row_id" : "DcFikZA4sYnLCivAX-RyF"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "X4t5XU1Jm9aUl_EVKrljL",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "OWFynPOWJgLaldQlS4ECy",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Mappings_xlsx_Q_578_578_Output" : {
+      "id" : "Mappings_xlsx_Q_578_578_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Mappings_xlsx_Q_578"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('APRA_Processes', 'Mappings_xlsx_Q_578') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_QO9Idg5fv_DPd8XQqeni5_OWFynPOWJgLaldQlS4ECy_Formula_579_0_OWFynPOWJgLaldQlS4ECy",
+    "source" : "QO9Idg5fv_DPd8XQqeni5",
+    "sourcePort" : "OWFynPOWJgLaldQlS4ECy",
+    "target" : "Formula_579_0_OWFynPOWJgLaldQlS4ECy",
+    "targetPort" : "input_port_7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1374",
+    "source" : "Mappings_xlsx_Q_578_578_Output",
+    "sourcePort" : "output_port_6",
+    "target" : "QO9Idg5fv_DPd8XQqeni5",
+    "targetPort" : "X4t5XU1Jm9aUl_EVKrljL",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

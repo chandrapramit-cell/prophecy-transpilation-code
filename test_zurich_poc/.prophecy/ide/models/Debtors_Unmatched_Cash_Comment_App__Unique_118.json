@@ -1,0 +1,129 @@
+{
+  "id" : "Debtors_Unmatched_Cash_Comment_App__Unique_118",
+  "metainfo" : {
+    "label" : "Debtors_Unmatched_Cash_Comment_App__Unique_118",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Unique_118_118_Unique" : {
+      "id" : "Unique_118_118_Unique",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Unique_118"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Unique_118\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "118" : {
+      "id" : "118",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_118",
+        "x" : 5710,
+        "y" : 2271,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "KEY_9AX",
+            "_row_id" : null
+          },
+          "alias" : "KEY_9AX",
+          "description" : null,
+          "_row_id" : "0g2awTagul8iM2kAtPvJR"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "118_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "118_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_111_111_True" : {
+      "id" : "Filter_111_111_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_111"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Debtors_Unmatched_Cash_Comment_App__Filter_111') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_118_118_Unique_Unique_118_118_Unique",
+    "source" : "118",
+    "sourcePort" : "118_Unique",
+    "target" : "Unique_118_118_Unique",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_8",
+    "source" : "Filter_111_111_True",
+    "sourcePort" : "output_port_4",
+    "target" : "118",
+    "targetPort" : "118_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

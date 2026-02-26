@@ -1,0 +1,395 @@
+{
+  "id" : "APRA_Processes__Summarize_426",
+  "metainfo" : {
+    "label" : "APRA_Processes__Summarize_426",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "425" : {
+      "id" : "425",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_425",
+        "x" : 1130,
+        "y" : 474,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(ytdPeriod AS string)",
+            "_row_id" : null
+          },
+          "alias" : "ytdPeriod",
+          "description" : null,
+          "_row_id" : "ndbFAgp_MKtKN8s4O2_d-"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`ytdPeriod`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "425_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "425_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "g4BqlEjURqVkEmqEz0CMw" : {
+      "id" : "g4BqlEjURqVkEmqEz0CMw",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_537_to_Formula_421_0",
+        "x" : 470,
+        "y" : 471,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (pPeriod <= 0) THEN (coalesce(CAST((DATE_FORMAT((DATE_ADD(CURRENT_TIMESTAMP, CAST(-27 AS INTEGER))), 'yyyyMM')) AS DOUBLE), CAST((REGEXP_EXTRACT((DATE_FORMAT((DATE_ADD(CURRENT_TIMESTAMP, CAST(-27 AS INTEGER))), 'yyyyMM')), '^[0-9]+', 0)) AS INTEGER), 0)) ELSE pPeriod END) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "pPeriod",
+          "description" : null,
+          "_row_id" : "deJOtCp00n6_yffk3bXoy"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`pperiod`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "lSR-dcK5CgX8QgJbg1Jzj",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "wZ7g5OvosmlaFOGZt4BnG",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "426" : {
+      "id" : "426",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_426",
+        "x" : 1370,
+        "y" : 474,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "concat(concat('\\'', concat_ws('\\',\\'', collect_list(ytdPeriod))), '\\'')",
+            "_row_id" : null
+          },
+          "alias" : "ytdPeriod",
+          "description" : null,
+          "_row_id" : "3V9f3iUiY7y1w1j-9xMrh"
+        }, {
+          "expression" : {
+            "expression" : "MAX(pPeriod)",
+            "_row_id" : null
+          },
+          "alias" : "pPeriod",
+          "description" : null,
+          "_row_id" : "aHundZ1fMlq7IFsovAqJZ"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "426_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "426_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "5" : {
+      "id" : "5",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "TextInput_5",
+        "x" : 50,
+        "y" : 471,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_5",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "5_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "UDIfPzEuG00wxANlljQsV" : {
+      "id" : "UDIfPzEuG00wxANlljQsV",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_5_cast",
+        "x" : 230,
+        "y" : 471,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(pPeriod AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "pPeriod",
+          "description" : null,
+          "_row_id" : "SfsABDazTmHzhx7bIrjr2"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Q2kbrWoK3dUqaLz7VsDbc",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "rSU6hkWX6Iwwd22pmKzPf",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "423" : {
+      "id" : "423",
+      "component" : "GenerateRows",
+      "metadata" : {
+        "label" : "GenerateRows_423",
+        "x" : 890,
+        "y" : 471,
+        "phase" : 0
+      },
+      "properties" : {
+        "max_rows" : "100",
+        "init_expr" : "payload.startPeriod",
+        "column_name" : "ytdPeriod",
+        "relation_name" : [ "Formula_537_to_Formula_421_1" ],
+        "_oldMacroProperties" : {
+          "macroName" : "GenerateRows",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Formula_537_to_Formula_421_1\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"startPeriod\", \"dataType\": \"Integer\"}, {\"name\": \"pPeriod\", \"dataType\": \"Integer\"}]"
+          }, {
+            "name" : "init_expr",
+            "value" : "payload.startPeriod"
+          }, {
+            "name" : "condition_expr",
+            "value" : "(ytdPeriod <= payload.pPeriod)"
+          }, {
+            "name" : "loop_expr",
+            "value" : "(ytdPeriod + 1)"
+          }, {
+            "name" : "column_name",
+            "value" : "ytdPeriod"
+          }, {
+            "name" : "max_rows",
+            "value" : "100"
+          }, {
+            "name" : "force_mode",
+            "value" : "recursive"
+          } ]
+        },
+        "force_mode" : "recursive",
+        "schema" : "[{\"name\": \"startPeriod\", \"dataType\": \"Integer\"}, {\"name\": \"pPeriod\", \"dataType\": \"Integer\"}]",
+        "loop_expr" : "(ytdPeriod + 1)",
+        "condition_expr" : "(ytdPeriod <= payload.pPeriod)"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "423_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "423_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "dZz59dTbRpAJfV8-52pFs" : {
+      "id" : "dZz59dTbRpAJfV8-52pFs",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_537_to_Formula_421_1",
+        "x" : 650,
+        "y" : 471,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((coalesce(CAST((CONCAT((SUBSTRING( CAST((REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(pPeriod AS DOUBLE), 0)), ',', '__THS__')), '__THS__', '')) AS string), 1, 4)), '01')) AS DOUBLE), CAST((REGEXP_EXTRACT((CONCAT((SUBSTRING( CAST((REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(pPeriod AS DOUBLE), 0)), ',', '__THS__')), '__THS__', '')) AS string), 1, 4)), '01')), '^[0-9]+', 0)) AS INTEGER), 0)) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "startPeriod",
+          "description" : null,
+          "_row_id" : "OkffEh0sr44eXj2NRyVfL"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "9QfChEue5eEYo9xMS9R-q",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Liq1xR4D_Ag5NLnD18ui7",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_426_426_Output" : {
+      "id" : "Summarize_426_426_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_426"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_426\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_426_426_Output_Summarize_426_426_Output",
+    "source" : "426",
+    "sourcePort" : "426_Output",
+    "target" : "Summarize_426_426_Output",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1241",
+    "source" : "425",
+    "sourcePort" : "425_Output",
+    "target" : "426",
+    "targetPort" : "426_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1240",
+    "source" : "423",
+    "sourcePort" : "423_Output",
+    "target" : "425",
+    "targetPort" : "425_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1376",
+    "source" : "dZz59dTbRpAJfV8-52pFs",
+    "sourcePort" : "Liq1xR4D_Ag5NLnD18ui7",
+    "target" : "423",
+    "targetPort" : "423_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1375",
+    "source" : "g4BqlEjURqVkEmqEz0CMw",
+    "sourcePort" : "wZ7g5OvosmlaFOGZt4BnG",
+    "target" : "dZz59dTbRpAJfV8-52pFs",
+    "targetPort" : "9QfChEue5eEYo9xMS9R-q",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1377",
+    "source" : "UDIfPzEuG00wxANlljQsV",
+    "sourcePort" : "rSU6hkWX6Iwwd22pmKzPf",
+    "target" : "g4BqlEjURqVkEmqEz0CMw",
+    "targetPort" : "lSR-dcK5CgX8QgJbg1Jzj",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1363",
+    "source" : "5",
+    "sourcePort" : "5_Output",
+    "target" : "UDIfPzEuG00wxANlljQsV",
+    "targetPort" : "Q2kbrWoK3dUqaLz7VsDbc",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

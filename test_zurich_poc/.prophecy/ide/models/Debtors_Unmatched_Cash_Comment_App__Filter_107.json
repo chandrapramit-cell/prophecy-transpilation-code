@@ -1,0 +1,124 @@
+{
+  "id" : "Debtors_Unmatched_Cash_Comment_App__Filter_107",
+  "metainfo" : {
+    "label" : "Debtors_Unmatched_Cash_Comment_App__Filter_107",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_107_107_True" : {
+      "id" : "Filter_107_107_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_107"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_107\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "107" : {
+      "id" : "107",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_107",
+        "x" : 4852,
+        "y" : 1875,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((KEY_9AX = 'PLACEHOLDER') AND (USER_TYPE = 'RI'))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "107_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "107_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "aka_SnowflakePR_13_13_Output" : {
+      "id" : "aka_SnowflakePR_13_13_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "aka_SnowflakePR_13"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Debtors_Unmatched_Cash_Comment_App', 'aka_SnowflakePR_13') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_107_107_True_Filter_107_107_True",
+    "source" : "107",
+    "sourcePort" : "107_True",
+    "target" : "Filter_107_107_True",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_25",
+    "source" : "aka_SnowflakePR_13_13_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "107",
+    "targetPort" : "107_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,1610 @@
+{
+  "id" : "APRA_Processes__AppendFields_641",
+  "metainfo" : {
+    "label" : "APRA_Processes__AppendFields_641",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "574" : {
+      "id" : "574",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_574",
+        "x" : 2054,
+        "y" : 1590,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Unique_489", "Unique_495" ],
+        "schemas" : [ "[{\"name\": \"v_Reinsurer\", \"dataType\": \"String\"}, {\"name\": \"Filename\", \"dataType\": \"String\"}]", "[{\"name\": \"v_TZAC\", \"dataType\": \"String\"}, {\"name\": \"Filename\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Unique_489\", \"Unique_495\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"v_Reinsurer\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Filename\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"v_TZAC\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Filename\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "574_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "574_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "574_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_489_489_Unique" : {
+      "id" : "Unique_489_489_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_489"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_27",
+          "id" : "output_port_27",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('APRA_Processes__Unique_489') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_27",
+          "slug" : "input_port_27"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_27",
+          "slug" : "output_port_27"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "637_left" : {
+      "id" : "637_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_637_left_UnionLeftOuter",
+        "x" : 1094,
+        "y" : 294,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.Source = in1.Source)",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (in0.Source = in1.Source) THEN in1.Source ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "Right_Source",
+          "description" : null,
+          "_row_id" : "Yq-VEa1G5Q81WCBsKGSg5"
+        }, {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Source`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "h4ch9VVUiunyJVqdbLLFm",
+          "slug" : "in0"
+        }, {
+          "id" : "RYWq9UYxZ2vqPpb82y_d8",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "xE-4pD2cENax0p2zeqMrZ",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "519" : {
+      "id" : "519",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_519",
+        "x" : 3014,
+        "y" : 546,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.`Email address`",
+            "_row_id" : null
+          },
+          "alias" : "To_Email_Address",
+          "description" : null,
+          "_row_id" : "pvtxV1gxvBBRY7rO2kGBO"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Email address`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "519_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "519_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "519_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "dMQ9HBO2PVhVGjYv2wwxc" : {
+      "id" : "dMQ9HBO2PVhVGjYv2wwxc",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_636_0",
+        "x" : 1574,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((Right_Source IS NULL) AS BOOLEAN) THEN 'No' ELSE 'Yes' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Process CompletedquesMark`",
+          "description" : null,
+          "_row_id" : "8KWrWspBofiUMnI2J-jxx"
+        }, {
+          "expression" : {
+            "expression" : "CAST(CASE WHEN CAST(isnull(Period) AS BOOLEAN) THEN coalesce(CAST(date_format(date_add(current_timestamp(), CAST(-27 AS INT)), 'yyyyMM') AS DOUBLE), CAST(regexp_extract(date_format(date_add(current_timestamp(), CAST(-27 AS INT)), 'yyyyMM'), '^[0-9]+', 0) AS INT), 0) ELSE Period END AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Period",
+          "description" : null,
+          "_row_id" : "T8Ssakhn8hvo0GIvDLnlz"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`period`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "VRC77gfpCNIu150fTtmQJ",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "maY9_s_w6XF9X6lQuKoZY",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "523" : {
+      "id" : "523",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_523",
+        "x" : 1334,
+        "y" : 834,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CONCAT_WS(';', (COLLECT_LIST(`Email address`))))",
+            "_row_id" : null
+          },
+          "alias" : "`Email address`",
+          "description" : null,
+          "_row_id" : "aKmUcVdLdxPGgnHt48l_L"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "523_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "523_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Mappings_xlsx_Q_578_578_Output" : {
+      "id" : "Mappings_xlsx_Q_578_578_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Mappings_xlsx_Q_578"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('APRA_Processes', 'Mappings_xlsx_Q_578') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "602" : {
+      "id" : "602",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_602",
+        "x" : 3734,
+        "y" : 1482,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.Filename",
+            "_row_id" : null
+          },
+          "alias" : "Filename",
+          "description" : null,
+          "_row_id" : "Q5OjsJWaj9K9TvzZpj_m8"
+        }, {
+          "expression" : {
+            "expression" : "in0.Unmapped_Filename",
+            "_row_id" : null
+          },
+          "alias" : "Unmapped_Filename",
+          "description" : null,
+          "_row_id" : "3bGO3aXVxbw7cLQb9w_Co"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "602_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "602_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "602_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "639" : {
+      "id" : "639",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_639",
+        "x" : 2294,
+        "y" : 294,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`variableTimestamp`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "639_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "639_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "639_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_446_0_K0kg9SEMv9zuFNh6mu_pn" : {
+      "id" : "Formula_446_0_K0kg9SEMv9zuFNh6mu_pn",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_446_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_28",
+          "id" : "output_port_28",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('APRA_Processes__Formula_446_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_28",
+          "slug" : "input_port_28"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_28",
+          "slug" : "output_port_28"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Emailrecipients_518_518_Output" : {
+      "id" : "Emailrecipients_518_518_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Emailrecipients_518"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('APRA_Processes', 'Emailrecipients_518') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AppendFields_641_641_Output" : {
+      "id" : "AppendFields_641_641_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AppendFields_641"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AppendFields_641\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_30",
+          "slug" : "input_port_30"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_30",
+          "slug" : "output_port_30"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "635" : {
+      "id" : "635",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "TextInput_635",
+        "x" : 434,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_635",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "635_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "634" : {
+      "id" : "634",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_634",
+        "x" : 434,
+        "y" : 402,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "Period",
+            "_row_id" : null
+          },
+          "alias" : "Period",
+          "description" : null,
+          "_row_id" : "iWnvEMKjMTBy2Odm_qnyy"
+        }, {
+          "expression" : {
+            "expression" : "Source",
+            "_row_id" : null
+          },
+          "alias" : "Source",
+          "description" : null,
+          "_row_id" : "v1b02RsBFlw584cIRjVMT"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "634_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "634_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "522" : {
+      "id" : "522",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_522",
+        "x" : 3494,
+        "y" : 582,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.`Email address`",
+            "_row_id" : null
+          },
+          "alias" : "Cc_Email_Address",
+          "description" : null,
+          "_row_id" : "8t9HY34S-9ewrxHWTSeF4"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Email address`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "522_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "522_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "522_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_532_0_Svd5Db0Hand3mzXxRIbG2" : {
+      "id" : "Formula_532_0_Svd5Db0Hand3mzXxRIbG2",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_532_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_29",
+          "id" : "output_port_29",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('APRA_Processes__Formula_532_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_29",
+          "slug" : "input_port_29"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_29",
+          "slug" : "output_port_29"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "642" : {
+      "id" : "642",
+      "component" : "Sample",
+      "metadata" : {
+        "label" : "Sample_642",
+        "x" : 3974,
+        "y" : 1050,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Mappings_xlsx_Q_578" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Sample",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "['Mappings_xlsx_Q_578']"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[]"
+          }, {
+            "name" : "randomSeed",
+            "value" : "1002"
+          }, {
+            "name" : "currentModeSelection",
+            "value" : "firstN"
+          }, {
+            "name" : "numberN",
+            "value" : "1"
+          } ]
+        },
+        "currentModeSelection" : "firstN",
+        "dataColumns" : [ ],
+        "numberN" : 1,
+        "randomSeed" : 1002,
+        "schema" : "[{\"name\": \"Sheet Names\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}]",
+        "sampleLevelSelection" : "sampleDataset"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "642_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "642_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MmTprVz_GqJ482lYmrJLa" : {
+      "id" : "MmTprVz_GqJ482lYmrJLa",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_635_cast",
+        "x" : 614,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Source AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Source",
+          "description" : null,
+          "_row_id" : "avMOPaHOixJDx0a7b96FB"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3vvNRp70j8Z0Hfr6Hpheo",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "XNb-aYc-47U5mM_xw4BNF",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "521" : {
+      "id" : "521",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_521",
+        "x" : 854,
+        "y" : 1122,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(ToslashCc = 'Cc')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "521_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "521_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "536" : {
+      "id" : "536",
+      "component" : "Sample",
+      "metadata" : {
+        "label" : "Sample_536",
+        "x" : 2294,
+        "y" : 1230,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Formula_532_0" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Sample",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "['Formula_532_0']"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[]"
+          }, {
+            "name" : "randomSeed",
+            "value" : "1002"
+          }, {
+            "name" : "currentModeSelection",
+            "value" : "firstN"
+          }, {
+            "name" : "numberN",
+            "value" : "1"
+          } ]
+        },
+        "currentModeSelection" : "firstN",
+        "dataColumns" : [ ],
+        "numberN" : 1,
+        "randomSeed" : 1002,
+        "schema" : "[{\"name\": \"Filename\", \"dataType\": \"String\"}, {\"name\": \"Debtors > 6 months\", \"dataType\": \"Double\"}, {\"name\": \"Debtors\", \"dataType\": \"Double\"}, {\"name\": \"ROL Amount\", \"dataType\": \"Double\"}, {\"name\": \"RUP Amount\", \"dataType\": \"Double\"}, {\"name\": \"RWP Amount\", \"dataType\": \"Double\"}, {\"name\": \"Days OS\", \"dataType\": \"Double\"}, {\"name\": \"Govn Law\", \"dataType\": \"String\"}, {\"name\": \"Debtor Category\", \"dataType\": \"String\"}, {\"name\": \"Reinsurer\", \"dataType\": \"String\"}, {\"name\": \"Rating\", \"dataType\": \"String\"}, {\"name\": \"Authorised\", \"dataType\": \"String\"}, {\"name\": \"Company\", \"dataType\": \"String\"}, {\"name\": \"Group Name\", \"dataType\": \"String\"}, {\"name\": \"Deemed\", \"dataType\": \"String\"}, {\"name\": \"Country\", \"dataType\": \"String\"}, {\"name\": \"Trading Partner\", \"dataType\": \"String\"}, {\"name\": \"Business Category\", \"dataType\": \"String\"}, {\"name\": \"Debtors Description\", \"dataType\": \"String\"}, {\"name\": \"Account Type\", \"dataType\": \"String\"}, {\"name\": \"Occupation Type\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Domicile\", \"dataType\": \"String\"}, {\"name\": \"Counterparty\", \"dataType\": \"String\"}, {\"name\": \"APRA Grade\", \"dataType\": \"String\"}, {\"name\": \"Effective\", \"dataType\": \"String\"}, {\"name\": \"Group Domicile\", \"dataType\": \"String\"}, {\"name\": \"Docs\", \"dataType\": \"String\"}, {\"name\": \"Period\", \"dataType\": \"String\"}, {\"name\": \"Valid\", \"dataType\": \"String\"}, {\"name\": \"Related\", \"dataType\": \"String\"}, {\"name\": \"Accident Year\", \"dataType\": \"String\"}, {\"name\": \"Line Number\", \"dataType\": \"Integer\"}, {\"name\": \"variableTimestamp\", \"dataType\": \"Timestamp\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"APRA Identifier\", \"dataType\": \"String\"}, {\"name\": \"TZAC\", \"dataType\": \"String\"}, {\"name\": \"Branch\", \"dataType\": \"String\"}, {\"name\": \"Co-Ins\", \"dataType\": \"String\"}, {\"name\": \"RI Type IPS\", \"dataType\": \"String\"}, {\"name\": \"Share percent\", \"dataType\": \"Double\"}, {\"name\": \"Premium Class\", \"dataType\": \"String\"}, {\"name\": \"RI Type\", \"dataType\": \"String\"}, {\"name\": \"Resident\", \"dataType\": \"String\"}, {\"name\": \"variableType\", \"dataType\": \"String\"}]",
+        "sampleLevelSelection" : "sampleDataset"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "536_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "536_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "QWXxRg2m_y0Hh9zkH4Zai" : {
+      "id" : "QWXxRg2m_y0Hh9zkH4Zai",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_593_0",
+        "x" : 3254,
+        "y" : 1590,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (Count = 0) THEN 'No APRA Unmapped.txt' ELSE 'APRA Unmapped.xlsx' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Unmapped_Filename",
+          "description" : null,
+          "_row_id" : "z0SQkfjhkur-YqiZzwrZt"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "jYXDftJKNO5OSiPzVTefh",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "TVJ9XGgq0FGNoeBcYTBcg",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "641" : {
+      "id" : "641",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_641",
+        "x" : 4694,
+        "y" : 1086,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Sheet Names`, `FileName`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "641_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "641_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "641_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "633" : {
+      "id" : "633",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "PortfolioComposerTable_633",
+        "x" : 1814,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Formula_636_0" ],
+        "_oldMacroProperties" : {
+          "macroName" : "ToDo",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "diag_message",
+            "value" : "Component type: Portfolio Composer Table is not supported."
+          } ]
+        },
+        "code_string" : "<Node ToolID=\"633\">\n          <GuiSettings Plugin=\"PortfolioPluginsGui.ComposerTable.PortfolioComposerTable\">\n            <Position y=\"1278\" x=\"10134\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <TableMode>Basic</TableMode>\n              <GroupingFields orderChanged=\"False\"/>\n              <Width/>\n              <ShowHeader value=\"True\"/>\n              <ShowBarGraph value=\"False\"/>\n              <TableFields orderChanged=\"True\">\n                <Field Width=\"\" Alignment=\"Left\" selected=\"True\" name=\"Period\"/>\n                <Field Width=\"\" Alignment=\"Left\" selected=\"True\" name=\"Source\"/>\n                <Field Alignment=\"Left\" selected=\"True\" name=\"Process Completed?\"/>\n                <Field selected=\"False\" name=\"RI Type IPS\"/>\n                <Field selected=\"False\" name=\"RI Type\"/>\n                <Field selected=\"False\" name=\"Company\"/>\n                <Field selected=\"False\" name=\"Branch\"/>\n                <Field selected=\"False\" name=\"Reinsurer\"/>\n                <Field selected=\"False\" name=\"Account Type\"/>\n                <Field selected=\"False\" name=\"Accident Year\"/>\n                <Field selected=\"False\" name=\"TZAC\"/>\n                <Field selected=\"False\" name=\"Product Code\"/>\n                <Field selected=\"False\" name=\"Premium Class\"/>\n                <Field selected=\"False\" name=\"Trading Partner\"/>\n                <Field selected=\"False\" name=\"Rating\"/>\n                <Field selected=\"False\" name=\"Resident\"/>\n                <Field selected=\"False\" name=\"Debtor Category\"/>\n                <Field selected=\"False\" name=\"Deemed\"/>\n                <Field selected=\"False\" name=\"Authorised\"/>\n                <Field selected=\"False\" name=\"Debtors Description\"/>\n                <Field selected=\"False\" name=\"Counterparty\"/>\n                <Field selected=\"False\" name=\"Type\"/>\n                <Field selected=\"False\" name=\"Docs\"/>\n                <Field selected=\"False\" name=\"Govn Law\"/>\n                <Field selected=\"False\" name=\"APRA Identifier\"/>\n                <Field selected=\"False\" name=\"Counterparty Domicile\"/>\n                <Field selected=\"False\" name=\"Group Name\"/>\n                <Field selected=\"False\" name=\"Group Domicile\"/>\n                <Field selected=\"False\" name=\"Country\"/>\n                <Field selected=\"False\" name=\"Count\"/>\n                <Field selected=\"False\" name=\"Right_Source\"/>\n                <Field selected=\"False\" name=\"Share %\"/>\n                <Field selected=\"False\" name=\"Co-Ins\"/>\n                <Field selected=\"False\" name=\"Occupation Type\"/>\n                <Field selected=\"False\" name=\"Business Category\"/>\n                <Field selected=\"False\" name=\"Effective\"/>\n                <Field selected=\"False\" name=\"Valid\"/>\n                <Field selected=\"False\" name=\"Related\"/>\n                <Field selected=\"False\" name=\"APRA Grade\"/>\n                <Field selected=\"False\" name=\"Debtors &gt; 6 months\"/>\n                <Field selected=\"False\" name=\"Debtors\"/>\n                <Field selected=\"False\" name=\"ROL Amount\"/>\n                <Field selected=\"False\" name=\"RUP Amount\"/>\n                <Field selected=\"False\" name=\"RWP Amount\"/>\n                <Field selected=\"False\" name=\"Days OS\"/>\n                <Field selected=\"False\" name=\"Timestamp\"/>\n                <Field selected=\"False\" name=\"*Unknown\"/>\n              </TableFields>\n              <TableStyles>\n                <Style RowGroup=\"1\" AltColor=\"#f0f0f0\" BackColor=\"#ffffff\" TextColor=\"#000000\" Size=\"8\" Font=\"Arial\" Name=\"Data\"/>\n                <Style BackColor=\"#dbdbdb\" TextColor=\"#000000\" Size=\"10\" Font=\"Arial\" Name=\"Header\"/>\n                <Style BasicColBorder=\"Default (Use Per Column Setting)\" RowBorder=\"None\" HeaderColor=\"#000000\" DataColor=\"#000000\" Width=\"1\" Name=\"Borders\"/>\n                <Style BorderColor=\"#000000\" Width=\"1\" TableBorder=\"true\" ColumnPadding=\"0\" CellPadding=\"0\" Name=\"Table\"/>\n              </TableStyles>\n              <StyleRules/>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText>Basic Table</DefaultAnnotationText>\n              <Left value=\"False\"/>\n            </Annotation>\n            <MetaInfo connection=\"Output\">\n              <RecordInfo>\n                <Field type=\"V_WString\" source=\"Report:Table:Basic:\" size=\"1073741823\" name=\"Table\"/>\n              </RecordInfo>\n            </MetaInfo>\n          </Properties>\n          <EngineSettings EngineDllEntryPoint=\"AlteryxPortfolioComposerTablePlugin\" EngineDll=\"PortfolioPluginsEngine.dll\"/>\n        </Node>",
+        "diag_message" : "Component type: Portfolio Composer Table is not supported.",
+        "error_string" : "Component type: Portfolio Composer Table is not supported."
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "633_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "633_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_495_495_Unique" : {
+      "id" : "Unique_495_495_Unique",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Unique_495"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_25",
+          "id" : "output_port_25",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('APRA_Processes__Unique_495') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_25",
+          "slug" : "input_port_25"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_25",
+          "slug" : "output_port_25"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "531" : {
+      "id" : "531",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_531",
+        "x" : 4214,
+        "y" : 1446,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.variableTimestamp",
+            "_row_id" : null
+          },
+          "alias" : "variableTimestamp",
+          "description" : null,
+          "_row_id" : "tE2rll4Y8eaoECTVFesKi"
+        }, {
+          "expression" : {
+            "expression" : "in0.Unmapped_Filename",
+            "_row_id" : null
+          },
+          "alias" : "Unmapped_Filename",
+          "description" : null,
+          "_row_id" : "kmuZG4OEKg1j102yDwxq6"
+        }, {
+          "expression" : {
+            "expression" : "in1.Text",
+            "_row_id" : null
+          },
+          "alias" : "Text",
+          "description" : null,
+          "_row_id" : "Ol9chgCLkqBXFsW_Y33wM"
+        }, {
+          "expression" : {
+            "expression" : "in1.Cc_Email_Address",
+            "_row_id" : null
+          },
+          "alias" : "Cc_Email_Address",
+          "description" : null,
+          "_row_id" : "sJfDvqlaF7ppzrGTOLeMd"
+        }, {
+          "expression" : {
+            "expression" : "in1.To_Email_Address",
+            "_row_id" : null
+          },
+          "alias" : "To_Email_Address",
+          "description" : null,
+          "_row_id" : "iIHary4pLC6AkLM1386ij"
+        }, {
+          "expression" : {
+            "expression" : "in0.Filename",
+            "_row_id" : null
+          },
+          "alias" : "Filename",
+          "description" : null,
+          "_row_id" : "nWr0zAivX2_Gb-oZEfT9V"
+        }, {
+          "expression" : {
+            "expression" : "in1.Table",
+            "_row_id" : null
+          },
+          "alias" : "Table",
+          "description" : null,
+          "_row_id" : "raQDgqRSFT_Y_Isj1IIWW"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "531_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "531_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "531_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "520" : {
+      "id" : "520",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_520",
+        "x" : 854,
+        "y" : 867,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(ToslashCc = 'To')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "520_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "520_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "524" : {
+      "id" : "524",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_524",
+        "x" : 1334,
+        "y" : 1086,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CONCAT_WS(';', (COLLECT_LIST(`Email address`))))",
+            "_row_id" : null
+          },
+          "alias" : "`Email address`",
+          "description" : null,
+          "_row_id" : "eLvLTYL8L27yIIvw-R1hm"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "524_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "524_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "643" : {
+      "id" : "643",
+      "component" : "Regex",
+      "metadata" : {
+        "label" : "RegEx_643",
+        "x" : 4454,
+        "y" : 1050,
+        "phase" : 0
+      },
+      "properties" : {
+        "outputMethod" : "parse",
+        "tokenizeOutputMethod" : "splitColumns",
+        "copyUnmatchedText" : false,
+        "caseInsensitive" : true,
+        "matchColumnName" : "",
+        "parseColumns" : [ {
+          "columnName" : "MappingFile",
+          "dataType" : "String",
+          "rgxExpression" : "(\\\\\\\\[^|]+?\\.xlsx)"
+        } ],
+        "relation_name" : [ "Sample_642" ],
+        "errorIfNotMatched" : false,
+        "noOfColumns" : 1,
+        "_oldMacroProperties" : {
+          "macroName" : "Regex",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Sample_642\"]"
+          }, {
+            "name" : "parseColumns",
+            "value" : "[{\"columnName\": \"MappingFile\", \"dataType\": \"String\", \"rgxExpression\": \"(\\\\\\\\\\\\\\\\[^|]+?\\\\.xlsx)\"}]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"Sheet Names\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "selectedColumnName",
+            "value" : "FileName"
+          }, {
+            "name" : "outputMethod",
+            "value" : "parse"
+          }, {
+            "name" : "regexExpression",
+            "value" : "(\\\\\\\\[^|]+?\\.xlsx)"
+          }, {
+            "name" : "caseInsensitive",
+            "value" : "true"
+          }, {
+            "name" : "replacementText",
+            "value" : ""
+          }, {
+            "name" : "copyUnmatchedText",
+            "value" : "false"
+          }, {
+            "name" : "tokenizeOutputMethod",
+            "value" : "splitColumns"
+          }, {
+            "name" : "allowBlankTokens",
+            "value" : "false"
+          }, {
+            "name" : "noOfColumns",
+            "value" : "1"
+          }, {
+            "name" : "extraColumnsHandling",
+            "value" : "dropExtraWithoutWarning"
+          }, {
+            "name" : "outputRootName",
+            "value" : ""
+          }, {
+            "name" : "matchColumnName",
+            "value" : ""
+          }, {
+            "name" : "errorIfNotMatched",
+            "value" : "false"
+          } ]
+        },
+        "splitRowsColumnName" : "generated_column",
+        "schema" : "[{\"name\": \"Sheet Names\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}]",
+        "allowBlankTokens" : false,
+        "outputRootName" : "",
+        "extraColumnsHandling" : "dropExtraWithoutWarning",
+        "replacementText" : "",
+        "selectedColumnName" : "FileName",
+        "regexExpression" : "(\\\\\\\\[^|]+?\\.xlsx)"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "643_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "643_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "640" : {
+      "id" : "640",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_640",
+        "x" : 1814,
+        "y" : 150,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "MAX(variableTimestamp)",
+            "_row_id" : null
+          },
+          "alias" : "variableTimestamp",
+          "description" : null,
+          "_row_id" : "LGRrXJ-i4YoFpiDa0g84a"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "640_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "640_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "632" : {
+      "id" : "632",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "PortfolioComposerText_632",
+        "x" : 2774,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "AppendFields_639" ],
+        "_oldMacroProperties" : {
+          "macroName" : "ToDo",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "diag_message",
+            "value" : "Component type: Report Text is not supported."
+          } ]
+        },
+        "code_string" : "<Node ToolID=\"632\">\n          <GuiSettings Plugin=\"PortfolioPluginsGui.ComposerText.PortfolioComposerText\">\n            <Position y=\"1278\" x=\"10326\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <Images/>\n              <HeaderMode value=\"True\"/>\n              <HeaderField>Table</HeaderField>\n              <Position>Above</Position>\n              <RawMode value=\"False\"/>\n              <ValidatePCXML value=\"True\"/>\n              <Message/>\n              <RichTextMode value=\"True\"/>\n              <RichTextString>{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3081{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}}\n\\viewkind4\\uc1\\pard\\fs24 APRA Output ran and completed on: [Timestamp:A]\\par\nSee extract attached of the output, unmapped RI Accounts + TZAC's (if any) and the mapping file used.\\par\n\\par\nSummary of period &amp; processes ran:\\par\n}\n</RichTextString>\n              <Styles>\n                <Style Name=\"TextStyle\"/>\n              </Styles>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText>APRA Output ran and completed ...</DefaultAnnotationText>\n              <Left value=\"False\"/>\n            </Annotation>\n            <MetaInfo connection=\"Output\">\n              <RecordInfo>\n                <Field type=\"DateTime\" source=\"Formula: DateTimeStart()\" name=\"Timestamp\"/>\n                <Field type=\"V_WString\" source=\"Report:Table:Basic:\" size=\"1073741823\" name=\"Table\"/>\n              </RecordInfo>\n            </MetaInfo>\n          </Properties>\n          <EngineSettings EngineDllEntryPoint=\"AlteryxPortfolioComposerTextPlugin\" EngineDll=\"PortfolioPluginsEngine.dll\"/>\n        </Node>",
+        "diag_message" : "Component type: Report Text is not supported.",
+        "error_string" : "Component type: Report Text is not supported."
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "632_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "632_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "577" : {
+      "id" : "577",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CountRecords_577",
+        "x" : 2534,
+        "y" : 1590,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "COUNT('1')",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "IDMgIEDgtZ-UC0hBx1dP2"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "577_Input8",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "577_Output9",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_641_641_Output_AppendFields_641_641_Output",
+    "source" : "641",
+    "sourcePort" : "641_Output",
+    "target" : "AppendFields_641_641_Output",
+    "targetPort" : "input_port_30",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1266",
+    "source" : "531",
+    "sourcePort" : "531_Output",
+    "target" : "641",
+    "targetPort" : "641_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1267",
+    "source" : "643",
+    "sourcePort" : "643_Output",
+    "target" : "641",
+    "targetPort" : "641_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1262",
+    "source" : "522",
+    "sourcePort" : "522_Output",
+    "target" : "531",
+    "targetPort" : "531_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1263",
+    "source" : "602",
+    "sourcePort" : "602_Output",
+    "target" : "531",
+    "targetPort" : "531_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1274",
+    "source" : "642",
+    "sourcePort" : "642_Output",
+    "target" : "643",
+    "targetPort" : "643_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1258",
+    "source" : "519",
+    "sourcePort" : "519_Output",
+    "target" : "522",
+    "targetPort" : "522_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1259",
+    "source" : "524",
+    "sourcePort" : "524_Output",
+    "target" : "522",
+    "targetPort" : "522_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1268",
+    "source" : "536",
+    "sourcePort" : "536_Output",
+    "target" : "602",
+    "targetPort" : "602_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1461",
+    "source" : "QWXxRg2m_y0Hh9zkH4Zai",
+    "sourcePort" : "TVJ9XGgq0FGNoeBcYTBcg",
+    "target" : "602",
+    "targetPort" : "602_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1239",
+    "source" : "Mappings_xlsx_Q_578_578_Output",
+    "sourcePort" : "output_port_6",
+    "target" : "642",
+    "targetPort" : "642_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1264",
+    "source" : "523",
+    "sourcePort" : "523_Output",
+    "target" : "519",
+    "targetPort" : "519_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1265",
+    "source" : "632",
+    "sourcePort" : "632_Output",
+    "target" : "519",
+    "targetPort" : "519_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1261",
+    "source" : "521",
+    "sourcePort" : "521_True",
+    "target" : "524",
+    "targetPort" : "524_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1466",
+    "source" : "Formula_532_0_Svd5Db0Hand3mzXxRIbG2",
+    "sourcePort" : "output_port_29",
+    "target" : "536",
+    "targetPort" : "536_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1462",
+    "source" : "577",
+    "sourcePort" : "577_Output9",
+    "target" : "QWXxRg2m_y0Hh9zkH4Zai",
+    "targetPort" : "jYXDftJKNO5OSiPzVTefh",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1260",
+    "source" : "520",
+    "sourcePort" : "520_True",
+    "target" : "523",
+    "targetPort" : "523_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1272",
+    "source" : "639",
+    "sourcePort" : "639_Output",
+    "target" : "632",
+    "targetPort" : "632_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1257",
+    "source" : "Emailrecipients_518_518_Output",
+    "sourcePort" : "output_port_10",
+    "target" : "521",
+    "targetPort" : "521_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1269",
+    "source" : "574",
+    "sourcePort" : "574_Output",
+    "target" : "577",
+    "targetPort" : "577_Input8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1256",
+    "source" : "Emailrecipients_518_518_Output",
+    "sourcePort" : "output_port_10",
+    "target" : "520",
+    "targetPort" : "520_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1270",
+    "source" : "633",
+    "sourcePort" : "633_Output",
+    "target" : "639",
+    "targetPort" : "639_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1271",
+    "source" : "640",
+    "sourcePort" : "640_Output",
+    "target" : "639",
+    "targetPort" : "639_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1326",
+    "source" : "Unique_495_495_Unique",
+    "sourcePort" : "output_port_25",
+    "target" : "574",
+    "targetPort" : "574_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1279",
+    "source" : "Unique_489_489_Unique",
+    "sourcePort" : "output_port_27",
+    "target" : "574",
+    "targetPort" : "574_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1456",
+    "source" : "dMQ9HBO2PVhVGjYv2wwxc",
+    "sourcePort" : "maY9_s_w6XF9X6lQuKoZY",
+    "target" : "633",
+    "targetPort" : "633_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1457",
+    "source" : "dMQ9HBO2PVhVGjYv2wwxc",
+    "sourcePort" : "maY9_s_w6XF9X6lQuKoZY",
+    "target" : "640",
+    "targetPort" : "640_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1458",
+    "source" : "637_left",
+    "sourcePort" : "xE-4pD2cENax0p2zeqMrZ",
+    "target" : "dMQ9HBO2PVhVGjYv2wwxc",
+    "targetPort" : "VRC77gfpCNIu150fTtmQJ",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1351",
+    "source" : "634",
+    "sourcePort" : "634_Unique",
+    "target" : "637_left",
+    "targetPort" : "RYWq9UYxZ2vqPpb82y_d8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1368",
+    "source" : "MmTprVz_GqJ482lYmrJLa",
+    "sourcePort" : "XNb-aYc-47U5mM_xw4BNF",
+    "target" : "637_left",
+    "targetPort" : "h4ch9VVUiunyJVqdbLLFm",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1454",
+    "source" : "Formula_446_0_K0kg9SEMv9zuFNh6mu_pn",
+    "sourcePort" : "output_port_28",
+    "target" : "634",
+    "targetPort" : "634_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1367",
+    "source" : "635",
+    "sourcePort" : "635_Output",
+    "target" : "MmTprVz_GqJ482lYmrJLa",
+    "targetPort" : "3vvNRp70j8Z0Hfr6Hpheo",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

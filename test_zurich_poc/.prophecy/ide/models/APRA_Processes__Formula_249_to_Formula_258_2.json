@@ -1,0 +1,251 @@
+{
+  "id" : "APRA_Processes__Formula_249_to_Formula_258_2",
+  "metainfo" : {
+    "label" : "APRA_Processes__Formula_249_to_Formula_258_2",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Zez7ezOueZA0NedBMtGmi" : {
+      "id" : "Zez7ezOueZA0NedBMtGmi",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_249_to_Formula_258_2",
+        "x" : 458,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CAST(datediff(to_date(v_EndOfMonth), to_date(sDate)) AS INT) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "n_DaysOS",
+          "description" : null,
+          "_row_id" : "ia4mn1z4lPo8KkoYLm6-z"
+        }, {
+          "expression" : {
+            "expression" : "CAST(CASE WHEN (CAST(datediff(to_date(sDate), to_date(n_6MonthDay)) AS INT) < 0) THEN v_OSDebtors ELSE 0 END AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "v_Debtors6Months",
+          "description" : null,
+          "_row_id" : "IxHEHxJ7UXZqeO78AkQ30"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ab1SW-okoIlemddVB6CpH",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "g9X7gbL8YHl5S9Daxq6XX",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "FZsZA5yRHz4x8yO4VVBw9" : {
+      "id" : "FZsZA5yRHz4x8yO4VVBw9",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_249_to_Formula_258_1",
+        "x" : 278,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(\n  TO_DATE(\n    (\n      CASE\n        WHEN (\n          (\n            CAST((\n              coalesce(\n                CAST((SUBSTRING(sDateCalc, 5, 2)) AS DOUBLE), \n                CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 5, 2)), '^[0-9]+', 0)) AS INTEGER), \n                0)\n            ) AS DOUBLE) IN (\n              CAST(1 AS DOUBLE),\n              CAST(3 AS DOUBLE),\n              CAST(5 AS DOUBLE),\n              CAST(7 AS DOUBLE),\n              CAST(8 AS DOUBLE),\n              CAST(10 AS DOUBLE),\n              CAST(12 AS DOUBLE)\n            )\n          )\n          AND (\n                (\n                  coalesce(\n                    CAST((SUBSTRING(sDateCalc, 7, 2)) AS DOUBLE), \n                    CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 7, 2)), '^[0-9]+', 0)) AS INTEGER), \n                    0)\n                ) > 31\n              )\n        )\n          THEN (CONCAT((SUBSTRING(sDateCalc, 1, 4)), '-', (SUBSTRING(sDateCalc, 5, 2)), '-31'))\n        WHEN (\n          (\n            CAST((\n              coalesce(\n                CAST((SUBSTRING(sDateCalc, 5, 2)) AS DOUBLE), \n                CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 5, 2)), '^[0-9]+', 0)) AS INTEGER), \n                0)\n            ) AS DOUBLE) IN (CAST(4 AS DOUBLE), CAST(6 AS DOUBLE), CAST(9 AS DOUBLE), CAST(11 AS DOUBLE))\n          )\n          AND (\n                (\n                  coalesce(\n                    CAST((SUBSTRING(sDateCalc, 7, 2)) AS DOUBLE), \n                    CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 7, 2)), '^[0-9]+', 0)) AS INTEGER), \n                    0)\n                ) > 30\n              )\n        )\n          THEN (CONCAT((SUBSTRING(sDateCalc, 1, 4)), '-', (SUBSTRING(sDateCalc, 5, 2)), '-30'))\n        WHEN (\n          (\n            (\n              (\n                (\n                  coalesce(\n                    CAST((SUBSTRING(sDateCalc, 5, 2)) AS DOUBLE), \n                    CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 5, 2)), '^[0-9]+', 0)) AS INTEGER), \n                    0)\n                ) = 2\n              )\n              AND (\n                    (\n                      coalesce(\n                        CAST((SUBSTRING(sDateCalc, 7, 2)) AS DOUBLE), \n                        CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 7, 2)), '^[0-9]+', 0)) AS INTEGER), \n                        0)\n                    ) > 29\n                  )\n            )\n            AND (\n                  (\n                    PMOD(\n                      (\n                        coalesce(\n                          CAST((SUBSTRING(sDateCalc, 1, 4)) AS DOUBLE), \n                          CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 1, 4)), '^[0-9]+', 0)) AS INTEGER), \n                          0)\n                      ), \n                      4)\n                  ) = 0\n                )\n          )\n          AND (\n                (\n                  (\n                    NOT(\n                      (\n                        PMOD(\n                          (\n                            coalesce(\n                              CAST((SUBSTRING(sDateCalc, 1, 4)) AS DOUBLE), \n                              CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 1, 4)), '^[0-9]+', 0)) AS INTEGER), \n                              0)\n                          ), \n                          100)\n                      ) = 0)\n                  )\n                  OR (\n                       (\n                         PMOD(\n                           (\n                             coalesce(\n                               CAST((SUBSTRING(sDateCalc, 1, 4)) AS DOUBLE), \n                               CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 1, 4)), '^[0-9]+', 0)) AS INTEGER), \n                               0)\n                           ), \n                           100)\n                       ) IS NULL\n                     )\n                )\n                OR (\n                     (\n                       PMOD(\n                         (\n                           coalesce(\n                             CAST((SUBSTRING(sDateCalc, 1, 4)) AS DOUBLE), \n                             CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 1, 4)), '^[0-9]+', 0)) AS INTEGER), \n                             0)\n                         ), \n                         400)\n                     ) = 0\n                   )\n              )\n        )\n          THEN (CONCAT((SUBSTRING(sDateCalc, 1, 4)), '-', (SUBSTRING(sDateCalc, 5, 2)), '-29'))\n        WHEN (\n          (\n            (\n              (\n                coalesce(\n                  CAST((SUBSTRING(sDateCalc, 5, 2)) AS DOUBLE), \n                  CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 5, 2)), '^[0-9]+', 0)) AS INTEGER), \n                  0)\n              ) = 2\n            )\n            AND (\n                  (\n                    coalesce(\n                      CAST((SUBSTRING(sDateCalc, 7, 2)) AS DOUBLE), \n                      CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 7, 2)), '^[0-9]+', 0)) AS INTEGER), \n                      0)\n                  ) > 28\n                )\n          )\n          AND (\n                NOT(\n                  (\n                    (\n                      PMOD(\n                        (\n                          coalesce(\n                            CAST((SUBSTRING(sDateCalc, 1, 4)) AS DOUBLE), \n                            CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 1, 4)), '^[0-9]+', 0)) AS INTEGER), \n                            0)\n                        ), \n                        4)\n                    ) = 0\n                  )\n                  AND (\n                        (\n                          (\n                            NOT(\n                              (\n                                PMOD(\n                                  (\n                                    coalesce(\n                                      CAST((SUBSTRING(sDateCalc, 1, 4)) AS DOUBLE), \n                                      CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 1, 4)), '^[0-9]+', 0)) AS INTEGER), \n                                      0)\n                                  ), \n                                  100)\n                              ) = 0)\n                          )\n                          OR (\n                               (\n                                 PMOD(\n                                   (\n                                     coalesce(\n                                       CAST((SUBSTRING(sDateCalc, 1, 4)) AS DOUBLE), \n                                       CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 1, 4)), '^[0-9]+', 0)) AS INTEGER), \n                                       0)\n                                   ), \n                                   100)\n                               ) IS NULL\n                             )\n                        )\n                        OR (\n                             (\n                               PMOD(\n                                 (\n                                   coalesce(\n                                     CAST((SUBSTRING(sDateCalc, 1, 4)) AS DOUBLE), \n                                     CAST((REGEXP_EXTRACT((SUBSTRING(sDateCalc, 1, 4)), '^[0-9]+', 0)) AS INTEGER), \n                                     0)\n                                 ), \n                                 400)\n                             ) = 0\n                           )\n                      ))\n              )\n        )\n          THEN (CONCAT((SUBSTRING(sDateCalc, 1, 4)), '-', (SUBSTRING(sDateCalc, 5, 2)), '-28'))\n        ELSE (\n          CONCAT(\n            (SUBSTRING(sDateCalc, 1, 4)), \n            '-', \n            (SUBSTRING(sDateCalc, 5, 2)), \n            '-', \n            (SUBSTRING(sDateCalc, 7, 2)))\n        )\n      END\n    ), \n    'yyyy-MM-dd')\n)",
+            "_row_id" : null
+          },
+          "alias" : "sDate",
+          "description" : null,
+          "_row_id" : "-EG5iV_2kTCJgoDXxuY6J"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ROPn1JXtmfTXXLjXQn85Y",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "5C17AnQM6J3LvRTis6SbY",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_249_to_Formula_258_2_g9X7gbL8YHl5S9Daxq6XX" : {
+      "id" : "Formula_249_to_Formula_258_2_g9X7gbL8YHl5S9Daxq6XX",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_249_to_Formula_258_2"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_249_to_Formula_258_2\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_22",
+          "slug" : "input_port_22"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_22",
+          "slug" : "output_port_22"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "mzcUUPO_Y-dw20mIq55W1" : {
+      "id" : "mzcUUPO_Y-dw20mIq55W1",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_249_to_Formula_258_0",
+        "x" : 98,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(DATE_ADD(CAST(v_EndOfMonth AS DATE), CAST(-182 AS INTEGER)))",
+            "_row_id" : null
+          },
+          "alias" : "n_6MonthDay",
+          "description" : null,
+          "_row_id" : "uDTTnwyAv4w0uMFYtt42Y"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(v_DateCalc AS DOUBLE), 0)), ',', '__THS__')), '__THS__', '')) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "sDateCalc",
+          "description" : null,
+          "_row_id" : "xVwMzzI4nL6IYGfdqN1vY"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "84h-2ahaORhcgQ0RDQJhw",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "cFu6omEnuayxObkT2f-9i",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DynamicInput_192_192_Output" : {
+      "id" : "DynamicInput_192_192_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DynamicInput_192"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_21",
+          "id" : "output_port_21",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('APRA_Processes', 'DynamicInput_192') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_Zez7ezOueZA0NedBMtGmi_g9X7gbL8YHl5S9Daxq6XX_Formula_249_to_Formula_258_2_g9X7gbL8YHl5S9Daxq6XX",
+    "source" : "Zez7ezOueZA0NedBMtGmi",
+    "sourcePort" : "g9X7gbL8YHl5S9Daxq6XX",
+    "target" : "Formula_249_to_Formula_258_2_g9X7gbL8YHl5S9Daxq6XX",
+    "targetPort" : "input_port_22",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1395",
+    "source" : "FZsZA5yRHz4x8yO4VVBw9",
+    "sourcePort" : "5C17AnQM6J3LvRTis6SbY",
+    "target" : "Zez7ezOueZA0NedBMtGmi",
+    "targetPort" : "ab1SW-okoIlemddVB6CpH",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1394",
+    "source" : "mzcUUPO_Y-dw20mIq55W1",
+    "sourcePort" : "cFu6omEnuayxObkT2f-9i",
+    "target" : "FZsZA5yRHz4x8yO4VVBw9",
+    "targetPort" : "ROPn1JXtmfTXXLjXQn85Y",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1397",
+    "source" : "DynamicInput_192_192_Output",
+    "sourcePort" : "output_port_21",
+    "target" : "mzcUUPO_Y-dw20mIq55W1",
+    "targetPort" : "84h-2ahaORhcgQ0RDQJhw",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

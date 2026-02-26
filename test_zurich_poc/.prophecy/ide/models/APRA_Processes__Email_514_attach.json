@@ -1,0 +1,145 @@
+{
+  "id" : "APRA_Processes__Email_514_attach",
+  "metainfo" : {
+    "label" : "APRA_Processes__Email_514_attach",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Email_514_attach_yF_tHTFx23GWGv-fIJToq" : {
+      "id" : "Email_514_attach_yF_tHTFx23GWGv-fIJToq",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Email_514_attach"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Email_514_attach\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_31",
+          "slug" : "input_port_31"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_31",
+          "slug" : "output_port_31"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "514_attach" : {
+      "id" : "514_attach",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Email_514_attach",
+        "x" : 4934,
+        "y" : 1086,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "Filename",
+            "_row_id" : null
+          },
+          "alias" : "Filename",
+          "description" : null,
+          "_row_id" : "03wojqL9oxGCNJXeZdMLv"
+        }, {
+          "expression" : {
+            "expression" : "Unmapped_Filename",
+            "_row_id" : null
+          },
+          "alias" : "Unmapped_Filename",
+          "description" : null,
+          "_row_id" : "QACZtQ013K_F_gLrioNrY"
+        }, {
+          "expression" : {
+            "expression" : "MappingFile",
+            "_row_id" : null
+          },
+          "alias" : "MappingFile",
+          "description" : null,
+          "_row_id" : "msQf79oZAaSUn4AM12sqm"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "qe6AFGkcvldfVPE87TCHs",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "yF_tHTFx23GWGv-fIJToq",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AppendFields_641_641_Output" : {
+      "id" : "AppendFields_641_641_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AppendFields_641"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_30",
+          "id" : "output_port_30",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('APRA_Processes__AppendFields_641') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_30",
+          "slug" : "input_port_30"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_30",
+          "slug" : "output_port_30"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_514_attach_yF_tHTFx23GWGv-fIJToq_Email_514_attach_yF_tHTFx23GWGv-fIJToq",
+    "source" : "514_attach",
+    "sourcePort" : "yF_tHTFx23GWGv-fIJToq",
+    "target" : "Email_514_attach_yF_tHTFx23GWGv-fIJToq",
+    "targetPort" : "input_port_31",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1333",
+    "source" : "AppendFields_641_641_Output",
+    "sourcePort" : "output_port_30",
+    "target" : "514_attach",
+    "targetPort" : "qe6AFGkcvldfVPE87TCHs",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

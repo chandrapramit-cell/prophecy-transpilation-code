@@ -1,0 +1,180 @@
+{
+  "id" : "APRA_Processes__Formula_538_0",
+  "metainfo" : {
+    "label" : "APRA_Processes__Formula_538_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_538_0_QEFfilkoh7igrsPgJDaRY" : {
+      "id" : "Formula_538_0_QEFfilkoh7igrsPgJDaRY",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_538_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_538_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "QIDR2IAbfgMcGplm_kTLE" : {
+      "id" : "QIDR2IAbfgMcGplm_kTLE",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_538_0",
+        "x" : 470,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (pPeriod <= 0) THEN (coalesce(CAST((DATE_FORMAT((DATE_ADD(CURRENT_TIMESTAMP, CAST(-27 AS INTEGER))), 'yyyyMM')) AS DOUBLE), CAST((REGEXP_EXTRACT((DATE_FORMAT((DATE_ADD(CURRENT_TIMESTAMP, CAST(-27 AS INTEGER))), 'yyyyMM')), '^[0-9]+', 0)) AS INTEGER), 0)) ELSE pPeriod END) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "pPeriod",
+          "description" : null,
+          "_row_id" : "DDEE4qipW4pDblkVa2quV"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`pperiod`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CJSfhtASTVuoxqqXY5V2V",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "QEFfilkoh7igrsPgJDaRY",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Wpr1i0MjePEs-aZpLbh_G" : {
+      "id" : "Wpr1i0MjePEs-aZpLbh_G",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_98_cast",
+        "x" : 230,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(pPeriod AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "pPeriod",
+          "description" : null,
+          "_row_id" : "cE6Id2lCMXgTPb9Xia8wu"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "cUhbqQtcKJY3fwKGYU48t",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "hXLlZ3Ay4UVcShRgP6nbB",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "98" : {
+      "id" : "98",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "TextInput_98",
+        "x" : 50,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_98",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "98_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_QIDR2IAbfgMcGplm_kTLE_QEFfilkoh7igrsPgJDaRY_Formula_538_0_QEFfilkoh7igrsPgJDaRY",
+    "source" : "QIDR2IAbfgMcGplm_kTLE",
+    "sourcePort" : "QEFfilkoh7igrsPgJDaRY",
+    "target" : "Formula_538_0_QEFfilkoh7igrsPgJDaRY",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1384",
+    "source" : "Wpr1i0MjePEs-aZpLbh_G",
+    "sourcePort" : "hXLlZ3Ay4UVcShRgP6nbB",
+    "target" : "QIDR2IAbfgMcGplm_kTLE",
+    "targetPort" : "CJSfhtASTVuoxqqXY5V2V",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1364",
+    "source" : "98",
+    "sourcePort" : "98_Output",
+    "target" : "Wpr1i0MjePEs-aZpLbh_G",
+    "targetPort" : "cUhbqQtcKJY3fwKGYU48t",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

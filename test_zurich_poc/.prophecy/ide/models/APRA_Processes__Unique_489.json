@@ -1,0 +1,304 @@
+{
+  "id" : "APRA_Processes__Unique_489",
+  "metainfo" : {
+    "label" : "APRA_Processes__Unique_489",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Unique_489_489_Unique" : {
+      "id" : "Unique_489_489_Unique",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Unique_489"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Unique_489\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_27",
+          "slug" : "input_port_27"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_27",
+          "slug" : "output_port_27"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "501" : {
+      "id" : "501",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_501",
+        "x" : 434,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(NOT ((LENGTH(v_Reinsurer)) = 0))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "501_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "501_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "477_left" : {
+      "id" : "477_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_477_left",
+        "x" : 50,
+        "y" : 3,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.v_Reinsurer = in1.Reinsurer)",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "gjKCWN5Ko3nZzAMyUIQ47",
+          "slug" : "in0"
+        }, {
+          "id" : "-67JDIWXQydGlNttkLXyQ",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "1ghlQvtBplHiyUVFbUTmW",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "490" : {
+      "id" : "490",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_490",
+        "x" : 674,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "v_Reinsurer",
+            "_row_id" : null
+          },
+          "alias" : "v_Reinsurer",
+          "description" : null,
+          "_row_id" : "lNaSmZj9W7VyYoDVjYwnY"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Filename",
+          "description" : null,
+          "_row_id" : "gaHCY6n7w5D0HOQ6mgemg"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "490_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "490_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_482_482_Output" : {
+      "id" : "Union_482_482_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_482"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_23",
+          "id" : "output_port_23",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('APRA_Processes__Union_482') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_23",
+          "slug" : "input_port_23"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_23",
+          "slug" : "output_port_23"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "489" : {
+      "id" : "489",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_489",
+        "x" : 914,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "v_Reinsurer",
+            "_row_id" : null
+          },
+          "alias" : "v_Reinsurer",
+          "description" : null,
+          "_row_id" : "hwY3t7hi4XJQMhRjVYyQR"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "489_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "489_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DynamicInput_464_464_Output" : {
+      "id" : "DynamicInput_464_464_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DynamicInput_464"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_14",
+          "id" : "output_port_14",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('APRA_Processes', 'DynamicInput_464') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_489_489_Unique_Unique_489_489_Unique",
+    "source" : "489",
+    "sourcePort" : "489_Unique",
+    "target" : "Unique_489_489_Unique",
+    "targetPort" : "input_port_27",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1280",
+    "source" : "490",
+    "sourcePort" : "490_Output",
+    "target" : "489",
+    "targetPort" : "489_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1281",
+    "source" : "501",
+    "sourcePort" : "501_True",
+    "target" : "490",
+    "targetPort" : "490_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1309",
+    "source" : "477_left",
+    "sourcePort" : "1ghlQvtBplHiyUVFbUTmW",
+    "target" : "501",
+    "targetPort" : "501_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1329",
+    "source" : "Union_482_482_Output",
+    "sourcePort" : "output_port_23",
+    "target" : "477_left",
+    "targetPort" : "gjKCWN5Ko3nZzAMyUIQ47",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1308",
+    "source" : "DynamicInput_464_464_Output",
+    "sourcePort" : "output_port_14",
+    "target" : "477_left",
+    "targetPort" : "-67JDIWXQydGlNttkLXyQ",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
