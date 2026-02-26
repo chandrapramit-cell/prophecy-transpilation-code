@@ -1,0 +1,127 @@
+{
+  "id" : "4PL_Inventory_Report_Extended__LockInFilter_128",
+  "metainfo" : {
+    "label" : "4PL_Inventory_Report_Extended__LockInFilter_128",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "LockInFilter_128_128_True" : {
+      "id" : "LockInFilter_128_128_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "LockInFilter_128"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM LockInFilter_128\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "128" : {
+      "id" : "128",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "LockInFilter_128",
+        "x" : 240,
+        "y" : 834,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(ItemPrimaryVendorID = '123')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "128_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "128_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1" : {
+      "id" : "1",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "Source_File__ex_1",
+        "x" : 0,
+        "y" : 834,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "Source_File__ex_1_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "1_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_128_128_True_LockInFilter_128_128_True",
+    "source" : "128",
+    "sourcePort" : "128_True",
+    "target" : "LockInFilter_128_128_True",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_124",
+    "source" : "1",
+    "sourcePort" : "1_Output",
+    "target" : "128",
+    "targetPort" : "128_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
