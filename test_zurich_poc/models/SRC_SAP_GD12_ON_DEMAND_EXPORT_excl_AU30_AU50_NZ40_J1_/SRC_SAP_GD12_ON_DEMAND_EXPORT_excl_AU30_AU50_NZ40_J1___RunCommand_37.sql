@@ -17,8 +17,8 @@ WITH Sample_73 AS (
 Formula_33_to_Formula_34_0 AS (
 
   SELECT 
-    CAST((CONCAT(Directory, 'Archive\\')) AS STRING) AS Landing_Directory,
-    CAST(CURRENT_TIMESTAMP AS STRING) AS MOVE_TIMESTAMP,
+    CAST((CONCAT(Directory, 'Archive\\')) AS string) AS Landing_Directory,
+    CAST(CURRENT_TIMESTAMP AS string) AS MOVE_TIMESTAMP,
     *
   
   FROM Sample_73 AS in0
@@ -28,7 +28,7 @@ Formula_33_to_Formula_34_0 AS (
 Formula_33_to_Formula_34_1 AS (
 
   SELECT 
-    CAST((CONCAT('IF EXIST "', FullPath, '" (move "', FullPath, '"  "', Landing_Directory, FileName, '")')) AS STRING) AS RunCmd,
+    CAST((CONCAT('IF EXIST "', FullPath, '" (move "', FullPath, '"  "', Landing_Directory, FileName, '")')) AS string) AS RunCmd,
     *
   
   FROM Formula_33_to_Formula_34_0 AS in0

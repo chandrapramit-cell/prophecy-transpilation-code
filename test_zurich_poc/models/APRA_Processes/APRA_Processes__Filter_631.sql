@@ -6,26 +6,7 @@
   })
 }}
 
-WITH TextInput_337 AS (
-
-  SELECT * 
-  
-  FROM {{ ref('seed_337')}}
-
-),
-
-TextInput_337_cast AS (
-
-  SELECT 
-    CAST(Variable AS STRING) AS Variable,
-    CAST(`Starting Position` AS INTEGER) AS `Starting Position`,
-    CAST(Length AS INTEGER) AS Length
-  
-  FROM TextInput_337 AS in0
-
-),
-
-DynamicInput_617 AS (
+WITH DynamicInput_617 AS (
 
   SELECT *
   
@@ -64,6 +45,25 @@ AlteryxSelect_336 AS (
     * EXCEPT (`FILENAME`, `Field_1`)
   
   FROM Union_396 AS in0
+
+),
+
+TextInput_337 AS (
+
+  SELECT * 
+  
+  FROM {{ ref('seed_337')}}
+
+),
+
+TextInput_337_cast AS (
+
+  SELECT 
+    CAST(Variable AS STRING) AS Variable,
+    CAST(`Starting Position` AS INTEGER) AS `Starting Position`,
+    CAST(Length AS INTEGER) AS Length
+  
+  FROM TextInput_337 AS in0
 
 ),
 

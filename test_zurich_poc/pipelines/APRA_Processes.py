@@ -8,6 +8,7 @@ args = PipelineArgs(
       Question__Text_Box_392 = "''",
       jdbcUrl_NoAPRAUnmapped__598 = "''",
       Question__Check_Box_382 = "''",
+      password_DSN_SnowflakeNP_404 = "''",
       Question__Check_Box_381 = "''",
       workflow_name = "'APRA_Processes'",
       Question__Check_Box_384 = "''",
@@ -19,6 +20,8 @@ args = PipelineArgs(
       Question__Text_Box_390 = "''",
       jdbcUrl_PLACEHOLDER_488 = "''",
       password_PLACEHOLDER_488 = "''",
+      jdbcUrl_DSN_SnowflakeNP_404 = "''",
+      username_DSN_SnowflakeNP_404 = "''",
       File_Browse_386 = "'PLACEHOLDER'",
       Question__Text_Box_401 = "''",
       username_NoAPRAUnmapped__598 = "''",
@@ -46,13 +49,17 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    apra_processes__formula_579_0 = Process(
-        name = "APRA_Processes__Formula_579_0",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_579_0")
+    apra_processes__formula_446_0 = Process(
+        name = "APRA_Processes__Formula_446_0",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_446_0")
     )
     apra_processes__filter_580 = Process(
         name = "APRA_Processes__Filter_580",
         properties = ModelTransform(modelName = "APRA_Processes__Filter_580")
+    )
+    apra_processes__dsn_snowflakenp_404 = Process(
+        name = "APRA_Processes__DSN_SnowflakeNP_404",
+        properties = ModelTransform(modelName = "APRA_Processes__DSN_SnowflakeNP_404")
     )
     apra_processes__noapraunmapped__598 = Process(
         name = "APRA_Processes__NoAPRAUnmapped__598",
@@ -73,6 +80,10 @@ with Pipeline(args) as pipeline:
           }
         ),
         input_ports = None
+    )
+    apra_processes__formula_538_0 = Process(
+        name = "APRA_Processes__Formula_538_0",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_538_0")
     )
     mappings_xlsx_q_578 = Process(
         name = "Mappings_xlsx_Q_578",
@@ -128,9 +139,13 @@ with Pipeline(args) as pipeline:
           properties = SFTPTarget.SFTPTargetInternal(filePath = "APRA Unmapped.xlsx")
         )
     )
-    apra_processes__formula_618_1 = Process(
-        name = "APRA_Processes__Formula_618_1",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_618_1")
+    apra_processes__formula_8_to_formula_23_1 = Process(
+        name = "APRA_Processes__Formula_8_to_Formula_23_1",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_8_to_Formula_23_1")
+    )
+    apra_processes__formula_630_0 = Process(
+        name = "APRA_Processes__Formula_630_0",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_630_0")
     )
     dynamicinput_617 = Process(
         name = "DynamicInput_617",
@@ -145,10 +160,6 @@ with Pipeline(args) as pipeline:
           fileConnector = "transpiled_connection"
         ),
         is_custom_output_schema = True
-    )
-    apra_processes__formula_249_to_formula_258_2 = Process(
-        name = "APRA_Processes__Formula_249_to_Formula_258_2",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_249_to_Formula_258_2")
     )
     textinput_635 = Process(
         name = "TextInput_635",
@@ -195,15 +206,6 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    apra_processes__formula_446_0 = Process(
-        name = "APRA_Processes__Formula_446_0",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_446_0"),
-        input_ports = ["in_0", "in_1", "in_2", "in_3", "in_4", "in_5", "in_6", "in_7", "in_8", "in_9", "in_10", "in_11", "in_12",
-         "in_13", "in_14", "in_15", "in_16", "in_17", "in_18", "in_19", "in_20", "in_21", "in_22", "in_23",
-         "in_24", "in_25", "in_26", "in_27", "in_28", "in_29", "in_30", "in_31", "in_32", "in_33", "in_34",
-         "in_35", "in_36", "in_37", "in_38", "in_39", "in_40", "in_41", "in_42", "in_43", "in_44", "in_45",
-         "in_46", "in_47", "in_48", "in_49", "in_50"]
-    )
     apra_processes__filter_631 = Process(
         name = "APRA_Processes__Filter_631",
         properties = ModelTransform(modelName = "APRA_Processes__Filter_631"),
@@ -214,9 +216,26 @@ with Pipeline(args) as pipeline:
         properties = ModelTransform(modelName = "APRA_Processes__Join_494_inner"),
         input_ports = ["in_0", "in_1"]
     )
+    apra_processes__formula_539_to_formula_246_1 = Process(
+        name = "APRA_Processes__Formula_539_to_Formula_246_1",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_539_to_Formula_246_1")
+    )
     apra_processes__aka_snowflakepr_445 = Process(
         name = "APRA_Processes__aka_SnowflakePR_445",
         properties = ModelTransform(modelName = "APRA_Processes__aka_SnowflakePR_445")
+    )
+    apra_processes__formula_618_1 = Process(
+        name = "APRA_Processes__Formula_618_1",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_618_1")
+    )
+    apra_processes__summarize_413 = Process(
+        name = "APRA_Processes__Summarize_413",
+        properties = ModelTransform(modelName = "APRA_Processes__Summarize_413"),
+        input_ports = ["in_0", "in_1", "in_2", "in_3", "in_4", "in_5", "in_6", "in_7", "in_8", "in_9", "in_10", "in_11", "in_12",
+         "in_13", "in_14", "in_15", "in_16", "in_17", "in_18", "in_19", "in_20", "in_21", "in_22", "in_23",
+         "in_24", "in_25", "in_26", "in_27", "in_28", "in_29", "in_30", "in_31", "in_32", "in_33", "in_34",
+         "in_35", "in_36", "in_37", "in_38", "in_39", "in_40", "in_41", "in_42", "in_43", "in_44", "in_45",
+         "in_46", "in_47", "in_48", "in_49", "in_50"]
     )
     apra_processes__join_477_inner = Process(
         name = "APRA_Processes__Join_477_inner",
@@ -253,13 +272,9 @@ with Pipeline(args) as pipeline:
         name = "APRA_Processes__Formula_99_to_Formula_183_2",
         properties = ModelTransform(modelName = "APRA_Processes__Formula_99_to_Formula_183_2")
     )
-    apra_processes__formula_630_0 = Process(
-        name = "APRA_Processes__Formula_630_0",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_630_0")
-    )
-    apra_processes__formula_532_0 = Process(
-        name = "APRA_Processes__Formula_532_0",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_532_0")
+    apra_processes__formula_579_0 = Process(
+        name = "APRA_Processes__Formula_579_0",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_579_0")
     )
     apra_processes__placeholder_488 = Process(
         name = "APRA_Processes__PLACEHOLDER_488",
@@ -331,6 +346,14 @@ with Pipeline(args) as pipeline:
         ),
         is_custom_output_schema = True
     )
+    apra_processes__formula_615_1 = Process(
+        name = "APRA_Processes__Formula_615_1",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_615_1")
+    )
+    apra_processes__formula_532_0 = Process(
+        name = "APRA_Processes__Formula_532_0",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_532_0")
+    )
     dynamicinput_97 = Process(
         name = "DynamicInput_97",
         properties = DynamicInput(
@@ -371,6 +394,32 @@ with Pipeline(args) as pipeline:
           },
           format = SFTPTarget.XLSXWriteFormat(),
           properties = SFTPTarget.SFTPTargetInternal(filePath = "APRA Unmapped.xlsx")
+        )
+    )
+    apraoutput_xlsx_207 = Process(
+        name = "APRAOutput_xlsx_207",
+        properties = SFTPTarget(
+          compression = SFTPTarget.Compression(kind = "uncompressed"),
+          connector = {
+            "id": "transpiled_connection",
+            "kind": "sftp",
+            "properties": {
+              "authMethod": "password",
+              "username": "transpiled_username",
+              "host": "sftp.prophecy.io",
+              "id": "transpiled_connection",
+              "port": 22,
+              "password": {
+                "kind": "prophecy",
+                "properties": {"name" : "transpiled_secret", "value" : "transpiled_secret"},
+                "subKind": "text",
+                "type": "secret"
+              }
+            },
+            "type": "connector"
+          },
+          format = SFTPTarget.XLSXWriteFormat(),
+          properties = SFTPTarget.SFTPTargetInternal(filePath = "APRA Output.xlsx")
         )
     )
     dynamicinput_614 = Process(
@@ -415,39 +464,28 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    apra_processes__formula_538_0 = Process(
-        name = "APRA_Processes__Formula_538_0",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_538_0")
-    )
-    apra_processes__formula_8_to_formula_23_1 = Process(
-        name = "APRA_Processes__Formula_8_to_Formula_23_1",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_8_to_Formula_23_1")
-    )
-    apra_processes__formula_539_to_formula_246_1 = Process(
-        name = "APRA_Processes__Formula_539_to_Formula_246_1",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_539_to_Formula_246_1")
-    )
-    apra_processes__formula_615_1 = Process(
-        name = "APRA_Processes__Formula_615_1",
-        properties = ModelTransform(modelName = "APRA_Processes__Formula_615_1")
+    apra_processes__formula_249_to_formula_258_2 = Process(
+        name = "APRA_Processes__Formula_249_to_Formula_258_2",
+        properties = ModelTransform(modelName = "APRA_Processes__Formula_249_to_Formula_258_2")
     )
     apra_processes__filter_580 >> dynamicinput_464
     directory_604 >> apra_processes__formula_630_0
-    apra_processes__formula_615_1 >> dynamicinput_614
-    apra_processes__formula_618_1 >> dynamicinput_617
     (
-        apra_processes__formula_630_0._out(0)
-        >> [apra_processes__formula_615_1._in(0), apra_processes__formula_618_1._in(0)]
+        apra_processes__formula_446_0._out(0)
+        >> [apra_processes__appendfields_641._in(6), apra_processes__formula_532_0._in(0),
+              apra_processes__dsn_snowflakenp_404._in(0), apra_processes__aka_snowflakepr_445._in(0)]
     )
     textinput_98 >> apra_processes__formula_538_0
+    apra_processes__formula_615_1 >> dynamicinput_614
     (
         apra_processes__formula_99_to_formula_183_2._out(0)
-        >> [apra_processes__formula_446_0._in(43), apra_processes__formula_446_0._in(44),
+        >> [apra_processes__summarize_413._in(43), apra_processes__summarize_413._in(44),
               apra_processes__union_482._in(1)]
     )
     apra_processes__email_514_attach >> email_514._in(1)
     textinput_193 >> apra_processes__formula_539_to_formula_246_1
     dynamicinput_614 >> apra_processes__filter_631._in(0)
+    apra_processes__summarize_413._out(0) >> [apraoutput_xlsx_207._in(0), apra_processes__formula_446_0._in(0)]
     (
         apra_processes__union_482._out(0)
         >> [apra_processes__noapraunmapped__598._in(0), apra_processes__unique_489._in(1),
@@ -457,56 +495,56 @@ with Pipeline(args) as pipeline:
     textinput_635 >> apra_processes__appendfields_641._in(5)
     dynamicinput_427 >> apra_processes__formula_8_to_formula_23_1
     textinput_337 >> apra_processes__filter_631._in(2)
-    (
-        apra_processes__formula_249_to_formula_258_2._out(0)
-        >> [apra_processes__formula_446_0._in(45), apra_processes__union_482._in(2)]
-    )
     apra_processes__filter_582 >> dynamicinput_39
     apra_processes__appendfields_641._out(0) >> [email_514._in(0), apra_processes__email_514_attach._in(0)]
-    apra_processes__formula_538_0 >> dynamicinput_97
     (
         dynamicinput_464._out(0)
-        >> [apra_processes__formula_446_0._in(0), apra_processes__formula_446_0._in(2),
-              apra_processes__formula_446_0._in(4), apra_processes__formula_446_0._in(6),
-              apra_processes__formula_446_0._in(8), apra_processes__formula_446_0._in(10),
-              apra_processes__formula_446_0._in(12), apra_processes__formula_446_0._in(14),
-              apra_processes__formula_446_0._in(18), apra_processes__formula_446_0._in(26),
-              apra_processes__formula_446_0._in(29), apra_processes__formula_446_0._in(30),
-              apra_processes__formula_446_0._in(32), apra_processes__formula_446_0._in(38),
-              apra_processes__formula_446_0._in(39), apra_processes__unique_489._in(0),
+        >> [apra_processes__summarize_413._in(0), apra_processes__summarize_413._in(2),
+              apra_processes__summarize_413._in(4), apra_processes__summarize_413._in(6),
+              apra_processes__summarize_413._in(8), apra_processes__summarize_413._in(10),
+              apra_processes__summarize_413._in(12), apra_processes__summarize_413._in(14),
+              apra_processes__summarize_413._in(18), apra_processes__summarize_413._in(26),
+              apra_processes__summarize_413._in(29), apra_processes__summarize_413._in(30),
+              apra_processes__summarize_413._in(32), apra_processes__summarize_413._in(38),
+              apra_processes__summarize_413._in(39), apra_processes__unique_489._in(0),
               apra_processes__join_477_inner._in(0)]
-    )
-    (
-        apra_processes__formula_532_0._out(0)
-        >> [apra_processes__appendfields_641._in(7), apra_processes__placeholder_488._in(0)]
     )
     dynamicinput_192 >> apra_processes__formula_249_to_formula_258_2
     dynamicinput_617 >> apra_processes__filter_631._in(1)
     (
-        dynamicinput_39._out(0)
-        >> [apra_processes__formula_446_0._in(16), apra_processes__formula_446_0._in(19),
-              apra_processes__formula_446_0._in(21), apra_processes__formula_446_0._in(22),
-              apra_processes__formula_446_0._in(24), apra_processes__formula_446_0._in(27),
-              apra_processes__formula_446_0._in(34), apra_processes__formula_446_0._in(36),
-              apra_processes__unique_495._in(0), apra_processes__join_494_inner._in(0)]
-    )
-    apra_processes__filter_631._out(0) >> [apra_processes__formula_446_0._in(31), apra_processes__union_482._in(3)]
-    apra_processes__summarize_426 >> dynamicinput_427
-    (
         apra_processes__formula_8_to_formula_23_1._out(0)
-        >> [apra_processes__formula_446_0._in(41), apra_processes__formula_446_0._in(42),
+        >> [apra_processes__summarize_413._in(41), apra_processes__summarize_413._in(42),
               apra_processes__union_482._in(0)]
     )
+    apra_processes__formula_618_1 >> dynamicinput_617
+    (
+        apra_processes__formula_249_to_formula_258_2._out(0)
+        >> [apra_processes__summarize_413._in(45), apra_processes__union_482._in(2)]
+    )
+    (
+        dynamicinput_39._out(0)
+        >> [apra_processes__summarize_413._in(16), apra_processes__summarize_413._in(19),
+              apra_processes__summarize_413._in(21), apra_processes__summarize_413._in(22),
+              apra_processes__summarize_413._in(24), apra_processes__summarize_413._in(27),
+              apra_processes__summarize_413._in(34), apra_processes__summarize_413._in(36),
+              apra_processes__unique_495._in(0), apra_processes__join_494_inner._in(0)]
+    )
+    apra_processes__filter_631._out(0) >> [apra_processes__summarize_413._in(31), apra_processes__union_482._in(3)]
+    apra_processes__summarize_426 >> dynamicinput_427
     apra_processes__unique_495._out(0) >> [apraunmapped_xl_492._in(0), apra_processes__appendfields_641._in(4)]
-    textinput_5 >> apra_processes__summarize_426
     apra_processes__formula_539_to_formula_246_1 >> dynamicinput_192
+    textinput_5 >> apra_processes__summarize_426
     apra_processes__unique_489._out(0) >> [apraunmapped_xl_478._in(0), apra_processes__appendfields_641._in(3)]
     (
-        apra_processes__formula_446_0._out(0)
-        >> [apra_processes__appendfields_641._in(6), apra_processes__formula_532_0._in(0),
-              apra_processes__aka_snowflakepr_445._in(0)]
+        apra_processes__formula_532_0._out(0)
+        >> [apra_processes__appendfields_641._in(7), apra_processes__placeholder_488._in(0)]
+    )
+    (
+        apra_processes__formula_630_0._out(0)
+        >> [apra_processes__formula_615_1._in(0), apra_processes__formula_618_1._in(0)]
     )
     dynamicinput_97 >> apra_processes__formula_99_to_formula_183_2
-    mappings_xlsx_q_578._out(0) >> [apra_processes__appendfields_641._in(0), apra_processes__formula_579_0._in(0)]
-    emailrecipients_518._out(0) >> [apra_processes__appendfields_641._in(1), apra_processes__appendfields_641._in(2)]
     apra_processes__formula_579_0._out(0) >> [apra_processes__filter_580._in(0), apra_processes__filter_582._in(0)]
+    mappings_xlsx_q_578._out(0) >> [apra_processes__appendfields_641._in(0), apra_processes__formula_579_0._in(0)]
+    apra_processes__formula_538_0 >> dynamicinput_97
+    emailrecipients_518._out(0) >> [apra_processes__appendfields_641._in(1), apra_processes__appendfields_641._in(2)]

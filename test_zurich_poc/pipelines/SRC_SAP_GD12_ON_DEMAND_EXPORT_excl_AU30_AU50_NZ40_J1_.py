@@ -5,10 +5,13 @@ args = PipelineArgs(
     version = 1,
     auto_layout = False,
     params = Parameters(
-      jdbcUrl_aka_SnowflakePR_29 = "''",
+      jdbcUrl_DSN_SnowflakePR_20 = "''",
       username_aka_SnowflakePR_29 = "''",
+      username_DSN_SnowflakePR_20 = "''",
+      workflow_name = "'SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1_'",
+      jdbcUrl_aka_SnowflakePR_29 = "''",
       password_aka_SnowflakePR_29 = "''",
-      workflow_name = "'SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1_'"
+      password_DSN_SnowflakePR_20 = "''"
     )
 )
 
@@ -35,6 +38,10 @@ with Pipeline(args) as pipeline:
         name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___Union_44",
         properties = ModelTransform(modelName = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___Union_44"),
         input_ports = ["in_0", "in_1", "in_2"]
+    )
+    src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___textinput_70_cast = Process(
+        name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___TextInput_70_cast",
+        properties = ModelTransform(modelName = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___TextInput_70_cast")
     )
     src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___runcommand_37 = Process(
         name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___RunCommand_37",
@@ -124,6 +131,10 @@ with Pipeline(args) as pipeline:
         properties = ModelTransform(modelName = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___AppendFields_64"),
         input_ports = ["in_0", "in_1", "in_2"]
     )
+    src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___dsn_snowflakepr_20 = Process(
+        name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___DSN_SnowflakePR_20",
+        properties = ModelTransform(modelName = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___DSN_SnowflakePR_20")
+    )
     textinput_70 = Process(
         name = "TextInput_70",
         properties = Dataset(
@@ -131,10 +142,6 @@ with Pipeline(args) as pipeline:
           table = Dataset.DBTSource(name = "seed_70", sourceType = "Seed")
         ),
         input_ports = None
-    )
-    src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___textinput_70_cast = Process(
-        name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___TextInput_70_cast",
-        properties = ModelTransform(modelName = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___TextInput_70_cast")
     )
     src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___filter_7 = Process(
         name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___Filter_7",
@@ -173,6 +180,7 @@ with Pipeline(args) as pipeline:
     (
         src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___alteryxselect_25._out(0)
         >> [src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___appendfields_64._in(2),
+              src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___dsn_snowflakepr_20._in(0),
               src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___aka_snowflakepr_29._in(0)]
     )
     dynamicinput_40 >> src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___alteryxselect_25._in(1)

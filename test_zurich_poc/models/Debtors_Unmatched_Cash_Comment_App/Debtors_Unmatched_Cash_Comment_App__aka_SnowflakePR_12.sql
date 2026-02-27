@@ -18,7 +18,7 @@ WITH Union_55 AS (
 Formula_62_0 AS (
 
   SELECT 
-    CAST((REGEXP_REPLACE(COMMENT_CATEGORY, '_', ' ')) AS STRING) AS COMMENT_CATEGORY,
+    CAST((REGEXP_REPLACE(COMMENT_CATEGORY, '_', ' ')) AS string) AS COMMENT_CATEGORY,
     * EXCEPT (`comment_category`)
   
   FROM Union_55 AS in0

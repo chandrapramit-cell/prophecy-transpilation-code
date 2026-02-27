@@ -6,21 +6,11 @@
   })
 }}
 
-WITH Filter_631 AS (
+WITH Formula_8_to_Formula_23_1 AS (
 
   SELECT *
   
-  FROM {{ ref('APRA_Processes__Filter_631')}}
-
-),
-
-Formula_486_0 AS (
-
-  SELECT 
-    CAST(NULL AS STRING) AS v_TZAC,
-    *
-  
-  FROM Filter_631 AS in0
+  FROM {{ ref('APRA_Processes__Formula_8_to_Formula_23_1')}}
 
 ),
 
@@ -42,14 +32,6 @@ AlteryxSelect_553 AS (
 
 ),
 
-Formula_8_to_Formula_23_1 AS (
-
-  SELECT *
-  
-  FROM {{ ref('APRA_Processes__Formula_8_to_Formula_23_1')}}
-
-),
-
 Formula_99_to_Formula_183_2 AS (
 
   SELECT *
@@ -65,6 +47,24 @@ AlteryxSelect_554 AS (
     v_TZAC AS v_TZAC
   
   FROM Formula_99_to_Formula_183_2 AS in0
+
+),
+
+Filter_631 AS (
+
+  SELECT *
+  
+  FROM {{ ref('APRA_Processes__Filter_631')}}
+
+),
+
+Formula_486_0 AS (
+
+  SELECT 
+    CAST(NULL AS STRING) AS v_TZAC,
+    *
+  
+  FROM Filter_631 AS in0
 
 ),
 

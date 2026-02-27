@@ -68,7 +68,7 @@ PortfolioComposerTable_55 AS (
 
 Summarize_65 AS (
 
-  SELECT (CONCAT_WS(';', (COLLECT_LIST(`Email address`)))) AS `Email address`
+  SELECT (CONCAT_WS('; ', (COLLECT_LIST(`Email address`)))) AS `Email address`
   
   FROM Filter_62 AS in0
 

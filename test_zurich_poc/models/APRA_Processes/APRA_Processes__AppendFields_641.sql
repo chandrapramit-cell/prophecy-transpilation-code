@@ -45,13 +45,11 @@ Formula_446_0 AS (
 
 ),
 
-Unique_634 AS (
+Formula_532_0 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM Formula_446_0 AS in0
-  
-  QUALIFY ROW_NUMBER() OVER (PARTITION BY Period, Source ORDER BY Period, Source) = 1
+  FROM {{ ref('APRA_Processes__Formula_532_0')}}
 
 ),
 
@@ -68,6 +66,16 @@ TextInput_635_cast AS (
   SELECT CAST(Source AS STRING) AS Source
   
   FROM TextInput_635 AS in0
+
+),
+
+Unique_634 AS (
+
+  SELECT * 
+  
+  FROM Formula_446_0 AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY Period, Source ORDER BY Period, Source) = 1
 
 ),
 
@@ -110,7 +118,7 @@ Filter_520 AS (
 
 Summarize_523 AS (
 
-  SELECT (CONCAT_WS(';', (COLLECT_LIST(`Email address`)))) AS `Email address`
+  SELECT (CONCAT_WS('; ', (COLLECT_LIST(`Email address`)))) AS `Email address`
   
   FROM Filter_520 AS in0
 
@@ -193,20 +201,6 @@ Mappings_xlsx_Q_578 AS (
 
 ),
 
-Formula_532_0 AS (
-
-  SELECT *
-  
-  FROM {{ ref('APRA_Processes__Formula_532_0')}}
-
-),
-
-Sample_536 AS (
-
-  {{ prophecy_basics.Sample('Formula_532_0', [], 1002, 'firstN', 1) }}
-
-),
-
 CountRecords_577 AS (
 
   SELECT COUNT('1') AS `Count`
@@ -228,6 +222,12 @@ Formula_593_0 AS (
     *
   
   FROM CountRecords_577 AS in0
+
+),
+
+Sample_536 AS (
+
+  {{ prophecy_basics.Sample('Formula_532_0', [], 1002, 'firstN', 1) }}
 
 ),
 

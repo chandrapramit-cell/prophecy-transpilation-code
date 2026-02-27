@@ -17,7 +17,7 @@ WITH TextInput_66 AS (
 TextInput_66_cast AS (
 
   SELECT 
-    CAST(LIST AS STRING) AS LIST,
+    CAST(LIST AS string) AS LIST,
     CAST(VALUE AS BOOLEAN) AS `VALUE`
   
   FROM TextInput_66 AS in0
