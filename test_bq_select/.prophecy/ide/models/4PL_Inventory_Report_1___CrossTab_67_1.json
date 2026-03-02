@@ -1,0 +1,266 @@
+{
+  "id" : "4PL_Inventory_Report_1___CrossTab_67_1",
+  "metainfo" : {
+    "label" : "4PL_Inventory_Report_1___CrossTab_67_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "vvCkMAd9-rTAAl-iCmZV-" : {
+      "id" : "vvCkMAd9-rTAAl-iCmZV-",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CrossTab_67_1",
+        "x" : 806,
+        "y" : 183,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(REGEXP_REPLACE(LocationCode, '[\\\\s!@#$%^&*(),.?\":{}|<>\\\\[\\\\]=;/\\\\-+]', '_'))",
+            "_row_id" : null
+          },
+          "alias" : "LocationCode",
+          "description" : null,
+          "_row_id" : "J7-R6A1Hky9gH5mBj-PcH"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`locationcode`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ewevnGOvb4Qpg-I3ew5Zx",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Ixpux8uDE0I_NZdLHF0_O",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "58" : {
+      "id" : "58",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "LockInSummarize_58",
+        "x" : 50,
+        "y" : 183,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(AvailableQuantity)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_AvailableQuantity",
+          "description" : null,
+          "_row_id" : "kKr1XyA6rKiGlPJYkvFTk"
+        }, {
+          "expression" : {
+            "expression" : "ItemNumber",
+            "_row_id" : null
+          },
+          "alias" : "ItemNumber",
+          "description" : null,
+          "_row_id" : "zGdIO3vbQB2qs2IbZ010Q"
+        }, {
+          "expression" : {
+            "expression" : "LocationCode",
+            "_row_id" : null
+          },
+          "alias" : "LocationCode",
+          "description" : null,
+          "_row_id" : "XQaDkhyNecCiO2TD9-btr"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "ItemNumber",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "8SbkgwF1cyHRpqg1EAVrB"
+        }, {
+          "expression" : {
+            "expression" : "LocationCode",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "V-2h6Lrx_EAxctABuC0Wr"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "58_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "58_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CrossTab_67_1_Ixpux8uDE0I_NZdLHF0_O" : {
+      "id" : "CrossTab_67_1_Ixpux8uDE0I_NZdLHF0_O",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CrossTab_67_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CrossTab_67_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "9-c5mpX_YPH5p512JuBIx" : {
+      "id" : "9-c5mpX_YPH5p512JuBIx",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CrossTab_67_0",
+        "x" : 626,
+        "y" : 183,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (LocationCode IS NULL) THEN '_Null_' ELSE LocationCode END)",
+            "_row_id" : null
+          },
+          "alias" : "LocationCode",
+          "description" : null,
+          "_row_id" : "eprVmegqWyOL4ER-KeNAJ"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`locationcode`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "lPP2kHgnl_uGXXec_NrOK",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "DVXiTKfKzMvUKOXc-_kMo",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "LockInFilter_128_128_True" : {
+      "id" : "LockInFilter_128_128_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "LockInFilter_128"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('4PL_Inventory_Report_1___LockInFilter_128') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_vvCkMAd9-rTAAl-iCmZV-_Ixpux8uDE0I_NZdLHF0_O_CrossTab_67_1_Ixpux8uDE0I_NZdLHF0_O",
+    "source" : "vvCkMAd9-rTAAl-iCmZV-",
+    "sourcePort" : "Ixpux8uDE0I_NZdLHF0_O",
+    "target" : "CrossTab_67_1_Ixpux8uDE0I_NZdLHF0_O",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_131",
+    "source" : "9-c5mpX_YPH5p512JuBIx",
+    "sourcePort" : "DVXiTKfKzMvUKOXc-_kMo",
+    "target" : "vvCkMAd9-rTAAl-iCmZV-",
+    "targetPort" : "ewevnGOvb4Qpg-I3ew5Zx",
+    "isWireless" : false
+  }, {
+    "id" : "edge_133",
+    "source" : "58",
+    "sourcePort" : "58_Output",
+    "target" : "9-c5mpX_YPH5p512JuBIx",
+    "targetPort" : "lPP2kHgnl_uGXXec_NrOK",
+    "isWireless" : false
+  }, {
+    "id" : "edge_103",
+    "source" : "LockInFilter_128_128_True",
+    "sourcePort" : "output_port_3",
+    "target" : "58",
+    "targetPort" : "58_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
