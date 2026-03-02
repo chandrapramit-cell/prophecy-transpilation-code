@@ -24,11 +24,9 @@ TextInput_138_cast AS (
 
 AlteryxSelect_139 AS (
 
-  SELECT 
-    CAST(FileName AS STRING) AS `File Name`,
-    *
+  SELECT CAST(FileName AS STRING) AS `File Name`
   
-  FROM TextInput_138_cast
+  FROM TextInput_138_cast AS in0
 
 )
 
