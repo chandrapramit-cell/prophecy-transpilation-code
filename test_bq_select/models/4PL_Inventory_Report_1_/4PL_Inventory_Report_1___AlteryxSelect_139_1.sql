@@ -14,12 +14,10 @@ WITH TextInput_138_cast AS (
 
 ),
 
-AlteryxSelect_139 AS (
+AlteryxSelect_139_1 AS (
 
-  {#Converts file name values to string format for consistent naming and downstream processing.#}
-  SELECT 
-    CAST(FileName AS STRING) AS `File Name`,
-    CAST(FileName AS STRING) AS FileName
+  {#Converts file names to text for downstream processing.#}
+  SELECT CAST(FileName AS STRING) AS `FileName`
   
   FROM TextInput_138_cast AS in0
 
@@ -27,4 +25,4 @@ AlteryxSelect_139 AS (
 
 SELECT *
 
-FROM AlteryxSelect_139
+FROM AlteryxSelect_139_1
