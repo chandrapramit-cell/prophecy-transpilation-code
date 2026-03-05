@@ -1,0 +1,189 @@
+{
+  "id" : "DQ_Macro__AlteryxSelect_25",
+  "metainfo" : {
+    "label" : "DQ_Macro__AlteryxSelect_25",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_25_25_Output" : {
+      "id" : "AlteryxSelect_25_25_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_25"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_25\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_9",
+          "slug" : "input_port_9"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_9",
+          "slug" : "output_port_9"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "25" : {
+      "id" : "25",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_25",
+        "x" : 50,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "NAME",
+            "_row_id" : null
+          },
+          "alias" : "`Expected Field Name`",
+          "description" : null,
+          "_row_id" : "pTYiqV-rBuOmNUIOKUdRQ"
+        }, {
+          "expression" : {
+            "expression" : "VARIABLETYPE",
+            "_row_id" : null
+          },
+          "alias" : "`Expected Type`",
+          "description" : null,
+          "_row_id" : "CCki5jSKj5xwMDXVa-J5D"
+        }, {
+          "expression" : {
+            "expression" : "RIGHT_NAME",
+            "_row_id" : null
+          },
+          "alias" : "`Actual Field Name`",
+          "description" : null,
+          "_row_id" : "R5-gCUhXHacg8H2ZQES52"
+        }, {
+          "expression" : {
+            "expression" : "RIGHT_TYPE",
+            "_row_id" : null
+          },
+          "alias" : "`Actual Field Type`",
+          "description" : null,
+          "_row_id" : "K4srF2R-FrKTW2lWns93Y"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "25_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "25_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "24_reject" : {
+      "id" : "24_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_24_reject",
+        "x" : 470,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(NOT CAST(`Type Test` AS BOOLEAN))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "N01G7jGrnerQGUvuDo4tf",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "qB2ZjsapYkLj8HICrM6eU",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_23_1_B3iuXN7zYKsm_YP8OYkks" : {
+      "id" : "Formula_23_1_B3iuXN7zYKsm_YP8OYkks",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_23_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_8",
+          "id" : "output_port_8",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('DQ_Macro__Formula_23_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_25_25_Output_AlteryxSelect_25_25_Output",
+    "source" : "25",
+    "sourcePort" : "25_Output",
+    "target" : "AlteryxSelect_25_25_Output",
+    "targetPort" : "input_port_9",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2278",
+    "source" : "24_reject",
+    "sourcePort" : "qB2ZjsapYkLj8HICrM6eU",
+    "target" : "25",
+    "targetPort" : "25_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2343",
+    "source" : "Formula_23_1_B3iuXN7zYKsm_YP8OYkks",
+    "sourcePort" : "output_port_8",
+    "target" : "24_reject",
+    "targetPort" : "N01G7jGrnerQGUvuDo4tf",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

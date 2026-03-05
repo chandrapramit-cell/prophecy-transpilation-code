@@ -1,0 +1,290 @@
+{
+  "id" : "110_2015_Day_7_Main_AndrewMerrill__MultiRowFormula_25_row_id_drop_0",
+  "metainfo" : {
+    "label" : "110_2015_Day_7_Main_AndrewMerrill__MultiRowFormula_25_row_id_drop_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "33" : {
+      "id" : "33",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_33",
+        "x" : 3344,
+        "y" : 318,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "33_Input##COUNT" ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "COUNT"
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "33_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "33_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MultiRowFormula_25_row_id_drop_0_WXB9v0Jo7Gszglk7flmDv" : {
+      "id" : "MultiRowFormula_25_row_id_drop_0_WXB9v0Jo7Gszglk7flmDv",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "MultiRowFormula_25_row_id_drop_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM MultiRowFormula_25_row_id_drop_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "31" : {
+      "id" : "31",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RecordID_31",
+        "x" : 3584,
+        "y" : 318,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n      *,\n      row_number() OVER (ORDER BY 1) AS `RecordID`\n    FROM Sort_33\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "31_Input",
+          "slug" : "Sort_33"
+        } ],
+        "outputs" : [ {
+          "id" : "31_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "ZRj_NuHSp0-OYWnzHwTAZ" : {
+      "id" : "ZRj_NuHSp0-OYWnzHwTAZ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_25_row_id_0",
+        "x" : 3824,
+        "y" : 318,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER ())"
+          },
+          "alias" : "prophecy_row_id",
+          "_row_id" : "zjbaP4c1tZ7b_dCf7GxFX"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "2136587107"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "An8PMV6U7rfbbjmFsWtwf",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "G5xK_H5idaaDwOCanA__-",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "QUFFaa3Cn9jv6qONSeOmz" : {
+      "id" : "QUFFaa3Cn9jv6qONSeOmz",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_25_0",
+        "x" : 4004,
+        "y" : 318,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('IF (REGEX_Match([Input 1],\"\\\\\\\\d+\") or REGEX_Match(REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"),\"\\\\\\\\d+\")) and (REGEX_Match([Input 2],\"\\\\\\\\d+\") or REGEX_Match(REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\"),\"\\\\\\\\d+\"))\nTHEN\nReplace(\n  [Row-1:Logic],\n  \"-\"+[Output]+\"-x\",\n  \"-\"+[Output]+\"-\" + ToString(Switch([Operation],\n//DEFAULT\nBinaryXOr(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\nToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\")))),\n\n\"AND\",\nBinaryAnd(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\nToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\")))),\n\n\"OR\",\nBinaryOr(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\nToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\")))), \n\n\"LSHIFT\",\nBinToInt(Right(IntToBin(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\")))) + PadRight(\"\",ToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\\'0\\'),16)),\n\n\"RSHIFT\",\nBinToInt(LEFT(PadRight(\"\",ToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\\'0\\') + PadLeft(IntToBin(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\")))),16,\\'0\\'),16))\n    ))\n  )\nELSE\n[Row-1:Logic]\nENDIF\n\n/*ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"))) +\nToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\")))*/' AS INT)"
+          },
+          "alias" : "Logic",
+          "_row_id" : "rCjsIjw3oS00-7L6TbWVx"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`logic`)"
+          },
+          "_row_id" : "1570016615"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "zJ0d1EbIwNyFvCwxlLyce",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "jrldc_EsgKUE9zrm2dRaM",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "ngFWOyZ5Tfc5vpkTOEFbc" : {
+      "id" : "ngFWOyZ5Tfc5vpkTOEFbc",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_25_row_id_drop_0",
+        "x" : 4184,
+        "y" : 318,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`prophecy_row_id`)"
+          },
+          "_row_id" : "19099634"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "4u6bsRnvGR8DDREdyiV2g",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "WXB9v0Jo7Gszglk7flmDv",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GenerateRows_24_24_Output" : {
+      "id" : "GenerateRows_24_24_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GenerateRows_24"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('110_2015_Day_7_Main_AndrewMerrill', 'GenerateRows_24') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_ngFWOyZ5Tfc5vpkTOEFbc_WXB9v0Jo7Gszglk7flmDv_MultiRowFormula_25_row_id_drop_0_WXB9v0Jo7Gszglk7flmDv",
+    "source" : "ngFWOyZ5Tfc5vpkTOEFbc",
+    "sourcePort" : "WXB9v0Jo7Gszglk7flmDv",
+    "target" : "MultiRowFormula_25_row_id_drop_0_WXB9v0Jo7Gszglk7flmDv",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2230",
+    "source" : "QUFFaa3Cn9jv6qONSeOmz",
+    "sourcePort" : "jrldc_EsgKUE9zrm2dRaM",
+    "target" : "ngFWOyZ5Tfc5vpkTOEFbc",
+    "targetPort" : "4u6bsRnvGR8DDREdyiV2g",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2229",
+    "source" : "ZRj_NuHSp0-OYWnzHwTAZ",
+    "sourcePort" : "G5xK_H5idaaDwOCanA__-",
+    "target" : "QUFFaa3Cn9jv6qONSeOmz",
+    "targetPort" : "zJ0d1EbIwNyFvCwxlLyce",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2228",
+    "source" : "31",
+    "sourcePort" : "31_Output",
+    "target" : "ZRj_NuHSp0-OYWnzHwTAZ",
+    "targetPort" : "An8PMV6U7rfbbjmFsWtwf",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2216",
+    "source" : "33",
+    "sourcePort" : "33_Output",
+    "target" : "31",
+    "targetPort" : "31_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2214",
+    "source" : "GenerateRows_24_24_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "33",
+    "targetPort" : "33_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
