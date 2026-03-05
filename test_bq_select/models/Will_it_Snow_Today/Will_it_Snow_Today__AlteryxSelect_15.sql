@@ -54,8 +54,9 @@ Formula_9_0 AS (
 
 DateTime_11_0 AS (
 
+  {#Formats date values and adds them alongside all fields from a related dataset.#}
   SELECT 
-    (FORMAT_TIMESTAMP('%d-%m', DateTime_Out)) AS `Tag ampersand Monat`,
+    (FORMAT_TIMESTAMP('%d-%m', CAST(DateTime_Out AS DATETIME))) AS `Tag ampersand Monat`,
     *
   
   FROM Formula_9_0 AS in0

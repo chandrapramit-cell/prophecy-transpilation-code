@@ -1,0 +1,144 @@
+{
+  "id" : "1_challenge_1__Summarize_40",
+  "metainfo" : {
+    "label" : "1_challenge_1__Summarize_40",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_40_cOj6g5d25d0YSTEcWPjbZ" : {
+      "id" : "Summarize_40_cOj6g5d25d0YSTEcWPjbZ",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_40"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_40\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "40" : {
+      "id" : "40",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_40",
+        "x" : 2040,
+        "y" : 432,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((geoid IS NULL) OR (CAST(geoid AS STRING) = '')) THEN NULL ELSE 1 END))"
+          },
+          "alias" : "`Count`",
+          "_row_id" : "kpBUR3WMkvgJVI60IaOVE"
+        }, {
+          "expression" : {
+            "expression" : "`Income Category`"
+          },
+          "alias" : "`Income Category`",
+          "_row_id" : "8jhmk7H6RDKubyQimGeNv"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "40_Input##Income Category", "40_Input##geoid" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Income Category`"
+          },
+          "_row_id" : "RUGIQhM4tSkub0PPnTJoa"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "40_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "cOj6g5d25d0YSTEcWPjbZ",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_29_1_U-Z4vaGd59wFeL-dXtc75" : {
+      "id" : "Formula_29_1_U-Z4vaGd59wFeL-dXtc75",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_29_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('1_challenge_1__Formula_29_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_40_cOj6g5d25d0YSTEcWPjbZ_Summarize_40_cOj6g5d25d0YSTEcWPjbZ",
+    "source" : "40",
+    "sourcePort" : "cOj6g5d25d0YSTEcWPjbZ",
+    "target" : "Summarize_40_cOj6g5d25d0YSTEcWPjbZ",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_26",
+    "source" : "Formula_29_1_U-Z4vaGd59wFeL-dXtc75",
+    "sourcePort" : "output_port_2",
+    "target" : "40",
+    "targetPort" : "40_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

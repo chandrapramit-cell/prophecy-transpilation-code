@@ -303,7 +303,7 @@
       },
       "properties" : {
         "ports" : null,
-        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: DataFrame) -> DataFrame:",
+        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
         "scriptMethodFooter" : "return out0",
         "script" : "\nimport pandas as pd\n\ndf = in0.copy()\ngroup_cols = [\"ItemNumber\"]\npivot_col = \"LocationCode\"\nagg_dict = {\"Sum_AvailableQuantity\": \"sum\", \"_dummy_\": \"max\"}\ncol_to_alias = {\"Sum_AvailableQuantity\": \"Sum\", \"_dummy_\": \"_dummy_\"}\ndf[\"_dummy_\"] = 1\n\ndf_pivoted = pd.pivot_table(\n    df,\n    index=group_cols,\n    columns=pivot_col if pivot_col else None,\n    values=list(agg_dict.keys()),\n    aggfunc=agg_dict,\n)\n\nif col_to_alias:\n    if isinstance(df_pivoted.columns, pd.MultiIndex):\n        new_cols = []\n        for i in range(len(df_pivoted.columns)):\n            pivot_val = df_pivoted.columns.get_level_values(-1)[i]\n            val_col = df_pivoted.columns.get_level_values(0)[i]\n            alias = col_to_alias.get(val_col, val_col)\n            new_cols.append(f\"{pivot_val}_{alias}\")\n        df_pivoted.columns = new_cols\n    else:\n        alias = list(col_to_alias.values())[0] if col_to_alias else \"\"\n        df_pivoted = df_pivoted.rename(columns={c: f\"{c}_{alias}\" for c in df_pivoted.columns})\n\ndf_pivoted = df_pivoted.reset_index()\n\n\nreturn df_pivoted\n"
       },

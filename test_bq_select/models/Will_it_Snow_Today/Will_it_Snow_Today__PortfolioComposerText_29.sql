@@ -8,7 +8,7 @@
 
 WITH DateTimeNow_10_createRow AS (
 
-  {{ test_bq_select_1.create_data(n = 1, alias = 'seq') }}
+  {{ transpiler_data_matching.create_data(n = 1, alias = 'seq') }}
 
 ),
 
