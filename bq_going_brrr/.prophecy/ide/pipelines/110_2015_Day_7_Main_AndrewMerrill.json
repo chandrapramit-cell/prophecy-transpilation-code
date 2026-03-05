@@ -21,12 +21,12 @@
     "transpilerType" : "alteryx"
   },
   "processes" : {
-    "NSmCSf4lN-BdRgiDaqe4k" : {
-      "id" : "NSmCSf4lN-BdRgiDaqe4k",
+    "AWqCIk5afDIdEPEzSCA9U" : {
+      "id" : "AWqCIk5afDIdEPEzSCA9U",
       "component" : "Reformat",
       "metadata" : {
-        "label" : "Formula_20_0",
-        "x" : 2144,
+        "label" : "MultiRowFormula_25_row_id_drop_0",
+        "x" : 4364,
         "y" : 318,
         "phase" : 0
       },
@@ -34,12 +34,69 @@
         "columnsSelector" : [ ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "CAST((CONCAT('-', Output, '-x')) AS STRING)",
+            "expression" : "* EXCEPT(`prophecy_row_id`)",
             "_row_id" : null
           },
-          "alias" : "Logic",
+          "alias" : null,
           "description" : null,
-          "_row_id" : "xx1TicGs4XGZJ4WT_b7BA"
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "M1QFxa661LaXWLNzDaVZM",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "uJoom2oJ-59EaH2koHhM5",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "jGodpAw8NYqYxHEO1tC7s" : {
+      "id" : "jGodpAw8NYqYxHEO1tC7s",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_2_1",
+        "x" : 200,
+        "y" : 102,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 3) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(1 AS INT64) - 1)))] WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 2) THEN '65535' ELSE '0' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Input 1`",
+          "description" : null,
+          "_row_id" : "BzndoOVFpgxFMOt8rK6CM"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 3) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(2 AS INT64) - 1)))] WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 2) THEN 'NOT' ELSE 'OR' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Operation",
+          "description" : null,
+          "_row_id" : "5dYsZgfhZHIAH2-ZzeJuJ"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 3) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(3 AS INT64) - 1)))] WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 2) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(2 AS INT64) - 1)))] ELSE INPUT END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Input 2`",
+          "description" : null,
+          "_row_id" : "molcp3d7bjwTOyeS_mGzN"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(Logic, '(?i)(.*) -> (\\\\w+)', '$2')) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Output",
+          "description" : null,
+          "_row_id" : "sEIy08zI2J3_JkxK9EDQ_"
         }, {
           "expression" : {
             "expression" : "*",
@@ -52,11 +109,53 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "XXAuhCwYtfcaynnEaGCXj",
+          "id" : "33EUPdny7a0RJv9c67l23",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "x-eSfsiMExJxmQ2vaz2eC",
+          "id" : "Rq8UALjUiajA1b0SNkW0i",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      },
+      "parent" : "38"
+    },
+    "5M_ebWUY_NFxis54cc4pJ" : {
+      "id" : "5M_ebWUY_NFxis54cc4pJ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_25_1",
+        "x" : 4184,
+        "y" : 318,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((\n  CASE\n    WHEN (\n      (\n        ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n        OR (\n             (\n               LENGTH(\n                 (REGEXP_EXTRACT((REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1')), '\\d+', 0)))\n             ) > 0\n           )\n      )\n      AND (\n            ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n            OR (\n                 (\n                   LENGTH(\n                     (REGEXP_EXTRACT((REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1')), '\\d+', 0)))\n                 ) > 0\n               )\n          )\n    )\n      THEN (\n        REGEXP_REPLACE(\n          LOGIC_LAG1, \n          (CONCAT('-', OUTPUT, '-x')), \n          (\n            CONCAT(\n              '-', \n              OUTPUT, \n              '-', \n              (\n                REGEXP_REPLACE(\n                  (\n                    REGEXP_REPLACE(\n                      (\n                        FORMAT(\n                          '%.0f', \n                          CAST((\n                            CASE\n                              WHEN CAST('AND' AS BOOLEAN)\n                                THEN (\n                                  BITWISE_AND(\n                                    CAST((\n                                      coalesce(\n                                        CAST((\n                                          CASE\n                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                              THEN `Input 1`\n                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                          END\n                                        ) AS FLOAT64), \n                                        CAST((\n                                          REGEXP_EXTRACT(\n                                            (\n                                              CASE\n                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                  THEN `Input 1`\n                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                              END\n                                            ), \n                                            '^[0-9]+', \n                                            0)\n                                        ) AS INT64), \n                                        0)\n                                    ) AS INT64), \n                                    CAST((\n                                      coalesce(\n                                        CAST((\n                                          CASE\n                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                              THEN `Input 2`\n                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                          END\n                                        ) AS FLOAT64), \n                                        CAST((\n                                          REGEXP_EXTRACT(\n                                            (\n                                              CASE\n                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                  THEN `Input 2`\n                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                              END\n                                            ), \n                                            '^[0-9]+', \n                                            0)\n                                        ) AS INT64), \n                                        0)\n                                    ) AS INT64))\n                                )\n                              WHEN CAST('OR' AS BOOLEAN)\n                                THEN (\n                                  BITWISE_OR(\n                                    (\n                                      coalesce(\n                                        CAST((\n                                          CASE\n                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                              THEN `Input 1`\n                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                          END\n                                        ) AS FLOAT64), \n                                        CAST((\n                                          REGEXP_EXTRACT(\n                                            (\n                                              CASE\n                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                  THEN `Input 1`\n                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                              END\n                                            ), \n                                            '^[0-9]+', \n                                            0)\n                                        ) AS INT64), \n                                        0)\n                                    ), \n                                    (\n                                      coalesce(\n                                        CAST((\n                                          CASE\n                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                              THEN `Input 2`\n                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                          END\n                                        ) AS FLOAT64), \n                                        CAST((\n                                          REGEXP_EXTRACT(\n                                            (\n                                              CASE\n                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                  THEN `Input 2`\n                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                              END\n                                            ), \n                                            '^[0-9]+', \n                                            0)\n                                        ) AS INT64), \n                                        0)\n                                    ))\n                                )\n                              WHEN CAST('LSHIFT' AS BOOLEAN)\n                                THEN (\n                                  CASE\n                                    WHEN (\n                                      CAST((\n                                        SUBSTRING(\n                                          (\n                                            SUBSTRING(\n                                              (\n                                                (\n                                                  BIN(\n                                                    (\n                                                      coalesce(\n                                                        CAST((\n                                                          CASE\n                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                              THEN `Input 1`\n                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                          END\n                                                        ) AS FLOAT64), \n                                                        CAST((\n                                                          REGEXP_EXTRACT(\n                                                            (\n                                                              CASE\n                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                  THEN `Input 1`\n                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                              END\n                                                            ), \n                                                            '^[0-9]+', \n                                                            0)\n                                                        ) AS INT64), \n                                                        0)\n                                                    ))\n                                                )\n                                                + (\n                                                    RPAD(\n                                                      '', \n                                                      (\n                                                        coalesce(\n                                                          CAST((\n                                                            CASE\n                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                THEN `Input 2`\n                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                            END\n                                                          ) AS FLOAT64), \n                                                          CAST((\n                                                            REGEXP_EXTRACT(\n                                                              (\n                                                                CASE\n                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                    THEN `Input 2`\n                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                END\n                                                              ), \n                                                              '^[0-9]+', \n                                                              0)\n                                                          ) AS INT64), \n                                                          0)\n                                                      ), \n                                                      '0')\n                                                  )\n                                              ), \n                                              (\n                                                (\n                                                  (\n                                                    LENGTH(\n                                                      (\n                                                        (\n                                                          BIN(\n                                                            (\n                                                              coalesce(\n                                                                CAST((\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 1`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ) AS FLOAT64), \n                                                                CAST((\n                                                                  REGEXP_EXTRACT(\n                                                                    (\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 1`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ), \n                                                                    '^[0-9]+', \n                                                                    0)\n                                                                ) AS INT64), \n                                                                0)\n                                                            ))\n                                                        )\n                                                        + (\n                                                            RPAD(\n                                                              '', \n                                                              (\n                                                                coalesce(\n                                                                  CAST((\n                                                                    CASE\n                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                        THEN `Input 2`\n                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                    END\n                                                                  ) AS FLOAT64), \n                                                                  CAST((\n                                                                    REGEXP_EXTRACT(\n                                                                      (\n                                                                        CASE\n                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                            THEN `Input 2`\n                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                        END\n                                                                      ), \n                                                                      '^[0-9]+', \n                                                                      0)\n                                                                  ) AS INT64), \n                                                                  0)\n                                                              ), \n                                                              '0')\n                                                          )\n                                                      ))\n                                                  )\n                                                  - 16\n                                                )\n                                                + 1\n                                              ), \n                                              16)\n                                          ), \n                                          2, \n                                          1)\n                                      ) AS VARCHAR (1000)) = '-'\n                                    )\n                                      THEN (\n                                        -1\n                                        * (\n                                            CONV(\n                                              (\n                                                SUBSTRING(\n                                                  (\n                                                    SUBSTRING(\n                                                      (\n                                                        (\n                                                          BIN(\n                                                            (\n                                                              coalesce(\n                                                                CAST((\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 1`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ) AS FLOAT64), \n                                                                CAST((\n                                                                  REGEXP_EXTRACT(\n                                                                    (\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 1`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ), \n                                                                    '^[0-9]+', \n                                                                    0)\n                                                                ) AS INT64), \n                                                                0)\n                                                            ))\n                                                        )\n                                                        + (\n                                                            RPAD(\n                                                              '', \n                                                              (\n                                                                coalesce(\n                                                                  CAST((\n                                                                    CASE\n                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                        THEN `Input 2`\n                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                    END\n                                                                  ) AS FLOAT64), \n                                                                  CAST((\n                                                                    REGEXP_EXTRACT(\n                                                                      (\n                                                                        CASE\n                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                            THEN `Input 2`\n                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                        END\n                                                                      ), \n                                                                      '^[0-9]+', \n                                                                      0)\n                                                                  ) AS INT64), \n                                                                  0)\n                                                              ), \n                                                              '0')\n                                                          )\n                                                      ), \n                                                      (\n                                                        (\n                                                          (\n                                                            LENGTH(\n                                                              (\n                                                                (\n                                                                  BIN(\n                                                                    (\n                                                                      coalesce(\n                                                                        CAST((\n                                                                          CASE\n                                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                              THEN `Input 1`\n                                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                          END\n                                                                        ) AS FLOAT64), \n                                                                        CAST((\n                                                                          REGEXP_EXTRACT(\n                                                                            (\n                                                                              CASE\n                                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                  THEN `Input 1`\n                                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                              END\n                                                                            ), \n                                                                            '^[0-9]+', \n                                                                            0)\n                                                                        ) AS INT64), \n                                                                        0)\n                                                                    ))\n                                                                )\n                                                                + (\n                                                                    RPAD(\n                                                                      '', \n                                                                      (\n                                                                        coalesce(\n                                                                          CAST((\n                                                                            CASE\n                                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                                THEN `Input 2`\n                                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                            END\n                                                                          ) AS FLOAT64), \n                                                                          CAST((\n                                                                            REGEXP_EXTRACT(\n                                                                              (\n                                                                                CASE\n                                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                                    THEN `Input 2`\n                                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                                END\n                                                                              ), \n                                                                              '^[0-9]+', \n                                                                              0)\n                                                                          ) AS INT64), \n                                                                          0)\n                                                                      ), \n                                                                      '0')\n                                                                  )\n                                                              ))\n                                                          )\n                                                          - 16\n                                                        )\n                                                        + 1\n                                                      ), \n                                                      16)\n                                                  ), \n                                                  3, \n                                                  (\n                                                    LENGTH(\n                                                      (\n                                                        SUBSTRING(\n                                                          (\n                                                            (\n                                                              BIN(\n                                                                (\n                                                                  coalesce(\n                                                                    CAST((\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 1`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ) AS FLOAT64), \n                                                                    CAST((\n                                                                      REGEXP_EXTRACT(\n                                                                        (\n                                                                          CASE\n                                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                              THEN `Input 1`\n                                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                          END\n                                                                        ), \n                                                                        '^[0-9]+', \n                                                                        0)\n                                                                    ) AS INT64), \n                                                                    0)\n                                                                ))\n                                                            )\n                                                            + (\n                                                                RPAD(\n                                                                  '', \n                                                                  (\n                                                                    coalesce(\n                                                                      CAST((\n                                                                        CASE\n                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                            THEN `Input 2`\n                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                        END\n                                                                      ) AS FLOAT64), \n                                                                      CAST((\n                                                                        REGEXP_EXTRACT(\n                                                                          (\n                                                                            CASE\n                                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                                THEN `Input 2`\n                                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                            END\n                                                                          ), \n                                                                          '^[0-9]+', \n                                                                          0)\n                                                                      ) AS INT64), \n                                                                      0)\n                                                                  ), \n                                                                  '0')\n                                                              )\n                                                          ), \n                                                          (\n                                                            (\n                                                              (\n                                                                LENGTH(\n                                                                  (\n                                                                    (\n                                                                      BIN(\n                                                                        (\n                                                                          coalesce(\n                                                                            CAST((\n                                                                              CASE\n                                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                  THEN `Input 1`\n                                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                              END\n                                                                            ) AS FLOAT64), \n                                                                            CAST((\n                                                                              REGEXP_EXTRACT(\n                                                                                (\n                                                                                  CASE\n                                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                      THEN `Input 1`\n                                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                                  END\n                                                                                ), \n                                                                                '^[0-9]+', \n                                                                                0)\n                                                                            ) AS INT64), \n                                                                            0)\n                                                                        ))\n                                                                    )\n                                                                    + (\n                                                                        RPAD(\n                                                                          '', \n                                                                          (\n                                                                            coalesce(\n                                                                              CAST((\n                                                                                CASE\n                                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                                    THEN `Input 2`\n                                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                                END\n                                                                              ) AS FLOAT64), \n                                                                              CAST((\n                                                                                REGEXP_EXTRACT(\n                                                                                  (\n                                                                                    CASE\n                                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                                        THEN `Input 2`\n                                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                                    END\n                                                                                  ), \n                                                                                  '^[0-9]+', \n                                                                                  0)\n                                                                              ) AS INT64), \n                                                                              0)\n                                                                          ), \n                                                                          '0')\n                                                                      )\n                                                                  ))\n                                                              )\n                                                              - 16\n                                                            )\n                                                            + 1\n                                                          ), \n                                                          16)\n                                                      ))\n                                                  ))\n                                              ), \n                                              2, \n                                              10)\n                                          )\n                                      )\n                                    WHEN (\n                                      CAST((\n                                        SUBSTRING(\n                                          (\n                                            SUBSTRING(\n                                              (\n                                                (\n                                                  BIN(\n                                                    (\n                                                      coalesce(\n                                                        CAST((\n                                                          CASE\n                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                              THEN `Input 1`\n                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                          END\n                                                        ) AS FLOAT64), \n                                                        CAST((\n                                                          REGEXP_EXTRACT(\n                                                            (\n                                                              CASE\n                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                  THEN `Input 1`\n                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                              END\n                                                            ), \n                                                            '^[0-9]+', \n                                                            0)\n                                                        ) AS INT64), \n                                                        0)\n                                                    ))\n                                                )\n                                                + (\n                                                    RPAD(\n                                                      '', \n                                                      (\n                                                        coalesce(\n                                                          CAST((\n                                                            CASE\n                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                THEN `Input 2`\n                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                            END\n                                                          ) AS FLOAT64), \n                                                          CAST((\n                                                            REGEXP_EXTRACT(\n                                                              (\n                                                                CASE\n                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                    THEN `Input 2`\n                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                END\n                                                              ), \n                                                              '^[0-9]+', \n                                                              0)\n                                                          ) AS INT64), \n                                                          0)\n                                                      ), \n                                                      '0')\n                                                  )\n                                              ), \n                                              (\n                                                (\n                                                  (\n                                                    LENGTH(\n                                                      (\n                                                        (\n                                                          BIN(\n                                                            (\n                                                              coalesce(\n                                                                CAST((\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 1`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ) AS FLOAT64), \n                                                                CAST((\n                                                                  REGEXP_EXTRACT(\n                                                                    (\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 1`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ), \n                                                                    '^[0-9]+', \n                                                                    0)\n                                                                ) AS INT64), \n                                                                0)\n                                                            ))\n                                                        )\n                                                        + (\n                                                            RPAD(\n                                                              '', \n                                                              (\n                                                                coalesce(\n                                                                  CAST((\n                                                                    CASE\n                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                        THEN `Input 2`\n                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                    END\n                                                                  ) AS FLOAT64), \n                                                                  CAST((\n                                                                    REGEXP_EXTRACT(\n                                                                      (\n                                                                        CASE\n                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                            THEN `Input 2`\n                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                        END\n                                                                      ), \n                                                                      '^[0-9]+', \n                                                                      0)\n                                                                  ) AS INT64), \n                                                                  0)\n                                                              ), \n                                                              '0')\n                                                          )\n                                                      ))\n                                                  )\n                                                  - 16\n                                                )\n                                                + 1\n                                              ), \n                                              16)\n                                          ), \n                                          2, \n                                          1)\n                                      ) AS VARCHAR (1000)) = '+'\n                                    )\n                                      THEN (\n                                        CONV(\n                                          (\n                                            SUBSTRING(\n                                              (\n                                                SUBSTRING(\n                                                  (\n                                                    (\n                                                      BIN(\n                                                        (\n                                                          coalesce(\n                                                            CAST((\n                                                              CASE\n                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                  THEN `Input 1`\n                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                              END\n                                                            ) AS FLOAT64), \n                                                            CAST((\n                                                              REGEXP_EXTRACT(\n                                                                (\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 1`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ), \n                                                                '^[0-9]+', \n                                                                0)\n                                                            ) AS INT64), \n                                                            0)\n                                                        ))\n                                                    )\n                                                    + (\n                                                        RPAD(\n                                                          '', \n                                                          (\n                                                            coalesce(\n                                                              CAST((\n                                                                CASE\n                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                    THEN `Input 2`\n                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                END\n                                                              ) AS FLOAT64), \n                                                              CAST((\n                                                                REGEXP_EXTRACT(\n                                                                  (\n                                                                    CASE\n                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                        THEN `Input 2`\n                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                    END\n                                                                  ), \n                                                                  '^[0-9]+', \n                                                                  0)\n                                                              ) AS INT64), \n                                                              0)\n                                                          ), \n                                                          '0')\n                                                      )\n                                                  ), \n                                                  (\n                                                    (\n                                                      (\n                                                        LENGTH(\n                                                          (\n                                                            (\n                                                              BIN(\n                                                                (\n                                                                  coalesce(\n                                                                    CAST((\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 1`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ) AS FLOAT64), \n                                                                    CAST((\n                                                                      REGEXP_EXTRACT(\n                                                                        (\n                                                                          CASE\n                                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                              THEN `Input 1`\n                                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                          END\n                                                                        ), \n                                                                        '^[0-9]+', \n                                                                        0)\n                                                                    ) AS INT64), \n                                                                    0)\n                                                                ))\n                                                            )\n                                                            + (\n                                                                RPAD(\n                                                                  '', \n                                                                  (\n                                                                    coalesce(\n                                                                      CAST((\n                                                                        CASE\n                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                            THEN `Input 2`\n                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                        END\n                                                                      ) AS FLOAT64), \n                                                                      CAST((\n                                                                        REGEXP_EXTRACT(\n                                                                          (\n                                                                            CASE\n                                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                                THEN `Input 2`\n                                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                            END\n                                                                          ), \n                                                                          '^[0-9]+', \n                                                                          0)\n                                                                      ) AS INT64), \n                                                                      0)\n                                                                  ), \n                                                                  '0')\n                                                              )\n                                                          ))\n                                                      )\n                                                      - 16\n                                                    )\n                                                    + 1\n                                                  ), \n                                                  16)\n                                              ), \n                                              3, \n                                              (\n                                                LENGTH(\n                                                  (\n                                                    SUBSTRING(\n                                                      (\n                                                        (\n                                                          BIN(\n                                                            (\n                                                              coalesce(\n                                                                CAST((\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 1`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ) AS FLOAT64), \n                                                                CAST((\n                                                                  REGEXP_EXTRACT(\n                                                                    (\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 1`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ), \n                                                                    '^[0-9]+', \n                                                                    0)\n                                                                ) AS INT64), \n                                                                0)\n                                                            ))\n                                                        )\n                                                        + (\n                                                            RPAD(\n                                                              '', \n                                                              (\n                                                                coalesce(\n                                                                  CAST((\n                                                                    CASE\n                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                        THEN `Input 2`\n                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                    END\n                                                                  ) AS FLOAT64), \n                                                                  CAST((\n                                                                    REGEXP_EXTRACT(\n                                                                      (\n                                                                        CASE\n                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                            THEN `Input 2`\n                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                        END\n                                                                      ), \n                                                                      '^[0-9]+', \n                                                                      0)\n                                                                  ) AS INT64), \n                                                                  0)\n                                                              ), \n                                                              '0')\n                                                          )\n                                                      ), \n                                                      (\n                                                        (\n                                                          (\n                                                            LENGTH(\n                                                              (\n                                                                (\n                                                                  BIN(\n                                                                    (\n                                                                      coalesce(\n                                                                        CAST((\n                                                                          CASE\n                                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                              THEN `Input 1`\n                                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                          END\n                                                                        ) AS FLOAT64), \n                                                                        CAST((\n                                                                          REGEXP_EXTRACT(\n                                                                            (\n                                                                              CASE\n                                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                  THEN `Input 1`\n                                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                              END\n                                                                            ), \n                                                                            '^[0-9]+', \n                                                                            0)\n                                                                        ) AS INT64), \n                                                                        0)\n                                                                    ))\n                                                                )\n                                                                + (\n                                                                    RPAD(\n                                                                      '', \n                                                                      (\n                                                                        coalesce(\n                                                                          CAST((\n                                                                            CASE\n                                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                                THEN `Input 2`\n                                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                            END\n                                                                          ) AS FLOAT64), \n                                                                          CAST((\n                                                                            REGEXP_EXTRACT(\n                                                                              (\n                                                                                CASE\n                                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                                    THEN `Input 2`\n                                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                                END\n                                                                              ), \n                                                                              '^[0-9]+', \n                                                                              0)\n                                                                          ) AS INT64), \n                                                                          0)\n                                                                      ), \n                                                                      '0')\n                                                                  )\n                                                              ))\n                                                          )\n                                                          - 16\n                                                        )\n                                                        + 1\n                                                      ), \n                                                      16)\n                                                  ))\n                                              ))\n                                          ), \n                                          2, \n                                          10)\n                                      )\n                                    ELSE (\n                                      CONV(\n                                        (\n                                          SUBSTRING(\n                                            (\n                                              (\n                                                BIN(\n                                                  (\n                                                    coalesce(\n                                                      CAST((\n                                                        CASE\n                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                            THEN `Input 1`\n                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                        END\n                                                      ) AS FLOAT64), \n                                                      CAST((\n                                                        REGEXP_EXTRACT(\n                                                          (\n                                                            CASE\n                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                THEN `Input 1`\n                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                            END\n                                                          ), \n                                                          '^[0-9]+', \n                                                          0)\n                                                      ) AS INT64), \n                                                      0)\n                                                  ))\n                                              )\n                                              + (\n                                                  RPAD(\n                                                    '', \n                                                    (\n                                                      coalesce(\n                                                        CAST((\n                                                          CASE\n                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                              THEN `Input 2`\n                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                          END\n                                                        ) AS FLOAT64), \n                                                        CAST((\n                                                          REGEXP_EXTRACT(\n                                                            (\n                                                              CASE\n                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                  THEN `Input 2`\n                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                              END\n                                                            ), \n                                                            '^[0-9]+', \n                                                            0)\n                                                        ) AS INT64), \n                                                        0)\n                                                    ), \n                                                    '0')\n                                                )\n                                            ), \n                                            (\n                                              (\n                                                (\n                                                  LENGTH(\n                                                    (\n                                                      (\n                                                        BIN(\n                                                          (\n                                                            coalesce(\n                                                              CAST((\n                                                                CASE\n                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                    THEN `Input 1`\n                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                END\n                                                              ) AS FLOAT64), \n                                                              CAST((\n                                                                REGEXP_EXTRACT(\n                                                                  (\n                                                                    CASE\n                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                        THEN `Input 1`\n                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                    END\n                                                                  ), \n                                                                  '^[0-9]+', \n                                                                  0)\n                                                              ) AS INT64), \n                                                              0)\n                                                          ))\n                                                      )\n                                                      + (\n                                                          RPAD(\n                                                            '', \n                                                            (\n                                                              coalesce(\n                                                                CAST((\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 2`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ) AS FLOAT64), \n                                                                CAST((\n                                                                  REGEXP_EXTRACT(\n                                                                    (\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 2`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ), \n                                                                    '^[0-9]+', \n                                                                    0)\n                                                                ) AS INT64), \n                                                                0)\n                                                            ), \n                                                            '0')\n                                                        )\n                                                    ))\n                                                )\n                                                - 16\n                                              )\n                                              + 1\n                                            ), \n                                            16)\n                                        ), \n                                        2, \n                                        10)\n                                    )\n                                  END\n                                )\n                              WHEN CAST('RSHIFT' AS BOOLEAN)\n                                THEN (\n                                  CASE\n                                    WHEN (\n                                      CAST((\n                                        SUBSTRING(\n                                          (\n                                            SUBSTRING(\n                                              (\n                                                (\n                                                  RPAD(\n                                                    '', \n                                                    (\n                                                      coalesce(\n                                                        CAST((\n                                                          CASE\n                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                              THEN `Input 2`\n                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                          END\n                                                        ) AS FLOAT64), \n                                                        CAST((\n                                                          REGEXP_EXTRACT(\n                                                            (\n                                                              CASE\n                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                  THEN `Input 2`\n                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                              END\n                                                            ), \n                                                            '^[0-9]+', \n                                                            0)\n                                                        ) AS INT64), \n                                                        0)\n                                                    ), \n                                                    '0')\n                                                )\n                                                + (\n                                                    REVERSE(\n                                                      (\n                                                        RPAD(\n                                                          (\n                                                            REVERSE(\n                                                              (\n                                                                BIN(\n                                                                  (\n                                                                    coalesce(\n                                                                      CAST((\n                                                                        CASE\n                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                            THEN `Input 1`\n                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                        END\n                                                                      ) AS FLOAT64), \n                                                                      CAST((\n                                                                        REGEXP_EXTRACT(\n                                                                          (\n                                                                            CASE\n                                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                THEN `Input 1`\n                                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                            END\n                                                                          ), \n                                                                          '^[0-9]+', \n                                                                          0)\n                                                                      ) AS INT64), \n                                                                      0)\n                                                                  ))\n                                                              ))\n                                                          ), \n                                                          16, \n                                                          '0')\n                                                      ))\n                                                  )\n                                              ), \n                                              1, \n                                              16)\n                                          ), \n                                          2, \n                                          1)\n                                      ) AS VARCHAR (1000)) = '-'\n                                    )\n                                      THEN (\n                                        -1\n                                        * (\n                                            CONV(\n                                              (\n                                                SUBSTRING(\n                                                  (\n                                                    SUBSTRING(\n                                                      (\n                                                        (\n                                                          RPAD(\n                                                            '', \n                                                            (\n                                                              coalesce(\n                                                                CAST((\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 2`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ) AS FLOAT64), \n                                                                CAST((\n                                                                  REGEXP_EXTRACT(\n                                                                    (\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 2`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ), \n                                                                    '^[0-9]+', \n                                                                    0)\n                                                                ) AS INT64), \n                                                                0)\n                                                            ), \n                                                            '0')\n                                                        )\n                                                        + (\n                                                            REVERSE(\n                                                              (\n                                                                RPAD(\n                                                                  (\n                                                                    REVERSE(\n                                                                      (\n                                                                        BIN(\n                                                                          (\n                                                                            coalesce(\n                                                                              CAST((\n                                                                                CASE\n                                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                    THEN `Input 1`\n                                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                                END\n                                                                              ) AS FLOAT64), \n                                                                              CAST((\n                                                                                REGEXP_EXTRACT(\n                                                                                  (\n                                                                                    CASE\n                                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                        THEN `Input 1`\n                                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                                    END\n                                                                                  ), \n                                                                                  '^[0-9]+', \n                                                                                  0)\n                                                                              ) AS INT64), \n                                                                              0)\n                                                                          ))\n                                                                      ))\n                                                                  ), \n                                                                  16, \n                                                                  '0')\n                                                              ))\n                                                          )\n                                                      ), \n                                                      1, \n                                                      16)\n                                                  ), \n                                                  3, \n                                                  (\n                                                    LENGTH(\n                                                      (\n                                                        SUBSTRING(\n                                                          (\n                                                            (\n                                                              RPAD(\n                                                                '', \n                                                                (\n                                                                  coalesce(\n                                                                    CAST((\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 2`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ) AS FLOAT64), \n                                                                    CAST((\n                                                                      REGEXP_EXTRACT(\n                                                                        (\n                                                                          CASE\n                                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                              THEN `Input 2`\n                                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                          END\n                                                                        ), \n                                                                        '^[0-9]+', \n                                                                        0)\n                                                                    ) AS INT64), \n                                                                    0)\n                                                                ), \n                                                                '0')\n                                                            )\n                                                            + (\n                                                                REVERSE(\n                                                                  (\n                                                                    RPAD(\n                                                                      (\n                                                                        REVERSE(\n                                                                          (\n                                                                            BIN(\n                                                                              (\n                                                                                coalesce(\n                                                                                  CAST((\n                                                                                    CASE\n                                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                        THEN `Input 1`\n                                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                                    END\n                                                                                  ) AS FLOAT64), \n                                                                                  CAST((\n                                                                                    REGEXP_EXTRACT(\n                                                                                      (\n                                                                                        CASE\n                                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                            THEN `Input 1`\n                                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                                        END\n                                                                                      ), \n                                                                                      '^[0-9]+', \n                                                                                      0)\n                                                                                  ) AS INT64), \n                                                                                  0)\n                                                                              ))\n                                                                          ))\n                                                                      ), \n                                                                      16, \n                                                                      '0')\n                                                                  ))\n                                                              )\n                                                          ), \n                                                          1, \n                                                          16)\n                                                      ))\n                                                  ))\n                                              ), \n                                              2, \n                                              10)\n                                          )\n                                      )\n                                    WHEN (\n                                      CAST((\n                                        SUBSTRING(\n                                          (\n                                            SUBSTRING(\n                                              (\n                                                (\n                                                  RPAD(\n                                                    '', \n                                                    (\n                                                      coalesce(\n                                                        CAST((\n                                                          CASE\n                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                              THEN `Input 2`\n                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                          END\n                                                        ) AS FLOAT64), \n                                                        CAST((\n                                                          REGEXP_EXTRACT(\n                                                            (\n                                                              CASE\n                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                  THEN `Input 2`\n                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                              END\n                                                            ), \n                                                            '^[0-9]+', \n                                                            0)\n                                                        ) AS INT64), \n                                                        0)\n                                                    ), \n                                                    '0')\n                                                )\n                                                + (\n                                                    REVERSE(\n                                                      (\n                                                        RPAD(\n                                                          (\n                                                            REVERSE(\n                                                              (\n                                                                BIN(\n                                                                  (\n                                                                    coalesce(\n                                                                      CAST((\n                                                                        CASE\n                                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                            THEN `Input 1`\n                                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                        END\n                                                                      ) AS FLOAT64), \n                                                                      CAST((\n                                                                        REGEXP_EXTRACT(\n                                                                          (\n                                                                            CASE\n                                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                THEN `Input 1`\n                                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                            END\n                                                                          ), \n                                                                          '^[0-9]+', \n                                                                          0)\n                                                                      ) AS INT64), \n                                                                      0)\n                                                                  ))\n                                                              ))\n                                                          ), \n                                                          16, \n                                                          '0')\n                                                      ))\n                                                  )\n                                              ), \n                                              1, \n                                              16)\n                                          ), \n                                          2, \n                                          1)\n                                      ) AS VARCHAR (1000)) = '+'\n                                    )\n                                      THEN (\n                                        CONV(\n                                          (\n                                            SUBSTRING(\n                                              (\n                                                SUBSTRING(\n                                                  (\n                                                    (\n                                                      RPAD(\n                                                        '', \n                                                        (\n                                                          coalesce(\n                                                            CAST((\n                                                              CASE\n                                                                WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                  THEN `Input 2`\n                                                                ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                              END\n                                                            ) AS FLOAT64), \n                                                            CAST((\n                                                              REGEXP_EXTRACT(\n                                                                (\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 2`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ), \n                                                                '^[0-9]+', \n                                                                0)\n                                                            ) AS INT64), \n                                                            0)\n                                                        ), \n                                                        '0')\n                                                    )\n                                                    + (\n                                                        REVERSE(\n                                                          (\n                                                            RPAD(\n                                                              (\n                                                                REVERSE(\n                                                                  (\n                                                                    BIN(\n                                                                      (\n                                                                        coalesce(\n                                                                          CAST((\n                                                                            CASE\n                                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                THEN `Input 1`\n                                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                            END\n                                                                          ) AS FLOAT64), \n                                                                          CAST((\n                                                                            REGEXP_EXTRACT(\n                                                                              (\n                                                                                CASE\n                                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                    THEN `Input 1`\n                                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                                END\n                                                                              ), \n                                                                              '^[0-9]+', \n                                                                              0)\n                                                                          ) AS INT64), \n                                                                          0)\n                                                                      ))\n                                                                  ))\n                                                              ), \n                                                              16, \n                                                              '0')\n                                                          ))\n                                                      )\n                                                  ), \n                                                  1, \n                                                  16)\n                                              ), \n                                              3, \n                                              (\n                                                LENGTH(\n                                                  (\n                                                    SUBSTRING(\n                                                      (\n                                                        (\n                                                          RPAD(\n                                                            '', \n                                                            (\n                                                              coalesce(\n                                                                CAST((\n                                                                  CASE\n                                                                    WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                      THEN `Input 2`\n                                                                    ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                  END\n                                                                ) AS FLOAT64), \n                                                                CAST((\n                                                                  REGEXP_EXTRACT(\n                                                                    (\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 2`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ), \n                                                                    '^[0-9]+', \n                                                                    0)\n                                                                ) AS INT64), \n                                                                0)\n                                                            ), \n                                                            '0')\n                                                        )\n                                                        + (\n                                                            REVERSE(\n                                                              (\n                                                                RPAD(\n                                                                  (\n                                                                    REVERSE(\n                                                                      (\n                                                                        BIN(\n                                                                          (\n                                                                            coalesce(\n                                                                              CAST((\n                                                                                CASE\n                                                                                  WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                    THEN `Input 1`\n                                                                                  ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                                END\n                                                                              ) AS FLOAT64), \n                                                                              CAST((\n                                                                                REGEXP_EXTRACT(\n                                                                                  (\n                                                                                    CASE\n                                                                                      WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                                        THEN `Input 1`\n                                                                                      ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                                    END\n                                                                                  ), \n                                                                                  '^[0-9]+', \n                                                                                  0)\n                                                                              ) AS INT64), \n                                                                              0)\n                                                                          ))\n                                                                      ))\n                                                                  ), \n                                                                  16, \n                                                                  '0')\n                                                              ))\n                                                          )\n                                                      ), \n                                                      1, \n                                                      16)\n                                                  ))\n                                              ))\n                                          ), \n                                          2, \n                                          10)\n                                      )\n                                    ELSE (\n                                      CONV(\n                                        (\n                                          SUBSTRING(\n                                            (\n                                              (\n                                                RPAD(\n                                                  '', \n                                                  (\n                                                    coalesce(\n                                                      CAST((\n                                                        CASE\n                                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                            THEN `Input 2`\n                                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                        END\n                                                      ) AS FLOAT64), \n                                                      CAST((\n                                                        REGEXP_EXTRACT(\n                                                          (\n                                                            CASE\n                                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                                THEN `Input 2`\n                                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                                            END\n                                                          ), \n                                                          '^[0-9]+', \n                                                          0)\n                                                      ) AS INT64), \n                                                      0)\n                                                  ), \n                                                  '0')\n                                              )\n                                              + (\n                                                  REVERSE(\n                                                    (\n                                                      RPAD(\n                                                        (\n                                                          REVERSE(\n                                                            (\n                                                              BIN(\n                                                                (\n                                                                  coalesce(\n                                                                    CAST((\n                                                                      CASE\n                                                                        WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                          THEN `Input 1`\n                                                                        ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                      END\n                                                                    ) AS FLOAT64), \n                                                                    CAST((\n                                                                      REGEXP_EXTRACT(\n                                                                        (\n                                                                          CASE\n                                                                            WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                                              THEN `Input 1`\n                                                                            ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                                                          END\n                                                                        ), \n                                                                        '^[0-9]+', \n                                                                        0)\n                                                                    ) AS INT64), \n                                                                    0)\n                                                                ))\n                                                            ))\n                                                        ), \n                                                        16, \n                                                        '0')\n                                                    ))\n                                                )\n                                            ), \n                                            1, \n                                            16)\n                                        ), \n                                        2, \n                                        10)\n                                    )\n                                  END\n                                )\n                              ELSE (\n                                BITWISE_XOR(\n                                  (\n                                    coalesce(\n                                      CAST((\n                                        CASE\n                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                            THEN `Input 1`\n                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                        END\n                                      ) AS FLOAT64), \n                                      CAST((\n                                        REGEXP_EXTRACT(\n                                          (\n                                            CASE\n                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 1`, '\\d+', 0)))) > 0)\n                                                THEN `Input 1`\n                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 1`, '-(x|\\d+).*')), '$1'))\n                                            END\n                                          ), \n                                          '^[0-9]+', \n                                          0)\n                                      ) AS INT64), \n                                      0)\n                                  ), \n                                  (\n                                    coalesce(\n                                      CAST((\n                                        CASE\n                                          WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                            THEN `Input 2`\n                                          ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                        END\n                                      ) AS FLOAT64), \n                                      CAST((\n                                        REGEXP_EXTRACT(\n                                          (\n                                            CASE\n                                              WHEN ((LENGTH((REGEXP_EXTRACT(`Input 2`, '\\d+', 0)))) > 0)\n                                                THEN `Input 2`\n                                              ELSE (REGEXP_REPLACE(LOGIC_LAG1, (CONCAT('.*-', `Input 2`, '-(x|\\d+).*')), '$1'))\n                                            END\n                                          ), \n                                          '^[0-9]+', \n                                          0)\n                                      ) AS INT64), \n                                      0)\n                                  ))\n                              )\n                            END\n                          ) AS FLOAT64))\n                      ), \n                      ',', \n                      '__THS__')\n                  ), \n                  '__THS__', \n                  '')\n              ))\n          ))\n      )\n    ELSE LOGIC_LAG1\n  END\n) AS INT64)",
+            "_row_id" : null
+          },
+          "alias" : "Logic",
+          "description" : null,
+          "_row_id" : "vjWMtocmi_J0SQ4x75ZT8"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Logic_lag1`, `logic`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "7k9Sya82-DCywzmzH3QjW",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Jgk2XrEVr1LKRaabBVrPP",
           "slug" : "out"
         } ],
         "isCustomOutputSchema" : false
@@ -149,89 +248,6 @@
         } ]
       }
     },
-    "lgc3UWf0GHd2O-e58Q6EW" : {
-      "id" : "lgc3UWf0GHd2O-e58Q6EW",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "Formula_2_0",
-        "x" : 20,
-        "y" : 102,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CAST((REGEXP_REPLACE(Logic, '(?i)(.*) -> (\\\\w+)', '$1')) AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "Input",
-          "description" : null,
-          "_row_id" : "Aeb7_QAai9aqHuJiXeYWV"
-        }, {
-          "expression" : {
-            "expression" : "*",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "LDK_G5tHCyzZsIN9u8iaz",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "fuVB64nGo0p_WkplDvI4y",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
-      },
-      "parent" : "38"
-    },
-    "8oQCMRb8TtHRMqdllyIBX" : {
-      "id" : "8oQCMRb8TtHRMqdllyIBX",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "MultiRowFormula_25_0",
-        "x" : 4004,
-        "y" : 318,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CAST('IF (REGEX_Match([Input 1],\"\\\\\\\\d+\") or REGEX_Match(REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"),\"\\\\\\\\d+\")) and (REGEX_Match([Input 2],\"\\\\\\\\d+\") or REGEX_Match(REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\"),\"\\\\\\\\d+\"))\nTHEN\nReplace(\n  [Row-1:Logic],\n  \"-\"+[Output]+\"-x\",\n  \"-\"+[Output]+\"-\" + ToString(Switch([Operation],\n//DEFAULT\nBinaryXOr(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\nToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\")))),\n\n\"AND\",\nBinaryAnd(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\nToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\")))),\n\n\"OR\",\nBinaryOr(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\nToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\")))), \n\n\"LSHIFT\",\nBinToInt(Right(IntToBin(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\")))) + PadRight(\"\",ToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\\'0\\'),16)),\n\n\"RSHIFT\",\nBinToInt(LEFT(PadRight(\"\",ToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\"))),\\'0\\') + PadLeft(IntToBin(ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\")))),16,\\'0\\'),16))\n    ))\n  )\nELSE\n[Row-1:Logic]\nENDIF\n\n/*ToNumber(IIF(REGEX_Match([Input 1],\"\\\\\\\\d+\"),[Input 1],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 1]+\"-(x|\\\\\\\\d+).*\", \"$1\"))) +\nToNumber(IIF(REGEX_Match([Input 2],\"\\\\\\\\d+\"),[Input 2],REGEX_Replace([Row-1:Logic],\".*-\"+[Input 2]+\"-(x|\\\\\\\\d+).*\", \"$1\")))*/' AS INT)",
-            "_row_id" : null
-          },
-          "alias" : "Logic",
-          "description" : null,
-          "_row_id" : "e7FWlM-1x3ib3TfkbW6Ti"
-        }, {
-          "expression" : {
-            "expression" : "* EXCEPT(`logic`)",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "bPPw80hl4OPiK1s5e2EAx",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "j995VzR3-C6R7FENBgtAx",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
-      }
-    },
     "33" : {
       "id" : "33",
       "component" : "OrderBy",
@@ -263,6 +279,90 @@
         } ]
       }
     },
+    "MYupdD8a-yJ0vgv7KNHHq" : {
+      "id" : "MYupdD8a-yJ0vgv7KNHHq",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_36_0",
+        "x" : 20,
+        "y" : 102,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(Logic, '(?i)(.*) -> (\\\\w+)', '$1')) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Input",
+          "description" : null,
+          "_row_id" : "_nOKSYT6iOi9XF8BXE0gA"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "eIo4EywAru_VF_8zGt4Zl",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "UOVl_-5Ui2bnA4bqIsr5i",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      },
+      "parent" : "37"
+    },
+    "HRX_S9sd1fY66sLqybDm3" : {
+      "id" : "HRX_S9sd1fY66sLqybDm3",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_36_2",
+        "x" : 380,
+        "y" : 102,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (Output = 'b') THEN '16076' ELSE `Input 2` END) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "`Input 2`",
+          "description" : null,
+          "_row_id" : "7D5R4BirWKadt6nJvtd9h"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`input 2`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ZKcLxLbMD__BIDVwc_TlG",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "HOPMCu6QPyNcbve8hq3nw",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      },
+      "parent" : "37"
+    },
     "22" : {
       "id" : "22",
       "component" : "Reformat",
@@ -281,7 +381,7 @@
           },
           "alias" : "Logic",
           "description" : null,
-          "_row_id" : "Z8-mg-c30tW_TiZBNK1UE"
+          "_row_id" : "1jB7lgr4975ZdEZZ_hd3k"
         } ]
       },
       "ports" : {
@@ -294,48 +394,6 @@
           "slug" : "out0"
         } ]
       }
-    },
-    "g6pScaXmECVAQ2zL-2k1P" : {
-      "id" : "g6pScaXmECVAQ2zL-2k1P",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "Formula_36_0",
-        "x" : 20,
-        "y" : 102,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CAST((REGEXP_REPLACE(Logic, '(?i)(.*) -> (\\\\w+)', '$1')) AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "Input",
-          "description" : null,
-          "_row_id" : "_2CAw22apSpybBjHduB7S"
-        }, {
-          "expression" : {
-            "expression" : "*",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "nMkWP0JCEnKXv7rLhzj9j",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "j3mgWS8IhluTZZhMWD0aE",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
-      },
-      "parent" : "37"
     },
     "37" : {
       "id" : "37",
@@ -356,71 +414,37 @@
         "outputs" : [ ]
       }
     },
-    "_yHjLjmRnd74WoaHYbb0I" : {
-      "id" : "_yHjLjmRnd74WoaHYbb0I",
+    "0WbRB3rFJ0VePbmFGrrb1" : {
+      "id" : "0WbRB3rFJ0VePbmFGrrb1",
       "component" : "Reformat",
       "metadata" : {
-        "label" : "Formula_2_1",
-        "x" : 200,
-        "y" : 102,
+        "label" : "TextInput_1_cast",
+        "x" : 180,
+        "y" : 318,
         "phase" : 0
       },
       "properties" : {
         "columnsSelector" : [ ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "CAST((CASE WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 3) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(1 AS INT64) - 1)))] WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 2) THEN '65535' ELSE '0' END) AS string)",
+            "expression" : "CAST(Logic AS STRING)",
             "_row_id" : null
           },
-          "alias" : "`Input 1`",
+          "alias" : "Logic",
           "description" : null,
-          "_row_id" : "GdBx9ZZGOarKmFAcBI2cQ"
-        }, {
-          "expression" : {
-            "expression" : "CAST((CASE WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 3) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(2 AS INT64) - 1)))] WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 2) THEN 'NOT' ELSE 'OR' END) AS string)",
-            "_row_id" : null
-          },
-          "alias" : "Operation",
-          "description" : null,
-          "_row_id" : "ID6GchqBq6dhvyOyFbYG_"
-        }, {
-          "expression" : {
-            "expression" : "CAST((CASE WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 3) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(3 AS INT64) - 1)))] WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 2) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(2 AS INT64) - 1)))] ELSE INPUT END) AS string)",
-            "_row_id" : null
-          },
-          "alias" : "`Input 2`",
-          "description" : null,
-          "_row_id" : "du5Xy2-NP8jvckXcP9LUj"
-        }, {
-          "expression" : {
-            "expression" : "CAST((REGEXP_REPLACE(Logic, '(?i)(.*) -> (\\\\w+)', '$2')) AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "Output",
-          "description" : null,
-          "_row_id" : "dLbIydfGyTAH4iPZXTzk9"
-        }, {
-          "expression" : {
-            "expression" : "*",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "_row_id" : "UMwSocnFN2V-VMjqVV8EF"
         } ]
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "yQJG-KwWoPclnwBWw3sWq",
+          "id" : "edn0eSdj5KDk9ujRpZYXV",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "2xybPi7jE-t9IeiF1cy1f",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
-      },
-      "parent" : "38"
+          "id" : "EXSQvBh4uXttam0F4cCvH",
+          "slug" : "out0"
+        } ]
+      }
     },
     "24" : {
       "id" : "24",
@@ -550,7 +574,7 @@
           },
           "alias" : "`Count`",
           "description" : null,
-          "_row_id" : "9E64fEn83xQRRk1ScURjP"
+          "_row_id" : "WXvMblKyx5-k9-yVkR5c9"
         } ]
       },
       "ports" : {
@@ -563,6 +587,48 @@
           "slug" : "out0"
         } ]
       }
+    },
+    "3vJ5sBmjWwaclM5HwvBE6" : {
+      "id" : "3vJ5sBmjWwaclM5HwvBE6",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_2_0",
+        "x" : 20,
+        "y" : 102,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(Logic, '(?i)(.*) -> (\\\\w+)', '$1')) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Input",
+          "description" : null,
+          "_row_id" : "XG3GDqRgeeFKUJ-TXFSwF"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ZIfsi4ZhqxgKkoOhXWFUw",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "MuDP6j1ibwmhWuIbC5Ikq",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      },
+      "parent" : "38"
     },
     "32" : {
       "id" : "32",
@@ -656,55 +722,28 @@
         } ]
       }
     },
-    "AnuI8JCkuBxvwb0GCTJwj" : {
-      "id" : "AnuI8JCkuBxvwb0GCTJwj",
-      "component" : "Filter",
-      "metadata" : {
-        "label" : "Detour_34_out0",
-        "x" : 420,
-        "y" : 138,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "condition" : {
-          "expression" : "FALSE",
-          "_row_id" : null
-        }
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "x1tEcOeqUAb--7ExL_hnT",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "-bM3kbtgAkVDV-o0gzptm",
-          "slug" : "out0"
-        } ]
-      }
-    },
-    "PbbDIx1a26O1X7aKmBBdj" : {
-      "id" : "PbbDIx1a26O1X7aKmBBdj",
+    "A-2T7Xrn7HSlLghhkFSdU" : {
+      "id" : "A-2T7Xrn7HSlLghhkFSdU",
       "component" : "Reformat",
       "metadata" : {
-        "label" : "Formula_36_2",
-        "x" : 380,
-        "y" : 102,
+        "label" : "MultiRowFormula_25_0",
+        "x" : 4004,
+        "y" : 318,
         "phase" : 0
       },
       "properties" : {
         "columnsSelector" : [ ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "CAST((CASE WHEN (Output = 'b') THEN '16076' ELSE `Input 2` END) AS STRING)",
+            "expression" : "(LAG(Logic, 1) OVER (PARTITION BY 1 ORDER BY prophecy_row_id))",
             "_row_id" : null
           },
-          "alias" : "`Input 2`",
+          "alias" : "Logic_lag1",
           "description" : null,
-          "_row_id" : "V7KYtLVbZW_LdObUVnUJO"
+          "_row_id" : "lvXfOkTq3TXYAKfG54m2M"
         }, {
           "expression" : {
-            "expression" : "* EXCEPT(`input 2`)",
+            "expression" : "*",
             "_row_id" : null
           },
           "alias" : null,
@@ -714,16 +753,42 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "ePIe3FdXBefVllV09BuHF",
+          "id" : "X8OsgiBbWUcbIpuZ80zdT",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "DdIRCEwq4uHrFAk37bw8F",
+          "id" : "bqIEMvHF67Ap3Q0oUhV7n",
           "slug" : "out"
         } ],
         "isCustomOutputSchema" : false
+      }
+    },
+    "tUzXT_jbggaceC3dGM1A_" : {
+      "id" : "tUzXT_jbggaceC3dGM1A_",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Detour_34_out1",
+        "x" : 420,
+        "y" : 498,
+        "phase" : 0
       },
-      "parent" : "37"
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "TRUE",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "tSR6y1fs7SSQXX0m_uqG5",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "xV37HdvNGnavMyEAaQjan",
+          "slug" : "out0"
+        } ]
+      }
     },
     "31" : {
       "id" : "31",
@@ -753,40 +818,8 @@
         } ]
       }
     },
-    "31jmZY8oRPv7bDazUadmE" : {
-      "id" : "31jmZY8oRPv7bDazUadmE",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "TextInput_1_cast",
-        "x" : 180,
-        "y" : 318,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CAST(Logic AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "Logic",
-          "description" : null,
-          "_row_id" : "_oRpB9D83Xj0NqJnV9Lw3"
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "0_zcXEkLz_eSv1Qowp3BQ",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "h3O9y7KEzDkhYvewJJAPf",
-          "slug" : "out0"
-        } ]
-      }
-    },
-    "LdRkWV5P6tBH8XxjDjbDO" : {
-      "id" : "LdRkWV5P6tBH8XxjDjbDO",
+    "0V8-7PDi2z30ZFWJQaZ9p" : {
+      "id" : "0V8-7PDi2z30ZFWJQaZ9p",
       "component" : "Reformat",
       "metadata" : {
         "label" : "Formula_36_1",
@@ -803,7 +836,7 @@
           },
           "alias" : "`Input 1`",
           "description" : null,
-          "_row_id" : "N5iWZPolEtqi3DBUEuLwR"
+          "_row_id" : "ZxuSReFtSB4EGfNvgitBh"
         }, {
           "expression" : {
             "expression" : "CAST((CASE WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 3) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(2 AS INT64) - 1)))] WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 2) THEN 'NOT' ELSE 'OR' END) AS string)",
@@ -811,7 +844,7 @@
           },
           "alias" : "Operation",
           "description" : null,
-          "_row_id" : "Z--XG5LSnC3ZRict03VG1"
+          "_row_id" : "QPlZBJm-r0ClDSBO8sATA"
         }, {
           "expression" : {
             "expression" : "CAST((CASE WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 3) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(3 AS INT64) - 1)))] WHEN ((ARRAY_LENGTH((SPLIT(INPUT, '\\\\s+')))) = 2) THEN (SPLIT(INPUT, '\\\\s+'))[(SAFE_OFFSET((CAST(2 AS INT64) - 1)))] ELSE INPUT END) AS string)",
@@ -819,7 +852,7 @@
           },
           "alias" : "`Input 2`",
           "description" : null,
-          "_row_id" : "PHsSINMj0gKU6JJMbhZny"
+          "_row_id" : "IYgFjm47ozXHv8tkG86VH"
         }, {
           "expression" : {
             "expression" : "CAST((REGEXP_REPLACE(Logic, '(?i)(.*) -> (\\\\w+)', '$2')) AS STRING)",
@@ -827,7 +860,7 @@
           },
           "alias" : "Output",
           "description" : null,
-          "_row_id" : "aar4_MHbtbnmfpGGzgT3L"
+          "_row_id" : "txnh6Nz_iDy-Ld9kZqBC4"
         }, {
           "expression" : {
             "expression" : "*",
@@ -840,42 +873,56 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "3Q4pLhgKpdDS_4Ng_ZAMK",
+          "id" : "8bREi2XVnzD0b9-Vp27Fl",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "KwNEMvOWngiRUsjncMmlo",
+          "id" : "RedRarkTxROQpDLXIujS6",
           "slug" : "out"
         } ],
         "isCustomOutputSchema" : false
       },
       "parent" : "37"
     },
-    "AY2Y4Ye5dJAjVJKGEW6MJ" : {
-      "id" : "AY2Y4Ye5dJAjVJKGEW6MJ",
-      "component" : "Filter",
+    "FfD-T-_JBloCvaMHZhvv_" : {
+      "id" : "FfD-T-_JBloCvaMHZhvv_",
+      "component" : "Reformat",
       "metadata" : {
-        "label" : "Detour_34_out1",
-        "x" : 420,
-        "y" : 498,
+        "label" : "MultiRowFormula_25_row_id_0",
+        "x" : 3824,
+        "y" : 318,
         "phase" : 0
       },
       "properties" : {
         "columnsSelector" : [ ],
-        "condition" : {
-          "expression" : "TRUE",
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER ())",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_row_id",
+          "description" : null,
+          "_row_id" : "dGK6EFoomhpG6-AmpTe3M"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
           "_row_id" : null
-        }
+        } ]
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "u6g_F22HCdX0Uj0PFiTsj",
+          "id" : "6r1D4tQGxMHhNWwgoA35c",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "wFtSX4QpClB-JApWmJ6C5",
-          "slug" : "out0"
-        } ]
+          "id" : "vMGCAtiJaZzDjNKcf_LZX",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
       }
     },
     "38" : {
@@ -897,12 +944,12 @@
         "outputs" : [ ]
       }
     },
-    "OgzcpwNtLo2UoY5cBgFoP" : {
-      "id" : "OgzcpwNtLo2UoY5cBgFoP",
+    "C429ZARgjXYLSdBGwKoZJ" : {
+      "id" : "C429ZARgjXYLSdBGwKoZJ",
       "component" : "Reformat",
       "metadata" : {
-        "label" : "MultiRowFormula_25_row_id_drop_0",
-        "x" : 4184,
+        "label" : "Formula_20_0",
+        "x" : 2144,
         "y" : 318,
         "phase" : 0
       },
@@ -910,7 +957,15 @@
         "columnsSelector" : [ ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "* EXCEPT(`prophecy_row_id`)",
+            "expression" : "CAST((CONCAT('-', Output, '-x')) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Logic",
+          "description" : null,
+          "_row_id" : "ANNWYZVz-moT0YQ2plvT7"
+        }, {
+          "expression" : {
+            "expression" : "*",
             "_row_id" : null
           },
           "alias" : null,
@@ -920,14 +975,41 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "iiI15MySAnCVsENNv60Bk",
+          "id" : "c2nKJUCFI6Y3-LijCMCCH",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "Z-K0n2rqbyH-EaZuDi1-3",
+          "id" : "w7QRAZE1_KFcEVQ78Pa30",
           "slug" : "out"
         } ],
         "isCustomOutputSchema" : false
+      }
+    },
+    "G1WooEQ4F_ngY17t2R8aS" : {
+      "id" : "G1WooEQ4F_ngY17t2R8aS",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Detour_34_out0",
+        "x" : 420,
+        "y" : 138,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "FALSE",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "KYMAT6a4sRhMaXM2Mcs8y",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "fJY8Lu7sEo_2H-DCaLwSl",
+          "slug" : "out0"
+        } ]
       }
     },
     "3" : {
@@ -947,7 +1029,7 @@
           },
           "alias" : "Output",
           "description" : null,
-          "_row_id" : "NtCc8ey6luKIlE7oDmccR"
+          "_row_id" : "tv_FgBfm-MlUVL-GwSmef"
         } ],
         "dedupType" : "first"
       },
@@ -960,47 +1042,6 @@
           "id" : "3_Unique",
           "slug" : "out0"
         } ]
-      }
-    },
-    "H64FCYyC9h1KbKGa9RaVt" : {
-      "id" : "H64FCYyC9h1KbKGa9RaVt",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "MultiRowFormula_25_row_id_0",
-        "x" : 3824,
-        "y" : 318,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "(ROW_NUMBER() OVER ())",
-            "_row_id" : null
-          },
-          "alias" : "prophecy_row_id",
-          "description" : null,
-          "_row_id" : "F2JeuagnxQnH4RzXRf8ey"
-        }, {
-          "expression" : {
-            "expression" : "*",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "auzs6bMh0nSJK4xgIOM9b",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "42iaoYRcAkOyyqA-NtIDD",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
       }
     }
   },
@@ -1064,62 +1105,62 @@
     "id" : "edge_9",
     "source" : "1",
     "sourcePort" : "1_Output",
-    "target" : "31jmZY8oRPv7bDazUadmE",
-    "targetPort" : "0_zcXEkLz_eSv1Qowp3BQ",
+    "target" : "0WbRB3rFJ0VePbmFGrrb1",
+    "targetPort" : "edn0eSdj5KDk9ujRpZYXV",
     "isWireless" : false
   }, {
     "id" : "edge_10",
-    "source" : "g6pScaXmECVAQ2zL-2k1P",
-    "sourcePort" : "j3mgWS8IhluTZZhMWD0aE",
-    "target" : "LdRkWV5P6tBH8XxjDjbDO",
-    "targetPort" : "3Q4pLhgKpdDS_4Ng_ZAMK",
+    "source" : "MYupdD8a-yJ0vgv7KNHHq",
+    "sourcePort" : "UOVl_-5Ui2bnA4bqIsr5i",
+    "target" : "0V8-7PDi2z30ZFWJQaZ9p",
+    "targetPort" : "8bREi2XVnzD0b9-Vp27Fl",
     "isWireless" : false
   }, {
     "id" : "edge_11",
-    "source" : "LdRkWV5P6tBH8XxjDjbDO",
-    "sourcePort" : "KwNEMvOWngiRUsjncMmlo",
-    "target" : "PbbDIx1a26O1X7aKmBBdj",
-    "targetPort" : "ePIe3FdXBefVllV09BuHF",
+    "source" : "0V8-7PDi2z30ZFWJQaZ9p",
+    "sourcePort" : "RedRarkTxROQpDLXIujS6",
+    "target" : "HRX_S9sd1fY66sLqybDm3",
+    "targetPort" : "ZKcLxLbMD__BIDVwc_TlG",
     "isWireless" : false
   }, {
     "id" : "edge_12",
-    "source" : "PbbDIx1a26O1X7aKmBBdj",
-    "sourcePort" : "DdIRCEwq4uHrFAk37bw8F",
+    "source" : "HRX_S9sd1fY66sLqybDm3",
+    "sourcePort" : "HOPMCu6QPyNcbve8hq3nw",
     "target" : "35",
     "targetPort" : "35_Right",
     "isWireless" : false
   }, {
     "id" : "edge_13",
-    "source" : "lgc3UWf0GHd2O-e58Q6EW",
-    "sourcePort" : "fuVB64nGo0p_WkplDvI4y",
-    "target" : "_yHjLjmRnd74WoaHYbb0I",
-    "targetPort" : "yQJG-KwWoPclnwBWw3sWq",
+    "source" : "3vJ5sBmjWwaclM5HwvBE6",
+    "sourcePort" : "MuDP6j1ibwmhWuIbC5Ikq",
+    "target" : "jGodpAw8NYqYxHEO1tC7s",
+    "targetPort" : "33EUPdny7a0RJv9c67l23",
     "isWireless" : false
   }, {
     "id" : "edge_14",
-    "source" : "_yHjLjmRnd74WoaHYbb0I",
-    "sourcePort" : "2xybPi7jE-t9IeiF1cy1f",
+    "source" : "jGodpAw8NYqYxHEO1tC7s",
+    "sourcePort" : "Rq8UALjUiajA1b0SNkW0i",
     "target" : "35",
     "targetPort" : "35_Left",
     "isWireless" : false
   }, {
     "id" : "edge_15",
-    "source" : "NSmCSf4lN-BdRgiDaqe4k",
-    "sourcePort" : "x-eSfsiMExJxmQ2vaz2eC",
+    "source" : "C429ZARgjXYLSdBGwKoZJ",
+    "sourcePort" : "w7QRAZE1_KFcEVQ78Pa30",
     "target" : "21",
     "targetPort" : "21_Input8",
     "isWireless" : false
   }, {
     "id" : "edge_16",
-    "source" : "NSmCSf4lN-BdRgiDaqe4k",
-    "sourcePort" : "x-eSfsiMExJxmQ2vaz2eC",
+    "source" : "C429ZARgjXYLSdBGwKoZJ",
+    "sourcePort" : "w7QRAZE1_KFcEVQ78Pa30",
     "target" : "22",
     "targetPort" : "22_Input",
     "isWireless" : false
   }, {
     "id" : "edge_17",
-    "source" : "NSmCSf4lN-BdRgiDaqe4k",
-    "sourcePort" : "x-eSfsiMExJxmQ2vaz2eC",
+    "source" : "C429ZARgjXYLSdBGwKoZJ",
+    "sourcePort" : "w7QRAZE1_KFcEVQ78Pa30",
     "target" : "32",
     "targetPort" : "32_Targets",
     "isWireless" : false
@@ -1127,57 +1168,64 @@
     "id" : "edge_18",
     "source" : "19",
     "sourcePort" : "19_Output",
-    "target" : "NSmCSf4lN-BdRgiDaqe4k",
-    "targetPort" : "XXAuhCwYtfcaynnEaGCXj",
+    "target" : "C429ZARgjXYLSdBGwKoZJ",
+    "targetPort" : "c2nKJUCFI6Y3-LijCMCCH",
     "isWireless" : false
   }, {
     "id" : "edge_19",
     "source" : "31",
     "sourcePort" : "31_Output",
-    "target" : "H64FCYyC9h1KbKGa9RaVt",
-    "targetPort" : "auzs6bMh0nSJK4xgIOM9b",
+    "target" : "FfD-T-_JBloCvaMHZhvv_",
+    "targetPort" : "6r1D4tQGxMHhNWwgoA35c",
     "isWireless" : false
   }, {
     "id" : "edge_20",
-    "source" : "H64FCYyC9h1KbKGa9RaVt",
-    "sourcePort" : "42iaoYRcAkOyyqA-NtIDD",
-    "target" : "8oQCMRb8TtHRMqdllyIBX",
-    "targetPort" : "bPPw80hl4OPiK1s5e2EAx",
+    "source" : "A-2T7Xrn7HSlLghhkFSdU",
+    "sourcePort" : "bqIEMvHF67Ap3Q0oUhV7n",
+    "target" : "5M_ebWUY_NFxis54cc4pJ",
+    "targetPort" : "7k9Sya82-DCywzmzH3QjW",
     "isWireless" : false
   }, {
     "id" : "edge_21",
-    "source" : "8oQCMRb8TtHRMqdllyIBX",
-    "sourcePort" : "j995VzR3-C6R7FENBgtAx",
-    "target" : "OgzcpwNtLo2UoY5cBgFoP",
-    "targetPort" : "iiI15MySAnCVsENNv60Bk",
+    "source" : "FfD-T-_JBloCvaMHZhvv_",
+    "sourcePort" : "vMGCAtiJaZzDjNKcf_LZX",
+    "target" : "A-2T7Xrn7HSlLghhkFSdU",
+    "targetPort" : "X8OsgiBbWUcbIpuZ80zdT",
     "isWireless" : false
   }, {
     "id" : "edge_22",
-    "source" : "AnuI8JCkuBxvwb0GCTJwj",
-    "sourcePort" : "-bM3kbtgAkVDV-o0gzptm",
-    "target" : "lgc3UWf0GHd2O-e58Q6EW",
-    "targetPort" : "LDK_G5tHCyzZsIN9u8iaz",
+    "source" : "5M_ebWUY_NFxis54cc4pJ",
+    "sourcePort" : "Jgk2XrEVr1LKRaabBVrPP",
+    "target" : "AWqCIk5afDIdEPEzSCA9U",
+    "targetPort" : "M1QFxa661LaXWLNzDaVZM",
     "isWireless" : false
   }, {
     "id" : "edge_23",
-    "source" : "31jmZY8oRPv7bDazUadmE",
-    "sourcePort" : "h3O9y7KEzDkhYvewJJAPf",
-    "target" : "AnuI8JCkuBxvwb0GCTJwj",
-    "targetPort" : "x1tEcOeqUAb--7ExL_hnT",
+    "source" : "G1WooEQ4F_ngY17t2R8aS",
+    "sourcePort" : "fJY8Lu7sEo_2H-DCaLwSl",
+    "target" : "3vJ5sBmjWwaclM5HwvBE6",
+    "targetPort" : "ZIfsi4ZhqxgKkoOhXWFUw",
     "isWireless" : false
   }, {
     "id" : "edge_24",
-    "source" : "AY2Y4Ye5dJAjVJKGEW6MJ",
-    "sourcePort" : "wFtSX4QpClB-JApWmJ6C5",
-    "target" : "g6pScaXmECVAQ2zL-2k1P",
-    "targetPort" : "nMkWP0JCEnKXv7rLhzj9j",
+    "source" : "0WbRB3rFJ0VePbmFGrrb1",
+    "sourcePort" : "EXSQvBh4uXttam0F4cCvH",
+    "target" : "G1WooEQ4F_ngY17t2R8aS",
+    "targetPort" : "KYMAT6a4sRhMaXM2Mcs8y",
     "isWireless" : false
   }, {
     "id" : "edge_25",
-    "source" : "31jmZY8oRPv7bDazUadmE",
-    "sourcePort" : "h3O9y7KEzDkhYvewJJAPf",
-    "target" : "AY2Y4Ye5dJAjVJKGEW6MJ",
-    "targetPort" : "u6g_F22HCdX0Uj0PFiTsj",
+    "source" : "tUzXT_jbggaceC3dGM1A_",
+    "sourcePort" : "xV37HdvNGnavMyEAaQjan",
+    "target" : "MYupdD8a-yJ0vgv7KNHHq",
+    "targetPort" : "eIo4EywAru_VF_8zGt4Zl",
+    "isWireless" : false
+  }, {
+    "id" : "edge_26",
+    "source" : "0WbRB3rFJ0VePbmFGrrb1",
+    "sourcePort" : "EXSQvBh4uXttam0F4cCvH",
+    "target" : "tUzXT_jbggaceC3dGM1A_",
+    "targetPort" : "tSR6y1fs7SSQXX0m_uqG5",
     "isWireless" : false
   } ],
   "component" : "Pipeline"
