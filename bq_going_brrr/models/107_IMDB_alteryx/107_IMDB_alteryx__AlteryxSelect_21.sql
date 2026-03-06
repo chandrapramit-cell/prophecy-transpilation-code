@@ -87,8 +87,8 @@ Formula_7_0 AS (
         WHEN ((STRPOS((coalesce(LOWER(hours1), '')), LOWER('m'))) > 0)
           THEN (
             coalesce(
-              CAST((REGEXP_REPLACE(hours1, '[m]', SUBSTRING('' FROM 0 FOR 1))) AS FLOAT64), 
-              CAST((REGEXP_EXTRACT((REGEXP_REPLACE(hours1, '[m]', SUBSTRING('' FROM 0 FOR 1))), '^[0-9]+', 0)) AS INT64), 
+              CAST((REGEXP_REPLACE(hours1, '[m]', SUBSTRING('', 0, 1))) AS FLOAT64), 
+              CAST((REGEXP_EXTRACT((REGEXP_REPLACE(hours1, '[m]', SUBSTRING('', 0, 1))), '^[0-9]+', 0)) AS INT64), 
               0)
           )
         ELSE (
@@ -96,15 +96,15 @@ Formula_7_0 AS (
             60
             * (
                 coalesce(
-                  CAST((REGEXP_REPLACE(hours1, '[h]', SUBSTRING('' FROM 0 FOR 1))) AS FLOAT64), 
-                  CAST((REGEXP_EXTRACT((REGEXP_REPLACE(hours1, '[h]', SUBSTRING('' FROM 0 FOR 1))), '^[0-9]+', 0)) AS INT64), 
+                  CAST((REGEXP_REPLACE(hours1, '[h]', SUBSTRING('', 0, 1))) AS FLOAT64), 
+                  CAST((REGEXP_EXTRACT((REGEXP_REPLACE(hours1, '[h]', SUBSTRING('', 0, 1))), '^[0-9]+', 0)) AS INT64), 
                   0)
               )
           )
           + (
               coalesce(
-                CAST((REGEXP_REPLACE(hours2, '[m]', SUBSTRING('' FROM 0 FOR 1))) AS FLOAT64), 
-                CAST((REGEXP_EXTRACT((REGEXP_REPLACE(hours2, '[m]', SUBSTRING('' FROM 0 FOR 1))), '^[0-9]+', 0)) AS INT64), 
+                CAST((REGEXP_REPLACE(hours2, '[m]', SUBSTRING('', 0, 1))) AS FLOAT64), 
+                CAST((REGEXP_EXTRACT((REGEXP_REPLACE(hours2, '[m]', SUBSTRING('', 0, 1))), '^[0-9]+', 0)) AS INT64), 
                 0)
             )
         )
