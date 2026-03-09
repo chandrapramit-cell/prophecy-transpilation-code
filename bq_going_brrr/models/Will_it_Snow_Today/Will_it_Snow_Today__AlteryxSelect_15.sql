@@ -17,7 +17,7 @@ WITH produkt_klima_t_4 AS (
 DateTime_8_0 AS (
 
   SELECT 
-    (FORMAT_TIMESTAMP('%Y-%m-%d', (PARSE_TIMESTAMP('%Y%m%d', MESS_DATUM)))) AS DateTime_Out,
+    (FORMAT_TIMESTAMP('yyyy-MM-dd', (PARSE_TIMESTAMP('%Y%m%d', MESS_DATUM)))) AS DateTime_Out,
     *
   
   FROM produkt_klima_t_4 AS in0
@@ -54,8 +54,9 @@ Formula_9_0 AS (
 
 DateTime_11_0 AS (
 
+  {#Extracts and formats date components for each record, tagging month values for reporting.#}
   SELECT 
-    (FORMAT_TIMESTAMP('%d-%m', DateTime_Out)) AS `Tag ampersand Monat`,
+    (FORMAT_TIMESTAMP('dd-MM', CAST(DateTime_Out AS TIMESTAMP))) AS `Tag ampersand Monat`,
     *
   
   FROM Formula_9_0 AS in0

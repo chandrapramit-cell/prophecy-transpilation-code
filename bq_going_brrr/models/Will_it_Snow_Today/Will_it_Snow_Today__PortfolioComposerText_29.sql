@@ -6,7 +6,37 @@
   })
 }}
 
-WITH AlteryxSelect_15 AS (
+WITH DateTimeNow_10_createRow AS (
+
+  {{ transpiler_data_matching.create_data(n = 1, alias = 'seq') }}
+
+),
+
+DateTimeNow_10 AS (
+
+  SELECT (FORMAT_TIMESTAMP('yyyy-MM-dd', CURRENT_TIMESTAMP)) AS DateTimeNow
+  
+  FROM DateTimeNow_10_createRow AS in0
+
+),
+
+AlteryxSelect_13 AS (
+
+  select *   REPLACE( (CASE WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(DateTimeNow AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(DateTimeNow AS string)) WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(DateTimeNow AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(DateTimeNow AS string)) ELSE SAFE.PARSE_TIMESTAMP('%Y-%m-%d', CAST(DateTimeNow AS string)) END) as `DateTimeNow` ) from DateTimeNow_10
+
+),
+
+DateTime_12_0 AS (
+
+  SELECT 
+    (FORMAT_TIMESTAMP('dd-MM', CAST(DateTimeNow AS DATETIME))) AS `Tag ampersand Monat Heute`,
+    *
+  
+  FROM AlteryxSelect_13 AS in0
+
+),
+
+AlteryxSelect_15 AS (
 
   SELECT *
   
@@ -17,7 +47,7 @@ WITH AlteryxSelect_15 AS (
 Summarize_14 AS (
 
   SELECT 
-    MODE(`Tagesmittel Temp`) AS `Mode_Tagesmittel Temp`,
+    APPROX_TOP_COUNT(`Tagesmittel Temp`, 1)[OFFSET(0)].value AS `Mode_Tagesmittel Temp`,
     SUM(Schnee) AS Sum_Schnee,
     COUNT(
       (
@@ -42,36 +72,6 @@ Formula_16_0 AS (
     *
   
   FROM Summarize_14 AS in0
-
-),
-
-DateTimeNow_10_createRow AS (
-
-  {{ bq_going_brrr.create_data(n = 1, alias = 'seq') }}
-
-),
-
-DateTimeNow_10 AS (
-
-  SELECT (FORMAT_TIMESTAMP('%Y-%m-%d', CURRENT_TIMESTAMP)) AS DateTimeNow
-  
-  FROM DateTimeNow_10_createRow AS in0
-
-),
-
-AlteryxSelect_13 AS (
-
-  select *   REPLACE( (CASE WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(DateTimeNow AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(DateTimeNow AS string)) WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(DateTimeNow AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(DateTimeNow AS string)) ELSE SAFE.PARSE_TIMESTAMP('%Y-%m-%d', CAST(DateTimeNow AS string)) END) as `DateTimeNow` ) from DateTimeNow_10
-
-),
-
-DateTime_12_0 AS (
-
-  SELECT 
-    (FORMAT_TIMESTAMP('%d-%m', DateTimeNow)) AS `Tag ampersand Monat Heute`,
-    *
-  
-  FROM AlteryxSelect_13 AS in0
 
 ),
 
