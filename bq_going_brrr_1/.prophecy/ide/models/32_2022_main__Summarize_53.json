@@ -1,0 +1,184 @@
+{
+  "id" : "32_2022_main__Summarize_53",
+  "metainfo" : {
+    "label" : "32_2022_main__Summarize_53",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_53_53_Output" : {
+      "id" : "Summarize_53_53_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_53"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_53\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "53" : {
+      "id" : "53",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_53",
+        "x" : 21600,
+        "y" : 1332,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(TotalUpperShots)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_TotalUpperShots",
+          "description" : null,
+          "_row_id" : "x-rEvKtebeOEnLZJkauNe"
+        }, {
+          "expression" : {
+            "expression" : "SUM(TotalLowerShots)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_TotalLowerShots",
+          "description" : null,
+          "_row_id" : "Y-w_2HLbI09pc7TGLWBxH"
+        }, {
+          "expression" : {
+            "expression" : "SUM(UpperShotAccuracy)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_UpperShotAccuracy",
+          "description" : null,
+          "_row_id" : "Us9gQrKi3s6tOlhOFQ09j"
+        }, {
+          "expression" : {
+            "expression" : "SUM(LowerShotAccuracy)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_LowerShotAccuracy",
+          "description" : null,
+          "_row_id" : "lt47CY_hQn_ExUQ7SLylD"
+        }, {
+          "expression" : {
+            "expression" : "SUM(TotalShots)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_TotalShots",
+          "description" : null,
+          "_row_id" : "x7rF5BIeCarXYtUEq4nUW"
+        }, {
+          "expression" : {
+            "expression" : "mode",
+            "_row_id" : null
+          },
+          "alias" : "mode",
+          "description" : null,
+          "_row_id" : "HrB_M9igbCpb4WJT_1MPP"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "mode",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "rT22rOvLLOjEMwvvzr_Tb"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "53_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "53_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Cleanse_52_52_Output26" : {
+      "id" : "Cleanse_52_52_Output26",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Cleanse_52"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_13",
+          "id" : "output_port_13",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('32_2022_main__Cleanse_52') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_53_53_Output_Summarize_53_53_Output",
+    "source" : "53",
+    "sourcePort" : "53_Output",
+    "target" : "Summarize_53_53_Output",
+    "targetPort" : "input_port_14",
+    "isWireless" : false
+  }, {
+    "id" : "edge_148",
+    "source" : "Cleanse_52_52_Output26",
+    "sourcePort" : "output_port_13",
+    "target" : "53",
+    "targetPort" : "53_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
