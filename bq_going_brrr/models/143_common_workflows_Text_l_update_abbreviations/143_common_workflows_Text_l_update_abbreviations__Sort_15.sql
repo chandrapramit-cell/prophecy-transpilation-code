@@ -6,28 +6,7 @@
   })
 }}
 
-WITH TextInput_3 AS (
-
-  SELECT * 
-  
-  FROM {{ ref('seed_3')}}
-
-),
-
-TextInput_3_cast AS (
-
-  SELECT 
-    CAST(abbreviation_codes AS STRING) AS abbreviation_codes,
-    CAST(abbreviated_phrases AS STRING) AS abbreviated_phrases,
-    CAST(Update AS STRING) AS Update,
-    CAST(referenced_object_type AS STRING) AS referenced_object_type,
-    CAST(variableDelete AS STRING) AS variableDelete
-  
-  FROM TextInput_3 AS in0
-
-),
-
-uuidified_abbre_1 AS (
+WITH uuidified_abbre_1 AS (
 
   SELECT *
   
@@ -68,6 +47,27 @@ Cleanse_20 AS (
 
 ),
 
+TextInput_3 AS (
+
+  SELECT * 
+  
+  FROM {{ ref('seed_3')}}
+
+),
+
+TextInput_3_cast AS (
+
+  SELECT 
+    CAST(abbreviation_codes AS STRING) AS abbreviation_codes,
+    CAST(abbreviated_phrases AS STRING) AS abbreviated_phrases,
+    CAST(UPDATE AS string) AS Update,
+    CAST(referenced_object_type AS STRING) AS referenced_object_type,
+    CAST(variableDelete AS STRING) AS variableDelete
+  
+  FROM TextInput_3 AS in0
+
+),
+
 Join_2_left AS (
 
   SELECT in0.*
@@ -96,7 +96,7 @@ Join_2_inner AS (
     in1.abbreviation_codes AS abbreviation_codes,
     in0.variableDelete AS variableDelete,
     in1.abbreviated_phrases AS abbreviated_phrases,
-    in0.Update AS Update
+    IN0.UPDATE AS Update
   
   FROM TextInput_3_cast AS in0
   INNER JOIN Cleanse_20 AS in1
@@ -111,8 +111,8 @@ Filter_11_reject_to_Filter_17 AS (
   FROM Join_2_inner AS in0
   
   WHERE (
-          (NOT ((Update = 'X')) OR isnull((Update = 'X')))
-          AND (NOT ((variableDelete = 'X')) OR isnull((variableDelete = 'X')))
+          ((UPDATE <> 'X') OR ((UPDATE = 'X') IS NULL))
+          AND ((VARIABLEDELETE <> 'X') OR ((VARIABLEDELETE = 'X') IS NULL))
         )
 
 ),
@@ -134,7 +134,7 @@ Filter_11 AS (
   
   FROM Join_2_inner AS in0
   
-  WHERE (Update = 'X')
+  WHERE (UPDATE = 'X')
 
 ),
 
@@ -164,6 +164,16 @@ Union_12 AS (
 
 ),
 
+Formula_4_0 AS (
+
+  SELECT 
+    CAST((GENERATE_UUID()) AS STRING) AS uuids,
+    *
+  
+  FROM Join_2_left AS in0
+
+),
+
 Join_2_right AS (
 
   SELECT in0.*
@@ -182,16 +192,6 @@ Join_2_right AS (
 
 ),
 
-Formula_4_0 AS (
-
-  SELECT 
-    CAST((UUID()) AS STRING) AS uuids,
-    *
-  
-  FROM Join_2_left AS in0
-
-),
-
 Union_5 AS (
 
   {{
@@ -199,7 +199,7 @@ Union_5 AS (
       ['Join_2_right', 'Formula_4_0', 'Union_12'], 
       [
         '[{"name": "uuids", "dataType": "String"}, {"name": "abbreviation_codes", "dataType": "String"}, {"name": "abbreviated_phrases", "dataType": "String"}, {"name": "referenced_object_type", "dataType": "String"}]', 
-        '[{"name": "referenced_object_type", "dataType": "String"}, {"name": "uuids", "dataType": "String"}, {"name": "Update", "dataType": "String"}, {"name": "abbreviation_codes", "dataType": "String"}, {"name": "variableDelete", "dataType": "String"}, {"name": "abbreviated_phrases", "dataType": "String"}]', 
+        '[{"name": "uuids", "dataType": "String"}, {"name": "abbreviation_codes", "dataType": "String"}, {"name": "abbreviated_phrases", "dataType": "String"}, {"name": "Update", "dataType": "String"}, {"name": "referenced_object_type", "dataType": "String"}, {"name": "variableDelete", "dataType": "String"}]', 
         '[{"name": "abbreviation_codes", "dataType": "String"}, {"name": "abbreviated_phrases", "dataType": "String"}, {"name": "uuids", "dataType": "String"}]'
       ], 
       'allowMissingColumns'
