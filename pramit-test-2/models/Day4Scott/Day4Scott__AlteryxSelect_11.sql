@@ -97,7 +97,7 @@ RegEx_7 AS (
   {{
     prophecy_basics.Regex(
       ['Transpose_5'], 
-      [{ 'columnName': 'regex_col1', 'dataType': 'string', 'rgxExpression': '(\\w)' }], 
+      [], 
       '[{"name": "Name", "dataType": "String"}, {"name": "Value", "dataType": "String"}]', 
       'Value', 
       '(\w)', 
@@ -137,17 +137,17 @@ Transpose_9 AS (
       'Name', 
       'Value', 
       [
-        'variableRow', 
-        'Value1', 
-        'Value2', 
-        'Value3', 
-        'Value4', 
-        'Value5', 
-        'Value6', 
         'Value7', 
+        'Value4', 
         'Value8', 
+        'Value5', 
+        'variableRow', 
+        'Value10', 
+        'Value2', 
         'Value9', 
-        'Value10'
+        'Value3', 
+        'Value6', 
+        'Value1'
       ], 
       true
     )

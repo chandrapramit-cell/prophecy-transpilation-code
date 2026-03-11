@@ -6,19 +6,19 @@
   })
 }}
 
-WITH GenerateRows_34 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('Day4Scott', 'GenerateRows_34') }}
-
-),
-
-AlteryxSelect_33 AS (
+WITH AlteryxSelect_33 AS (
 
   SELECT *
   
   FROM {{ ref('Day4Scott__AlteryxSelect_33')}}
+
+),
+
+GenerateRows_34 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('Day4Scott', 'GenerateRows_34') }}
 
 ),
 
