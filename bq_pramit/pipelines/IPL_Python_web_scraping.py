@@ -14,6 +14,11 @@ args = PipelineArgs(
 )
 
 with Pipeline(args) as pipeline:
+    ipl_python_web_scraping__formula_54_0 = Process(
+        name = "IPL_Python_web_scraping__Formula_54_0",
+        properties = ModelTransform(modelName = "IPL_Python_web_scraping__Formula_54_0"),
+        input_ports = ["in_0", "in_1", "in_2", "in_3", "in_4", "in_5", "in_6", "in_7", "in_8"]
+    )
     iplfantasystats_80 = Process(
         name = "IPLFantasyStats_80",
         properties = SFTPTarget(
@@ -62,18 +67,13 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    ipl_python_web_scraping__formula_54_0 = Process(
-        name = "IPL_Python_web_scraping__Formula_54_0",
-        properties = ModelTransform(modelName = "IPL_Python_web_scraping__Formula_54_0"),
-        input_ports = ["in_0", "in_1", "in_2", "in_3", "in_4", "in_5", "in_6", "in_7", "in_8"]
-    )
     (
         jupytercode_1._out(1)
         >> [ipl_python_web_scraping__formula_54_0._in(6), ipl_python_web_scraping__formula_54_0._in(7),
               ipl_python_web_scraping__formula_54_0._in(8)]
     )
-    textinput_63 >> ipl_python_web_scraping__formula_74_1
     ipl_python_web_scraping__formula_74_1 >> jupytercode_1
+    textinput_63 >> ipl_python_web_scraping__formula_74_1
     ipl_python_web_scraping__formula_54_0 >> iplfantasystats_80
     (
         jupytercode_1._out(0)

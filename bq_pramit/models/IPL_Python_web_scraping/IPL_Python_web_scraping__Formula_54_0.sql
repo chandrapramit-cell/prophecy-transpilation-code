@@ -143,7 +143,7 @@ Formula_11_0 AS (
   SELECT 
     CAST((
       CASE
-        WHEN ((`2` IS NULL) OR ((LENGTH(CAST(`2` AS STRING))) = 0))
+        WHEN ((`2` IS NULL) OR ((LENGTH(`2`)) = 0))
           THEN 1
         ELSE 0.5
       END
@@ -162,36 +162,6 @@ AlteryxSelect_17 AS (
 
 ),
 
-Filter_18 AS (
-
-  SELECT * 
-  
-  FROM AlteryxSelect_17 AS in0
-  
-  WHERE (((`2` IS NULL) OR ((LENGTH(CAST(`2` AS STRING))) = 0)) OR (`2` IS NULL))
-
-),
-
-AlteryxSelect_22 AS (
-
-  SELECT 
-    `1` AS Player,
-    * EXCEPT (`2`, `1`)
-  
-  FROM Filter_18 AS in0
-
-),
-
-Union_21_1 AS (
-
-  SELECT 
-    CAST(Player AS STRING) AS prophecy_column_1,
-    CAST(`Run Out Points` AS STRING) AS prophecy_column_2
-  
-  FROM AlteryxSelect_22 AS in0
-
-),
-
 Filter_18_reject AS (
 
   SELECT * 
@@ -199,87 +169,9 @@ Filter_18_reject AS (
   FROM AlteryxSelect_17 AS in0
   
   WHERE (
-          (NOT(((`2` IS NULL) OR ((LENGTH(CAST(`2` AS STRING))) = 0)) OR (`2` IS NULL)))
-          OR ((((`2` IS NULL) OR ((LENGTH(CAST(`2` AS STRING))) = 0)) OR (`2` IS NULL)) IS NULL)
+          (NOT(((`2` IS NULL) OR ((LENGTH(`2`)) = 0)) OR (`2` IS NULL)))
+          OR ((((`2` IS NULL) OR ((LENGTH(`2`)) = 0)) OR (`2` IS NULL)) IS NULL)
         )
-
-),
-
-Arrange_19_consolidatedDataCol_0 AS (
-
-  SELECT 
-    (
-      array(
-        (
-          NAMED_STRUCT(
-            'Player', 
-            CAST(`1` AS STRING), 
-            'Points', 
-            CAST(`Run Out Points` AS STRING), 
-            'Description', 
-            'TextToColumns: Parsed from Desc')
-        ), 
-        (
-          NAMED_STRUCT(
-            'Player', 
-            CAST(`2` AS STRING), 
-            'Points', 
-            CAST(`Run Out Points` AS STRING), 
-            'Description', 
-            'TextToColumns: Parsed from Desc')
-        ))
-    ) AS _consolidated_data_col,
-    *
-  
-  FROM Filter_18_reject AS in0
-
-),
-
-Arrange_19_explode_0 AS (
-
-  SELECT 
-    (EXPLODE(`_consolidated_data_col`)) AS _exploded_data_col,
-    *
-  
-  FROM Arrange_19_consolidatedDataCol_0 AS in0
-
-),
-
-Arrange_19_0 AS (
-
-  SELECT 
-    _exploded_data_col.`Description` AS Description,
-    _exploded_data_col.`Player` AS Player,
-    _exploded_data_col.`Points` AS Points,
-    *
-  
-  FROM Arrange_19_explode_0 AS in0
-
-),
-
-Arrange_19_selectCols AS (
-
-  SELECT * 
-  
-  FROM Arrange_19_0 AS in0
-
-),
-
-AlteryxSelect_20 AS (
-
-  SELECT * EXCEPT (`Description`)
-  
-  FROM Arrange_19_selectCols AS in0
-
-),
-
-Union_21_0 AS (
-
-  SELECT 
-    CAST(Player AS STRING) AS prophecy_column_1,
-    CAST(Points AS STRING) AS prophecy_column_2
-  
-  FROM AlteryxSelect_20 AS in0
 
 ),
 
@@ -293,155 +185,6 @@ Filter_7_reject AS (
           (NOT CAST(((STRPOS(variableDesc, 'run out')) > 0) AS BOOL))
           OR (CAST(((STRPOS(variableDesc, 'run out')) > 0) AS BOOL) IS NULL)
         )
-
-),
-
-Filter_55 AS (
-
-  SELECT * 
-  
-  FROM Filter_7_reject AS in0
-  
-  WHERE (CAST((SUBSTRING(variableDesc, 1, 2)) AS STRING) = 'st')
-
-),
-
-Formula_58_0 AS (
-
-  SELECT 
-    CAST((
-      SUBSTRING(
-        variableDesc, 
-        (((LENGTH(variableDesc)) - ((LENGTH(variableDesc)) - 4)) + 1), 
-        ((LENGTH(variableDesc)) - 4))
-    ) AS STRING) AS `variableDesc`,
-    '1' AS `Stmupings`,
-    *
-  
-  FROM Filter_55
-
-),
-
-RegEx_57 AS (
-
-  {{
-    prophecy_basics.Regex(
-      ['Formula_58_0'], 
-      [], 
-      '[{"name": "variableDesc", "dataType": "String"}, {"name": "Stmupings", "dataType": "String"}, {"name": "variableDesc_1", "dataType": "String"}]', 
-      'variableDesc', 
-      'b', 
-      'replace', 
-      true, 
-      false, 
-      '_', 
-      true, 
-      'splitColumns', 
-      1, 
-      'dropExtraWithoutWarning', 
-      '', 
-      '', 
-      false
-    )
-  }}
-
-),
-
-RegEx_57_rename_0 AS (
-
-  SELECT 
-    Desc_replaced AS variableDesc,
-    * EXCEPT (`Desc_replaced`, `variabledesc`)
-  
-  FROM RegEx_57 AS in0
-
-),
-
-TextToColumns_56 AS (
-
-  {{
-    prophecy_basics.TextToColumns(
-      ['RegEx_57_rename_0'], 
-      'variableDesc', 
-      "\\\ _", 
-      'splitColumns', 
-      2, 
-      'leaveExtraCharLastCol', 
-      'variableDesc', 
-      'variableDesc', 
-      'generatedColumnName'
-    )
-  }}
-
-),
-
-TextToColumns_56_dropGem_0 AS (
-
-  SELECT 
-    VARIABLEDESC_1_VARIABLEDESC AS `1`,
-    VARIABLEDESC_2_VARIABLEDESC AS `2`,
-    *
-  
-  FROM TextToColumns_56 AS in0
-
-),
-
-AlteryxSelect_59 AS (
-
-  SELECT 
-    `1` AS Name,
-    Stmupings AS Stmupings,
-    * EXCEPT (`variableDesc`, `2`, `Stmupings`, `1`)
-  
-  FROM TextToColumns_56_dropGem_0 AS in0
-
-),
-
-Union_21_2 AS (
-
-  SELECT 
-    CAST(Name AS STRING) AS prophecy_column_1,
-    CAST(Stmupings AS STRING) AS prophecy_column_2
-  
-  FROM AlteryxSelect_59 AS in0
-
-),
-
-Union_21 AS (
-
-  {{
-    prophecy_basics.UnionByName(
-      ['Union_21_0', 'Union_21_1', 'Union_21_2'], 
-      [
-        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "String"}]', 
-        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "String"}]', 
-        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "String"}]'
-      ], 
-      'allowMissingColumns'
-    )
-  }}
-
-),
-
-Union_21_postRename AS (
-
-  SELECT 
-    prophecy_column_1 AS Player,
-    prophecy_column_2 AS `Run Out Points`
-  
-  FROM Union_21 AS in0
-
-),
-
-Summarize_23 AS (
-
-  SELECT 
-    SUM(CAST(`Run Out Points` AS NUMERIC)) AS `Run Outs`,
-    Player AS Player
-  
-  FROM Union_21_postRename AS in0
-  
-  GROUP BY Player
 
 ),
 
@@ -514,208 +257,103 @@ TextToColumns_12 AS (
 
 ),
 
-TextToColumns_12_dropGem_0 AS (
+Filter_55 AS (
+
+  SELECT * 
+  
+  FROM Filter_7_reject AS in0
+  
+  WHERE (CAST((SUBSTRING(variableDesc, 1, 2)) AS STRING) = 'st')
+
+),
+
+Formula_58_0 AS (
+
+  SELECT 
+    CAST((
+      SUBSTRING(
+        variableDesc, 
+        (((LENGTH(variableDesc)) - ((LENGTH(variableDesc)) - 4)) + 1), 
+        ((LENGTH(variableDesc)) - 4))
+    ) AS STRING) AS variableDesc,
+    '1' AS Stmupings
+  
+  FROM Filter_55 AS in0
+
+),
+
+RegEx_57 AS (
+
+  {{
+    prophecy_basics.Regex(
+      ['Formula_58_0'], 
+      [], 
+      '[{"name": "variableDesc", "dataType": "String"}, {"name": "Stmupings", "dataType": "String"}]', 
+      'variableDesc', 
+      'b', 
+      'replace', 
+      true, 
+      false, 
+      '_', 
+      true, 
+      'splitColumns', 
+      1, 
+      'dropExtraWithoutWarning', 
+      '', 
+      '', 
+      false
+    )
+  }}
+
+),
+
+RegEx_57_rename_0 AS (
+
+  SELECT 
+    Desc_replaced AS variableDesc,
+    * EXCEPT (`Desc_replaced`, `variabledesc`)
+  
+  FROM RegEx_57 AS in0
+
+),
+
+TextToColumns_56 AS (
+
+  {{
+    prophecy_basics.TextToColumns(
+      ['RegEx_57_rename_0'], 
+      'variableDesc', 
+      "\\\ _", 
+      'splitColumns', 
+      2, 
+      'leaveExtraCharLastCol', 
+      'variableDesc', 
+      'variableDesc', 
+      'generatedColumnName'
+    )
+  }}
+
+),
+
+TextToColumns_56_dropGem_0 AS (
 
   SELECT 
     VARIABLEDESC_1_VARIABLEDESC AS `1`,
     VARIABLEDESC_2_VARIABLEDESC AS `2`,
     *
   
-  FROM TextToColumns_12 AS in0
+  FROM TextToColumns_56 AS in0
 
 ),
 
-Formula_14_0 AS (
+AlteryxSelect_47 AS (
 
   SELECT 
-    (
-      SUBSTRING(
-        CAST(`1` AS STRING), 
-        (((LENGTH(CAST(`1` AS STRING))) - ((LENGTH(CAST(`1` AS STRING))) - 2)) + 1), 
-        ((LENGTH(CAST(`1` AS STRING))) - 2))
-    ) AS `1`,
-    * EXCEPT (`1`)
+    CAST(NULL AS STRING) AS F1,
+    CAST(NULL AS STRING) AS Name,
+    CAST(NULL AS STRING) AS variableDesc
   
-  FROM TextToColumns_12_dropGem_0 AS in0
-
-),
-
-Formula_14_1 AS (
-
-  SELECT 
-    CAST((
-      CASE
-        WHEN (`1` = '&')
-          THEN `2`
-        ELSE `1`
-      END
-    ) AS STRING) AS `1`,
-    1 AS `Catch Points`,
-    * EXCEPT (`1`)
-  
-  FROM Formula_14_0 AS in0
-
-),
-
-AlteryxSelect_15 AS (
-
-  SELECT 
-    `1` AS Catcher,
-    `Catch Points` AS Catches,
-    * EXCEPT (`variableDesc`, `2`, `1`, `Catch Points`)
-  
-  FROM Formula_14_1 AS in0
-
-),
-
-Cleanse_16 AS (
-
-  {{
-    prophecy_basics.DataCleansing(
-      ['AlteryxSelect_15'], 
-      [
-        { "name": "Desc_2_Desc", "dataType": "String" }, 
-        { "name": "Desc_1_Desc", "dataType": "String" }, 
-        { "name": "Catcher", "dataType": "String" }, 
-        { "name": "Catches", "dataType": "Double" }
-      ], 
-      'keepOriginal', 
-      ['Catcher'], 
-      true, 
-      '', 
-      true, 
-      0, 
-      true, 
-      false, 
-      false, 
-      false, 
-      true, 
-      false, 
-      false, 
-      false, 
-      '1970-01-01', 
-      false, 
-      '1970-01-01 00:00:00.0'
-    )
-  }}
-
-),
-
-Summarize_24 AS (
-
-  SELECT 
-    SUM(Catches) AS Catches,
-    Catcher AS Catcher
-  
-  FROM Cleanse_16 AS in0
-  
-  GROUP BY Catcher
-
-),
-
-Join_25_right AS (
-
-  SELECT in0.*
-  
-  FROM Summarize_24 AS in0
-  LEFT JOIN (
-    SELECT * 
-    
-    FROM Summarize_23 AS in1
-    
-    WHERE in1.Player IS NOT NULL
-  ) AS in1_keys
-     ON (in1_keys.Player = in0.Catcher)
-  
-  WHERE (in1_keys.Player IS NULL)
-
-),
-
-Union_26_1 AS (
-
-  SELECT 
-    CAST(Catcher AS STRING) AS prophecy_column_1,
-    Catches AS prophecy_column_3
-  
-  FROM Join_25_right AS in0
-
-),
-
-Join_25_left AS (
-
-  SELECT in0.*
-  
-  FROM Summarize_23 AS in0
-  LEFT JOIN (
-    SELECT * 
-    
-    FROM Summarize_24 AS in1
-    
-    WHERE in1.Catcher IS NOT NULL
-  ) AS in1_keys
-     ON (in0.Player = in1_keys.Catcher)
-  
-  WHERE (in1_keys.Catcher IS NULL)
-
-),
-
-Union_26_0 AS (
-
-  SELECT 
-    CAST(Player AS STRING) AS prophecy_column_1,
-    CAST(`Run Outs` AS FLOAT64) AS prophecy_column_2
-  
-  FROM Join_25_left AS in0
-
-),
-
-Join_25_inner AS (
-
-  SELECT 
-    in0.*,
-    in1.* EXCEPT (`Catcher`)
-  
-  FROM Summarize_23 AS in0
-  INNER JOIN Summarize_24 AS in1
-     ON (in0.Player = in1.Catcher)
-
-),
-
-Union_26_2 AS (
-
-  SELECT 
-    CAST(Player AS STRING) AS prophecy_column_1,
-    CAST(`Run Outs` AS FLOAT64) AS prophecy_column_2,
-    Catches AS prophecy_column_3
-  
-  FROM Join_25_inner AS in0
-
-),
-
-Union_26 AS (
-
-  {{
-    prophecy_basics.UnionByName(
-      ['Union_26_2', 'Union_26_0', 'Union_26_1'], 
-      [
-        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "Double"}, {"name": "prophecy_column_3", "dataType": "Double"}]', 
-        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "Double"}]', 
-        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_3", "dataType": "Double"}]'
-      ], 
-      'allowMissingColumns'
-    )
-  }}
-
-),
-
-Union_26_postRename AS (
-
-  SELECT 
-    prophecy_column_1 AS Player,
-    prophecy_column_2 AS `Run Outs`,
-    prophecy_column_3 AS Catches
-  
-  FROM Union_26 AS in0
+  FROM JupyterCode_1 AS in0
 
 ),
 
@@ -897,6 +535,360 @@ Union_29_postRename AS (
 
 ),
 
+Filter_18 AS (
+
+  SELECT * 
+  
+  FROM AlteryxSelect_17 AS in0
+  
+  WHERE (((`2` IS NULL) OR ((LENGTH(`2`)) = 0)) OR (`2` IS NULL))
+
+),
+
+AlteryxSelect_22 AS (
+
+  SELECT 
+    `1` AS Player,
+    * EXCEPT (`2`, `1`)
+  
+  FROM Filter_18 AS in0
+
+),
+
+Union_21_1 AS (
+
+  SELECT 
+    CAST(Player AS STRING) AS prophecy_column_1,
+    CAST(`Run Out Points` AS STRING) AS prophecy_column_2
+  
+  FROM AlteryxSelect_22 AS in0
+
+),
+
+Arrange_19_consolidatedDataCol_0 AS (
+
+  SELECT 
+    [
+    STRUCT(
+      CAST(`1` AS STRING) AS `Player`, 
+      CAST(`Run Out Points` AS STRING) AS `Points`, 
+      'TextToColumns: Parsed from Desc' AS `Description`), 
+    STRUCT(
+      CAST(`2` AS STRING) AS `Player`, 
+      CAST(`Run Out Points` AS STRING) AS `Points`, 
+      'TextToColumns: Parsed from Desc' AS `Description`)] AS _consolidated_data_col,
+    *
+  
+  FROM Filter_18_reject AS in0
+
+),
+
+Arrange_19_explode AS (
+
+  SELECT * 
+  
+  FROM Arrange_19_consolidatedDataCol_0 AS in0
+  LEFT JOIN UNNEST(`_consolidated_data_col`) AS _exploded_data_col
+
+),
+
+Arrange_19_0 AS (
+
+  SELECT 
+    _exploded_data_col.`Description` AS Description,
+    _exploded_data_col.`Player` AS Player,
+    _exploded_data_col.`Points` AS Points,
+    *
+  
+  FROM Arrange_19_explode AS in0
+
+),
+
+Arrange_19_selectCols AS (
+
+  SELECT * 
+  
+  FROM Arrange_19_0 AS in0
+
+),
+
+AlteryxSelect_20 AS (
+
+  SELECT * EXCEPT (`Description`)
+  
+  FROM Arrange_19_selectCols AS in0
+
+),
+
+Union_21_0 AS (
+
+  SELECT 
+    CAST(Player AS STRING) AS prophecy_column_1,
+    CAST(Points AS STRING) AS prophecy_column_2
+  
+  FROM AlteryxSelect_20 AS in0
+
+),
+
+AlteryxSelect_59 AS (
+
+  SELECT 
+    `1` AS Name,
+    Stmupings AS Stmupings,
+    * EXCEPT (`variableDesc`, `2`, `Stmupings`, `1`)
+  
+  FROM TextToColumns_56_dropGem_0 AS in0
+
+),
+
+Union_21_2 AS (
+
+  SELECT 
+    CAST(Name AS STRING) AS prophecy_column_1,
+    CAST(Stmupings AS STRING) AS prophecy_column_2
+  
+  FROM AlteryxSelect_59 AS in0
+
+),
+
+Union_21 AS (
+
+  {{
+    prophecy_basics.UnionByName(
+      ['Union_21_0', 'Union_21_1', 'Union_21_2'], 
+      [
+        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "String"}]', 
+        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "String"}]', 
+        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "String"}]'
+      ], 
+      'allowMissingColumns'
+    )
+  }}
+
+),
+
+Union_21_postRename AS (
+
+  SELECT 
+    prophecy_column_1 AS Player,
+    prophecy_column_2 AS `Run Out Points`
+  
+  FROM Union_21 AS in0
+
+),
+
+Summarize_23 AS (
+
+  SELECT 
+    SUM(CAST(`Run Out Points` AS NUMERIC)) AS `Run Outs`,
+    Player AS Player
+  
+  FROM Union_21_postRename AS in0
+  
+  GROUP BY Player
+
+),
+
+TextToColumns_12_dropGem_0 AS (
+
+  SELECT 
+    VARIABLEDESC_1_VARIABLEDESC AS `1`,
+    VARIABLEDESC_2_VARIABLEDESC AS `2`,
+    *
+  
+  FROM TextToColumns_12 AS in0
+
+),
+
+Formula_14_0 AS (
+
+  SELECT 
+    CAST((SUBSTRING(`1`, (((LENGTH(`1`)) - ((LENGTH(`1`)) - 2)) + 1), ((LENGTH(`1`)) - 2))) AS STRING) AS `1`,
+    * EXCEPT (`1`)
+  
+  FROM TextToColumns_12_dropGem_0 AS in0
+
+),
+
+Formula_14_1 AS (
+
+  SELECT 
+    CAST((
+      CASE
+        WHEN (`1` = '&')
+          THEN `2`
+        ELSE `1`
+      END
+    ) AS STRING) AS `1`,
+    1 AS `Catch Points`,
+    * EXCEPT (`1`)
+  
+  FROM Formula_14_0 AS in0
+
+),
+
+AlteryxSelect_15 AS (
+
+  SELECT 
+    `1` AS Catcher,
+    `Catch Points` AS Catches,
+    * EXCEPT (`variableDesc`, `2`, `1`, `Catch Points`)
+  
+  FROM Formula_14_1 AS in0
+
+),
+
+Cleanse_16 AS (
+
+  {{
+    prophecy_basics.DataCleansing(
+      ['AlteryxSelect_15'], 
+      [
+        { "name": "Desc_2_Desc", "dataType": "String" }, 
+        { "name": "Desc_1_Desc", "dataType": "String" }, 
+        { "name": "Catcher", "dataType": "String" }, 
+        { "name": "Catches", "dataType": "Double" }
+      ], 
+      'keepOriginal', 
+      ['Catcher'], 
+      true, 
+      '', 
+      true, 
+      0, 
+      true, 
+      false, 
+      false, 
+      false, 
+      true, 
+      false, 
+      false, 
+      false, 
+      '1970-01-01', 
+      false, 
+      '1970-01-01 00:00:00.0'
+    )
+  }}
+
+),
+
+Summarize_24 AS (
+
+  SELECT 
+    SUM(Catches) AS Catches,
+    Catcher AS Catcher
+  
+  FROM Cleanse_16 AS in0
+  
+  GROUP BY Catcher
+
+),
+
+Join_25_right AS (
+
+  SELECT in0.*
+  
+  FROM Summarize_24 AS in0
+  LEFT JOIN (
+    SELECT * 
+    
+    FROM Summarize_23 AS in1
+    
+    WHERE in1.Player IS NOT NULL
+  ) AS in1_keys
+     ON (in1_keys.Player = in0.Catcher)
+  
+  WHERE (in1_keys.Player IS NULL)
+
+),
+
+Union_26_1 AS (
+
+  SELECT 
+    CAST(Catcher AS STRING) AS prophecy_column_1,
+    Catches AS prophecy_column_3
+  
+  FROM Join_25_right AS in0
+
+),
+
+Join_25_left AS (
+
+  SELECT in0.*
+  
+  FROM Summarize_23 AS in0
+  LEFT JOIN (
+    SELECT * 
+    
+    FROM Summarize_24 AS in1
+    
+    WHERE in1.Catcher IS NOT NULL
+  ) AS in1_keys
+     ON (in0.Player = in1_keys.Catcher)
+  
+  WHERE (in1_keys.Catcher IS NULL)
+
+),
+
+Union_26_0 AS (
+
+  SELECT 
+    CAST(Player AS STRING) AS prophecy_column_1,
+    `Run Outs` AS prophecy_column_2
+  
+  FROM Join_25_left AS in0
+
+),
+
+Join_25_inner AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCEPT (`Catcher`)
+  
+  FROM Summarize_23 AS in0
+  INNER JOIN Summarize_24 AS in1
+     ON (in0.Player = in1.Catcher)
+
+),
+
+Union_26_2 AS (
+
+  SELECT 
+    CAST(Player AS STRING) AS prophecy_column_1,
+    `Run Outs` AS prophecy_column_2,
+    Catches AS prophecy_column_3
+  
+  FROM Join_25_inner AS in0
+
+),
+
+Union_26 AS (
+
+  {{
+    prophecy_basics.UnionByName(
+      ['Union_26_2', 'Union_26_0', 'Union_26_1'], 
+      [
+        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "Double"}, {"name": "prophecy_column_3", "dataType": "Double"}]', 
+        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "Double"}]', 
+        '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_3", "dataType": "Double"}]'
+      ], 
+      'allowMissingColumns'
+    )
+  }}
+
+),
+
+Union_26_postRename AS (
+
+  SELECT 
+    prophecy_column_1 AS Player,
+    prophecy_column_2 AS `Run Outs`,
+    prophecy_column_3 AS Catches
+  
+  FROM Union_26 AS in0
+
+),
+
 Join_30_inner AS (
 
   SELECT 
@@ -934,6 +926,24 @@ Union_39_3 AS (
     CAST(Right_6s AS STRING) AS prophecy_column_15
   
   FROM Join_30_inner AS in0
+
+),
+
+Join_30_right AS (
+
+  SELECT in0.*
+  
+  FROM Union_26_postRename AS in0
+  LEFT JOIN (
+    SELECT * 
+    
+    FROM Union_29_postRename AS in1
+    
+    WHERE in1.Name IS NOT NULL
+  ) AS in1_keys
+     ON (in1_keys.Name = in0.Player)
+  
+  WHERE (in1_keys.Name IS NULL)
 
 ),
 
@@ -981,24 +991,6 @@ TextToColumns_31_dropGem_0 AS (
     * EXCEPT (`Name_1_Name`, `Name_2_Name`)
   
   FROM TextToColumns_31 AS in0
-
-),
-
-Join_30_right AS (
-
-  SELECT in0.*
-  
-  FROM Union_26_postRename AS in0
-  LEFT JOIN (
-    SELECT * 
-    
-    FROM Union_29_postRename AS in1
-    
-    WHERE in1.Name IS NOT NULL
-  ) AS in1_keys
-     ON (in1_keys.Name = in0.Player)
-  
-  WHERE (in1_keys.Name IS NULL)
 
 ),
 
@@ -1286,7 +1278,7 @@ Sort_41 AS (
 
 AlteryxSelect_42 AS (
 
-  select  CAST (`4s` AS FLOAT64) as `4s` ,  CAST (`6s` AS FLOAT64) as `6s` ,  `Run Outs` as `Run Outs` , *   REPLACE( Name as `Name` ,  Team as `Team` ,  CAST (Runs AS FLOAT64) as `Runs` ,  CAST (Balls AS FLOAT64) as `Balls` ,  CAST (SR AS FLOAT64) as `SR` ,  CAST (Overs AS FLOAT64) as `Overs` ,  CAST (Maidens AS FLOAT64) as `Maidens` ,  CAST (Wickets AS FLOAT64) as `Wickets` ,  CAST (Econ AS FLOAT64) as `Econ` ,  CAST (Dots AS FLOAT64) as `Dots` ,  CAST (Wd AS FLOAT64) as `Wd` ,  CAST (Nb AS FLOAT64) as `Nb` ,  Catches as `Catches` ,  F1 as `F1` ) from Sort_41
+  select *   REPLACE( Name as `Name` ,  Team as `Team` ,  CAST (Runs AS FLOAT64) as `Runs` ,  CAST (Balls AS FLOAT64) as `Balls` ,  CAST (`4s` AS FLOAT64) as `4s` ,  CAST (`6s` AS FLOAT64) as `6s` ,  CAST (SR AS FLOAT64) as `SR` ,  CAST (Overs AS FLOAT64) as `Overs` ,  CAST (Maidens AS FLOAT64) as `Maidens` ,  CAST (Wickets AS FLOAT64) as `Wickets` ,  CAST (Econ AS FLOAT64) as `Econ` ,  CAST (Dots AS FLOAT64) as `Dots` ,  CAST (Wd AS FLOAT64) as `Wd` ,  CAST (Nb AS FLOAT64) as `Nb` ,  `Run Outs` as `Run Outs` ,  Catches as `Catches` ,  F1 as `F1` ) from Sort_41
 
 ),
 
@@ -1369,17 +1361,6 @@ Formula_45_0 AS (
 
 ),
 
-AlteryxSelect_47 AS (
-
-  SELECT 
-    CAST(NULL AS STRING) AS F1,
-    CAST(NULL AS STRING) AS Name,
-    CAST(NULL AS STRING) AS variableDesc
-  
-  FROM JupyterCode_1 AS in0
-
-),
-
 Join_48_inner AS (
 
   SELECT 
@@ -1406,6 +1387,33 @@ Formula_49_0 AS (
     * EXCEPT (`duckquesMark`)
   
   FROM Join_48_inner AS in0
+
+),
+
+Union_61_split_0 AS (
+
+  SELECT 
+    DuckquesMark AS prophecy_column_5,
+    Maidens AS prophecy_column_10,
+    Wd AS prophecy_column_14,
+    CAST(Name AS STRING) AS prophecy_column_1,
+    `4s` AS prophecy_column_6,
+    Overs AS prophecy_column_9,
+    Dots AS prophecy_column_13,
+    CAST(Team AS STRING) AS prophecy_column_2,
+    Catches AS prophecy_column_17,
+    Econ AS prophecy_column_12,
+    `6s` AS prophecy_column_7,
+    Runs AS prophecy_column_3,
+    F1 AS prophecy_column_18,
+    `Run Outs` AS prophecy_column_16,
+    Wickets AS prophecy_column_11,
+    SR AS prophecy_column_8,
+    CAST(variableDesc AS STRING) AS prophecy_column_19,
+    Balls AS prophecy_column_4,
+    Nb AS prophecy_column_15
+  
+  FROM Formula_49_0 AS in0
 
 ),
 
@@ -1450,33 +1458,6 @@ Union_61_split_1 AS (
     Nb AS prophecy_column_15
   
   FROM Join_48_left AS in0
-
-),
-
-Union_61_split_0 AS (
-
-  SELECT 
-    DuckquesMark AS prophecy_column_5,
-    Maidens AS prophecy_column_10,
-    Wd AS prophecy_column_14,
-    CAST(Name AS STRING) AS prophecy_column_1,
-    `4s` AS prophecy_column_6,
-    Overs AS prophecy_column_9,
-    Dots AS prophecy_column_13,
-    CAST(Team AS STRING) AS prophecy_column_2,
-    Catches AS prophecy_column_17,
-    Econ AS prophecy_column_12,
-    `6s` AS prophecy_column_7,
-    Runs AS prophecy_column_3,
-    F1 AS prophecy_column_18,
-    `Run Outs` AS prophecy_column_16,
-    Wickets AS prophecy_column_11,
-    SR AS prophecy_column_8,
-    CAST(variableDesc AS STRING) AS prophecy_column_19,
-    Balls AS prophecy_column_4,
-    Nb AS prophecy_column_15
-  
-  FROM Formula_49_0 AS in0
 
 ),
 
@@ -1604,11 +1585,9 @@ Sort_51 AS (
 
 AlteryxSelect_52 AS (
 
-  SELECT 
-    CAST(NULL AS string) AS `Run OutsslashStumpings`,
-    *
+  SELECT CAST(NULL AS string) AS `Run OutsslashStumpings`
   
-  FROM Sort_51
+  FROM Sort_51 AS in0
 
 ),
 
@@ -1620,11 +1599,9 @@ Cleanse_53 AS (
 
 Formula_54_0 AS (
 
-  SELECT 
-    CAST(CURRENT_DATE AS STRING) AS `variableDate`,
-    *
+  SELECT CAST(CURRENT_DATE AS STRING) AS variableDate
   
-  FROM Cleanse_53
+  FROM Cleanse_53 AS in0
 
 )
 

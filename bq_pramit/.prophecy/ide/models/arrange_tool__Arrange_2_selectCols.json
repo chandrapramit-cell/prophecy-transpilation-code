@@ -1,0 +1,339 @@
+{
+  "id" : "arrange_tool__Arrange_2_selectCols",
+  "metainfo" : {
+    "label" : "arrange_tool__Arrange_2_selectCols",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"anurag_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "2_selectCols" : {
+      "id" : "2_selectCols",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Arrange_2_selectCols",
+        "x" : 960,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "d1BYjfsILbCDgsRt_j5Kz",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "XkfofZ7PutFw6UdwOBEUa",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1" : {
+      "id" : "1",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "TextInput_1",
+        "x" : 0,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_1",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "1_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "ct9qTh--wi2A1gd6cf8GM" : {
+      "id" : "ct9qTh--wi2A1gd6cf8GM",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Arrange_2_consolidatedDataCol_0",
+        "x" : 420,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(array())",
+            "_row_id" : null
+          },
+          "alias" : "_consolidated_data_col",
+          "description" : null,
+          "_row_id" : "NGtRyvbJspu0r0sXAXYWQ"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "c_YIwpm6xzITEHe9cBW85",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "9RvKQxSDEyRy1QL2OW7Lr",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "6PsgtIjDQDAw1DqvRqL2x" : {
+      "id" : "6PsgtIjDQDAw1DqvRqL2x",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Arrange_2_explode_0",
+        "x" : 600,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(EXPLODE(`_consolidated_data_col`))",
+            "_row_id" : null
+          },
+          "alias" : "_exploded_data_col",
+          "description" : null,
+          "_row_id" : "tztXSjJELb38d4COOtu5p"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "FoVniwxEffag9ghKMvEp2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "aM8pJ95BGG-QymGhMCvaT",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2" : {
+      "id" : "2",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Arrange_2",
+        "x" : 780,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "select *   from Arrange_2_explode_0"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Arrange_2_selectCols_XkfofZ7PutFw6UdwOBEUa" : {
+      "id" : "Arrange_2_selectCols_XkfofZ7PutFw6UdwOBEUa",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Arrange_2_selectCols"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Arrange_2_selectCols\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "NqiySyJlSxNHlILR8W8wK" : {
+      "id" : "NqiySyJlSxNHlILR8W8wK",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_1_cast",
+        "x" : 180,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ID",
+            "_row_id" : null
+          },
+          "alias" : "ID",
+          "description" : null,
+          "_row_id" : "vxTdfWPDtoZnn5st8TcTN"
+        }, {
+          "expression" : {
+            "expression" : "CAST(Name AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Name",
+          "description" : null,
+          "_row_id" : "nMMfq1Oc_ESY52BlZrwXg"
+        }, {
+          "expression" : {
+            "expression" : "Q1_Sales",
+            "_row_id" : null
+          },
+          "alias" : "Q1_Sales",
+          "description" : null,
+          "_row_id" : "CI8TPrsD6m9FVyVZCa1XA"
+        }, {
+          "expression" : {
+            "expression" : "Q1_Profit",
+            "_row_id" : null
+          },
+          "alias" : "Q1_Profit",
+          "description" : null,
+          "_row_id" : "89Vyk9ZQF1xqe1uwHKvAE"
+        }, {
+          "expression" : {
+            "expression" : "Q2_Sales",
+            "_row_id" : null
+          },
+          "alias" : "Q2_Sales",
+          "description" : null,
+          "_row_id" : "LNbVV56SUNK0Wkxlwh-0u"
+        }, {
+          "expression" : {
+            "expression" : "Q2_Profit",
+            "_row_id" : null
+          },
+          "alias" : "Q2_Profit",
+          "description" : null,
+          "_row_id" : "Scu6C5OFsKHicEPTuRYE1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "9ffR22rk_tbHxnZlA0YJH",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "24vkPfexUNUnu9T1MsLVp",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_2_selectCols_XkfofZ7PutFw6UdwOBEUa_Arrange_2_selectCols_XkfofZ7PutFw6UdwOBEUa",
+    "source" : "2_selectCols",
+    "sourcePort" : "XkfofZ7PutFw6UdwOBEUa",
+    "target" : "Arrange_2_selectCols_XkfofZ7PutFw6UdwOBEUa",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1290",
+    "source" : "2",
+    "sourcePort" : "2_Output",
+    "target" : "2_selectCols",
+    "targetPort" : "d1BYjfsILbCDgsRt_j5Kz",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1293",
+    "source" : "6PsgtIjDQDAw1DqvRqL2x",
+    "sourcePort" : "aM8pJ95BGG-QymGhMCvaT",
+    "target" : "2",
+    "targetPort" : "2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1294",
+    "source" : "ct9qTh--wi2A1gd6cf8GM",
+    "sourcePort" : "9RvKQxSDEyRy1QL2OW7Lr",
+    "target" : "6PsgtIjDQDAw1DqvRqL2x",
+    "targetPort" : "FoVniwxEffag9ghKMvEp2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1292",
+    "source" : "NqiySyJlSxNHlILR8W8wK",
+    "sourcePort" : "24vkPfexUNUnu9T1MsLVp",
+    "target" : "ct9qTh--wi2A1gd6cf8GM",
+    "targetPort" : "c_YIwpm6xzITEHe9cBW85",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1291",
+    "source" : "1",
+    "sourcePort" : "1_Output",
+    "target" : "NqiySyJlSxNHlILR8W8wK",
+    "targetPort" : "9ffR22rk_tbHxnZlA0YJH",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
