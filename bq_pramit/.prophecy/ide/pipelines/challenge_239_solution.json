@@ -18,42 +18,42 @@
     },
     "isTranspiledPipeline" : false,
     "publishDiagnosticMetrics" : true,
-    "transpilerType" : "alteryx",
-    "processesVsModelFiles" : {
-      "51" : "models/challenge_239_solution/challenge_239_solution__RecordID_52.sql",
-      "RYSUIbPS0zdx16y794aNA" : "models/challenge_239_solution/challenge_239_solution__GenerateRows_43_dropSeq_0.sql",
-      "62" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "GenerateRows_43_43_Output" : "models/challenge_239_solution/challenge_239_solution__GenerateRows_43_dropSeq_0.sql",
-      "RecordID_52_52_Output" : "models/challenge_239_solution/challenge_239_solution__RecordID_52.sql",
-      "56" : "models/challenge_239_solution/challenge_239_solution__Summarize_56.sql",
-      "55" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "TextInput_42_cast_Zv6NwA7MIUqi4n_O5YarV" : "models/challenge_239_solution/challenge_239_solution__TextInput_42_cast.sql",
-      "GenerateRows_43_dropSeq_0_Aci9lqplN4-7R6bysUaKs" : "models/challenge_239_solution/challenge_239_solution__GenerateRows_43_dropSeq_0.sql",
-      "68vO3O-0E7W_67i_QjXxf" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "61" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "d3A7YkDkaF74Acd-DmAV-" : "models/challenge_239_solution/challenge_239_solution__TextInput_42_cast.sql",
-      "GenerateRows_50_50_Output" : "models/challenge_239_solution/challenge_239_solution__RecordID_52.sql",
-      "60_allRules" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "0wPCmbpEhAhQeSbH1Ll7D" : "models/challenge_239_solution/challenge_239_solution__Summarize_56.sql",
-      "57_inner" : "models/challenge_239_solution/challenge_239_solution__Join_57_inner.sql",
-      "Join_57_inner_96y_u-tlr_18KQ9NI-ZLP" : "models/challenge_239_solution/challenge_239_solution__Join_57_inner.sql",
-      "GenerateRows_43_createRow_GiSmVhuFmMquK3blkY4PM" : "models/challenge_239_solution/challenge_239_solution__GenerateRows_43_createRow.sql",
-      "53" : "models/challenge_239_solution/challenge_239_solution__Summarize_56.sql",
-      "42" : "models/challenge_239_solution/challenge_239_solution__TextInput_42_cast.sql",
-      "WXXcAVdosC55nZEwfML73" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "57_left" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "Summarize_56_56_Output" : "models/challenge_239_solution/challenge_239_solution__Join_57_inner.sql",
-      "60_join" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "CmKDEu6NBpxMK9Ymzgyv4" : "models/challenge_239_solution/challenge_239_solution__Summarize_56.sql",
-      "skVj7wIO9GYONZQdiHRC9" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "41" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "43_createRow" : "models/challenge_239_solution/challenge_239_solution__GenerateRows_43_createRow.sql",
-      "AlteryxSelect_61_Pb3aZa4jDhA5TtphcxoYX" : "models/challenge_239_solution/challenge_239_solution__AlteryxSelect_61.sql",
-      "52" : "models/challenge_239_solution/challenge_239_solution__RecordID_52.sql",
-      "DtgY9k-GFZTNBu19d_Jvg" : "models/challenge_239_solution/challenge_239_solution__Summarize_56.sql"
-    }
+    "transpilerType" : "alteryx"
   },
   "processes" : {
+    "e8LtrBa-p-1giBKLpj-RQ" : {
+      "id" : "e8LtrBa-p-1giBKLpj-RQ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Unique_54_drop_0",
+        "x" : 3000,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`row_number`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "jrumTBnDDblj4mCvZAy2i",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "lmuNIVKKCicrKIIklpedA",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
     "45" : {
       "id" : "45",
       "component" : "Script",
@@ -64,29 +64,13 @@
         "phase" : 0
       },
       "properties" : {
-        "ports" : null,
-        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
-        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: Dataframe, in1: Dataframe) -> (Dataframe):",
+        "scriptMethodFooter" : "return (out0)",
         "script" : "\"\"\"\nAlteryx Generate Rows Tool - Python/Pandas Implementation\n\nReplicates the Alteryx Generate Rows tool which generates new rows \nbased on initialization, condition, and loop expressions.\n\nBehavior:\n- If no incoming dataframe: Acts as a sequence generator\n- If incoming dataframe: Executes loop for EACH input row (row-level processing)\n\"\"\"\n\nimport pandas as pd\nfrom typing import Optional, Any, Dict, Callable\n\n\n# =============================================================================\n# ALTERYX-COMPATIBLE EXPRESSION FUNCTIONS (Alteryx-specific)\n# =============================================================================\n\nclass AlteryxExpressionFunctions:\n    \"\"\"\n    Alteryx-compatible expression functions for use in eval().\n    \n    This class provides all the functions available in Alteryx expressions:\n    - DateTime: DateTimeAdd, DateTimeDiff, DateTimeToday, etc.\n    - Math: Abs, Ceil, Floor, Round, Sqrt, etc.\n    - String: Length, Upper, Lower, Left, Right, etc.\n    - Conversion: ToNumber, ToString, ToInteger\n    - Constants: True, False, None, Null\n    \n    Reference: https://help.alteryx.com/current/en/designer/functions.html\n    \"\"\"\n    \n    def __init__(self):\n        self._functions = self._build_all_functions()\n    \n    def _get_datetime_functions(self) -> Dict[str, Callable]:\n        \"\"\"DateTime functions for expression evaluation.\"\"\"\n        \n        def DateTimeAdd(dt, interval: int, unit: str):\n            \"\"\"Add interval to datetime. Alteryx-compatible.\"\"\"\n            unit = unit.lower().rstrip('s')\n            unit_map = {\n                'day': 'days', 'hour': 'hours', 'minute': 'minutes',\n                'second': 'seconds', 'week': 'weeks', 'month': 'months', 'year': 'years',\n            }\n            pd_unit = unit_map.get(unit, unit + 's')\n            if pd_unit in ['months', 'years']:\n                return dt + pd.DateOffset(**{pd_unit: interval})\n            return dt + pd.Timedelta(**{pd_unit: interval})\n        \n        def DateTimeDiff(dt1, dt2, unit: str) -> float:\n            \"\"\"Difference between two datetimes. Returns dt1 - dt2.\"\"\"\n            unit = unit.lower().rstrip('s')\n            diff = pd.Timestamp(dt1) - pd.Timestamp(dt2)\n            unit_divisors = {\n                'day': lambda d: d.days,\n                'hour': lambda d: d.total_seconds() / 3600,\n                'minute': lambda d: d.total_seconds() / 60,\n                'second': lambda d: d.total_seconds(),\n                'week': lambda d: d.days / 7,\n            }\n            return unit_divisors.get(unit, lambda d: d.days)(diff)\n        \n        return {\n            \"DateTimeAdd\": DateTimeAdd,\n            \"DateTimeDiff\": DateTimeDiff,\n            \"DateTimeToday\": lambda: pd.Timestamp.today().normalize(),\n            \"DateTimeNow\": lambda: pd.Timestamp.now(),\n            \"DateTimeYear\": lambda dt: pd.Timestamp(dt).year,\n            \"DateTimeMonth\": lambda dt: pd.Timestamp(dt).month,\n            \"DateTimeDay\": lambda dt: pd.Timestamp(dt).day,\n            \"Timedelta\": pd.Timedelta,\n            \"Timestamp\": pd.Timestamp,\n        }\n    \n    def _get_math_functions(self) -> Dict[str, Callable]:\n        \"\"\"Math functions for expression evaluation.\"\"\"\n        import math\n        return {\n            \"Abs\": abs,\n            \"Ceil\": math.ceil,\n            \"Floor\": math.floor,\n            \"Round\": round,\n            \"Pow\": pow,\n            \"Mod\": lambda x, y: x % y,\n            \"Sqrt\": math.sqrt,\n            \"Log\": math.log,\n            \"Log10\": math.log10,\n            \"Exp\": math.exp,\n            \"PI\": math.pi,\n        }\n    \n    def _get_string_functions(self) -> Dict[str, Callable]:\n        \"\"\"String functions for expression evaluation.\"\"\"\n        return {\n            \"Length\": len,\n            \"len\": len,\n            \"Upper\": lambda s: str(s).upper(),\n            \"Lower\": lambda s: str(s).lower(),\n            \"Trim\": lambda s: str(s).strip(),\n            \"Left\": lambda s, n: str(s)[:n],\n            \"Right\": lambda s, n: str(s)[-n:],\n            \"Substring\": lambda s, start, length: str(s)[start:start+length],\n            \"Contains\": lambda s, sub: sub in str(s),\n        }\n    \n    def _get_conversion_functions(self) -> Dict[str, Callable]:\n        \"\"\"Type conversion functions for expression evaluation.\"\"\"\n        return {\n            \"ToNumber\": float,\n            \"ToString\": str,\n            \"ToInteger\": int,\n            \"int\": int,\n            \"float\": float,\n            \"str\": str,\n        }\n    \n    def _get_constants(self) -> Dict[str, Any]:\n        \"\"\"Constants for expression evaluation.\"\"\"\n        return {\n            \"True\": True,\n            \"False\": False,\n            \"None\": None,\n            \"Null\": None,\n        }\n    \n    def _build_all_functions(self) -> Dict[str, Any]:\n        \"\"\"Build complete dictionary of all available functions.\"\"\"\n        functions = {\"__builtins__\": {}}\n        functions.update(self._get_datetime_functions())\n        functions.update(self._get_math_functions())\n        functions.update(self._get_string_functions())\n        functions.update(self._get_conversion_functions())\n        functions.update(self._get_constants())\n        return functions\n    \n    def get_functions(self) -> Dict[str, Any]:\n        \"\"\"Return the functions dictionary for use in eval().\"\"\"\n        return self._functions\n    \n    def get_available_function_names(self) -> list:\n        \"\"\"Return list of available function names.\"\"\"\n        return [k for k in self._functions.keys() if k != \"__builtins__\"]\n    \n    def eval_expression(self, expr: str, context: dict) -> Any:\n        \"\"\"\n        Evaluate a string expression with given context variables.\n        \n        Parameters\n        ----------\n        expr : str\n            Expression to evaluate (e.g., \"RowCount + 1\", \"date <= end_date\")\n        context : dict\n            Variables available in the expression\n        \n        Returns\n        -------\n        Any\n            Result of the expression evaluation.\n        \"\"\"\n        return eval(expr, self._functions, context)\n\n\n# =============================================================================\n# GENERATE ROWS CLASS (Generic logic)\n# =============================================================================\n\nclass GenerateRows:\n    \"\"\"\n    Generate Rows tool implementation.\n    \n    This class handles the row generation logic and can work with\n    different expression function providers (default: AlteryxExpressionFunctions).\n    \n    Parameters\n    ----------\n    expression_functions : object, optional\n        An object that provides eval_expression(expr, context) method.\n        Defaults to AlteryxExpressionFunctions().\n    \n    Example\n    -------\n    >>> generator = GenerateRows()\n    >>> result = generator.generate(\n    ...     output_column_name=\"RowCount\",\n    ...     init_expr=1,\n    ...     condition_expr=\"RowCount <= 10\",\n    ...     loop_expr=\"RowCount + 1\"\n    ... )\n    \"\"\"\n    \n    def __init__(self, expression_functions=None):\n        \"\"\"Initialize with expression functions provider.\"\"\"\n        if expression_functions is None:\n            expression_functions = AlteryxExpressionFunctions()\n        self._expr_funcs = expression_functions\n    \n    def _validate(\n        self,\n        output_column_name: str,\n        init_expr: Any,\n        condition_expr: str,\n        loop_expr: str\n    ) -> None:\n        \"\"\"\n        Validate mandatory parameters.\n        \n        Raises\n        ------\n        ValueError\n            If any mandatory parameter is missing or None.\n        \"\"\"\n        if output_column_name is None or output_column_name == \"\":\n            raise ValueError(\"output_column_name is mandatory and cannot be empty\")\n        \n        if init_expr is None:\n            raise ValueError(\"init_expr is mandatory\")\n        \n        if condition_expr is None or condition_expr == \"\":\n            raise ValueError(\"condition_expr is mandatory and cannot be empty\")\n        \n        if loop_expr is None or loop_expr == \"\":\n            raise ValueError(\"loop_expr is mandatory and cannot be empty\")\n    \n    def _eval_expr(self, expr: str, context: dict) -> Any:\n        \"\"\"Evaluate expression using the expression functions provider.\"\"\"\n        return self._expr_funcs.eval_expression(expr, context)\n    \n    def generate(\n        self,\n        df: Optional[pd.DataFrame] = None,\n        output_column_name: str = None,\n        init_expr: Any = None,\n        condition_expr: str = None,\n        loop_expr: str = None,\n        max_iterations: int = 100000\n    ) -> pd.DataFrame:\n        \"\"\"\n        Generate rows based on initialization, condition, and loop expressions.\n        \n        Parameters\n        ----------\n        df : pd.DataFrame, optional\n            Input dataframe. If None, generates rows as a standalone sequence.\n            If provided, generates rows for EACH input record.\n        \n        output_column_name : str (mandatory)\n            Name of the output column / loop variable (e.g., \"RowCount\", \"date\")\n        \n        init_expr : Any (mandatory)\n            Initialization expression. Can be:\n            - Direct value: 1, pd.Timestamp('2024-01-01')\n            - String expression: \"start_date\", \"DateTimeAdd(start_date, 1, 'day')\"\n        \n        condition_expr : str (mandatory)\n            Condition expression (loop continues while True).\n            Example: \"RowCount <= 10\", \"date <= end_date\"\n        \n        loop_expr : str (mandatory)\n            Loop/increment expression.\n            Example: \"RowCount + 1\", \"DateTimeAdd(date, 1, 'day')\"\n        \n        max_iterations : int, default 100000\n            Safety limit to prevent infinite loops.\n        \n        Returns\n        -------\n        pd.DataFrame\n            DataFrame with generated rows.\n        \"\"\"\n        # Validate mandatory parameters\n        self._validate(output_column_name, init_expr, condition_expr, loop_expr)\n        \n        output_rows = []\n        \n        if df is None or len(df) == 0:\n            # No-input mode: Sequence generator\n            current_value = init_expr\n            iteration = 0\n            \n            while iteration < max_iterations:\n                context = {output_column_name: current_value}\n                \n                if not self._eval_expr(condition_expr, context):\n                    break\n                \n                output_rows.append({output_column_name: current_value})\n                current_value = self._eval_expr(loop_expr, context)\n                iteration += 1\n            \n            if iteration >= max_iterations:\n                print(f\"Warning: Reached max_iterations ({max_iterations}). Loop terminated.\")\n        \n        else:\n            # Row-level processing mode: Loop for EACH input row\n            for idx, row in df.iterrows():\n                row_dict = row.to_dict()\n                \n                # Evaluate init_expr (can be a value, column reference, or expression)\n                if isinstance(init_expr, str):\n                    current_value = self._eval_expr(init_expr, row_dict)\n                else:\n                    current_value = init_expr\n                \n                iteration = 0\n                \n                while iteration < max_iterations:\n                    context = {**row_dict, output_column_name: current_value}\n                    \n                    if not self._eval_expr(condition_expr, context):\n                        break\n                    \n                    new_row = row_dict.copy()\n                    new_row[output_column_name] = current_value\n                    output_rows.append(new_row)\n                    \n                    current_value = self._eval_expr(loop_expr, context)\n                    iteration += 1\n                \n                if iteration >= max_iterations:\n                    print(f\"Warning: Reached max_iterations ({max_iterations}) for row {idx}.\")\n        \n        # Return result dataframe\n        if len(output_rows) == 0:\n            if df is not None:\n                return pd.DataFrame(columns=list(df.columns) + [output_column_name])\n            else:\n                return pd.DataFrame(columns=[output_column_name])\n        \n        return pd.DataFrame(output_rows)\n\n\n# =============================================================================\n# CONVENIENCE FUNCTION (for simple usage)\n# =============================================================================\n\n# Default instance\n_default_generator = GenerateRows()\n\n\ndef generate_rows(\n    df: Optional[pd.DataFrame] = None,\n    output_column_name: str = None,\n    init_expr: Any = None,\n    condition_expr: str = None,\n    loop_expr: str = None,\n    max_iterations: int = 100000\n) -> pd.DataFrame:\n    \"\"\"\n    Convenience function using default GenerateRows instance.\n    \n    See GenerateRows.generate() for full documentation.\n    \"\"\"\n    return _default_generator.generate(\n        df=df,\n        output_column_name=output_column_name,\n        init_expr=init_expr,\n        condition_expr=condition_expr,\n        loop_expr=loop_expr,\n        max_iterations=max_iterations\n    )\n\nout0 = generate_rows(\n            df=in0,\n            output_column_name=\"n\",\n            init_expr=\"0\",\n            condition_expr=\"(n < 10)\",\n            loop_expr=\"(n + 1)\"\n)\n"
       },
       "ports" : {
         "inputs" : [ {
           "id" : "45_Input",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "s",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "e",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            } ]
-          },
           "slug" : "in0"
         } ],
         "outputs" : [ {
@@ -140,41 +124,7 @@
         "outputs" : [ {
           "id" : "51_True",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
-      }
-    },
-    "RYSUIbPS0zdx16y794aNA" : {
-      "id" : "RYSUIbPS0zdx16y794aNA",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "GenerateRows_43_dropSeq_0",
-        "x" : 360,
-        "y" : 324,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "* EXCEPT(`seq`)",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
         } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "I4-68dJXlzk_CySkHtoZV",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "Aci9lqplN4-7R6bysUaKs",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
       }
     },
     "62" : {
@@ -195,7 +145,7 @@
           },
           "alias" : "`Value`",
           "description" : null,
-          "_row_id" : "R2Vwt8L1IrwKUo0akCt3e"
+          "_row_id" : "HB5IQxicULBBemdmpBSnv"
         }, {
           "expression" : {
             "expression" : "* EXCEPT(`Value`)",
@@ -214,8 +164,7 @@
         "outputs" : [ {
           "id" : "62_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       }
     },
     "44" : {
@@ -228,24 +177,13 @@
         "phase" : 0
       },
       "properties" : {
-        "ports" : null,
-        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
-        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: Dataframe, in1: Dataframe) -> (Dataframe):",
+        "scriptMethodFooter" : "return (out0)",
         "script" : "\"\"\"\nAlteryx Generate Rows Tool - Python/Pandas Implementation\n\nReplicates the Alteryx Generate Rows tool which generates new rows \nbased on initialization, condition, and loop expressions.\n\nBehavior:\n- If no incoming dataframe: Acts as a sequence generator\n- If incoming dataframe: Executes loop for EACH input row (row-level processing)\n\"\"\"\n\nimport pandas as pd\nfrom typing import Optional, Any, Dict, Callable\n\n\n# =============================================================================\n# ALTERYX-COMPATIBLE EXPRESSION FUNCTIONS (Alteryx-specific)\n# =============================================================================\n\nclass AlteryxExpressionFunctions:\n    \"\"\"\n    Alteryx-compatible expression functions for use in eval().\n    \n    This class provides all the functions available in Alteryx expressions:\n    - DateTime: DateTimeAdd, DateTimeDiff, DateTimeToday, etc.\n    - Math: Abs, Ceil, Floor, Round, Sqrt, etc.\n    - String: Length, Upper, Lower, Left, Right, etc.\n    - Conversion: ToNumber, ToString, ToInteger\n    - Constants: True, False, None, Null\n    \n    Reference: https://help.alteryx.com/current/en/designer/functions.html\n    \"\"\"\n    \n    def __init__(self):\n        self._functions = self._build_all_functions()\n    \n    def _get_datetime_functions(self) -> Dict[str, Callable]:\n        \"\"\"DateTime functions for expression evaluation.\"\"\"\n        \n        def DateTimeAdd(dt, interval: int, unit: str):\n            \"\"\"Add interval to datetime. Alteryx-compatible.\"\"\"\n            unit = unit.lower().rstrip('s')\n            unit_map = {\n                'day': 'days', 'hour': 'hours', 'minute': 'minutes',\n                'second': 'seconds', 'week': 'weeks', 'month': 'months', 'year': 'years',\n            }\n            pd_unit = unit_map.get(unit, unit + 's')\n            if pd_unit in ['months', 'years']:\n                return dt + pd.DateOffset(**{pd_unit: interval})\n            return dt + pd.Timedelta(**{pd_unit: interval})\n        \n        def DateTimeDiff(dt1, dt2, unit: str) -> float:\n            \"\"\"Difference between two datetimes. Returns dt1 - dt2.\"\"\"\n            unit = unit.lower().rstrip('s')\n            diff = pd.Timestamp(dt1) - pd.Timestamp(dt2)\n            unit_divisors = {\n                'day': lambda d: d.days,\n                'hour': lambda d: d.total_seconds() / 3600,\n                'minute': lambda d: d.total_seconds() / 60,\n                'second': lambda d: d.total_seconds(),\n                'week': lambda d: d.days / 7,\n            }\n            return unit_divisors.get(unit, lambda d: d.days)(diff)\n        \n        return {\n            \"DateTimeAdd\": DateTimeAdd,\n            \"DateTimeDiff\": DateTimeDiff,\n            \"DateTimeToday\": lambda: pd.Timestamp.today().normalize(),\n            \"DateTimeNow\": lambda: pd.Timestamp.now(),\n            \"DateTimeYear\": lambda dt: pd.Timestamp(dt).year,\n            \"DateTimeMonth\": lambda dt: pd.Timestamp(dt).month,\n            \"DateTimeDay\": lambda dt: pd.Timestamp(dt).day,\n            \"Timedelta\": pd.Timedelta,\n            \"Timestamp\": pd.Timestamp,\n        }\n    \n    def _get_math_functions(self) -> Dict[str, Callable]:\n        \"\"\"Math functions for expression evaluation.\"\"\"\n        import math\n        return {\n            \"Abs\": abs,\n            \"Ceil\": math.ceil,\n            \"Floor\": math.floor,\n            \"Round\": round,\n            \"Pow\": pow,\n            \"Mod\": lambda x, y: x % y,\n            \"Sqrt\": math.sqrt,\n            \"Log\": math.log,\n            \"Log10\": math.log10,\n            \"Exp\": math.exp,\n            \"PI\": math.pi,\n        }\n    \n    def _get_string_functions(self) -> Dict[str, Callable]:\n        \"\"\"String functions for expression evaluation.\"\"\"\n        return {\n            \"Length\": len,\n            \"len\": len,\n            \"Upper\": lambda s: str(s).upper(),\n            \"Lower\": lambda s: str(s).lower(),\n            \"Trim\": lambda s: str(s).strip(),\n            \"Left\": lambda s, n: str(s)[:n],\n            \"Right\": lambda s, n: str(s)[-n:],\n            \"Substring\": lambda s, start, length: str(s)[start:start+length],\n            \"Contains\": lambda s, sub: sub in str(s),\n        }\n    \n    def _get_conversion_functions(self) -> Dict[str, Callable]:\n        \"\"\"Type conversion functions for expression evaluation.\"\"\"\n        return {\n            \"ToNumber\": float,\n            \"ToString\": str,\n            \"ToInteger\": int,\n            \"int\": int,\n            \"float\": float,\n            \"str\": str,\n        }\n    \n    def _get_constants(self) -> Dict[str, Any]:\n        \"\"\"Constants for expression evaluation.\"\"\"\n        return {\n            \"True\": True,\n            \"False\": False,\n            \"None\": None,\n            \"Null\": None,\n        }\n    \n    def _build_all_functions(self) -> Dict[str, Any]:\n        \"\"\"Build complete dictionary of all available functions.\"\"\"\n        functions = {\"__builtins__\": {}}\n        functions.update(self._get_datetime_functions())\n        functions.update(self._get_math_functions())\n        functions.update(self._get_string_functions())\n        functions.update(self._get_conversion_functions())\n        functions.update(self._get_constants())\n        return functions\n    \n    def get_functions(self) -> Dict[str, Any]:\n        \"\"\"Return the functions dictionary for use in eval().\"\"\"\n        return self._functions\n    \n    def get_available_function_names(self) -> list:\n        \"\"\"Return list of available function names.\"\"\"\n        return [k for k in self._functions.keys() if k != \"__builtins__\"]\n    \n    def eval_expression(self, expr: str, context: dict) -> Any:\n        \"\"\"\n        Evaluate a string expression with given context variables.\n        \n        Parameters\n        ----------\n        expr : str\n            Expression to evaluate (e.g., \"RowCount + 1\", \"date <= end_date\")\n        context : dict\n            Variables available in the expression\n        \n        Returns\n        -------\n        Any\n            Result of the expression evaluation.\n        \"\"\"\n        return eval(expr, self._functions, context)\n\n\n# =============================================================================\n# GENERATE ROWS CLASS (Generic logic)\n# =============================================================================\n\nclass GenerateRows:\n    \"\"\"\n    Generate Rows tool implementation.\n    \n    This class handles the row generation logic and can work with\n    different expression function providers (default: AlteryxExpressionFunctions).\n    \n    Parameters\n    ----------\n    expression_functions : object, optional\n        An object that provides eval_expression(expr, context) method.\n        Defaults to AlteryxExpressionFunctions().\n    \n    Example\n    -------\n    >>> generator = GenerateRows()\n    >>> result = generator.generate(\n    ...     output_column_name=\"RowCount\",\n    ...     init_expr=1,\n    ...     condition_expr=\"RowCount <= 10\",\n    ...     loop_expr=\"RowCount + 1\"\n    ... )\n    \"\"\"\n    \n    def __init__(self, expression_functions=None):\n        \"\"\"Initialize with expression functions provider.\"\"\"\n        if expression_functions is None:\n            expression_functions = AlteryxExpressionFunctions()\n        self._expr_funcs = expression_functions\n    \n    def _validate(\n        self,\n        output_column_name: str,\n        init_expr: Any,\n        condition_expr: str,\n        loop_expr: str\n    ) -> None:\n        \"\"\"\n        Validate mandatory parameters.\n        \n        Raises\n        ------\n        ValueError\n            If any mandatory parameter is missing or None.\n        \"\"\"\n        if output_column_name is None or output_column_name == \"\":\n            raise ValueError(\"output_column_name is mandatory and cannot be empty\")\n        \n        if init_expr is None:\n            raise ValueError(\"init_expr is mandatory\")\n        \n        if condition_expr is None or condition_expr == \"\":\n            raise ValueError(\"condition_expr is mandatory and cannot be empty\")\n        \n        if loop_expr is None or loop_expr == \"\":\n            raise ValueError(\"loop_expr is mandatory and cannot be empty\")\n    \n    def _eval_expr(self, expr: str, context: dict) -> Any:\n        \"\"\"Evaluate expression using the expression functions provider.\"\"\"\n        return self._expr_funcs.eval_expression(expr, context)\n    \n    def generate(\n        self,\n        df: Optional[pd.DataFrame] = None,\n        output_column_name: str = None,\n        init_expr: Any = None,\n        condition_expr: str = None,\n        loop_expr: str = None,\n        max_iterations: int = 100000\n    ) -> pd.DataFrame:\n        \"\"\"\n        Generate rows based on initialization, condition, and loop expressions.\n        \n        Parameters\n        ----------\n        df : pd.DataFrame, optional\n            Input dataframe. If None, generates rows as a standalone sequence.\n            If provided, generates rows for EACH input record.\n        \n        output_column_name : str (mandatory)\n            Name of the output column / loop variable (e.g., \"RowCount\", \"date\")\n        \n        init_expr : Any (mandatory)\n            Initialization expression. Can be:\n            - Direct value: 1, pd.Timestamp('2024-01-01')\n            - String expression: \"start_date\", \"DateTimeAdd(start_date, 1, 'day')\"\n        \n        condition_expr : str (mandatory)\n            Condition expression (loop continues while True).\n            Example: \"RowCount <= 10\", \"date <= end_date\"\n        \n        loop_expr : str (mandatory)\n            Loop/increment expression.\n            Example: \"RowCount + 1\", \"DateTimeAdd(date, 1, 'day')\"\n        \n        max_iterations : int, default 100000\n            Safety limit to prevent infinite loops.\n        \n        Returns\n        -------\n        pd.DataFrame\n            DataFrame with generated rows.\n        \"\"\"\n        # Validate mandatory parameters\n        self._validate(output_column_name, init_expr, condition_expr, loop_expr)\n        \n        output_rows = []\n        \n        if df is None or len(df) == 0:\n            # No-input mode: Sequence generator\n            current_value = init_expr\n            iteration = 0\n            \n            while iteration < max_iterations:\n                context = {output_column_name: current_value}\n                \n                if not self._eval_expr(condition_expr, context):\n                    break\n                \n                output_rows.append({output_column_name: current_value})\n                current_value = self._eval_expr(loop_expr, context)\n                iteration += 1\n            \n            if iteration >= max_iterations:\n                print(f\"Warning: Reached max_iterations ({max_iterations}). Loop terminated.\")\n        \n        else:\n            # Row-level processing mode: Loop for EACH input row\n            for idx, row in df.iterrows():\n                row_dict = row.to_dict()\n                \n                # Evaluate init_expr (can be a value, column reference, or expression)\n                if isinstance(init_expr, str):\n                    current_value = self._eval_expr(init_expr, row_dict)\n                else:\n                    current_value = init_expr\n                \n                iteration = 0\n                \n                while iteration < max_iterations:\n                    context = {**row_dict, output_column_name: current_value}\n                    \n                    if not self._eval_expr(condition_expr, context):\n                        break\n                    \n                    new_row = row_dict.copy()\n                    new_row[output_column_name] = current_value\n                    output_rows.append(new_row)\n                    \n                    current_value = self._eval_expr(loop_expr, context)\n                    iteration += 1\n                \n                if iteration >= max_iterations:\n                    print(f\"Warning: Reached max_iterations ({max_iterations}) for row {idx}.\")\n        \n        # Return result dataframe\n        if len(output_rows) == 0:\n            if df is not None:\n                return pd.DataFrame(columns=list(df.columns) + [output_column_name])\n            else:\n                return pd.DataFrame(columns=[output_column_name])\n        \n        return pd.DataFrame(output_rows)\n\n\n# =============================================================================\n# CONVENIENCE FUNCTION (for simple usage)\n# =============================================================================\n\n# Default instance\n_default_generator = GenerateRows()\n\n\ndef generate_rows(\n    df: Optional[pd.DataFrame] = None,\n    output_column_name: str = None,\n    init_expr: Any = None,\n    condition_expr: str = None,\n    loop_expr: str = None,\n    max_iterations: int = 100000\n) -> pd.DataFrame:\n    \"\"\"\n    Convenience function using default GenerateRows instance.\n    \n    See GenerateRows.generate() for full documentation.\n    \"\"\"\n    return _default_generator.generate(\n        df=df,\n        output_column_name=output_column_name,\n        init_expr=init_expr,\n        condition_expr=condition_expr,\n        loop_expr=loop_expr,\n        max_iterations=max_iterations\n    )\n\nout0 = generate_rows(\n            df=in0,\n            output_column_name=\"e\",\n            init_expr=\"0\",\n            condition_expr=\"(e < 10)\",\n            loop_expr=\"(e + 1)\"\n)\n"
       },
       "ports" : {
         "inputs" : [ {
           "id" : "44_Input",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "s",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            } ]
-          },
           "slug" : "in0"
         } ],
         "outputs" : [ {
@@ -287,7 +225,7 @@
           },
           "alias" : "RecordID",
           "description" : null,
-          "_row_id" : "9QekqKMJld7XfHPmisNr2"
+          "_row_id" : "EUo3KveSB9nozIq-ZFxS0"
         } ],
         "dedupType" : "distinct"
       },
@@ -299,8 +237,7 @@
         "outputs" : [ {
           "id" : "56_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       }
     },
     "55" : {
@@ -314,35 +251,9 @@
       },
       "properties" : {
         "relation_name" : [ "Join_57_left" ],
-        "_oldMacroProperties" : {
-          "macroName" : "Transpose",
-          "projectName" : "prophecy_basics",
-          "parameters" : [ {
-            "name" : "relation_name",
-            "value" : "[\"Join_57_left\"]"
-          }, {
-            "name" : "schema",
-            "value" : "[{\"name\": \"e\", \"dataType\": \"Numeric\"}, {\"name\": \"s\", \"dataType\": \"Numeric\"}, {\"name\": \"n\", \"dataType\": \"Numeric\"}, {\"name\": \"y\", \"dataType\": \"Numeric\"}, {\"name\": \"m\", \"dataType\": \"Numeric\"}, {\"name\": \"r\", \"dataType\": \"Numeric\"}, {\"name\": \"o\", \"dataType\": \"Numeric\"}, {\"name\": \"d\", \"dataType\": \"Numeric\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}]"
-          }, {
-            "name" : "nameColumn",
-            "value" : "Name"
-          }, {
-            "name" : "valueColumn",
-            "value" : "Value"
-          }, {
-            "name" : "keyColumns",
-            "value" : "[]"
-          }, {
-            "name" : "dataColumns",
-            "value" : "[\"RecordID\", \"s\", \"e\", \"n\", \"d\", \"m\", \"o\", \"r\", \"y\"]"
-          }, {
-            "name" : "customNames",
-            "value" : "true"
-          } ]
-        },
         "dataColumns" : [ "RecordID", "s", "e", "n", "d", "m", "o", "r", "y" ],
         "customNames" : true,
-        "schema" : "[{\"name\": \"e\", \"dataType\": \"Numeric\"}, {\"name\": \"s\", \"dataType\": \"Numeric\"}, {\"name\": \"n\", \"dataType\": \"Numeric\"}, {\"name\": \"y\", \"dataType\": \"Numeric\"}, {\"name\": \"m\", \"dataType\": \"Numeric\"}, {\"name\": \"r\", \"dataType\": \"Numeric\"}, {\"name\": \"o\", \"dataType\": \"Numeric\"}, {\"name\": \"d\", \"dataType\": \"Numeric\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}]",
+        "schema" : "[{\"name\": \"e\", \"dataType\": \"Integer\"}, {\"name\": \"s\", \"dataType\": \"Integer\"}, {\"name\": \"n\", \"dataType\": \"Integer\"}, {\"name\": \"y\", \"dataType\": \"Integer\"}, {\"name\": \"m\", \"dataType\": \"Integer\"}, {\"name\": \"r\", \"dataType\": \"Integer\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}, {\"name\": \"o\", \"dataType\": \"Integer\"}, {\"name\": \"d\", \"dataType\": \"Integer\"}]",
         "valueColumn" : "Value",
         "keyColumns" : [ ],
         "nameColumn" : "Name"
@@ -354,9 +265,23 @@
         } ],
         "outputs" : [ {
           "id" : "55_Output",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "Name",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "Value",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "componentInfo" : {
         "gemId" : "Transpose_prophecy_basics",
@@ -375,54 +300,13 @@
         "phase" : 0
       },
       "properties" : {
-        "ports" : null,
-        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
-        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: Dataframe, in1: Dataframe) -> (Dataframe):",
+        "scriptMethodFooter" : "return (out0)",
         "script" : "\"\"\"\nAlteryx Generate Rows Tool - Python/Pandas Implementation\n\nReplicates the Alteryx Generate Rows tool which generates new rows \nbased on initialization, condition, and loop expressions.\n\nBehavior:\n- If no incoming dataframe: Acts as a sequence generator\n- If incoming dataframe: Executes loop for EACH input row (row-level processing)\n\"\"\"\n\nimport pandas as pd\nfrom typing import Optional, Any, Dict, Callable\n\n\n# =============================================================================\n# ALTERYX-COMPATIBLE EXPRESSION FUNCTIONS (Alteryx-specific)\n# =============================================================================\n\nclass AlteryxExpressionFunctions:\n    \"\"\"\n    Alteryx-compatible expression functions for use in eval().\n    \n    This class provides all the functions available in Alteryx expressions:\n    - DateTime: DateTimeAdd, DateTimeDiff, DateTimeToday, etc.\n    - Math: Abs, Ceil, Floor, Round, Sqrt, etc.\n    - String: Length, Upper, Lower, Left, Right, etc.\n    - Conversion: ToNumber, ToString, ToInteger\n    - Constants: True, False, None, Null\n    \n    Reference: https://help.alteryx.com/current/en/designer/functions.html\n    \"\"\"\n    \n    def __init__(self):\n        self._functions = self._build_all_functions()\n    \n    def _get_datetime_functions(self) -> Dict[str, Callable]:\n        \"\"\"DateTime functions for expression evaluation.\"\"\"\n        \n        def DateTimeAdd(dt, interval: int, unit: str):\n            \"\"\"Add interval to datetime. Alteryx-compatible.\"\"\"\n            unit = unit.lower().rstrip('s')\n            unit_map = {\n                'day': 'days', 'hour': 'hours', 'minute': 'minutes',\n                'second': 'seconds', 'week': 'weeks', 'month': 'months', 'year': 'years',\n            }\n            pd_unit = unit_map.get(unit, unit + 's')\n            if pd_unit in ['months', 'years']:\n                return dt + pd.DateOffset(**{pd_unit: interval})\n            return dt + pd.Timedelta(**{pd_unit: interval})\n        \n        def DateTimeDiff(dt1, dt2, unit: str) -> float:\n            \"\"\"Difference between two datetimes. Returns dt1 - dt2.\"\"\"\n            unit = unit.lower().rstrip('s')\n            diff = pd.Timestamp(dt1) - pd.Timestamp(dt2)\n            unit_divisors = {\n                'day': lambda d: d.days,\n                'hour': lambda d: d.total_seconds() / 3600,\n                'minute': lambda d: d.total_seconds() / 60,\n                'second': lambda d: d.total_seconds(),\n                'week': lambda d: d.days / 7,\n            }\n            return unit_divisors.get(unit, lambda d: d.days)(diff)\n        \n        return {\n            \"DateTimeAdd\": DateTimeAdd,\n            \"DateTimeDiff\": DateTimeDiff,\n            \"DateTimeToday\": lambda: pd.Timestamp.today().normalize(),\n            \"DateTimeNow\": lambda: pd.Timestamp.now(),\n            \"DateTimeYear\": lambda dt: pd.Timestamp(dt).year,\n            \"DateTimeMonth\": lambda dt: pd.Timestamp(dt).month,\n            \"DateTimeDay\": lambda dt: pd.Timestamp(dt).day,\n            \"Timedelta\": pd.Timedelta,\n            \"Timestamp\": pd.Timestamp,\n        }\n    \n    def _get_math_functions(self) -> Dict[str, Callable]:\n        \"\"\"Math functions for expression evaluation.\"\"\"\n        import math\n        return {\n            \"Abs\": abs,\n            \"Ceil\": math.ceil,\n            \"Floor\": math.floor,\n            \"Round\": round,\n            \"Pow\": pow,\n            \"Mod\": lambda x, y: x % y,\n            \"Sqrt\": math.sqrt,\n            \"Log\": math.log,\n            \"Log10\": math.log10,\n            \"Exp\": math.exp,\n            \"PI\": math.pi,\n        }\n    \n    def _get_string_functions(self) -> Dict[str, Callable]:\n        \"\"\"String functions for expression evaluation.\"\"\"\n        return {\n            \"Length\": len,\n            \"len\": len,\n            \"Upper\": lambda s: str(s).upper(),\n            \"Lower\": lambda s: str(s).lower(),\n            \"Trim\": lambda s: str(s).strip(),\n            \"Left\": lambda s, n: str(s)[:n],\n            \"Right\": lambda s, n: str(s)[-n:],\n            \"Substring\": lambda s, start, length: str(s)[start:start+length],\n            \"Contains\": lambda s, sub: sub in str(s),\n        }\n    \n    def _get_conversion_functions(self) -> Dict[str, Callable]:\n        \"\"\"Type conversion functions for expression evaluation.\"\"\"\n        return {\n            \"ToNumber\": float,\n            \"ToString\": str,\n            \"ToInteger\": int,\n            \"int\": int,\n            \"float\": float,\n            \"str\": str,\n        }\n    \n    def _get_constants(self) -> Dict[str, Any]:\n        \"\"\"Constants for expression evaluation.\"\"\"\n        return {\n            \"True\": True,\n            \"False\": False,\n            \"None\": None,\n            \"Null\": None,\n        }\n    \n    def _build_all_functions(self) -> Dict[str, Any]:\n        \"\"\"Build complete dictionary of all available functions.\"\"\"\n        functions = {\"__builtins__\": {}}\n        functions.update(self._get_datetime_functions())\n        functions.update(self._get_math_functions())\n        functions.update(self._get_string_functions())\n        functions.update(self._get_conversion_functions())\n        functions.update(self._get_constants())\n        return functions\n    \n    def get_functions(self) -> Dict[str, Any]:\n        \"\"\"Return the functions dictionary for use in eval().\"\"\"\n        return self._functions\n    \n    def get_available_function_names(self) -> list:\n        \"\"\"Return list of available function names.\"\"\"\n        return [k for k in self._functions.keys() if k != \"__builtins__\"]\n    \n    def eval_expression(self, expr: str, context: dict) -> Any:\n        \"\"\"\n        Evaluate a string expression with given context variables.\n        \n        Parameters\n        ----------\n        expr : str\n            Expression to evaluate (e.g., \"RowCount + 1\", \"date <= end_date\")\n        context : dict\n            Variables available in the expression\n        \n        Returns\n        -------\n        Any\n            Result of the expression evaluation.\n        \"\"\"\n        return eval(expr, self._functions, context)\n\n\n# =============================================================================\n# GENERATE ROWS CLASS (Generic logic)\n# =============================================================================\n\nclass GenerateRows:\n    \"\"\"\n    Generate Rows tool implementation.\n    \n    This class handles the row generation logic and can work with\n    different expression function providers (default: AlteryxExpressionFunctions).\n    \n    Parameters\n    ----------\n    expression_functions : object, optional\n        An object that provides eval_expression(expr, context) method.\n        Defaults to AlteryxExpressionFunctions().\n    \n    Example\n    -------\n    >>> generator = GenerateRows()\n    >>> result = generator.generate(\n    ...     output_column_name=\"RowCount\",\n    ...     init_expr=1,\n    ...     condition_expr=\"RowCount <= 10\",\n    ...     loop_expr=\"RowCount + 1\"\n    ... )\n    \"\"\"\n    \n    def __init__(self, expression_functions=None):\n        \"\"\"Initialize with expression functions provider.\"\"\"\n        if expression_functions is None:\n            expression_functions = AlteryxExpressionFunctions()\n        self._expr_funcs = expression_functions\n    \n    def _validate(\n        self,\n        output_column_name: str,\n        init_expr: Any,\n        condition_expr: str,\n        loop_expr: str\n    ) -> None:\n        \"\"\"\n        Validate mandatory parameters.\n        \n        Raises\n        ------\n        ValueError\n            If any mandatory parameter is missing or None.\n        \"\"\"\n        if output_column_name is None or output_column_name == \"\":\n            raise ValueError(\"output_column_name is mandatory and cannot be empty\")\n        \n        if init_expr is None:\n            raise ValueError(\"init_expr is mandatory\")\n        \n        if condition_expr is None or condition_expr == \"\":\n            raise ValueError(\"condition_expr is mandatory and cannot be empty\")\n        \n        if loop_expr is None or loop_expr == \"\":\n            raise ValueError(\"loop_expr is mandatory and cannot be empty\")\n    \n    def _eval_expr(self, expr: str, context: dict) -> Any:\n        \"\"\"Evaluate expression using the expression functions provider.\"\"\"\n        return self._expr_funcs.eval_expression(expr, context)\n    \n    def generate(\n        self,\n        df: Optional[pd.DataFrame] = None,\n        output_column_name: str = None,\n        init_expr: Any = None,\n        condition_expr: str = None,\n        loop_expr: str = None,\n        max_iterations: int = 100000\n    ) -> pd.DataFrame:\n        \"\"\"\n        Generate rows based on initialization, condition, and loop expressions.\n        \n        Parameters\n        ----------\n        df : pd.DataFrame, optional\n            Input dataframe. If None, generates rows as a standalone sequence.\n            If provided, generates rows for EACH input record.\n        \n        output_column_name : str (mandatory)\n            Name of the output column / loop variable (e.g., \"RowCount\", \"date\")\n        \n        init_expr : Any (mandatory)\n            Initialization expression. Can be:\n            - Direct value: 1, pd.Timestamp('2024-01-01')\n            - String expression: \"start_date\", \"DateTimeAdd(start_date, 1, 'day')\"\n        \n        condition_expr : str (mandatory)\n            Condition expression (loop continues while True).\n            Example: \"RowCount <= 10\", \"date <= end_date\"\n        \n        loop_expr : str (mandatory)\n            Loop/increment expression.\n            Example: \"RowCount + 1\", \"DateTimeAdd(date, 1, 'day')\"\n        \n        max_iterations : int, default 100000\n            Safety limit to prevent infinite loops.\n        \n        Returns\n        -------\n        pd.DataFrame\n            DataFrame with generated rows.\n        \"\"\"\n        # Validate mandatory parameters\n        self._validate(output_column_name, init_expr, condition_expr, loop_expr)\n        \n        output_rows = []\n        \n        if df is None or len(df) == 0:\n            # No-input mode: Sequence generator\n            current_value = init_expr\n            iteration = 0\n            \n            while iteration < max_iterations:\n                context = {output_column_name: current_value}\n                \n                if not self._eval_expr(condition_expr, context):\n                    break\n                \n                output_rows.append({output_column_name: current_value})\n                current_value = self._eval_expr(loop_expr, context)\n                iteration += 1\n            \n            if iteration >= max_iterations:\n                print(f\"Warning: Reached max_iterations ({max_iterations}). Loop terminated.\")\n        \n        else:\n            # Row-level processing mode: Loop for EACH input row\n            for idx, row in df.iterrows():\n                row_dict = row.to_dict()\n                \n                # Evaluate init_expr (can be a value, column reference, or expression)\n                if isinstance(init_expr, str):\n                    current_value = self._eval_expr(init_expr, row_dict)\n                else:\n                    current_value = init_expr\n                \n                iteration = 0\n                \n                while iteration < max_iterations:\n                    context = {**row_dict, output_column_name: current_value}\n                    \n                    if not self._eval_expr(condition_expr, context):\n                        break\n                    \n                    new_row = row_dict.copy()\n                    new_row[output_column_name] = current_value\n                    output_rows.append(new_row)\n                    \n                    current_value = self._eval_expr(loop_expr, context)\n                    iteration += 1\n                \n                if iteration >= max_iterations:\n                    print(f\"Warning: Reached max_iterations ({max_iterations}) for row {idx}.\")\n        \n        # Return result dataframe\n        if len(output_rows) == 0:\n            if df is not None:\n                return pd.DataFrame(columns=list(df.columns) + [output_column_name])\n            else:\n                return pd.DataFrame(columns=[output_column_name])\n        \n        return pd.DataFrame(output_rows)\n\n\n# =============================================================================\n# CONVENIENCE FUNCTION (for simple usage)\n# =============================================================================\n\n# Default instance\n_default_generator = GenerateRows()\n\n\ndef generate_rows(\n    df: Optional[pd.DataFrame] = None,\n    output_column_name: str = None,\n    init_expr: Any = None,\n    condition_expr: str = None,\n    loop_expr: str = None,\n    max_iterations: int = 100000\n) -> pd.DataFrame:\n    \"\"\"\n    Convenience function using default GenerateRows instance.\n    \n    See GenerateRows.generate() for full documentation.\n    \"\"\"\n    return _default_generator.generate(\n        df=df,\n        output_column_name=output_column_name,\n        init_expr=init_expr,\n        condition_expr=condition_expr,\n        loop_expr=loop_expr,\n        max_iterations=max_iterations\n    )\n\nout0 = generate_rows(\n            df=in0,\n            output_column_name=\"y\",\n            init_expr=\"0\",\n            condition_expr=\"(y < 10)\",\n            loop_expr=\"(y + 1)\"\n)\n"
       },
       "ports" : {
         "inputs" : [ {
           "id" : "50_Input",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "e",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "s",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "n",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "m",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "r",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "o",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "d",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            } ]
-          },
           "slug" : "in0"
         } ],
         "outputs" : [ {
@@ -477,39 +361,6 @@
         "isCustomOutputSchema" : true
       }
     },
-    "68vO3O-0E7W_67i_QjXxf" : {
-      "id" : "68vO3O-0E7W_67i_QjXxf",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "FindReplace_60_reorg_0",
-        "x" : 6120,
-        "y" : 360,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "* EXCEPT(`_rules`)",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "QEvX7wWQk6UqCia6BnMEl",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "ArFYFjsGL9-ZEfquKE0Ti",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
-      }
-    },
     "61" : {
       "id" : "61",
       "component" : "Reformat",
@@ -528,7 +379,7 @@
           },
           "alias" : "solution",
           "description" : null,
-          "_row_id" : "Zarf87gESnrDheV70OAAL"
+          "_row_id" : "9RM9VSLAc9Wj-QPW9CJXb"
         } ]
       },
       "ports" : {
@@ -537,43 +388,9 @@
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "Pb3aZa4jDhA5TtphcxoYX",
+          "id" : "q13p2iEPLmvxmszjn-wVb",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
-      }
-    },
-    "d3A7YkDkaF74Acd-DmAV-" : {
-      "id" : "d3A7YkDkaF74Acd-DmAV-",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "TextInput_42_cast",
-        "x" : 5160,
-        "y" : 0,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CAST(Solution AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "Solution",
-          "description" : null,
-          "_row_id" : "tjbu9Y8jOlyPtWFIPpICB"
         } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "SwFM3u1uLR9lcyFKf7JP2",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "Zv6NwA7MIUqi4n_O5YarV",
-          "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
       }
     },
     "46" : {
@@ -586,34 +403,13 @@
         "phase" : 0
       },
       "properties" : {
-        "ports" : null,
-        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
-        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: Dataframe, in1: Dataframe) -> (Dataframe):",
+        "scriptMethodFooter" : "return (out0)",
         "script" : "\"\"\"\nAlteryx Generate Rows Tool - Python/Pandas Implementation\n\nReplicates the Alteryx Generate Rows tool which generates new rows \nbased on initialization, condition, and loop expressions.\n\nBehavior:\n- If no incoming dataframe: Acts as a sequence generator\n- If incoming dataframe: Executes loop for EACH input row (row-level processing)\n\"\"\"\n\nimport pandas as pd\nfrom typing import Optional, Any, Dict, Callable\n\n\n# =============================================================================\n# ALTERYX-COMPATIBLE EXPRESSION FUNCTIONS (Alteryx-specific)\n# =============================================================================\n\nclass AlteryxExpressionFunctions:\n    \"\"\"\n    Alteryx-compatible expression functions for use in eval().\n    \n    This class provides all the functions available in Alteryx expressions:\n    - DateTime: DateTimeAdd, DateTimeDiff, DateTimeToday, etc.\n    - Math: Abs, Ceil, Floor, Round, Sqrt, etc.\n    - String: Length, Upper, Lower, Left, Right, etc.\n    - Conversion: ToNumber, ToString, ToInteger\n    - Constants: True, False, None, Null\n    \n    Reference: https://help.alteryx.com/current/en/designer/functions.html\n    \"\"\"\n    \n    def __init__(self):\n        self._functions = self._build_all_functions()\n    \n    def _get_datetime_functions(self) -> Dict[str, Callable]:\n        \"\"\"DateTime functions for expression evaluation.\"\"\"\n        \n        def DateTimeAdd(dt, interval: int, unit: str):\n            \"\"\"Add interval to datetime. Alteryx-compatible.\"\"\"\n            unit = unit.lower().rstrip('s')\n            unit_map = {\n                'day': 'days', 'hour': 'hours', 'minute': 'minutes',\n                'second': 'seconds', 'week': 'weeks', 'month': 'months', 'year': 'years',\n            }\n            pd_unit = unit_map.get(unit, unit + 's')\n            if pd_unit in ['months', 'years']:\n                return dt + pd.DateOffset(**{pd_unit: interval})\n            return dt + pd.Timedelta(**{pd_unit: interval})\n        \n        def DateTimeDiff(dt1, dt2, unit: str) -> float:\n            \"\"\"Difference between two datetimes. Returns dt1 - dt2.\"\"\"\n            unit = unit.lower().rstrip('s')\n            diff = pd.Timestamp(dt1) - pd.Timestamp(dt2)\n            unit_divisors = {\n                'day': lambda d: d.days,\n                'hour': lambda d: d.total_seconds() / 3600,\n                'minute': lambda d: d.total_seconds() / 60,\n                'second': lambda d: d.total_seconds(),\n                'week': lambda d: d.days / 7,\n            }\n            return unit_divisors.get(unit, lambda d: d.days)(diff)\n        \n        return {\n            \"DateTimeAdd\": DateTimeAdd,\n            \"DateTimeDiff\": DateTimeDiff,\n            \"DateTimeToday\": lambda: pd.Timestamp.today().normalize(),\n            \"DateTimeNow\": lambda: pd.Timestamp.now(),\n            \"DateTimeYear\": lambda dt: pd.Timestamp(dt).year,\n            \"DateTimeMonth\": lambda dt: pd.Timestamp(dt).month,\n            \"DateTimeDay\": lambda dt: pd.Timestamp(dt).day,\n            \"Timedelta\": pd.Timedelta,\n            \"Timestamp\": pd.Timestamp,\n        }\n    \n    def _get_math_functions(self) -> Dict[str, Callable]:\n        \"\"\"Math functions for expression evaluation.\"\"\"\n        import math\n        return {\n            \"Abs\": abs,\n            \"Ceil\": math.ceil,\n            \"Floor\": math.floor,\n            \"Round\": round,\n            \"Pow\": pow,\n            \"Mod\": lambda x, y: x % y,\n            \"Sqrt\": math.sqrt,\n            \"Log\": math.log,\n            \"Log10\": math.log10,\n            \"Exp\": math.exp,\n            \"PI\": math.pi,\n        }\n    \n    def _get_string_functions(self) -> Dict[str, Callable]:\n        \"\"\"String functions for expression evaluation.\"\"\"\n        return {\n            \"Length\": len,\n            \"len\": len,\n            \"Upper\": lambda s: str(s).upper(),\n            \"Lower\": lambda s: str(s).lower(),\n            \"Trim\": lambda s: str(s).strip(),\n            \"Left\": lambda s, n: str(s)[:n],\n            \"Right\": lambda s, n: str(s)[-n:],\n            \"Substring\": lambda s, start, length: str(s)[start:start+length],\n            \"Contains\": lambda s, sub: sub in str(s),\n        }\n    \n    def _get_conversion_functions(self) -> Dict[str, Callable]:\n        \"\"\"Type conversion functions for expression evaluation.\"\"\"\n        return {\n            \"ToNumber\": float,\n            \"ToString\": str,\n            \"ToInteger\": int,\n            \"int\": int,\n            \"float\": float,\n            \"str\": str,\n        }\n    \n    def _get_constants(self) -> Dict[str, Any]:\n        \"\"\"Constants for expression evaluation.\"\"\"\n        return {\n            \"True\": True,\n            \"False\": False,\n            \"None\": None,\n            \"Null\": None,\n        }\n    \n    def _build_all_functions(self) -> Dict[str, Any]:\n        \"\"\"Build complete dictionary of all available functions.\"\"\"\n        functions = {\"__builtins__\": {}}\n        functions.update(self._get_datetime_functions())\n        functions.update(self._get_math_functions())\n        functions.update(self._get_string_functions())\n        functions.update(self._get_conversion_functions())\n        functions.update(self._get_constants())\n        return functions\n    \n    def get_functions(self) -> Dict[str, Any]:\n        \"\"\"Return the functions dictionary for use in eval().\"\"\"\n        return self._functions\n    \n    def get_available_function_names(self) -> list:\n        \"\"\"Return list of available function names.\"\"\"\n        return [k for k in self._functions.keys() if k != \"__builtins__\"]\n    \n    def eval_expression(self, expr: str, context: dict) -> Any:\n        \"\"\"\n        Evaluate a string expression with given context variables.\n        \n        Parameters\n        ----------\n        expr : str\n            Expression to evaluate (e.g., \"RowCount + 1\", \"date <= end_date\")\n        context : dict\n            Variables available in the expression\n        \n        Returns\n        -------\n        Any\n            Result of the expression evaluation.\n        \"\"\"\n        return eval(expr, self._functions, context)\n\n\n# =============================================================================\n# GENERATE ROWS CLASS (Generic logic)\n# =============================================================================\n\nclass GenerateRows:\n    \"\"\"\n    Generate Rows tool implementation.\n    \n    This class handles the row generation logic and can work with\n    different expression function providers (default: AlteryxExpressionFunctions).\n    \n    Parameters\n    ----------\n    expression_functions : object, optional\n        An object that provides eval_expression(expr, context) method.\n        Defaults to AlteryxExpressionFunctions().\n    \n    Example\n    -------\n    >>> generator = GenerateRows()\n    >>> result = generator.generate(\n    ...     output_column_name=\"RowCount\",\n    ...     init_expr=1,\n    ...     condition_expr=\"RowCount <= 10\",\n    ...     loop_expr=\"RowCount + 1\"\n    ... )\n    \"\"\"\n    \n    def __init__(self, expression_functions=None):\n        \"\"\"Initialize with expression functions provider.\"\"\"\n        if expression_functions is None:\n            expression_functions = AlteryxExpressionFunctions()\n        self._expr_funcs = expression_functions\n    \n    def _validate(\n        self,\n        output_column_name: str,\n        init_expr: Any,\n        condition_expr: str,\n        loop_expr: str\n    ) -> None:\n        \"\"\"\n        Validate mandatory parameters.\n        \n        Raises\n        ------\n        ValueError\n            If any mandatory parameter is missing or None.\n        \"\"\"\n        if output_column_name is None or output_column_name == \"\":\n            raise ValueError(\"output_column_name is mandatory and cannot be empty\")\n        \n        if init_expr is None:\n            raise ValueError(\"init_expr is mandatory\")\n        \n        if condition_expr is None or condition_expr == \"\":\n            raise ValueError(\"condition_expr is mandatory and cannot be empty\")\n        \n        if loop_expr is None or loop_expr == \"\":\n            raise ValueError(\"loop_expr is mandatory and cannot be empty\")\n    \n    def _eval_expr(self, expr: str, context: dict) -> Any:\n        \"\"\"Evaluate expression using the expression functions provider.\"\"\"\n        return self._expr_funcs.eval_expression(expr, context)\n    \n    def generate(\n        self,\n        df: Optional[pd.DataFrame] = None,\n        output_column_name: str = None,\n        init_expr: Any = None,\n        condition_expr: str = None,\n        loop_expr: str = None,\n        max_iterations: int = 100000\n    ) -> pd.DataFrame:\n        \"\"\"\n        Generate rows based on initialization, condition, and loop expressions.\n        \n        Parameters\n        ----------\n        df : pd.DataFrame, optional\n            Input dataframe. If None, generates rows as a standalone sequence.\n            If provided, generates rows for EACH input record.\n        \n        output_column_name : str (mandatory)\n            Name of the output column / loop variable (e.g., \"RowCount\", \"date\")\n        \n        init_expr : Any (mandatory)\n            Initialization expression. Can be:\n            - Direct value: 1, pd.Timestamp('2024-01-01')\n            - String expression: \"start_date\", \"DateTimeAdd(start_date, 1, 'day')\"\n        \n        condition_expr : str (mandatory)\n            Condition expression (loop continues while True).\n            Example: \"RowCount <= 10\", \"date <= end_date\"\n        \n        loop_expr : str (mandatory)\n            Loop/increment expression.\n            Example: \"RowCount + 1\", \"DateTimeAdd(date, 1, 'day')\"\n        \n        max_iterations : int, default 100000\n            Safety limit to prevent infinite loops.\n        \n        Returns\n        -------\n        pd.DataFrame\n            DataFrame with generated rows.\n        \"\"\"\n        # Validate mandatory parameters\n        self._validate(output_column_name, init_expr, condition_expr, loop_expr)\n        \n        output_rows = []\n        \n        if df is None or len(df) == 0:\n            # No-input mode: Sequence generator\n            current_value = init_expr\n            iteration = 0\n            \n            while iteration < max_iterations:\n                context = {output_column_name: current_value}\n                \n                if not self._eval_expr(condition_expr, context):\n                    break\n                \n                output_rows.append({output_column_name: current_value})\n                current_value = self._eval_expr(loop_expr, context)\n                iteration += 1\n            \n            if iteration >= max_iterations:\n                print(f\"Warning: Reached max_iterations ({max_iterations}). Loop terminated.\")\n        \n        else:\n            # Row-level processing mode: Loop for EACH input row\n            for idx, row in df.iterrows():\n                row_dict = row.to_dict()\n                \n                # Evaluate init_expr (can be a value, column reference, or expression)\n                if isinstance(init_expr, str):\n                    current_value = self._eval_expr(init_expr, row_dict)\n                else:\n                    current_value = init_expr\n                \n                iteration = 0\n                \n                while iteration < max_iterations:\n                    context = {**row_dict, output_column_name: current_value}\n                    \n                    if not self._eval_expr(condition_expr, context):\n                        break\n                    \n                    new_row = row_dict.copy()\n                    new_row[output_column_name] = current_value\n                    output_rows.append(new_row)\n                    \n                    current_value = self._eval_expr(loop_expr, context)\n                    iteration += 1\n                \n                if iteration >= max_iterations:\n                    print(f\"Warning: Reached max_iterations ({max_iterations}) for row {idx}.\")\n        \n        # Return result dataframe\n        if len(output_rows) == 0:\n            if df is not None:\n                return pd.DataFrame(columns=list(df.columns) + [output_column_name])\n            else:\n                return pd.DataFrame(columns=[output_column_name])\n        \n        return pd.DataFrame(output_rows)\n\n\n# =============================================================================\n# CONVENIENCE FUNCTION (for simple usage)\n# =============================================================================\n\n# Default instance\n_default_generator = GenerateRows()\n\n\ndef generate_rows(\n    df: Optional[pd.DataFrame] = None,\n    output_column_name: str = None,\n    init_expr: Any = None,\n    condition_expr: str = None,\n    loop_expr: str = None,\n    max_iterations: int = 100000\n) -> pd.DataFrame:\n    \"\"\"\n    Convenience function using default GenerateRows instance.\n    \n    See GenerateRows.generate() for full documentation.\n    \"\"\"\n    return _default_generator.generate(\n        df=df,\n        output_column_name=output_column_name,\n        init_expr=init_expr,\n        condition_expr=condition_expr,\n        loop_expr=loop_expr,\n        max_iterations=max_iterations\n    )\n\nout0 = generate_rows(\n            df=in0,\n            output_column_name=\"d\",\n            init_expr=\"0\",\n            condition_expr=\"(d < 10)\",\n            loop_expr=\"(d + 1)\"\n)\n"
       },
       "ports" : {
         "inputs" : [ {
           "id" : "46_Input",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "s",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "e",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "n",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            } ]
-          },
           "slug" : "in0"
         } ],
         "outputs" : [ {
@@ -658,44 +454,13 @@
         "phase" : 0
       },
       "properties" : {
-        "ports" : null,
-        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
-        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: Dataframe, in1: Dataframe) -> (Dataframe):",
+        "scriptMethodFooter" : "return (out0)",
         "script" : "\"\"\"\nAlteryx Generate Rows Tool - Python/Pandas Implementation\n\nReplicates the Alteryx Generate Rows tool which generates new rows \nbased on initialization, condition, and loop expressions.\n\nBehavior:\n- If no incoming dataframe: Acts as a sequence generator\n- If incoming dataframe: Executes loop for EACH input row (row-level processing)\n\"\"\"\n\nimport pandas as pd\nfrom typing import Optional, Any, Dict, Callable\n\n\n# =============================================================================\n# ALTERYX-COMPATIBLE EXPRESSION FUNCTIONS (Alteryx-specific)\n# =============================================================================\n\nclass AlteryxExpressionFunctions:\n    \"\"\"\n    Alteryx-compatible expression functions for use in eval().\n    \n    This class provides all the functions available in Alteryx expressions:\n    - DateTime: DateTimeAdd, DateTimeDiff, DateTimeToday, etc.\n    - Math: Abs, Ceil, Floor, Round, Sqrt, etc.\n    - String: Length, Upper, Lower, Left, Right, etc.\n    - Conversion: ToNumber, ToString, ToInteger\n    - Constants: True, False, None, Null\n    \n    Reference: https://help.alteryx.com/current/en/designer/functions.html\n    \"\"\"\n    \n    def __init__(self):\n        self._functions = self._build_all_functions()\n    \n    def _get_datetime_functions(self) -> Dict[str, Callable]:\n        \"\"\"DateTime functions for expression evaluation.\"\"\"\n        \n        def DateTimeAdd(dt, interval: int, unit: str):\n            \"\"\"Add interval to datetime. Alteryx-compatible.\"\"\"\n            unit = unit.lower().rstrip('s')\n            unit_map = {\n                'day': 'days', 'hour': 'hours', 'minute': 'minutes',\n                'second': 'seconds', 'week': 'weeks', 'month': 'months', 'year': 'years',\n            }\n            pd_unit = unit_map.get(unit, unit + 's')\n            if pd_unit in ['months', 'years']:\n                return dt + pd.DateOffset(**{pd_unit: interval})\n            return dt + pd.Timedelta(**{pd_unit: interval})\n        \n        def DateTimeDiff(dt1, dt2, unit: str) -> float:\n            \"\"\"Difference between two datetimes. Returns dt1 - dt2.\"\"\"\n            unit = unit.lower().rstrip('s')\n            diff = pd.Timestamp(dt1) - pd.Timestamp(dt2)\n            unit_divisors = {\n                'day': lambda d: d.days,\n                'hour': lambda d: d.total_seconds() / 3600,\n                'minute': lambda d: d.total_seconds() / 60,\n                'second': lambda d: d.total_seconds(),\n                'week': lambda d: d.days / 7,\n            }\n            return unit_divisors.get(unit, lambda d: d.days)(diff)\n        \n        return {\n            \"DateTimeAdd\": DateTimeAdd,\n            \"DateTimeDiff\": DateTimeDiff,\n            \"DateTimeToday\": lambda: pd.Timestamp.today().normalize(),\n            \"DateTimeNow\": lambda: pd.Timestamp.now(),\n            \"DateTimeYear\": lambda dt: pd.Timestamp(dt).year,\n            \"DateTimeMonth\": lambda dt: pd.Timestamp(dt).month,\n            \"DateTimeDay\": lambda dt: pd.Timestamp(dt).day,\n            \"Timedelta\": pd.Timedelta,\n            \"Timestamp\": pd.Timestamp,\n        }\n    \n    def _get_math_functions(self) -> Dict[str, Callable]:\n        \"\"\"Math functions for expression evaluation.\"\"\"\n        import math\n        return {\n            \"Abs\": abs,\n            \"Ceil\": math.ceil,\n            \"Floor\": math.floor,\n            \"Round\": round,\n            \"Pow\": pow,\n            \"Mod\": lambda x, y: x % y,\n            \"Sqrt\": math.sqrt,\n            \"Log\": math.log,\n            \"Log10\": math.log10,\n            \"Exp\": math.exp,\n            \"PI\": math.pi,\n        }\n    \n    def _get_string_functions(self) -> Dict[str, Callable]:\n        \"\"\"String functions for expression evaluation.\"\"\"\n        return {\n            \"Length\": len,\n            \"len\": len,\n            \"Upper\": lambda s: str(s).upper(),\n            \"Lower\": lambda s: str(s).lower(),\n            \"Trim\": lambda s: str(s).strip(),\n            \"Left\": lambda s, n: str(s)[:n],\n            \"Right\": lambda s, n: str(s)[-n:],\n            \"Substring\": lambda s, start, length: str(s)[start:start+length],\n            \"Contains\": lambda s, sub: sub in str(s),\n        }\n    \n    def _get_conversion_functions(self) -> Dict[str, Callable]:\n        \"\"\"Type conversion functions for expression evaluation.\"\"\"\n        return {\n            \"ToNumber\": float,\n            \"ToString\": str,\n            \"ToInteger\": int,\n            \"int\": int,\n            \"float\": float,\n            \"str\": str,\n        }\n    \n    def _get_constants(self) -> Dict[str, Any]:\n        \"\"\"Constants for expression evaluation.\"\"\"\n        return {\n            \"True\": True,\n            \"False\": False,\n            \"None\": None,\n            \"Null\": None,\n        }\n    \n    def _build_all_functions(self) -> Dict[str, Any]:\n        \"\"\"Build complete dictionary of all available functions.\"\"\"\n        functions = {\"__builtins__\": {}}\n        functions.update(self._get_datetime_functions())\n        functions.update(self._get_math_functions())\n        functions.update(self._get_string_functions())\n        functions.update(self._get_conversion_functions())\n        functions.update(self._get_constants())\n        return functions\n    \n    def get_functions(self) -> Dict[str, Any]:\n        \"\"\"Return the functions dictionary for use in eval().\"\"\"\n        return self._functions\n    \n    def get_available_function_names(self) -> list:\n        \"\"\"Return list of available function names.\"\"\"\n        return [k for k in self._functions.keys() if k != \"__builtins__\"]\n    \n    def eval_expression(self, expr: str, context: dict) -> Any:\n        \"\"\"\n        Evaluate a string expression with given context variables.\n        \n        Parameters\n        ----------\n        expr : str\n            Expression to evaluate (e.g., \"RowCount + 1\", \"date <= end_date\")\n        context : dict\n            Variables available in the expression\n        \n        Returns\n        -------\n        Any\n            Result of the expression evaluation.\n        \"\"\"\n        return eval(expr, self._functions, context)\n\n\n# =============================================================================\n# GENERATE ROWS CLASS (Generic logic)\n# =============================================================================\n\nclass GenerateRows:\n    \"\"\"\n    Generate Rows tool implementation.\n    \n    This class handles the row generation logic and can work with\n    different expression function providers (default: AlteryxExpressionFunctions).\n    \n    Parameters\n    ----------\n    expression_functions : object, optional\n        An object that provides eval_expression(expr, context) method.\n        Defaults to AlteryxExpressionFunctions().\n    \n    Example\n    -------\n    >>> generator = GenerateRows()\n    >>> result = generator.generate(\n    ...     output_column_name=\"RowCount\",\n    ...     init_expr=1,\n    ...     condition_expr=\"RowCount <= 10\",\n    ...     loop_expr=\"RowCount + 1\"\n    ... )\n    \"\"\"\n    \n    def __init__(self, expression_functions=None):\n        \"\"\"Initialize with expression functions provider.\"\"\"\n        if expression_functions is None:\n            expression_functions = AlteryxExpressionFunctions()\n        self._expr_funcs = expression_functions\n    \n    def _validate(\n        self,\n        output_column_name: str,\n        init_expr: Any,\n        condition_expr: str,\n        loop_expr: str\n    ) -> None:\n        \"\"\"\n        Validate mandatory parameters.\n        \n        Raises\n        ------\n        ValueError\n            If any mandatory parameter is missing or None.\n        \"\"\"\n        if output_column_name is None or output_column_name == \"\":\n            raise ValueError(\"output_column_name is mandatory and cannot be empty\")\n        \n        if init_expr is None:\n            raise ValueError(\"init_expr is mandatory\")\n        \n        if condition_expr is None or condition_expr == \"\":\n            raise ValueError(\"condition_expr is mandatory and cannot be empty\")\n        \n        if loop_expr is None or loop_expr == \"\":\n            raise ValueError(\"loop_expr is mandatory and cannot be empty\")\n    \n    def _eval_expr(self, expr: str, context: dict) -> Any:\n        \"\"\"Evaluate expression using the expression functions provider.\"\"\"\n        return self._expr_funcs.eval_expression(expr, context)\n    \n    def generate(\n        self,\n        df: Optional[pd.DataFrame] = None,\n        output_column_name: str = None,\n        init_expr: Any = None,\n        condition_expr: str = None,\n        loop_expr: str = None,\n        max_iterations: int = 100000\n    ) -> pd.DataFrame:\n        \"\"\"\n        Generate rows based on initialization, condition, and loop expressions.\n        \n        Parameters\n        ----------\n        df : pd.DataFrame, optional\n            Input dataframe. If None, generates rows as a standalone sequence.\n            If provided, generates rows for EACH input record.\n        \n        output_column_name : str (mandatory)\n            Name of the output column / loop variable (e.g., \"RowCount\", \"date\")\n        \n        init_expr : Any (mandatory)\n            Initialization expression. Can be:\n            - Direct value: 1, pd.Timestamp('2024-01-01')\n            - String expression: \"start_date\", \"DateTimeAdd(start_date, 1, 'day')\"\n        \n        condition_expr : str (mandatory)\n            Condition expression (loop continues while True).\n            Example: \"RowCount <= 10\", \"date <= end_date\"\n        \n        loop_expr : str (mandatory)\n            Loop/increment expression.\n            Example: \"RowCount + 1\", \"DateTimeAdd(date, 1, 'day')\"\n        \n        max_iterations : int, default 100000\n            Safety limit to prevent infinite loops.\n        \n        Returns\n        -------\n        pd.DataFrame\n            DataFrame with generated rows.\n        \"\"\"\n        # Validate mandatory parameters\n        self._validate(output_column_name, init_expr, condition_expr, loop_expr)\n        \n        output_rows = []\n        \n        if df is None or len(df) == 0:\n            # No-input mode: Sequence generator\n            current_value = init_expr\n            iteration = 0\n            \n            while iteration < max_iterations:\n                context = {output_column_name: current_value}\n                \n                if not self._eval_expr(condition_expr, context):\n                    break\n                \n                output_rows.append({output_column_name: current_value})\n                current_value = self._eval_expr(loop_expr, context)\n                iteration += 1\n            \n            if iteration >= max_iterations:\n                print(f\"Warning: Reached max_iterations ({max_iterations}). Loop terminated.\")\n        \n        else:\n            # Row-level processing mode: Loop for EACH input row\n            for idx, row in df.iterrows():\n                row_dict = row.to_dict()\n                \n                # Evaluate init_expr (can be a value, column reference, or expression)\n                if isinstance(init_expr, str):\n                    current_value = self._eval_expr(init_expr, row_dict)\n                else:\n                    current_value = init_expr\n                \n                iteration = 0\n                \n                while iteration < max_iterations:\n                    context = {**row_dict, output_column_name: current_value}\n                    \n                    if not self._eval_expr(condition_expr, context):\n                        break\n                    \n                    new_row = row_dict.copy()\n                    new_row[output_column_name] = current_value\n                    output_rows.append(new_row)\n                    \n                    current_value = self._eval_expr(loop_expr, context)\n                    iteration += 1\n                \n                if iteration >= max_iterations:\n                    print(f\"Warning: Reached max_iterations ({max_iterations}) for row {idx}.\")\n        \n        # Return result dataframe\n        if len(output_rows) == 0:\n            if df is not None:\n                return pd.DataFrame(columns=list(df.columns) + [output_column_name])\n            else:\n                return pd.DataFrame(columns=[output_column_name])\n        \n        return pd.DataFrame(output_rows)\n\n\n# =============================================================================\n# CONVENIENCE FUNCTION (for simple usage)\n# =============================================================================\n\n# Default instance\n_default_generator = GenerateRows()\n\n\ndef generate_rows(\n    df: Optional[pd.DataFrame] = None,\n    output_column_name: str = None,\n    init_expr: Any = None,\n    condition_expr: str = None,\n    loop_expr: str = None,\n    max_iterations: int = 100000\n) -> pd.DataFrame:\n    \"\"\"\n    Convenience function using default GenerateRows instance.\n    \n    See GenerateRows.generate() for full documentation.\n    \"\"\"\n    return _default_generator.generate(\n        df=df,\n        output_column_name=output_column_name,\n        init_expr=init_expr,\n        condition_expr=condition_expr,\n        loop_expr=loop_expr,\n        max_iterations=max_iterations\n    )\n\nout0 = generate_rows(\n            df=in0,\n            output_column_name=\"o\",\n            init_expr=\"0\",\n            condition_expr=\"(o < 10)\",\n            loop_expr=\"(o + 1)\"\n)\n"
       },
       "ports" : {
         "inputs" : [ {
           "id" : "48_Input",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "e",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "s",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "n",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "m",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "d",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            } ]
-          },
           "slug" : "in0"
         } ],
         "outputs" : [ {
@@ -758,16 +523,16 @@
           },
           "alias" : "_rules",
           "description" : null,
-          "_row_id" : "Olu5M9BAO8nysxhTHiry-"
+          "_row_id" : "6PvxyYtHtEwouwJtBtECS"
         } ]
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "NtBOIOKlwPxcLxz5Xp70P",
+          "id" : "QKGLB2qk-8a49mZFefyYI",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "p7WI6asth5azvkRLtVjTu",
+          "id" : "sF0ItyQgP2n9EpKaI8hMB",
           "slug" : "out0"
         } ],
         "isCustomOutputSchema" : false
@@ -783,24 +548,13 @@
         "phase" : 0
       },
       "properties" : {
-        "ports" : null,
-        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
-        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: Dataframe, in1: Dataframe) -> (Dataframe):",
+        "scriptMethodFooter" : "return (out0)",
         "script" : "\"\"\"\nAlteryx Generate Rows Tool - Python/Pandas Implementation\n\nReplicates the Alteryx Generate Rows tool which generates new rows \nbased on initialization, condition, and loop expressions.\n\nBehavior:\n- If no incoming dataframe: Acts as a sequence generator\n- If incoming dataframe: Executes loop for EACH input row (row-level processing)\n\"\"\"\n\nimport pandas as pd\nfrom typing import Optional, Any, Dict, Callable\n\n\n# =============================================================================\n# ALTERYX-COMPATIBLE EXPRESSION FUNCTIONS (Alteryx-specific)\n# =============================================================================\n\nclass AlteryxExpressionFunctions:\n    \"\"\"\n    Alteryx-compatible expression functions for use in eval().\n    \n    This class provides all the functions available in Alteryx expressions:\n    - DateTime: DateTimeAdd, DateTimeDiff, DateTimeToday, etc.\n    - Math: Abs, Ceil, Floor, Round, Sqrt, etc.\n    - String: Length, Upper, Lower, Left, Right, etc.\n    - Conversion: ToNumber, ToString, ToInteger\n    - Constants: True, False, None, Null\n    \n    Reference: https://help.alteryx.com/current/en/designer/functions.html\n    \"\"\"\n    \n    def __init__(self):\n        self._functions = self._build_all_functions()\n    \n    def _get_datetime_functions(self) -> Dict[str, Callable]:\n        \"\"\"DateTime functions for expression evaluation.\"\"\"\n        \n        def DateTimeAdd(dt, interval: int, unit: str):\n            \"\"\"Add interval to datetime. Alteryx-compatible.\"\"\"\n            unit = unit.lower().rstrip('s')\n            unit_map = {\n                'day': 'days', 'hour': 'hours', 'minute': 'minutes',\n                'second': 'seconds', 'week': 'weeks', 'month': 'months', 'year': 'years',\n            }\n            pd_unit = unit_map.get(unit, unit + 's')\n            if pd_unit in ['months', 'years']:\n                return dt + pd.DateOffset(**{pd_unit: interval})\n            return dt + pd.Timedelta(**{pd_unit: interval})\n        \n        def DateTimeDiff(dt1, dt2, unit: str) -> float:\n            \"\"\"Difference between two datetimes. Returns dt1 - dt2.\"\"\"\n            unit = unit.lower().rstrip('s')\n            diff = pd.Timestamp(dt1) - pd.Timestamp(dt2)\n            unit_divisors = {\n                'day': lambda d: d.days,\n                'hour': lambda d: d.total_seconds() / 3600,\n                'minute': lambda d: d.total_seconds() / 60,\n                'second': lambda d: d.total_seconds(),\n                'week': lambda d: d.days / 7,\n            }\n            return unit_divisors.get(unit, lambda d: d.days)(diff)\n        \n        return {\n            \"DateTimeAdd\": DateTimeAdd,\n            \"DateTimeDiff\": DateTimeDiff,\n            \"DateTimeToday\": lambda: pd.Timestamp.today().normalize(),\n            \"DateTimeNow\": lambda: pd.Timestamp.now(),\n            \"DateTimeYear\": lambda dt: pd.Timestamp(dt).year,\n            \"DateTimeMonth\": lambda dt: pd.Timestamp(dt).month,\n            \"DateTimeDay\": lambda dt: pd.Timestamp(dt).day,\n            \"Timedelta\": pd.Timedelta,\n            \"Timestamp\": pd.Timestamp,\n        }\n    \n    def _get_math_functions(self) -> Dict[str, Callable]:\n        \"\"\"Math functions for expression evaluation.\"\"\"\n        import math\n        return {\n            \"Abs\": abs,\n            \"Ceil\": math.ceil,\n            \"Floor\": math.floor,\n            \"Round\": round,\n            \"Pow\": pow,\n            \"Mod\": lambda x, y: x % y,\n            \"Sqrt\": math.sqrt,\n            \"Log\": math.log,\n            \"Log10\": math.log10,\n            \"Exp\": math.exp,\n            \"PI\": math.pi,\n        }\n    \n    def _get_string_functions(self) -> Dict[str, Callable]:\n        \"\"\"String functions for expression evaluation.\"\"\"\n        return {\n            \"Length\": len,\n            \"len\": len,\n            \"Upper\": lambda s: str(s).upper(),\n            \"Lower\": lambda s: str(s).lower(),\n            \"Trim\": lambda s: str(s).strip(),\n            \"Left\": lambda s, n: str(s)[:n],\n            \"Right\": lambda s, n: str(s)[-n:],\n            \"Substring\": lambda s, start, length: str(s)[start:start+length],\n            \"Contains\": lambda s, sub: sub in str(s),\n        }\n    \n    def _get_conversion_functions(self) -> Dict[str, Callable]:\n        \"\"\"Type conversion functions for expression evaluation.\"\"\"\n        return {\n            \"ToNumber\": float,\n            \"ToString\": str,\n            \"ToInteger\": int,\n            \"int\": int,\n            \"float\": float,\n            \"str\": str,\n        }\n    \n    def _get_constants(self) -> Dict[str, Any]:\n        \"\"\"Constants for expression evaluation.\"\"\"\n        return {\n            \"True\": True,\n            \"False\": False,\n            \"None\": None,\n            \"Null\": None,\n        }\n    \n    def _build_all_functions(self) -> Dict[str, Any]:\n        \"\"\"Build complete dictionary of all available functions.\"\"\"\n        functions = {\"__builtins__\": {}}\n        functions.update(self._get_datetime_functions())\n        functions.update(self._get_math_functions())\n        functions.update(self._get_string_functions())\n        functions.update(self._get_conversion_functions())\n        functions.update(self._get_constants())\n        return functions\n    \n    def get_functions(self) -> Dict[str, Any]:\n        \"\"\"Return the functions dictionary for use in eval().\"\"\"\n        return self._functions\n    \n    def get_available_function_names(self) -> list:\n        \"\"\"Return list of available function names.\"\"\"\n        return [k for k in self._functions.keys() if k != \"__builtins__\"]\n    \n    def eval_expression(self, expr: str, context: dict) -> Any:\n        \"\"\"\n        Evaluate a string expression with given context variables.\n        \n        Parameters\n        ----------\n        expr : str\n            Expression to evaluate (e.g., \"RowCount + 1\", \"date <= end_date\")\n        context : dict\n            Variables available in the expression\n        \n        Returns\n        -------\n        Any\n            Result of the expression evaluation.\n        \"\"\"\n        return eval(expr, self._functions, context)\n\n\n# =============================================================================\n# GENERATE ROWS CLASS (Generic logic)\n# =============================================================================\n\nclass GenerateRows:\n    \"\"\"\n    Generate Rows tool implementation.\n    \n    This class handles the row generation logic and can work with\n    different expression function providers (default: AlteryxExpressionFunctions).\n    \n    Parameters\n    ----------\n    expression_functions : object, optional\n        An object that provides eval_expression(expr, context) method.\n        Defaults to AlteryxExpressionFunctions().\n    \n    Example\n    -------\n    >>> generator = GenerateRows()\n    >>> result = generator.generate(\n    ...     output_column_name=\"RowCount\",\n    ...     init_expr=1,\n    ...     condition_expr=\"RowCount <= 10\",\n    ...     loop_expr=\"RowCount + 1\"\n    ... )\n    \"\"\"\n    \n    def __init__(self, expression_functions=None):\n        \"\"\"Initialize with expression functions provider.\"\"\"\n        if expression_functions is None:\n            expression_functions = AlteryxExpressionFunctions()\n        self._expr_funcs = expression_functions\n    \n    def _validate(\n        self,\n        output_column_name: str,\n        init_expr: Any,\n        condition_expr: str,\n        loop_expr: str\n    ) -> None:\n        \"\"\"\n        Validate mandatory parameters.\n        \n        Raises\n        ------\n        ValueError\n            If any mandatory parameter is missing or None.\n        \"\"\"\n        if output_column_name is None or output_column_name == \"\":\n            raise ValueError(\"output_column_name is mandatory and cannot be empty\")\n        \n        if init_expr is None:\n            raise ValueError(\"init_expr is mandatory\")\n        \n        if condition_expr is None or condition_expr == \"\":\n            raise ValueError(\"condition_expr is mandatory and cannot be empty\")\n        \n        if loop_expr is None or loop_expr == \"\":\n            raise ValueError(\"loop_expr is mandatory and cannot be empty\")\n    \n    def _eval_expr(self, expr: str, context: dict) -> Any:\n        \"\"\"Evaluate expression using the expression functions provider.\"\"\"\n        return self._expr_funcs.eval_expression(expr, context)\n    \n    def generate(\n        self,\n        df: Optional[pd.DataFrame] = None,\n        output_column_name: str = None,\n        init_expr: Any = None,\n        condition_expr: str = None,\n        loop_expr: str = None,\n        max_iterations: int = 100000\n    ) -> pd.DataFrame:\n        \"\"\"\n        Generate rows based on initialization, condition, and loop expressions.\n        \n        Parameters\n        ----------\n        df : pd.DataFrame, optional\n            Input dataframe. If None, generates rows as a standalone sequence.\n            If provided, generates rows for EACH input record.\n        \n        output_column_name : str (mandatory)\n            Name of the output column / loop variable (e.g., \"RowCount\", \"date\")\n        \n        init_expr : Any (mandatory)\n            Initialization expression. Can be:\n            - Direct value: 1, pd.Timestamp('2024-01-01')\n            - String expression: \"start_date\", \"DateTimeAdd(start_date, 1, 'day')\"\n        \n        condition_expr : str (mandatory)\n            Condition expression (loop continues while True).\n            Example: \"RowCount <= 10\", \"date <= end_date\"\n        \n        loop_expr : str (mandatory)\n            Loop/increment expression.\n            Example: \"RowCount + 1\", \"DateTimeAdd(date, 1, 'day')\"\n        \n        max_iterations : int, default 100000\n            Safety limit to prevent infinite loops.\n        \n        Returns\n        -------\n        pd.DataFrame\n            DataFrame with generated rows.\n        \"\"\"\n        # Validate mandatory parameters\n        self._validate(output_column_name, init_expr, condition_expr, loop_expr)\n        \n        output_rows = []\n        \n        if df is None or len(df) == 0:\n            # No-input mode: Sequence generator\n            current_value = init_expr\n            iteration = 0\n            \n            while iteration < max_iterations:\n                context = {output_column_name: current_value}\n                \n                if not self._eval_expr(condition_expr, context):\n                    break\n                \n                output_rows.append({output_column_name: current_value})\n                current_value = self._eval_expr(loop_expr, context)\n                iteration += 1\n            \n            if iteration >= max_iterations:\n                print(f\"Warning: Reached max_iterations ({max_iterations}). Loop terminated.\")\n        \n        else:\n            # Row-level processing mode: Loop for EACH input row\n            for idx, row in df.iterrows():\n                row_dict = row.to_dict()\n                \n                # Evaluate init_expr (can be a value, column reference, or expression)\n                if isinstance(init_expr, str):\n                    current_value = self._eval_expr(init_expr, row_dict)\n                else:\n                    current_value = init_expr\n                \n                iteration = 0\n                \n                while iteration < max_iterations:\n                    context = {**row_dict, output_column_name: current_value}\n                    \n                    if not self._eval_expr(condition_expr, context):\n                        break\n                    \n                    new_row = row_dict.copy()\n                    new_row[output_column_name] = current_value\n                    output_rows.append(new_row)\n                    \n                    current_value = self._eval_expr(loop_expr, context)\n                    iteration += 1\n                \n                if iteration >= max_iterations:\n                    print(f\"Warning: Reached max_iterations ({max_iterations}) for row {idx}.\")\n        \n        # Return result dataframe\n        if len(output_rows) == 0:\n            if df is not None:\n                return pd.DataFrame(columns=list(df.columns) + [output_column_name])\n            else:\n                return pd.DataFrame(columns=[output_column_name])\n        \n        return pd.DataFrame(output_rows)\n\n\n# =============================================================================\n# CONVENIENCE FUNCTION (for simple usage)\n# =============================================================================\n\n# Default instance\n_default_generator = GenerateRows()\n\n\ndef generate_rows(\n    df: Optional[pd.DataFrame] = None,\n    output_column_name: str = None,\n    init_expr: Any = None,\n    condition_expr: str = None,\n    loop_expr: str = None,\n    max_iterations: int = 100000\n) -> pd.DataFrame:\n    \"\"\"\n    Convenience function using default GenerateRows instance.\n    \n    See GenerateRows.generate() for full documentation.\n    \"\"\"\n    return _default_generator.generate(\n        df=df,\n        output_column_name=output_column_name,\n        init_expr=init_expr,\n        condition_expr=condition_expr,\n        loop_expr=loop_expr,\n        max_iterations=max_iterations\n    )\n\nout0 = generate_rows(\n            df=in0,\n            output_column_name=\"s\",\n            init_expr=\"1\",\n            condition_expr=\"(s < 10)\",\n            loop_expr=\"(s + 1)\"\n)\n"
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "Gs6UDso1t3nJTEVQiWe2H",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "seq",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            } ]
-          },
+          "id" : "hGYBsUKv2B6EltF1kX7Si",
           "slug" : "in0"
         } ],
         "outputs" : [ {
@@ -825,8 +579,49 @@
         "isCustomOutputSchema" : true
       }
     },
-    "0wPCmbpEhAhQeSbH1Ll7D" : {
-      "id" : "0wPCmbpEhAhQeSbH1Ll7D",
+    "I-U8nNUpTA8loeoUqxdIe" : {
+      "id" : "I-U8nNUpTA8loeoUqxdIe",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "FindReplace_60_0",
+        "x" : 5940,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "aggregate(_rules, `Problem`, (acc, rule) -> regexp_replace(acc, rule['Name'], rule['Value']))",
+            "_row_id" : null
+          },
+          "alias" : "Problem",
+          "description" : null,
+          "_row_id" : "ZhzXK_7dWyzw3xcfZRMQj"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Problem`, `problem`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "QnxI0PUPbx9pnyTFF8cVC",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "A-Fg7-lc6Rfss9WI8bSon",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "FoQvUwRLqP_YdDl4bCnVf" : {
+      "id" : "FoQvUwRLqP_YdDl4bCnVf",
       "component" : "Reformat",
       "metadata" : {
         "label" : "Unique_54_window",
@@ -843,7 +638,7 @@
           },
           "alias" : "row_number",
           "description" : null,
-          "_row_id" : "lVc4B_5NFs56rnxN5suFH"
+          "_row_id" : "GeZYNm2BaPG0_lolkd0EV"
         }, {
           "expression" : {
             "expression" : "*",
@@ -856,14 +651,13 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "vPqjQbGv_vCIgbk-tqL19",
+          "id" : "UU-F5cA-Ul99-83YjvzaK",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "mE5_jASRVuXO_GRQlmRh_",
+          "id" : "Bc1ntPKAHsr2EPnBPBqHY",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       }
     },
     "49" : {
@@ -876,49 +670,13 @@
         "phase" : 0
       },
       "properties" : {
-        "ports" : null,
-        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
-        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: Dataframe, in1: Dataframe) -> (Dataframe):",
+        "scriptMethodFooter" : "return (out0)",
         "script" : "\"\"\"\nAlteryx Generate Rows Tool - Python/Pandas Implementation\n\nReplicates the Alteryx Generate Rows tool which generates new rows \nbased on initialization, condition, and loop expressions.\n\nBehavior:\n- If no incoming dataframe: Acts as a sequence generator\n- If incoming dataframe: Executes loop for EACH input row (row-level processing)\n\"\"\"\n\nimport pandas as pd\nfrom typing import Optional, Any, Dict, Callable\n\n\n# =============================================================================\n# ALTERYX-COMPATIBLE EXPRESSION FUNCTIONS (Alteryx-specific)\n# =============================================================================\n\nclass AlteryxExpressionFunctions:\n    \"\"\"\n    Alteryx-compatible expression functions for use in eval().\n    \n    This class provides all the functions available in Alteryx expressions:\n    - DateTime: DateTimeAdd, DateTimeDiff, DateTimeToday, etc.\n    - Math: Abs, Ceil, Floor, Round, Sqrt, etc.\n    - String: Length, Upper, Lower, Left, Right, etc.\n    - Conversion: ToNumber, ToString, ToInteger\n    - Constants: True, False, None, Null\n    \n    Reference: https://help.alteryx.com/current/en/designer/functions.html\n    \"\"\"\n    \n    def __init__(self):\n        self._functions = self._build_all_functions()\n    \n    def _get_datetime_functions(self) -> Dict[str, Callable]:\n        \"\"\"DateTime functions for expression evaluation.\"\"\"\n        \n        def DateTimeAdd(dt, interval: int, unit: str):\n            \"\"\"Add interval to datetime. Alteryx-compatible.\"\"\"\n            unit = unit.lower().rstrip('s')\n            unit_map = {\n                'day': 'days', 'hour': 'hours', 'minute': 'minutes',\n                'second': 'seconds', 'week': 'weeks', 'month': 'months', 'year': 'years',\n            }\n            pd_unit = unit_map.get(unit, unit + 's')\n            if pd_unit in ['months', 'years']:\n                return dt + pd.DateOffset(**{pd_unit: interval})\n            return dt + pd.Timedelta(**{pd_unit: interval})\n        \n        def DateTimeDiff(dt1, dt2, unit: str) -> float:\n            \"\"\"Difference between two datetimes. Returns dt1 - dt2.\"\"\"\n            unit = unit.lower().rstrip('s')\n            diff = pd.Timestamp(dt1) - pd.Timestamp(dt2)\n            unit_divisors = {\n                'day': lambda d: d.days,\n                'hour': lambda d: d.total_seconds() / 3600,\n                'minute': lambda d: d.total_seconds() / 60,\n                'second': lambda d: d.total_seconds(),\n                'week': lambda d: d.days / 7,\n            }\n            return unit_divisors.get(unit, lambda d: d.days)(diff)\n        \n        return {\n            \"DateTimeAdd\": DateTimeAdd,\n            \"DateTimeDiff\": DateTimeDiff,\n            \"DateTimeToday\": lambda: pd.Timestamp.today().normalize(),\n            \"DateTimeNow\": lambda: pd.Timestamp.now(),\n            \"DateTimeYear\": lambda dt: pd.Timestamp(dt).year,\n            \"DateTimeMonth\": lambda dt: pd.Timestamp(dt).month,\n            \"DateTimeDay\": lambda dt: pd.Timestamp(dt).day,\n            \"Timedelta\": pd.Timedelta,\n            \"Timestamp\": pd.Timestamp,\n        }\n    \n    def _get_math_functions(self) -> Dict[str, Callable]:\n        \"\"\"Math functions for expression evaluation.\"\"\"\n        import math\n        return {\n            \"Abs\": abs,\n            \"Ceil\": math.ceil,\n            \"Floor\": math.floor,\n            \"Round\": round,\n            \"Pow\": pow,\n            \"Mod\": lambda x, y: x % y,\n            \"Sqrt\": math.sqrt,\n            \"Log\": math.log,\n            \"Log10\": math.log10,\n            \"Exp\": math.exp,\n            \"PI\": math.pi,\n        }\n    \n    def _get_string_functions(self) -> Dict[str, Callable]:\n        \"\"\"String functions for expression evaluation.\"\"\"\n        return {\n            \"Length\": len,\n            \"len\": len,\n            \"Upper\": lambda s: str(s).upper(),\n            \"Lower\": lambda s: str(s).lower(),\n            \"Trim\": lambda s: str(s).strip(),\n            \"Left\": lambda s, n: str(s)[:n],\n            \"Right\": lambda s, n: str(s)[-n:],\n            \"Substring\": lambda s, start, length: str(s)[start:start+length],\n            \"Contains\": lambda s, sub: sub in str(s),\n        }\n    \n    def _get_conversion_functions(self) -> Dict[str, Callable]:\n        \"\"\"Type conversion functions for expression evaluation.\"\"\"\n        return {\n            \"ToNumber\": float,\n            \"ToString\": str,\n            \"ToInteger\": int,\n            \"int\": int,\n            \"float\": float,\n            \"str\": str,\n        }\n    \n    def _get_constants(self) -> Dict[str, Any]:\n        \"\"\"Constants for expression evaluation.\"\"\"\n        return {\n            \"True\": True,\n            \"False\": False,\n            \"None\": None,\n            \"Null\": None,\n        }\n    \n    def _build_all_functions(self) -> Dict[str, Any]:\n        \"\"\"Build complete dictionary of all available functions.\"\"\"\n        functions = {\"__builtins__\": {}}\n        functions.update(self._get_datetime_functions())\n        functions.update(self._get_math_functions())\n        functions.update(self._get_string_functions())\n        functions.update(self._get_conversion_functions())\n        functions.update(self._get_constants())\n        return functions\n    \n    def get_functions(self) -> Dict[str, Any]:\n        \"\"\"Return the functions dictionary for use in eval().\"\"\"\n        return self._functions\n    \n    def get_available_function_names(self) -> list:\n        \"\"\"Return list of available function names.\"\"\"\n        return [k for k in self._functions.keys() if k != \"__builtins__\"]\n    \n    def eval_expression(self, expr: str, context: dict) -> Any:\n        \"\"\"\n        Evaluate a string expression with given context variables.\n        \n        Parameters\n        ----------\n        expr : str\n            Expression to evaluate (e.g., \"RowCount + 1\", \"date <= end_date\")\n        context : dict\n            Variables available in the expression\n        \n        Returns\n        -------\n        Any\n            Result of the expression evaluation.\n        \"\"\"\n        return eval(expr, self._functions, context)\n\n\n# =============================================================================\n# GENERATE ROWS CLASS (Generic logic)\n# =============================================================================\n\nclass GenerateRows:\n    \"\"\"\n    Generate Rows tool implementation.\n    \n    This class handles the row generation logic and can work with\n    different expression function providers (default: AlteryxExpressionFunctions).\n    \n    Parameters\n    ----------\n    expression_functions : object, optional\n        An object that provides eval_expression(expr, context) method.\n        Defaults to AlteryxExpressionFunctions().\n    \n    Example\n    -------\n    >>> generator = GenerateRows()\n    >>> result = generator.generate(\n    ...     output_column_name=\"RowCount\",\n    ...     init_expr=1,\n    ...     condition_expr=\"RowCount <= 10\",\n    ...     loop_expr=\"RowCount + 1\"\n    ... )\n    \"\"\"\n    \n    def __init__(self, expression_functions=None):\n        \"\"\"Initialize with expression functions provider.\"\"\"\n        if expression_functions is None:\n            expression_functions = AlteryxExpressionFunctions()\n        self._expr_funcs = expression_functions\n    \n    def _validate(\n        self,\n        output_column_name: str,\n        init_expr: Any,\n        condition_expr: str,\n        loop_expr: str\n    ) -> None:\n        \"\"\"\n        Validate mandatory parameters.\n        \n        Raises\n        ------\n        ValueError\n            If any mandatory parameter is missing or None.\n        \"\"\"\n        if output_column_name is None or output_column_name == \"\":\n            raise ValueError(\"output_column_name is mandatory and cannot be empty\")\n        \n        if init_expr is None:\n            raise ValueError(\"init_expr is mandatory\")\n        \n        if condition_expr is None or condition_expr == \"\":\n            raise ValueError(\"condition_expr is mandatory and cannot be empty\")\n        \n        if loop_expr is None or loop_expr == \"\":\n            raise ValueError(\"loop_expr is mandatory and cannot be empty\")\n    \n    def _eval_expr(self, expr: str, context: dict) -> Any:\n        \"\"\"Evaluate expression using the expression functions provider.\"\"\"\n        return self._expr_funcs.eval_expression(expr, context)\n    \n    def generate(\n        self,\n        df: Optional[pd.DataFrame] = None,\n        output_column_name: str = None,\n        init_expr: Any = None,\n        condition_expr: str = None,\n        loop_expr: str = None,\n        max_iterations: int = 100000\n    ) -> pd.DataFrame:\n        \"\"\"\n        Generate rows based on initialization, condition, and loop expressions.\n        \n        Parameters\n        ----------\n        df : pd.DataFrame, optional\n            Input dataframe. If None, generates rows as a standalone sequence.\n            If provided, generates rows for EACH input record.\n        \n        output_column_name : str (mandatory)\n            Name of the output column / loop variable (e.g., \"RowCount\", \"date\")\n        \n        init_expr : Any (mandatory)\n            Initialization expression. Can be:\n            - Direct value: 1, pd.Timestamp('2024-01-01')\n            - String expression: \"start_date\", \"DateTimeAdd(start_date, 1, 'day')\"\n        \n        condition_expr : str (mandatory)\n            Condition expression (loop continues while True).\n            Example: \"RowCount <= 10\", \"date <= end_date\"\n        \n        loop_expr : str (mandatory)\n            Loop/increment expression.\n            Example: \"RowCount + 1\", \"DateTimeAdd(date, 1, 'day')\"\n        \n        max_iterations : int, default 100000\n            Safety limit to prevent infinite loops.\n        \n        Returns\n        -------\n        pd.DataFrame\n            DataFrame with generated rows.\n        \"\"\"\n        # Validate mandatory parameters\n        self._validate(output_column_name, init_expr, condition_expr, loop_expr)\n        \n        output_rows = []\n        \n        if df is None or len(df) == 0:\n            # No-input mode: Sequence generator\n            current_value = init_expr\n            iteration = 0\n            \n            while iteration < max_iterations:\n                context = {output_column_name: current_value}\n                \n                if not self._eval_expr(condition_expr, context):\n                    break\n                \n                output_rows.append({output_column_name: current_value})\n                current_value = self._eval_expr(loop_expr, context)\n                iteration += 1\n            \n            if iteration >= max_iterations:\n                print(f\"Warning: Reached max_iterations ({max_iterations}). Loop terminated.\")\n        \n        else:\n            # Row-level processing mode: Loop for EACH input row\n            for idx, row in df.iterrows():\n                row_dict = row.to_dict()\n                \n                # Evaluate init_expr (can be a value, column reference, or expression)\n                if isinstance(init_expr, str):\n                    current_value = self._eval_expr(init_expr, row_dict)\n                else:\n                    current_value = init_expr\n                \n                iteration = 0\n                \n                while iteration < max_iterations:\n                    context = {**row_dict, output_column_name: current_value}\n                    \n                    if not self._eval_expr(condition_expr, context):\n                        break\n                    \n                    new_row = row_dict.copy()\n                    new_row[output_column_name] = current_value\n                    output_rows.append(new_row)\n                    \n                    current_value = self._eval_expr(loop_expr, context)\n                    iteration += 1\n                \n                if iteration >= max_iterations:\n                    print(f\"Warning: Reached max_iterations ({max_iterations}) for row {idx}.\")\n        \n        # Return result dataframe\n        if len(output_rows) == 0:\n            if df is not None:\n                return pd.DataFrame(columns=list(df.columns) + [output_column_name])\n            else:\n                return pd.DataFrame(columns=[output_column_name])\n        \n        return pd.DataFrame(output_rows)\n\n\n# =============================================================================\n# CONVENIENCE FUNCTION (for simple usage)\n# =============================================================================\n\n# Default instance\n_default_generator = GenerateRows()\n\n\ndef generate_rows(\n    df: Optional[pd.DataFrame] = None,\n    output_column_name: str = None,\n    init_expr: Any = None,\n    condition_expr: str = None,\n    loop_expr: str = None,\n    max_iterations: int = 100000\n) -> pd.DataFrame:\n    \"\"\"\n    Convenience function using default GenerateRows instance.\n    \n    See GenerateRows.generate() for full documentation.\n    \"\"\"\n    return _default_generator.generate(\n        df=df,\n        output_column_name=output_column_name,\n        init_expr=init_expr,\n        condition_expr=condition_expr,\n        loop_expr=loop_expr,\n        max_iterations=max_iterations\n    )\n\nout0 = generate_rows(\n            df=in0,\n            output_column_name=\"r\",\n            init_expr=\"0\",\n            condition_expr=\"(r < 10)\",\n            loop_expr=\"(r + 1)\"\n)\n"
       },
       "ports" : {
         "inputs" : [ {
           "id" : "49_Input",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "e",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "s",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "n",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "m",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "o",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "d",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            } ]
-          },
           "slug" : "in0"
         } ],
         "outputs" : [ {
@@ -1003,17 +761,48 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "tl_GlxWmhywje4ktohbIf",
+          "id" : "aBOx4v0G7-Czoqvj4qnvV",
           "slug" : "in0"
         }, {
-          "id" : "Co8gWcMKrKkkniMswUgZ5",
+          "id" : "AbPZ46O-jmyP74R4n6BRZ",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "96y_u-tlr_18KQ9NI-ZLP",
+          "id" : "4QWWFU-Jx_-PkcPC9XKF-",
           "slug" : "out0"
+        } ]
+      }
+    },
+    "a95ctPF51fpgtfBpMQUn4" : {
+      "id" : "a95ctPF51fpgtfBpMQUn4",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_41_cast",
+        "x" : 780,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Problem AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Problem",
+          "description" : null,
+          "_row_id" : "pDGiOwFFz3ce5qRC2NyWB"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "srzcLYqKTPH0WuiEx0oSH",
+          "slug" : "in0"
         } ],
-        "isCustomOutputSchema" : false
+        "outputs" : [ {
+          "id" : "VDFs3mfbCQyUJsEeIWyHa",
+          "slug" : "out0"
+        } ]
       }
     },
     "47" : {
@@ -1026,39 +815,13 @@
         "phase" : 0
       },
       "properties" : {
-        "ports" : null,
-        "scriptMethodHeader" : "def Script(in0: DataFrame) -> DataFrame:",
-        "scriptMethodFooter" : "return out0",
+        "scriptMethodHeader" : "def Script(spark: SparkSession, in0: Dataframe, in1: Dataframe) -> (Dataframe):",
+        "scriptMethodFooter" : "return (out0)",
         "script" : "\"\"\"\nAlteryx Generate Rows Tool - Python/Pandas Implementation\n\nReplicates the Alteryx Generate Rows tool which generates new rows \nbased on initialization, condition, and loop expressions.\n\nBehavior:\n- If no incoming dataframe: Acts as a sequence generator\n- If incoming dataframe: Executes loop for EACH input row (row-level processing)\n\"\"\"\n\nimport pandas as pd\nfrom typing import Optional, Any, Dict, Callable\n\n\n# =============================================================================\n# ALTERYX-COMPATIBLE EXPRESSION FUNCTIONS (Alteryx-specific)\n# =============================================================================\n\nclass AlteryxExpressionFunctions:\n    \"\"\"\n    Alteryx-compatible expression functions for use in eval().\n    \n    This class provides all the functions available in Alteryx expressions:\n    - DateTime: DateTimeAdd, DateTimeDiff, DateTimeToday, etc.\n    - Math: Abs, Ceil, Floor, Round, Sqrt, etc.\n    - String: Length, Upper, Lower, Left, Right, etc.\n    - Conversion: ToNumber, ToString, ToInteger\n    - Constants: True, False, None, Null\n    \n    Reference: https://help.alteryx.com/current/en/designer/functions.html\n    \"\"\"\n    \n    def __init__(self):\n        self._functions = self._build_all_functions()\n    \n    def _get_datetime_functions(self) -> Dict[str, Callable]:\n        \"\"\"DateTime functions for expression evaluation.\"\"\"\n        \n        def DateTimeAdd(dt, interval: int, unit: str):\n            \"\"\"Add interval to datetime. Alteryx-compatible.\"\"\"\n            unit = unit.lower().rstrip('s')\n            unit_map = {\n                'day': 'days', 'hour': 'hours', 'minute': 'minutes',\n                'second': 'seconds', 'week': 'weeks', 'month': 'months', 'year': 'years',\n            }\n            pd_unit = unit_map.get(unit, unit + 's')\n            if pd_unit in ['months', 'years']:\n                return dt + pd.DateOffset(**{pd_unit: interval})\n            return dt + pd.Timedelta(**{pd_unit: interval})\n        \n        def DateTimeDiff(dt1, dt2, unit: str) -> float:\n            \"\"\"Difference between two datetimes. Returns dt1 - dt2.\"\"\"\n            unit = unit.lower().rstrip('s')\n            diff = pd.Timestamp(dt1) - pd.Timestamp(dt2)\n            unit_divisors = {\n                'day': lambda d: d.days,\n                'hour': lambda d: d.total_seconds() / 3600,\n                'minute': lambda d: d.total_seconds() / 60,\n                'second': lambda d: d.total_seconds(),\n                'week': lambda d: d.days / 7,\n            }\n            return unit_divisors.get(unit, lambda d: d.days)(diff)\n        \n        return {\n            \"DateTimeAdd\": DateTimeAdd,\n            \"DateTimeDiff\": DateTimeDiff,\n            \"DateTimeToday\": lambda: pd.Timestamp.today().normalize(),\n            \"DateTimeNow\": lambda: pd.Timestamp.now(),\n            \"DateTimeYear\": lambda dt: pd.Timestamp(dt).year,\n            \"DateTimeMonth\": lambda dt: pd.Timestamp(dt).month,\n            \"DateTimeDay\": lambda dt: pd.Timestamp(dt).day,\n            \"Timedelta\": pd.Timedelta,\n            \"Timestamp\": pd.Timestamp,\n        }\n    \n    def _get_math_functions(self) -> Dict[str, Callable]:\n        \"\"\"Math functions for expression evaluation.\"\"\"\n        import math\n        return {\n            \"Abs\": abs,\n            \"Ceil\": math.ceil,\n            \"Floor\": math.floor,\n            \"Round\": round,\n            \"Pow\": pow,\n            \"Mod\": lambda x, y: x % y,\n            \"Sqrt\": math.sqrt,\n            \"Log\": math.log,\n            \"Log10\": math.log10,\n            \"Exp\": math.exp,\n            \"PI\": math.pi,\n        }\n    \n    def _get_string_functions(self) -> Dict[str, Callable]:\n        \"\"\"String functions for expression evaluation.\"\"\"\n        return {\n            \"Length\": len,\n            \"len\": len,\n            \"Upper\": lambda s: str(s).upper(),\n            \"Lower\": lambda s: str(s).lower(),\n            \"Trim\": lambda s: str(s).strip(),\n            \"Left\": lambda s, n: str(s)[:n],\n            \"Right\": lambda s, n: str(s)[-n:],\n            \"Substring\": lambda s, start, length: str(s)[start:start+length],\n            \"Contains\": lambda s, sub: sub in str(s),\n        }\n    \n    def _get_conversion_functions(self) -> Dict[str, Callable]:\n        \"\"\"Type conversion functions for expression evaluation.\"\"\"\n        return {\n            \"ToNumber\": float,\n            \"ToString\": str,\n            \"ToInteger\": int,\n            \"int\": int,\n            \"float\": float,\n            \"str\": str,\n        }\n    \n    def _get_constants(self) -> Dict[str, Any]:\n        \"\"\"Constants for expression evaluation.\"\"\"\n        return {\n            \"True\": True,\n            \"False\": False,\n            \"None\": None,\n            \"Null\": None,\n        }\n    \n    def _build_all_functions(self) -> Dict[str, Any]:\n        \"\"\"Build complete dictionary of all available functions.\"\"\"\n        functions = {\"__builtins__\": {}}\n        functions.update(self._get_datetime_functions())\n        functions.update(self._get_math_functions())\n        functions.update(self._get_string_functions())\n        functions.update(self._get_conversion_functions())\n        functions.update(self._get_constants())\n        return functions\n    \n    def get_functions(self) -> Dict[str, Any]:\n        \"\"\"Return the functions dictionary for use in eval().\"\"\"\n        return self._functions\n    \n    def get_available_function_names(self) -> list:\n        \"\"\"Return list of available function names.\"\"\"\n        return [k for k in self._functions.keys() if k != \"__builtins__\"]\n    \n    def eval_expression(self, expr: str, context: dict) -> Any:\n        \"\"\"\n        Evaluate a string expression with given context variables.\n        \n        Parameters\n        ----------\n        expr : str\n            Expression to evaluate (e.g., \"RowCount + 1\", \"date <= end_date\")\n        context : dict\n            Variables available in the expression\n        \n        Returns\n        -------\n        Any\n            Result of the expression evaluation.\n        \"\"\"\n        return eval(expr, self._functions, context)\n\n\n# =============================================================================\n# GENERATE ROWS CLASS (Generic logic)\n# =============================================================================\n\nclass GenerateRows:\n    \"\"\"\n    Generate Rows tool implementation.\n    \n    This class handles the row generation logic and can work with\n    different expression function providers (default: AlteryxExpressionFunctions).\n    \n    Parameters\n    ----------\n    expression_functions : object, optional\n        An object that provides eval_expression(expr, context) method.\n        Defaults to AlteryxExpressionFunctions().\n    \n    Example\n    -------\n    >>> generator = GenerateRows()\n    >>> result = generator.generate(\n    ...     output_column_name=\"RowCount\",\n    ...     init_expr=1,\n    ...     condition_expr=\"RowCount <= 10\",\n    ...     loop_expr=\"RowCount + 1\"\n    ... )\n    \"\"\"\n    \n    def __init__(self, expression_functions=None):\n        \"\"\"Initialize with expression functions provider.\"\"\"\n        if expression_functions is None:\n            expression_functions = AlteryxExpressionFunctions()\n        self._expr_funcs = expression_functions\n    \n    def _validate(\n        self,\n        output_column_name: str,\n        init_expr: Any,\n        condition_expr: str,\n        loop_expr: str\n    ) -> None:\n        \"\"\"\n        Validate mandatory parameters.\n        \n        Raises\n        ------\n        ValueError\n            If any mandatory parameter is missing or None.\n        \"\"\"\n        if output_column_name is None or output_column_name == \"\":\n            raise ValueError(\"output_column_name is mandatory and cannot be empty\")\n        \n        if init_expr is None:\n            raise ValueError(\"init_expr is mandatory\")\n        \n        if condition_expr is None or condition_expr == \"\":\n            raise ValueError(\"condition_expr is mandatory and cannot be empty\")\n        \n        if loop_expr is None or loop_expr == \"\":\n            raise ValueError(\"loop_expr is mandatory and cannot be empty\")\n    \n    def _eval_expr(self, expr: str, context: dict) -> Any:\n        \"\"\"Evaluate expression using the expression functions provider.\"\"\"\n        return self._expr_funcs.eval_expression(expr, context)\n    \n    def generate(\n        self,\n        df: Optional[pd.DataFrame] = None,\n        output_column_name: str = None,\n        init_expr: Any = None,\n        condition_expr: str = None,\n        loop_expr: str = None,\n        max_iterations: int = 100000\n    ) -> pd.DataFrame:\n        \"\"\"\n        Generate rows based on initialization, condition, and loop expressions.\n        \n        Parameters\n        ----------\n        df : pd.DataFrame, optional\n            Input dataframe. If None, generates rows as a standalone sequence.\n            If provided, generates rows for EACH input record.\n        \n        output_column_name : str (mandatory)\n            Name of the output column / loop variable (e.g., \"RowCount\", \"date\")\n        \n        init_expr : Any (mandatory)\n            Initialization expression. Can be:\n            - Direct value: 1, pd.Timestamp('2024-01-01')\n            - String expression: \"start_date\", \"DateTimeAdd(start_date, 1, 'day')\"\n        \n        condition_expr : str (mandatory)\n            Condition expression (loop continues while True).\n            Example: \"RowCount <= 10\", \"date <= end_date\"\n        \n        loop_expr : str (mandatory)\n            Loop/increment expression.\n            Example: \"RowCount + 1\", \"DateTimeAdd(date, 1, 'day')\"\n        \n        max_iterations : int, default 100000\n            Safety limit to prevent infinite loops.\n        \n        Returns\n        -------\n        pd.DataFrame\n            DataFrame with generated rows.\n        \"\"\"\n        # Validate mandatory parameters\n        self._validate(output_column_name, init_expr, condition_expr, loop_expr)\n        \n        output_rows = []\n        \n        if df is None or len(df) == 0:\n            # No-input mode: Sequence generator\n            current_value = init_expr\n            iteration = 0\n            \n            while iteration < max_iterations:\n                context = {output_column_name: current_value}\n                \n                if not self._eval_expr(condition_expr, context):\n                    break\n                \n                output_rows.append({output_column_name: current_value})\n                current_value = self._eval_expr(loop_expr, context)\n                iteration += 1\n            \n            if iteration >= max_iterations:\n                print(f\"Warning: Reached max_iterations ({max_iterations}). Loop terminated.\")\n        \n        else:\n            # Row-level processing mode: Loop for EACH input row\n            for idx, row in df.iterrows():\n                row_dict = row.to_dict()\n                \n                # Evaluate init_expr (can be a value, column reference, or expression)\n                if isinstance(init_expr, str):\n                    current_value = self._eval_expr(init_expr, row_dict)\n                else:\n                    current_value = init_expr\n                \n                iteration = 0\n                \n                while iteration < max_iterations:\n                    context = {**row_dict, output_column_name: current_value}\n                    \n                    if not self._eval_expr(condition_expr, context):\n                        break\n                    \n                    new_row = row_dict.copy()\n                    new_row[output_column_name] = current_value\n                    output_rows.append(new_row)\n                    \n                    current_value = self._eval_expr(loop_expr, context)\n                    iteration += 1\n                \n                if iteration >= max_iterations:\n                    print(f\"Warning: Reached max_iterations ({max_iterations}) for row {idx}.\")\n        \n        # Return result dataframe\n        if len(output_rows) == 0:\n            if df is not None:\n                return pd.DataFrame(columns=list(df.columns) + [output_column_name])\n            else:\n                return pd.DataFrame(columns=[output_column_name])\n        \n        return pd.DataFrame(output_rows)\n\n\n# =============================================================================\n# CONVENIENCE FUNCTION (for simple usage)\n# =============================================================================\n\n# Default instance\n_default_generator = GenerateRows()\n\n\ndef generate_rows(\n    df: Optional[pd.DataFrame] = None,\n    output_column_name: str = None,\n    init_expr: Any = None,\n    condition_expr: str = None,\n    loop_expr: str = None,\n    max_iterations: int = 100000\n) -> pd.DataFrame:\n    \"\"\"\n    Convenience function using default GenerateRows instance.\n    \n    See GenerateRows.generate() for full documentation.\n    \"\"\"\n    return _default_generator.generate(\n        df=df,\n        output_column_name=output_column_name,\n        init_expr=init_expr,\n        condition_expr=condition_expr,\n        loop_expr=loop_expr,\n        max_iterations=max_iterations\n    )\n\nout0 = generate_rows(\n            df=in0,\n            output_column_name=\"m\",\n            init_expr=\"1\",\n            condition_expr=\"(m < 10)\",\n            loop_expr=\"(m + 1)\"\n)\n"
       },
       "ports" : {
         "inputs" : [ {
           "id" : "47_Input",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "s",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "e",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "n",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "d",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            } ]
-          },
           "slug" : "in0"
         } ],
         "outputs" : [ {
@@ -1109,35 +872,9 @@
       },
       "properties" : {
         "relation_name" : [ "RecordID_52" ],
-        "_oldMacroProperties" : {
-          "macroName" : "Transpose",
-          "projectName" : "prophecy_basics",
-          "parameters" : [ {
-            "name" : "relation_name",
-            "value" : "[\"RecordID_52\"]"
-          }, {
-            "name" : "schema",
-            "value" : "[{\"name\": \"e\", \"dataType\": \"Numeric\"}, {\"name\": \"s\", \"dataType\": \"Numeric\"}, {\"name\": \"n\", \"dataType\": \"Numeric\"}, {\"name\": \"y\", \"dataType\": \"Numeric\"}, {\"name\": \"m\", \"dataType\": \"Numeric\"}, {\"name\": \"r\", \"dataType\": \"Numeric\"}, {\"name\": \"o\", \"dataType\": \"Numeric\"}, {\"name\": \"d\", \"dataType\": \"Numeric\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}]"
-          }, {
-            "name" : "nameColumn",
-            "value" : "Name"
-          }, {
-            "name" : "valueColumn",
-            "value" : "Value"
-          }, {
-            "name" : "keyColumns",
-            "value" : "[\"RecordID\"]"
-          }, {
-            "name" : "dataColumns",
-            "value" : "[\"s\", \"e\", \"n\", \"d\", \"m\", \"o\", \"r\", \"y\"]"
-          }, {
-            "name" : "customNames",
-            "value" : "true"
-          } ]
-        },
         "dataColumns" : [ "s", "e", "n", "d", "m", "o", "r", "y" ],
         "customNames" : true,
-        "schema" : "[{\"name\": \"e\", \"dataType\": \"Numeric\"}, {\"name\": \"s\", \"dataType\": \"Numeric\"}, {\"name\": \"n\", \"dataType\": \"Numeric\"}, {\"name\": \"y\", \"dataType\": \"Numeric\"}, {\"name\": \"m\", \"dataType\": \"Numeric\"}, {\"name\": \"r\", \"dataType\": \"Numeric\"}, {\"name\": \"o\", \"dataType\": \"Numeric\"}, {\"name\": \"d\", \"dataType\": \"Numeric\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}]",
+        "schema" : "[{\"name\": \"e\", \"dataType\": \"Integer\"}, {\"name\": \"s\", \"dataType\": \"Integer\"}, {\"name\": \"n\", \"dataType\": \"Integer\"}, {\"name\": \"y\", \"dataType\": \"Integer\"}, {\"name\": \"m\", \"dataType\": \"Integer\"}, {\"name\": \"r\", \"dataType\": \"Integer\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}, {\"name\": \"o\", \"dataType\": \"Integer\"}, {\"name\": \"d\", \"dataType\": \"Integer\"}]",
         "valueColumn" : "Value",
         "keyColumns" : [ "RecordID" ],
         "nameColumn" : "Name"
@@ -1149,9 +886,28 @@
         } ],
         "outputs" : [ {
           "id" : "53_Output",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "Name",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "Value",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "RecordID",
+              "dataType" : {
+                "type" : "Numeric"
+              }
+            } ]
+          },
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       },
       "componentInfo" : {
         "gemId" : "Transpose_prophecy_basics",
@@ -1182,42 +938,19 @@
       "ports" : {
         "inputs" : [ ],
         "outputs" : [ {
-          "id" : "IMa3ThSH2IerlJsundqBQ",
-          "slug" : "out0"
-        } ]
-      }
-    },
-    "WXXcAVdosC55nZEwfML73" : {
-      "id" : "WXXcAVdosC55nZEwfML73",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "TextInput_41_cast",
-        "x" : 780,
-        "y" : 0,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CAST(Problem AS STRING)",
-            "_row_id" : null
+          "id" : "pW7ggnrgQik6TxMbwAOR0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "Solution",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
           },
-          "alias" : "Problem",
-          "description" : null,
-          "_row_id" : "ArRrtCiNaF3D4wkwJ9gpL"
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "EeEscxQX_rwjdMI2oZe0y",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "7Ezv7j2n6YWdkpyYKG7nu",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       }
     },
     "57_left" : {
@@ -1255,17 +988,16 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "fDUZGCh-H26k7qdrsJO6d",
+          "id" : "KsQISXOhGetyuIL7n92Hj",
           "slug" : "in0"
         }, {
-          "id" : "-0Qwn9uy91jQsuUCdnuO3",
+          "id" : "mESWtfi0JGEAqkmivpiUo",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "R7rM5MkNAC5KPQxN6c7bh",
+          "id" : "OewTpHARECtmCwRfYP6CQ",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       }
     },
     "60_join" : {
@@ -1295,7 +1027,7 @@
           },
           "alias" : "Problem",
           "description" : null,
-          "_row_id" : "upCrwsv0YO-oQ6eCydD-W"
+          "_row_id" : "kQpAU4d2W6Zi5EAND9ZNZ"
         }, {
           "expression" : {
             "expression" : "in1.`_rules`",
@@ -1303,7 +1035,7 @@
           },
           "alias" : "_rules",
           "description" : null,
-          "_row_id" : "F9-GG7QeqcIH21vz36VH3"
+          "_row_id" : "XkVWhT9d66a-wLG5LFNPq"
         } ],
         "activeTab" : "conditions",
         "columnsSelector" : [ ],
@@ -1311,58 +1043,24 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "Yum6XxOpsxFS4z9WT0SPJ",
+          "id" : "t-ru2ohBhHPsa-BhtaaSK",
           "slug" : "in0"
         }, {
-          "id" : "pliNX_1k3igLijTt7FkM7",
+          "id" : "DBxoPvE4IqBsaNMQkLOqe",
           "slug" : "in1"
         } ],
         "outputs" : [ {
-          "id" : "q98WTQm1kQZNr-qt-QNzq",
+          "id" : "I_sysr1AX4BcaRl6JKn_p",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
-      }
-    },
-    "CmKDEu6NBpxMK9Ymzgyv4" : {
-      "id" : "CmKDEu6NBpxMK9Ymzgyv4",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "Unique_54_drop_0",
-        "x" : 3000,
-        "y" : 648,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "* EXCEPT(`row_number`)",
-            "_row_id" : null
-          },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
         } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "oGydyFX1o0YjO2iR99Tsa",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "oYakTx7ZTRK55M_YJ-3y1",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
       }
     },
-    "skVj7wIO9GYONZQdiHRC9" : {
-      "id" : "skVj7wIO9GYONZQdiHRC9",
+    "4uSxCewFZAyq5OFApLrDP" : {
+      "id" : "4uSxCewFZAyq5OFApLrDP",
       "component" : "Reformat",
       "metadata" : {
-        "label" : "FindReplace_60_0",
-        "x" : 5940,
+        "label" : "FindReplace_60_reorg_0",
+        "x" : 6120,
         "y" : 360,
         "phase" : 0
       },
@@ -1370,15 +1068,7 @@
         "columnsSelector" : [ ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "aggregate(_rules, `Problem`, (acc, rule) -> regexp_replace(acc, rule['Name'], rule['Value']))",
-            "_row_id" : null
-          },
-          "alias" : "Problem",
-          "description" : null,
-          "_row_id" : "Ez3LcvHX4JWJmnRDGQ9Mm"
-        }, {
-          "expression" : {
-            "expression" : "* EXCEPT(`Problem`, `problem`)",
+            "expression" : "* EXCEPT(`_rules`)",
             "_row_id" : null
           },
           "alias" : null,
@@ -1388,14 +1078,46 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "qIHtZlGBq51x3wKlt8pyl",
+          "id" : "cd0xFrFiHXu004pkAQZzW",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "oq9qO5S8SQ_AsLP1fP4mg",
+          "id" : "ZW6BXpyYfCI_KBBTT_pBG",
           "slug" : "out"
         } ],
         "isCustomOutputSchema" : false
+      }
+    },
+    "etJllb3lmCNf5lEzrQfQE" : {
+      "id" : "etJllb3lmCNf5lEzrQfQE",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_42_cast",
+        "x" : 5160,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Solution AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Solution",
+          "description" : null,
+          "_row_id" : "D_fgGEYRdfQ2gT5kO66PZ"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "auSrunCaCpj5MS0wdb94M",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "pGuR5ihmC15E1P1UPNX1u",
+          "slug" : "out0"
+        } ]
       }
     },
     "41" : {
@@ -1421,6 +1143,43 @@
         "inputs" : [ ],
         "outputs" : [ {
           "id" : "41_Output",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "Problem",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SvVkS-ojjWSX76lVKx3r4" : {
+      "id" : "SvVkS-ojjWSX76lVKx3r4",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Unique_54_filter",
+        "x" : 2640,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(row_number > 1)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ookRs7vmeF8FXkrz_rjoR",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "idlFv2644S9DA4HciyCkC",
           "slug" : "out0"
         } ]
       }
@@ -1443,12 +1202,12 @@
           "name" : "alias",
           "value" : "'seq'"
         } ],
-        "projectName" : "tes_tbq_t"
+        "projectName" : "transpiler_data_matching"
       },
       "ports" : {
         "inputs" : [ ],
         "outputs" : [ {
-          "id" : "GiSmVhuFmMquK3blkY4PM",
+          "id" : "Ps2HL1TEZKMEXKtFmLPG0",
           "schema" : {
             "entityType" : "",
             "providerType" : "BigQuery",
@@ -1489,34 +1248,38 @@
         "outputs" : [ {
           "id" : "52_Output",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
       }
     },
-    "DtgY9k-GFZTNBu19d_Jvg" : {
-      "id" : "DtgY9k-GFZTNBu19d_Jvg",
-      "component" : "Filter",
+    "RBlbU02yRD5ntF5ls1fGw" : {
+      "id" : "RBlbU02yRD5ntF5ls1fGw",
+      "component" : "Reformat",
       "metadata" : {
-        "label" : "Unique_54_filter",
-        "x" : 2640,
-        "y" : 648,
+        "label" : "GenerateRows_43_dropSeq_0",
+        "x" : 360,
+        "y" : 324,
         "phase" : 0
       },
       "properties" : {
         "columnsSelector" : [ ],
-        "condition" : {
-          "expression" : "(row_number > 1)",
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`seq`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
           "_row_id" : null
-        }
+        } ]
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "0wbqyhxqYygvIK-nCotyO",
+          "id" : "2TWpUITI9RXN6aNdvgMKW",
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "j2l0KHeKh54D5KR_TWCkj",
-          "slug" : "out0"
+          "id" : "wJb0rlIqTB6FPODwVIf7f",
+          "slug" : "out"
         } ],
         "isCustomOutputSchema" : false
       }
@@ -1597,19 +1360,19 @@
     "source" : "52",
     "sourcePort" : "52_Output",
     "target" : "57_left",
-    "targetPort" : "fDUZGCh-H26k7qdrsJO6d",
+    "targetPort" : "KsQISXOhGetyuIL7n92Hj",
     "isWireless" : false
   }, {
     "id" : "edge_12",
     "source" : "56",
     "sourcePort" : "56_Output",
     "target" : "57_left",
-    "targetPort" : "-0Qwn9uy91jQsuUCdnuO3",
+    "targetPort" : "mESWtfi0JGEAqkmivpiUo",
     "isWireless" : false
   }, {
     "id" : "edge_13",
     "source" : "57_left",
-    "sourcePort" : "R7rM5MkNAC5KPQxN6c7bh",
+    "sourcePort" : "OewTpHARECtmCwRfYP6CQ",
     "target" : "55",
     "targetPort" : "55_Input",
     "isWireless" : false
@@ -1618,75 +1381,75 @@
     "source" : "52",
     "sourcePort" : "52_Output",
     "target" : "57_inner",
-    "targetPort" : "tl_GlxWmhywje4ktohbIf",
+    "targetPort" : "aBOx4v0G7-Czoqvj4qnvV",
     "isWireless" : false
   }, {
     "id" : "edge_15",
     "source" : "56",
     "sourcePort" : "56_Output",
     "target" : "57_inner",
-    "targetPort" : "Co8gWcMKrKkkniMswUgZ5",
+    "targetPort" : "AbPZ46O-jmyP74R4n6BRZ",
     "isWireless" : false
   }, {
     "id" : "edge_16",
-    "source" : "0wPCmbpEhAhQeSbH1Ll7D",
-    "sourcePort" : "mE5_jASRVuXO_GRQlmRh_",
-    "target" : "DtgY9k-GFZTNBu19d_Jvg",
-    "targetPort" : "0wbqyhxqYygvIK-nCotyO",
+    "source" : "FoQvUwRLqP_YdDl4bCnVf",
+    "sourcePort" : "Bc1ntPKAHsr2EPnBPBqHY",
+    "target" : "SvVkS-ojjWSX76lVKx3r4",
+    "targetPort" : "ookRs7vmeF8FXkrz_rjoR",
     "isWireless" : false
   }, {
     "id" : "edge_17",
     "source" : "53",
     "sourcePort" : "53_Output",
-    "target" : "0wPCmbpEhAhQeSbH1Ll7D",
-    "targetPort" : "vPqjQbGv_vCIgbk-tqL19",
+    "target" : "FoQvUwRLqP_YdDl4bCnVf",
+    "targetPort" : "UU-F5cA-Ul99-83YjvzaK",
     "isWireless" : false
   }, {
     "id" : "edge_18",
     "source" : "62",
     "sourcePort" : "62_Output",
     "target" : "60_allRules",
-    "targetPort" : "NtBOIOKlwPxcLxz5Xp70P",
+    "targetPort" : "QKGLB2qk-8a49mZFefyYI",
     "isWireless" : false
   }, {
     "id" : "edge_19",
     "source" : "60_allRules",
-    "sourcePort" : "p7WI6asth5azvkRLtVjTu",
+    "sourcePort" : "sF0ItyQgP2n9EpKaI8hMB",
     "target" : "60_join",
-    "targetPort" : "pliNX_1k3igLijTt7FkM7",
+    "targetPort" : "DBxoPvE4IqBsaNMQkLOqe",
     "isWireless" : false
   }, {
     "id" : "edge_20",
     "source" : "43_createRow",
-    "sourcePort" : "GiSmVhuFmMquK3blkY4PM",
+    "sourcePort" : "Ps2HL1TEZKMEXKtFmLPG0",
     "target" : "43",
-    "targetPort" : "Gs6UDso1t3nJTEVQiWe2H",
+    "targetPort" : "hGYBsUKv2B6EltF1kX7Si",
     "isWireless" : false
   }, {
     "id" : "edge_21",
     "source" : "41",
     "sourcePort" : "41_Output",
-    "target" : "WXXcAVdosC55nZEwfML73",
-    "targetPort" : "EeEscxQX_rwjdMI2oZe0y",
+    "target" : "a95ctPF51fpgtfBpMQUn4",
+    "targetPort" : "srzcLYqKTPH0WuiEx0oSH",
     "isWireless" : false
   }, {
     "id" : "edge_22",
-    "source" : "WXXcAVdosC55nZEwfML73",
-    "sourcePort" : "7Ezv7j2n6YWdkpyYKG7nu",
+    "source" : "a95ctPF51fpgtfBpMQUn4",
+    "sourcePort" : "VDFs3mfbCQyUJsEeIWyHa",
     "target" : "60_join",
-    "targetPort" : "Yum6XxOpsxFS4z9WT0SPJ",
+    "targetPort" : "t-ru2ohBhHPsa-BhtaaSK",
     "isWireless" : false
   }, {
     "id" : "edge_23",
     "source" : "42",
-    "sourcePort" : "IMa3ThSH2IerlJsundqBQ",
-    "target" : "d3A7YkDkaF74Acd-DmAV-",
-    "targetPort" : "SwFM3u1uLR9lcyFKf7JP2",
+    "sourcePort" : "pW7ggnrgQik6TxMbwAOR0",
+    "target" : "etJllb3lmCNf5lEzrQfQE",
+    "targetPort" : "auSrunCaCpj5MS0wdb94M",
     "isWireless" : false
   }, {
     "id" : "edge_24",
-    "source" : "RYSUIbPS0zdx16y794aNA",
-    "sourcePort" : "Aci9lqplN4-7R6bysUaKs",
+    "source" : "RBlbU02yRD5ntF5ls1fGw",
+    "sourcePort" : "wJb0rlIqTB6FPODwVIf7f",
     "target" : "44",
     "targetPort" : "44_Input",
     "isWireless" : false
@@ -1694,43 +1457,43 @@
     "id" : "edge_25",
     "source" : "43",
     "sourcePort" : "43_Output",
-    "target" : "RYSUIbPS0zdx16y794aNA",
-    "targetPort" : "I4-68dJXlzk_CySkHtoZV",
+    "target" : "RBlbU02yRD5ntF5ls1fGw",
+    "targetPort" : "2TWpUITI9RXN6aNdvgMKW",
     "isWireless" : false
   }, {
     "id" : "edge_26",
-    "source" : "CmKDEu6NBpxMK9Ymzgyv4",
-    "sourcePort" : "oYakTx7ZTRK55M_YJ-3y1",
+    "source" : "e8LtrBa-p-1giBKLpj-RQ",
+    "sourcePort" : "lmuNIVKKCicrKIIklpedA",
     "target" : "56",
     "targetPort" : "56_Input",
     "isWireless" : false
   }, {
     "id" : "edge_27",
-    "source" : "DtgY9k-GFZTNBu19d_Jvg",
-    "sourcePort" : "j2l0KHeKh54D5KR_TWCkj",
-    "target" : "CmKDEu6NBpxMK9Ymzgyv4",
-    "targetPort" : "oGydyFX1o0YjO2iR99Tsa",
+    "source" : "SvVkS-ojjWSX76lVKx3r4",
+    "sourcePort" : "idlFv2644S9DA4HciyCkC",
+    "target" : "e8LtrBa-p-1giBKLpj-RQ",
+    "targetPort" : "jrumTBnDDblj4mCvZAy2i",
     "isWireless" : false
   }, {
     "id" : "edge_28",
     "source" : "60_join",
-    "sourcePort" : "q98WTQm1kQZNr-qt-QNzq",
-    "target" : "skVj7wIO9GYONZQdiHRC9",
-    "targetPort" : "qIHtZlGBq51x3wKlt8pyl",
+    "sourcePort" : "I_sysr1AX4BcaRl6JKn_p",
+    "target" : "I-U8nNUpTA8loeoUqxdIe",
+    "targetPort" : "QnxI0PUPbx9pnyTFF8cVC",
     "isWireless" : false
   }, {
     "id" : "edge_29",
-    "source" : "68vO3O-0E7W_67i_QjXxf",
-    "sourcePort" : "ArFYFjsGL9-ZEfquKE0Ti",
+    "source" : "4uSxCewFZAyq5OFApLrDP",
+    "sourcePort" : "ZW6BXpyYfCI_KBBTT_pBG",
     "target" : "61",
     "targetPort" : "61_Input",
     "isWireless" : false
   }, {
     "id" : "edge_30",
-    "source" : "skVj7wIO9GYONZQdiHRC9",
-    "sourcePort" : "oq9qO5S8SQ_AsLP1fP4mg",
-    "target" : "68vO3O-0E7W_67i_QjXxf",
-    "targetPort" : "QEvX7wWQk6UqCia6BnMEl",
+    "source" : "I-U8nNUpTA8loeoUqxdIe",
+    "sourcePort" : "A-Fg7-lc6Rfss9WI8bSon",
+    "target" : "4uSxCewFZAyq5OFApLrDP",
+    "targetPort" : "cd0xFrFiHXu004pkAQZzW",
     "isWireless" : false
   } ],
   "component" : "Pipeline"
