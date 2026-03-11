@@ -32,8 +32,8 @@ TextInput_42_cast AS (
 Formula_68_0 AS (
 
   SELECT 
-    CAST((locate('[', `Winning team`) - 1) AS INT) AS `Winning Team_1`,
-    CAST((locate('(', `Winning team`) - 1) AS INT) AS `Winning Team_2`,
+    ((INSTR(`Winning team`, '[')) - 1) AS `Winning Team_1`,
+    ((INSTR(`Winning team`, '(')) - 1) AS `Winning Team_2`,
     *
   
   FROM TextInput_42_cast AS in0
@@ -60,8 +60,8 @@ Formula_68_2 AS (
 
   SELECT 
     CAST((SUBSTRING(`Winning team`, 1, FIND_W)) AS STRING) AS Winning_Team,
-    CAST((locate('[', `Losing team`) - 1) AS INT) AS `Losing Team_1`,
-    CAST((locate('(', `Losing team`) - 1) AS INT) AS `Losing Team_2`,
+    ((INSTR(`Losing team`, '[')) - 1) AS `Losing Team_1`,
+    ((INSTR(`Losing team`, '(')) - 1) AS `Losing Team_2`,
     *
   
   FROM Formula_68_1 AS in0
@@ -100,21 +100,21 @@ Cleanse_69 AS (
     prophecy_basics.DataCleansing(
       ['Formula_68_4'], 
       [
-        { "name": "Winning Team_1", "dataType": "Integer" }, 
-        { "name": "Losing Team_2", "dataType": "Integer" }, 
-        { "name": "Ref__", "dataType": "String" }, 
-        { "name": "FIND_W", "dataType": "Integer" }, 
-        { "name": "Losing Team_1", "dataType": "Integer" }, 
         { "name": "Losing_Team", "dataType": "String" }, 
-        { "name": "Winning_Team", "dataType": "String" }, 
-        { "name": "Year", "dataType": "Integer" }, 
-        { "name": "Manager2", "dataType": "String" }, 
         { "name": "FIND_L", "dataType": "Integer" }, 
+        { "name": "Winning_Team", "dataType": "String" }, 
+        { "name": "Losing Team_1", "dataType": "Integer" }, 
+        { "name": "Losing Team_2", "dataType": "Integer" }, 
+        { "name": "FIND_W", "dataType": "Integer" }, 
+        { "name": "Winning Team_1", "dataType": "Integer" }, 
+        { "name": "Winning Team_2", "dataType": "Integer" }, 
+        { "name": "Year", "dataType": "Integer" }, 
+        { "name": "Winning team", "dataType": "String" }, 
+        { "name": "Manager", "dataType": "String" }, 
         { "name": "Games", "dataType": "String" }, 
         { "name": "Losing team", "dataType": "String" }, 
-        { "name": "Manager", "dataType": "String" }, 
-        { "name": "Winning team", "dataType": "String" }, 
-        { "name": "Winning Team_2", "dataType": "Integer" }
+        { "name": "Manager2", "dataType": "String" }, 
+        { "name": "Ref__", "dataType": "String" }
       ], 
       'keepOriginal', 
       ['Winning_Team', 'Losing_Team'], 
@@ -257,12 +257,12 @@ Cleanse_60 AS (
     prophecy_basics.DataCleansing(
       ['Join_57_left_UnionFullOuter'], 
       [
-        { "name": "Appearances_L", "dataType": "Integer" }, 
+        { "name": "length", "dataType": "String" }, 
         { "name": "Winning Years", "dataType": "String" }, 
-        { "name": "Losing_Team", "dataType": "String" }, 
-        { "name": "Winning_Team", "dataType": "String" }, 
         { "name": "Appearances_W", "dataType": "Integer" }, 
-        { "name": "length", "dataType": "String" }
+        { "name": "Winning_Team", "dataType": "String" }, 
+        { "name": "Appearances_L", "dataType": "Integer" }, 
+        { "name": "Losing_Team", "dataType": "String" }
       ], 
       'keepOriginal', 
       ['Appearances_W', 'Appearances_L'], 
@@ -296,7 +296,7 @@ Formula_59_0 AS (
         ELSE Winning_Team
       END
     ) AS STRING) AS Team,
-    (Appearances_W + Appearances_L) AS Appearances,
+    CAST((Appearances_W + Appearances_L) AS INT64) AS Appearances,
     *
   
   FROM Cleanse_60 AS in0
@@ -306,7 +306,7 @@ Formula_59_0 AS (
 Formula_59_1 AS (
 
   SELECT 
-    ((Appearances_W / Appearances) * 100) AS `Winning Percent`,
+    CAST(((Appearances_W / Appearances) * 100) AS INT64) AS `Winning Percent`,
     *
   
   FROM Formula_59_0 AS in0

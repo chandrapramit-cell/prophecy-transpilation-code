@@ -1,0 +1,168 @@
+{
+  "id" : "challenge_154_solution_DL__RecordID_52",
+  "metainfo" : {
+    "label" : "challenge_154_solution_DL__RecordID_52",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"anurag_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "RecordID_52_52_Output" : {
+      "id" : "RecordID_52_52_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "RecordID_52"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM RecordID_52\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "52" : {
+      "id" : "52",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RecordID_52",
+        "x" : 420,
+        "y" : 288,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n      *,\n      row_number() OVER (ORDER BY 1) AS `RecordID`\n    FROM TextInput_1_cast\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "52_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "52_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EuZrMM9id2ywo4wjmgnoh" : {
+      "id" : "EuZrMM9id2ywo4wjmgnoh",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_1_cast",
+        "x" : 180,
+        "y" : 288,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Options AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Options",
+          "description" : null,
+          "_row_id" : "osJ31DnJtV441ndmcHPSb"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "0h0TciiK8LBI3UU9HY4uK",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "hM6SPhlVrrhMVzOR-U-qr",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1" : {
+      "id" : "1",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "TextInput_1",
+        "x" : 0,
+        "y" : 288,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_1",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "1_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_52_52_Output_RecordID_52_52_Output",
+    "source" : "52",
+    "sourcePort" : "52_Output",
+    "target" : "RecordID_52_52_Output",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_60",
+    "source" : "EuZrMM9id2ywo4wjmgnoh",
+    "sourcePort" : "hM6SPhlVrrhMVzOR-U-qr",
+    "target" : "52",
+    "targetPort" : "52_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_59",
+    "source" : "1",
+    "sourcePort" : "1_Output",
+    "target" : "EuZrMM9id2ywo4wjmgnoh",
+    "targetPort" : "0h0TciiK8LBI3UU9HY4uK",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

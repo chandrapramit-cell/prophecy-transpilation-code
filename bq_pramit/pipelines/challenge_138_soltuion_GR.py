@@ -12,10 +12,6 @@ with Pipeline(args) as pipeline:
         name = "challenge_138_soltuion_GR__AlteryxSelect_62",
         properties = ModelTransform(modelName = "challenge_138_soltuion_GR__AlteryxSelect_62")
     )
-    challenge_138_soltuion_gr__textinput_44_cast = Process(
-        name = "challenge_138_soltuion_GR__TextInput_44_cast",
-        properties = ModelTransform(modelName = "challenge_138_soltuion_GR__TextInput_44_cast")
-    )
     textinput_44 = Process(
         name = "TextInput_44",
         properties = Dataset(
@@ -23,6 +19,10 @@ with Pipeline(args) as pipeline:
           table = Dataset.DBTSource(name = "seed_44", sourceType = "Seed")
         ),
         input_ports = None
+    )
+    challenge_138_soltuion_gr__textinput_44_cast = Process(
+        name = "challenge_138_soltuion_GR__TextInput_44_cast",
+        properties = ModelTransform(modelName = "challenge_138_soltuion_GR__TextInput_44_cast")
     )
     textinput_42 = Process(
         name = "TextInput_42",

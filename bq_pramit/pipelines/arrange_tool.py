@@ -8,6 +8,14 @@ args = PipelineArgs(
 )
 
 with Pipeline(args) as pipeline:
+    table_1 = Process(
+        name = "Table_1",
+        properties = Dataset(
+          table = Dataset.DBTSource(name = "array", sourceType = "Seed"),
+          writeOptions = {"writeMode" : "overwrite"}
+        ),
+        input_ports = None
+    )
     arrange_tool__arrange_2_selectcols = Process(
         name = "arrange_tool__Arrange_2_selectCols",
         properties = ModelTransform(modelName = "arrange_tool__Arrange_2_selectCols")
@@ -20,6 +28,10 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
+    arrange_tool__reformat_3 = Process(
+        name = "arrange_tool__reformat_3",
+        properties = ModelTransform(modelName = "arrange_tool__reformat_3")
+    )
     arrange_tool__reformat_1 = Process(
         name = "arrange_tool__reformat_1",
         properties = ModelTransform(modelName = "arrange_tool__reformat_1")
@@ -29,4 +41,5 @@ with Pipeline(args) as pipeline:
         properties = CallStoredProc(storedProcedureIdentifier = "prophecy-databricks-qa.avpreetTables.fib", passThroughColumns = [])
     )
     textinput_1 >> arrange_tool__arrange_2_selectcols
+    table_1 >> arrange_tool__reformat_3
     fib_1 >> arrange_tool__reformat_1
