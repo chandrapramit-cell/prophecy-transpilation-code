@@ -1,0 +1,319 @@
+{
+  "id" : "challenge_239_solution__Summarize_56",
+  "metainfo" : {
+    "label" : "challenge_239_solution__Summarize_56",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"anurag_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "RecordID_52_52_Output" : {
+      "id" : "RecordID_52_52_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RecordID_52"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('challenge_239_solution__RecordID_52') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "56" : {
+      "id" : "56",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_56",
+        "x" : 3300,
+        "y" : 684,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "RecordID",
+            "_row_id" : null
+          },
+          "alias" : "RecordID",
+          "description" : null,
+          "_row_id" : "9QekqKMJld7XfHPmisNr2"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "56_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "56_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "0wPCmbpEhAhQeSbH1Ll7D" : {
+      "id" : "0wPCmbpEhAhQeSbH1Ll7D",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Unique_54_window",
+        "x" : 2460,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER (PARTITION BY RECORDID, VALUE))",
+            "_row_id" : null
+          },
+          "alias" : "row_number",
+          "description" : null,
+          "_row_id" : "lVc4B_5NFs56rnxN5suFH"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vPqjQbGv_vCIgbk-tqL19",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "mE5_jASRVuXO_GRQlmRh_",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "53" : {
+      "id" : "53",
+      "component" : "Transpose",
+      "metadata" : {
+        "label" : "Transpose_53",
+        "x" : 1980,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "RecordID_52" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Transpose",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"RecordID_52\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"e\", \"dataType\": \"Numeric\"}, {\"name\": \"s\", \"dataType\": \"Numeric\"}, {\"name\": \"n\", \"dataType\": \"Numeric\"}, {\"name\": \"y\", \"dataType\": \"Numeric\"}, {\"name\": \"m\", \"dataType\": \"Numeric\"}, {\"name\": \"r\", \"dataType\": \"Numeric\"}, {\"name\": \"o\", \"dataType\": \"Numeric\"}, {\"name\": \"d\", \"dataType\": \"Numeric\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}]"
+          }, {
+            "name" : "nameColumn",
+            "value" : "Name"
+          }, {
+            "name" : "valueColumn",
+            "value" : "Value"
+          }, {
+            "name" : "keyColumns",
+            "value" : "[\"RecordID\"]"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[\"s\", \"e\", \"n\", \"d\", \"m\", \"o\", \"r\", \"y\"]"
+          }, {
+            "name" : "customNames",
+            "value" : "true"
+          } ]
+        },
+        "dataColumns" : [ "s", "e", "n", "d", "m", "o", "r", "y" ],
+        "customNames" : true,
+        "schema" : "[{\"name\": \"e\", \"dataType\": \"Numeric\"}, {\"name\": \"s\", \"dataType\": \"Numeric\"}, {\"name\": \"n\", \"dataType\": \"Numeric\"}, {\"name\": \"y\", \"dataType\": \"Numeric\"}, {\"name\": \"m\", \"dataType\": \"Numeric\"}, {\"name\": \"r\", \"dataType\": \"Numeric\"}, {\"name\": \"o\", \"dataType\": \"Numeric\"}, {\"name\": \"d\", \"dataType\": \"Numeric\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}]",
+        "valueColumn" : "Value",
+        "keyColumns" : [ "RecordID" ],
+        "nameColumn" : "Name"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "53_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "53_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_56_56_Output" : {
+      "id" : "Summarize_56_56_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_56"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_56\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CmKDEu6NBpxMK9Ymzgyv4" : {
+      "id" : "CmKDEu6NBpxMK9Ymzgyv4",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Unique_54_drop_0",
+        "x" : 3000,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`row_number`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "oGydyFX1o0YjO2iR99Tsa",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "oYakTx7ZTRK55M_YJ-3y1",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DtgY9k-GFZTNBu19d_Jvg" : {
+      "id" : "DtgY9k-GFZTNBu19d_Jvg",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Unique_54_filter",
+        "x" : 2640,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(row_number > 1)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "0wbqyhxqYygvIK-nCotyO",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "j2l0KHeKh54D5KR_TWCkj",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_56_56_Output_Summarize_56_56_Output",
+    "source" : "56",
+    "sourcePort" : "56_Output",
+    "target" : "Summarize_56_56_Output",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_26",
+    "source" : "CmKDEu6NBpxMK9Ymzgyv4",
+    "sourcePort" : "oYakTx7ZTRK55M_YJ-3y1",
+    "target" : "56",
+    "targetPort" : "56_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_27",
+    "source" : "DtgY9k-GFZTNBu19d_Jvg",
+    "sourcePort" : "j2l0KHeKh54D5KR_TWCkj",
+    "target" : "CmKDEu6NBpxMK9Ymzgyv4",
+    "targetPort" : "oGydyFX1o0YjO2iR99Tsa",
+    "isWireless" : false
+  }, {
+    "id" : "edge_16",
+    "source" : "0wPCmbpEhAhQeSbH1Ll7D",
+    "sourcePort" : "mE5_jASRVuXO_GRQlmRh_",
+    "target" : "DtgY9k-GFZTNBu19d_Jvg",
+    "targetPort" : "0wbqyhxqYygvIK-nCotyO",
+    "isWireless" : false
+  }, {
+    "id" : "edge_17",
+    "source" : "53",
+    "sourcePort" : "53_Output",
+    "target" : "0wPCmbpEhAhQeSbH1Ll7D",
+    "targetPort" : "vPqjQbGv_vCIgbk-tqL19",
+    "isWireless" : false
+  }, {
+    "id" : "edge_9",
+    "source" : "RecordID_52_52_Output",
+    "sourcePort" : "output_port_4",
+    "target" : "53",
+    "targetPort" : "53_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

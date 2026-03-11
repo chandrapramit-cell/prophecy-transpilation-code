@@ -30,21 +30,21 @@ TextInput_1_cast AS (
 
 Arrange_2_consolidatedDataCol_0 AS (
 
+  {#Compiles a consolidated data column with an empty placeholder alongside input data for downstream processing.#}
   SELECT 
-    (array()) AS _consolidated_data_col,
+    [] AS _consolidated_data_col,
     *
   
   FROM TextInput_1_cast AS in0
 
 ),
 
-Arrange_2_explode_0 AS (
+Arrange_2_explode AS (
 
-  SELECT 
-    (EXPLODE(`_consolidated_data_col`)) AS _exploded_data_col,
-    *
+  SELECT * 
   
   FROM Arrange_2_consolidatedDataCol_0 AS in0
+  LEFT JOIN UNNEST(`_consolidated_data_col`) AS _exploded_data_col
 
 ),
 
@@ -52,7 +52,7 @@ Arrange_2 AS (
 
   SELECT *
   
-  FROM Arrange_2_explode_0
+  FROM Arrange_2_explode
 
 ),
 

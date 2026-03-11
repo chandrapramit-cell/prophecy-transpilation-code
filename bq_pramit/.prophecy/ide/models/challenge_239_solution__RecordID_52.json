@@ -1,0 +1,161 @@
+{
+  "id" : "challenge_239_solution__RecordID_52",
+  "metainfo" : {
+    "label" : "challenge_239_solution__RecordID_52",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"anurag_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "RecordID_52_52_Output" : {
+      "id" : "RecordID_52_52_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "RecordID_52"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM RecordID_52\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "52" : {
+      "id" : "52",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RecordID_52",
+        "x" : 1500,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n      *,\n      row_number() OVER (ORDER BY 1) AS `RecordID`\n    FROM Filter_51\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "52_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "52_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "51" : {
+      "id" : "51",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_51",
+        "x" : 1020,
+        "y" : 684,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(((((((((s * 1000) + (e * 100)) + (n * 10)) + d) + (m * 1000)) + (o * 100)) + (r * 10)) + e) = (((((m * 10000) + (o * 1000)) + (n * 100)) + (e * 10)) + y))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "51_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "51_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GenerateRows_50_50_Output" : {
+      "id" : "GenerateRows_50_50_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GenerateRows_50"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('challenge_239_solution', 'GenerateRows_50') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_52_52_Output_RecordID_52_52_Output",
+    "source" : "52",
+    "sourcePort" : "52_Output",
+    "target" : "RecordID_52_52_Output",
+    "targetPort" : "input_port_4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_8",
+    "source" : "51",
+    "sourcePort" : "51_True",
+    "target" : "52",
+    "targetPort" : "52_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_7",
+    "source" : "GenerateRows_50_50_Output",
+    "sourcePort" : "output_port_3",
+    "target" : "51",
+    "targetPort" : "51_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
