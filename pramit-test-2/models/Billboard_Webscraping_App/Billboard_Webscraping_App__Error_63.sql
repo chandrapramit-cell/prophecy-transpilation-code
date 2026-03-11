@@ -9,30 +9,41 @@
 WITH Error_63 AS (
 
   SELECT CASE
-           WHEN not(
-             CAST((
+           WHEN (
+             NOT CAST((
                (
-                 coalesce(
-                   CAST(substring(
-                     substring({{ var('Text_Box_42') }}, 1, 7), 
-                     ((length(substring({{ var('Text_Box_42') }}, 1, 7)) - 2) + 1), 
-                     2) AS DOUBLE), 
-                   CAST(regexp_extract(
-                     substring(
-                       substring({{ var('Text_Box_42') }}, 1, 7), 
-                       ((length(substring({{ var('Text_Box_42') }}, 1, 7)) - 2) + 1), 
-                       2), 
-                     '^[0-9]+', 
-                     0) AS INT), 
-                   0) > 12
+                 (
+                   coalesce(
+                     CAST((
+                       SUBSTRING(
+                         (SUBSTRING({{ var('TEXT_BOX_42') }}, 1, 7)), 
+                         (((LENGTH((SUBSTRING({{ var('TEXT_BOX_42') }}, 1, 7)))) - 2) + 1), 
+                         2)
+                     ) AS FLOAT64), 
+                     CAST((
+                       REGEXP_EXTRACT(
+                         (
+                           SUBSTRING(
+                             (SUBSTRING({{ var('TEXT_BOX_42') }}, 1, 7)), 
+                             (((LENGTH((SUBSTRING({{ var('TEXT_BOX_42') }}, 1, 7)))) - 2) + 1), 
+                             2)
+                         ), 
+                         '^[0-9]+', 
+                         0)
+                     ) AS INT64), 
+                     0)
+                 ) > 12
                )
                OR (
-                    coalesce(
-                      CAST(substring({{ var('Text_Box_42') }}, ((length({{ var('Text_Box_42') }}) - 2) + 1), 2) AS DOUBLE), 
-                      CAST(regexp_extract(substring({{ var('Text_Box_42') }}, ((length({{ var('Text_Box_42') }}) - 2) + 1), 2), '^[0-9]+', 0) AS INT), 
-                      0) > 31
+                    (
+                      coalesce(
+                        CAST((SUBSTRING({{ var('TEXT_BOX_42') }}, (((LENGTH({{ var('TEXT_BOX_42') }})) - 2) + 1), 2)) AS FLOAT64), 
+                        CAST((REGEXP_EXTRACT((SUBSTRING({{ var('TEXT_BOX_42') }}, (((LENGTH({{ var('TEXT_BOX_42') }})) - 2) + 1), 2)), '^[0-9]+', 0)) AS INT64), 
+                        0)
+                    ) > 31
                   )
-             ) AS BOOLEAN))
+             ) AS BOOLEAN)
+           )
              THEN TRUE
            ELSE ERROR('Error validating config for tool: 63')
          END AS check_config63

@@ -16,10 +16,6 @@ args = PipelineArgs(
 )
 
 with Pipeline(args) as pipeline:
-    billboard_webscraping_app__download_21_21_requestcomponents_0 = Process(
-        name = "Billboard_Webscraping_App__Download_21_21_requestComponents_0",
-        properties = ModelTransform(modelName = "Billboard_Webscraping_App__Download_21_21_requestComponents_0")
-    )
     billboard_webscraping_app__error_62 = Process(
         name = "Billboard_Webscraping_App__Error_62",
         properties = ModelTransform(modelName = "Billboard_Webscraping_App__Error_62"),
@@ -75,6 +71,10 @@ with Pipeline(args) as pipeline:
           table = Dataset.DBTSource(name = "seed_20", sourceType = "Seed")
         ),
         input_ports = None
+    )
+    billboard_webscraping_app__download_21_21_requestcomponents_0 = Process(
+        name = "Billboard_Webscraping_App__Download_21_21_requestComponents_0",
+        properties = ModelTransform(modelName = "Billboard_Webscraping_App__Download_21_21_requestComponents_0")
     )
     billboard_webscraping_app__error_63 = Process(
         name = "Billboard_Webscraping_App__Error_63",

@@ -9,7 +9,7 @@
 WITH Error_64 AS (
 
   SELECT CASE
-           WHEN not(CAST(not(contains(coalesce(lower({{ var('List_Box_48') }}), ''), lower('True'))) AS BOOLEAN))
+           WHEN (NOT CAST((NOT CAST(((STRPOS((coalesce(LOWER({{ var('LIST_BOX_48') }}), '')), LOWER('True'))) > 0) AS BOOLEAN)) AS BOOLEAN))
              THEN TRUE
            ELSE ERROR('Error validating config for tool: 64')
          END AS check_config64
