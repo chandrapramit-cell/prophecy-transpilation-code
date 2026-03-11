@@ -18,10 +18,6 @@ with Pipeline(args) as pipeline:
         ),
         is_custom_output_schema = True
     )
-    challenge_239_solution__generaterows_43_dropseq_0 = Process(
-        name = "challenge_239_solution__GenerateRows_43_dropSeq_0",
-        properties = ModelTransform(modelName = "challenge_239_solution__GenerateRows_43_dropSeq_0")
-    )
     generaterows_44 = Process(
         name = "GenerateRows_44",
         properties = Script(
@@ -50,10 +46,6 @@ with Pipeline(args) as pipeline:
         name = "challenge_239_solution__AlteryxSelect_61",
         properties = ModelTransform(modelName = "challenge_239_solution__AlteryxSelect_61"),
         input_ports = ["in_0", "in_1", "in_2"]
-    )
-    challenge_239_solution__textinput_42_cast = Process(
-        name = "challenge_239_solution__TextInput_42_cast",
-        properties = ModelTransform(modelName = "challenge_239_solution__TextInput_42_cast")
     )
     generaterows_46 = Process(
         name = "GenerateRows_46",
@@ -118,6 +110,10 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
+    challenge_239_solution__textinput_42_cast = Process(
+        name = "challenge_239_solution__TextInput_42_cast",
+        properties = ModelTransform(modelName = "challenge_239_solution__TextInput_42_cast")
+    )
     textinput_41 = Process(
         name = "TextInput_41",
         properties = Dataset(
@@ -135,8 +131,13 @@ with Pipeline(args) as pipeline:
         name = "challenge_239_solution__RecordID_52",
         properties = ModelTransform(modelName = "challenge_239_solution__RecordID_52")
     )
+    challenge_239_solution__generaterows_43_dropseq_0 = Process(
+        name = "challenge_239_solution__GenerateRows_43_dropSeq_0",
+        properties = ModelTransform(modelName = "challenge_239_solution__GenerateRows_43_dropSeq_0")
+    )
     generaterows_49 >> generaterows_50
     generaterows_48 >> generaterows_49
+    textinput_42 >> challenge_239_solution__textinput_42_cast
     (
         challenge_239_solution__summarize_56._out(0)
         >> [challenge_239_solution__alteryxselect_61._in(1), challenge_239_solution__join_57_inner._in(1)]
@@ -150,7 +151,6 @@ with Pipeline(args) as pipeline:
     generaterows_46 >> generaterows_47
     challenge_239_solution__generaterows_43_createrow >> generaterows_43
     challenge_239_solution__generaterows_43_dropseq_0 >> generaterows_44
-    textinput_42 >> challenge_239_solution__textinput_42_cast
     generaterows_44 >> generaterows_45
     generaterows_50 >> challenge_239_solution__recordid_52
     generaterows_45 >> generaterows_46

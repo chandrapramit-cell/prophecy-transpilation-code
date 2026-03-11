@@ -23,7 +23,7 @@ Transpose_53 AS (
       ['s', 'e', 'n', 'd', 'm', 'o', 'r', 'y'], 
       'Name', 
       'Value', 
-      ['e', 's', 'n', 'y', 'm', 'r', 'o', 'd', 'RecordID'], 
+      ['e', 's', 'n', 'y', 'm', 'r', 'RecordID', 'o', 'd'], 
       true
     )
   }}

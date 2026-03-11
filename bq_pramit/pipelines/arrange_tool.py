@@ -20,4 +20,13 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
+    arrange_tool__reformat_1 = Process(
+        name = "arrange_tool__reformat_1",
+        properties = ModelTransform(modelName = "arrange_tool__reformat_1")
+    )
+    fib_1 = Process(
+        name = "fib_1",
+        properties = CallStoredProc(storedProcedureIdentifier = "prophecy-databricks-qa.avpreetTables.fib", passThroughColumns = [])
+    )
     textinput_1 >> arrange_tool__arrange_2_selectcols
+    fib_1 >> arrange_tool__reformat_1

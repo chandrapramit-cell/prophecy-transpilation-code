@@ -8,7 +8,7 @@
 
 WITH GenerateRows_43_createRow AS (
 
-  {{ tes_tbq_t.create_data(n = 1, alias = 'seq') }}
+  {{ transpiler_data_matching.create_data(n = 1, alias = 'seq') }}
 
 )
 
