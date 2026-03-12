@@ -1,0 +1,293 @@
+{
+  "id" : "challenge_239_solution__Summarize_56",
+  "metainfo" : {
+    "label" : "challenge_239_solution__Summarize_56",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"anurag_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "e8LtrBa-p-1giBKLpj-RQ" : {
+      "id" : "e8LtrBa-p-1giBKLpj-RQ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Unique_54_drop_0",
+        "x" : 3020,
+        "y" : 240,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`row_number`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "jrumTBnDDblj4mCvZAy2i",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "lmuNIVKKCicrKIIklpedA",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RecordID_52_52_Output" : {
+      "id" : "RecordID_52_52_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RecordID_52"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('challenge_239_solution__RecordID_52') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "56" : {
+      "id" : "56",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_56",
+        "x" : 3220,
+        "y" : 240,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "RecordID",
+            "_row_id" : null
+          },
+          "alias" : "RecordID",
+          "description" : null,
+          "_row_id" : "EUo3KveSB9nozIq-ZFxS0"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "56_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "56_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "FoQvUwRLqP_YdDl4bCnVf" : {
+      "id" : "FoQvUwRLqP_YdDl4bCnVf",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Unique_54_window",
+        "x" : 2620,
+        "y" : 240,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER (PARTITION BY RECORDID, VALUE))",
+            "_row_id" : null
+          },
+          "alias" : "row_number",
+          "description" : null,
+          "_row_id" : "GeZYNm2BaPG0_lolkd0EV"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "UU-F5cA-Ul99-83YjvzaK",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Bc1ntPKAHsr2EPnBPBqHY",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "53" : {
+      "id" : "53",
+      "component" : "Transpose",
+      "metadata" : {
+        "label" : "Transpose_53",
+        "x" : 2420,
+        "y" : 240,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "RecordID_52" ],
+        "dataColumns" : [ "s", "e", "n", "d", "m", "o", "r", "y" ],
+        "customNames" : true,
+        "schema" : "[{\"name\": \"e\", \"dataType\": \"Integer\"}, {\"name\": \"s\", \"dataType\": \"Integer\"}, {\"name\": \"n\", \"dataType\": \"Integer\"}, {\"name\": \"y\", \"dataType\": \"Integer\"}, {\"name\": \"m\", \"dataType\": \"Integer\"}, {\"name\": \"r\", \"dataType\": \"Integer\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}, {\"name\": \"o\", \"dataType\": \"Integer\"}, {\"name\": \"d\", \"dataType\": \"Integer\"}]",
+        "valueColumn" : "Value",
+        "keyColumns" : [ "RecordID" ],
+        "nameColumn" : "Name"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "53_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "53_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_56_56_Output" : {
+      "id" : "Summarize_56_56_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_56"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_56\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SvVkS-ojjWSX76lVKx3r4" : {
+      "id" : "SvVkS-ojjWSX76lVKx3r4",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Unique_54_filter",
+        "x" : 2820,
+        "y" : 240,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(row_number > 1)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ookRs7vmeF8FXkrz_rjoR",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "idlFv2644S9DA4HciyCkC",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_56_56_Output_Summarize_56_56_Output",
+    "source" : "56",
+    "sourcePort" : "56_Output",
+    "target" : "Summarize_56_56_Output",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_26",
+    "source" : "e8LtrBa-p-1giBKLpj-RQ",
+    "sourcePort" : "lmuNIVKKCicrKIIklpedA",
+    "target" : "56",
+    "targetPort" : "56_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_27",
+    "source" : "SvVkS-ojjWSX76lVKx3r4",
+    "sourcePort" : "idlFv2644S9DA4HciyCkC",
+    "target" : "e8LtrBa-p-1giBKLpj-RQ",
+    "targetPort" : "jrumTBnDDblj4mCvZAy2i",
+    "isWireless" : false
+  }, {
+    "id" : "edge_16",
+    "source" : "FoQvUwRLqP_YdDl4bCnVf",
+    "sourcePort" : "Bc1ntPKAHsr2EPnBPBqHY",
+    "target" : "SvVkS-ojjWSX76lVKx3r4",
+    "targetPort" : "ookRs7vmeF8FXkrz_rjoR",
+    "isWireless" : false
+  }, {
+    "id" : "edge_17",
+    "source" : "53",
+    "sourcePort" : "53_Output",
+    "target" : "FoQvUwRLqP_YdDl4bCnVf",
+    "targetPort" : "UU-F5cA-Ul99-83YjvzaK",
+    "isWireless" : false
+  }, {
+    "id" : "edge_9",
+    "source" : "RecordID_52_52_Output",
+    "sourcePort" : "output_port_4",
+    "target" : "53",
+    "targetPort" : "53_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

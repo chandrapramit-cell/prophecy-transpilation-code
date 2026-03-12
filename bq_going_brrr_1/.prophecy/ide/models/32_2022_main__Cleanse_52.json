@@ -1,0 +1,473 @@
+{
+  "id" : "32_2022_main__Cleanse_52",
+  "metainfo" : {
+    "label" : "32_2022_main__Cleanse_52",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "1kObSSv0GaDsNqrZkJ-am" : {
+      "id" : "1kObSSv0GaDsNqrZkJ-am",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_44_0",
+        "x" : 19080,
+        "y" : 972,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CONCAT(Sum_UF, Sum_US))",
+            "_row_id" : null
+          },
+          "alias" : "TotalUpperShots",
+          "description" : null,
+          "_row_id" : "BeqdEEbFwodVgkJKM7hUX"
+        }, {
+          "expression" : {
+            "expression" : "(CONCAT(Sum_LF, Sum_LS))",
+            "_row_id" : null
+          },
+          "alias" : "TotalLowerShots",
+          "description" : null,
+          "_row_id" : "anoRDa6KxFQ5hLbq-YSxk"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dGANc6qm2i6004fJXr5WX",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ndqy-6QzBYHyf9Da2gQub",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "okRyK5OAjWPoMjUXjC5U7" : {
+      "id" : "okRyK5OAjWPoMjUXjC5U7",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_44_2",
+        "x" : 19440,
+        "y" : 972,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST ((((CONCAT(Sum_US, Sum_LS)) / TotalShots) * 100) AS FLOAT64)",
+            "_row_id" : null
+          },
+          "alias" : "TotalShotAccuracy",
+          "description" : null,
+          "_row_id" : "Kgm5Aha2eBGEyucAM_iR8"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "TyORlCM4CwMK7QUl7ishV",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "wHp-cU_rrSvZJY7Xjaw6A",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_39_0_knSlWikee_9BWmfktZU4h" : {
+      "id" : "Formula_39_0_knSlWikee_9BWmfktZU4h",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_39_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_9",
+          "id" : "output_port_9",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('32_2022_main__Formula_39_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_9",
+          "slug" : "input_port_9"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_9",
+          "slug" : "output_port_9"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "42" : {
+      "id" : "42",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_42",
+        "x" : 18360,
+        "y" : 972,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(CAST(LF AS NUMERIC))",
+            "_row_id" : null
+          },
+          "alias" : "Sum_LF",
+          "description" : null,
+          "_row_id" : "_UTylE4aAvOat-3NMlf9y"
+        }, {
+          "expression" : {
+            "expression" : "SUM(CAST(LS AS NUMERIC))",
+            "_row_id" : null
+          },
+          "alias" : "Sum_LS",
+          "description" : null,
+          "_row_id" : "H0Rt1V7l6z8O0N12lrZpK"
+        }, {
+          "expression" : {
+            "expression" : "SUM(CAST(UF AS NUMERIC))",
+            "_row_id" : null
+          },
+          "alias" : "Sum_UF",
+          "description" : null,
+          "_row_id" : "qThqtlNVIMS8ZJyccK-Wg"
+        }, {
+          "expression" : {
+            "expression" : "SUM(CAST(US AS NUMERIC))",
+            "_row_id" : null
+          },
+          "alias" : "Sum_US",
+          "description" : null,
+          "_row_id" : "b_1mFu-NN6jfZDkUCYBmG"
+        }, {
+          "expression" : {
+            "expression" : "x",
+            "_row_id" : null
+          },
+          "alias" : "x",
+          "description" : null,
+          "_row_id" : "aCnCutB0jZo4Ryr56450l"
+        }, {
+          "expression" : {
+            "expression" : "y",
+            "_row_id" : null
+          },
+          "alias" : "y",
+          "description" : null,
+          "_row_id" : "2a_rCBknmn-NzY-E_-5tG"
+        }, {
+          "expression" : {
+            "expression" : "GridX",
+            "_row_id" : null
+          },
+          "alias" : "GridX",
+          "description" : null,
+          "_row_id" : "iyXNmnzrzX0gA2mUYWFYW"
+        }, {
+          "expression" : {
+            "expression" : "Team",
+            "_row_id" : null
+          },
+          "alias" : "Team",
+          "description" : null,
+          "_row_id" : "Q3sB9-0C9gnCSXirP_GvM"
+        }, {
+          "expression" : {
+            "expression" : "mode",
+            "_row_id" : null
+          },
+          "alias" : "mode",
+          "description" : null,
+          "_row_id" : "_bqO1mc2ejSjKLT55WXwR"
+        }, {
+          "expression" : {
+            "expression" : "GridY",
+            "_row_id" : null
+          },
+          "alias" : "GridY",
+          "description" : null,
+          "_row_id" : "T66mXwTDZ7iCVbpYDRYDq"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "x",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "ZsxvD6KeuNJoOypFwstBd"
+        }, {
+          "expression" : {
+            "expression" : "y",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "CucZFH3Tyc9nRyblIdBkP"
+        }, {
+          "expression" : {
+            "expression" : "GridX",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "RX5VnxNNgMx2OoaPTomKP"
+        }, {
+          "expression" : {
+            "expression" : "Team",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "4aUbIFP5behxL52A9-7Uo"
+        }, {
+          "expression" : {
+            "expression" : "mode",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "8snpoi4G_SmyWDYvsXy7F"
+        }, {
+          "expression" : {
+            "expression" : "GridY",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "KM7_JudrZetETULEuZ36y"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "42_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "42_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "rhhc9RDIbxqNa8OcFENie" : {
+      "id" : "rhhc9RDIbxqNa8OcFENie",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_44_1",
+        "x" : 19260,
+        "y" : 972,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST (((CAST (Sum_US AS INT64) / TotalUpperShots) * 100) AS FLOAT64)",
+            "_row_id" : null
+          },
+          "alias" : "UpperShotAccuracy",
+          "description" : null,
+          "_row_id" : "tGabEH4Ii-ZsqUXpuJMzI"
+        }, {
+          "expression" : {
+            "expression" : "CAST (((CAST (Sum_LS AS INT64) / TotalLowerShots) * 100) AS FLOAT64)",
+            "_row_id" : null
+          },
+          "alias" : "LowerShotAccuracy",
+          "description" : null,
+          "_row_id" : "rz5RogVXxR-LZBnwQFZ66"
+        }, {
+          "expression" : {
+            "expression" : "(TotalUpperShots + TotalLowerShots)",
+            "_row_id" : null
+          },
+          "alias" : "TotalShots",
+          "description" : null,
+          "_row_id" : "O2vS_e4cHAOAE-2_v0AmW"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "zBfF9ehNf3ZKX2ThleAFZ",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "bw63uk2mc2KOEs-OrTToV",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Cleanse_52_52_Output26" : {
+      "id" : "Cleanse_52_52_Output26",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Cleanse_52"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Cleanse_52\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "52" : {
+      "id" : "52",
+      "component" : "DataCleansing",
+      "metadata" : {
+        "label" : "Cleanse_52",
+        "x" : 21360,
+        "y" : 972,
+        "phase" : 0
+      },
+      "properties" : {
+        "trimWhiteSpace" : true,
+        "replaceNullForNumericFields" : true,
+        "cleanLetters" : false,
+        "replaceNullTextWith" : "",
+        "removeRowNullAllCols" : false,
+        "replaceNullTextFields" : false,
+        "relation_name" : [ "Formula_44_2" ],
+        "columnNames" : [ "TotalUpperShots", "TotalLowerShots", "UpperShotAccuracy", "LowerShotAccuracy", "TotalShots", "TotalShotAccuracy" ],
+        "schema" : "[{\"name\": \"x\", \"dataType\": \"String\"}, {\"name\": \"Sum_UF\", \"dataType\": \"String\"}, {\"name\": \"TotalUpperShots\", \"dataType\": \"Integer\"}, {\"name\": \"Sum_US\", \"dataType\": \"String\"}, {\"name\": \"y\", \"dataType\": \"String\"}, {\"name\": \"GridX\", \"dataType\": \"Integer\"}, {\"name\": \"TotalShotAccuracy\", \"dataType\": \"Double\"}, {\"name\": \"LowerShotAccuracy\", \"dataType\": \"Double\"}, {\"name\": \"UpperShotAccuracy\", \"dataType\": \"Double\"}, {\"name\": \"Sum_LS\", \"dataType\": \"String\"}, {\"name\": \"Team\", \"dataType\": \"Integer\"}, {\"name\": \"mode\", \"dataType\": \"String\"}, {\"name\": \"TotalShots\", \"dataType\": \"Integer\"}, {\"name\": \"GridY\", \"dataType\": \"Integer\"}, {\"name\": \"Sum_LF\", \"dataType\": \"String\"}, {\"name\": \"TotalLowerShots\", \"dataType\": \"Integer\"}]",
+        "allWhiteSpace" : false,
+        "removeTabsLineBreaksAndDuplicateWhitespace" : false,
+        "modifyCase" : "keepOriginal",
+        "cleanPunctuations" : false,
+        "cleanNumbers" : false,
+        "replaceNullNumericWith" : 0
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "52_Input2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "52_Output26",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_52_52_Output26_Cleanse_52_52_Output26",
+    "source" : "52",
+    "sourcePort" : "52_Output26",
+    "target" : "Cleanse_52_52_Output26",
+    "targetPort" : "input_port_13",
+    "isWireless" : false
+  }, {
+    "id" : "edge_231",
+    "source" : "okRyK5OAjWPoMjUXjC5U7",
+    "sourcePort" : "wHp-cU_rrSvZJY7Xjaw6A",
+    "target" : "52",
+    "targetPort" : "52_Input2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_230",
+    "source" : "rhhc9RDIbxqNa8OcFENie",
+    "sourcePort" : "bw63uk2mc2KOEs-OrTToV",
+    "target" : "okRyK5OAjWPoMjUXjC5U7",
+    "targetPort" : "TyORlCM4CwMK7QUl7ishV",
+    "isWireless" : false
+  }, {
+    "id" : "edge_229",
+    "source" : "1kObSSv0GaDsNqrZkJ-am",
+    "sourcePort" : "ndqy-6QzBYHyf9Da2gQub",
+    "target" : "rhhc9RDIbxqNa8OcFENie",
+    "targetPort" : "zBfF9ehNf3ZKX2ThleAFZ",
+    "isWireless" : false
+  }, {
+    "id" : "edge_232",
+    "source" : "42",
+    "sourcePort" : "42_Output",
+    "target" : "1kObSSv0GaDsNqrZkJ-am",
+    "targetPort" : "dGANc6qm2i6004fJXr5WX",
+    "isWireless" : false
+  }, {
+    "id" : "edge_226",
+    "source" : "Formula_39_0_knSlWikee_9BWmfktZU4h",
+    "sourcePort" : "output_port_9",
+    "target" : "42",
+    "targetPort" : "42_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
