@@ -6,13 +6,30 @@
   })
 }}
 
-WITH RecordID_1 AS (
+WITH Table_1 AS (
 
-  SELECT 
-    *,
-    row_number() OVER (ORDER BY 1) AS `RecordID`
+  SELECT * 
   
-  FROM in0
+  FROM {{ ref('sffgfbweg')}}
+
+),
+
+RecordID_1 AS (
+
+  {{
+    prophecy_basics.RecordID(
+      ['Table_1'], 
+      'incremental_id', 
+      'RecordID', 
+      'integer', 
+      6, 
+      1, 
+      'tableLevel', 
+      'first_column', 
+      [], 
+      []
+    )
+  }}
 
 )
 
