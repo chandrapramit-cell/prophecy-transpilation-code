@@ -8,9 +8,13 @@ args = PipelineArgs(
 )
 
 with Pipeline(args) as pipeline:
-    record_id_sample_all__recordid_124 = Process(
-        name = "Record_ID_sample_all__RecordID_124",
-        properties = ModelTransform(modelName = "Record_ID_sample_all__RecordID_124")
+    record_id_sample_all__generate_record_id = Process(
+        name = "Record_ID_sample_all__generate_record_id",
+        properties = ModelTransform(modelName = "Record_ID_sample_all__generate_record_id")
+    )
+    record_id_sample_all__textinput_123_cast = Process(
+        name = "Record_ID_sample_all__TextInput_123_cast",
+        properties = ModelTransform(modelName = "Record_ID_sample_all__TextInput_123_cast")
     )
     textinput_123 = Process(
         name = "TextInput_123",
@@ -20,21 +24,17 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    record_id_sample_all__textinput_123_cast = Process(
-        name = "Record_ID_sample_all__TextInput_123_cast",
-        properties = ModelTransform(modelName = "Record_ID_sample_all__TextInput_123_cast")
+    record_id_sample_all__incremental_recordid_group_region = Process(
+        name = "Record_ID_sample_all__incremental_recordid_group_region",
+        properties = ModelTransform(modelName = "Record_ID_sample_all__incremental_recordid_group_region")
     )
-    record_id_sample_all__recordid_138 = Process(
-        name = "Record_ID_sample_all__RecordID_138",
-        properties = ModelTransform(modelName = "Record_ID_sample_all__RecordID_138")
-    )
-    record_id_sample_all__recordid_125 = Process(
-        name = "Record_ID_sample_all__RecordID_125",
-        properties = ModelTransform(modelName = "Record_ID_sample_all__RecordID_125")
+    record_id_sample_all__generate_incremental_id = Process(
+        name = "Record_ID_sample_all__generate_incremental_id",
+        properties = ModelTransform(modelName = "Record_ID_sample_all__generate_incremental_id")
     )
     textinput_123 >> record_id_sample_all__textinput_123_cast
     (
         record_id_sample_all__textinput_123_cast._out(0)
-        >> [record_id_sample_all__recordid_124._in(0), record_id_sample_all__recordid_125._in(0),
-              record_id_sample_all__recordid_138._in(0)]
+        >> [record_id_sample_all__generate_record_id._in(0), record_id_sample_all__generate_incremental_id._in(0),
+              record_id_sample_all__incremental_recordid_group_region._in(0)]
     )

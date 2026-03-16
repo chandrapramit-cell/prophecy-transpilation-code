@@ -18,17 +18,29 @@
     },
     "isTranspiledPipeline" : false,
     "publishDiagnosticMetrics" : true,
-    "transpilerType" : "alteryx"
+    "transpilerType" : "alteryx",
+    "processesVsModelFiles" : {
+      "124" : "models/Record_ID_sample_all/Record_ID_sample_all__generate_record_id.sql",
+      "generate_incremental_id_XrkL1z_0CPrE0wAfu2YLA" : "models/Record_ID_sample_all/Record_ID_sample_all__generate_incremental_id.sql",
+      "xXUAxCZBYDNq_EjXhZpIX" : "models/Record_ID_sample_all/Record_ID_sample_all__TextInput_123_cast.sql",
+      "generate_record_id_LSfAuc6F5FSOJvTQxtOQj" : "models/Record_ID_sample_all/Record_ID_sample_all__generate_record_id.sql",
+      "123" : "models/Record_ID_sample_all/Record_ID_sample_all__TextInput_123_cast.sql",
+      "138" : "models/Record_ID_sample_all/Record_ID_sample_all__incremental_recordid_group_region.sql",
+      "TextInput_123_cast_WPp0jIWRm1jbrEuXgbTLU" : "models/Record_ID_sample_all/Record_ID_sample_all__generate_incremental_id.sql",
+      "125" : "models/Record_ID_sample_all/Record_ID_sample_all__generate_incremental_id.sql",
+      "incremental_recordid_group_region_oU1RE5nUiIZYUUOZrRR53" : "models/Record_ID_sample_all/Record_ID_sample_all__incremental_recordid_group_region.sql"
+    }
   },
   "processes" : {
     "124" : {
       "id" : "124",
       "component" : "RecordID",
       "metadata" : {
-        "label" : "RecordID_124",
+        "label" : "generate_record_id",
         "x" : 456,
         "y" : 0,
-        "phase" : 0
+        "phase" : 0,
+        "comment" : "Generates a unique, table-level Record ID starting at 9 for the first column in the specified table.\\"
       },
       "properties" : {
         "incremental_id_type" : "string",
@@ -36,8 +48,42 @@
         "method" : "incremental_id",
         "relation_name" : [ "TextInput_123_cast" ],
         "generationMethod" : "tableLevel",
-        "incremental_id_column_name" : "Record ID",
-        "schema" : "[{\"name\": \"LastName\", \"dataType\": \"String\"}, {\"name\": \"CustomerID\", \"dataType\": \"Integer\"}, {\"name\": \"FirstName\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"JoinDate\", \"dataType\": \"Timestamp\"}, {\"name\": \"Gender\", \"dataType\": \"String\"}]",
+        "_oldMacroProperties" : {
+          "macroName" : "RecordID",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"TextInput_123_cast\"]"
+          }, {
+            "name" : "method",
+            "value" : "incremental_id"
+          }, {
+            "name" : "incremental_id_column_name",
+            "value" : "`Record ID`"
+          }, {
+            "name" : "incremental_id_type",
+            "value" : "string"
+          }, {
+            "name" : "incremental_id_size",
+            "value" : "6"
+          }, {
+            "name" : "incremental_id_starting_val",
+            "value" : "9"
+          }, {
+            "name" : "generationMethod",
+            "value" : "tableLevel"
+          }, {
+            "name" : "position",
+            "value" : "first_column"
+          }, {
+            "name" : "groupByColumnNames",
+            "value" : "[]"
+          }, {
+            "name" : "orders",
+            "value" : "[]"
+          } ]
+        },
+        "incremental_id_column_name" : "`Record ID`",
         "orders" : [ ],
         "position" : "first_column",
         "incremental_id_size" : 6,
@@ -51,7 +97,8 @@
         "outputs" : [ {
           "id" : "LSfAuc6F5FSOJvTQxtOQj",
           "slug" : "out0"
-        } ]
+        } ],
+        "isCustomOutputSchema" : false
       },
       "componentInfo" : {
         "gemId" : "RecordID_prophecy_basics",
@@ -70,54 +117,42 @@
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "90e_7o4dOt9VWsav1jFpN##CustomerID", "90e_7o4dOt9VWsav1jFpN##FirstName", "90e_7o4dOt9VWsav1jFpN##LastName", "90e_7o4dOt9VWsav1jFpN##Gender", "90e_7o4dOt9VWsav1jFpN##JoinDate", "90e_7o4dOt9VWsav1jFpN##Region" ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "CustomerID",
-            "_row_id" : null
+            "expression" : "CustomerID"
           },
           "alias" : "CustomerID",
-          "description" : null,
           "_row_id" : "K81fslvG9CVLnaEKCrBzX"
         }, {
           "expression" : {
-            "expression" : "CAST(FirstName AS STRING)",
-            "_row_id" : null
+            "expression" : "CAST(FirstName AS STRING)"
           },
           "alias" : "FirstName",
-          "description" : null,
           "_row_id" : "JyXlvaEVzA1ZKnRp2wo1-"
         }, {
           "expression" : {
-            "expression" : "CAST(LastName AS STRING)",
-            "_row_id" : null
+            "expression" : "CAST(LastName AS STRING)"
           },
           "alias" : "LastName",
-          "description" : null,
           "_row_id" : "4Tx2iZ1sh4yjYgWNzXzoO"
         }, {
           "expression" : {
-            "expression" : "CAST(Gender AS STRING)",
-            "_row_id" : null
+            "expression" : "CAST(Gender AS STRING)"
           },
           "alias" : "Gender",
-          "description" : null,
           "_row_id" : "7Lqt4ABkgyVxT4ZcEhWPH"
         }, {
           "expression" : {
-            "expression" : "(CASE WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(JoinDate AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(JoinDate AS string)) WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(JoinDate AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(JoinDate AS string)) ELSE SAFE.PARSE_TIMESTAMP('%Y-%m-%d', CAST(JoinDate AS string)) END)",
-            "_row_id" : null
+            "expression" : "(CASE WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(JoinDate AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(JoinDate AS string)) WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(JoinDate AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(JoinDate AS string)) ELSE SAFE.PARSE_TIMESTAMP('%Y-%m-%d', CAST(JoinDate AS string)) END)"
           },
           "alias" : "JoinDate",
-          "description" : null,
           "_row_id" : "LQAebm2iBG1wwNQDBAbKp"
         }, {
           "expression" : {
-            "expression" : "CAST(Region AS STRING)",
-            "_row_id" : null
+            "expression" : "CAST(Region AS STRING)"
           },
           "alias" : "Region",
-          "description" : null,
           "_row_id" : "tXVWG5lqoySKS14Jb-H00"
         } ]
       },
@@ -129,7 +164,8 @@
         "outputs" : [ {
           "id" : "WPp0jIWRm1jbrEuXgbTLU",
           "slug" : "out0"
-        } ]
+        } ],
+        "isCustomOutputSchema" : false
       }
     },
     "123" : {
@@ -155,41 +191,6 @@
         "inputs" : [ ],
         "outputs" : [ {
           "id" : "123_Output",
-          "schema" : {
-            "entityType" : "",
-            "providerType" : "BigQuery",
-            "fields" : [ {
-              "name" : "LastName",
-              "dataType" : {
-                "type" : "String"
-              }
-            }, {
-              "name" : "CustomerID",
-              "dataType" : {
-                "type" : "Numeric"
-              }
-            }, {
-              "name" : "FirstName",
-              "dataType" : {
-                "type" : "String"
-              }
-            }, {
-              "name" : "Region",
-              "dataType" : {
-                "type" : "String"
-              }
-            }, {
-              "name" : "JoinDate",
-              "dataType" : {
-                "type" : "Timestamp"
-              }
-            }, {
-              "name" : "Gender",
-              "dataType" : {
-                "type" : "String"
-              }
-            } ]
-          },
           "slug" : "out0"
         } ]
       }
@@ -198,10 +199,11 @@
       "id" : "138",
       "component" : "RecordID",
       "metadata" : {
-        "label" : "RecordID_138",
+        "label" : "incremental_recordid_group_region",
         "x" : 456,
         "y" : 576,
-        "phase" : 0
+        "phase" : 0,
+        "comment" : "Generates unique, sequential IDs for rows grouped by Region to support traceable records."
       },
       "properties" : {
         "incremental_id_type" : "integer",
@@ -209,12 +211,46 @@
         "method" : "incremental_id",
         "relation_name" : [ "TextInput_123_cast" ],
         "generationMethod" : "groupLevel",
-        "incremental_id_column_name" : "Grouped Record ID",
-        "schema" : "[{\"name\": \"LastName\", \"dataType\": \"String\"}, {\"name\": \"CustomerID\", \"dataType\": \"Integer\"}, {\"name\": \"FirstName\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"JoinDate\", \"dataType\": \"Timestamp\"}, {\"name\": \"Gender\", \"dataType\": \"String\"}]",
+        "_oldMacroProperties" : {
+          "macroName" : "RecordID",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"TextInput_123_cast\"]"
+          }, {
+            "name" : "method",
+            "value" : "incremental_id"
+          }, {
+            "name" : "incremental_id_column_name",
+            "value" : "`Grouped Record ID`"
+          }, {
+            "name" : "incremental_id_type",
+            "value" : "integer"
+          }, {
+            "name" : "incremental_id_size",
+            "value" : "6"
+          }, {
+            "name" : "incremental_id_starting_val",
+            "value" : "1"
+          }, {
+            "name" : "generationMethod",
+            "value" : "groupLevel"
+          }, {
+            "name" : "position",
+            "value" : "last_column"
+          }, {
+            "name" : "groupByColumnNames",
+            "value" : "[\"Region\", \"Gender\"]"
+          }, {
+            "name" : "orders",
+            "value" : "[]"
+          } ]
+        },
+        "incremental_id_column_name" : "`Grouped Record ID`",
         "orders" : [ ],
         "position" : "last_column",
         "incremental_id_size" : 6,
-        "groupByColumnNames" : [ "Region" ]
+        "groupByColumnNames" : [ "Region", "Gender" ]
       },
       "ports" : {
         "inputs" : [ {
@@ -224,7 +260,8 @@
         "outputs" : [ {
           "id" : "oU1RE5nUiIZYUUOZrRR53",
           "slug" : "out0"
-        } ]
+        } ],
+        "isCustomOutputSchema" : false
       },
       "componentInfo" : {
         "gemId" : "RecordID_prophecy_basics",
@@ -237,10 +274,11 @@
       "id" : "125",
       "component" : "RecordID",
       "metadata" : {
-        "label" : "RecordID_125",
+        "label" : "generate_incremental_id",
         "x" : 456,
         "y" : 288,
-        "phase" : 0
+        "phase" : 0,
+        "comment" : "Generates unique incremental record IDs for the specified table, ensuring new rows receive a sequential identifier."
       },
       "properties" : {
         "incremental_id_type" : "integer",
@@ -248,8 +286,42 @@
         "method" : "incremental_id",
         "relation_name" : [ "TextInput_123_cast" ],
         "generationMethod" : "tableLevel",
-        "incremental_id_column_name" : "Record ID Last Column",
-        "schema" : "[{\"name\": \"LastName\", \"dataType\": \"String\"}, {\"name\": \"CustomerID\", \"dataType\": \"Integer\"}, {\"name\": \"FirstName\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"JoinDate\", \"dataType\": \"Timestamp\"}, {\"name\": \"Gender\", \"dataType\": \"String\"}]",
+        "_oldMacroProperties" : {
+          "macroName" : "RecordID",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"TextInput_123_cast\"]"
+          }, {
+            "name" : "method",
+            "value" : "incremental_id"
+          }, {
+            "name" : "incremental_id_column_name",
+            "value" : "`Record ID Last Column`"
+          }, {
+            "name" : "incremental_id_type",
+            "value" : "integer"
+          }, {
+            "name" : "incremental_id_size",
+            "value" : "6"
+          }, {
+            "name" : "incremental_id_starting_val",
+            "value" : "-100"
+          }, {
+            "name" : "generationMethod",
+            "value" : "tableLevel"
+          }, {
+            "name" : "position",
+            "value" : "last_column"
+          }, {
+            "name" : "groupByColumnNames",
+            "value" : "[]"
+          }, {
+            "name" : "orders",
+            "value" : "[]"
+          } ]
+        },
+        "incremental_id_column_name" : "`Record ID Last Column`",
         "orders" : [ ],
         "position" : "last_column",
         "incremental_id_size" : 6,
@@ -263,7 +335,8 @@
         "outputs" : [ {
           "id" : "XrkL1z_0CPrE0wAfu2YLA",
           "slug" : "out0"
-        } ]
+        } ],
+        "isCustomOutputSchema" : false
       },
       "componentInfo" : {
         "gemId" : "RecordID_prophecy_basics",
