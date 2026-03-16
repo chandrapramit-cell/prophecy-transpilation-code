@@ -1,0 +1,587 @@
+{
+  "id" : "4PL_Inventory_Report__AlteryxSelect_127",
+  "metainfo" : {
+    "label" : "4PL_Inventory_Report__AlteryxSelect_127",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "124" : {
+      "id" : "124",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RecordID_124",
+        "x" : 1418,
+        "y" : 726,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n      *,\n      row_number() OVER (ORDER BY 1) AS `RecordID`\n    FROM Formula_119_0\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "124_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "124_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "141" : {
+      "id" : "141",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_141",
+        "x" : 842,
+        "y" : 330,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "141_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "141_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "141_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_139_139_Output" : {
+      "id" : "AlteryxSelect_139_139_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_139"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('4PL_Inventory_Report__AlteryxSelect_139') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_127_127_Output" : {
+      "id" : "AlteryxSelect_127_127_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_127"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_127\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "103" : {
+      "id" : "103",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "LockInSummarize_103",
+        "x" : 50,
+        "y" : 294,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(AvailableQuantity)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_AvailableQuantity",
+          "description" : null,
+          "_row_id" : "9Ub3f6n5UyB_hkHj1Xiws"
+        }, {
+          "expression" : {
+            "expression" : "LocationCode",
+            "_row_id" : null
+          },
+          "alias" : "LocationCode",
+          "description" : null,
+          "_row_id" : "saR6PCFl-10kQ8fXtAFE4"
+        }, {
+          "expression" : {
+            "expression" : "ItemProductGroupCode",
+            "_row_id" : null
+          },
+          "alias" : "ItemProductGroupCode",
+          "description" : null,
+          "_row_id" : "L4voTwRg_8M6j_2cdq2wD"
+        }, {
+          "expression" : {
+            "expression" : "ItemNumber",
+            "_row_id" : null
+          },
+          "alias" : "ItemNumber",
+          "description" : null,
+          "_row_id" : "sLB_20twh2KEIcjA3t74j"
+        }, {
+          "expression" : {
+            "expression" : "InventoryDate",
+            "_row_id" : null
+          },
+          "alias" : "InventoryDate",
+          "description" : null,
+          "_row_id" : "RBuYH_CVvJh-CvpqLyJcA"
+        }, {
+          "expression" : {
+            "expression" : "ItemDescription",
+            "_row_id" : null
+          },
+          "alias" : "ItemDescription",
+          "description" : null,
+          "_row_id" : "XDOcpGirvbzEnm5-kfsW7"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "LocationCode",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "1F4jvcQeAKoTf6Zh3KxMU"
+        }, {
+          "expression" : {
+            "expression" : "ItemProductGroupCode",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "YbGL2VgSDpduhwtpaPk22"
+        }, {
+          "expression" : {
+            "expression" : "ItemNumber",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "L_z1QQVJ9zvRoaoC0hgji"
+        }, {
+          "expression" : {
+            "expression" : "InventoryDate",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "hPMMTXBu-tR4jn9-NKESc"
+        }, {
+          "expression" : {
+            "expression" : "ItemDescription",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "sU8L5XCxYLJvN9jMUQER1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "103_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "103_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Vc2aQfetZSENKDmPe6cLC" : {
+      "id" : "Vc2aQfetZSENKDmPe6cLC",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_125_0",
+        "x" : 1658,
+        "y" : 726,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (RecordID < 500000) THEN 'Sheet1' WHEN (RecordID < 1000000) THEN 'Sheet2' WHEN (RecordID < 1500000) THEN 'Sheet3' WHEN (RecordID < 2000000) THEN 'Sheet4' WHEN (RecordID < 2500000) THEN 'Sheet5' ELSE 'Sheet6' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Sheet",
+          "description" : null,
+          "_row_id" : "2D0owVl4_7iZsntBRawDl"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "qDJxX3OH1DLKY3aDqOiEB",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "21knMlqqhxI0JSjf6Bjax",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "127" : {
+      "id" : "127",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_127",
+        "x" : 2078,
+        "y" : 762,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ItemNumber",
+            "_row_id" : null
+          },
+          "alias" : "ItemNumber",
+          "description" : null,
+          "_row_id" : "6VvoujdMda3rAnW4m6gXc"
+        }, {
+          "expression" : {
+            "expression" : "ItemDescription",
+            "_row_id" : null
+          },
+          "alias" : "ItemDescription",
+          "description" : null,
+          "_row_id" : "p2ijBI-8Hy27ueVnMjLWM"
+        }, {
+          "expression" : {
+            "expression" : "LocationCode",
+            "_row_id" : null
+          },
+          "alias" : "LocationCode",
+          "description" : null,
+          "_row_id" : "L_e5fbA5bij09IOQ2kmOr"
+        }, {
+          "expression" : {
+            "expression" : "Sum_AvailableQuantity",
+            "_row_id" : null
+          },
+          "alias" : "Sum_AvailableQuantity",
+          "description" : null,
+          "_row_id" : "AL4KKAtSol3rzw1xz-yth"
+        }, {
+          "expression" : {
+            "expression" : "ItemProductGroupCode",
+            "_row_id" : null
+          },
+          "alias" : "ItemProductGroupCode",
+          "description" : null,
+          "_row_id" : "KqIzAc3y3VXtsgAI3DYf0"
+        }, {
+          "expression" : {
+            "expression" : "InventoryDate",
+            "_row_id" : null
+          },
+          "alias" : "InventoryDate",
+          "description" : null,
+          "_row_id" : "Qk-23ToT7VCfTAtHyLBoM"
+        }, {
+          "expression" : {
+            "expression" : "`File Name`",
+            "_row_id" : null
+          },
+          "alias" : "`File Name`",
+          "description" : null,
+          "_row_id" : "WNnn5I7xREga7HtI2hrYw"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "127_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "127_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "PbLZxdV4cf5QwlLL87PCa" : {
+      "id" : "PbLZxdV4cf5QwlLL87PCa",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_125_1",
+        "x" : 1838,
+        "y" : 726,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT(`File Name`, '.xlsx|||', Sheet)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`File Name`",
+          "description" : null,
+          "_row_id" : "w464PJbImwlM7bNQqHTit"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`file name`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "NRUN9ZtqFCwlFcK5t7C_-",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ruYFKX2tSEhbAukAmyHQM",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "LockInFilter_128_128_True" : {
+      "id" : "LockInFilter_128_128_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "LockInFilter_128"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('4PL_Inventory_Report__LockInFilter_128') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "BigrIG2OEh4THSB2EbjNG" : {
+      "id" : "BigrIG2OEh4THSB2EbjNG",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_119_0",
+        "x" : 1082,
+        "y" : 294,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (((`File Name` IS NULL) OR (`File Name` IS NULL)) OR ((LENGTH(`File Name`)) = 0)) THEN CAST((CONCAT('Store_Inventory_ ', CURRENT_DATE)) AS string) ELSE `File Name` END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`File Name`",
+          "description" : null,
+          "_row_id" : "tOIuoa__sTnQ2UFPFbPt2"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`file name`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Md-IX-y18ijyZLbCPqzSs",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "zdTrLc3-tT5yuAzA99LBP",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_127_127_Output_AlteryxSelect_127_127_Output",
+    "source" : "127",
+    "sourcePort" : "127_Output",
+    "target" : "AlteryxSelect_127_127_Output",
+    "targetPort" : "input_port_4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_35",
+    "source" : "PbLZxdV4cf5QwlLL87PCa",
+    "sourcePort" : "ruYFKX2tSEhbAukAmyHQM",
+    "target" : "127",
+    "targetPort" : "127_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_34",
+    "source" : "Vc2aQfetZSENKDmPe6cLC",
+    "sourcePort" : "21knMlqqhxI0JSjf6Bjax",
+    "target" : "PbLZxdV4cf5QwlLL87PCa",
+    "targetPort" : "NRUN9ZtqFCwlFcK5t7C_-",
+    "isWireless" : false
+  }, {
+    "id" : "edge_36",
+    "source" : "124",
+    "sourcePort" : "124_Output",
+    "target" : "Vc2aQfetZSENKDmPe6cLC",
+    "targetPort" : "qDJxX3OH1DLKY3aDqOiEB",
+    "isWireless" : false
+  }, {
+    "id" : "edge_37",
+    "source" : "BigrIG2OEh4THSB2EbjNG",
+    "sourcePort" : "zdTrLc3-tT5yuAzA99LBP",
+    "target" : "124",
+    "targetPort" : "124_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_31",
+    "source" : "141",
+    "sourcePort" : "141_Output",
+    "target" : "BigrIG2OEh4THSB2EbjNG",
+    "targetPort" : "Md-IX-y18ijyZLbCPqzSs",
+    "isWireless" : false
+  }, {
+    "id" : "edge_23",
+    "source" : "103",
+    "sourcePort" : "103_Output",
+    "target" : "141",
+    "targetPort" : "141_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_9",
+    "source" : "AlteryxSelect_139_139_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "141",
+    "targetPort" : "141_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_6",
+    "source" : "LockInFilter_128_128_True",
+    "sourcePort" : "output_port_3",
+    "target" : "103",
+    "targetPort" : "103_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
