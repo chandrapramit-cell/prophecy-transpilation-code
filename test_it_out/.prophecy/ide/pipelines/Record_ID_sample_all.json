@@ -18,23 +18,12 @@
     },
     "isTranspiledPipeline" : false,
     "publishDiagnosticMetrics" : true,
-    "transpilerType" : "alteryx",
-    "processesVsModelFiles" : {
-      "TextInput_123_cast_mW65RnwFb0E5tePxkllV1" : "models/Record_ID_sample_all/Record_ID_sample_all__RecordID_125.sql",
-      "124" : "models/Record_ID_sample_all/Record_ID_sample_all__RecordID_124.sql",
-      "123" : "models/Record_ID_sample_all/Record_ID_sample_all__TextInput_123_cast.sql",
-      "RecordID_124_-iBPNn8AG9EdhOlESQmJZ" : "models/Record_ID_sample_all/Record_ID_sample_all__RecordID_124.sql",
-      "X4l5rlykrjPeQOooFc16r" : "models/Record_ID_sample_all/Record_ID_sample_all__TextInput_123_cast.sql",
-      "138" : "models/Record_ID_sample_all/Record_ID_sample_all__RecordID_138.sql",
-      "RecordID_138_tas9YX2QuhW0WETyhV1jh" : "models/Record_ID_sample_all/Record_ID_sample_all__RecordID_138.sql",
-      "125" : "models/Record_ID_sample_all/Record_ID_sample_all__RecordID_125.sql",
-      "RecordID_125_aN1NOwNJYmgnmvycErgdK" : "models/Record_ID_sample_all/Record_ID_sample_all__RecordID_125.sql"
-    }
+    "transpilerType" : "alteryx"
   },
   "processes" : {
     "124" : {
       "id" : "124",
-      "component" : "SQLStatement",
+      "component" : "RecordID",
       "metadata" : {
         "label" : "RecordID_124",
         "x" : 456,
@@ -42,12 +31,17 @@
         "phase" : 0
       },
       "properties" : {
-        "fileTabs" : [ {
-          "path" : "out0",
-          "id" : "out0",
-          "language" : "sql",
-          "content" : "\nSELECT\n      *,\n      ( row_number() OVER (ORDER BY 1) ) + (9)  AS `Record ID`\n    FROM TextInput_123_cast\n"
-        } ]
+        "incremental_id_type" : "string",
+        "incremental_id_starting_val" : 9,
+        "method" : "incremental_id",
+        "relation_name" : [ "TextInput_123_cast" ],
+        "generationMethod" : "tableLevel",
+        "incremental_id_column_name" : "Record ID",
+        "schema" : "[{\"name\": \"LastName\", \"dataType\": \"String\"}, {\"name\": \"CustomerID\", \"dataType\": \"Integer\"}, {\"name\": \"FirstName\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"JoinDate\", \"dataType\": \"Timestamp\"}, {\"name\": \"Gender\", \"dataType\": \"String\"}]",
+        "orders" : [ ],
+        "position" : "first_column",
+        "incremental_id_size" : 6,
+        "groupByColumnNames" : [ ]
       },
       "ports" : {
         "inputs" : [ {
@@ -55,10 +49,87 @@
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "-iBPNn8AG9EdhOlESQmJZ",
+          "id" : "LSfAuc6F5FSOJvTQxtOQj",
           "slug" : "out0"
+        } ]
+      },
+      "componentInfo" : {
+        "gemId" : "RecordID_prophecy_basics",
+        "name" : "RecordID",
+        "projectName" : "prophecy_basics",
+        "sourceProjectName" : "prophecy_basics"
+      }
+    },
+    "xXUAxCZBYDNq_EjXhZpIX" : {
+      "id" : "xXUAxCZBYDNq_EjXhZpIX",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_123_cast",
+        "x" : 180,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CustomerID",
+            "_row_id" : null
+          },
+          "alias" : "CustomerID",
+          "description" : null,
+          "_row_id" : "K81fslvG9CVLnaEKCrBzX"
+        }, {
+          "expression" : {
+            "expression" : "CAST(FirstName AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "FirstName",
+          "description" : null,
+          "_row_id" : "JyXlvaEVzA1ZKnRp2wo1-"
+        }, {
+          "expression" : {
+            "expression" : "CAST(LastName AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "LastName",
+          "description" : null,
+          "_row_id" : "4Tx2iZ1sh4yjYgWNzXzoO"
+        }, {
+          "expression" : {
+            "expression" : "CAST(Gender AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Gender",
+          "description" : null,
+          "_row_id" : "7Lqt4ABkgyVxT4ZcEhWPH"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(JoinDate AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(JoinDate AS string)) WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(JoinDate AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(JoinDate AS string)) ELSE SAFE.PARSE_TIMESTAMP('%Y-%m-%d', CAST(JoinDate AS string)) END)",
+            "_row_id" : null
+          },
+          "alias" : "JoinDate",
+          "description" : null,
+          "_row_id" : "LQAebm2iBG1wwNQDBAbKp"
+        }, {
+          "expression" : {
+            "expression" : "CAST(Region AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "tXVWG5lqoySKS14Jb-H00"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "90e_7o4dOt9VWsav1jFpN",
+          "slug" : "in0"
         } ],
-        "isCustomOutputSchema" : false
+        "outputs" : [ {
+          "id" : "WPp0jIWRm1jbrEuXgbTLU",
+          "slug" : "out0"
+        } ]
       }
     },
     "123" : {
@@ -84,86 +155,48 @@
         "inputs" : [ ],
         "outputs" : [ {
           "id" : "123_Output",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "LastName",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "CustomerID",
+              "dataType" : {
+                "type" : "Numeric"
+              }
+            }, {
+              "name" : "FirstName",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "Region",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "JoinDate",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "Gender",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
           "slug" : "out0"
         } ]
-      }
-    },
-    "X4l5rlykrjPeQOooFc16r" : {
-      "id" : "X4l5rlykrjPeQOooFc16r",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "TextInput_123_cast",
-        "x" : 180,
-        "y" : 0,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "CustomerID",
-            "_row_id" : null
-          },
-          "alias" : "CustomerID",
-          "description" : null,
-          "_row_id" : "piYh_Ga99bkCHdpYZHBxL"
-        }, {
-          "expression" : {
-            "expression" : "CAST(FirstName AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "FirstName",
-          "description" : null,
-          "_row_id" : "VotEKkFCJ_EO3B-_zrpxB"
-        }, {
-          "expression" : {
-            "expression" : "CAST(LastName AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "LastName",
-          "description" : null,
-          "_row_id" : "KjhCwhumkdRlcvVpZvVqq"
-        }, {
-          "expression" : {
-            "expression" : "CAST(Gender AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "Gender",
-          "description" : null,
-          "_row_id" : "xMOFOzJN1JBUfW2b6IF11"
-        }, {
-          "expression" : {
-            "expression" : "(CASE WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(JoinDate AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E3%f%f', CAST(JoinDate AS string)) WHEN (SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(JoinDate AS string)) IS NOT NULL) THEN SAFE.PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%%f', CAST(JoinDate AS string)) ELSE SAFE.PARSE_TIMESTAMP('%Y-%m-%d', CAST(JoinDate AS string)) END)",
-            "_row_id" : null
-          },
-          "alias" : "JoinDate",
-          "description" : null,
-          "_row_id" : "BivV9j877XuOupZxghJ-d"
-        }, {
-          "expression" : {
-            "expression" : "CAST(Region AS STRING)",
-            "_row_id" : null
-          },
-          "alias" : "Region",
-          "description" : null,
-          "_row_id" : "xgl_RQWH0k4amyusnac6i"
-        } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "Z-Pt9c9AmXYq_A3YIgHZQ",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "mW65RnwFb0E5tePxkllV1",
-          "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
       }
     },
     "138" : {
       "id" : "138",
-      "component" : "SQLStatement",
+      "component" : "RecordID",
       "metadata" : {
         "label" : "RecordID_138",
         "x" : 456,
@@ -171,12 +204,17 @@
         "phase" : 0
       },
       "properties" : {
-        "fileTabs" : [ {
-          "path" : "out0",
-          "id" : "out0",
-          "language" : "sql",
-          "content" : "\nSELECT\n      *,\n      row_number() OVER (ORDER BY 1) AS `Grouped Record ID`\n    FROM TextInput_123_cast\n"
-        } ]
+        "incremental_id_type" : "integer",
+        "incremental_id_starting_val" : 1,
+        "method" : "incremental_id",
+        "relation_name" : [ "TextInput_123_cast" ],
+        "generationMethod" : "groupLevel",
+        "incremental_id_column_name" : "Grouped Record ID",
+        "schema" : "[{\"name\": \"LastName\", \"dataType\": \"String\"}, {\"name\": \"CustomerID\", \"dataType\": \"Integer\"}, {\"name\": \"FirstName\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"JoinDate\", \"dataType\": \"Timestamp\"}, {\"name\": \"Gender\", \"dataType\": \"String\"}]",
+        "orders" : [ ],
+        "position" : "last_column",
+        "incremental_id_size" : 6,
+        "groupByColumnNames" : [ "Region" ]
       },
       "ports" : {
         "inputs" : [ {
@@ -184,15 +222,20 @@
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "tas9YX2QuhW0WETyhV1jh",
+          "id" : "oU1RE5nUiIZYUUOZrRR53",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
+      },
+      "componentInfo" : {
+        "gemId" : "RecordID_prophecy_basics",
+        "name" : "RecordID",
+        "projectName" : "prophecy_basics",
+        "sourceProjectName" : "prophecy_basics"
       }
     },
     "125" : {
       "id" : "125",
-      "component" : "SQLStatement",
+      "component" : "RecordID",
       "metadata" : {
         "label" : "RecordID_125",
         "x" : 456,
@@ -200,12 +243,17 @@
         "phase" : 0
       },
       "properties" : {
-        "fileTabs" : [ {
-          "path" : "out0",
-          "id" : "out0",
-          "language" : "sql",
-          "content" : "\nSELECT\n      *,\n      ( row_number() OVER (ORDER BY 1) ) + (-100)  AS `Record ID Last Column`\n    FROM TextInput_123_cast\n"
-        } ]
+        "incremental_id_type" : "integer",
+        "incremental_id_starting_val" : -100,
+        "method" : "incremental_id",
+        "relation_name" : [ "TextInput_123_cast" ],
+        "generationMethod" : "tableLevel",
+        "incremental_id_column_name" : "Record ID Last Column",
+        "schema" : "[{\"name\": \"LastName\", \"dataType\": \"String\"}, {\"name\": \"CustomerID\", \"dataType\": \"Integer\"}, {\"name\": \"FirstName\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"JoinDate\", \"dataType\": \"Timestamp\"}, {\"name\": \"Gender\", \"dataType\": \"String\"}]",
+        "orders" : [ ],
+        "position" : "last_column",
+        "incremental_id_size" : 6,
+        "groupByColumnNames" : [ ]
       },
       "ports" : {
         "inputs" : [ {
@@ -213,38 +261,43 @@
           "slug" : "in0"
         } ],
         "outputs" : [ {
-          "id" : "aN1NOwNJYmgnmvycErgdK",
+          "id" : "XrkL1z_0CPrE0wAfu2YLA",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
+        } ]
+      },
+      "componentInfo" : {
+        "gemId" : "RecordID_prophecy_basics",
+        "name" : "RecordID",
+        "projectName" : "prophecy_basics",
+        "sourceProjectName" : "prophecy_basics"
       }
     }
   },
   "connections" : [ {
-    "id" : "edge_44",
+    "id" : "edge_1",
     "source" : "123",
     "sourcePort" : "123_Output",
-    "target" : "X4l5rlykrjPeQOooFc16r",
-    "targetPort" : "Z-Pt9c9AmXYq_A3YIgHZQ",
+    "target" : "xXUAxCZBYDNq_EjXhZpIX",
+    "targetPort" : "90e_7o4dOt9VWsav1jFpN",
     "isWireless" : false
   }, {
-    "id" : "edge_45",
-    "source" : "X4l5rlykrjPeQOooFc16r",
-    "sourcePort" : "mW65RnwFb0E5tePxkllV1",
+    "id" : "edge_2",
+    "source" : "xXUAxCZBYDNq_EjXhZpIX",
+    "sourcePort" : "WPp0jIWRm1jbrEuXgbTLU",
     "target" : "124",
     "targetPort" : "124_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_46",
-    "source" : "X4l5rlykrjPeQOooFc16r",
-    "sourcePort" : "mW65RnwFb0E5tePxkllV1",
+    "id" : "edge_3",
+    "source" : "xXUAxCZBYDNq_EjXhZpIX",
+    "sourcePort" : "WPp0jIWRm1jbrEuXgbTLU",
     "target" : "125",
     "targetPort" : "125_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_47",
-    "source" : "X4l5rlykrjPeQOooFc16r",
-    "sourcePort" : "mW65RnwFb0E5tePxkllV1",
+    "id" : "edge_4",
+    "source" : "xXUAxCZBYDNq_EjXhZpIX",
+    "sourcePort" : "WPp0jIWRm1jbrEuXgbTLU",
     "target" : "138",
     "targetPort" : "138_Input",
     "isWireless" : false
