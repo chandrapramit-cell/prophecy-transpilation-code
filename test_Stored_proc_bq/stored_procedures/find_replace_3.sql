@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `prophecy-databricks-qa`.avpreetModels.find_replace_3(IN base_value STRING, IN rules_json STRING, OUT result STRING)
+CREATE OR REPLACE PROCEDURE `transpiled_project`.`transpiled_dataset`.find_replace_3(IN base_value STRING, IN rules_json STRING, OUT result STRING)
 BEGIN
 DECLARE rules_arr ARRAY<STRING>;
 DECLARE i INT64 DEFAULT 0;
