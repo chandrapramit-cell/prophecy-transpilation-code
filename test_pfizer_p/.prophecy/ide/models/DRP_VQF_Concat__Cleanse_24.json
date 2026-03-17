@@ -1,0 +1,442 @@
+{
+  "id" : "DRP_VQF_Concat__Cleanse_24",
+  "metainfo" : {
+    "label" : "DRP_VQF_Concat__Cleanse_24",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "TextInput_8_cast_EshuTEWgnewcSxVR0xp06" : {
+      "id" : "TextInput_8_cast_EshuTEWgnewcSxVR0xp06",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "TextInput_8_cast"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('DRP_VQF_Concat__TextInput_8_cast') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Cleanse_24_24_Output26" : {
+      "id" : "Cleanse_24_24_Output26",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Cleanse_24"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Cleanse_24\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "B6-oWE4riwGalRh5j8rGd" : {
+      "id" : "B6-oWE4riwGalRh5j8rGd",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_23_0",
+        "x" : 4560,
+        "y" : 3744,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(C1071007, 'ddMmmyyyy', '')) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "C1071007",
+          "description" : null,
+          "_row_id" : "l1EaqUnoqHc9H1EOWx1Tp"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(c10071032, 'ddMmmyyyy', '')) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "c10071032",
+          "description" : null,
+          "_row_id" : "CaABfUQ2203ia9CQkFXHy"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(old_field, 'ddMmmyyyy', '')) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "old_field",
+          "description" : null,
+          "_row_id" : "I9EmO1995tmlTIdg9Amh2"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`c1071007`, `c10071032`, `old_field`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "uFOa__edUIgpPtXtYiy7S",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "noBU931D5H7585P3HW284",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "22" : {
+      "id" : "22",
+      "component" : "DataCleansing",
+      "metadata" : {
+        "label" : "Cleanse_22",
+        "x" : 3840,
+        "y" : 3672,
+        "phase" : 0
+      },
+      "properties" : {
+        "trimWhiteSpace" : true,
+        "replaceNullForNumericFields" : true,
+        "cleanLetters" : false,
+        "replaceNullTextWith" : "",
+        "removeRowNullAllCols" : false,
+        "replaceNullTextFields" : true,
+        "relation_name" : [ "TextInput_8_cast" ],
+        "replaceNullDateWith" : "1970-01-01",
+        "columnNames" : [ ],
+        "replaceNullTimeFields" : false,
+        "_oldMacroProperties" : {
+          "macroName" : "DataCleansing",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"TextInput_8_cast\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"C1071007\", \"dataType\": \"String\"}, {\"name\": \"c10071032\", \"dataType\": \"String\"}, {\"name\": \"old_field\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "modifyCase",
+            "value" : "keepOriginal"
+          }, {
+            "name" : "columnNames",
+            "value" : "[]"
+          }, {
+            "name" : "replaceNullTextFields",
+            "value" : "true"
+          }, {
+            "name" : "replaceNullTextWith",
+            "value" : ""
+          }, {
+            "name" : "replaceNullForNumericFields",
+            "value" : "true"
+          }, {
+            "name" : "replaceNullNumericWith",
+            "value" : "0"
+          }, {
+            "name" : "trimWhiteSpace",
+            "value" : "true"
+          }, {
+            "name" : "removeTabsLineBreaksAndDuplicateWhitespace",
+            "value" : "true"
+          }, {
+            "name" : "allWhiteSpace",
+            "value" : "false"
+          }, {
+            "name" : "cleanLetters",
+            "value" : "false"
+          }, {
+            "name" : "cleanPunctuations",
+            "value" : "true"
+          }, {
+            "name" : "cleanNumbers",
+            "value" : "false"
+          }, {
+            "name" : "removeRowNullAllCols",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateWith",
+            "value" : "1970-01-01"
+          }, {
+            "name" : "replaceNullTimeFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullTimeWith",
+            "value" : "1970-01-01 00:00:00.0"
+          } ]
+        },
+        "replaceNullTimeWith" : "1970-01-01 00:00:00.0",
+        "schema" : "[{\"name\": \"C1071007\", \"dataType\": \"String\"}, {\"name\": \"c10071032\", \"dataType\": \"String\"}, {\"name\": \"old_field\", \"dataType\": \"String\"}]",
+        "allWhiteSpace" : false,
+        "removeTabsLineBreaksAndDuplicateWhitespace" : true,
+        "modifyCase" : "keepOriginal",
+        "cleanPunctuations" : true,
+        "replaceNullDateFields" : false,
+        "cleanNumbers" : false,
+        "replaceNullNumericWith" : 0
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "22_Input2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "22_Output26",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "UxPHs3zd5DyMno_WXpAFC" : {
+      "id" : "UxPHs3zd5DyMno_WXpAFC",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_23_1",
+        "x" : 4740,
+        "y" : 3744,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(C1071007, '', ' ')) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "C1071007",
+          "description" : null,
+          "_row_id" : "UD46nx7d1OehdwnHE_n9Y"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(c10071032, '', ' ')) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "c10071032",
+          "description" : null,
+          "_row_id" : "yCs9ntwwhVNhAgubqkfA5"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(old_field, '', ' ')) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "old_field",
+          "description" : null,
+          "_row_id" : "0DO_9d-8aimz3tHmKng7I"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`c1071007`, `c10071032`, `old_field`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "WXumH1Xevb3rLxL8dkk5W",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "me8MZcSyDThcl9IocRqRP",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "24" : {
+      "id" : "24",
+      "component" : "DataCleansing",
+      "metadata" : {
+        "label" : "Cleanse_24",
+        "x" : 5460,
+        "y" : 3780,
+        "phase" : 0
+      },
+      "properties" : {
+        "trimWhiteSpace" : true,
+        "replaceNullForNumericFields" : false,
+        "cleanLetters" : false,
+        "replaceNullTextWith" : "",
+        "removeRowNullAllCols" : false,
+        "replaceNullTextFields" : false,
+        "relation_name" : [ "Formula_23_1" ],
+        "replaceNullDateWith" : "1970-01-01",
+        "columnNames" : [ "C1071007", "c10071032", "old_field" ],
+        "replaceNullTimeFields" : false,
+        "_oldMacroProperties" : {
+          "macroName" : "DataCleansing",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Formula_23_1\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"C1071007\", \"dataType\": \"String\"}, {\"name\": \"c10071032\", \"dataType\": \"String\"}, {\"name\": \"old_field\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "modifyCase",
+            "value" : "keepOriginal"
+          }, {
+            "name" : "columnNames",
+            "value" : "[\"C1071007\", \"c10071032\", \"old_field\"]"
+          }, {
+            "name" : "replaceNullTextFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullTextWith",
+            "value" : ""
+          }, {
+            "name" : "replaceNullForNumericFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullNumericWith",
+            "value" : "0"
+          }, {
+            "name" : "trimWhiteSpace",
+            "value" : "true"
+          }, {
+            "name" : "removeTabsLineBreaksAndDuplicateWhitespace",
+            "value" : "true"
+          }, {
+            "name" : "allWhiteSpace",
+            "value" : "false"
+          }, {
+            "name" : "cleanLetters",
+            "value" : "false"
+          }, {
+            "name" : "cleanPunctuations",
+            "value" : "true"
+          }, {
+            "name" : "cleanNumbers",
+            "value" : "false"
+          }, {
+            "name" : "removeRowNullAllCols",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateWith",
+            "value" : "1970-01-01"
+          }, {
+            "name" : "replaceNullTimeFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullTimeWith",
+            "value" : "1970-01-01 00:00:00.0"
+          } ]
+        },
+        "replaceNullTimeWith" : "1970-01-01 00:00:00.0",
+        "schema" : "[{\"name\": \"C1071007\", \"dataType\": \"String\"}, {\"name\": \"c10071032\", \"dataType\": \"String\"}, {\"name\": \"old_field\", \"dataType\": \"String\"}]",
+        "allWhiteSpace" : false,
+        "removeTabsLineBreaksAndDuplicateWhitespace" : true,
+        "modifyCase" : "keepOriginal",
+        "cleanPunctuations" : true,
+        "replaceNullDateFields" : false,
+        "cleanNumbers" : false,
+        "replaceNullNumericWith" : 0
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "24_Input2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "24_Output26",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_24_24_Output26_Cleanse_24_24_Output26",
+    "source" : "24",
+    "sourcePort" : "24_Output26",
+    "target" : "Cleanse_24_24_Output26",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_231",
+    "source" : "UxPHs3zd5DyMno_WXpAFC",
+    "sourcePort" : "me8MZcSyDThcl9IocRqRP",
+    "target" : "24",
+    "targetPort" : "24_Input2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_230",
+    "source" : "B6-oWE4riwGalRh5j8rGd",
+    "sourcePort" : "noBU931D5H7585P3HW284",
+    "target" : "UxPHs3zd5DyMno_WXpAFC",
+    "targetPort" : "WXumH1Xevb3rLxL8dkk5W",
+    "isWireless" : false
+  }, {
+    "id" : "edge_232",
+    "source" : "22",
+    "sourcePort" : "22_Output26",
+    "target" : "B6-oWE4riwGalRh5j8rGd",
+    "targetPort" : "uFOa__edUIgpPtXtYiy7S",
+    "isWireless" : false
+  }, {
+    "id" : "edge_216",
+    "source" : "TextInput_8_cast_EshuTEWgnewcSxVR0xp06",
+    "sourcePort" : "output_port_0",
+    "target" : "22",
+    "targetPort" : "22_Input2",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

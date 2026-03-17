@@ -1,0 +1,21 @@
+{
+  "SchemaInfo" : {
+    "name" : "SchemaInfo",
+    "macroType" : "query",
+    "definition" : "\nwith sample as (\n\n    select to_json(struct(*)) as json_row\n    from {{ relation_name }}\n    limit 1\n\n),\n\nschema_json as (\n\n    select schema_of_json(json_row) as schema_str\n    from sample\n),\n\nparsed as (\n    select from_json(\n        schema_str,\n        'struct<fields:array<struct<\n            name:string,\n            type:string,\n            nullable:boolean,\n            metadata:map<string,string>\n        >>>'\n    ) as s\n    from schema_json\n),\n\nexploded as (\n    select explode(s.fields) as f\n    from parsed\n)\n\nselect\n    f.name                                       as Name,\n    f.type                                       as variableType,\n    cast(null as int)                            as Size,\n    f.metadata['description']                   as Description,\n    cast(null as string)                        as Source,\n    cast(null as int)                            as Scale\nfrom exploded",
+    "parameters" : {
+      "type" : "record",
+      "fields" : [ {
+        "name" : "relation_name",
+        "kind" : {
+          "type" : "value"
+        },
+        "optional" : false,
+        "isWorkflowNodeConfiguration" : false,
+        "isReferenced" : false
+      } ]
+    },
+    "staleState" : "none",
+    "version" : 0
+  }
+}
