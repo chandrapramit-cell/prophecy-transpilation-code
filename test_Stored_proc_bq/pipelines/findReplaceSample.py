@@ -32,10 +32,9 @@ with Pipeline(args) as pipeline:
         name = "FindReplace_3",
         properties = CallStoredProc(
           storedProcedureIdentifier = "prophecy-databricks-qa.avpreetModels.find_replace_3",
-          passThroughColumns = [{
-             "alias": "description",
-             "expression": {"expression" : "find_replace_3(description, TO_JSON_STRING(_rules))"}
-           }]
+          passThroughColumns = [{"alias" : "id", "expression" : {"expression" : "id"}},
+           {"alias" : "description", "expression" : {"expression" : "description"}},
+           {"alias" : "_rules", "expression" : {"expression" : "_rules"}}]
         ),
         is_custom_output_schema = True
     )

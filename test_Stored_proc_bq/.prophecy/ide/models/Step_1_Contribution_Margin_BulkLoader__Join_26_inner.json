@@ -1,0 +1,186 @@
+{
+  "id" : "Step_1_Contribution_Margin_BulkLoader__Join_26_inner",
+  "metainfo" : {
+    "label" : "Step_1_Contribution_Margin_BulkLoader__Join_26_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_26_inner_tj6cPfrP_e8QGfSMz94P6" : {
+      "id" : "Join_26_inner_tj6cPfrP_e8QGfSMz94P6",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_26_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_26_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "26_inner" : {
+      "id" : "26_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_26_inner",
+        "x" : 772,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.districtcode = in1.hierarchycode)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "W69qoDxHkYrsfXcaBXoLN",
+          "slug" : "in0"
+        }, {
+          "id" : "tr-YmDPtv8DvmkkJ1qmB6",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "tj6cPfrP_e8QGfSMz94P6",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Source_File_C___15_15_Output" : {
+      "id" : "Source_File_C___15_15_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Source_File_C___15"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Step_1_Contribution_Margin_BulkLoader', 'Source_File_C___15') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Source_File_C___24_24_Output" : {
+      "id" : "Source_File_C___24_24_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Source_File_C___24"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Step_1_Contribution_Margin_BulkLoader', 'Source_File_C___24') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_26_inner_tj6cPfrP_e8QGfSMz94P6_Join_26_inner_tj6cPfrP_e8QGfSMz94P6",
+    "source" : "26_inner",
+    "sourcePort" : "tj6cPfrP_e8QGfSMz94P6",
+    "target" : "Join_26_inner_tj6cPfrP_e8QGfSMz94P6",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_889",
+    "source" : "Source_File_C___15_15_Output",
+    "sourcePort" : "output_port_0",
+    "target" : "26_inner",
+    "targetPort" : "tr-YmDPtv8DvmkkJ1qmB6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_890",
+    "source" : "Source_File_C___24_24_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "26_inner",
+    "targetPort" : "W69qoDxHkYrsfXcaBXoLN",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

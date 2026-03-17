@@ -9,7 +9,7 @@ SET result = base_value;
 IF result IS NULL THEN
     RETURN;
 END IF;
-SET rules_arr = (SELECT ARRAY(SELECT value FROM UNNEST(JSON_EXTRACT_ARRAY(PARSE_JSON(rules_json))) AS value));
+SET rules_arr = JSON_EXTRACT_ARRAY(rules_json);
 rules_loop: LOOP
     IF i >= ARRAY_LENGTH(rules_arr) THEN
       LEAVE rules_loop;
