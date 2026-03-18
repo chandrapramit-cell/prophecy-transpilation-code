@@ -74,11 +74,20 @@ AlteryxSelect_427 AS (
 
 RecordID_434 AS (
 
-  SELECT 
-    *,
-    row_number() OVER (ORDER BY 1) AS `RecordID`
-  
-  FROM AlteryxSelect_427
+  {{
+    prophecy_basics.RecordID(
+      ['AlteryxSelect_427'], 
+      'incremental_id', 
+      'RecordID', 
+      'integer', 
+      6, 
+      1, 
+      'tableLevel', 
+      'first_column', 
+      [], 
+      []
+    )
+  }}
 
 ),
 

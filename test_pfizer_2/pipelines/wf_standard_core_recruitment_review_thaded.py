@@ -67,6 +67,10 @@ with Pipeline(args) as pipeline:
         name = "wf_standard_core_recruitment_review_thaded__AlteryxSelect_589",
         properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__AlteryxSelect_589")
     )
+    wf_standard_core_recruitment_review_thaded__formula_395_0 = Process(
+        name = "wf_standard_core_recruitment_review_thaded__Formula_395_0",
+        properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__Formula_395_0")
+    )
     aka_test_oracle_356 = Process(
         name = "aka_test_oracle_356",
         properties = OracleSource(
@@ -100,6 +104,26 @@ with Pipeline(args) as pipeline:
           )
         ),
         input_ports = None
+    )
+    dynamicinput_437 = Process(
+        name = "DynamicInput_437",
+        properties = DynamicInput(
+          xlsxFileIntegration = "sftp",
+          replaceSpecificString = [{"textToReplace" : "'C4591001'", "textToReplaceField" : "study_list"}],
+          tableIntegration = "oracle",
+          outputMode = "",
+          tableConnector = "transpiled_connection",
+          passFieldsToOutput = [],
+          fileType = "fileType_XLSX",
+          sqlQuery = "select *\nfrom public.diversity_dashboard_view\nwhere protocols in ('C4591001')",
+          sheetNameColumnName = "Sheet Names",
+          header = False,
+          fileConnector = "transpiled_connection",
+          readOptions = "modifySQLQuery",
+          xlsxSheetColumn = "",
+          xlsxFilePathColumn = ""
+        ),
+        is_custom_output_schema = True
     )
     aka_test_oracle_448 = Process(
         name = "aka_test_oracle_448",
@@ -135,6 +159,11 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
+    wf_standard_core_recruitment_review_thaded__formula_374_1 = Process(
+        name = "wf_standard_core_recruitment_review_thaded__Formula_374_1",
+        properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__Formula_374_1"),
+        input_ports = ["in_0", "in_1", "in_2", "in_3", "in_4", "in_5", "in_6"]
+    )
     textinput_548 = Process(
         name = "TextInput_548",
         properties = Dataset(
@@ -142,15 +171,6 @@ with Pipeline(args) as pipeline:
           table = Dataset.DBTSource(name = "seed_548", sourceType = "Seed")
         ),
         input_ports = None
-    )
-    wf_standard_core_recruitment_review_thaded__formula_374_1 = Process(
-        name = "wf_standard_core_recruitment_review_thaded__Formula_374_1",
-        properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__Formula_374_1"),
-        input_ports = ["in_0", "in_1", "in_2", "in_3", "in_4", "in_5", "in_6"]
-    )
-    wf_standard_core_recruitment_review_thaded__formula_395_0 = Process(
-        name = "wf_standard_core_recruitment_review_thaded__Formula_395_0",
-        properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__Formula_395_0")
     )
     aka_test_oracle_428 = Process(
         name = "aka_test_oracle_428",
@@ -357,6 +377,10 @@ with Pipeline(args) as pipeline:
         name = "wf_standard_core_recruitment_review_thaded__AlteryxSelect_590",
         properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__AlteryxSelect_590")
     )
+    wf_standard_core_recruitment_review_thaded__alteryxselect_477_cast = Process(
+        name = "wf_standard_core_recruitment_review_thaded__AlteryxSelect_477_cast",
+        properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__AlteryxSelect_477_cast")
+    )
     wf_standard_core_recruitment_review_thaded__aka_gpd_uddl_wr_366 = Process(
         name = "wf_standard_core_recruitment_review_thaded__aka_GPD_UDDL_Wr_366",
         properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__aka_GPD_UDDL_Wr_366"),
@@ -382,13 +406,18 @@ with Pipeline(args) as pipeline:
         ),
         is_custom_output_schema = True
     )
-    wf_standard_core_recruitment_review_thaded__alteryxselect_477_cast = Process(
-        name = "wf_standard_core_recruitment_review_thaded__AlteryxSelect_477_cast",
-        properties = ModelTransform(modelName = "wf_standard_core_recruitment_review_thaded__AlteryxSelect_477_cast")
-    )
     dynamicinput_446 >> wf_standard_core_recruitment_review_thaded__formula_374_1._in(4)
     aka_gpdip_edlud_506 >> wf_standard_core_recruitment_review_thaded__aka_gpd_uddl_wr_366._in(1)
-    alteryxselect_477 >> wf_standard_core_recruitment_review_thaded__alteryxselect_477_cast
+    (
+        wf_standard_core_recruitment_review_thaded__formula_395_0._out(0)
+        >> [wf_standard_core_recruitment_review_thaded__aka_gpd_uddl_wr_366._in(5),
+              wf_standard_core_recruitment_review_thaded__alteryxselect_589._in(0)]
+    )
+    (
+        wf_standard_core_recruitment_review_thaded__formula_374_1._out(0)
+        >> [wf_standard_core_recruitment_review_thaded__alteryxselect_590._in(0),
+              wf_standard_core_recruitment_review_thaded__formula_395_0._in(0)]
+    )
     (
         aka_test_oracle_428._out(0)
         >> [wf_standard_core_recruitment_review_thaded__summarize_432._in(0),
@@ -396,25 +425,16 @@ with Pipeline(args) as pipeline:
               wf_standard_core_recruitment_review_thaded__summarize_432._in(2)]
     )
     aka_test_oracle_586 >> wf_standard_core_recruitment_review_thaded__formula_374_1._in(3)
+    alteryxselect_477 >> wf_standard_core_recruitment_review_thaded__alteryxselect_477_cast
     aka_test_oracle_563 >> wf_standard_core_recruitment_review_thaded__aka_gpd_uddl_wr_366._in(2)
     aka_test_oracle_490 >> wf_standard_core_recruitment_review_thaded__aka_gpd_uddl_wr_366._in(0)
     textinput_548 >> wf_standard_core_recruitment_review_thaded__aka_gpd_uddl_wr_366._in(4)
-    (
-        wf_standard_core_recruitment_review_thaded__formula_374_1._out(0)
-        >> [wf_standard_core_recruitment_review_thaded__alteryxselect_590._in(0),
-              wf_standard_core_recruitment_review_thaded__formula_395_0._in(0)]
-    )
     dynamicinput_417 >> wf_standard_core_recruitment_review_thaded__formula_374_1._in(2)
     (
         wf_standard_core_recruitment_review_thaded__summarize_432._out(0)
-        >> [dynamicinput_417._in(0), dynamicinput_446._in(0)]
+        >> [dynamicinput_417._in(0), dynamicinput_437._in(0), dynamicinput_446._in(0)]
     )
     aka_test_oracle_536 >> wf_standard_core_recruitment_review_thaded__aka_gpd_uddl_wr_366._in(6)
-    (
-        wf_standard_core_recruitment_review_thaded__formula_395_0._out(0)
-        >> [wf_standard_core_recruitment_review_thaded__alteryxselect_589._in(0),
-              wf_standard_core_recruitment_review_thaded__aka_gpd_uddl_wr_366._in(5)]
-    )
     (
         aka_test_oracle_356._out(0)
         >> [wf_standard_core_recruitment_review_thaded__formula_374_1._in(0),

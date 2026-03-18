@@ -27,6 +27,34 @@ AlteryxSelect_507 AS (
 
 ),
 
+aka_test_oracle_563 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('wf_standard_core_recruitment_review_thaded', 'aka_test_oracle_563') }}
+
+),
+
+AlteryxSelect_535 AS (
+
+  SELECT 
+    study_number_pfe AS study_number_pfe,
+    protocol_id AS protocol_id,
+    fsfv_date AS fsfv_date,
+    lsfv_date AS lsfv_date,
+    subject_type AS subject_type,
+    primary_exclude AS primary_exclude,
+    lsfv_yr AS lsfv_yr,
+    `dashboard flag` AS `dashboard flag`,
+    `today's status_reg` AS `today's status_reg`,
+    `goal includeslashexclude_recon` AS `goal includeslashexclude_recon`,
+    report_date AS report_date,
+    `trial type` AS `trial type`
+  
+  FROM aka_test_oracle_563 AS in0
+
+),
+
 aka_test_oracle_536 AS (
 
   SELECT *
@@ -134,89 +162,55 @@ Formula_543_0 AS (
 
 ),
 
-aka_test_oracle_563 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('wf_standard_core_recruitment_review_thaded', 'aka_test_oracle_563') }}
-
-),
-
-AlteryxSelect_535 AS (
+Join_544_inner AS (
 
   SELECT 
-    study_number_pfe AS study_number_pfe,
-    protocol_id AS protocol_id,
-    fsfv_date AS fsfv_date,
-    lsfv_date AS lsfv_date,
-    subject_type AS subject_type,
-    primary_exclude AS primary_exclude,
-    lsfv_yr AS lsfv_yr,
-    `dashboard flag` AS `dashboard flag`,
-    `today's status_reg` AS `today's status_reg`,
-    `goal includeslashexclude_recon` AS `goal includeslashexclude_recon`,
-    report_date AS report_date,
-    `trial type` AS `trial type`
+    in0.*,
+    in1.*
   
-  FROM aka_test_oracle_563 AS in0
+  FROM Formula_543_0 AS in0
+  INNER JOIN AlteryxSelect_535 AS in1
+     ON (in0.protocols = in1.study_number_pfe)
 
 ),
 
-Join_544_right AS (
-
-  SELECT in0.*
-  
-  FROM AlteryxSelect_535 AS in0
-  ANTI JOIN Formula_543_0 AS in1
-     ON (in1.protocols = in0.study_number_pfe)
-
-),
-
-TextInput_548 AS (
-
-  SELECT * 
-  
-  FROM {{ ref('seed_548')}}
-
-),
-
-TextInput_548_cast AS (
+AlteryxSelect_552 AS (
 
   SELECT 
-    CAST(study_id AS string) AS study_id,
-    CAST(`Dashboard flag` AS string) AS `Dashboard flag`
+    protocols AS study_id,
+    Goals_Approach AS Goals_Approach,
+    endorsed_goals_r_black_aa AS Avg_Black_or_African_American,
+    endorsed_goals_r_caucasian AS endorsed_goals_r_caucasian,
+    endorsed_goals_r_asian AS endorsed_goals_r_asian,
+    endorsed_goals_r_amerindian_alaska AS endorsed_goals_r_amerindian_alaska,
+    endorsed_goals_r_hawaiian_pacific AS endorsed_goals_r_hawaiian_pacific,
+    endorsed_goals_r_other_unknown AS endorsed_goals_r_other_unknown,
+    endorsed_goals_eth_hispanic_latino AS Avg_Hispanic_Latino_a__or_of_Spanish_Origin,
+    endorsed_goals_eth_non_hispanic AS endorsed_goals_eth_non_hispanic,
+    endorsed_goals_sex_male AS endorsed_goals_sex_male,
+    endorsed_goals_sex_female AS endorsed_goals_sex_female
   
-  FROM TextInput_548 AS in0
+  FROM Join_544_inner AS in0
 
 ),
 
-Join_545_left AS (
-
-  SELECT in0.*
-  
-  FROM Join_544_right AS in0
-  ANTI JOIN TextInput_548_cast AS in1
-     ON (in0.study_number_pfe = in1.study_id)
-
-),
-
-Filter_551 AS (
-
-  SELECT * 
-  
-  FROM Join_545_left AS in0
-  
-  WHERE (primary_exclude IS NULL)
-
-),
-
-Formula_558_0 AS (
+Union_555_reformat_0 AS (
 
   SELECT 
-    CAST('TBD' AS string) AS Goals_Approach,
-    *
+    CAST(Avg_Black_or_African_American AS string) AS Avg_Black_or_African_American,
+    CAST(Avg_Hispanic_Latino_a__or_of_Spanish_Origin AS string) AS Avg_Hispanic_Latino_a__or_of_Spanish_Origin,
+    Goals_Approach AS Goals_Approach,
+    CAST(endorsed_goals_eth_non_hispanic AS string) AS endorsed_goals_eth_non_hispanic,
+    CAST(endorsed_goals_r_amerindian_alaska AS string) AS endorsed_goals_r_amerindian_alaska,
+    CAST(endorsed_goals_r_asian AS string) AS endorsed_goals_r_asian,
+    CAST(endorsed_goals_r_caucasian AS string) AS endorsed_goals_r_caucasian,
+    CAST(endorsed_goals_r_hawaiian_pacific AS string) AS endorsed_goals_r_hawaiian_pacific,
+    CAST(endorsed_goals_r_other_unknown AS string) AS endorsed_goals_r_other_unknown,
+    CAST(endorsed_goals_sex_female AS string) AS endorsed_goals_sex_female,
+    CAST(endorsed_goals_sex_male AS string) AS endorsed_goals_sex_male,
+    study_id AS study_id
   
-  FROM Filter_551 AS in0
+  FROM AlteryxSelect_552 AS in0
 
 ),
 
@@ -396,191 +390,81 @@ AlteryxSelect_501 AS (
 
 ),
 
-Join_544_inner AS (
+TextInput_548 AS (
 
-  SELECT 
-    in0.*,
-    in1.*
+  SELECT * 
   
-  FROM Formula_543_0 AS in0
-  INNER JOIN AlteryxSelect_535 AS in1
-     ON (in0.protocols = in1.study_number_pfe)
+  FROM {{ ref('seed_548')}}
 
 ),
 
-AlteryxSelect_552 AS (
+TextInput_548_cast AS (
 
   SELECT 
-    protocols AS study_id,
+    CAST(study_id AS string) AS study_id,
+    CAST(`Dashboard flag` AS string) AS `Dashboard flag`
+  
+  FROM TextInput_548 AS in0
+
+),
+
+Join_544_right AS (
+
+  SELECT in0.*
+  
+  FROM AlteryxSelect_535 AS in0
+  ANTI JOIN Formula_543_0 AS in1
+     ON (in1.protocols = in0.study_number_pfe)
+
+),
+
+Join_545_left AS (
+
+  SELECT in0.*
+  
+  FROM Join_544_right AS in0
+  ANTI JOIN TextInput_548_cast AS in1
+     ON (in0.study_number_pfe = in1.study_id)
+
+),
+
+Filter_551 AS (
+
+  SELECT * 
+  
+  FROM Join_545_left AS in0
+  
+  WHERE (primary_exclude IS NULL)
+
+),
+
+Formula_558_0 AS (
+
+  SELECT 
+    CAST('TBD' AS string) AS Goals_Approach,
+    *
+  
+  FROM Filter_551 AS in0
+
+),
+
+AlteryxSelect_559 AS (
+
+  SELECT 
+    study_number_pfe AS study_id,
+    Goals_Approach AS Goals_Approach
+  
+  FROM Formula_558_0 AS in0
+
+),
+
+Union_555_reformat_2 AS (
+
+  SELECT 
     Goals_Approach AS Goals_Approach,
-    endorsed_goals_r_black_aa AS Avg_Black_or_African_American,
-    endorsed_goals_r_caucasian AS endorsed_goals_r_caucasian,
-    endorsed_goals_r_asian AS endorsed_goals_r_asian,
-    endorsed_goals_r_amerindian_alaska AS endorsed_goals_r_amerindian_alaska,
-    endorsed_goals_r_hawaiian_pacific AS endorsed_goals_r_hawaiian_pacific,
-    endorsed_goals_r_other_unknown AS endorsed_goals_r_other_unknown,
-    endorsed_goals_eth_hispanic_latino AS Avg_Hispanic_Latino_a__or_of_Spanish_Origin,
-    endorsed_goals_eth_non_hispanic AS endorsed_goals_eth_non_hispanic,
-    endorsed_goals_sex_male AS endorsed_goals_sex_male,
-    endorsed_goals_sex_female AS endorsed_goals_sex_female
+    study_id AS study_id
   
-  FROM Join_544_inner AS in0
-
-),
-
-Summarize_500 AS (
-
-  SELECT 
-    *,
-    MAX(us_patients) OVER (PARTITION BY study_id ORDER BY study_id ASC NULLS FIRST, us_patients DESC NULLS FIRST, goals_approach DESC NULLS FIRST) AS us_patients_tmp,
-    first(goals_approach) OVER (PARTITION BY study_id ORDER BY study_id ASC NULLS FIRST, us_patients DESC NULLS FIRST, goals_approach DESC NULLS FIRST) AS goals_approach_tmp,
-    row_number() OVER (PARTITION BY study_id ORDER BY study_id ASC NULLS FIRST, us_patients DESC NULLS FIRST, goals_approach DESC NULLS FIRST) AS row_number
-  
-  FROM AlteryxSelect_528 AS in0
-
-),
-
-Summarize_500_rename AS (
-
-  SELECT 
-    us_patients_tmp AS us_patients,
-    goals_approach_tmp AS goals_approach,
-    * EXCEPT (`us_patients`, `goals_approach`, `us_patients_tmp`, `goals_approach_tmp`)
-  
-  FROM Summarize_500 AS in0
-
-),
-
-`500_filter` AS (
-
-  SELECT * 
-  
-  FROM Summarize_500_rename AS in0
-  
-  WHERE (row_number = 1)
-
-),
-
-Filter_492 AS (
-
-  SELECT * 
-  
-  FROM AlteryxSelect_528 AS in0
-  
-  WHERE (category = 'Race')
-
-),
-
-Summarize_491 AS (
-
-  SELECT 
-    SUM(patient_count) AS Sum_patient_count,
-    MAX(us_patients) AS Max_us_patients,
-    MAX(country_level_goal) AS Max_country_level_goal,
-    study_id AS study_id,
-    category AS category,
-    demography_diversity AS demography_diversity
-  
-  FROM Filter_492 AS in0
-  
-  GROUP BY 
-    study_id, category, demography_diversity
-
-),
-
-Formula_493_0 AS (
-
-  SELECT 
-    CAST((
-      CASE
-        WHEN (
-          (((Sum_patient_count / Max_us_patients) / 1.0E-6D) < 0)
-          AND (
-                (
-                  ((Sum_patient_count / Max_us_patients) / 1.0E-6D)
-                  - floor(((Sum_patient_count / Max_us_patients) / 1.0E-6D))
-                ) = 0.5
-              )
-        )
-          THEN ceil(((Sum_patient_count / Max_us_patients) / 1.0E-6D))
-        ELSE round(((Sum_patient_count / Max_us_patients) / 1.0E-6D))
-      END
-      * 1.0E-6D
-    ) AS DOUBLE) AS patient_pct,
-    *
-  
-  FROM Summarize_491 AS in0
-
-),
-
-Formula_493_1 AS (
-
-  SELECT 
-    CAST((
-      CASE
-        WHEN (
-          (((patient_pct - Max_country_level_goal) / 1.0E-6D) < 0)
-          AND (
-                (
-                  ((patient_pct - Max_country_level_goal) / 1.0E-6D)
-                  - floor(((patient_pct - Max_country_level_goal) / 1.0E-6D))
-                ) = 0.5
-              )
-        )
-          THEN ceil(((patient_pct - Max_country_level_goal) / 1.0E-6D))
-        ELSE round(((patient_pct - Max_country_level_goal) / 1.0E-6D))
-      END
-      * 1.0E-6D
-    ) AS DOUBLE) AS variance_from_goal,
-    *
-  
-  FROM Formula_493_0 AS in0
-
-),
-
-Filter_513 AS (
-
-  SELECT * 
-  
-  FROM Formula_493_1 AS in0
-  
-  WHERE (demography_diversity = 'Native Hawaiian or Other Pacific Islander')
-
-),
-
-AlteryxSelect_514 AS (
-
-  SELECT 
-    Max_country_level_goal AS native_hawaiian_or_pacific_goal,
-    patient_pct AS native_hawaiian_or_pacific_pct,
-    variance_from_goal AS native_hawaiian_or_pacific_variance_from_goal,
-    * EXCEPT (`category`, 
-    `demography_diversity`, 
-    `Sum_patient_count`, 
-    `Max_us_patients`, 
-    `Max_country_level_goal`, 
-    `patient_pct`, 
-    `variance_from_goal`)
-  
-  FROM Filter_513 AS in0
-
-),
-
-Formula_515_0 AS (
-
-  SELECT 
-    CAST((
-      CASE
-        WHEN (native_hawaiian_or_pacific_variance_from_goal >= 0)
-          THEN 'At or Above'
-        WHEN (native_hawaiian_or_pacific_variance_from_goal < 0)
-          THEN 'Below'
-        ELSE NULL
-      END
-    ) AS string) AS native_hawaiian_or_pacific_against_goal,
-    *
-  
-  FROM AlteryxSelect_514 AS in0
+  FROM AlteryxSelect_559 AS in0
 
 ),
 
@@ -639,74 +523,6 @@ Filter_547_reject AS (
 
 ),
 
-Filter_547 AS (
-
-  SELECT * 
-  
-  FROM Formula_546_0 AS in0
-  
-  WHERE (
-          (NOT(primary_exclude IS NULL))
-          AND (
-                (
-                  NOT(
-                    primary_exclude = 'Include')
-                ) OR (primary_exclude IS NULL)
-              )
-        )
-
-),
-
-Formula_556_0 AS (
-
-  SELECT 
-    CAST('OUT OF SCOPE' AS string) AS Goals_Approach,
-    * EXCEPT (`goals_approach`)
-  
-  FROM Filter_547 AS in0
-
-),
-
-AlteryxSelect_557 AS (
-
-  SELECT 
-    study_number_pfe AS study_id,
-    Goals_Approach AS Goals_Approach
-  
-  FROM Formula_556_0 AS in0
-
-),
-
-Union_555_reformat_1 AS (
-
-  SELECT 
-    Goals_Approach AS Goals_Approach,
-    study_id AS study_id
-  
-  FROM AlteryxSelect_557 AS in0
-
-),
-
-Union_555_reformat_0 AS (
-
-  SELECT 
-    CAST(Avg_Black_or_African_American AS string) AS Avg_Black_or_African_American,
-    CAST(Avg_Hispanic_Latino_a__or_of_Spanish_Origin AS string) AS Avg_Hispanic_Latino_a__or_of_Spanish_Origin,
-    Goals_Approach AS Goals_Approach,
-    CAST(endorsed_goals_eth_non_hispanic AS string) AS endorsed_goals_eth_non_hispanic,
-    CAST(endorsed_goals_r_amerindian_alaska AS string) AS endorsed_goals_r_amerindian_alaska,
-    CAST(endorsed_goals_r_asian AS string) AS endorsed_goals_r_asian,
-    CAST(endorsed_goals_r_caucasian AS string) AS endorsed_goals_r_caucasian,
-    CAST(endorsed_goals_r_hawaiian_pacific AS string) AS endorsed_goals_r_hawaiian_pacific,
-    CAST(endorsed_goals_r_other_unknown AS string) AS endorsed_goals_r_other_unknown,
-    CAST(endorsed_goals_sex_female AS string) AS endorsed_goals_sex_female,
-    CAST(endorsed_goals_sex_male AS string) AS endorsed_goals_sex_male,
-    study_id AS study_id
-  
-  FROM AlteryxSelect_552 AS in0
-
-),
-
 AlteryxSelect_554 AS (
 
   SELECT 
@@ -752,23 +568,51 @@ Union_555_reformat_3 AS (
 
 ),
 
-AlteryxSelect_559 AS (
+Filter_547 AS (
+
+  SELECT * 
+  
+  FROM Formula_546_0 AS in0
+  
+  WHERE (
+          (NOT(primary_exclude IS NULL))
+          AND (
+                (
+                  NOT(
+                    primary_exclude = 'Include')
+                ) OR (primary_exclude IS NULL)
+              )
+        )
+
+),
+
+Formula_556_0 AS (
+
+  SELECT 
+    CAST('OUT OF SCOPE' AS string) AS Goals_Approach,
+    * EXCEPT (`goals_approach`)
+  
+  FROM Filter_547 AS in0
+
+),
+
+AlteryxSelect_557 AS (
 
   SELECT 
     study_number_pfe AS study_id,
     Goals_Approach AS Goals_Approach
   
-  FROM Formula_558_0 AS in0
+  FROM Formula_556_0 AS in0
 
 ),
 
-Union_555_reformat_2 AS (
+Union_555_reformat_1 AS (
 
   SELECT 
     Goals_Approach AS Goals_Approach,
     study_id AS study_id
   
-  FROM AlteryxSelect_559 AS in0
+  FROM AlteryxSelect_557 AS in0
 
 ),
 
@@ -937,6 +781,83 @@ Formula_561_1 AS (
 
 ),
 
+Filter_492 AS (
+
+  SELECT * 
+  
+  FROM AlteryxSelect_528 AS in0
+  
+  WHERE (category = 'Race')
+
+),
+
+Summarize_491 AS (
+
+  SELECT 
+    SUM(patient_count) AS Sum_patient_count,
+    MAX(us_patients) AS Max_us_patients,
+    MAX(country_level_goal) AS Max_country_level_goal,
+    study_id AS study_id,
+    category AS category,
+    demography_diversity AS demography_diversity
+  
+  FROM Filter_492 AS in0
+  
+  GROUP BY 
+    study_id, category, demography_diversity
+
+),
+
+Formula_493_0 AS (
+
+  SELECT 
+    CAST((
+      CASE
+        WHEN (
+          (((Sum_patient_count / Max_us_patients) / 1.0E-6D) < 0)
+          AND (
+                (
+                  ((Sum_patient_count / Max_us_patients) / 1.0E-6D)
+                  - floor(((Sum_patient_count / Max_us_patients) / 1.0E-6D))
+                ) = 0.5
+              )
+        )
+          THEN ceil(((Sum_patient_count / Max_us_patients) / 1.0E-6D))
+        ELSE round(((Sum_patient_count / Max_us_patients) / 1.0E-6D))
+      END
+      * 1.0E-6D
+    ) AS DOUBLE) AS patient_pct,
+    *
+  
+  FROM Summarize_491 AS in0
+
+),
+
+Formula_493_1 AS (
+
+  SELECT 
+    CAST((
+      CASE
+        WHEN (
+          (((patient_pct - Max_country_level_goal) / 1.0E-6D) < 0)
+          AND (
+                (
+                  ((patient_pct - Max_country_level_goal) / 1.0E-6D)
+                  - floor(((patient_pct - Max_country_level_goal) / 1.0E-6D))
+                ) = 0.5
+              )
+        )
+          THEN ceil(((patient_pct - Max_country_level_goal) / 1.0E-6D))
+        ELSE round(((patient_pct - Max_country_level_goal) / 1.0E-6D))
+      END
+      * 1.0E-6D
+    ) AS DOUBLE) AS variance_from_goal,
+    *
+  
+  FROM Formula_493_0 AS in0
+
+),
+
 AlteryxSelect_562 AS (
 
   SELECT 
@@ -962,10 +883,12 @@ Filter_565 AS (
 
 CrossTab_566 AS (
 
+  {#Consolidates demographic diversity measures into a single cross-tabulation for country-level goals across specified racial and ethnic groups.#}
   SELECT *
   
   FROM (
     SELECT 
+      study_id,
       demography_diversity,
       country_level_goal
     
@@ -1037,24 +960,6 @@ AlteryxSelect_497 AS (
 
 ),
 
-Formula_505_0 AS (
-
-  SELECT 
-    CAST((
-      CASE
-        WHEN (black_or_aa_variance_from_goal >= 0)
-          THEN 'At or Above'
-        WHEN (black_or_aa_variance_from_goal < 0)
-          THEN 'Below'
-        ELSE NULL
-      END
-    ) AS string) AS black_or_aa_against_goal,
-    *
-  
-  FROM AlteryxSelect_497 AS in0
-
-),
-
 Filter_516 AS (
 
   SELECT * 
@@ -1111,11 +1016,62 @@ Formula_512_0 AS (
 
 ),
 
+Summarize_500 AS (
+
+  SELECT 
+    *,
+    MAX(us_patients) OVER (PARTITION BY study_id ORDER BY study_id ASC NULLS FIRST, us_patients DESC NULLS FIRST, goals_approach DESC NULLS FIRST) AS us_patients_tmp,
+    first(goals_approach) OVER (PARTITION BY study_id ORDER BY study_id ASC NULLS FIRST, us_patients DESC NULLS FIRST, goals_approach DESC NULLS FIRST) AS goals_approach_tmp,
+    row_number() OVER (PARTITION BY study_id ORDER BY study_id ASC NULLS FIRST, us_patients DESC NULLS FIRST, goals_approach DESC NULLS FIRST) AS row_number
+  
+  FROM AlteryxSelect_528 AS in0
+
+),
+
+Summarize_500_rename AS (
+
+  SELECT 
+    us_patients_tmp AS us_patients,
+    goals_approach_tmp AS goals_approach,
+    * EXCEPT (`us_patients`, `goals_approach`, `us_patients_tmp`, `goals_approach_tmp`)
+  
+  FROM Summarize_500 AS in0
+
+),
+
+`500_filter` AS (
+
+  SELECT * 
+  
+  FROM Summarize_500_rename AS in0
+  
+  WHERE (row_number = 1)
+
+),
+
 Summarize_500_drop_0 AS (
 
   SELECT * EXCEPT (`row_number`)
   
   FROM `500_filter` AS in0
+
+),
+
+Formula_505_0 AS (
+
+  SELECT 
+    CAST((
+      CASE
+        WHEN (black_or_aa_variance_from_goal >= 0)
+          THEN 'At or Above'
+        WHEN (black_or_aa_variance_from_goal < 0)
+          THEN 'Below'
+        ELSE NULL
+      END
+    ) AS string) AS black_or_aa_against_goal,
+    *
+  
+  FROM AlteryxSelect_497 AS in0
 
 ),
 
@@ -1157,6 +1113,52 @@ Join_519_right_UnionRightOuter AS (
 
 ),
 
+Filter_513 AS (
+
+  SELECT * 
+  
+  FROM Formula_493_1 AS in0
+  
+  WHERE (demography_diversity = 'Native Hawaiian or Other Pacific Islander')
+
+),
+
+AlteryxSelect_514 AS (
+
+  SELECT 
+    Max_country_level_goal AS native_hawaiian_or_pacific_goal,
+    patient_pct AS native_hawaiian_or_pacific_pct,
+    variance_from_goal AS native_hawaiian_or_pacific_variance_from_goal,
+    * EXCEPT (`category`, 
+    `demography_diversity`, 
+    `Sum_patient_count`, 
+    `Max_us_patients`, 
+    `Max_country_level_goal`, 
+    `patient_pct`, 
+    `variance_from_goal`)
+  
+  FROM Filter_513 AS in0
+
+),
+
+Formula_515_0 AS (
+
+  SELECT 
+    CAST((
+      CASE
+        WHEN (native_hawaiian_or_pacific_variance_from_goal >= 0)
+          THEN 'At or Above'
+        WHEN (native_hawaiian_or_pacific_variance_from_goal < 0)
+          THEN 'Below'
+        ELSE NULL
+      END
+    ) AS string) AS native_hawaiian_or_pacific_against_goal,
+    *
+  
+  FROM AlteryxSelect_514 AS in0
+
+),
+
 Join_521_right_UnionRightOuter AS (
 
   SELECT 
@@ -1176,24 +1178,6 @@ Join_521_right_UnionRightOuter AS (
 
 ),
 
-Formula_504_0 AS (
-
-  SELECT 
-    CAST((
-      CASE
-        WHEN (hispanic_variance_from_goal >= 0)
-          THEN 'At or Above'
-        WHEN (hispanic_variance_from_goal < 0)
-          THEN 'Below'
-        ELSE NULL
-      END
-    ) AS string) AS hispanic_against_goal,
-    *
-  
-  FROM AlteryxSelect_501 AS in0
-
-),
-
 AlteryxSelect_517 AS (
 
   SELECT 
@@ -1209,6 +1193,32 @@ AlteryxSelect_517 AS (
     `variance_from_goal`)
   
   FROM Filter_516 AS in0
+
+),
+
+Formula_395_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('wf_standard_core_recruitment_review_thaded__Formula_395_0')}}
+
+),
+
+Formula_504_0 AS (
+
+  SELECT 
+    CAST((
+      CASE
+        WHEN (hispanic_variance_from_goal >= 0)
+          THEN 'At or Above'
+        WHEN (hispanic_variance_from_goal < 0)
+          THEN 'Below'
+        ELSE NULL
+      END
+    ) AS string) AS hispanic_against_goal,
+    *
+  
+  FROM AlteryxSelect_501 AS in0
 
 ),
 
@@ -1270,25 +1280,12 @@ Join_503_right_UnionRightOuter AS (
 
 Join_531_left_UnionFullOuter AS (
 
-  SELECT 
-    in0.*,
-    in1.* EXCEPT (`american_indian_or_alaskan_goal`, 
-    `asian_goal`, 
-    `black_or_aa_goal`, 
-    `hispanic_goal`, 
-    `native_hawaiian_or_pacific_goal`)
+  {#Combines datasets using a full outer join to enrich study records by matching on study_id.#}
+  SELECT in0.*
   
   FROM Join_503_right_UnionRightOuter AS in0
   FULL JOIN AlteryxSelect_567 AS in1
      ON (in0.study_id = in1.study_id)
-
-),
-
-Formula_395_0 AS (
-
-  SELECT *
-  
-  FROM {{ ref('wf_standard_core_recruitment_review_thaded__Formula_395_0')}}
 
 ),
 

@@ -1698,6 +1698,27 @@ Union_460 AS (
 
 ),
 
+Filter_482 AS (
+
+  SELECT * 
+  
+  FROM Union_460 AS in0
+  
+  WHERE (rand_plan_to_date_src = 'DVSO Baseline')
+
+),
+
+Formula_483_0 AS (
+
+  SELECT 
+    CAST(rand_dvso_baseline_total AS DOUBLE) AS rand_plan,
+    CAST('DVSO Baseline' AS string) AS rand_plan_src,
+    *
+  
+  FROM Filter_482 AS in0
+
+),
+
 Filter_482_reject AS (
 
   SELECT * 
@@ -1729,27 +1750,6 @@ Formula_484_0 AS (
     *
   
   FROM Filter_482_reject AS in0
-
-),
-
-Filter_482 AS (
-
-  SELECT * 
-  
-  FROM Union_460 AS in0
-  
-  WHERE (rand_plan_to_date_src = 'DVSO Baseline')
-
-),
-
-Formula_483_0 AS (
-
-  SELECT 
-    CAST(rand_dvso_baseline_total AS DOUBLE) AS rand_plan,
-    CAST('DVSO Baseline' AS string) AS rand_plan_src,
-    *
-  
-  FROM Filter_482 AS in0
 
 ),
 
@@ -2371,6 +2371,17 @@ Filter_381 AS (
 
 ),
 
+Formula_376_0 AS (
+
+  SELECT 
+    CAST(activation_mtp_baseline_to_date AS DOUBLE) AS activation_plan_to_date,
+    CAST('MyTrial Baseline' AS string) AS activation_plan_to_date_src,
+    *
+  
+  FROM Filter_381 AS in0
+
+),
+
 Filter_381_reject AS (
 
   SELECT * 
@@ -2399,17 +2410,6 @@ Formula_379_0 AS (
     *
   
   FROM Filter_381_reject AS in0
-
-),
-
-Formula_376_0 AS (
-
-  SELECT 
-    CAST(activation_mtp_baseline_to_date AS DOUBLE) AS activation_plan_to_date,
-    CAST('MyTrial Baseline' AS string) AS activation_plan_to_date_src,
-    *
-  
-  FROM Filter_381 AS in0
 
 ),
 
