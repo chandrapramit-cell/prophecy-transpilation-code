@@ -227,13 +227,23 @@ Filter_231_reject AS (
 
 ),
 
+FindReplace_246_allRules AS (
+
+  SELECT collect_list(struct(ELevel AS ELevel, Element AS Element, Elevel_Def AS Elevel_Def, Parent AS Parent, DS AS DS)) AS _rules
+  
+  FROM AlteryxSelect_227 AS in0
+
+),
+
 AlteryxSelect_232 AS (
 
-  {#Filters and enriches elements by renaming and excluding internal elements to support targeted data analysis.#}
+  {#Selects and renames elements while excluding specific fields to streamline a filter result for analysis.#}
   SELECT 
     element AS c_Element,
     PARENT AS Element,
-    * EXCEPT (`Element`)
+    Elevel_Def AS Elevel_Def,
+    Parent AS Parent,
+    * EXCEPT (`Elevel_Def`, `ELevel`, `DS`, `Element`, `Parent`)
   
   FROM Filter_231_reject AS in0
 
@@ -241,9 +251,8 @@ AlteryxSelect_232 AS (
 
 FindReplace_233_join AS (
 
-  {#Combines parent cost center details with replacement rules for rule-based element mapping.#}
   SELECT 
-    in0.PARENT AS Parent,
+    in0.Parent AS Parent,
     in0.COST_CENTER_DESC AS COST_CENTER_DESC,
     in0.target_level AS target_level,
     in0.c_Element AS c_Element,
@@ -312,6 +321,8 @@ AlteryxSelect_235 AS (
 
   SELECT 
     Parent AS Element,
+    Elevel_Def2 AS Elevel_Def,
+    Parent2 AS Parent,
     * EXCEPT (`Element`, `Elevel_Def`, `ELevel`, `DS`, `Parent`)
   
   FROM Filter_234_reject AS in0
@@ -398,6 +409,8 @@ AlteryxSelect_242 AS (
 
   SELECT 
     Parent AS Element,
+    Elevel_Def2 AS Elevel_Def,
+    Parent2 AS Parent,
     * EXCEPT (`Element`, `Elevel_Def`, `ELevel`, `DS`, `Parent`)
   
   FROM Filter_237_reject AS in0
@@ -459,41 +472,6 @@ FindReplace_243_reorg_0 AS (
 
 ),
 
-Filter_231 AS (
-
-  SELECT * 
-  
-  FROM FindReplace_230_reorg_0 AS in0
-  
-  WHERE (target_level = CAST(ELEVEL AS INTEGER))
-
-),
-
-Union_250 AS (
-
-  {{
-    prophecy_basics.UnionByName(
-      ['Filter_231', 'Filter_231_reject'], 
-      [
-        '[{"name": "PARENT", "dataType": "String"}, {"name": "ELEVEL", "dataType": "String"}, {"name": "ELEVEL_DEF", "dataType": "String"}, {"name": "DS", "dataType": "String"}, {"name": "COST_CENTER_DESC", "dataType": "String"}, {"name": "target_level", "dataType": "Integer"}, {"name": "element", "dataType": "String"}]', 
-        '[{"name": "PARENT", "dataType": "String"}, {"name": "ELEVEL", "dataType": "String"}, {"name": "ELEVEL_DEF", "dataType": "String"}, {"name": "DS", "dataType": "String"}, {"name": "COST_CENTER_DESC", "dataType": "String"}, {"name": "target_level", "dataType": "Integer"}, {"name": "element", "dataType": "String"}]'
-      ], 
-      'allowMissingColumns'
-    )
-  }}
-
-),
-
-Filter_244 AS (
-
-  SELECT * 
-  
-  FROM FindReplace_243_reorg_0 AS in0
-  
-  WHERE (target_level = CAST(ELevel AS INTEGER))
-
-),
-
 Filter_244_reject AS (
 
   SELECT * 
@@ -515,51 +493,12 @@ Filter_244_reject AS (
 
 ),
 
-Union_253 AS (
-
-  {{
-    prophecy_basics.UnionByName(
-      ['Filter_244_reject', 'Filter_244'], 
-      [
-        '[{"name": "c_Element", "dataType": "String"}, {"name": "Element", "dataType": "String"}, {"name": "target_level", "dataType": "Integer"}, {"name": "Parent", "dataType": "String"}, {"name": "COST_CENTER_DESC", "dataType": "String"}, {"name": "Elevel_Def", "dataType": "String"}, {"name": "ELevel", "dataType": "String"}, {"name": "DS", "dataType": "String"}]', 
-        '[{"name": "c_Element", "dataType": "String"}, {"name": "Element", "dataType": "String"}, {"name": "target_level", "dataType": "Integer"}, {"name": "Parent", "dataType": "String"}, {"name": "COST_CENTER_DESC", "dataType": "String"}, {"name": "Elevel_Def", "dataType": "String"}, {"name": "ELevel", "dataType": "String"}, {"name": "DS", "dataType": "String"}]'
-      ], 
-      'allowMissingColumns'
-    )
-  }}
-
-),
-
-Formula_259 AS (
-
-  SELECT *
-  
-  FROM Union_253 AS in0
-
-),
-
-AlteryxSelect_248 AS (
-
-  SELECT 
-    Parent AS ZONE_ID,
-    * EXCEPT (`Target_Level`, `Element`, `Elevel_Def`, `ELevel`, `DS`, `Parent`)
-  
-  FROM Formula_259 AS in0
-
-),
-
-FindReplace_246_allRules AS (
-
-  SELECT collect_list(struct(ELevel AS ELevel, Element AS Element, Elevel_Def AS Elevel_Def, Parent AS Parent, DS AS DS)) AS _rules
-  
-  FROM AlteryxSelect_227 AS in0
-
-),
-
 AlteryxSelect_245 AS (
 
   SELECT 
     Parent AS Element,
+    Elevel_Def2 AS Elevel_Def,
+    Parent2 AS Parent,
     * EXCEPT (`Element`, `Elevel_Def`, `ELevel`, `DS`, `Parent`)
   
   FROM Filter_244_reject AS in0
@@ -610,6 +549,74 @@ FindReplace_246_reorg_0 AS (
     * EXCEPT (`_rules`, `_extracted_rule`, `parent`, `elevel_def`)
   
   FROM FindReplace_246_0 AS in0
+
+),
+
+Filter_231 AS (
+
+  SELECT * 
+  
+  FROM FindReplace_230_reorg_0 AS in0
+  
+  WHERE (target_level = CAST(ELEVEL AS INTEGER))
+
+),
+
+Union_250 AS (
+
+  {{
+    prophecy_basics.UnionByName(
+      ['Filter_231', 'Filter_231_reject'], 
+      [
+        '[{"name": "PARENT", "dataType": "String"}, {"name": "ELEVEL", "dataType": "String"}, {"name": "ELEVEL_DEF", "dataType": "String"}, {"name": "DS", "dataType": "String"}, {"name": "COST_CENTER_DESC", "dataType": "String"}, {"name": "target_level", "dataType": "Integer"}, {"name": "element", "dataType": "String"}]', 
+        '[{"name": "PARENT", "dataType": "String"}, {"name": "ELEVEL", "dataType": "String"}, {"name": "ELEVEL_DEF", "dataType": "String"}, {"name": "DS", "dataType": "String"}, {"name": "COST_CENTER_DESC", "dataType": "String"}, {"name": "target_level", "dataType": "Integer"}, {"name": "element", "dataType": "String"}]'
+      ], 
+      'allowMissingColumns'
+    )
+  }}
+
+),
+
+Filter_244 AS (
+
+  SELECT * 
+  
+  FROM FindReplace_243_reorg_0 AS in0
+  
+  WHERE (target_level = CAST(ELevel AS INTEGER))
+
+),
+
+Union_253 AS (
+
+  {{
+    prophecy_basics.UnionByName(
+      ['Filter_244_reject', 'Filter_244'], 
+      [
+        '[{"name": "c_Element", "dataType": "String"}, {"name": "Element", "dataType": "String"}, {"name": "target_level", "dataType": "Integer"}, {"name": "Parent", "dataType": "String"}, {"name": "COST_CENTER_DESC", "dataType": "String"}, {"name": "Elevel_Def", "dataType": "String"}, {"name": "ELevel", "dataType": "String"}, {"name": "DS", "dataType": "String"}]', 
+        '[{"name": "c_Element", "dataType": "String"}, {"name": "Element", "dataType": "String"}, {"name": "target_level", "dataType": "Integer"}, {"name": "Parent", "dataType": "String"}, {"name": "COST_CENTER_DESC", "dataType": "String"}, {"name": "Elevel_Def", "dataType": "String"}, {"name": "ELevel", "dataType": "String"}, {"name": "DS", "dataType": "String"}]'
+      ], 
+      'allowMissingColumns'
+    )
+  }}
+
+),
+
+Formula_259 AS (
+
+  SELECT *
+  
+  FROM Union_253 AS in0
+
+),
+
+AlteryxSelect_248 AS (
+
+  SELECT 
+    Parent AS ZONE_ID,
+    * EXCEPT (`Target_Level`, `Element`, `Elevel_Def`, `ELevel`, `DS`, `Parent`)
+  
+  FROM Formula_259 AS in0
 
 ),
 
@@ -775,15 +782,15 @@ AlteryxSelect_261 AS (
     c_Element AS c_Element,
     COST_CENTER_DESC AS COST_CENTER_DESC,
     ORG_ID AS ORG_ID,
+    ORGANIZATION AS ORGANIZATION,
     FUNCTION_ID AS FUNCTION_ID,
+    variableFUNCTION AS variableFUNCTION,
     LINE_ID AS LINE_ID,
+    LINE AS LINE,
     ZONE_ID AS ZONE_ID,
+    ZONE AS ZONE,
     DIVISION_ID AS DIVISION_ID,
-    CAST(NULL AS string) AS ORGANIZATION,
-    CAST(NULL AS string) AS variableFUNCTION,
-    CAST(NULL AS string) AS LINE,
-    CAST(NULL AS string) AS ZONE,
-    CAST(NULL AS string) AS DIVISION,
+    DIVISION AS DIVISION,
     * EXCEPT (`c_Element`, `COST_CENTER_DESC`, `ORG_ID`, `FUNCTION_ID`, `LINE_ID`, `ZONE_ID`, `DIVISION_ID`)
   
   FROM JoinMultiple_241 AS in0
