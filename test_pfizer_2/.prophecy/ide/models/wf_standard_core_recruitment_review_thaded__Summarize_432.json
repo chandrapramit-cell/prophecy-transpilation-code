@@ -1,0 +1,519 @@
+{
+  "id" : "wf_standard_core_recruitment_review_thaded__Summarize_432",
+  "metainfo" : {
+    "label" : "wf_standard_core_recruitment_review_thaded__Summarize_432",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"rohit\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "425" : {
+      "id" : "425",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_425",
+        "x" : 802,
+        "y" : 759,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "AlteryxSelect_422", "AlteryxSelect_423", "AlteryxSelect_424" ],
+        "schemas" : [ "[{\"name\": \"study_id\", \"dataType\": \"String\"}]", "[{\"name\": \"study_id\", \"dataType\": \"String\"}]", "[{\"name\": \"study_id\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"AlteryxSelect_422\", \"AlteryxSelect_423\", \"AlteryxSelect_424\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"study_id\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"study_id\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"study_id\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "425_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "425_#2_Input",
+          "slug" : "in1"
+        }, {
+          "id" : "425_#3_Input",
+          "slug" : "in2"
+        } ],
+        "outputs" : [ {
+          "id" : "425_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_432_432_Output" : {
+      "id" : "Summarize_432_432_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_432"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_432\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "426" : {
+      "id" : "426",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_426",
+        "x" : 1042,
+        "y" : 759,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "study_id",
+            "_row_id" : null
+          },
+          "alias" : "study_id",
+          "description" : null,
+          "_row_id" : "km6uV6ZzJ7gXU5HcA2ooH"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "426_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "426_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "422" : {
+      "id" : "422",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_422",
+        "x" : 562,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "study_id",
+            "_row_id" : null
+          },
+          "alias" : "study_id",
+          "description" : null,
+          "_row_id" : "PIKFGmhikudb0UzkAj09X"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "422_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "422_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "434" : {
+      "id" : "434",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RecordID_434",
+        "x" : 50,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n      *,\n      row_number() OVER (ORDER BY 1) AS `RecordID`\n    FROM AlteryxSelect_427\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "434_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "434_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "423" : {
+      "id" : "423",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_423",
+        "x" : 562,
+        "y" : 687,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "protocol_id",
+            "_row_id" : null
+          },
+          "alias" : "study_id",
+          "description" : null,
+          "_row_id" : "8HPRexmPg9xPyHXr8kOLw"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "423_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "423_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "aka_test_oracle_428_428_Output" : {
+      "id" : "aka_test_oracle_428_428_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "aka_test_oracle_428"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('wf_standard_core_recruitment_review_thaded', 'aka_test_oracle_428') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "427" : {
+      "id" : "427",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_427",
+        "x" : 1282,
+        "y" : 723,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "study_id",
+            "_row_id" : null
+          },
+          "alias" : "study_id",
+          "description" : null,
+          "_row_id" : "iL3WwhGFkgH9aUPi4HwjS"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "427_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "427_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "432" : {
+      "id" : "432",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_432",
+        "x" : 626,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "concat_ws(',', collect_list(study_id))",
+            "_row_id" : null
+          },
+          "alias" : "study_list",
+          "description" : null,
+          "_row_id" : "JP03rymLyJMX7v-aJ_N8R"
+        }, {
+          "expression" : {
+            "expression" : "variablegroup",
+            "_row_id" : null
+          },
+          "alias" : "variablegroup",
+          "description" : null,
+          "_row_id" : "x-9iXZb-woqCVuPolkQlC"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "variablegroup",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "1KANHxuZVmgTb_SGa16Jw"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "432_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "432_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "8rEN7UOkaYFDGDYhPqdcW" : {
+      "id" : "8rEN7UOkaYFDGDYhPqdcW",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_435_to_Formula_433_0",
+        "x" : 290,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CEIL((RecordID / 1000)) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "variablegroup",
+          "description" : null,
+          "_row_id" : "SZ0Ga8z90JOeBqDENCBwB"
+        }, {
+          "expression" : {
+            "expression" : "CAST(concat('\\'', study_id, '\\'') AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "study_id",
+          "description" : null,
+          "_row_id" : "lSSnGpWfDpkdGDNbFMea8"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`study_id`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dhrv7TTUTGWX_EffGYyOa",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "4QU8pJVe476un2omLDozX",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "424" : {
+      "id" : "424",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_424",
+        "x" : 562,
+        "y" : 867,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "study_number_pfe",
+            "_row_id" : null
+          },
+          "alias" : "study_id",
+          "description" : null,
+          "_row_id" : "V0qeCWzM47bdUsjScPX3I"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "424_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "424_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_432_432_Output_Summarize_432_432_Output",
+    "source" : "432",
+    "sourcePort" : "432_Output",
+    "target" : "Summarize_432_432_Output",
+    "targetPort" : "input_port_7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_290",
+    "source" : "8rEN7UOkaYFDGDYhPqdcW",
+    "sourcePort" : "4QU8pJVe476un2omLDozX",
+    "target" : "432",
+    "targetPort" : "432_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_291",
+    "source" : "434",
+    "sourcePort" : "434_Output",
+    "target" : "8rEN7UOkaYFDGDYhPqdcW",
+    "targetPort" : "dhrv7TTUTGWX_EffGYyOa",
+    "isWireless" : false
+  }, {
+    "id" : "edge_206",
+    "source" : "427",
+    "sourcePort" : "427_Output",
+    "target" : "434",
+    "targetPort" : "434_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_205",
+    "source" : "426",
+    "sourcePort" : "426_Unique",
+    "target" : "427",
+    "targetPort" : "427_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_204",
+    "source" : "425",
+    "sourcePort" : "425_Output",
+    "target" : "426",
+    "targetPort" : "426_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_201",
+    "source" : "422",
+    "sourcePort" : "422_Output",
+    "target" : "425",
+    "targetPort" : "425_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_202",
+    "source" : "423",
+    "sourcePort" : "423_Output",
+    "target" : "425",
+    "targetPort" : "425_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_203",
+    "source" : "424",
+    "sourcePort" : "424_Output",
+    "target" : "425",
+    "targetPort" : "425_#3_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_207",
+    "source" : "aka_test_oracle_428_428_Output",
+    "sourcePort" : "output_port_6",
+    "target" : "422",
+    "targetPort" : "422_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_208",
+    "source" : "aka_test_oracle_428_428_Output",
+    "sourcePort" : "output_port_6",
+    "target" : "423",
+    "targetPort" : "423_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_209",
+    "source" : "aka_test_oracle_428_428_Output",
+    "sourcePort" : "output_port_6",
+    "target" : "424",
+    "targetPort" : "424_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

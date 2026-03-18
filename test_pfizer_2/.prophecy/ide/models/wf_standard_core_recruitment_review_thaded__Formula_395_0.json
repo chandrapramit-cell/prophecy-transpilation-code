@@ -1,0 +1,137 @@
+{
+  "id" : "wf_standard_core_recruitment_review_thaded__Formula_395_0",
+  "metainfo" : {
+    "label" : "wf_standard_core_recruitment_review_thaded__Formula_395_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"rohit\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_395_0_MdSOii54SQ3BNASOKIh00" : {
+      "id" : "Formula_395_0_MdSOii54SQ3BNASOKIh00",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_395_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_395_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "FsauleFlXPeaegoHxXl6Z" : {
+      "id" : "FsauleFlXPeaegoHxXl6Z",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_395_0",
+        "x" : 314,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (activation_plan_to_date_src = 'Unavailable') THEN 'Plan Unavailable' WHEN (sites100_pct_cmp = 100) THEN 'Activation Complete' WHEN ((CAST(activation_plan_to_date AS DOUBLE) IN (CAST(0 AS DOUBLE))) AND (CAST(activation_actuals AS DOUBLE) IN (CAST(0 AS DOUBLE)))) THEN 'Not Started' WHEN (ABS(activation_to_date_fraction) >= 0.05) THEN (CASE WHEN (activation_to_date_fraction < 0) THEN 'Ahead' ELSE 'Behind' END) ELSE 'On Plan' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "activation_indicator",
+          "description" : null,
+          "_row_id" : "wHSRildykJKK4kVpXGr42"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "K-JWsE_Eptq866b9AW3wN",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "MdSOii54SQ3BNASOKIh00",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_374_1_FK-655Qaf50HGLAhc2Dmd" : {
+      "id" : "Formula_374_1_FK-655Qaf50HGLAhc2Dmd",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_374_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_12",
+          "id" : "output_port_12",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('wf_standard_core_recruitment_review_thaded__Formula_374_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_12",
+          "slug" : "input_port_12"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_12",
+          "slug" : "output_port_12"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_FsauleFlXPeaegoHxXl6Z_MdSOii54SQ3BNASOKIh00_Formula_395_0_MdSOii54SQ3BNASOKIh00",
+    "source" : "FsauleFlXPeaegoHxXl6Z",
+    "sourcePort" : "MdSOii54SQ3BNASOKIh00",
+    "target" : "Formula_395_0_MdSOii54SQ3BNASOKIh00",
+    "targetPort" : "input_port_13",
+    "isWireless" : false
+  }, {
+    "id" : "edge_328",
+    "source" : "Formula_374_1_FK-655Qaf50HGLAhc2Dmd",
+    "sourcePort" : "output_port_12",
+    "target" : "FsauleFlXPeaegoHxXl6Z",
+    "targetPort" : "K-JWsE_Eptq866b9AW3wN",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
