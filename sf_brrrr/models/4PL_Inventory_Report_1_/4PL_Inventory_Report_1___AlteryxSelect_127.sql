@@ -14,16 +14,16 @@ WITH Formula_119_0 AS (
 
 ),
 
-RecordID_1 AS (
+RecordID_124 AS (
 
   {{
     prophecy_basics.RecordID(
       ['Formula_119_0'], 
       'incremental_id', 
-      'RecordID', 
-      'string', 
+      'RECORDID', 
+      'integer', 
       6, 
-      1000, 
+      1, 
       'tableLevel', 
       'first_column', 
       [], 
@@ -50,10 +50,10 @@ Formula_125_0 AS (
           THEN 'Sheet5'
         ELSE 'Sheet6'
       END
-    ) AS VARstring) AS SHEET,
+    ) AS STRING) AS SHEET,
     *
   
-  FROM RecordID_1 AS in0
+  FROM RecordID_124 AS in0
 
 ),
 
