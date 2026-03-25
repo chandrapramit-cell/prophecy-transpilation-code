@@ -17,14 +17,14 @@ WITH LockInFilter_128 AS (
 LockInSummarize_58 AS (
 
   SELECT 
-    SUM(AvailableQuantity) AS Sum_AvailableQuantity,
-    ItemNumber AS ItemNumber,
-    LocationCode AS LocationCode
+    SUM(AVAILABLEQUANTITY) AS SUM_AVAILABLEQUANTITY,
+    ITEMNUMBER AS ITEMNUMBER,
+    LOCATIONCODE AS LOCATIONCODE
   
   FROM LockInFilter_128 AS in0
   
   GROUP BY 
-    ItemNumber, LocationCode
+    ITEMNUMBER, LOCATIONCODE
 
 ),
 
@@ -33,12 +33,12 @@ CrossTab_67_0 AS (
   SELECT 
     (
       CASE
-        WHEN (LocationCode IS NULL)
+        WHEN (LOCATIONCODE IS NULL)
           THEN '_Null_'
-        ELSE LocationCode
+        ELSE LOCATIONCODE
       END
-    ) AS LocationCode,
-    * EXCEPT (`locationcode`)
+    ) AS LOCATIONCODE,
+    * EXCLUDE ("LOCATIONCODE")
   
   FROM LockInSummarize_58 AS in0
 
@@ -47,8 +47,8 @@ CrossTab_67_0 AS (
 CrossTab_67_1 AS (
 
   SELECT 
-    (REGEXP_REPLACE(LocationCode, '[\\s!@#$%^&*(),.?":{}|<>\\[\\]=;/\\-+]', '_')) AS LocationCode,
-    * EXCEPT (`locationcode`)
+    (REGEXP_REPLACE(LOCATIONCODE, '[\\s!@#$%^&*(),.?":{}|<>\\[\\]=;/\\-+]', '_')) AS LOCATIONCODE,
+    * EXCLUDE ("LOCATIONCODE")
   
   FROM CrossTab_67_0 AS in0
 

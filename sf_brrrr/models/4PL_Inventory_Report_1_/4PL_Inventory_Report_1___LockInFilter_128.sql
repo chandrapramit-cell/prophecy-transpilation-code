@@ -20,7 +20,7 @@ LockInFilter_128 AS (
   
   FROM Source_File__ex_1 AS in0
   
-  WHERE (ItemPrimaryVendorID = '123')
+  WHERE (ITEMPRIMARYVENDORID = '123')
 
 )
 

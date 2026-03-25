@@ -16,7 +16,7 @@ WITH TextInput_138 AS (
 
 TextInput_138_cast AS (
 
-  SELECT FileName AS FileName
+  SELECT FILENAME AS FILENAME
   
   FROM TextInput_138 AS in0
 
@@ -24,7 +24,7 @@ TextInput_138_cast AS (
 
 AlteryxSelect_139 AS (
 
-  SELECT CAST(FileName AS VARstring) AS `File Name`
+  SELECT CAST(FILENAME AS STRING) AS "FILE NAME"
   
   FROM TextInput_138_cast AS in0
 
