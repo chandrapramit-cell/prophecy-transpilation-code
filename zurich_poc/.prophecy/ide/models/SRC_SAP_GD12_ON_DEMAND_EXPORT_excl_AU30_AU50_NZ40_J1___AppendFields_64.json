@@ -1,0 +1,562 @@
+{
+  "id" : "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___AppendFields_64",
+  "metainfo" : {
+    "label" : "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___AppendFields_64",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_25_25_Output" : {
+      "id" : "AlteryxSelect_25_25_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_25"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___AlteryxSelect_25') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "66" : {
+      "id" : "66",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_66",
+        "x" : 1250,
+        "y" : 795,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "LISTAGG(`Email address`, ';')",
+            "_row_id" : null
+          },
+          "alias" : "`Email address`",
+          "description" : null,
+          "_row_id" : "iPsaLj7VEu7ZgIN0nX7mg"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "66_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "66_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "51" : {
+      "id" : "51",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_51",
+        "x" : 50,
+        "y" : 180,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "FISCAL_YEAR",
+            "_row_id" : null
+          },
+          "alias" : "FISCAL_YEAR",
+          "description" : null,
+          "_row_id" : "J2psccUTK3YEzHcQ5hG7R"
+        }, {
+          "expression" : {
+            "expression" : "PERIOD",
+            "_row_id" : null
+          },
+          "alias" : "PERIOD",
+          "description" : null,
+          "_row_id" : "GCJ9-zha7Ysh6D5ZAzOr9"
+        }, {
+          "expression" : {
+            "expression" : "LEDGER",
+            "_row_id" : null
+          },
+          "alias" : "LEDGER",
+          "description" : null,
+          "_row_id" : "UkJHZCORKA83o5AIAD20L"
+        }, {
+          "expression" : {
+            "expression" : "COMPANY_CODE",
+            "_row_id" : null
+          },
+          "alias" : "COMPANY_CODE",
+          "description" : null,
+          "_row_id" : "Tkk23It7a2QBvUpbD8rpC"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "51_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "51_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "62" : {
+      "id" : "62",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_62",
+        "x" : 1010,
+        "y" : 579,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(ToslashCc = 'To')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "62_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "62_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "55" : {
+      "id" : "55",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "PortfolioComposerTable_55",
+        "x" : 290,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Unique_51" ],
+        "code_string" : "<Node ToolID=\"55\">\n          <GuiSettings Plugin=\"PortfolioPluginsGui.ComposerTable.PortfolioComposerTable\">\n            <Position y=\"102\" x=\"3018\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <TableMode>Basic</TableMode>\n              <GroupingFields orderChanged=\"False\"/>\n              <Width/>\n              <ShowHeader value=\"True\"/>\n              <ShowBarGraph value=\"False\"/>\n              <TableFields orderChanged=\"True\">\n                <Field Alignment=\"Right\" selected=\"True\" name=\"COMPANY_CODE\"/>\n                <Field Alignment=\"Right\" selected=\"True\" name=\"LEDGER\"/>\n                <Field Alignment=\"Right\" selected=\"True\" name=\"FISCAL_YEAR\"/>\n                <Field Width=\"\" Alignment=\"Right\" selected=\"True\" name=\"PERIOD\"/>\n                <Field Alignment=\"Left\" selected=\"True\" name=\"FILENAME\"/>\n                <Field Alignment=\"Left\" selected=\"True\" name=\"FILELASTWRITETIME\"/>\n                <Field selected=\"False\" name=\"TIMESTAMP\"/>\n                <Field selected=\"False\" name=\"USER\"/>\n                <Field selected=\"False\" name=\"SOURCE\"/>\n                <Field selected=\"False\" name=\"REPORTING_DATE\"/>\n                <Field selected=\"False\" name=\"ACCOUNT_NUMBER\"/>\n                <Field selected=\"False\" name=\"FUNCTIONAL_AREA\"/>\n                <Field selected=\"False\" name=\"COUNTRY\"/>\n                <Field selected=\"False\" name=\"PROFIT_CENTER\"/>\n                <Field selected=\"False\" name=\"BUSINESS_AREA\"/>\n                <Field selected=\"False\" name=\"COST_CENTER\"/>\n                <Field selected=\"False\" name=\"BUS_TRANSACTION\"/>\n                <Field selected=\"False\" name=\"CURRENCY\"/>\n                <Field selected=\"False\" name=\"LOB\"/>\n                <Field selected=\"False\" name=\"AMT_TRANSACTN_CURR_\"/>\n                <Field selected=\"False\" name=\"AMT_CUM__TCURR\"/>\n                <Field selected=\"False\" name=\"AMT_CO_CD__CURRENCY\"/>\n                <Field selected=\"False\" name=\"AMT_CUM_LC_CUR\"/>\n                <Field selected=\"False\" name=\"AMT_GLOB_COMP_CURR_\"/>\n                <Field selected=\"False\" name=\"AMT_CUMGLCOCUR\"/>\n                <Field selected=\"False\" name=\"*Unknown\"/>\n              </TableFields>\n              <TableStyles>\n                <Style RowGroup=\"1\" AltColor=\"#f0f0f0\" BackColor=\"#ffffff\" TextColor=\"#000000\" Size=\"8\" Font=\"Arial\" Name=\"Data\"/>\n                <Style BackColor=\"#dbdbdb\" TextColor=\"#000000\" Size=\"10\" Font=\"Arial\" Name=\"Header\"/>\n                <Style BasicColBorder=\"Default (Use Per Column Setting)\" RowBorder=\"None\" HeaderColor=\"#000000\" DataColor=\"#000000\" Width=\"1\" Name=\"Borders\"/>\n                <Style BorderColor=\"#000000\" Width=\"1\" TableBorder=\"true\" ColumnPadding=\"0\" CellPadding=\"0\" Name=\"Table\"/>\n              </TableStyles>\n              <StyleRules/>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText>Basic Table</DefaultAnnotationText>\n              <Left value=\"False\"/>\n            </Annotation>\n          </Properties>\n          <EngineSettings EngineDllEntryPoint=\"AlteryxPortfolioComposerTablePlugin\" EngineDll=\"PortfolioPluginsEngine.dll\"/>\n        </Node>",
+        "diag_message" : "Component type: Portfolio Composer Table is not supported.",
+        "error_string" : "Component type: Portfolio Composer Table is not supported."
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "55_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "55_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Emailrecipients_59_59_Output" : {
+      "id" : "Emailrecipients_59_59_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Emailrecipients_59"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1_', 'Emailrecipients_59') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AppendFields_64_64_Output" : {
+      "id" : "AppendFields_64_64_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AppendFields_64"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AppendFields_64\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "65" : {
+      "id" : "65",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Summarize_65",
+        "x" : 1250,
+        "y" : 543,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "LISTAGG(`Email address`, ';')",
+            "_row_id" : null
+          },
+          "alias" : "`Email address`",
+          "description" : null,
+          "_row_id" : "Hfu827X7P_DApt6iva0vD"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "65_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "65_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "57" : {
+      "id" : "57",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "PortfolioComposerText_57",
+        "x" : 770,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "PortfolioComposerTable_55" ],
+        "code_string" : "<Node ToolID=\"57\">\n          <GuiSettings Plugin=\"PortfolioPluginsGui.ComposerText.PortfolioComposerText\">\n            <Position y=\"102\" x=\"3138\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <Images/>\n              <HeaderMode value=\"True\"/>\n              <HeaderField>Table</HeaderField>\n              <Position>Above</Position>\n              <RawMode value=\"False\"/>\n              <ValidatePCXML value=\"True\"/>\n              <Message/>\n              <RichTextMode value=\"True\"/>\n              <RichTextString>{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3081{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}}\n\\viewkind4\\uc1\\pard\\fs24 The following files have been uploaded into Snowflake Data Table NPRD_BDS.FINANCE_GENERAL.SRC_SAP_GD12_ON_DEMAND_EXPORT:\\par\n}\n</RichTextString>\n              <Styles>\n                <Style Name=\"TextStyle\"/>\n              </Styles>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText>The following files have been ...</DefaultAnnotationText>\n              <Left value=\"False\"/>\n            </Annotation>\n          </Properties>\n          <EngineSettings EngineDllEntryPoint=\"AlteryxPortfolioComposerTextPlugin\" EngineDll=\"PortfolioPluginsEngine.dll\"/>\n        </Node>",
+        "diag_message" : "Component type: Report Text is not supported.",
+        "error_string" : "Component type: Report Text is not supported."
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "57_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "57_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "60" : {
+      "id" : "60",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_60",
+        "x" : 1490,
+        "y" : 183,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.`Email address`",
+            "_row_id" : null
+          },
+          "alias" : "To_Email_Address",
+          "description" : null,
+          "_row_id" : "oxFaVd-uuBUif3FrTM-Dq"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Email address`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "60_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "60_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "60_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "64" : {
+      "id" : "64",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_64",
+        "x" : 1730,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.`Email address`",
+            "_row_id" : null
+          },
+          "alias" : "Cc_Email_Address",
+          "description" : null,
+          "_row_id" : "qdrwXTgE20OVvYmxUhWxT"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Email address`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "64_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "64_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "64_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "63" : {
+      "id" : "63",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_63",
+        "x" : 1010,
+        "y" : 831,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(ToslashCc = 'Cc')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "63_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "63_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_64_64_Output_AppendFields_64_64_Output",
+    "source" : "64",
+    "sourcePort" : "64_Output",
+    "target" : "AppendFields_64_64_Output",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_46",
+    "source" : "60",
+    "sourcePort" : "60_Output",
+    "target" : "64",
+    "targetPort" : "64_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_47",
+    "source" : "66",
+    "sourcePort" : "66_Output",
+    "target" : "64",
+    "targetPort" : "64_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_42",
+    "source" : "57",
+    "sourcePort" : "57_Output",
+    "target" : "60",
+    "targetPort" : "60_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_43",
+    "source" : "65",
+    "sourcePort" : "65_Output",
+    "target" : "60",
+    "targetPort" : "60_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_49",
+    "source" : "63",
+    "sourcePort" : "63_True",
+    "target" : "66",
+    "targetPort" : "66_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_41",
+    "source" : "55",
+    "sourcePort" : "55_Output",
+    "target" : "57",
+    "targetPort" : "57_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_48",
+    "source" : "62",
+    "sourcePort" : "62_True",
+    "target" : "65",
+    "targetPort" : "65_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_45",
+    "source" : "Emailrecipients_59_59_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "63",
+    "targetPort" : "63_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_40",
+    "source" : "51",
+    "sourcePort" : "51_Unique",
+    "target" : "55",
+    "targetPort" : "55_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_44",
+    "source" : "Emailrecipients_59_59_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "62",
+    "targetPort" : "62_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_61",
+    "source" : "AlteryxSelect_25_25_Output",
+    "sourcePort" : "output_port_10",
+    "target" : "51",
+    "targetPort" : "51_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
