@@ -16,7 +16,7 @@ WITH TextInput_70 AS (
 
 TextInput_70_cast AS (
 
-  SELECT CAST(COMPANY_CODE AS VARstring) AS COMPANY_CODE
+  SELECT CAST(in0.COMPANY_CODE AS string) AS COMPANY_CODE
   
   FROM TextInput_70 AS in0
 

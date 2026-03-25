@@ -14,24 +14,12 @@ WITH Union_44 AS (
 
 ),
 
-CountRecords_6 AS (
+Sample_73 AS (
 
-  SELECT COUNT('1') AS `Count`
-  
-  FROM Union_44 AS in0
-
-),
-
-Filter_7 AS (
-
-  SELECT * 
-  
-  FROM CountRecords_6 AS in0
-  
-  WHERE (in0.Count = CAST('0' AS INTEGER))
+  {{ prophecy_basics.Sample('', [], 1002, 'firstN', 8) }}
 
 )
 
 SELECT *
 
-FROM Filter_7
+FROM Sample_73
