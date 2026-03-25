@@ -1,0 +1,266 @@
+{
+  "id" : "4PL_Inventory_Report_1___CrossTab_67_1",
+  "metainfo" : {
+    "label" : "4PL_Inventory_Report_1___CrossTab_67_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "jd9Rh47An_wMrlzyHDIHN" : {
+      "id" : "jd9Rh47An_wMrlzyHDIHN",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CrossTab_67_1",
+        "x" : 460,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(REGEXP_REPLACE(LocationCode, '[\\\\s!@#$%^&*(),.?\":{}|<>\\\\[\\\\]=;/\\\\-+]', '_'))",
+            "_row_id" : null
+          },
+          "alias" : "LocationCode",
+          "description" : null,
+          "_row_id" : "Uu0bQt2pz-1ySAOph3mu3"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`locationcode`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dDNDV_FxejGYYWLhmrJTP",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "fQRJVtysdMA-taucHxjLK",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "gE6wVTvAqbaQPDTYvDA0V" : {
+      "id" : "gE6wVTvAqbaQPDTYvDA0V",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CrossTab_67_0",
+        "x" : 260,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (LocationCode IS NULL) THEN '_Null_' ELSE LocationCode END)",
+            "_row_id" : null
+          },
+          "alias" : "LocationCode",
+          "description" : null,
+          "_row_id" : "CJ4jHez9WkN-sHIlRAnG7"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`locationcode`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "-8nx1H5ATc_MDPPZdpIhw",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "92PDlZzg9Nlc35PU8jt9j",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CrossTab_67_1_fQRJVtysdMA-taucHxjLK" : {
+      "id" : "CrossTab_67_1_fQRJVtysdMA-taucHxjLK",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CrossTab_67_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CrossTab_67_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "58" : {
+      "id" : "58",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "LockInSummarize_58",
+        "x" : 60,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(AvailableQuantity)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_AvailableQuantity",
+          "description" : null,
+          "_row_id" : "u2yjcGuy_kXoTBjgYI8_y"
+        }, {
+          "expression" : {
+            "expression" : "ItemNumber",
+            "_row_id" : null
+          },
+          "alias" : "ItemNumber",
+          "description" : null,
+          "_row_id" : "uAy9QeHtxUQRv_AtYsYCd"
+        }, {
+          "expression" : {
+            "expression" : "LocationCode",
+            "_row_id" : null
+          },
+          "alias" : "LocationCode",
+          "description" : null,
+          "_row_id" : "QwwQkV0d3WlW453RCKoP9"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "ItemNumber",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "gcITijfxFw8RQSSPgw_xQ"
+        }, {
+          "expression" : {
+            "expression" : "LocationCode",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "rYrOM_p_1fxk6bBTkll7F"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "58_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "58_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "LockInFilter_128_128_True" : {
+      "id" : "LockInFilter_128_128_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "LockInFilter_128"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('4PL_Inventory_Report_1___LockInFilter_128') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_jd9Rh47An_wMrlzyHDIHN_fQRJVtysdMA-taucHxjLK_CrossTab_67_1_fQRJVtysdMA-taucHxjLK",
+    "source" : "jd9Rh47An_wMrlzyHDIHN",
+    "sourcePort" : "fQRJVtysdMA-taucHxjLK",
+    "target" : "CrossTab_67_1_fQRJVtysdMA-taucHxjLK",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_28",
+    "source" : "gE6wVTvAqbaQPDTYvDA0V",
+    "sourcePort" : "92PDlZzg9Nlc35PU8jt9j",
+    "target" : "jd9Rh47An_wMrlzyHDIHN",
+    "targetPort" : "dDNDV_FxejGYYWLhmrJTP",
+    "isWireless" : false
+  }, {
+    "id" : "edge_30",
+    "source" : "58",
+    "sourcePort" : "58_Output",
+    "target" : "gE6wVTvAqbaQPDTYvDA0V",
+    "targetPort" : "-8nx1H5ATc_MDPPZdpIhw",
+    "isWireless" : false
+  }, {
+    "id" : "edge_5",
+    "source" : "LockInFilter_128_128_True",
+    "sourcePort" : "output_port_3",
+    "target" : "58",
+    "targetPort" : "58_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
