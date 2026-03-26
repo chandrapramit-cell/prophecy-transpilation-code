@@ -1,0 +1,155 @@
+{
+  "id" : "wfg__transpose_store_sales_quad_to_dimensions",
+  "metainfo" : {
+    "label" : "wfg__transpose_store_sales_quad_to_dimensions",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "transpose_store_sales_quad_to_dimensions_plhtEATqiN_IDIwujxbZT$$VlatGQrzpzA3DbxRB2LwR" : {
+      "id" : "transpose_store_sales_quad_to_dimensions_plhtEATqiN_IDIwujxbZT$$VlatGQrzpzA3DbxRB2LwR",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "transpose_store_sales_quad_to_dimensions"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM transpose_store_sales_quad_to_dimensions\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "jHu34T8N4jQUlBlCWoCbD$$tgkPJMuiT-w47o6QGU-DT" : {
+      "id" : "jHu34T8N4jQUlBlCWoCbD$$tgkPJMuiT-w47o6QGU-DT",
+      "component" : "Transpose",
+      "metadata" : {
+        "label" : "transpose_store_sales_quad_to_dimensions",
+        "x" : 80,
+        "y" : -280,
+        "phase" : 0,
+        "comment" : "Reformats store sales data quarterly for easier analysis and naming of value-focused rows."
+      },
+      "properties" : {
+        "relation_name" : [ "store_sales_qtrly_csv" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Transpose",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"store_sales_qtrly_csv\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"StoreID\", \"dataType\": \"Integer\"}, {\"name\": \"Location\", \"dataType\": \"String\"}, {\"name\": \"Q1_Sales\", \"dataType\": \"Integer\"}, {\"name\": \"Q2_Sales\", \"dataType\": \"Integer\"}, {\"name\": \"Q3_Sales\", \"dataType\": \"Integer\"}, {\"name\": \"Q4_Sales\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "nameColumn",
+            "value" : "Name"
+          }, {
+            "name" : "valueColumn",
+            "value" : "Value"
+          }, {
+            "name" : "keyColumns",
+            "value" : "[\"StoreID\", \"Location\"]"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[\"Q1_Sales\", \"Q2_Sales\", \"Q3_Sales\", \"Q4_Sales\"]"
+          }, {
+            "name" : "customNames",
+            "value" : "false"
+          } ]
+        },
+        "dataColumns" : [ "Q1_Sales", "Q2_Sales", "Q3_Sales", "Q4_Sales" ],
+        "customNames" : false,
+        "schema" : "[{\"name\": \"StoreID\", \"dataType\": \"Integer\"}, {\"name\": \"Location\", \"dataType\": \"String\"}, {\"name\": \"Q1_Sales\", \"dataType\": \"Integer\"}, {\"name\": \"Q2_Sales\", \"dataType\": \"Integer\"}, {\"name\": \"Q3_Sales\", \"dataType\": \"Integer\"}, {\"name\": \"Q4_Sales\", \"dataType\": \"String\"}]",
+        "valueColumn" : "Value",
+        "keyColumns" : [ "StoreID", "Location" ],
+        "nameColumn" : "Name"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "8_5855GTQsn80Eh2kpMFx$$uTgmfnakaMtU2pzZ5S1Pf",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "plhtEATqiN_IDIwujxbZT$$VlatGQrzpzA3DbxRB2LwR",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "_gBGqHhXBZ9QZ788dKidp$$ItsBxleZDvN5GIwAy6jXu" : {
+      "id" : "_gBGqHhXBZ9QZ788dKidp$$ItsBxleZDvN5GIwAy6jXu",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "store_sales_qtrly_csv",
+        "x" : -180,
+        "y" : 120,
+        "phase" : 0,
+        "comment" : "Updates the seed dataset and refreshes the target table to reflect latest source data."
+      },
+      "properties" : {
+        "table" : {
+          "name" : "s",
+          "sourceType" : "Seed"
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "xxFGtfXEjrHfmsIyVzYZn$$MaM4xAD8lLqhQ_lRSBD-P",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_jHu34T8N4jQUlBlCWoCbD$$tgkPJMuiT-w47o6QGU-DT_plhtEATqiN_IDIwujxbZT$$VlatGQrzpzA3DbxRB2LwR_transpose_store_sales_quad_to_dimensions_plhtEATqiN_IDIwujxbZT$$VlatGQrzpzA3DbxRB2LwR",
+    "source" : "jHu34T8N4jQUlBlCWoCbD$$tgkPJMuiT-w47o6QGU-DT",
+    "sourcePort" : "plhtEATqiN_IDIwujxbZT$$VlatGQrzpzA3DbxRB2LwR",
+    "target" : "transpose_store_sales_quad_to_dimensions_plhtEATqiN_IDIwujxbZT$$VlatGQrzpzA3DbxRB2LwR",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "DThsV2fwvC4jfsclIN65-",
+    "source" : "_gBGqHhXBZ9QZ788dKidp$$ItsBxleZDvN5GIwAy6jXu",
+    "sourcePort" : "xxFGtfXEjrHfmsIyVzYZn$$MaM4xAD8lLqhQ_lRSBD-P",
+    "target" : "jHu34T8N4jQUlBlCWoCbD$$tgkPJMuiT-w47o6QGU-DT",
+    "targetPort" : "8_5855GTQsn80Eh2kpMFx$$uTgmfnakaMtU2pzZ5S1Pf",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,164 @@
+{
+  "id" : "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___Filter_7",
+  "metainfo" : {
+    "label" : "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___Filter_7",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_7_7_True" : {
+      "id" : "Filter_7_7_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_7"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_7\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_12",
+          "slug" : "input_port_12"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_12",
+          "slug" : "output_port_12"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "7" : {
+      "id" : "7",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_7",
+        "x" : 260,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "7_Input##Count" ],
+        "condition" : {
+          "expression" : "(Count = CAST('0' AS INTEGER))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "7_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "7_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Checkanyfilestoread"
+    },
+    "6" : {
+      "id" : "6",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CountRecords_6",
+        "x" : 60,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "COUNT('1')"
+          },
+          "alias" : "`Count`",
+          "_row_id" : "mYhdtvfQafW38hwn2UiiW"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "6_Input8",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "6_Output9",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Checkanyfilestoread"
+    },
+    "Union_44_44_Output" : {
+      "id" : "Union_44_44_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_44"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___Union_44') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_7_7_True_Filter_7_7_True",
+    "source" : "7",
+    "sourcePort" : "7_True",
+    "target" : "Filter_7_7_True",
+    "targetPort" : "input_port_12",
+    "isWireless" : false
+  }, {
+    "id" : "edge_31",
+    "source" : "6",
+    "sourcePort" : "6_Output9",
+    "target" : "7",
+    "targetPort" : "7_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_29",
+    "source" : "Union_44_44_Output",
+    "sourcePort" : "output_port_6",
+    "target" : "6",
+    "targetPort" : "6_Input8",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
