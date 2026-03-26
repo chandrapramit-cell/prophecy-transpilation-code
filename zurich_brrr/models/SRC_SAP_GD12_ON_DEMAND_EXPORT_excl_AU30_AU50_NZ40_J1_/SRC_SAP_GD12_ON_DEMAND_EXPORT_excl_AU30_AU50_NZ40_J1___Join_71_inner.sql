@@ -26,11 +26,11 @@ Join_71_inner AS (
 
   SELECT 
     in0.*,
-    in1.* EXCEPT (`COMPANY_CODE`)
+    in1.* EXCLUDE ("COMPANY_CODE")
   
   FROM RegEx_68 AS in0
   INNER JOIN TextInput_70_cast AS in1
-     ON (in0.CC_Check = in1.COMPANY_CODE)
+     ON (in0.CC_CHECK = in1.COMPANY_CODE)
 
 )
 

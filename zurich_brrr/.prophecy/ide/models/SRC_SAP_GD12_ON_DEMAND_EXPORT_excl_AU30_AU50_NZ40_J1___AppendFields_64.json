@@ -26,20 +26,20 @@
       },
       "properties" : {
         "fileTabs" : [ {
-          "path" : "output_port_10",
-          "id" : "output_port_10",
+          "path" : "output_port_9",
+          "id" : "output_port_9",
           "language" : "sql",
           "content" : "\nSELECT *\n\nFROM {{ ref('SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___AlteryxSelect_25') }}\n\n"
         } ]
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "input_port_10",
-          "slug" : "input_port_10"
+          "id" : "input_port_9",
+          "slug" : "input_port_9"
         } ],
         "outputs" : [ {
-          "id" : "output_port_10",
-          "slug" : "output_port_10"
+          "id" : "output_port_9",
+          "slug" : "output_port_9"
         } ],
         "isCustomOutputSchema" : false,
         "autoUpdateOnRun" : false
@@ -50,20 +50,18 @@
       "component" : "Reformat",
       "metadata" : {
         "label" : "Summarize_66",
-        "x" : 1250,
-        "y" : 795,
+        "x" : 660,
+        "y" : 120,
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "66_Input##EMAIL ADDRESS" ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "LISTAGG(`Email address`, ';')",
-            "_row_id" : null
+            "expression" : "listagg(\"EMAIL ADDRESS\", ';')"
           },
-          "alias" : "`Email address`",
-          "description" : null,
-          "_row_id" : "cN3p20-rds-Dj-46dyuIG"
+          "alias" : "\"EMAIL ADDRESS\"",
+          "_row_id" : "0MPMxDqo-BB9PHVCfng81"
         } ]
       },
       "ports" : {
@@ -84,45 +82,40 @@
       "component" : "Deduplicate",
       "metadata" : {
         "label" : "Unique_51",
-        "x" : 50,
-        "y" : 180,
+        "x" : 60,
+        "y" : 520,
         "phase" : 0
       },
       "properties" : {
         "dedupColumns" : [ {
           "expression" : {
-            "expression" : "FISCAL_YEAR",
-            "_row_id" : null
+            "expression" : "FISCAL_YEAR"
           },
           "alias" : "FISCAL_YEAR",
-          "description" : null,
-          "_row_id" : "wJIE7MWH63ocjz5j3nEKC"
+          "_row_id" : "rFhT-3tUuN2TIMXM0j6zc"
         }, {
           "expression" : {
-            "expression" : "PERIOD",
-            "_row_id" : null
+            "expression" : "PERIOD"
           },
           "alias" : "PERIOD",
-          "description" : null,
-          "_row_id" : "31YgxM_J9-_9AoG3yghPN"
+          "_row_id" : "z4LmjKH2P-j0XTobHOjyU"
         }, {
           "expression" : {
-            "expression" : "LEDGER",
-            "_row_id" : null
+            "expression" : "LEDGER"
           },
           "alias" : "LEDGER",
-          "description" : null,
-          "_row_id" : "DzqU1gfUwoDeBm3PUBvK3"
+          "_row_id" : "4tsZ7hgDD6pn9i6pYjZYz"
         }, {
           "expression" : {
-            "expression" : "COMPANY_CODE",
-            "_row_id" : null
+            "expression" : "COMPANY_CODE"
           },
           "alias" : "COMPANY_CODE",
-          "description" : null,
-          "_row_id" : "mNomUwF72OoX8Za8bEHFO"
+          "_row_id" : "5ygGYN40NKx-lsmr9nBn6"
         } ],
-        "dedupType" : "first"
+        "dedupType" : "first",
+        "columnsSelector" : [ ],
+        "orders" : [ ],
+        "useOrderBy" : false
       },
       "ports" : {
         "inputs" : [ {
@@ -142,15 +135,14 @@
       "component" : "Filter",
       "metadata" : {
         "label" : "Filter_62",
-        "x" : 1010,
-        "y" : 579,
+        "x" : 260,
+        "y" : 320,
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "62_Input##TOSLASHCC" ],
         "condition" : {
-          "expression" : "(ToslashCc = 'To')",
-          "_row_id" : null
+          "expression" : "(TOSLASHCC = 'To')"
         }
       },
       "ports" : {
@@ -171,13 +163,21 @@
       "component" : "ToDo",
       "metadata" : {
         "label" : "PortfolioComposerTable_55",
-        "x" : 290,
-        "y" : 147,
+        "x" : 260,
+        "y" : 520,
         "phase" : 0
       },
       "properties" : {
         "relation_name" : [ "Unique_51" ],
-        "code_string" : "<Node ToolID=\"55\">\n          <GuiSettings Plugin=\"PortfolioPluginsGui.ComposerTable.PortfolioComposerTable\">\n            <Position y=\"102\" x=\"3018\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <TableMode>Basic</TableMode>\n              <GroupingFields orderChanged=\"False\"/>\n              <Width/>\n              <ShowHeader value=\"True\"/>\n              <ShowBarGraph value=\"False\"/>\n              <TableFields orderChanged=\"True\">\n                <Field Alignment=\"Right\" selected=\"True\" name=\"COMPANY_CODE\"/>\n                <Field Alignment=\"Right\" selected=\"True\" name=\"LEDGER\"/>\n                <Field Alignment=\"Right\" selected=\"True\" name=\"FISCAL_YEAR\"/>\n                <Field Width=\"\" Alignment=\"Right\" selected=\"True\" name=\"PERIOD\"/>\n                <Field Alignment=\"Left\" selected=\"True\" name=\"FILENAME\"/>\n                <Field Alignment=\"Left\" selected=\"True\" name=\"FILELASTWRITETIME\"/>\n                <Field selected=\"False\" name=\"TIMESTAMP\"/>\n                <Field selected=\"False\" name=\"USER\"/>\n                <Field selected=\"False\" name=\"SOURCE\"/>\n                <Field selected=\"False\" name=\"REPORTING_DATE\"/>\n                <Field selected=\"False\" name=\"ACCOUNT_NUMBER\"/>\n                <Field selected=\"False\" name=\"FUNCTIONAL_AREA\"/>\n                <Field selected=\"False\" name=\"COUNTRY\"/>\n                <Field selected=\"False\" name=\"PROFIT_CENTER\"/>\n                <Field selected=\"False\" name=\"BUSINESS_AREA\"/>\n                <Field selected=\"False\" name=\"COST_CENTER\"/>\n                <Field selected=\"False\" name=\"BUS_TRANSACTION\"/>\n                <Field selected=\"False\" name=\"CURRENCY\"/>\n                <Field selected=\"False\" name=\"LOB\"/>\n                <Field selected=\"False\" name=\"AMT_TRANSACTN_CURR_\"/>\n                <Field selected=\"False\" name=\"AMT_CUM__TCURR\"/>\n                <Field selected=\"False\" name=\"AMT_CO_CD__CURRENCY\"/>\n                <Field selected=\"False\" name=\"AMT_CUM_LC_CUR\"/>\n                <Field selected=\"False\" name=\"AMT_GLOB_COMP_CURR_\"/>\n                <Field selected=\"False\" name=\"AMT_CUMGLCOCUR\"/>\n                <Field selected=\"False\" name=\"*Unknown\"/>\n              </TableFields>\n              <TableStyles>\n                <Style RowGroup=\"1\" AltColor=\"#f0f0f0\" BackColor=\"#ffffff\" TextColor=\"#000000\" Size=\"8\" Font=\"Arial\" Name=\"Data\"/>\n                <Style BackColor=\"#dbdbdb\" TextColor=\"#000000\" Size=\"10\" Font=\"Arial\" Name=\"Header\"/>\n                <Style BasicColBorder=\"Default (Use Per Column Setting)\" RowBorder=\"None\" HeaderColor=\"#000000\" DataColor=\"#000000\" Width=\"1\" Name=\"Borders\"/>\n                <Style BorderColor=\"#000000\" Width=\"1\" TableBorder=\"true\" ColumnPadding=\"0\" CellPadding=\"0\" Name=\"Table\"/>\n              </TableStyles>\n              <StyleRules/>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText>Basic Table</DefaultAnnotationText>\n              <Left value=\"False\"/>\n            </Annotation>\n          </Properties>\n          <EngineSettings EngineDllEntryPoint=\"AlteryxPortfolioComposerTablePlugin\" EngineDll=\"PortfolioPluginsEngine.dll\"/>\n        </Node>",
+        "_oldMacroProperties" : {
+          "macroName" : "ToDo",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "diag_message",
+            "value" : "Component type: Portfolio Composer Table is not supported."
+          } ]
+        },
+        "code_string" : "<Node ToolID=\"55\">\n          <GuiSettings Plugin=\"PortfolioPluginsGui.ComposerTable.PortfolioComposerTable\">\n            <Position x=\"3018\" y=\"102\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <TableMode>Basic</TableMode>\n              <GroupingFields orderChanged=\"False\"/>\n              <Width/>\n              <ShowHeader value=\"True\"/>\n              <ShowBarGraph value=\"False\"/>\n              <TableFields orderChanged=\"True\">\n                <Field name=\"COMPANY_CODE\" selected=\"True\" Alignment=\"Right\"/>\n                <Field name=\"LEDGER\" selected=\"True\" Alignment=\"Right\"/>\n                <Field name=\"FISCAL_YEAR\" selected=\"True\" Alignment=\"Right\"/>\n                <Field name=\"PERIOD\" selected=\"True\" Alignment=\"Right\" Width=\"\"/>\n                <Field name=\"FILENAME\" selected=\"True\" Alignment=\"Left\"/>\n                <Field name=\"FILELASTWRITETIME\" selected=\"True\" Alignment=\"Left\"/>\n                <Field name=\"TIMESTAMP\" selected=\"False\"/>\n                <Field name=\"USER\" selected=\"False\"/>\n                <Field name=\"SOURCE\" selected=\"False\"/>\n                <Field name=\"REPORTING_DATE\" selected=\"False\"/>\n                <Field name=\"ACCOUNT_NUMBER\" selected=\"False\"/>\n                <Field name=\"FUNCTIONAL_AREA\" selected=\"False\"/>\n                <Field name=\"COUNTRY\" selected=\"False\"/>\n                <Field name=\"PROFIT_CENTER\" selected=\"False\"/>\n                <Field name=\"BUSINESS_AREA\" selected=\"False\"/>\n                <Field name=\"COST_CENTER\" selected=\"False\"/>\n                <Field name=\"BUS_TRANSACTION\" selected=\"False\"/>\n                <Field name=\"CURRENCY\" selected=\"False\"/>\n                <Field name=\"LOB\" selected=\"False\"/>\n                <Field name=\"AMT_TRANSACTN_CURR_\" selected=\"False\"/>\n                <Field name=\"AMT_CUM__TCURR\" selected=\"False\"/>\n                <Field name=\"AMT_CO_CD__CURRENCY\" selected=\"False\"/>\n                <Field name=\"AMT_CUM_LC_CUR\" selected=\"False\"/>\n                <Field name=\"AMT_GLOB_COMP_CURR_\" selected=\"False\"/>\n                <Field name=\"AMT_CUMGLCOCUR\" selected=\"False\"/>\n                <Field name=\"*Unknown\" selected=\"False\"/>\n              </TableFields>\n              <TableStyles>\n                <Style Name=\"Data\" Font=\"Arial\" Size=\"8\" TextColor=\"#000000\" BackColor=\"#ffffff\" AltColor=\"#f0f0f0\" RowGroup=\"1\"/>\n                <Style Name=\"Header\" Font=\"Arial\" Size=\"10\" TextColor=\"#000000\" BackColor=\"#dbdbdb\"/>\n                <Style Name=\"Borders\" Width=\"1\" DataColor=\"#000000\" HeaderColor=\"#000000\" RowBorder=\"None\" BasicColBorder=\"Default (Use Per Column Setting)\"/>\n                <Style Name=\"Table\" CellPadding=\"0\" ColumnPadding=\"0\" TableBorder=\"true\" Width=\"1\" BorderColor=\"#000000\"/>\n              </TableStyles>\n              <StyleRules/>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText>Basic Table</DefaultAnnotationText>\n              <Left value=\"False\"/>\n            </Annotation>\n          </Properties>\n          <EngineSettings EngineDll=\"PortfolioPluginsEngine.dll\" EngineDllEntryPoint=\"AlteryxPortfolioComposerTablePlugin\"/>\n        </Node>",
         "diag_message" : "Component type: Portfolio Composer Table is not supported.",
         "error_string" : "Component type: Portfolio Composer Table is not supported."
       },
@@ -240,12 +240,12 @@
       },
       "ports" : {
         "inputs" : [ {
-          "id" : "input_port_11",
-          "slug" : "input_port_11"
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
         } ],
         "outputs" : [ {
-          "id" : "output_port_11",
-          "slug" : "output_port_11"
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
         } ],
         "isCustomOutputSchema" : false,
         "autoUpdateOnRun" : false
@@ -256,20 +256,18 @@
       "component" : "Reformat",
       "metadata" : {
         "label" : "Summarize_65",
-        "x" : 1250,
-        "y" : 543,
+        "x" : 460,
+        "y" : 320,
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "65_Input##EMAIL ADDRESS" ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "LISTAGG(`Email address`, ';')",
-            "_row_id" : null
+            "expression" : "listagg(\"EMAIL ADDRESS\", '; ')"
           },
-          "alias" : "`Email address`",
-          "description" : null,
-          "_row_id" : "0X3yJghsH1qkW7Py5AbmH"
+          "alias" : "\"EMAIL ADDRESS\"",
+          "_row_id" : "cJEQj5wcnMEdWq18XGBSI"
         } ]
       },
       "ports" : {
@@ -290,13 +288,21 @@
       "component" : "ToDo",
       "metadata" : {
         "label" : "PortfolioComposerText_57",
-        "x" : 770,
-        "y" : 147,
+        "x" : 460,
+        "y" : 520,
         "phase" : 0
       },
       "properties" : {
         "relation_name" : [ "PortfolioComposerTable_55" ],
-        "code_string" : "<Node ToolID=\"57\">\n          <GuiSettings Plugin=\"PortfolioPluginsGui.ComposerText.PortfolioComposerText\">\n            <Position y=\"102\" x=\"3138\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <Images/>\n              <HeaderMode value=\"True\"/>\n              <HeaderField>Table</HeaderField>\n              <Position>Above</Position>\n              <RawMode value=\"False\"/>\n              <ValidatePCXML value=\"True\"/>\n              <Message/>\n              <RichTextMode value=\"True\"/>\n              <RichTextString>{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3081{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}}\n\\viewkind4\\uc1\\pard\\fs24 The following files have been uploaded into Snowflake Data Table NPRD_BDS.FINANCE_GENERAL.SRC_SAP_GD12_ON_DEMAND_EXPORT:\\par\n}\n</RichTextString>\n              <Styles>\n                <Style Name=\"TextStyle\"/>\n              </Styles>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText>The following files have been ...</DefaultAnnotationText>\n              <Left value=\"False\"/>\n            </Annotation>\n          </Properties>\n          <EngineSettings EngineDllEntryPoint=\"AlteryxPortfolioComposerTextPlugin\" EngineDll=\"PortfolioPluginsEngine.dll\"/>\n        </Node>",
+        "_oldMacroProperties" : {
+          "macroName" : "ToDo",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "diag_message",
+            "value" : "Component type: Report Text is not supported."
+          } ]
+        },
+        "code_string" : "<Node ToolID=\"57\">\n          <GuiSettings Plugin=\"PortfolioPluginsGui.ComposerText.PortfolioComposerText\">\n            <Position x=\"3138\" y=\"102\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <Images/>\n              <HeaderMode value=\"True\"/>\n              <HeaderField>Table</HeaderField>\n              <Position>Above</Position>\n              <RawMode value=\"False\"/>\n              <ValidatePCXML value=\"True\"/>\n              <Message/>\n              <RichTextMode value=\"True\"/>\n              <RichTextString><![CDATA[{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3081{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}}\n\\viewkind4\\uc1\\pard\\fs24 The following files have been uploaded into Snowflake Data Table NPRD_BDS.FINANCE_GENERAL.SRC_SAP_GD12_ON_DEMAND_EXPORT:\\par\n}\n]]></RichTextString>\n              <Styles>\n                <Style Name=\"TextStyle\"/>\n              </Styles>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText>The following files have been ...</DefaultAnnotationText>\n              <Left value=\"False\"/>\n            </Annotation>\n          </Properties>\n          <EngineSettings EngineDll=\"PortfolioPluginsEngine.dll\" EngineDllEntryPoint=\"AlteryxPortfolioComposerTextPlugin\"/>\n        </Node>",
         "diag_message" : "Component type: Report Text is not supported.",
         "error_string" : "Component type: Report Text is not supported."
       },
@@ -318,48 +324,38 @@
       "component" : "Join",
       "metadata" : {
         "label" : "AppendFields_60",
-        "x" : 1490,
-        "y" : 183,
+        "x" : 660,
+        "y" : 420,
         "phase" : 0
       },
       "properties" : {
         "conditions" : [ {
           "alias" : "in1",
           "expression" : {
-            "expression" : "TRUE",
-            "_row_id" : null
+            "expression" : "TRUE"
           },
-          "joinType" : "inner",
-          "rightAlias" : null
+          "joinType" : "inner"
         } ],
         "allowSelection" : false,
         "expressions" : [ {
           "expression" : {
-            "expression" : "in0.`Email address`",
-            "_row_id" : null
+            "expression" : "in0.\"EMAIL ADDRESS\""
           },
-          "alias" : "To_Email_Address",
-          "description" : null,
-          "_row_id" : "lTWoG61IrSjV3TeL_J-AM"
+          "alias" : "TO_EMAIL_ADDRESS",
+          "_row_id" : "YXUJyJfAbsY4RxEUj786W"
         }, {
           "expression" : {
-            "expression" : "in0.* EXCEPT(`Email address`)",
-            "_row_id" : null
+            "expression" : "in0.* EXCLUDE(\"EMAIL ADDRESS\")"
           },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "_row_id" : "1581771388"
         }, {
           "expression" : {
-            "expression" : "in1.*",
-            "_row_id" : null
+            "expression" : "in1.*"
           },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "_row_id" : "1835274148"
         } ],
         "activeTab" : "conditions",
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "60_Source##EMAIL ADDRESS" ],
         "headAlias" : "in0"
       },
       "ports" : {
@@ -383,48 +379,38 @@
       "component" : "Join",
       "metadata" : {
         "label" : "AppendFields_64",
-        "x" : 1730,
-        "y" : 219,
+        "x" : 860,
+        "y" : 320,
         "phase" : 0
       },
       "properties" : {
         "conditions" : [ {
           "alias" : "in1",
           "expression" : {
-            "expression" : "TRUE",
-            "_row_id" : null
+            "expression" : "TRUE"
           },
-          "joinType" : "inner",
-          "rightAlias" : null
+          "joinType" : "inner"
         } ],
         "allowSelection" : false,
         "expressions" : [ {
           "expression" : {
-            "expression" : "in0.`Email address`",
-            "_row_id" : null
+            "expression" : "in0.\"EMAIL ADDRESS\""
           },
-          "alias" : "Cc_Email_Address",
-          "description" : null,
-          "_row_id" : "tFrnqH3k2ERRFMssqQ-nX"
+          "alias" : "CC_EMAIL_ADDRESS",
+          "_row_id" : "yArfZB9LsuUJTSyLCBcMh"
         }, {
           "expression" : {
-            "expression" : "in0.* EXCEPT(`Email address`)",
-            "_row_id" : null
+            "expression" : "in0.* EXCLUDE(\"EMAIL ADDRESS\")"
           },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "_row_id" : "1508483822"
         }, {
           "expression" : {
-            "expression" : "in1.*",
-            "_row_id" : null
+            "expression" : "in1.*"
           },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "_row_id" : "734099900"
         } ],
         "activeTab" : "conditions",
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "64_Source##EMAIL ADDRESS" ],
         "headAlias" : "in0"
       },
       "ports" : {
@@ -448,15 +434,14 @@
       "component" : "Filter",
       "metadata" : {
         "label" : "Filter_63",
-        "x" : 1010,
-        "y" : 831,
+        "x" : 260,
+        "y" : 120,
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "63_Input##TOSLASHCC" ],
         "condition" : {
-          "expression" : "(ToslashCc = 'Cc')",
-          "_row_id" : null
+          "expression" : "(TOSLASHCC = 'Cc')"
         }
       },
       "ports" : {
@@ -478,82 +463,82 @@
     "source" : "64",
     "sourcePort" : "64_Output",
     "target" : "AppendFields_64_64_Output",
-    "targetPort" : "input_port_11",
+    "targetPort" : "input_port_10",
     "isWireless" : false
   }, {
-    "id" : "edge_125",
+    "id" : "edge_7",
     "source" : "60",
     "sourcePort" : "60_Output",
     "target" : "64",
     "targetPort" : "64_Targets",
     "isWireless" : false
   }, {
-    "id" : "edge_126",
+    "id" : "edge_8",
     "source" : "66",
     "sourcePort" : "66_Output",
     "target" : "64",
     "targetPort" : "64_Source",
     "isWireless" : false
   }, {
-    "id" : "edge_121",
+    "id" : "edge_3",
     "source" : "57",
     "sourcePort" : "57_Output",
     "target" : "60",
     "targetPort" : "60_Targets",
     "isWireless" : false
   }, {
-    "id" : "edge_122",
+    "id" : "edge_4",
     "source" : "65",
     "sourcePort" : "65_Output",
     "target" : "60",
     "targetPort" : "60_Source",
     "isWireless" : false
   }, {
-    "id" : "edge_128",
+    "id" : "edge_10",
     "source" : "63",
     "sourcePort" : "63_True",
     "target" : "66",
     "targetPort" : "66_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_120",
+    "id" : "edge_2",
     "source" : "55",
     "sourcePort" : "55_Output",
     "target" : "57",
     "targetPort" : "57_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_127",
+    "id" : "edge_9",
     "source" : "62",
     "sourcePort" : "62_True",
     "target" : "65",
     "targetPort" : "65_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_124",
+    "id" : "edge_6",
     "source" : "Emailrecipients_59_59_Output",
     "sourcePort" : "output_port_1",
     "target" : "63",
     "targetPort" : "63_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_119",
+    "id" : "edge_1",
     "source" : "51",
     "sourcePort" : "51_Unique",
     "target" : "55",
     "targetPort" : "55_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_123",
+    "id" : "edge_5",
     "source" : "Emailrecipients_59_59_Output",
     "sourcePort" : "output_port_1",
     "target" : "62",
     "targetPort" : "62_Input",
     "isWireless" : false
   }, {
-    "id" : "edge_140",
+    "id" : "edge_23",
     "source" : "AlteryxSelect_25_25_Output",
-    "sourcePort" : "output_port_10",
+    "sourcePort" : "output_port_9",
     "target" : "51",
     "targetPort" : "51_Input",
     "isWireless" : false

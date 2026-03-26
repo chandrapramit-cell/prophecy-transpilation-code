@@ -5,10 +5,15 @@ args = PipelineArgs(
     version = 1,
     auto_layout = False,
     params = Parameters(
-      jdbcUrl_aka_SnowflakePR_29 = "''",
+      username_Emailrecipients_59 = "''",
+      jdbcUrl_DSN_SnowflakePR_20 = "''",
       username_aka_SnowflakePR_29 = "''",
+      username_DSN_SnowflakePR_20 = "''",
+      workflow_name = "'SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1_'",
+      jdbcUrl_aka_SnowflakePR_29 = "''",
+      password_Emailrecipients_59 = "''",
       password_aka_SnowflakePR_29 = "''",
-      workflow_name = "'SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1_'"
+      password_DSN_SnowflakePR_20 = "''"
     )
 )
 
@@ -88,26 +93,14 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
+    src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___textinput_70_cast = Process(
+        name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___TextInput_70_cast",
+        properties = ModelTransform(modelName = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___TextInput_70_cast")
+    )
     directory_43 = Process(
         name = "Directory_43",
         properties = Directory(
           path = "\\\\ms.zurich.com.au\\DFS\\AlteryX\\Prod\\Finance\\Post Allocation Reconciliation\\01- Source\\SRC_SAP_GD12_ON_DEMAND_EXPORT_J0",
-          pattern = "*.*",
-          integration = "sftp",
-          recursive = True,
-          connector = {
-            "kind": "sftp",
-            "id": "transpiled_connection",
-            "properties": {"id" : "transpiled_connection"},
-            "type": "connector"
-          }
-        ),
-        input_ports = None
-    )
-    directory_1 = Process(
-        name = "Directory_1",
-        properties = Directory(
-          path = "\\\\ms.zurich.com.au\\DFS\\AlteryX\\Prod\\Finance\\Post Allocation Reconciliation\\01- Source\\SRC_SAP_GD12_ON_DEMAND_EXPORT_J1",
           pattern = "*.*",
           integration = "sftp",
           recursive = True,
@@ -129,6 +122,40 @@ with Pipeline(args) as pipeline:
         name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___AppendFields_64",
         properties = ModelTransform(modelName = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___AppendFields_64"),
         input_ports = ["in_0", "in_1", "in_2"]
+    )
+    dsn_snowflakepr_20 = Process(
+        name = "DSN_SnowflakePR_20",
+        properties = DatabricksTarget(
+          connector = {
+            "kind": "Databricks",
+            "id": "transpiled_connection",
+            "properties": {
+              "catalog": "transpiled_catalog",
+              "clientId": "transpiled_client_id",
+              "authType": "token",
+              "id": "transpiled_connection",
+              "schema": "transpiled_schema",
+              "jdbcUrl": "transpiled_jdbc_url",
+              "token": {
+                "kind": "prophecy",
+                "properties": {"name" : "transpiled_token_secret", "value" : "transpiled_token_secret"},
+                "subKind": "text",
+                "type": "secret"
+              },
+              "clientSecret": {
+                "kind": "prophecy",
+                "properties": {"name" : "transpiled_client_secret", "value" : "transpiled_client_secret"},
+                "subKind": "text",
+                "type": "secret"
+              }
+            },
+            "type": "connector"
+          },
+          properties = DatabricksTarget.DatabricksTargetInternal(
+            tableFullName = DatabricksTarget.WarehouseTableName(name = "DSN_SnowflakePR_20")
+          ),
+          format = DatabricksTarget.DatabricksWriteFormat()
+        )
     )
     textinput_70 = Process(
         name = "TextInput_70",
@@ -180,7 +207,7 @@ with Pipeline(args) as pipeline:
         name = "Email_52",
         properties = Email(
           body = "Table",
-          bodyColumn = "Table",
+          bodyColumn = "TABLE",
           subject = "SRC_SAP_GD12_ON_DEMAND_EXPORT workflow ran successfully",
           subjectFromColumn = False,
           showCcBcc = True,
@@ -189,19 +216,15 @@ with Pipeline(args) as pipeline:
           to = "To_Email_Address",
           toFromColumn = True,
           bodyFromColumn = True,
-          toColumn = "To_Email_Address",
+          toColumn = "TO_EMAIL_ADDRESS",
           ccFromColumn = True,
           bccFromColumn = False,
           bcc = "",
-          ccColumn = "Cc_Email_Address",
+          ccColumn = "CC_EMAIL_ADDRESS",
           cc = "Cc_Email_Address",
-          subjectColumn = "SRC_SAP_GD12_ON_DEMAND_EXPORT workflow ran successfully",
+          subjectColumn = "SRC_SAP_GD12_ON_DEMAND_EXPORT WORKFLOW RAN SUCCESSFULLY",
           connection = "transpiled_connection"
         )
-    )
-    src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___textinput_70_cast = Process(
-        name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___TextInput_70_cast",
-        properties = ModelTransform(modelName = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___TextInput_70_cast")
     )
     src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___join_71_inner = Process(
         name = "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___Join_71_inner",
@@ -216,10 +239,10 @@ with Pipeline(args) as pipeline:
     textinput_70 >> src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___textinput_70_cast
     (
         src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___alteryxselect_25._out(0)
-        >> [aka_snowflakepr_29._in(0), src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___appendfields_64._in(2)]
+        >> [dsn_snowflakepr_20._in(0), aka_snowflakepr_29._in(0),
+              src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___appendfields_64._in(2)]
     )
     dynamicinput_40 >> src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___alteryxselect_25._in(1)
-    directory_1 >> src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___regex_68
     src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___filter_7 >> test_5
     src_sap_gd12_on_demand_export_excl_au30_au50_nz40_j1___appendfields_64 >> email_52
     (
