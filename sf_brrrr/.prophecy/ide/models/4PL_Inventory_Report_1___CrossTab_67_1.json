@@ -1,0 +1,243 @@
+{
+  "id" : "4PL_Inventory_Report_1___CrossTab_67_1",
+  "metainfo" : {
+    "label" : "4PL_Inventory_Report_1___CrossTab_67_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "7NPqYWxUy4znJA_MW5w7Z" : {
+      "id" : "7NPqYWxUy4znJA_MW5w7Z",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CrossTab_67_0",
+        "x" : 260,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "mlyKHF5kgXIKGEJ4c4zCF##LOCATIONCODE" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (LOCATIONCODE IS NULL) THEN '_Null_' ELSE LOCATIONCODE END)"
+          },
+          "alias" : "LOCATIONCODE",
+          "_row_id" : "IgULB0x1r82OtTwelXvUa"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"LOCATIONCODE\")"
+          },
+          "_row_id" : "1747194533"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "mlyKHF5kgXIKGEJ4c4zCF",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "YOqbOT2T-mKhR3WUaSE_N",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "58" : {
+      "id" : "58",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "LockInSummarize_58",
+        "x" : 60,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(AVAILABLEQUANTITY)"
+          },
+          "alias" : "SUM_AVAILABLEQUANTITY",
+          "_row_id" : "6FzSldVqczAEuz3dQ8Y9W"
+        }, {
+          "expression" : {
+            "expression" : "ITEMNUMBER"
+          },
+          "alias" : "ITEMNUMBER",
+          "_row_id" : "JwLnjb3EC409o5SYU-Ffl"
+        }, {
+          "expression" : {
+            "expression" : "LOCATIONCODE"
+          },
+          "alias" : "LOCATIONCODE",
+          "_row_id" : "TN9aj1EcNy7raKeg3Pn1S"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "58_Input##ITEMNUMBER", "58_Input##LOCATIONCODE", "58_Input##AVAILABLEQUANTITY" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "ITEMNUMBER"
+          },
+          "_row_id" : "SIt20NVfHXLObdb9paIk8"
+        }, {
+          "expression" : {
+            "expression" : "LOCATIONCODE"
+          },
+          "_row_id" : "cJ1ubR_h4HOubMhnEoFHP"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "58_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "58_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CrossTab_67_1_eNYAv-5FaXPOZigS1JSC3" : {
+      "id" : "CrossTab_67_1_eNYAv-5FaXPOZigS1JSC3",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CrossTab_67_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CrossTab_67_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "LockInFilter_128_128_True" : {
+      "id" : "LockInFilter_128_128_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "LockInFilter_128"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('4PL_Inventory_Report_1___LockInFilter_128') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "E-VCjEXj5kv3R-km1eoyV" : {
+      "id" : "E-VCjEXj5kv3R-km1eoyV",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CrossTab_67_1",
+        "x" : 460,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "7tbDYIckKU0doa2uoGoxy##LOCATIONCODE" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(REGEXP_REPLACE(LOCATIONCODE, '[\\\\s!@#$%^&*(),.?\":{}|<>\\\\[\\\\]=;/\\\\-+]', '_'))"
+          },
+          "alias" : "LOCATIONCODE",
+          "_row_id" : "uGKQqwn7C3bK6lHA1zXYE"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"LOCATIONCODE\")"
+          },
+          "_row_id" : "1243606205"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "7tbDYIckKU0doa2uoGoxy",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "eNYAv-5FaXPOZigS1JSC3",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_E-VCjEXj5kv3R-km1eoyV_eNYAv-5FaXPOZigS1JSC3_CrossTab_67_1_eNYAv-5FaXPOZigS1JSC3",
+    "source" : "E-VCjEXj5kv3R-km1eoyV",
+    "sourcePort" : "eNYAv-5FaXPOZigS1JSC3",
+    "target" : "CrossTab_67_1_eNYAv-5FaXPOZigS1JSC3",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_32",
+    "source" : "7NPqYWxUy4znJA_MW5w7Z",
+    "sourcePort" : "YOqbOT2T-mKhR3WUaSE_N",
+    "target" : "E-VCjEXj5kv3R-km1eoyV",
+    "targetPort" : "7tbDYIckKU0doa2uoGoxy",
+    "isWireless" : false
+  }, {
+    "id" : "edge_34",
+    "source" : "58",
+    "sourcePort" : "58_Output",
+    "target" : "7NPqYWxUy4znJA_MW5w7Z",
+    "targetPort" : "mlyKHF5kgXIKGEJ4c4zCF",
+    "isWireless" : false
+  }, {
+    "id" : "edge_5",
+    "source" : "LockInFilter_128_128_True",
+    "sourcePort" : "output_port_3",
+    "target" : "58",
+    "targetPort" : "58_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

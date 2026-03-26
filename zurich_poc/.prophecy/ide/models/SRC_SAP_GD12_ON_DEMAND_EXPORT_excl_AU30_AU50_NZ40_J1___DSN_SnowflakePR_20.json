@@ -1,0 +1,90 @@
+{
+  "id" : "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___DSN_SnowflakePR_20",
+  "metainfo" : {
+    "label" : "SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___DSN_SnowflakePR_20",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"DSN_SnowflakePR_20\"",
+        "materialized" : "table",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_25_25_Output" : {
+      "id" : "AlteryxSelect_25_25_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_25"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('SRC_SAP_GD12_ON_DEMAND_EXPORT_excl_AU30_AU50_NZ40_J1___AlteryxSelect_25') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "20" : {
+      "id" : "20",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "DSN_SnowflakePR_20",
+        "phase" : 0
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_25\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "20_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CNmwMHusYr9gerpwaxW9Y",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_21",
+    "source" : "AlteryxSelect_25_25_Output",
+    "sourcePort" : "output_port_10",
+    "target" : "20",
+    "targetPort" : "20_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
