@@ -1,0 +1,165 @@
+{
+  "id" : "Debtors_Unmatched_Cash_Comment_App__Unique_118",
+  "metainfo" : {
+    "label" : "Debtors_Unmatched_Cash_Comment_App__Unique_118",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Unique_118_lj0rm8vyblhTsTU6TIrNK" : {
+      "id" : "Unique_118_lj0rm8vyblhTsTU6TIrNK",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Unique_118"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Unique_118\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "118" : {
+      "id" : "118",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_118",
+        "x" : 1340,
+        "y" : 960,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "KEY_9AX",
+            "_row_id" : null
+          },
+          "alias" : "KEY_9AX",
+          "description" : null,
+          "_row_id" : "bvfpLrfTI4j2GqdPl2qdf"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "118_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "lj0rm8vyblhTsTU6TIrNK",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "111" : {
+      "id" : "111",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_111",
+        "x" : 1040,
+        "y" : 960,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(KEY_9AX = 'PLACEHOLDER')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "111_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "111_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "aka_SnowflakePR_13_13_Output" : {
+      "id" : "aka_SnowflakePR_13_13_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "aka_SnowflakePR_13"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Debtors_Unmatched_Cash_Comment_App', 'aka_SnowflakePR_13') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_118_lj0rm8vyblhTsTU6TIrNK_Unique_118_lj0rm8vyblhTsTU6TIrNK",
+    "source" : "118",
+    "sourcePort" : "lj0rm8vyblhTsTU6TIrNK",
+    "target" : "Unique_118_lj0rm8vyblhTsTU6TIrNK",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_3",
+    "source" : "111",
+    "sourcePort" : "111_True",
+    "target" : "118",
+    "targetPort" : "118_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_6",
+    "source" : "aka_SnowflakePR_13_13_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "111",
+    "targetPort" : "111_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

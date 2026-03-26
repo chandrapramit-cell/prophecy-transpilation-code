@@ -1,0 +1,124 @@
+{
+  "id" : "Debtors_Unmatched_Cash_Comment_App__Filter_107_reject",
+  "metainfo" : {
+    "label" : "Debtors_Unmatched_Cash_Comment_App__Filter_107_reject",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_107_reject_osdOhTy4YQkUMfOn88sFn" : {
+      "id" : "Filter_107_reject_osdOhTy4YQkUMfOn88sFn",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_107_reject"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_107_reject\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "107_reject" : {
+      "id" : "107_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_107_reject",
+        "x" : 1040,
+        "y" : 1360,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((NOT ((KEY_9AX = 'PLACEHOLDER') AND (USER_TYPE = 'RI'))) OR (((KEY_9AX = 'PLACEHOLDER') AND (USER_TYPE = 'RI')) IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "l9oj2jQxCsdH77YLevSny",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "osdOhTy4YQkUMfOn88sFn",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "aka_SnowflakePR_13_13_Output" : {
+      "id" : "aka_SnowflakePR_13_13_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "aka_SnowflakePR_13"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Debtors_Unmatched_Cash_Comment_App', 'aka_SnowflakePR_13') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_107_reject_osdOhTy4YQkUMfOn88sFn_Filter_107_reject_osdOhTy4YQkUMfOn88sFn",
+    "source" : "107_reject",
+    "sourcePort" : "osdOhTy4YQkUMfOn88sFn",
+    "target" : "Filter_107_reject_osdOhTy4YQkUMfOn88sFn",
+    "targetPort" : "input_port_7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_10",
+    "source" : "aka_SnowflakePR_13_13_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "107_reject",
+    "targetPort" : "l9oj2jQxCsdH77YLevSny",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
