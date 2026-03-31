@@ -1,0 +1,137 @@
+{
+  "id" : "perpetual_inventory__Formula_95_0",
+  "metainfo" : {
+    "label" : "perpetual_inventory__Formula_95_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_95_0_kN5VkclXplzvgw6w9v5eA" : {
+      "id" : "Formula_95_0_kN5VkclXplzvgw6w9v5eA",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_95_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_95_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "K433XHfuaz0AI1ke26acp" : {
+      "id" : "K433XHfuaz0AI1ke26acp",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_95_0",
+        "x" : 708,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(\n  TO_CHAR(\n    (\n      CASE\n        WHEN CAST((\n          CAST((\n            coalesce(\n              CAST(EXTRACT(MONTH FROM (TO_TIMESTAMP(ENDDATE))) AS DOUBLE), \n              CAST(EXTRACT(MONTH FROM (TO_TIMESTAMP(ENDDATE))) AS INTEGER), \n              0)\n          ) AS DOUBLE) IN (2, 5, 8, 11)\n        ) AS BOOLEAN)\n          THEN (ADD_MONTHS(ENDDATE, -1))\n        WHEN CAST((\n          CAST((\n            coalesce(\n              CAST(EXTRACT(MONTH FROM (TO_TIMESTAMP(ENDDATE))) AS DOUBLE), \n              CAST(EXTRACT(MONTH FROM (TO_TIMESTAMP(ENDDATE))) AS INTEGER), \n              0)\n          ) AS DOUBLE) IN (3, 6, 9, 12)\n        ) AS BOOLEAN)\n          THEN (ADD_MONTHS(ENDDATE, -2))\n        ELSE (ADD_MONTHS(ENDDATE, -3))\n      END\n    ), \n    'YYYY-MM-DD')\n)",
+            "_row_id" : null
+          },
+          "alias" : "PREVIOUSQUARTERCLOSINGDATE",
+          "description" : null,
+          "_row_id" : "_IwN3Z6lItaiWhzb0wspN"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Zkzrf7bT0H3-Qt8k9m7T-",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "kN5VkclXplzvgw6w9v5eA",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_2_0_-lEJ86tCEYQldH0JjAlpH" : {
+      "id" : "Formula_2_0_-lEJ86tCEYQldH0JjAlpH",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_2_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('perpetual_inventory__Formula_2_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_K433XHfuaz0AI1ke26acp_kN5VkclXplzvgw6w9v5eA_Formula_95_0_kN5VkclXplzvgw6w9v5eA",
+    "source" : "K433XHfuaz0AI1ke26acp",
+    "sourcePort" : "kN5VkclXplzvgw6w9v5eA",
+    "target" : "Formula_95_0_kN5VkclXplzvgw6w9v5eA",
+    "targetPort" : "input_port_7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_139",
+    "source" : "Formula_2_0_-lEJ86tCEYQldH0JjAlpH",
+    "sourcePort" : "output_port_6",
+    "target" : "K433XHfuaz0AI1ke26acp",
+    "targetPort" : "Zkzrf7bT0H3-Qt8k9m7T-",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
