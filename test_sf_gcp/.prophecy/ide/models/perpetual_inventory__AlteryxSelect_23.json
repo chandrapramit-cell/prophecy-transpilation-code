@@ -1,0 +1,206 @@
+{
+  "id" : "perpetual_inventory__AlteryxSelect_23",
+  "metainfo" : {
+    "label" : "perpetual_inventory__AlteryxSelect_23",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "12" : {
+      "id" : "12",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_12",
+        "x" : 528,
+        "y" : 180,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(FACILITY = 'SAMTEC USA')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "12_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "12_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "23" : {
+      "id" : "23",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_23",
+        "x" : 768,
+        "y" : 144,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "FACILITY",
+            "_row_id" : null
+          },
+          "alias" : "FACILITY",
+          "description" : null,
+          "_row_id" : "mLlrjYswGmXB9abzDtZxr"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "23_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "23_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_23_23_Output" : {
+      "id" : "AlteryxSelect_23_23_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_23"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_23\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SamtecFacilitie_179_179_Output" : {
+      "id" : "SamtecFacilitie_179_179_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SamtecFacilitie_179"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('perpetual_inventory', 'SamtecFacilitie_179') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "173" : {
+      "id" : "173",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_173",
+        "x" : 288,
+        "y" : 180,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "VALUE",
+            "_row_id" : null
+          },
+          "alias" : "FACILITY",
+          "description" : null,
+          "_row_id" : "2i5LKeCnOAVxjL23tTVXx"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "173_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "173_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_23_23_Output_AlteryxSelect_23_23_Output",
+    "source" : "23",
+    "sourcePort" : "23_Output",
+    "target" : "AlteryxSelect_23_23_Output",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_60",
+    "source" : "12",
+    "sourcePort" : "12_True",
+    "target" : "23",
+    "targetPort" : "23_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_61",
+    "source" : "173",
+    "sourcePort" : "173_Output",
+    "target" : "12",
+    "targetPort" : "12_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_62",
+    "source" : "SamtecFacilitie_179_179_Output",
+    "sourcePort" : "output_port_4",
+    "target" : "173",
+    "targetPort" : "173_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
