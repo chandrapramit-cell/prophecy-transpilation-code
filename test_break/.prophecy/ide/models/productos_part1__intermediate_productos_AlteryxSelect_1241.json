@@ -1,0 +1,553 @@
+{
+  "id" : "productos_part1__intermediate_productos_AlteryxSelect_1241",
+  "metainfo" : {
+    "label" : "productos_part1__intermediate_productos_AlteryxSelect_1241",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"intermediate_productos_AlteryxSelect_1241\"",
+        "materialized" : "table",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "WmBBNKyMo_Yhfxot6ui-0" : {
+      "id" : "WmBBNKyMo_Yhfxot6ui-0",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1240_1",
+        "x" : 860,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Banco cobro: ', banco_cuenta)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col1",
+          "description" : null,
+          "_row_id" : "08EZFQV2xNMmbS-Q1vEvq"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Fecha activacion: ', (DATE_FORMAT(fecha_activacion, 'dd-MM-yyyy')))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col2",
+          "description" : null,
+          "_row_id" : "K3f5YhZKKPUdUQ08cSXqS"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Fecha primera transaccion: ', (DATE_FORMAT(fecha_primera_transaccion, 'dd-MM-yyyy')))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col3",
+          "description" : null,
+          "_row_id" : "zMi3fkt-QtXSIalaW-b9Z"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Fecha ultima transaccion: ', (DATE_FORMAT(fecha_ultima_transaccion, 'dd-MM-yyyy')))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col4",
+          "description" : null,
+          "_row_id" : "oaEwV5J5nIxw-6AJe6OxA"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Monto transacciones mes (Arbitrado UYU): ', (REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(monto_transacciones_mes_actual AS DOUBLE), 2)), ',', '__THS__')), '__THS__', ',')))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col5",
+          "description" : null,
+          "_row_id" : "XMxignWtJLIWkNS9Vz0pt"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "qv3uSmt46JznGYZN-lekn",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "fHXPZBRhxnyQ24xO7f1yC",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1243" : {
+      "id" : "1243",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1243",
+        "x" : 460,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(monto_transacciones_mes_actual)",
+            "_row_id" : null
+          },
+          "alias" : "monto_transacciones_mes_actual",
+          "description" : null,
+          "_row_id" : "PNXLIBa6Xb-P8kNaU3yew"
+        }, {
+          "expression" : {
+            "expression" : "concat_ws(',', collect_list(banco_cuenta))",
+            "_row_id" : null
+          },
+          "alias" : "banco_cuenta",
+          "description" : null,
+          "_row_id" : "47e0Y-8wDxAXwDgiHM8M5"
+        }, {
+          "expression" : {
+            "expression" : "first(fecha_activacion)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_activacion",
+          "description" : null,
+          "_row_id" : "nm6v5tUQ8_UhaNmaDkkqE"
+        }, {
+          "expression" : {
+            "expression" : "first(fecha_primera_transaccion)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_primera_transaccion",
+          "description" : null,
+          "_row_id" : "zxAmoBzsIcHqHFciPcpES"
+        }, {
+          "expression" : {
+            "expression" : "first(fecha_ultima_transaccion)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_ultima_transaccion",
+          "description" : null,
+          "_row_id" : "wMNzlRL6tZNy4WxatVV0x"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "sB3Bc5XQb9w0I7zxWw1Sx"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "aRHtKd-lYfS6XU-c6Ht68"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1243_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1243_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "LaykFDkbAX268-ikh6up3" : {
+      "id" : "LaykFDkbAX268-ikh6up3",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "intermediate_productos_AlteryxSelect_1241",
+        "phase" : 0
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_1241\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "h0LXiIMCtQ7KIzEEF9kn5",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "fD5R1pJZEYzAcdpSklZYN",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "aka_Server_UYDB_1046_1046_Output" : {
+      "id" : "aka_Server_UYDB_1046_1046_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "aka_Server_UYDB_1046"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('productos_part1', 'aka_Server_UYDB_1046') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1244" : {
+      "id" : "1244",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1244",
+        "x" : 260,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "MIN(fecha_activacion)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_activacion",
+          "description" : null,
+          "_row_id" : "2rhLnXkxUpresrm7qNOOG"
+        }, {
+          "expression" : {
+            "expression" : "MIN(fecha_primera_transaccion)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_primera_transaccion",
+          "description" : null,
+          "_row_id" : "aJOBV5gxXDRB_Uhh0nKKJ"
+        }, {
+          "expression" : {
+            "expression" : "MAX(fecha_ultima_transaccion)",
+            "_row_id" : null
+          },
+          "alias" : "fecha_ultima_transaccion",
+          "description" : null,
+          "_row_id" : "anKU92O2WUAB0VSKXsIx4"
+        }, {
+          "expression" : {
+            "expression" : "SUM(monto_transacciones_mes_actual)",
+            "_row_id" : null
+          },
+          "alias" : "monto_transacciones_mes_actual",
+          "description" : null,
+          "_row_id" : "O-YSQzgLD9hAWQEZyhleK"
+        }, {
+          "expression" : {
+            "expression" : "banco_cuenta",
+            "_row_id" : null
+          },
+          "alias" : "banco_cuenta",
+          "description" : null,
+          "_row_id" : "SOsF4XgVjF_1Q020SF0Cq"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "YCrgN471nWZhy_p8J1iRS"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "banco_cuenta",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "2FVRsKIb4_PW4ACD2fGKk"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "68_CmOvN6Yqo18orvByl9"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1244_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1244_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "_eg_by5ZGomkXDnGXft94" : {
+      "id" : "_eg_by5ZGomkXDnGXft94",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1240_0",
+        "x" : 660,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(INITCAP(banco_cuenta) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "banco_cuenta",
+          "description" : null,
+          "_row_id" : "qP9Th4INlR2bZVVAbG-SO"
+        }, {
+          "expression" : {
+            "expression" : "CAST(34 AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "CodProducto",
+          "description" : null,
+          "_row_id" : "rzYj6rpB-W8ZcLR1209N0"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`banco_cuenta`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "9QL7y5Qyupwzd7jF6V0Ik",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "xBtZKKkyzQC3Xc5t1IWOd",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1241" : {
+      "id" : "1241",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1241",
+        "x" : 1060,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "idf_pers_ods",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "JyYKugEULiEfT0s7y_mok"
+        }, {
+          "expression" : {
+            "expression" : "CodProducto",
+            "_row_id" : null
+          },
+          "alias" : "CodProducto",
+          "description" : null,
+          "_row_id" : "LRQKGgM3058GMd0KxdQEm"
+        }, {
+          "expression" : {
+            "expression" : "Col1",
+            "_row_id" : null
+          },
+          "alias" : "Col1",
+          "description" : null,
+          "_row_id" : "JF4cj8c_69U6BM71OxTTD"
+        }, {
+          "expression" : {
+            "expression" : "Col2",
+            "_row_id" : null
+          },
+          "alias" : "Col2",
+          "description" : null,
+          "_row_id" : "y1W0ckoqUGXnumNUdQyW5"
+        }, {
+          "expression" : {
+            "expression" : "Col3",
+            "_row_id" : null
+          },
+          "alias" : "Col3",
+          "description" : null,
+          "_row_id" : "g3E62FcBiohYhhXZm2A9K"
+        }, {
+          "expression" : {
+            "expression" : "Col4",
+            "_row_id" : null
+          },
+          "alias" : "Col4",
+          "description" : null,
+          "_row_id" : "1iB7bZ86WPZupR5MsWqui"
+        }, {
+          "expression" : {
+            "expression" : "Col5",
+            "_row_id" : null
+          },
+          "alias" : "Col5",
+          "description" : null,
+          "_row_id" : "bToi2Tlu4Hi_aqFcy9C23"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1241_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1241_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1242" : {
+      "id" : "1242",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1242",
+        "x" : 60,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((fecha_ultima_transaccion >= to_date(add_months(current_date(), -3))) AND not((isnull(idf_pers_ods) OR (length(idf_pers_ods) = 0))))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1242_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1242_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_432",
+    "source" : "1241",
+    "sourcePort" : "1241_Output",
+    "target" : "LaykFDkbAX268-ikh6up3",
+    "targetPort" : "h0LXiIMCtQ7KIzEEF9kn5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_478",
+    "source" : "WmBBNKyMo_Yhfxot6ui-0",
+    "sourcePort" : "fHXPZBRhxnyQ24xO7f1yC",
+    "target" : "1241",
+    "targetPort" : "1241_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_477",
+    "source" : "_eg_by5ZGomkXDnGXft94",
+    "sourcePort" : "xBtZKKkyzQC3Xc5t1IWOd",
+    "target" : "WmBBNKyMo_Yhfxot6ui-0",
+    "targetPort" : "qv3uSmt46JznGYZN-lekn",
+    "isWireless" : false
+  }, {
+    "id" : "edge_479",
+    "source" : "1243",
+    "sourcePort" : "1243_Output",
+    "target" : "_eg_by5ZGomkXDnGXft94",
+    "targetPort" : "9QL7y5Qyupwzd7jF6V0Ik",
+    "isWireless" : false
+  }, {
+    "id" : "edge_377",
+    "source" : "1244",
+    "sourcePort" : "1244_Output",
+    "target" : "1243",
+    "targetPort" : "1243_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_378",
+    "source" : "1242",
+    "sourcePort" : "1242_True",
+    "target" : "1244",
+    "targetPort" : "1244_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_408",
+    "source" : "aka_Server_UYDB_1046_1046_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "1242",
+    "targetPort" : "1242_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
