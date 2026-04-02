@@ -1,0 +1,475 @@
+{
+  "id" : "1_challenge_1__Formula_56_0",
+  "metainfo" : {
+    "label" : "1_challenge_1__Formula_56_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "housingdata_csv_49_49_Output" : {
+      "id" : "housingdata_csv_49_49_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "housingdata_csv_49"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_5",
+          "id" : "output_port_5",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('1_challenge_1', 'housingdata_csv_49') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_56_0_FQ6lqRGcJsDhUbdulLP9x" : {
+      "id" : "Formula_56_0_FQ6lqRGcJsDhUbdulLP9x",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_56_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_56_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "51_inner" : {
+      "id" : "51_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_51_inner",
+        "x" : 2520,
+        "y" : 936,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.GEOID = in1.GEOID)"
+          },
+          "joinType" : "inner"
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.* EXCLUDE(\"STATE_FIPS_CODE\", \"COUNTY_FIPS_CODE\")"
+          },
+          "_row_id" : "1537042094"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCLUDE(\"GEOID\")"
+          },
+          "_row_id" : "2038040963"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "dtFWObXDPV8qreZlExMYX##GEOID", "l_R8xJdNi73il9c6Njt61##GEOID" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dtFWObXDPV8qreZlExMYX",
+          "slug" : "in0"
+        }, {
+          "id" : "l_R8xJdNi73il9c6Njt61",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "880j16QmXVpHfwfFVhlnT",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "vXT4xtmZqh26cy4Uvv7zz" : {
+      "id" : "vXT4xtmZqh26cy4Uvv7zz",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_56_0",
+        "x" : 3240,
+        "y" : 1116,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((\"SUM_    FOR RENT\" / \"SUM_TOTAL VACANT HOUSES\") * 100) AS INTEGER)"
+          },
+          "alias" : "\"SUM_    FOR RENT\"",
+          "_row_id" : "r6RXVqlSsBpj90ztfAkM0"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((\"SUM_    RENTEDCOMMA NOT OCCUPIED\" / \"SUM_TOTAL VACANT HOUSES\") * 100) AS INTEGER)"
+          },
+          "alias" : "\"SUM_    RENTEDCOMMA NOT OCCUPIED\"",
+          "_row_id" : "mneuy2HSeJAxjbCH2g4lI"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((\"SUM_    FOR SALE ONLY\" / \"SUM_TOTAL VACANT HOUSES\") * 100) AS INTEGER)"
+          },
+          "alias" : "\"SUM_    FOR SALE ONLY\"",
+          "_row_id" : "PWD2cmUhXVyA4HFgRbJMu"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((\"SUM_    SOLDCOMMA NOT OCCUPIED\" / \"SUM_TOTAL VACANT HOUSES\") * 100) AS INTEGER)"
+          },
+          "alias" : "\"SUM_    SOLDCOMMA NOT OCCUPIED\"",
+          "_row_id" : "MKQcfcMdw6Q5pfVifJkfZ"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((\"SUM_    FOR MIGRANT WORKERS\" / \"SUM_TOTAL VACANT HOUSES\") * 100) AS INTEGER)"
+          },
+          "alias" : "\"SUM_    FOR MIGRANT WORKERS\"",
+          "_row_id" : "JF1WOBxd-I5Zc7Bbh7f7F"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"SUM_    FOR SALE ONLY\", \"SUM_    RENTEDCOMMA NOT OCCUPIED\", \"SUM_    SOLDCOMMA NOT OCCUPIED\", \"SUM_    FOR MIGRANT WORKERS\", \"SUM_    FOR RENT\")"
+          },
+          "_row_id" : "126671527"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "JKxYkLsWPkuzWeC174X4q",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "FQ6lqRGcJsDhUbdulLP9x",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "54" : {
+      "id" : "54",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_54",
+        "x" : 2040,
+        "y" : 972,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "54_Input##GEOID", "54_Input##TOTAL HOUSING UNITS", "54_Input##TOTAL VACANT HOUSES", "54_Input##    FOR RENT", "54_Input##    RENTEDCOMMA NOT OCCUPIED", "54_Input##    FOR SALE ONLY", "54_Input##    SOLDCOMMA NOT OCCUPIED", "54_Input##    FOR SEASONALCOMMA RECREATIONALCOMMA OR OCCASIONAL USE", "54_Input##    FOR MIGRANT WORKERS", "54_Input##    OTHER VACANT" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "GEOID"
+          },
+          "alias" : "GEOID",
+          "_row_id" : "zRHDl4OJwcJLzbfheRFaS"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"TOTAL HOUSING UNITS\" AS INTEGER)"
+          },
+          "alias" : "\"TOTAL HOUSING UNITS\"",
+          "_row_id" : "R7mxocUq2lhcXiGbGE4hs"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"TOTAL VACANT HOUSES\" AS INTEGER)"
+          },
+          "alias" : "\"TOTAL VACANT HOUSES\"",
+          "_row_id" : "Y9uleoFgW2aB7iW4W6hyF"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"    FOR RENT\" AS INTEGER)"
+          },
+          "alias" : "\"    FOR RENT\"",
+          "_row_id" : "F4uWJKYetfe7Tktm3BHJu"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"    RENTEDCOMMA NOT OCCUPIED\" AS INTEGER)"
+          },
+          "alias" : "\"    RENTEDCOMMA NOT OCCUPIED\"",
+          "_row_id" : "8osk1g5Bj0f7DT5NnARrZ"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"    FOR SALE ONLY\" AS INTEGER)"
+          },
+          "alias" : "\"    FOR SALE ONLY\"",
+          "_row_id" : "cUKR0e1FytvwTyDxqNZUn"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"    SOLDCOMMA NOT OCCUPIED\" AS INTEGER)"
+          },
+          "alias" : "\"    SOLDCOMMA NOT OCCUPIED\"",
+          "_row_id" : "BzYqCK_emKRgkGH7e5fnK"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"    FOR SEASONALCOMMA RECREATIONALCOMMA OR OCCASIONAL USE\" AS INTEGER)"
+          },
+          "alias" : "\"    FOR SEASONALCOMMA RECREATIONALCOMMA OR OCCASIONAL USE\"",
+          "_row_id" : "ade9uLKfZjX2-WQAxZ4hW"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"    FOR MIGRANT WORKERS\" AS INTEGER)"
+          },
+          "alias" : "\"    FOR MIGRANT WORKERS\"",
+          "_row_id" : "hLogKvKI5PfdLBKR3BCT8"
+        }, {
+          "expression" : {
+            "expression" : "CAST(\"    OTHER VACANT\" AS INTEGER)"
+          },
+          "alias" : "\"    OTHER VACANT\"",
+          "_row_id" : "0V19Hv0wW2seqMLjteGd7"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "54_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "54_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "53" : {
+      "id" : "53",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_53",
+        "x" : 3000,
+        "y" : 1116,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(\"TOTAL VACANT HOUSES\")"
+          },
+          "alias" : "\"SUM_TOTAL VACANT HOUSES\"",
+          "_row_id" : "GRXrEgTl_Dhf-uxYyucAj"
+        }, {
+          "expression" : {
+            "expression" : "SUM(\"    FOR RENT\")"
+          },
+          "alias" : "\"SUM_    FOR RENT\"",
+          "_row_id" : "dsIWH__bfKl2crDfMf2hg"
+        }, {
+          "expression" : {
+            "expression" : "SUM(\"    RENTEDCOMMA NOT OCCUPIED\")"
+          },
+          "alias" : "\"SUM_    RENTEDCOMMA NOT OCCUPIED\"",
+          "_row_id" : "-YFmSsq_-q8A--wLc_m4P"
+        }, {
+          "expression" : {
+            "expression" : "SUM(\"    FOR SALE ONLY\")"
+          },
+          "alias" : "\"SUM_    FOR SALE ONLY\"",
+          "_row_id" : "A685WG1N-OtEegBFVi0yZ"
+        }, {
+          "expression" : {
+            "expression" : "SUM(\"    SOLDCOMMA NOT OCCUPIED\")"
+          },
+          "alias" : "\"SUM_    SOLDCOMMA NOT OCCUPIED\"",
+          "_row_id" : "dSuLLCG1iy9XxjZBUv1S9"
+        }, {
+          "expression" : {
+            "expression" : "SUM(\"    FOR MIGRANT WORKERS\")"
+          },
+          "alias" : "\"SUM_    FOR MIGRANT WORKERS\"",
+          "_row_id" : "kKHb5bGe5kvy5HBxoo08K"
+        }, {
+          "expression" : {
+            "expression" : "AVG(\"MEDIAN MONTHLY HOUSING COST  - RENTER\")"
+          },
+          "alias" : "\"AVG_MEDIAN MONTHLY HOUSING COST  - RENTER\"",
+          "_row_id" : "bXrdBG8ulro639DfaoCfd"
+        }, {
+          "expression" : {
+            "expression" : "\"INCOME CATEGORY\""
+          },
+          "alias" : "\"INCOME CATEGORY\"",
+          "_row_id" : "xeIwOGP3bhCo5c7PrZpsL"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "53_Input##INCOME CATEGORY", "53_Input##TOTAL VACANT HOUSES", "53_Input##    FOR RENT", "53_Input##    RENTEDCOMMA NOT OCCUPIED", "53_Input##    FOR SALE ONLY", "53_Input##    SOLDCOMMA NOT OCCUPIED", "53_Input##    FOR MIGRANT WORKERS", "53_Input##MEDIAN MONTHLY HOUSING COST  - RENTER" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "\"INCOME CATEGORY\""
+          },
+          "_row_id" : "SXGmPhyBSAUI5Mx33g90U"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "53_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "53_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "-uaBhG7REJnuKIWtt3zg4" : {
+      "id" : "-uaBhG7REJnuKIWtt3zg4",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_50_0",
+        "x" : 1380,
+        "y" : 972,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "kR-CiDaQdXbhSHlr26BYx##TRACT" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('120950', TRACT, \"SUB TRACT\")) AS string)"
+          },
+          "alias" : "GEOID",
+          "_row_id" : "Y1t0u_fiCUywdi6eSMnNT"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "668708706"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "kR-CiDaQdXbhSHlr26BYx",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "iFCCrW0hmpKvR3HA8AGTn",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_29_1_HjZrVb3R7uWdiZA7wnRui" : {
+      "id" : "Formula_29_1_HjZrVb3R7uWdiZA7wnRui",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_29_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('1_challenge_1__Formula_29_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_vXT4xtmZqh26cy4Uvv7zz_FQ6lqRGcJsDhUbdulLP9x_Formula_56_0_FQ6lqRGcJsDhUbdulLP9x",
+    "source" : "vXT4xtmZqh26cy4Uvv7zz",
+    "sourcePort" : "FQ6lqRGcJsDhUbdulLP9x",
+    "target" : "Formula_56_0_FQ6lqRGcJsDhUbdulLP9x",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_16",
+    "source" : "53",
+    "sourcePort" : "53_Output",
+    "target" : "vXT4xtmZqh26cy4Uvv7zz",
+    "targetPort" : "JKxYkLsWPkuzWeC174X4q",
+    "isWireless" : false
+  }, {
+    "id" : "edge_5",
+    "source" : "51_inner",
+    "sourcePort" : "880j16QmXVpHfwfFVhlnT",
+    "target" : "53",
+    "targetPort" : "53_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_4",
+    "source" : "54",
+    "sourcePort" : "54_Output",
+    "target" : "51_inner",
+    "targetPort" : "l_R8xJdNi73il9c6Njt61",
+    "isWireless" : false
+  }, {
+    "id" : "edge_10",
+    "source" : "Formula_29_1_HjZrVb3R7uWdiZA7wnRui",
+    "sourcePort" : "output_port_1",
+    "target" : "51_inner",
+    "targetPort" : "dtFWObXDPV8qreZlExMYX",
+    "isWireless" : false
+  }, {
+    "id" : "edge_14",
+    "source" : "-uaBhG7REJnuKIWtt3zg4",
+    "sourcePort" : "iFCCrW0hmpKvR3HA8AGTn",
+    "target" : "54",
+    "targetPort" : "54_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_15",
+    "source" : "housingdata_csv_49_49_Output",
+    "sourcePort" : "output_port_5",
+    "target" : "-uaBhG7REJnuKIWtt3zg4",
+    "targetPort" : "kR-CiDaQdXbhSHlr26BYx",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

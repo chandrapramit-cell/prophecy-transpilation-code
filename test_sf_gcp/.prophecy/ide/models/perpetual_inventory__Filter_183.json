@@ -1,0 +1,124 @@
+{
+  "id" : "perpetual_inventory__Filter_183",
+  "metainfo" : {
+    "label" : "perpetual_inventory__Filter_183",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_183_183_True" : {
+      "id" : "Filter_183_183_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_183"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_183\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "183" : {
+      "id" : "183",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_183",
+        "x" : 1668,
+        "y" : 72,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(FILEDATE <= (TO_DATE(CAST('2023-01-08' AS string), 'YYYY-MM-DD HH24:MI:SS.FF4')))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "183_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "183_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_63_63_Output" : {
+      "id" : "AlteryxSelect_63_63_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_63"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_17",
+          "id" : "output_port_17",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('perpetual_inventory__AlteryxSelect_63') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_183_183_True_Filter_183_183_True",
+    "source" : "183",
+    "sourcePort" : "183_True",
+    "target" : "Filter_183_183_True",
+    "targetPort" : "input_port_19",
+    "isWireless" : false
+  }, {
+    "id" : "edge_90",
+    "source" : "AlteryxSelect_63_63_Output",
+    "sourcePort" : "output_port_17",
+    "target" : "183",
+    "targetPort" : "183_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

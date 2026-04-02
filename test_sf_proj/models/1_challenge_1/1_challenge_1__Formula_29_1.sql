@@ -1,0 +1,100 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "QA_DATABASE",
+    "schema": "PUBLIC"
+  })
+}}
+
+WITH data_1_FL_csv_1 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('1_challenge_1', 'data_1_FL_csv_1') }}
+
+),
+
+Filter_17 AS (
+
+  SELECT * 
+  
+  FROM data_1_FL_csv_1 AS in0
+  
+  WHERE (COUNTY = '095')
+
+),
+
+AlteryxSelect_3 AS (
+
+  SELECT 
+    GEOID AS GEOID,
+    STATE_FIPS_CODE AS STATE_FIPS_CODE,
+    COUNTY_FIPS_CODE AS COUNTY_FIPS_CODE,
+    CAST(S1701_C03_001E AS DOUBLE) AS "PERCENTAGE BELOW POVERTY LEVEL",
+    CAST(S1903_C03_001E AS DOUBLE) AS AMI,
+    CAST(PRE1960 AS DOUBLE) AS "HOUSING UNITS",
+    CAST(DP05_0035PE AS DOUBLE) AS "TWO OR MORE RACES",
+    CAST(DP05_0037PE AS DOUBLE) AS "WHITE ONLY",
+    CAST(DP05_0038PE AS DOUBLE) AS "BLACK OR AFRICAN AMERICAN ONLY",
+    CAST(DP05_0039PE AS DOUBLE) AS "AMERICAN INDIAN AND ALASKA NATIVE ONLY",
+    CAST(DP05_0044PE AS DOUBLE) AS "ASIAN ONLY",
+    CAST(DP05_0052PE AS DOUBLE) AS "NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ONLY",
+    CAST(DP05_0057PE AS DOUBLE) AS "SOME OTHER RACE ONLY",
+    CAST(S2503_C03_024E AS DOUBLE) AS "MEDIAN MONTHLY HOUSING COST- OWNER",
+    CAST(S2503_C05_024E AS DOUBLE) AS "MEDIAN MONTHLY HOUSING COST  - RENTER"
+  
+  FROM Filter_17 AS in0
+
+),
+
+Formula_29_0 AS (
+
+  SELECT 
+    CAST((
+      CASE
+        WHEN ((AMI > 0) AND (AMI < 27750))
+          THEN 'Extremly Low'
+        WHEN ((AMI > 27750) AND (AMI <= 41450))
+          THEN 'Very Low    '
+        WHEN ((AMI > 41450) AND (AMI <= 66300))
+          THEN 'Low         '
+        WHEN ((AMI > 66300) AND (AMI <= 96120))
+          THEN 'Moderate    '
+        WHEN (AMI > 96120)
+          THEN 'Upper       '
+        ELSE 'None        '
+      END
+    ) AS string) AS "INCOME CATEGORY",
+    (
+      CASE
+        WHEN ("MEDIAN MONTHLY HOUSING COST- OWNER" < 0)
+          THEN 0
+        ELSE "MEDIAN MONTHLY HOUSING COST- OWNER"
+      END
+    ) AS "MEDIAN MONTHLY HOUSING COST- OWNER",
+    (
+      CASE
+        WHEN ("MEDIAN MONTHLY HOUSING COST  - RENTER" < 0)
+          THEN 0
+        ELSE "MEDIAN MONTHLY HOUSING COST  - RENTER"
+      END
+    ) AS "MEDIAN MONTHLY HOUSING COST  - RENTER",
+    * EXCLUDE ("MEDIAN MONTHLY HOUSING COST- OWNER", "MEDIAN MONTHLY HOUSING COST  - RENTER")
+  
+  FROM AlteryxSelect_3 AS in0
+
+),
+
+Formula_29_1 AS (
+
+  SELECT 
+    (("MEDIAN MONTHLY HOUSING COST  - RENTER" / AMI) * 100) AS "PERCENT INCOME PAID AS RENT",
+    *
+  
+  FROM Formula_29_0 AS in0
+
+)
+
+SELECT *
+
+FROM Formula_29_1
