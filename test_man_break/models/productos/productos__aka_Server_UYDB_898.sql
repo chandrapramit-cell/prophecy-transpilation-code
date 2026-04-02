@@ -1,0 +1,26 @@
+{{
+  config({    
+    "materialized": "table",
+    "alias": "aka_Server_UYDB_898",
+    "database": "sony",
+    "schema": "orch_test"
+  })
+}}
+
+WITH Union_895 AS (
+
+  SELECT *
+  
+  FROM {{ ref('productos__Union_895')}}
+
+),
+
+Sample_897 AS (
+
+  {{ prophecy_basics.Sample('Union_895', [], 1002, 'firstN', 1) }}
+
+)
+
+SELECT *
+
+FROM Sample_897
