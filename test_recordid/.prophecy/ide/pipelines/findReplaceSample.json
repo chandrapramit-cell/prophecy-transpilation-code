@@ -1,0 +1,455 @@
+{
+  "id" : "findReplaceSample",
+  "metainfo" : {
+    "label" : "findReplaceSample",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "workflow_name",
+          "kind" : {
+            "type" : "string",
+            "value" : "'findReplaceSample'"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "alteryx",
+    "processesVsModelFiles" : {
+      "FindReplace_3_reorg_0_NCQkUF70ZiBqOGkhJJTLL" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql",
+      "lPKrueL7VFp51vL0O5N55" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql",
+      "KP--8ucfbxs3_WkZw4ZZK" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql",
+      "GNjyO_Kjvwv5uqD9-6HMy" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql",
+      "1" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql",
+      "6vhHXq0v53lalwy4Zgokk" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql",
+      "2" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql",
+      "3_allRules" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql",
+      "3_join" : "models/findReplaceSample/findReplaceSample__FindReplace_3_reorg_0.sql"
+    }
+  },
+  "processes" : {
+    "4" : {
+      "id" : "4",
+      "component" : "OrchestrationTarget",
+      "kind" : "SFTPTarget",
+      "metadata" : {
+        "label" : "output_csv_4",
+        "x" : 1212,
+        "y" : 216,
+        "phase" : 0
+      },
+      "properties" : {
+        "compression" : {
+          "kind" : "uncompressed"
+        },
+        "connector" : {
+          "id" : "transpiled_connection",
+          "kind" : "sftp",
+          "properties" : {
+            "authMethod" : "password",
+            "username" : "transpiled_username",
+            "host" : "sftp.prophecy.io",
+            "id" : "transpiled_connection",
+            "port" : 22,
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
+        },
+        "format" : {
+          "kind" : "csv",
+          "properties" : { }
+        },
+        "properties" : {
+          "filePath" : "output.csv"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "4_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "yAMjRg53zeu5IEULFRUOS",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "lPKrueL7VFp51vL0O5N55" : {
+      "id" : "lPKrueL7VFp51vL0O5N55",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "FindReplace_3_0",
+        "x" : 972,
+        "y" : 216,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "aggregate(_rules, `description`, (acc, rule) -> regexp_replace(acc, concat('(?i)', rule['search_term']), rule['replacement']))",
+            "_row_id" : null
+          },
+          "alias" : "description",
+          "description" : null,
+          "_row_id" : "Psis6OpD0GiuZCpZAKn8v"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`description`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SKDANQXom6FSKm7lZpXhK",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "NmD8obDfE26GC6v1WrfdW",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "KP--8ucfbxs3_WkZw4ZZK" : {
+      "id" : "KP--8ucfbxs3_WkZw4ZZK",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "FindReplace_3_reorg_0",
+        "x" : 1152,
+        "y" : 216,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`_rules`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "I4FktKWqU8zcbu7WwenK-",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "NCQkUF70ZiBqOGkhJJTLL",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "GNjyO_Kjvwv5uqD9-6HMy" : {
+      "id" : "GNjyO_Kjvwv5uqD9-6HMy",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_1_cast",
+        "x" : 180,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(id AS string)",
+            "_row_id" : null
+          },
+          "alias" : "id",
+          "description" : null,
+          "_row_id" : "XPMhzr-Lxg7fb3DUFIq27"
+        }, {
+          "expression" : {
+            "expression" : "CAST(description AS string)",
+            "_row_id" : null
+          },
+          "alias" : "description",
+          "description" : null,
+          "_row_id" : "wKc3F_CO-k3SnYQ9V0o60"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "anISdVsY5fFcpMAvQKg5F",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "c4DvTKOVe-EoScgFLWYGN",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "1" : {
+      "id" : "1",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "TextInput_1",
+        "x" : 0,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_1",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "1_Output",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "6vhHXq0v53lalwy4Zgokk" : {
+      "id" : "6vhHXq0v53lalwy4Zgokk",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_2_cast",
+        "x" : 180,
+        "y" : 432,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(search_term AS string)",
+            "_row_id" : null
+          },
+          "alias" : "search_term",
+          "description" : null,
+          "_row_id" : "A6YEX5zOiFiwteyal58Hv"
+        }, {
+          "expression" : {
+            "expression" : "CAST(replacement AS string)",
+            "_row_id" : null
+          },
+          "alias" : "replacement",
+          "description" : null,
+          "_row_id" : "eBShz3-3eehkeViiIPrvK"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "jaxb1UooS3fyOf5B8Yxvi",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "gnVJwhC78uakePDxQQ62-",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "2" : {
+      "id" : "2",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "TextInput_2",
+        "x" : 0,
+        "y" : 432,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_2",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "2_Output",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "3_allRules" : {
+      "id" : "3_allRules",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "FindReplace_3_allRules",
+        "x" : 432,
+        "y" : 216,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "collect_list(struct(search_term AS search_term, replacement AS replacement))",
+            "_row_id" : null
+          },
+          "alias" : "_rules",
+          "description" : null,
+          "_row_id" : "4VABw-o0manjVL6pgtsAf"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "0zgObPViwl9fJu2_jwQYj",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "iGTP40Ga491RbQOIh5Gta",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "3_join" : {
+      "id" : "3_join",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "FindReplace_3_join",
+        "x" : 612,
+        "y" : 216,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "full",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.id",
+            "_row_id" : null
+          },
+          "alias" : "id",
+          "description" : null,
+          "_row_id" : "mKFCgWqk0pdJpqbsXcnSK"
+        }, {
+          "expression" : {
+            "expression" : "in0.description",
+            "_row_id" : null
+          },
+          "alias" : "description",
+          "description" : null,
+          "_row_id" : "8SRCxoYGT0y6FW3i_0_33"
+        }, {
+          "expression" : {
+            "expression" : "in1._rules",
+            "_row_id" : null
+          },
+          "alias" : "_rules",
+          "description" : null,
+          "_row_id" : "H_6G7IOGWuG0Kc11KWpRm"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "u1k2XcYwFu7UdYYXYyRYC",
+          "slug" : "in0"
+        }, {
+          "id" : "5ZiWm_hTuK_MbRDuV_typ",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "utnNIJ5YNBJawsDP5ujQE",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_1",
+    "source" : "3_allRules",
+    "sourcePort" : "iGTP40Ga491RbQOIh5Gta",
+    "target" : "3_join",
+    "targetPort" : "5ZiWm_hTuK_MbRDuV_typ",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2",
+    "source" : "1",
+    "sourcePort" : "1_Output",
+    "target" : "GNjyO_Kjvwv5uqD9-6HMy",
+    "targetPort" : "anISdVsY5fFcpMAvQKg5F",
+    "isWireless" : false
+  }, {
+    "id" : "edge_3",
+    "source" : "GNjyO_Kjvwv5uqD9-6HMy",
+    "sourcePort" : "c4DvTKOVe-EoScgFLWYGN",
+    "target" : "3_join",
+    "targetPort" : "u1k2XcYwFu7UdYYXYyRYC",
+    "isWireless" : false
+  }, {
+    "id" : "edge_4",
+    "source" : "2",
+    "sourcePort" : "2_Output",
+    "target" : "6vhHXq0v53lalwy4Zgokk",
+    "targetPort" : "jaxb1UooS3fyOf5B8Yxvi",
+    "isWireless" : false
+  }, {
+    "id" : "edge_5",
+    "source" : "6vhHXq0v53lalwy4Zgokk",
+    "sourcePort" : "gnVJwhC78uakePDxQQ62-",
+    "target" : "3_allRules",
+    "targetPort" : "0zgObPViwl9fJu2_jwQYj",
+    "isWireless" : false
+  }, {
+    "id" : "edge_6",
+    "source" : "3_join",
+    "sourcePort" : "utnNIJ5YNBJawsDP5ujQE",
+    "target" : "lPKrueL7VFp51vL0O5N55",
+    "targetPort" : "SKDANQXom6FSKm7lZpXhK",
+    "isWireless" : false
+  }, {
+    "id" : "edge_7",
+    "source" : "KP--8ucfbxs3_WkZw4ZZK",
+    "sourcePort" : "NCQkUF70ZiBqOGkhJJTLL",
+    "target" : "4",
+    "targetPort" : "4_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_8",
+    "source" : "lPKrueL7VFp51vL0O5N55",
+    "sourcePort" : "NmD8obDfE26GC6v1WrfdW",
+    "target" : "KP--8ucfbxs3_WkZw4ZZK",
+    "targetPort" : "I4FktKWqU8zcbu7WwenK-",
+    "isWireless" : false
+  } ],
+  "component" : "Pipeline"
+}

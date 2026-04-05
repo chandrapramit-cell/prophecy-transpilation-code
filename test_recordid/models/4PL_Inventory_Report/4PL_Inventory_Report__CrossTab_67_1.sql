@@ -16,6 +16,7 @@ WITH LockInFilter_128 AS (
 
 LockInSummarize_58 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   SELECT 
     SUM(AvailableQuantity) AS Sum_AvailableQuantity,
     ItemNumber AS ItemNumber,
@@ -30,6 +31,7 @@ LockInSummarize_58 AS (
 
 CrossTab_67_0 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   SELECT 
     (
       CASE
@@ -46,6 +48,7 @@ CrossTab_67_0 AS (
 
 CrossTab_67_1 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   SELECT 
     (REGEXP_REPLACE(LocationCode, '[\\s!@#$%^&*(),.?":{}|<>\\[\\]=;/\\-+]', '_')) AS LocationCode,
     * EXCEPT (`locationcode`)

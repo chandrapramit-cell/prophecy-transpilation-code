@@ -24,6 +24,7 @@ ItemNumberUploa_75 AS (
 
 AlteryxSelect_74 AS (
 
+  {#VisualGroup: ItemNumberUpload#}
   SELECT CAST(ItemNumber AS string) AS ItemNumber
   
   FROM ItemNumberUploa_75 AS in0
@@ -32,6 +33,7 @@ AlteryxSelect_74 AS (
 
 Filter_76 AS (
 
+  {#VisualGroup: ItemNumberUpload#}
   SELECT * 
   
   FROM AlteryxSelect_74 AS in0
@@ -50,6 +52,7 @@ Filter_76 AS (
 
 Unique_84 AS (
 
+  {#VisualGroup: ItemNumberUpload#}
   SELECT * 
   
   FROM Filter_76 AS in0
@@ -68,6 +71,7 @@ LockInFilter_128 AS (
 
 LockInSummarize_3 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     SUM(AvailableQuantity) AS Sum_AvailableQuantity,
     LocationCode AS LocationCode,
@@ -85,6 +89,7 @@ LockInSummarize_3 AS (
 
 Join_71_inner AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     in0.ItemNumber AS ItemNumber,
     in0.ItemProductGroupCode AS ItemProductGroupCode,
@@ -102,6 +107,7 @@ Join_71_inner AS (
 
 AppendFields_142 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     in0.*,
     in1.*
@@ -114,6 +120,7 @@ AppendFields_142 AS (
 
 Formula_98_0 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     CAST((
       CASE
@@ -121,8 +128,8 @@ Formula_98_0 AS (
           THEN CAST((CONCAT('Store_Inventory_ ', CURRENT_DATE)) AS string)
         ELSE `File Name`
       END
-    ) AS string) AS `File Name`,
-    * EXCEPT (`file name`)
+    ) AS string) AS `File Name `,
+    *
   
   FROM AppendFields_142 AS in0
 
@@ -130,30 +137,35 @@ Formula_98_0 AS (
 
 PortfolioComposerTable_6 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   {{ prophecy_basics.ToDo('Component type: Portfolio Composer Table is not supported.') }}
 
 ),
 
 ReportHeader_7 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   {{ prophecy_basics.ToDo('Component type: ReportHeader is not supported.') }}
 
 ),
 
 PortfolioComposerText_97 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   {{ prophecy_basics.ToDo('Component type: Report Text is not supported.') }}
 
 ),
 
 PortfolioComposerLayout_14 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   {{ prophecy_basics.ToDo('Component type: Layout is not supported.') }}
 
 ),
 
 PortfolioComposerRender_9 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   {{ prophecy_basics.ToDo('Component type: Render is not supported.') }}
 
 )

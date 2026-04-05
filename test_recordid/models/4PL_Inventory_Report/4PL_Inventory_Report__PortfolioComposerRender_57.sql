@@ -24,30 +24,35 @@ CrossTab_67_rename AS (
 
 PortfolioComposerTable_55 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   {{ prophecy_basics.ToDo('Component type: Portfolio Composer Table is not supported.') }}
 
 ),
 
 ReportHeader_56 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   {{ prophecy_basics.ToDo('Component type: ReportHeader is not supported.') }}
 
 ),
 
 PortfolioComposerText_95 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   {{ prophecy_basics.ToDo('Component type: Report Text is not supported.') }}
 
 ),
 
 PortfolioComposerLayout_59 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   {{ prophecy_basics.ToDo('Component type: Layout is not supported.') }}
 
 ),
 
 AppendFields_140 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   SELECT 
     in0.*,
     in1.*
@@ -60,6 +65,7 @@ AppendFields_140 AS (
 
 Formula_134_0 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   SELECT 
     CAST((
       CASE
@@ -76,6 +82,7 @@ Formula_134_0 AS (
 
 PortfolioComposerRender_57 AS (
 
+  {#VisualGroup: TigerSupplyReport#}
   {{ prophecy_basics.ToDo('Component type: Render is not supported.') }}
 
 )

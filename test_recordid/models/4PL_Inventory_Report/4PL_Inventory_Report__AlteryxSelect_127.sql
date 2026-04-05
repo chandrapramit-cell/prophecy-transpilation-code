@@ -24,6 +24,7 @@ LockInFilter_128 AS (
 
 LockInSummarize_103 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     SUM(AvailableQuantity) AS Sum_AvailableQuantity,
     LocationCode AS LocationCode,
@@ -41,6 +42,7 @@ LockInSummarize_103 AS (
 
 AppendFields_141 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     in0.*,
     in1.*
@@ -53,6 +55,7 @@ AppendFields_141 AS (
 
 Formula_119_0 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     CAST((
       CASE
@@ -69,16 +72,27 @@ Formula_119_0 AS (
 
 RecordID_124 AS (
 
-  SELECT 
-    *,
-    row_number() OVER (ORDER BY 1) AS `RecordID`
-  
-  FROM Formula_119_0
+  {#VisualGroup: StoreInventoryReport#}
+  {{
+    prophecy_basics.RecordID(
+      ['Formula_119_0'], 
+      'incremental_id', 
+      'RecordID', 
+      'integer', 
+      6, 
+      1, 
+      'tableLevel', 
+      'first_column', 
+      [], 
+      []
+    )
+  }}
 
 ),
 
 Formula_125_0 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     CAST((
       CASE
@@ -103,6 +117,7 @@ Formula_125_0 AS (
 
 Formula_125_1 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     CAST((CONCAT(`File Name`, '.xlsx|||', Sheet)) AS string) AS `File Name`,
     * EXCEPT (`file name`)
@@ -113,6 +128,7 @@ Formula_125_1 AS (
 
 AlteryxSelect_127 AS (
 
+  {#VisualGroup: StoreInventoryReport#}
   SELECT 
     ItemNumber AS ItemNumber,
     ItemDescription AS ItemDescription,
