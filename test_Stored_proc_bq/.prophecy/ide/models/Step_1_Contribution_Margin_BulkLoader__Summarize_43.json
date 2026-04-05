@@ -1,0 +1,129 @@
+{
+  "id" : "Step_1_Contribution_Margin_BulkLoader__Summarize_43",
+  "metainfo" : {
+    "label" : "Step_1_Contribution_Margin_BulkLoader__Summarize_43",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"qa_test_dataset\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_43_xJytieBZaFQXKErDS4OYr" : {
+      "id" : "Summarize_43_xJytieBZaFQXKErDS4OYr",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_43"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_43\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "43" : {
+      "id" : "43",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_43",
+        "x" : 1660,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "reportingchannel",
+            "_row_id" : null
+          },
+          "alias" : "reportingchannel",
+          "description" : null,
+          "_row_id" : "9t4MQvNzmaNrKbBo_xHlo"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "43_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "xJytieBZaFQXKErDS4OYr",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Source_File_C___15_15_Output" : {
+      "id" : "Source_File_C___15_15_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Source_File_C___15"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Step_1_Contribution_Margin_BulkLoader', 'Source_File_C___15') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_43_xJytieBZaFQXKErDS4OYr_Summarize_43_xJytieBZaFQXKErDS4OYr",
+    "source" : "43",
+    "sourcePort" : "xJytieBZaFQXKErDS4OYr",
+    "target" : "Summarize_43_xJytieBZaFQXKErDS4OYr",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_888",
+    "source" : "Source_File_C___15_15_Output",
+    "sourcePort" : "output_port_0",
+    "target" : "43",
+    "targetPort" : "43_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
