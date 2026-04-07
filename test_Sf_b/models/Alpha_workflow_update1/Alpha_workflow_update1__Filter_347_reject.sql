@@ -22,10 +22,11 @@ Filter_347_reject AS (
   FROM AlteryxSelect_336 AS in0
   
   WHERE (
-          not(
-            "COMPANY CODE" = '130')
-        ) or isnull(
-             "COMPANY CODE" = '130')
+          (
+            NOT(
+              "COMPANY CODE" = '130')
+          ) OR ((("COMPANY CODE" = '130') IS NULL))
+        )
 
 )
 

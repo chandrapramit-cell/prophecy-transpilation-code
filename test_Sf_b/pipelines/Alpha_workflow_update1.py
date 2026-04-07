@@ -233,10 +233,6 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    (
-        alpha_workflow_update1__filter_345_reject._out(0)
-        >> [alpha_workflow_update1__alteryxselect_582._in(5), alpha_workflow_update1__join_346_inner._in(0)]
-    )
     gen_dept_id_all_199 >> alpha_workflow_update1__alteryxselect_582._in(0)
     (
         accountsdata_xl_311._out(0)
@@ -252,12 +248,16 @@ with Pipeline(args) as pipeline:
               alpha_workflow_update1__alteryxselect_336._in(0)]
     )
     (
+        alpha_workflow_update1__alteryxselect_336._out(0)
+        >> [alpha_workflow_update1__alteryxselect_582._in(4), alpha_workflow_update1__filter_347_reject._in(0)]
+    )
+    (
         alpha_workflow_update1__filter_347_reject._out(0)
         >> [alpha_workflow_update1__alteryxselect_582._in(6), alpha_workflow_update1__join_346_inner._in(1)]
     )
     (
-        alpha_workflow_update1__alteryxselect_336._out(0)
-        >> [alpha_workflow_update1__alteryxselect_582._in(4), alpha_workflow_update1__filter_347_reject._in(0)]
+        alpha_workflow_update1__filter_345_reject._out(0)
+        >> [alpha_workflow_update1__alteryxselect_582._in(5), alpha_workflow_update1__join_346_inner._in(0)]
     )
     (
         work_scheduleva_335._out(0)

@@ -21,7 +21,10 @@ Filter_345_reject AS (
   
   FROM Work_ScheduleVa_335 AS in0
   
-  WHERE (NOT (not(contains(DESCRIPTION, 'Any Value'))) OR isnull(not(contains(DESCRIPTION, 'Any Value'))))
+  WHERE (
+          (NOT(NOT(CONTAINS(DESCRIPTION, 'Any Value'))))
+          OR (((NOT(CONTAINS(DESCRIPTION, 'Any Value'))) IS NULL))
+        )
 
 )
 
