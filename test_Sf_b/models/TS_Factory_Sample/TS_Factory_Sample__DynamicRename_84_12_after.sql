@@ -6,7 +6,7 @@
   })
 }}
 
-WITH R_64_12_out0 AS (
+WITH R_64_12 AS (
 
   SELECT *
   
@@ -111,6 +111,7 @@ DynamicRename_83_12 AS (
       ], 
       'advancedRename', 
       [
+        'SIGMA__2', 
         'SIGMA 2', 
         'X SQUARED STATISTIC LJUNG BOX', 
         'ME', 
@@ -127,7 +128,6 @@ DynamicRename_83_12 AS (
         'INTERCEPT', 
         'Q', 
         'P VALUE', 
-        'SIGMA__2', 
         'MASE', 
         'Q SEASONAL', 
         'P', 
@@ -218,9 +218,16 @@ DynamicRename_84_12 AS (
       ], 
       'advancedRename', 
       [
+        'P__COEFFICIENTS__1', 
+        'Q__COEFFICIENTS__1', 
+        'Q__COEFFICIENTS__2', 
+        'P__COEFFICIENTS__FOR__SEASONAL__MODELS__1', 
+        'Q__COEFFICIENTS__FOR__SEASONAL__MODELS__1', 
+        'COEFFICIENTS__OF__COVARIATES__1', 
+        'COEFFICIENTS__OF__COVARIATES__2', 
+        'SIGMA__2', 
         'SIGMA 2', 
         'X SQUARED STATISTIC LJUNG BOX', 
-        'P__COEFFICIENTS__FOR__SEASONAL__MODELS__1', 
         'ME', 
         'MPE', 
         'RMSE', 
@@ -232,22 +239,15 @@ DynamicRename_84_12 AS (
         'MAPE', 
         'P SEASONAL', 
         'D SEASONAL', 
-        'COEFFICIENTS__OF__COVARIATES__2', 
-        'P__COEFFICIENTS__1', 
         'INTERCEPT', 
         'Q', 
-        'Q__COEFFICIENTS__1', 
         'P VALUE', 
-        'SIGMA__2', 
         'MASE', 
         'Q SEASONAL', 
         'P', 
-        'Q__COEFFICIENTS__FOR__SEASONAL__MODELS__1', 
-        'COEFFICIENTS__OF__COVARIATES__1', 
         'DEGREES OF FREEDOM', 
         'Q COEFFICIENTS FOR SEASONAL MODELS 1', 
         'P COEFFICIENTS FOR SEASONAL MODELS 1', 
-        'Q__COEFFICIENTS__2', 
         'AIC', 
         'P COEFFICIENTS 1', 
         'ACF1', 
