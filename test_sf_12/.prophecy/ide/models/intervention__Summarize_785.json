@@ -1,0 +1,153 @@
+{
+  "id" : "intervention__Summarize_785",
+  "metainfo" : {
+    "label" : "intervention__Summarize_785",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_785_VMDFTnX4_r4ED4RhMZn92" : {
+      "id" : "Summarize_785_VMDFTnX4_r4ED4RhMZn92",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_785"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_785\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_78",
+          "slug" : "input_port_78"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_78",
+          "slug" : "output_port_78"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "785" : {
+      "id" : "785",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_785",
+        "x" : 3940,
+        "y" : 1420,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT `Member Individual Business Entity Key`)",
+            "_row_id" : null
+          },
+          "alias" : "`CountDistinct_Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "oycokMeI9XJWCQ5Ys5FCi"
+        }, {
+          "expression" : {
+            "expression" : "`ED Prediction Score`",
+            "_row_id" : null
+          },
+          "alias" : "`ED Prediction Score`",
+          "description" : null,
+          "_row_id" : "P15fxNhqAD08V_DlH5EE4"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`ED Prediction Score`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "pxcz0MNcoGo-ApxbZFmca"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "785_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "VMDFTnX4_r4ED4RhMZn92",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "Union_784_784_Output" : {
+      "id" : "Union_784_784_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_784"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_35",
+          "id" : "output_port_35",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Union_784') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_35",
+          "slug" : "input_port_35"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_35",
+          "slug" : "output_port_35"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_785_VMDFTnX4_r4ED4RhMZn92_Summarize_785_VMDFTnX4_r4ED4RhMZn92",
+    "source" : "785",
+    "sourcePort" : "VMDFTnX4_r4ED4RhMZn92",
+    "target" : "Summarize_785_VMDFTnX4_r4ED4RhMZn92",
+    "targetPort" : "input_port_78",
+    "isWireless" : false
+  }, {
+    "id" : "edge_275",
+    "source" : "Union_784_784_Output",
+    "sourcePort" : "output_port_35",
+    "target" : "785",
+    "targetPort" : "785_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,872 @@
+{
+  "id" : "intervention__Join_850_left_UnionLeftOuter",
+  "metainfo" : {
+    "label" : "intervention__Join_850_left_UnionLeftOuter",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "850_left" : {
+      "id" : "850_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_850_left_UnionLeftOuter",
+        "x" : 1660,
+        "y" : 2620,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Member Individual Business Entity Key` = in1.MBR_INDV_BE_KEY)",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (in0.`Member Individual Business Entity Key` = in1.MBR_INDV_BE_KEY) THEN in1.Congestive_Heart_Failure ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "Right_Congestive_Heart_Failure",
+          "description" : null,
+          "_row_id" : "T-TvYD6G2Br_SHzz5eGKF"
+        }, {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`MBR_INDV_BE_KEY`, `Congestive_Heart_Failure`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "l8Gu_GXwdHAP9nyndp5tb",
+          "slug" : "in0"
+        }, {
+          "id" : "JtMc5CsDWMtKYDSM1dO1l",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "nm-2UAN07GrD0VDqbSr8A",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "851" : {
+      "id" : "851",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_851",
+        "x" : 1260,
+        "y" : 2740,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT CLM_ID)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_CLM_ID",
+          "description" : null,
+          "_row_id" : "N4Zxi0yzTXvBzgXbmoQgR"
+        }, {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY",
+            "_row_id" : null
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "epBhoXi-G6z4yHJrqOwdN"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "KMz02nHCeTDCOl4QNBSi4"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "851_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "851_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "1639" : {
+      "id" : "1639",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1639",
+        "x" : 460,
+        "y" : 2420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Member Individual BE Key`",
+            "_row_id" : null
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "rbRwc275gYqhYozGbGI8t"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1639_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1639_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "1643" : {
+      "id" : "1643",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_1643",
+        "x" : 1060,
+        "y" : 2520,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`",
+            "_row_id" : null
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "w-AYELbYty1vCqXUmtpK0"
+        }, {
+          "expression" : {
+            "expression" : "`Mara Common Chronic Condition`",
+            "_row_id" : null
+          },
+          "alias" : "`Mara Common Chronic Condition`",
+          "description" : null,
+          "_row_id" : "mbtx1AayT4fnC6Ku6EZLb"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1643_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1643_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "TOTAL_INF_CONDI_1662_1662_Output" : {
+      "id" : "TOTAL_INF_CONDI_1662_1662_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "TOTAL_INF_CONDI_1662"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_22",
+          "id" : "output_port_22",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('intervention', 'TOTAL_INF_CONDI_1662') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_22",
+          "slug" : "input_port_22"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_22",
+          "slug" : "output_port_22"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1635" : {
+      "id" : "1635",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1635",
+        "x" : 460,
+        "y" : 2620,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`",
+            "_row_id" : null
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "R5c9kBAgapuZO_U-HF-4j"
+        }, {
+          "expression" : {
+            "expression" : "`Mara Common Chronic Condition`",
+            "_row_id" : null
+          },
+          "alias" : "`Mara Common Chronic Condition`",
+          "description" : null,
+          "_row_id" : "ZlNY0_SG7XFHYg55okTa3"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1635_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1635_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "Join_850_left_UnionLeftOuter_nm-2UAN07GrD0VDqbSr8A" : {
+      "id" : "Join_850_left_UnionLeftOuter_nm-2UAN07GrD0VDqbSr8A",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_850_left_UnionLeftOuter"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_850_left_UnionLeftOuter\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_23",
+          "slug" : "input_port_23"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_23",
+          "slug" : "output_port_23"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "C-YMmA4gErt_RiLvCa4bz" : {
+      "id" : "C-YMmA4gErt_RiLvCa4bz",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_847_0",
+        "x" : 1260,
+        "y" : 2520,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(1 AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`MARA INDICATOR`",
+          "description" : null,
+          "_row_id" : "ePCd10VOPPSWAao6gzwY5"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "bivxpeV3E51TD5GO914aF",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "vzl5GIHAAAJ1zsuuDVYU-",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "1642" : {
+      "id" : "1642",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_1642",
+        "x" : 660,
+        "y" : 2620,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`",
+            "_row_id" : null
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "SyRs32bSFOCU1PSH4inVE"
+        }, {
+          "expression" : {
+            "expression" : "`Mara Common Chronic Condition`",
+            "_row_id" : null
+          },
+          "alias" : "`Mara Common Chronic Condition`",
+          "description" : null,
+          "_row_id" : "PsQr6HZjLgrLpmvJAbDxb"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1642_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1642_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "ProviderDetailR_1661_1661_Output" : {
+      "id" : "ProviderDetailR_1661_1661_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "ProviderDetailR_1661"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_21",
+          "id" : "output_port_21",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('intervention', 'ProviderDetailR_1661') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "selectdistinct__1663_1663_Output" : {
+      "id" : "selectdistinct__1663_1663_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "selectdistinct__1663"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_16",
+          "id" : "output_port_16",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('intervention', 'selectdistinct__1663') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_16",
+          "slug" : "input_port_16"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_16",
+          "slug" : "output_port_16"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1641" : {
+      "id" : "1641",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_1641",
+        "x" : 860,
+        "y" : 2520,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Summarize_1640", "Summarize_1642" ],
+        "schemas" : [ "[{\"name\": \"Member Individual Business Entity Key\", \"dataType\": \"String\"}]", "[{\"name\": \"Member Individual Business Entity Key\", \"dataType\": \"String\"}, {\"name\": \"Mara Common Chronic Condition\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Summarize_1640\", \"Summarize_1642\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"Member Individual Business Entity Key\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"Member Individual Business Entity Key\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Mara Common Chronic Condition\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1641_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "1641_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "1641_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "846" : {
+      "id" : "846",
+      "component" : "DbPivot",
+      "metadata" : {
+        "label" : "CrossTab_846",
+        "x" : 1460,
+        "y" : 2520,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnGroups" : [ "Member Individual Business Entity Key" ],
+        "separator" : {
+          "expression" : {
+            "expression" : "', '",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        },
+        "isConcatWsSelected" : false,
+        "inputAlias" : "in0",
+        "allowSelection" : true,
+        "pivotColumnValues" : [ {
+          "expression" : {
+            "expression" : "CAD",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "oJFXelYD34DFMFlbdvoup"
+        }, {
+          "expression" : {
+            "expression" : "Hypertension",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "tKHJQee2cHpfdNtIR2L-4"
+        }, {
+          "expression" : {
+            "expression" : "ESRD",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "MIQElWBn3hnBTiJXI9lxh"
+        }, {
+          "expression" : {
+            "expression" : "Cancer",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "YuRupw645-lzMjL0uYsGC"
+        }, {
+          "expression" : {
+            "expression" : "CHF",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "MbMLFbzYxstY2B-CT15sb"
+        }, {
+          "expression" : {
+            "expression" : "_Null_",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "iA7AxjAfFyt2-7C2SQykn"
+        }, {
+          "expression" : {
+            "expression" : "Diabetes",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "Fhto2mOueR5C5dXMNjWyF"
+        }, {
+          "expression" : {
+            "expression" : "COPD",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "-SNGGcmzOWhPbjFpktsL5"
+        }, {
+          "expression" : {
+            "expression" : "Asthma",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "awWynUQ_wSmOoK1B0NobD"
+        } ],
+        "pivotColumn" : {
+          "expression" : {
+            "expression" : "Mara Common Chronic Condition",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "QBryYOPR8WIfLo7Zk8xxd"
+        },
+        "isValueColumnString" : true,
+        "isPivotColumnString" : true,
+        "aggregateFunctions" : [ {
+          "expression" : {
+            "expression" : "SUM",
+            "_row_id" : null
+          },
+          "alias" : "Sum",
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "valueColumn" : {
+          "expression" : {
+            "expression" : "`MARA INDICATOR`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "8eRvxdeXUVsKd7STu50uf"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "846_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "846_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "852" : {
+      "id" : "852",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_852",
+        "x" : 1460,
+        "y" : 2740,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(MBR_INDV_BE_KEY AS string)",
+            "_row_id" : null
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "description" : null,
+          "_row_id" : "1h8LJVzQKBiy7-86ii-53"
+        }, {
+          "expression" : {
+            "expression" : "CAST(CountDistinct_CLM_ID AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Congestive_Heart_Failure",
+          "description" : null,
+          "_row_id" : "pIxernqQ6J9Gpfwo0Kfxc"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`MBR_INDV_BE_KEY`, `CountDistinct_CLM_ID`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "852_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "852_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "1640" : {
+      "id" : "1640",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_1640",
+        "x" : 660,
+        "y" : 2420,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`",
+            "_row_id" : null
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "2kxGk0-MDHqhqhgmXZNkh"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1640_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1640_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "1638" : {
+      "id" : "1638",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1638",
+        "x" : 260,
+        "y" : 2420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(`Recapture Flag` = 'Not Captured')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1638_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1638_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_850_left_nm-2UAN07GrD0VDqbSr8A_Join_850_left_UnionLeftOuter_nm-2UAN07GrD0VDqbSr8A",
+    "source" : "850_left",
+    "sourcePort" : "nm-2UAN07GrD0VDqbSr8A",
+    "target" : "Join_850_left_UnionLeftOuter_nm-2UAN07GrD0VDqbSr8A",
+    "targetPort" : "input_port_23",
+    "isWireless" : false
+  }, {
+    "id" : "edge_331",
+    "source" : "852",
+    "sourcePort" : "852_Output",
+    "target" : "850_left",
+    "targetPort" : "JtMc5CsDWMtKYDSM1dO1l",
+    "isWireless" : false
+  }, {
+    "id" : "edge_332",
+    "source" : "846",
+    "sourcePort" : "846_Output",
+    "target" : "850_left",
+    "targetPort" : "l8Gu_GXwdHAP9nyndp5tb",
+    "isWireless" : false
+  }, {
+    "id" : "edge_259",
+    "source" : "851",
+    "sourcePort" : "851_Output",
+    "target" : "852",
+    "targetPort" : "852_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_379",
+    "source" : "C-YMmA4gErt_RiLvCa4bz",
+    "sourcePort" : "vzl5GIHAAAJ1zsuuDVYU-",
+    "target" : "846",
+    "targetPort" : "846_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_246",
+    "source" : "selectdistinct__1663_1663_Output",
+    "sourcePort" : "output_port_16",
+    "target" : "851",
+    "targetPort" : "851_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_380",
+    "source" : "1643",
+    "sourcePort" : "1643_Output",
+    "target" : "C-YMmA4gErt_RiLvCa4bz",
+    "targetPort" : "bivxpeV3E51TD5GO914aF",
+    "isWireless" : false
+  }, {
+    "id" : "edge_282",
+    "source" : "1641",
+    "sourcePort" : "1641_Output",
+    "target" : "1643",
+    "targetPort" : "1643_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_280",
+    "source" : "1640",
+    "sourcePort" : "1640_Output",
+    "target" : "1641",
+    "targetPort" : "1641_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_281",
+    "source" : "1642",
+    "sourcePort" : "1642_Output",
+    "target" : "1641",
+    "targetPort" : "1641_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_279",
+    "source" : "1639",
+    "sourcePort" : "1639_Output",
+    "target" : "1640",
+    "targetPort" : "1640_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_277",
+    "source" : "1635",
+    "sourcePort" : "1635_Output",
+    "target" : "1642",
+    "targetPort" : "1642_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_278",
+    "source" : "1638",
+    "sourcePort" : "1638_True",
+    "target" : "1639",
+    "targetPort" : "1639_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_245",
+    "source" : "TOTAL_INF_CONDI_1662_1662_Output",
+    "sourcePort" : "output_port_22",
+    "target" : "1635",
+    "targetPort" : "1635_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_285",
+    "source" : "ProviderDetailR_1661_1661_Output",
+    "sourcePort" : "output_port_21",
+    "target" : "1638",
+    "targetPort" : "1638_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

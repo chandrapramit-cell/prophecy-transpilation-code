@@ -1,0 +1,153 @@
+{
+  "id" : "intervention__Summarize_825",
+  "metainfo" : {
+    "label" : "intervention__Summarize_825",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_825_Mr6MxLRub-scIaszciiNb" : {
+      "id" : "Summarize_825_Mr6MxLRub-scIaszciiNb",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_825"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_825\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_66",
+          "slug" : "input_port_66"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_66",
+          "slug" : "output_port_66"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "825" : {
+      "id" : "825",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_825",
+        "x" : 5000,
+        "y" : 4080,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT `Member Individual Business Entity Key`)",
+            "_row_id" : null
+          },
+          "alias" : "`CountDistinct_Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "1n0ZZjiN3UEvzf89nA10P"
+        }, {
+          "expression" : {
+            "expression" : "AdvancedCKD_Risk",
+            "_row_id" : null
+          },
+          "alias" : "AdvancedCKD_Risk",
+          "description" : null,
+          "_row_id" : "RCLUHb7HbjscXLGngp51B"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "AdvancedCKD_Risk",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "nQMGLe-NXnryXlvsgnEzp"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "825_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Mr6MxLRub-scIaszciiNb",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "Join_822_left_UnionLeftOuter_niLjGH48o_HYE9jrRpojH" : {
+      "id" : "Join_822_left_UnionLeftOuter_niLjGH48o_HYE9jrRpojH",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_822_left_UnionLeftOuter"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_40",
+          "id" : "output_port_40",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Join_822_left_UnionLeftOuter') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_40",
+          "slug" : "input_port_40"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_40",
+          "slug" : "output_port_40"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_825_Mr6MxLRub-scIaszciiNb_Summarize_825_Mr6MxLRub-scIaszciiNb",
+    "source" : "825",
+    "sourcePort" : "Mr6MxLRub-scIaszciiNb",
+    "target" : "Summarize_825_Mr6MxLRub-scIaszciiNb",
+    "targetPort" : "input_port_66",
+    "isWireless" : false
+  }, {
+    "id" : "edge_341",
+    "source" : "Join_822_left_UnionLeftOuter_niLjGH48o_HYE9jrRpojH",
+    "sourcePort" : "output_port_40",
+    "target" : "825",
+    "targetPort" : "825_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

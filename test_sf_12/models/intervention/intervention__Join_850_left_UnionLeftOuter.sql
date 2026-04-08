@@ -1,0 +1,192 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "tanmay",
+    "schema": "default"
+  })
+}}
+
+WITH TOTAL_INF_CONDI_1662 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('intervention', 'TOTAL_INF_CONDI_1662') }}
+
+),
+
+AlteryxSelect_1635 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    `Member Individual Business Entity Key` AS `Member Individual Business Entity Key`,
+    `Mara Common Chronic Condition` AS `Mara Common Chronic Condition`
+  
+  FROM TOTAL_INF_CONDI_1662 AS in0
+
+),
+
+Summarize_1642 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    DISTINCT `Member Individual Business Entity Key` AS `Member Individual Business Entity Key`,
+    `Mara Common Chronic Condition` AS `Mara Common Chronic Condition`
+  
+  FROM AlteryxSelect_1635 AS in0
+
+),
+
+ProviderDetailR_1661 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('intervention', 'ProviderDetailR_1661') }}
+
+),
+
+Filter_1638 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT * 
+  
+  FROM ProviderDetailR_1661 AS in0
+  
+  WHERE (`Recapture Flag` = 'Not Captured')
+
+),
+
+AlteryxSelect_1639 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT `Member Individual BE Key` AS `Member Individual Business Entity Key`
+  
+  FROM Filter_1638 AS in0
+
+),
+
+Summarize_1640 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT DISTINCT `Member Individual Business Entity Key` AS `Member Individual Business Entity Key`
+  
+  FROM AlteryxSelect_1639 AS in0
+
+),
+
+Union_1641 AS (
+
+  {#VisualGroup: STEP1#}
+  {{
+    prophecy_basics.UnionByName(
+      ['Summarize_1640', 'Summarize_1642'], 
+      [
+        '[{"name": "Member Individual Business Entity Key", "dataType": "String"}]', 
+        '[{"name": "Member Individual Business Entity Key", "dataType": "String"}, {"name": "Mara Common Chronic Condition", "dataType": "String"}]'
+      ], 
+      'allowMissingColumns'
+    )
+  }}
+
+),
+
+Summarize_1643 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    DISTINCT `Member Individual Business Entity Key` AS `Member Individual Business Entity Key`,
+    `Mara Common Chronic Condition` AS `Mara Common Chronic Condition`
+  
+  FROM Union_1641 AS in0
+
+),
+
+Formula_847_0 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    CAST(1 AS DOUBLE) AS `MARA INDICATOR`,
+    *
+  
+  FROM Summarize_1643 AS in0
+
+),
+
+CrossTab_846 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT *
+  
+  FROM (
+    SELECT 
+      `Member Individual Business Entity Key`,
+      `Mara Common Chronic Condition`,
+      `MARA INDICATOR`
+    
+    FROM Formula_847_0 AS in0
+  )
+  PIVOT (
+    SUM(`MARA INDICATOR`) AS Sum
+    FOR `Mara Common Chronic Condition`
+    IN (
+      'CAD', 'Hypertension', 'ESRD', 'Cancer', 'CHF', '_Null_', 'Diabetes', 'COPD', 'Asthma'
+    )
+  )
+
+),
+
+selectdistinct__1663 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('intervention', 'selectdistinct__1663') }}
+
+),
+
+Summarize_851 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    COUNT(DISTINCT CLM_ID) AS CountDistinct_CLM_ID,
+    MBR_INDV_BE_KEY AS MBR_INDV_BE_KEY
+  
+  FROM selectdistinct__1663 AS in0
+  
+  GROUP BY MBR_INDV_BE_KEY
+
+),
+
+AlteryxSelect_852 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    CAST(MBR_INDV_BE_KEY AS string) AS MBR_INDV_BE_KEY,
+    CAST(CountDistinct_CLM_ID AS DOUBLE) AS Congestive_Heart_Failure,
+    * EXCEPT (`MBR_INDV_BE_KEY`, `CountDistinct_CLM_ID`)
+  
+  FROM Summarize_851 AS in0
+
+),
+
+Join_850_left_UnionLeftOuter AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    (
+      CASE
+        WHEN (in0.`Member Individual Business Entity Key` = in1.MBR_INDV_BE_KEY)
+          THEN in1.Congestive_Heart_Failure
+        ELSE NULL
+      END
+    ) AS Right_Congestive_Heart_Failure,
+    in0.*,
+    in1.* EXCEPT (`MBR_INDV_BE_KEY`, `Congestive_Heart_Failure`)
+  
+  FROM CrossTab_846 AS in0
+  LEFT JOIN AlteryxSelect_852 AS in1
+     ON (in0.`Member Individual Business Entity Key` = in1.MBR_INDV_BE_KEY)
+
+)
+
+SELECT *
+
+FROM Join_850_left_UnionLeftOuter
