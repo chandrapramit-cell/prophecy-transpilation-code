@@ -1,0 +1,326 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "QA_DATABASE",
+    "schema": "PUBLIC"
+  })
+}}
+
+WITH aka_GPDIP_EDLUD_369 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('subject_workflow', 'aka_GPDIP_EDLUD_369') }}
+
+),
+
+AlteryxSelect_3 AS (
+
+  SELECT * EXCLUDE ("EDC_DT", "IRT_DT", "EDC_TABLE", "IRT_TABLE", "LOAD_TS", "ROW_KEY")
+  
+  FROM aka_GPDIP_EDLUD_369 AS in0
+
+),
+
+Formula_4_0 AS (
+
+  SELECT 
+    CAST((CONCAT(LOWER(STANDARD_VISIT_NAME), '_dt')) AS STRING) AS VISIT_TYPE_DT,
+    CAST((CONCAT(LOWER(STANDARD_VISIT_NAME), '_visit_name')) AS STRING) AS VISIT_NAME,
+    CAST((CONCAT(LOWER(STANDARD_VISIT_NAME), '_src_sys')) AS STRING) AS VISIT_SRC_SYS,
+    CAST((CONCAT(LOWER(STANDARD_VISIT_NAME), '_table_src')) AS STRING) AS VISIT_TABLE,
+    *
+  
+  FROM AlteryxSelect_3 AS in0
+
+),
+
+CrossTab_13_dedupe_First AS (
+
+  SELECT * 
+  
+  FROM Formula_4_0 AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY STUDY_ID, SUBJECT_ID, VISIT_TABLE ORDER BY STUDY_ID, SUBJECT_ID, VISIT_TABLE) = 1
+
+),
+
+CrossTab_13_pivot_First AS (
+
+  SELECT 
+    STUDY_ID AS study_id,
+    SUBJECT_ID AS subject_id
+  
+  FROM CrossTab_13_dedupe_First AS in0
+  PIVOT (
+    MAX(data_table_src)
+    FOR visit_table
+    IN (
+      'randomization_table_src', 
+      'last_date_of_participation_table_src', 
+      'screen_fail_table_src', 
+      'penultimate_table_src', 
+      'discontinued_table_src', 
+      'screening_table_src', 
+      'completed_table_src'
+    )
+  )
+
+),
+
+CrossTab_13_rename AS (
+
+  SELECT *
+  
+  FROM CrossTab_13_pivot_First AS in0
+
+),
+
+CrossTab_11_dedupe_First AS (
+
+  SELECT * 
+  
+  FROM Formula_4_0 AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY STUDY_ID, SUBJECT_ID, VISIT_SRC_SYS ORDER BY STUDY_ID, SUBJECT_ID, VISIT_SRC_SYS) = 1
+
+),
+
+CrossTab_11_pivot_First AS (
+
+  SELECT 
+    STUDY_ID AS study_id,
+    SUBJECT_ID AS subject_id
+  
+  FROM CrossTab_11_dedupe_First AS in0
+  PIVOT (
+    MAX(src_sys_name)
+    FOR visit_src_sys
+    IN (
+      'discontinued_src_sys', 
+      'last_date_of_participation_src_sys', 
+      'penultimate_src_sys', 
+      'randomization_src_sys', 
+      'completed_src_sys', 
+      'screening_src_sys', 
+      'screen_fail_src_sys'
+    )
+  )
+
+),
+
+CrossTab_11_rename AS (
+
+  SELECT *
+  
+  FROM CrossTab_11_pivot_First AS in0
+
+),
+
+AlteryxSelect_12 AS (
+
+  SELECT 
+    STUDY_ID AS STUDY_ID,
+    SUBJECT_ID AS SUBJECT_ID,
+    SCREENING_SRC_SYS AS SCREENING_SRC_SYS,
+    SCREEN_FAIL_SRC_SYS AS SCREEN_FAIL_SRC_SYS,
+    RANDOMIZATION_SRC_SYS AS RANDOMIZATION_SRC_SYS,
+    DISCONTINUED_SRC_SYS AS DISCONTINUED_SRC_SYS,
+    PENULTIMATE_SRC_SYS AS PENULTIMATE_SRC_SYS,
+    LAST_DATE_OF_PARTICIPATION_SRC_SYS AS LAST_DATE_OF_PARTICIPATION_SRC_SYS,
+    COMPLETED_SRC_SYS AS COMPLETED_SRC_SYS,
+    CAST(NULL AS STRING) AS STUDY_SITE_NUMBER
+  
+  FROM CrossTab_11_rename AS in0
+
+),
+
+CrossTab_8_dedupe_First AS (
+
+  SELECT * 
+  
+  FROM Formula_4_0 AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY STUDY_ID, SUBJECT_ID, VISIT_NAME ORDER BY STUDY_ID, SUBJECT_ID, VISIT_NAME) = 1
+
+),
+
+CrossTab_8_pivot_First AS (
+
+  SELECT 
+    STUDY_ID AS STUDY_ID,
+    SUBJECT_ID AS SUBJECT_ID
+  
+  FROM CrossTab_8_dedupe_First AS in0
+  PIVOT (
+    MAX(SUBJ_VISIT_NAME)
+    FOR VISIT_NAME
+    IN (
+      'screen_fail_visit_name', 
+      'penultimate_visit_name', 
+      'last_date_of_participation_visit_name', 
+      'randomization_visit_name', 
+      'screening_visit_name', 
+      'completed_visit_name', 
+      'discontinued_visit_name'
+    )
+  )
+
+),
+
+CrossTab_8_rename AS (
+
+  SELECT *
+  
+  FROM CrossTab_8_pivot_First AS in0
+
+),
+
+AlteryxSelect_10 AS (
+
+  SELECT 
+    STUDY_ID AS STUDY_ID,
+    SUBJECT_ID AS SUBJECT_ID,
+    SCREENING_VISIT_NAME AS SCREENING_VISIT_NAME,
+    SCREEN_FAIL_VISIT_NAME AS SCREEN_FAIL_VISIT_NAME,
+    RANDOMIZATION_VISIT_NAME AS RANDOMIZATION_VISIT_NAME,
+    DISCONTINUED_VISIT_NAME AS DISCONTINUED_VISIT_NAME,
+    PENULTIMATE_VISIT_NAME AS PENULTIMATE_VISIT_NAME,
+    LAST_DATE_OF_PARTICIPATION_VISIT_NAME AS LAST_DATE_OF_PARTICIPATION_VISIT_NAME,
+    COMPLETED_VISIT_NAME AS COMPLETED_VISIT_NAME,
+    CAST(NULL AS STRING) AS STUDY_SITE_NUMBER
+  
+  FROM CrossTab_8_rename AS in0
+
+),
+
+AlteryxSelect_14 AS (
+
+  SELECT 
+    STUDY_ID AS STUDY_ID,
+    SUBJECT_ID AS SUBJECT_ID,
+    SCREENING_TABLE_SRC AS SCREENING_TABLE_SRC,
+    SCREEN_FAIL_TABLE_SRC AS SCREEN_FAIL_TABLE_SRC,
+    RANDOMIZATION_TABLE_SRC AS RANDOMIZATION_TABLE_SRC,
+    DISCONTINUED_TABLE_SRC AS DISCONTINUED_TABLE_SRC,
+    LAST_DATE_OF_PARTICIPATION_TABLE_SRC AS LAST_DATE_OF_PARTICIPATION_TABLE_SRC,
+    PENULTIMATE_TABLE_SRC AS PENULTIMATE_TABLE_SRC,
+    COMPLETED_TABLE_SRC AS COMPLETED_TABLE_SRC,
+    CAST(NULL AS STRING) AS STUDY_SITE_NUMBER
+  
+  FROM CrossTab_13_rename AS in0
+
+),
+
+CrossTab_6_dedupe_First AS (
+
+  SELECT * 
+  
+  FROM Formula_4_0 AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY STUDY_ID, SUBJECT_ID, VISIT_TYPE_DT ORDER BY STUDY_ID, SUBJECT_ID, VISIT_TYPE_DT) = 1
+
+),
+
+CrossTab_6_pivot_First AS (
+
+  SELECT 
+    STUDY_ID AS study_id,
+    SUBJECT_ID AS subject_id
+  
+  FROM CrossTab_6_dedupe_First AS in0
+  PIVOT (
+    MAX(subj_visit_dt)
+    FOR visit_type_dt
+    IN (
+      last_date_of_participation_dt, 
+      randomization_dt, 
+      discontinued_dt, 
+      penultimate_dt, 
+      screen_fail_dt, 
+      screening_dt, 
+      completed_dt
+    )
+  )
+
+),
+
+CrossTab_6_rename AS (
+
+  SELECT *
+  
+  FROM CrossTab_6_pivot_First AS in0
+
+),
+
+AlteryxSelect_7 AS (
+
+  SELECT 
+    STUDY_ID AS STUDY_ID,
+    SUBJECT_ID AS SUBJECT_ID,
+    SCREENING_DT AS SCREENING_DT,
+    SCREEN_FAIL_DT AS SCREEN_FAIL_DT,
+    RANDOMIZATION_DT AS RANDOMIZATION_DT,
+    DISCONTINUED_DT AS DISCONTINUED_DT,
+    PENULTIMATE_DT AS PENULTIMATE_DT,
+    LAST_DATE_OF_PARTICIPATION_DT AS LAST_DATE_OF_PARTICIPATION_DT,
+    COMPLETED_DT AS COMPLETED_DT
+  
+  FROM CrossTab_6_rename AS in0
+
+),
+
+JoinMultiple_15 AS (
+
+  SELECT 
+    in1.SCREEN_FAIL_VISIT_NAME AS SCREEN_FAIL_VISIT_NAME,
+    in3.RANDOMIZATION_TABLE_SRC AS RANDOMIZATION_TABLE_SRC,
+    in0.LAST_DATE_OF_PARTICIPATION_DT AS LAST_DATE_OF_PARTICIPATION_DT,
+    in0.STUDY_ID AS STUDY_ID,
+    in1.PENULTIMATE_VISIT_NAME AS PENULTIMATE_VISIT_NAME,
+    in2.DISCONTINUED_SRC_SYS AS DISCONTINUED_SRC_SYS,
+    in0.RANDOMIZATION_DT AS RANDOMIZATION_DT,
+    in0.DISCONTINUED_DT AS DISCONTINUED_DT,
+    in3.LAST_DATE_OF_PARTICIPATION_TABLE_SRC AS LAST_DATE_OF_PARTICIPATION_TABLE_SRC,
+    in2.LAST_DATE_OF_PARTICIPATION_SRC_SYS AS LAST_DATE_OF_PARTICIPATION_SRC_SYS,
+    in1.LAST_DATE_OF_PARTICIPATION_VISIT_NAME AS LAST_DATE_OF_PARTICIPATION_VISIT_NAME,
+    in3.SCREEN_FAIL_TABLE_SRC AS SCREEN_FAIL_TABLE_SRC,
+    in0.PENULTIMATE_DT AS PENULTIMATE_DT,
+    in2.PENULTIMATE_SRC_SYS AS PENULTIMATE_SRC_SYS,
+    in0.SCREEN_FAIL_DT AS SCREEN_FAIL_DT,
+    in3.PENULTIMATE_TABLE_SRC AS PENULTIMATE_TABLE_SRC,
+    in3.DISCONTINUED_TABLE_SRC AS DISCONTINUED_TABLE_SRC,
+    in1.RANDOMIZATION_VISIT_NAME AS RANDOMIZATION_VISIT_NAME,
+    in1.SCREENING_VISIT_NAME AS SCREENING_VISIT_NAME,
+    in1.COMPLETED_VISIT_NAME AS COMPLETED_VISIT_NAME,
+    in2.RANDOMIZATION_SRC_SYS AS RANDOMIZATION_SRC_SYS,
+    in3.SCREENING_TABLE_SRC AS SCREENING_TABLE_SRC,
+    in0.SCREENING_DT AS SCREENING_DT,
+    in1.DISCONTINUED_VISIT_NAME AS DISCONTINUED_VISIT_NAME,
+    in2.COMPLETED_SRC_SYS AS COMPLETED_SRC_SYS,
+    in2.SCREENING_SRC_SYS AS SCREENING_SRC_SYS,
+    in3.COMPLETED_TABLE_SRC AS COMPLETED_TABLE_SRC,
+    in0.COMPLETED_DT AS COMPLETED_DT,
+    in1.STUDY_SITE_NUMBER AS STUDY_SITE_NUMBER,
+    in2.SCREEN_FAIL_SRC_SYS AS SCREEN_FAIL_SRC_SYS,
+    in0.SUBJECT_ID AS SUBJECT_ID
+  
+  FROM AlteryxSelect_7 AS in0
+  FULL JOIN AlteryxSelect_10 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SUBJECT_ID = in1.SUBJECT_ID))
+  FULL JOIN AlteryxSelect_12 AS in2
+     ON (
+      (coalesce(in0.STUDY_ID, in1.STUDY_ID) = in2.STUDY_ID)
+      AND (coalesce(in0.SUBJECT_ID, in1.SUBJECT_ID) = in2.SUBJECT_ID)
+    )
+  FULL JOIN AlteryxSelect_14 AS in3
+     ON (
+      (coalesce(in0.STUDY_ID, in1.STUDY_ID, in2.STUDY_ID) = in3.STUDY_ID)
+      AND (coalesce(in0.SUBJECT_ID, in1.SUBJECT_ID, in2.SUBJECT_ID) = in3.SUBJECT_ID)
+    )
+
+)
+
+SELECT *
+
+FROM JoinMultiple_15

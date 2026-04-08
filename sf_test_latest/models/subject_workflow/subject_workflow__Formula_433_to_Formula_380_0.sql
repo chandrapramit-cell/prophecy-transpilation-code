@@ -1,0 +1,867 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "QA_DATABASE",
+    "schema": "PUBLIC"
+  })
+}}
+
+WITH aka_GPDIP_EDLUD_443 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('subject_workflow', 'aka_GPDIP_EDLUD_443') }}
+
+),
+
+Filter_446 AS (
+
+  SELECT * 
+  
+  FROM aka_GPDIP_EDLUD_443 AS in0
+  
+  WHERE (
+          NOT(
+            STUDY_ID = 'C4951009')
+        )
+
+),
+
+AlteryxSelect_444 AS (
+
+  SELECT 
+    SUBJ_STRATA_NUM AS SBJ_STR_STRATA_NUM,
+    CAST(SUBJ_COHORT_NUM AS INTEGER) AS SBJ_COH_COHORT_NUM,
+    * EXCLUDE ("LOAD_TS", "SUBJ_STRATA_NUM", "SUBJ_COHORT_NUM")
+  
+  FROM Filter_446 AS in0
+
+),
+
+Filter_410_reject AS (
+
+  SELECT * 
+  
+  FROM AlteryxSelect_444 AS in0
+  
+  WHERE (
+          (
+            (
+              NOT(
+                LABEL_TYPE = 'S')
+            ) OR ((LABEL_TYPE = 'S') IS NULL)
+          )
+          AND (
+                (
+                  NOT(
+                    LABEL_TYPE = 'C')
+                ) OR ((LABEL_TYPE = 'C') IS NULL)
+              )
+        )
+
+),
+
+Join_288_left_UnionFullOuter AS (
+
+  SELECT *
+  
+  FROM {{ ref('subject_workflow__Join_288_left_UnionFullOuter')}}
+
+),
+
+DynamicRename_351 AS (
+
+  SELECT *
+  
+  FROM {{ ref('subject_workflow__DynamicRename_351')}}
+
+),
+
+Join_194_right AS (
+
+  SELECT in0.*
+  
+  FROM DynamicRename_351 AS in0
+  LEFT JOIN Join_288_left_UnionFullOuter AS in1
+     ON ((in1.STUDY_ID = in0.STUDY_ID) AND (in1.SUBJECT_ID = in0.SUBJECT_ID))
+
+),
+
+Join_194_inner AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCLUDE ("STUDY_ID", "SUBJECT_ID")
+  
+  FROM Join_288_left_UnionFullOuter AS in0
+  INNER JOIN DynamicRename_351 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SUBJECT_ID = in1.SUBJECT_ID))
+
+),
+
+Join_194_left AS (
+
+  SELECT *
+  
+  FROM {{ ref('subject_workflow__Join_194_left')}}
+
+),
+
+Union_218 AS (
+
+  {{
+    prophecy_basics.UnionByName(
+      ['Join_194_inner', 'Join_194_left', 'Join_194_right'], 
+      [
+        '[{"name": "STUDY_SITE_NUMBER", "dataType": "String"}, {"name": "SITE_NUMBER_IRT", "dataType": "String"}, {"name": "SITE_NUMBER_EDC", "dataType": "String"}, {"name": "ORIGINAL_SITE_NUMBER", "dataType": "String"}, {"name": "SUBJ_STATUS_EDC", "dataType": "String"}, {"name": "SUBJ_STATUS_IRT", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_ENROLLED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_DISCONTINUED_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_DISCONTINUED_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_EDC", "dataType": "String"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_IRT", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", "dataType": "String"}, {"name": "SUBJ_COMPLETED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_COMPLETED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SBJ_STR_STRATA_NUM", "dataType": "String"}, {"name": "SBJ_COH_COHORT_NUM", "dataType": "Number"}, {"name": "SBJ_STRATA_CODE_VALUE_DESC", "dataType": "String"}, {"name": "SBJ_COH_COHORT_DESC", "dataType": "String"}, {"name": "SUBJ_RACE", "dataType": "String"}, {"name": "SUBJ_ETHNICITY", "dataType": "String"}, {"name": "SUBJ_GENDER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}, {"name": "SCREENING_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_DT_DER", "dataType": "Date"}, {"name": "RANDOMIZATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_SRC_SYS_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_SRC_SYS_DER", "dataType": "String"}, {"name": "COMPLETED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_DT_DER", "dataType": "Date"}, {"name": "SCREEN_FAIL_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_TABLE_SRC_DER", "dataType": "String"}, {"name": "DISCONTINUED_VISIT_NAME_DER", "dataType": "String"}, {"name": "COMPLETED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", "dataType": "String"}, {"name": "RANDOMIZATION_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_VISIT_NAME_DER", "dataType": "String"}, {"name": "PENULTIMATE_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_SRC_SYS_DER", "dataType": "String"}]', 
+        '[{"name": "STUDY_SITE_NUMBER", "dataType": "String"}, {"name": "SITE_NUMBER_IRT", "dataType": "String"}, {"name": "SITE_NUMBER_EDC", "dataType": "String"}, {"name": "ORIGINAL_SITE_NUMBER", "dataType": "String"}, {"name": "SUBJ_STATUS_EDC", "dataType": "String"}, {"name": "SUBJ_STATUS_IRT", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_ENROLLED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_DISCONTINUED_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_DISCONTINUED_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_EDC", "dataType": "String"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_IRT", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", "dataType": "String"}, {"name": "SUBJ_COMPLETED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_COMPLETED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SBJ_STR_STRATA_NUM", "dataType": "String"}, {"name": "SBJ_COH_COHORT_NUM", "dataType": "Number"}, {"name": "SBJ_STRATA_CODE_VALUE_DESC", "dataType": "String"}, {"name": "SBJ_COH_COHORT_DESC", "dataType": "String"}, {"name": "SUBJ_RACE", "dataType": "String"}, {"name": "SUBJ_ETHNICITY", "dataType": "String"}, {"name": "SUBJ_GENDER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}]', 
+        '[{"name": "SCREENING_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_DT_DER", "dataType": "Date"}, {"name": "RANDOMIZATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SCREENING_SRC_SYS_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_SRC_SYS_DER", "dataType": "String"}, {"name": "COMPLETED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_DT_DER", "dataType": "Date"}, {"name": "SCREEN_FAIL_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}, {"name": "DISCONTINUED_TABLE_SRC_DER", "dataType": "String"}, {"name": "DISCONTINUED_VISIT_NAME_DER", "dataType": "String"}, {"name": "COMPLETED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", "dataType": "String"}, {"name": "RANDOMIZATION_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_VISIT_NAME_DER", "dataType": "String"}, {"name": "PENULTIMATE_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_SRC_SYS_DER", "dataType": "String"}]'
+      ], 
+      'allowMissingColumns'
+    )
+  }}
+
+),
+
+Filter_405_reject AS (
+
+  SELECT * 
+  
+  FROM Union_218 AS in0
+  
+  WHERE ((NOT(NOT(STUDY_SITE_NUMBER IS NULL))) OR ((NOT(STUDY_SITE_NUMBER IS NULL)) IS NULL))
+
+),
+
+aka_GPDIP_EDLUD_369 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('subject_workflow', 'aka_GPDIP_EDLUD_369') }}
+
+),
+
+Summarize_402 AS (
+
+  SELECT 
+    DISTINCT STUDY_ID AS STUDY_ID,
+    STUDY_SITE_NUMBER AS STUDY_SITE_NUMBER,
+    SUBJECT_ID AS SUBJECT_ID
+  
+  FROM aka_GPDIP_EDLUD_369 AS in0
+
+),
+
+Join_406_left_UnionLeftOuter AS (
+
+  SELECT 
+    (
+      CASE
+        WHEN ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SUBJECT_ID = in1.SUBJECT_ID))
+          THEN in1.STUDY_SITE_NUMBER
+        ELSE NULL
+      END
+    ) AS STUDY_SITE_NUMBER,
+    in0.* EXCLUDE ("STUDY_SITE_NUMBER"),
+    in1.* EXCLUDE ("STUDY_ID", "SUBJECT_ID", "STUDY_SITE_NUMBER", "STUDY_SITE_NUMBER")
+  
+  FROM Filter_405_reject AS in0
+  LEFT JOIN Summarize_402 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SUBJECT_ID = in1.SUBJECT_ID))
+
+),
+
+Filter_405 AS (
+
+  SELECT * 
+  
+  FROM Union_218 AS in0
+  
+  WHERE (NOT(STUDY_SITE_NUMBER IS NULL))
+
+),
+
+Union_407 AS (
+
+  {{
+    prophecy_basics.UnionByName(
+      ['Filter_405', 'Join_406_left_UnionLeftOuter'], 
+      [
+        '[{"name": "SCREENING_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_DT_DER", "dataType": "Date"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_EDC", "dataType": "String"}, {"name": "RANDOMIZATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SCREENING_SRC_SYS_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "SITE_NUMBER_EDC", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_RACE", "dataType": "String"}, {"name": "COMPLETED_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_STATUS_EDC", "dataType": "String"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_STATUS_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_COMPLETED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "COMPLETED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_COMPLETED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SITE_NUMBER_IRT", "dataType": "String"}, {"name": "DISCONTINUED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_DT_DER", "dataType": "Date"}, {"name": "SCREEN_FAIL_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_DT_DER", "dataType": "Date"}, {"name": "SBJ_STR_STRATA_NUM", "dataType": "String"}, {"name": "PENULTIMATE_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", "dataType": "String"}, {"name": "DISCONTINUED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_DESC", "dataType": "String"}, {"name": "DISCONTINUED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SBJ_STRATA_CODE_VALUE_DESC", "dataType": "String"}, {"name": "COMPLETED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_DT_DER", "dataType": "Date"}, {"name": "SUBJ_ETHNICITY", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", "dataType": "String"}, {"name": "RANDOMIZATION_DT_DER", "dataType": "Date"}, {"name": "SUBJ_DISCONTINUED_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_GENDER", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", "dataType": "String"}, {"name": "SUBJ_DISCONTINUED_DT_IRT", "dataType": "Timestamp"}, {"name": "ORIGINAL_SITE_NUMBER", "dataType": "String"}, {"name": "STUDY_SITE_NUMBER", "dataType": "String"}, {"name": "SCREEN_FAIL_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_SRC_SYS_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_NUM", "dataType": "Integer"}]', 
+        '[{"name": "SCREENING_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_DT_DER", "dataType": "Date"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_EDC", "dataType": "String"}, {"name": "RANDOMIZATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SCREENING_SRC_SYS_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "SITE_NUMBER_EDC", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_RACE", "dataType": "String"}, {"name": "COMPLETED_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_STATUS_EDC", "dataType": "String"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_STATUS_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_COMPLETED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "COMPLETED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_COMPLETED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SITE_NUMBER_IRT", "dataType": "String"}, {"name": "DISCONTINUED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_DT_DER", "dataType": "Date"}, {"name": "SCREEN_FAIL_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_DT_DER", "dataType": "Date"}, {"name": "SBJ_STR_STRATA_NUM", "dataType": "String"}, {"name": "PENULTIMATE_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", "dataType": "String"}, {"name": "DISCONTINUED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_DESC", "dataType": "String"}, {"name": "DISCONTINUED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SBJ_STRATA_CODE_VALUE_DESC", "dataType": "String"}, {"name": "COMPLETED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_DT_DER", "dataType": "Date"}, {"name": "SUBJ_ETHNICITY", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", "dataType": "String"}, {"name": "RANDOMIZATION_DT_DER", "dataType": "Date"}, {"name": "SUBJ_DISCONTINUED_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_GENDER", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", "dataType": "String"}, {"name": "SUBJ_DISCONTINUED_DT_IRT", "dataType": "Timestamp"}, {"name": "ORIGINAL_SITE_NUMBER", "dataType": "String"}, {"name": "STUDY_SITE_NUMBER", "dataType": "String"}, {"name": "SCREEN_FAIL_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_SRC_SYS_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_NUM", "dataType": "Integer"}]'
+      ], 
+      'allowMissingColumns'
+    )
+  }}
+
+),
+
+Filter_430 AS (
+
+  SELECT * 
+  
+  FROM AlteryxSelect_444 AS in0
+  
+  WHERE (LABEL_TYPE = 'S')
+
+),
+
+Join_412_inner AS (
+
+  SELECT 
+    in0.STUDY_ID AS STUDY_ID,
+    in0.STUDY_SITE_NUMBER AS STUDY_SITE_NUMBER,
+    in0.SUBJECT_ID AS SUBJECT_ID,
+    in0.SITE_NUMBER_IRT AS SITE_NUMBER_IRT,
+    in0.SITE_NUMBER_EDC AS SITE_NUMBER_EDC,
+    in0.ORIGINAL_SITE_NUMBER AS ORIGINAL_SITE_NUMBER,
+    in0.SUBJ_STATUS_EDC AS SUBJ_STATUS_EDC,
+    in0.SUBJ_STATUS_IRT AS SUBJ_STATUS_IRT,
+    in0.SUBJ_ENROLLED_STUDY_DT_EDC AS SUBJ_ENROLLED_STUDY_DT_EDC,
+    in0.SUBJ_ENROLLED_STUDY_DT_IRT AS SUBJ_ENROLLED_STUDY_DT_IRT,
+    in0.SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC AS SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC,
+    in0.SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT AS SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT,
+    in0.SUBJ_DISCONTINUED_DT_EDC AS SUBJ_DISCONTINUED_DT_EDC,
+    in0.SUBJ_DISCONTINUED_DT_IRT AS SUBJ_DISCONTINUED_DT_IRT,
+    in0.SUBJ_REASON_FOR_WITHDRAWAL_EDC AS SUBJ_REASON_FOR_WITHDRAWAL_EDC,
+    in0.SUBJ_REASON_FOR_WITHDRAWAL_IRT AS SUBJ_REASON_FOR_WITHDRAWAL_IRT,
+    in0.SUBJ_WITHDRAWAL_TIMEFRAME_EDC AS SUBJ_WITHDRAWAL_TIMEFRAME_EDC,
+    in0.SUBJ_WITHDRAWAL_TIMEFRAME_IRT AS SUBJ_WITHDRAWAL_TIMEFRAME_IRT,
+    in0.SUBJ_COMPLETED_STUDY_DT_EDC AS SUBJ_COMPLETED_STUDY_DT_EDC,
+    in0.SUBJ_COMPLETED_STUDY_DT_IRT AS SUBJ_COMPLETED_STUDY_DT_IRT,
+    in0.SBJ_STR_STRATA_NUM AS SBJ_STR_STRATA_NUM,
+    in0.SBJ_COH_COHORT_NUM AS SBJ_COH_COHORT_NUM,
+    in0.SBJ_STRATA_CODE_VALUE_DESC AS SBJ_STRATA_CODE_VALUE_DESC,
+    in0.SBJ_COH_COHORT_DESC AS SBJ_COH_COHORT_DESC,
+    in0.SUBJ_RACE AS SUBJ_RACE,
+    in0.SUBJ_ETHNICITY AS SUBJ_ETHNICITY,
+    in0.SUBJ_GENDER AS SUBJ_GENDER,
+    in0.SCREENING_DT_DER AS SCREENING_DT_DER,
+    in0.SCREEN_FAIL_DT_DER AS SCREEN_FAIL_DT_DER,
+    in0.RANDOMIZATION_DT_DER AS RANDOMIZATION_DT_DER,
+    in0.DISCONTINUED_DT_DER AS DISCONTINUED_DT_DER,
+    in0.PENULTIMATE_DT_DER AS PENULTIMATE_DT_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_DT_DER AS LAST_DATE_OF_PARTICIPATION_DT_DER,
+    in0.COMPLETED_DT_DER AS COMPLETED_DT_DER,
+    in0.SCREENING_VISIT_NAME_DER AS SCREENING_VISIT_NAME_DER,
+    in0.SCREEN_FAIL_VISIT_NAME_DER AS SCREEN_FAIL_VISIT_NAME_DER,
+    in0.RANDOMIZATION_VISIT_NAME_DER AS RANDOMIZATION_VISIT_NAME_DER,
+    in0.DISCONTINUED_VISIT_NAME_DER AS DISCONTINUED_VISIT_NAME_DER,
+    in0.PENULTIMATE_VISIT_NAME_DER AS PENULTIMATE_VISIT_NAME_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER AS LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER,
+    in0.COMPLETED_VISIT_NAME_DER AS COMPLETED_VISIT_NAME_DER,
+    in0.SCREENING_SRC_SYS_DER AS SCREENING_SRC_SYS_DER,
+    in0.SCREEN_FAIL_SRC_SYS_DER AS SCREEN_FAIL_SRC_SYS_DER,
+    in0.RANDOMIZATION_SRC_SYS_DER AS RANDOMIZATION_SRC_SYS_DER,
+    in0.DISCONTINUED_SRC_SYS_DER AS DISCONTINUED_SRC_SYS_DER,
+    in0.PENULTIMATE_SRC_SYS_DER AS PENULTIMATE_SRC_SYS_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER AS LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER,
+    in0.COMPLETED_SRC_SYS_DER AS COMPLETED_SRC_SYS_DER,
+    in0.SCREENING_TABLE_SRC_DER AS SCREENING_TABLE_SRC_DER,
+    in0.SCREEN_FAIL_TABLE_SRC_DER AS SCREEN_FAIL_TABLE_SRC_DER,
+    in0.RANDOMIZATION_TABLE_SRC_DER AS RANDOMIZATION_TABLE_SRC_DER,
+    in0.DISCONTINUED_TABLE_SRC_DER AS DISCONTINUED_TABLE_SRC_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER AS LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER,
+    in0.PENULTIMATE_TABLE_SRC_DER AS PENULTIMATE_TABLE_SRC_DER,
+    in0.COMPLETED_TABLE_SRC_DER AS COMPLETED_TABLE_SRC_DER,
+    in1.COHORT_NAME AS COHORT_NAME,
+    in1.COHORT_ID AS COHORT_ID,
+    in0.* EXCLUDE ("STUDY_ID", 
+    "STUDY_SITE_NUMBER", 
+    "SUBJECT_ID", 
+    "SITE_NUMBER_IRT", 
+    "SITE_NUMBER_EDC", 
+    "ORIGINAL_SITE_NUMBER", 
+    "SUBJ_STATUS_EDC", 
+    "SUBJ_STATUS_IRT", 
+    "SUBJ_ENROLLED_STUDY_DT_EDC", 
+    "SUBJ_ENROLLED_STUDY_DT_IRT", 
+    "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", 
+    "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", 
+    "SUBJ_DISCONTINUED_DT_EDC", 
+    "SUBJ_DISCONTINUED_DT_IRT", 
+    "SUBJ_REASON_FOR_WITHDRAWAL_EDC", 
+    "SUBJ_REASON_FOR_WITHDRAWAL_IRT", 
+    "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", 
+    "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", 
+    "SUBJ_COMPLETED_STUDY_DT_EDC", 
+    "SUBJ_COMPLETED_STUDY_DT_IRT", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM", 
+    "SBJ_STRATA_CODE_VALUE_DESC", 
+    "SBJ_COH_COHORT_DESC", 
+    "SUBJ_RACE", 
+    "SUBJ_ETHNICITY", 
+    "SUBJ_GENDER", 
+    "SCREENING_DT_DER", 
+    "SCREEN_FAIL_DT_DER", 
+    "RANDOMIZATION_DT_DER", 
+    "DISCONTINUED_DT_DER", 
+    "PENULTIMATE_DT_DER", 
+    "LAST_DATE_OF_PARTICIPATION_DT_DER", 
+    "COMPLETED_DT_DER", 
+    "SCREENING_VISIT_NAME_DER", 
+    "SCREEN_FAIL_VISIT_NAME_DER", 
+    "RANDOMIZATION_VISIT_NAME_DER", 
+    "DISCONTINUED_VISIT_NAME_DER", 
+    "PENULTIMATE_VISIT_NAME_DER", 
+    "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", 
+    "COMPLETED_VISIT_NAME_DER", 
+    "SCREENING_SRC_SYS_DER", 
+    "SCREEN_FAIL_SRC_SYS_DER", 
+    "RANDOMIZATION_SRC_SYS_DER", 
+    "DISCONTINUED_SRC_SYS_DER", 
+    "PENULTIMATE_SRC_SYS_DER", 
+    "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", 
+    "COMPLETED_SRC_SYS_DER", 
+    "SCREENING_TABLE_SRC_DER", 
+    "SCREEN_FAIL_TABLE_SRC_DER", 
+    "RANDOMIZATION_TABLE_SRC_DER", 
+    "DISCONTINUED_TABLE_SRC_DER", 
+    "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", 
+    "PENULTIMATE_TABLE_SRC_DER", 
+    "COMPLETED_TABLE_SRC_DER"),
+    in1.* EXCLUDE ("STUDY_ID", 
+    "COHORT_NAME", 
+    "COHORT_ID", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM", 
+    "LABEL_TYPE", 
+    "STUDY_ID", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM")
+  
+  FROM Union_407 AS in0
+  INNER JOIN Filter_430 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SBJ_STR_STRATA_NUM = in1.SBJ_STR_STRATA_NUM))
+
+),
+
+Filter_411_reject AS (
+
+  SELECT * 
+  
+  FROM Filter_410_reject AS in0
+  
+  WHERE ((NOT(LABEL_TYPE IN ('CS', 'SC'))) OR (((LABEL_TYPE = 'CS') OR (LABEL_TYPE = 'SC')) IS NULL))
+
+),
+
+Summarize_416 AS (
+
+  SELECT 
+    DISTINCT STUDY_ID AS STUDY_ID,
+    SUBJECT_ID AS SUBJECT_ID
+  
+  FROM aka_GPDIP_EDLUD_369 AS in0
+
+),
+
+aka_GPDIP_EDLUD_418 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('subject_workflow', 'aka_GPDIP_EDLUD_418') }}
+
+),
+
+aka_enip164_Que_419 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('subject_workflow', 'aka_enip164_Que_419') }}
+
+),
+
+AlteryxSelect_421 AS (
+
+  SELECT 
+    STUDY_ID AS STUDY_ALIAS,
+    * EXCLUDE ("STUDY_ID")
+  
+  FROM aka_enip164_Que_419 AS in0
+
+),
+
+Join_420_inner AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCLUDE ("STUDY_ALIAS")
+  
+  FROM AlteryxSelect_421 AS in0
+  INNER JOIN aka_GPDIP_EDLUD_418 AS in1
+     ON (in0.STUDY_ALIAS = in1.STUDY_ALIAS)
+
+),
+
+Join_422_inner AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCLUDE ("STUDY_ID", "SUBJECT_ID")
+  
+  FROM Join_420_inner AS in0
+  INNER JOIN Summarize_416 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SUBJECT_ID = in1.SUBJECT_ID))
+
+),
+
+Unique_424 AS (
+
+  SELECT * 
+  
+  FROM Join_422_inner AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY SUBJECT_ID, COHORT_ID, STUDY_ID ORDER BY SUBJECT_ID, COHORT_ID, STUDY_ID) = 1
+
+),
+
+Formula_425_0 AS (
+
+  SELECT 
+    CAST(LOWER(COHORT_ID) AS STRING) AS COHORT_ID,
+    * EXCLUDE ("COHORT_ID")
+  
+  FROM Unique_424 AS in0
+
+),
+
+AlteryxSelect_423 AS (
+
+  SELECT 
+    STUDY_ID AS STUDY_ID,
+    SUBJECT_ID AS SUBJECT_ID,
+    COHORT_ID AS COHORT_ID
+  
+  FROM Formula_425_0 AS in0
+
+),
+
+Join_431_inner AS (
+
+  SELECT 
+    in0.STUDY_ID AS STUDY_ID,
+    in1.SUBJECT_ID AS SUBJECT_ID,
+    in0.COHORT_NAME AS COHORT_NAME,
+    in0.COHORT_ID AS COHORT_ID,
+    in0.SBJ_STR_STRATA_NUM AS SBJ_STR_STRATA_NUM,
+    in0.SBJ_COH_COHORT_NUM AS SBJ_COH_COHORT_NUM,
+    in0.LABEL_TYPE AS LABEL_TYPE,
+    in0.* EXCLUDE ("STUDY_ID", "COHORT_NAME", "COHORT_ID", "SBJ_STR_STRATA_NUM", "SBJ_COH_COHORT_NUM", "LABEL_TYPE"),
+    in1.* EXCLUDE ("SUBJECT_ID", "STUDY_ID", "COHORT_ID", "COHORT_ID")
+  
+  FROM Filter_411_reject AS in0
+  INNER JOIN AlteryxSelect_423 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.COHORT_ID = in1.COHORT_ID))
+
+),
+
+Filter_411 AS (
+
+  SELECT * 
+  
+  FROM Filter_410_reject AS in0
+  
+  WHERE (LABEL_TYPE IN ('CS', 'SC'))
+
+),
+
+Join_412_left AS (
+
+  SELECT in0.*
+  
+  FROM Union_407 AS in0
+  LEFT JOIN Filter_430 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SBJ_STR_STRATA_NUM = in1.SBJ_STR_STRATA_NUM))
+
+),
+
+Filter_410 AS (
+
+  SELECT * 
+  
+  FROM AlteryxSelect_444 AS in0
+  
+  WHERE (
+          (
+            (
+              NOT(
+                LABEL_TYPE = 'S')
+            ) OR ((LABEL_TYPE = 'S') IS NULL)
+          ) AND (LABEL_TYPE = 'C')
+        )
+
+),
+
+Join_413_left AS (
+
+  SELECT in0.*
+  
+  FROM Join_412_left AS in0
+  LEFT JOIN Filter_410 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SBJ_COH_COHORT_NUM = in1.SBJ_COH_COHORT_NUM))
+
+),
+
+Join_414_left AS (
+
+  SELECT in0.*
+  
+  FROM Join_413_left AS in0
+  LEFT JOIN Filter_411 AS in1
+     ON (
+      ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SBJ_STR_STRATA_NUM = in1.SBJ_STR_STRATA_NUM))
+      AND (in0.SBJ_COH_COHORT_NUM = in1.SBJ_COH_COHORT_NUM)
+    )
+
+),
+
+Join_427_left_UnionLeftOuter AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCLUDE ("STUDY_ID", "SUBJECT_ID", "SBJ_STR_STRATA_NUM", "SBJ_COH_COHORT_NUM")
+  
+  FROM Join_414_left AS in0
+  LEFT JOIN Join_431_inner AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SUBJECT_ID = in1.SUBJECT_ID))
+
+),
+
+Join_413_inner AS (
+
+  SELECT 
+    in0.STUDY_ID AS STUDY_ID,
+    in0.STUDY_SITE_NUMBER AS STUDY_SITE_NUMBER,
+    in0.SUBJECT_ID AS SUBJECT_ID,
+    in0.SITE_NUMBER_IRT AS SITE_NUMBER_IRT,
+    in0.SITE_NUMBER_EDC AS SITE_NUMBER_EDC,
+    in0.ORIGINAL_SITE_NUMBER AS ORIGINAL_SITE_NUMBER,
+    in0.SUBJ_STATUS_EDC AS SUBJ_STATUS_EDC,
+    in0.SUBJ_STATUS_IRT AS SUBJ_STATUS_IRT,
+    in0.SUBJ_ENROLLED_STUDY_DT_EDC AS SUBJ_ENROLLED_STUDY_DT_EDC,
+    in0.SUBJ_ENROLLED_STUDY_DT_IRT AS SUBJ_ENROLLED_STUDY_DT_IRT,
+    in0.SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC AS SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC,
+    in0.SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT AS SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT,
+    in0.SUBJ_DISCONTINUED_DT_EDC AS SUBJ_DISCONTINUED_DT_EDC,
+    in0.SUBJ_DISCONTINUED_DT_IRT AS SUBJ_DISCONTINUED_DT_IRT,
+    in0.SUBJ_REASON_FOR_WITHDRAWAL_EDC AS SUBJ_REASON_FOR_WITHDRAWAL_EDC,
+    in0.SUBJ_REASON_FOR_WITHDRAWAL_IRT AS SUBJ_REASON_FOR_WITHDRAWAL_IRT,
+    in0.SUBJ_WITHDRAWAL_TIMEFRAME_EDC AS SUBJ_WITHDRAWAL_TIMEFRAME_EDC,
+    in0.SUBJ_WITHDRAWAL_TIMEFRAME_IRT AS SUBJ_WITHDRAWAL_TIMEFRAME_IRT,
+    in0.SUBJ_COMPLETED_STUDY_DT_EDC AS SUBJ_COMPLETED_STUDY_DT_EDC,
+    in0.SUBJ_COMPLETED_STUDY_DT_IRT AS SUBJ_COMPLETED_STUDY_DT_IRT,
+    in0.SBJ_STR_STRATA_NUM AS SBJ_STR_STRATA_NUM,
+    in0.SBJ_COH_COHORT_NUM AS SBJ_COH_COHORT_NUM,
+    in0.SBJ_STRATA_CODE_VALUE_DESC AS SBJ_STRATA_CODE_VALUE_DESC,
+    in0.SBJ_COH_COHORT_DESC AS SBJ_COH_COHORT_DESC,
+    in0.SUBJ_RACE AS SUBJ_RACE,
+    in0.SUBJ_ETHNICITY AS SUBJ_ETHNICITY,
+    in0.SUBJ_GENDER AS SUBJ_GENDER,
+    in0.SCREENING_DT_DER AS SCREENING_DT_DER,
+    in0.SCREEN_FAIL_DT_DER AS SCREEN_FAIL_DT_DER,
+    in0.RANDOMIZATION_DT_DER AS RANDOMIZATION_DT_DER,
+    in0.DISCONTINUED_DT_DER AS DISCONTINUED_DT_DER,
+    in0.PENULTIMATE_DT_DER AS PENULTIMATE_DT_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_DT_DER AS LAST_DATE_OF_PARTICIPATION_DT_DER,
+    in0.COMPLETED_DT_DER AS COMPLETED_DT_DER,
+    in0.SCREENING_VISIT_NAME_DER AS SCREENING_VISIT_NAME_DER,
+    in0.SCREEN_FAIL_VISIT_NAME_DER AS SCREEN_FAIL_VISIT_NAME_DER,
+    in0.RANDOMIZATION_VISIT_NAME_DER AS RANDOMIZATION_VISIT_NAME_DER,
+    in0.DISCONTINUED_VISIT_NAME_DER AS DISCONTINUED_VISIT_NAME_DER,
+    in0.PENULTIMATE_VISIT_NAME_DER AS PENULTIMATE_VISIT_NAME_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER AS LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER,
+    in0.COMPLETED_VISIT_NAME_DER AS COMPLETED_VISIT_NAME_DER,
+    in0.SCREENING_SRC_SYS_DER AS SCREENING_SRC_SYS_DER,
+    in0.SCREEN_FAIL_SRC_SYS_DER AS SCREEN_FAIL_SRC_SYS_DER,
+    in0.RANDOMIZATION_SRC_SYS_DER AS RANDOMIZATION_SRC_SYS_DER,
+    in0.DISCONTINUED_SRC_SYS_DER AS DISCONTINUED_SRC_SYS_DER,
+    in0.PENULTIMATE_SRC_SYS_DER AS PENULTIMATE_SRC_SYS_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER AS LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER,
+    in0.COMPLETED_SRC_SYS_DER AS COMPLETED_SRC_SYS_DER,
+    in0.SCREENING_TABLE_SRC_DER AS SCREENING_TABLE_SRC_DER,
+    in0.SCREEN_FAIL_TABLE_SRC_DER AS SCREEN_FAIL_TABLE_SRC_DER,
+    in0.RANDOMIZATION_TABLE_SRC_DER AS RANDOMIZATION_TABLE_SRC_DER,
+    in0.DISCONTINUED_TABLE_SRC_DER AS DISCONTINUED_TABLE_SRC_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER AS LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER,
+    in0.PENULTIMATE_TABLE_SRC_DER AS PENULTIMATE_TABLE_SRC_DER,
+    in0.COMPLETED_TABLE_SRC_DER AS COMPLETED_TABLE_SRC_DER,
+    in1.COHORT_NAME AS COHORT_NAME,
+    in1.COHORT_ID AS COHORT_ID,
+    in0.* EXCLUDE ("STUDY_ID", 
+    "STUDY_SITE_NUMBER", 
+    "SUBJECT_ID", 
+    "SITE_NUMBER_IRT", 
+    "SITE_NUMBER_EDC", 
+    "ORIGINAL_SITE_NUMBER", 
+    "SUBJ_STATUS_EDC", 
+    "SUBJ_STATUS_IRT", 
+    "SUBJ_ENROLLED_STUDY_DT_EDC", 
+    "SUBJ_ENROLLED_STUDY_DT_IRT", 
+    "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", 
+    "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", 
+    "SUBJ_DISCONTINUED_DT_EDC", 
+    "SUBJ_DISCONTINUED_DT_IRT", 
+    "SUBJ_REASON_FOR_WITHDRAWAL_EDC", 
+    "SUBJ_REASON_FOR_WITHDRAWAL_IRT", 
+    "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", 
+    "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", 
+    "SUBJ_COMPLETED_STUDY_DT_EDC", 
+    "SUBJ_COMPLETED_STUDY_DT_IRT", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM", 
+    "SBJ_STRATA_CODE_VALUE_DESC", 
+    "SBJ_COH_COHORT_DESC", 
+    "SUBJ_RACE", 
+    "SUBJ_ETHNICITY", 
+    "SUBJ_GENDER", 
+    "SCREENING_DT_DER", 
+    "SCREEN_FAIL_DT_DER", 
+    "RANDOMIZATION_DT_DER", 
+    "DISCONTINUED_DT_DER", 
+    "PENULTIMATE_DT_DER", 
+    "LAST_DATE_OF_PARTICIPATION_DT_DER", 
+    "COMPLETED_DT_DER", 
+    "SCREENING_VISIT_NAME_DER", 
+    "SCREEN_FAIL_VISIT_NAME_DER", 
+    "RANDOMIZATION_VISIT_NAME_DER", 
+    "DISCONTINUED_VISIT_NAME_DER", 
+    "PENULTIMATE_VISIT_NAME_DER", 
+    "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", 
+    "COMPLETED_VISIT_NAME_DER", 
+    "SCREENING_SRC_SYS_DER", 
+    "SCREEN_FAIL_SRC_SYS_DER", 
+    "RANDOMIZATION_SRC_SYS_DER", 
+    "DISCONTINUED_SRC_SYS_DER", 
+    "PENULTIMATE_SRC_SYS_DER", 
+    "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", 
+    "COMPLETED_SRC_SYS_DER", 
+    "SCREENING_TABLE_SRC_DER", 
+    "SCREEN_FAIL_TABLE_SRC_DER", 
+    "RANDOMIZATION_TABLE_SRC_DER", 
+    "DISCONTINUED_TABLE_SRC_DER", 
+    "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", 
+    "PENULTIMATE_TABLE_SRC_DER", 
+    "COMPLETED_TABLE_SRC_DER"),
+    in1.* EXCLUDE ("STUDY_ID", 
+    "COHORT_NAME", 
+    "COHORT_ID", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM", 
+    "LABEL_TYPE", 
+    "STUDY_ID", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM")
+  
+  FROM Join_412_left AS in0
+  INNER JOIN Filter_410 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SBJ_COH_COHORT_NUM = in1.SBJ_COH_COHORT_NUM))
+
+),
+
+Join_414_inner AS (
+
+  SELECT 
+    in0.STUDY_ID AS STUDY_ID,
+    in0.STUDY_SITE_NUMBER AS STUDY_SITE_NUMBER,
+    in0.SUBJECT_ID AS SUBJECT_ID,
+    in0.SITE_NUMBER_IRT AS SITE_NUMBER_IRT,
+    in0.SITE_NUMBER_EDC AS SITE_NUMBER_EDC,
+    in0.ORIGINAL_SITE_NUMBER AS ORIGINAL_SITE_NUMBER,
+    in0.SUBJ_STATUS_EDC AS SUBJ_STATUS_EDC,
+    in0.SUBJ_STATUS_IRT AS SUBJ_STATUS_IRT,
+    in0.SUBJ_ENROLLED_STUDY_DT_EDC AS SUBJ_ENROLLED_STUDY_DT_EDC,
+    in0.SUBJ_ENROLLED_STUDY_DT_IRT AS SUBJ_ENROLLED_STUDY_DT_IRT,
+    in0.SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC AS SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC,
+    in0.SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT AS SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT,
+    in0.SUBJ_DISCONTINUED_DT_EDC AS SUBJ_DISCONTINUED_DT_EDC,
+    in0.SUBJ_DISCONTINUED_DT_IRT AS SUBJ_DISCONTINUED_DT_IRT,
+    in0.SUBJ_REASON_FOR_WITHDRAWAL_EDC AS SUBJ_REASON_FOR_WITHDRAWAL_EDC,
+    in0.SUBJ_REASON_FOR_WITHDRAWAL_IRT AS SUBJ_REASON_FOR_WITHDRAWAL_IRT,
+    in0.SUBJ_WITHDRAWAL_TIMEFRAME_EDC AS SUBJ_WITHDRAWAL_TIMEFRAME_EDC,
+    in0.SUBJ_WITHDRAWAL_TIMEFRAME_IRT AS SUBJ_WITHDRAWAL_TIMEFRAME_IRT,
+    in0.SUBJ_COMPLETED_STUDY_DT_EDC AS SUBJ_COMPLETED_STUDY_DT_EDC,
+    in0.SUBJ_COMPLETED_STUDY_DT_IRT AS SUBJ_COMPLETED_STUDY_DT_IRT,
+    in0.SBJ_STR_STRATA_NUM AS SBJ_STR_STRATA_NUM,
+    in0.SBJ_COH_COHORT_NUM AS SBJ_COH_COHORT_NUM,
+    in0.SBJ_STRATA_CODE_VALUE_DESC AS SBJ_STRATA_CODE_VALUE_DESC,
+    in0.SBJ_COH_COHORT_DESC AS SBJ_COH_COHORT_DESC,
+    in0.SUBJ_RACE AS SUBJ_RACE,
+    in0.SUBJ_ETHNICITY AS SUBJ_ETHNICITY,
+    in0.SUBJ_GENDER AS SUBJ_GENDER,
+    in0.SCREENING_DT_DER AS SCREENING_DT_DER,
+    in0.SCREEN_FAIL_DT_DER AS SCREEN_FAIL_DT_DER,
+    in0.RANDOMIZATION_DT_DER AS RANDOMIZATION_DT_DER,
+    in0.DISCONTINUED_DT_DER AS DISCONTINUED_DT_DER,
+    in0.PENULTIMATE_DT_DER AS PENULTIMATE_DT_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_DT_DER AS LAST_DATE_OF_PARTICIPATION_DT_DER,
+    in0.COMPLETED_DT_DER AS COMPLETED_DT_DER,
+    in0.SCREENING_VISIT_NAME_DER AS SCREENING_VISIT_NAME_DER,
+    in0.SCREEN_FAIL_VISIT_NAME_DER AS SCREEN_FAIL_VISIT_NAME_DER,
+    in0.RANDOMIZATION_VISIT_NAME_DER AS RANDOMIZATION_VISIT_NAME_DER,
+    in0.DISCONTINUED_VISIT_NAME_DER AS DISCONTINUED_VISIT_NAME_DER,
+    in0.PENULTIMATE_VISIT_NAME_DER AS PENULTIMATE_VISIT_NAME_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER AS LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER,
+    in0.COMPLETED_VISIT_NAME_DER AS COMPLETED_VISIT_NAME_DER,
+    in0.SCREENING_SRC_SYS_DER AS SCREENING_SRC_SYS_DER,
+    in0.SCREEN_FAIL_SRC_SYS_DER AS SCREEN_FAIL_SRC_SYS_DER,
+    in0.RANDOMIZATION_SRC_SYS_DER AS RANDOMIZATION_SRC_SYS_DER,
+    in0.DISCONTINUED_SRC_SYS_DER AS DISCONTINUED_SRC_SYS_DER,
+    in0.PENULTIMATE_SRC_SYS_DER AS PENULTIMATE_SRC_SYS_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER AS LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER,
+    in0.COMPLETED_SRC_SYS_DER AS COMPLETED_SRC_SYS_DER,
+    in0.SCREENING_TABLE_SRC_DER AS SCREENING_TABLE_SRC_DER,
+    in0.SCREEN_FAIL_TABLE_SRC_DER AS SCREEN_FAIL_TABLE_SRC_DER,
+    in0.RANDOMIZATION_TABLE_SRC_DER AS RANDOMIZATION_TABLE_SRC_DER,
+    in0.DISCONTINUED_TABLE_SRC_DER AS DISCONTINUED_TABLE_SRC_DER,
+    in0.LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER AS LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER,
+    in0.PENULTIMATE_TABLE_SRC_DER AS PENULTIMATE_TABLE_SRC_DER,
+    in0.COMPLETED_TABLE_SRC_DER AS COMPLETED_TABLE_SRC_DER,
+    in1.COHORT_NAME AS COHORT_NAME,
+    in1.COHORT_ID AS COHORT_ID,
+    in0.* EXCLUDE ("STUDY_ID", 
+    "STUDY_SITE_NUMBER", 
+    "SUBJECT_ID", 
+    "SITE_NUMBER_IRT", 
+    "SITE_NUMBER_EDC", 
+    "ORIGINAL_SITE_NUMBER", 
+    "SUBJ_STATUS_EDC", 
+    "SUBJ_STATUS_IRT", 
+    "SUBJ_ENROLLED_STUDY_DT_EDC", 
+    "SUBJ_ENROLLED_STUDY_DT_IRT", 
+    "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", 
+    "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", 
+    "SUBJ_DISCONTINUED_DT_EDC", 
+    "SUBJ_DISCONTINUED_DT_IRT", 
+    "SUBJ_REASON_FOR_WITHDRAWAL_EDC", 
+    "SUBJ_REASON_FOR_WITHDRAWAL_IRT", 
+    "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", 
+    "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", 
+    "SUBJ_COMPLETED_STUDY_DT_EDC", 
+    "SUBJ_COMPLETED_STUDY_DT_IRT", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM", 
+    "SBJ_STRATA_CODE_VALUE_DESC", 
+    "SBJ_COH_COHORT_DESC", 
+    "SUBJ_RACE", 
+    "SUBJ_ETHNICITY", 
+    "SUBJ_GENDER", 
+    "SCREENING_DT_DER", 
+    "SCREEN_FAIL_DT_DER", 
+    "RANDOMIZATION_DT_DER", 
+    "DISCONTINUED_DT_DER", 
+    "PENULTIMATE_DT_DER", 
+    "LAST_DATE_OF_PARTICIPATION_DT_DER", 
+    "COMPLETED_DT_DER", 
+    "SCREENING_VISIT_NAME_DER", 
+    "SCREEN_FAIL_VISIT_NAME_DER", 
+    "RANDOMIZATION_VISIT_NAME_DER", 
+    "DISCONTINUED_VISIT_NAME_DER", 
+    "PENULTIMATE_VISIT_NAME_DER", 
+    "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", 
+    "COMPLETED_VISIT_NAME_DER", 
+    "SCREENING_SRC_SYS_DER", 
+    "SCREEN_FAIL_SRC_SYS_DER", 
+    "RANDOMIZATION_SRC_SYS_DER", 
+    "DISCONTINUED_SRC_SYS_DER", 
+    "PENULTIMATE_SRC_SYS_DER", 
+    "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", 
+    "COMPLETED_SRC_SYS_DER", 
+    "SCREENING_TABLE_SRC_DER", 
+    "SCREEN_FAIL_TABLE_SRC_DER", 
+    "RANDOMIZATION_TABLE_SRC_DER", 
+    "DISCONTINUED_TABLE_SRC_DER", 
+    "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", 
+    "PENULTIMATE_TABLE_SRC_DER", 
+    "COMPLETED_TABLE_SRC_DER"),
+    in1.* EXCLUDE ("STUDY_ID", 
+    "COHORT_NAME", 
+    "COHORT_ID", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM", 
+    "LABEL_TYPE", 
+    "STUDY_ID", 
+    "SBJ_STR_STRATA_NUM", 
+    "SBJ_COH_COHORT_NUM")
+  
+  FROM Join_413_left AS in0
+  INNER JOIN Filter_411 AS in1
+     ON (
+      ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.SBJ_STR_STRATA_NUM = in1.SBJ_STR_STRATA_NUM))
+      AND (in0.SBJ_COH_COHORT_NUM = in1.SBJ_COH_COHORT_NUM)
+    )
+
+),
+
+Union_415 AS (
+
+  {{
+    prophecy_basics.UnionByName(
+      ['Join_412_inner', 'Join_414_inner', 'Join_413_inner', 'Join_427_left_UnionLeftOuter'], 
+      [
+        '[{"name": "SCREENING_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_DT_DER", "dataType": "Date"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_EDC", "dataType": "String"}, {"name": "RANDOMIZATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SCREENING_SRC_SYS_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "SITE_NUMBER_EDC", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_RACE", "dataType": "String"}, {"name": "COMPLETED_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_STATUS_EDC", "dataType": "String"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_STATUS_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_COMPLETED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "COMPLETED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_COMPLETED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SITE_NUMBER_IRT", "dataType": "String"}, {"name": "DISCONTINUED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_DT_DER", "dataType": "Date"}, {"name": "SCREEN_FAIL_VISIT_NAME_DER", "dataType": "String"}, {"name": "COHORT_ID", "dataType": "String"}, {"name": "SCREEN_FAIL_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_DT_DER", "dataType": "Date"}, {"name": "SBJ_STR_STRATA_NUM", "dataType": "String"}, {"name": "PENULTIMATE_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", "dataType": "String"}, {"name": "DISCONTINUED_TABLE_SRC_DER", "dataType": "String"}, {"name": "COHORT_NAME", "dataType": "String"}, {"name": "SBJ_COH_COHORT_DESC", "dataType": "String"}, {"name": "DISCONTINUED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SBJ_STRATA_CODE_VALUE_DESC", "dataType": "String"}, {"name": "COMPLETED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_DT_DER", "dataType": "Date"}, {"name": "SUBJ_ETHNICITY", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", "dataType": "String"}, {"name": "RANDOMIZATION_DT_DER", "dataType": "Date"}, {"name": "SUBJ_DISCONTINUED_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_GENDER", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", "dataType": "String"}, {"name": "SUBJ_DISCONTINUED_DT_IRT", "dataType": "Timestamp"}, {"name": "ORIGINAL_SITE_NUMBER", "dataType": "String"}, {"name": "STUDY_SITE_NUMBER", "dataType": "String"}, {"name": "SCREEN_FAIL_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_SRC_SYS_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_NUM", "dataType": "Integer"}]', 
+        '[{"name": "SCREENING_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_DT_DER", "dataType": "Date"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_EDC", "dataType": "String"}, {"name": "RANDOMIZATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SCREENING_SRC_SYS_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "SITE_NUMBER_EDC", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_RACE", "dataType": "String"}, {"name": "COMPLETED_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_STATUS_EDC", "dataType": "String"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_STATUS_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_COMPLETED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "COMPLETED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_COMPLETED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SITE_NUMBER_IRT", "dataType": "String"}, {"name": "DISCONTINUED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_DT_DER", "dataType": "Date"}, {"name": "SCREEN_FAIL_VISIT_NAME_DER", "dataType": "String"}, {"name": "COHORT_ID", "dataType": "String"}, {"name": "SCREEN_FAIL_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_DT_DER", "dataType": "Date"}, {"name": "SBJ_STR_STRATA_NUM", "dataType": "String"}, {"name": "PENULTIMATE_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", "dataType": "String"}, {"name": "DISCONTINUED_TABLE_SRC_DER", "dataType": "String"}, {"name": "COHORT_NAME", "dataType": "String"}, {"name": "SBJ_COH_COHORT_DESC", "dataType": "String"}, {"name": "DISCONTINUED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SBJ_STRATA_CODE_VALUE_DESC", "dataType": "String"}, {"name": "COMPLETED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_DT_DER", "dataType": "Date"}, {"name": "SUBJ_ETHNICITY", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", "dataType": "String"}, {"name": "RANDOMIZATION_DT_DER", "dataType": "Date"}, {"name": "SUBJ_DISCONTINUED_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_GENDER", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", "dataType": "String"}, {"name": "SUBJ_DISCONTINUED_DT_IRT", "dataType": "Timestamp"}, {"name": "ORIGINAL_SITE_NUMBER", "dataType": "String"}, {"name": "STUDY_SITE_NUMBER", "dataType": "String"}, {"name": "SCREEN_FAIL_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_SRC_SYS_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_NUM", "dataType": "Integer"}]', 
+        '[{"name": "SCREENING_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_DT_DER", "dataType": "Date"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_EDC", "dataType": "String"}, {"name": "RANDOMIZATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SCREENING_SRC_SYS_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "SITE_NUMBER_EDC", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_RACE", "dataType": "String"}, {"name": "COMPLETED_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_STATUS_EDC", "dataType": "String"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_STATUS_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_COMPLETED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "COMPLETED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_COMPLETED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SITE_NUMBER_IRT", "dataType": "String"}, {"name": "DISCONTINUED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_DT_DER", "dataType": "Date"}, {"name": "SCREEN_FAIL_VISIT_NAME_DER", "dataType": "String"}, {"name": "COHORT_ID", "dataType": "String"}, {"name": "SCREEN_FAIL_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_DT_DER", "dataType": "Date"}, {"name": "SBJ_STR_STRATA_NUM", "dataType": "String"}, {"name": "PENULTIMATE_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", "dataType": "String"}, {"name": "DISCONTINUED_TABLE_SRC_DER", "dataType": "String"}, {"name": "COHORT_NAME", "dataType": "String"}, {"name": "SBJ_COH_COHORT_DESC", "dataType": "String"}, {"name": "DISCONTINUED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SBJ_STRATA_CODE_VALUE_DESC", "dataType": "String"}, {"name": "COMPLETED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_DT_DER", "dataType": "Date"}, {"name": "SUBJ_ETHNICITY", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", "dataType": "String"}, {"name": "RANDOMIZATION_DT_DER", "dataType": "Date"}, {"name": "SUBJ_DISCONTINUED_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_GENDER", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", "dataType": "String"}, {"name": "SUBJ_DISCONTINUED_DT_IRT", "dataType": "Timestamp"}, {"name": "ORIGINAL_SITE_NUMBER", "dataType": "String"}, {"name": "STUDY_SITE_NUMBER", "dataType": "String"}, {"name": "SCREEN_FAIL_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_SRC_SYS_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_NUM", "dataType": "Integer"}]', 
+        '[{"name": "SCREENING_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_DT_DER", "dataType": "Date"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_EDC", "dataType": "String"}, {"name": "RANDOMIZATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "STUDY_ID", "dataType": "String"}, {"name": "SCREENING_SRC_SYS_DER", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_VISIT_NAME_DER", "dataType": "String"}, {"name": "SITE_NUMBER_EDC", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_RACE", "dataType": "String"}, {"name": "COMPLETED_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_STATUS_EDC", "dataType": "String"}, {"name": "SUBJ_REASON_FOR_WITHDRAWAL_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_IRT", "dataType": "Timestamp"}, {"name": "SUBJ_STATUS_IRT", "dataType": "String"}, {"name": "SUBJ_ENTERED_ACTIVE_TRNMT_DT_EDC", "dataType": "Timestamp"}, {"name": "SUBJ_COMPLETED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "COMPLETED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SCREENING_VISIT_NAME_DER", "dataType": "String"}, {"name": "RANDOMIZATION_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJ_COMPLETED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SITE_NUMBER_IRT", "dataType": "String"}, {"name": "DISCONTINUED_DT_DER", "dataType": "Date"}, {"name": "LAST_DATE_OF_PARTICIPATION_DT_DER", "dataType": "Date"}, {"name": "SCREEN_FAIL_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_DT_DER", "dataType": "Date"}, {"name": "PENULTIMATE_DT_DER", "dataType": "Date"}, {"name": "SBJ_STR_STRATA_NUM", "dataType": "String"}, {"name": "PENULTIMATE_SRC_SYS_DER", "dataType": "String"}, {"name": "SUBJECT_ID", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_IRT", "dataType": "String"}, {"name": "DISCONTINUED_TABLE_SRC_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_DESC", "dataType": "String"}, {"name": "DISCONTINUED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_IRT", "dataType": "Timestamp"}, {"name": "SBJ_STRATA_CODE_VALUE_DESC", "dataType": "String"}, {"name": "COMPLETED_VISIT_NAME_DER", "dataType": "String"}, {"name": "SCREEN_FAIL_TABLE_SRC_DER", "dataType": "String"}, {"name": "COMPLETED_DT_DER", "dataType": "Date"}, {"name": "SUBJ_ETHNICITY", "dataType": "String"}, {"name": "LAST_DATE_OF_PARTICIPATION_SRC_SYS_DER", "dataType": "String"}, {"name": "RANDOMIZATION_DT_DER", "dataType": "Date"}, {"name": "SUBJ_DISCONTINUED_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_VISIT_NAME_DER", "dataType": "String"}, {"name": "SUBJ_ENROLLED_STUDY_DT_EDC", "dataType": "Timestamp"}, {"name": "PENULTIMATE_TABLE_SRC_DER", "dataType": "String"}, {"name": "SUBJ_GENDER", "dataType": "String"}, {"name": "SUBJ_WITHDRAWAL_TIMEFRAME_EDC", "dataType": "String"}, {"name": "SUBJ_DISCONTINUED_DT_IRT", "dataType": "Timestamp"}, {"name": "ORIGINAL_SITE_NUMBER", "dataType": "String"}, {"name": "STUDY_SITE_NUMBER", "dataType": "String"}, {"name": "SCREEN_FAIL_SRC_SYS_DER", "dataType": "String"}, {"name": "DISCONTINUED_SRC_SYS_DER", "dataType": "String"}, {"name": "SBJ_COH_COHORT_NUM", "dataType": "Integer"}]'
+      ], 
+      'allowMissingColumns'
+    )
+  }}
+
+),
+
+aka_GPDIP_EDLUD_376 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('subject_workflow', 'aka_GPDIP_EDLUD_376') }}
+
+),
+
+Join_378_left_UnionLeftOuter AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCLUDE ("STUDY_ID", "STUDY_SITE_NUMBER")
+  
+  FROM Union_415 AS in0
+  LEFT JOIN aka_GPDIP_EDLUD_376 AS in1
+     ON ((in0.STUDY_ID = in1.STUDY_ID) AND (in0.STUDY_SITE_NUMBER = in1.STUDY_SITE_NUMBER))
+
+),
+
+Formula_433_to_Formula_380_0 AS (
+
+  SELECT 
+    (
+      CASE
+        WHEN (CONTAINS((coalesce(LOWER(SUBJ_RACE), '')), LOWER('Choose One')))
+          THEN 'Not Reported'
+        WHEN (SUBJ_RACE IN ('Naitve Hawaiian or Other Pacific Islander', 'Native Hawaiian or other Pacific Islander'))
+          THEN 'Native Hawaiian or Other Pacific Islander'
+        WHEN ((SUBJ_RACE IS NULL) OR (CONTAINS((coalesce(LOWER(SUBJ_RACE), '')), LOWER('Not Reported'))))
+          THEN 'Not Reported'
+        ELSE SUBJ_RACE
+      END
+    ) AS SUBJ_RACE,
+    (
+      CASE
+        WHEN (CONTAINS((coalesce(LOWER(SUBJ_ETHNICITY), '')), LOWER('Choose One')))
+          THEN 'Not Reported'
+        WHEN ((SUBJ_ETHNICITY IS NULL) OR (CONTAINS((coalesce(LOWER(SUBJ_ETHNICITY), '')), LOWER('Not Reported'))))
+          THEN 'Not Reported'
+        ELSE SUBJ_ETHNICITY
+      END
+    ) AS SUBJ_ETHNICITY,
+    (TO_TIMESTAMP(CURRENT_TIMESTAMP)) AS LOAD_TS,
+    CAST((CONCAT(STUDY_ID, '_', STUDY_SITE_NUMBER, '_', SUBJECT_ID)) AS STRING) AS ROW_KEY,
+    * EXCLUDE ("SUBJ_RACE", "SUBJ_ETHNICITY")
+  
+  FROM Join_378_left_UnionLeftOuter AS in0
+
+)
+
+SELECT *
+
+FROM Formula_433_to_Formula_380_0

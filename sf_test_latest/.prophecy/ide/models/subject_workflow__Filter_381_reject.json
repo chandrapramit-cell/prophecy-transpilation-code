@@ -1,0 +1,123 @@
+{
+  "id" : "subject_workflow__Filter_381_reject",
+  "metainfo" : {
+    "label" : "subject_workflow__Filter_381_reject",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_381_reject_LzF9BS2UnaSOUu36jE2J7" : {
+      "id" : "Filter_381_reject_LzF9BS2UnaSOUu36jE2J7",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_381_reject"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_381_reject\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_16",
+          "slug" : "input_port_16"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_16",
+          "slug" : "output_port_16"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "381_reject" : {
+      "id" : "381_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_381_reject",
+        "x" : 2460,
+        "y" : 620,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((NOT ((STUDY_ID IS NULL) AND (SUBJECT_ID IS NULL))) OR (((STUDY_ID IS NULL) AND (SUBJECT_ID IS NULL)) IS NULL))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "IEI4-SQDr8s4OFITJ2b7Z",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "LzF9BS2UnaSOUu36jE2J7",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "JoinMultiple_15_15_Output" : {
+      "id" : "JoinMultiple_15_15_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "JoinMultiple_15"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_15",
+          "id" : "output_port_15",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('subject_workflow__JoinMultiple_15') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_15",
+          "slug" : "input_port_15"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_15",
+          "slug" : "output_port_15"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_381_reject_LzF9BS2UnaSOUu36jE2J7_Filter_381_reject_LzF9BS2UnaSOUu36jE2J7",
+    "source" : "381_reject",
+    "sourcePort" : "LzF9BS2UnaSOUu36jE2J7",
+    "target" : "Filter_381_reject_LzF9BS2UnaSOUu36jE2J7",
+    "targetPort" : "input_port_16",
+    "isWireless" : false
+  }, {
+    "id" : "edge_66",
+    "source" : "JoinMultiple_15_15_Output",
+    "sourcePort" : "output_port_15",
+    "target" : "381_reject",
+    "targetPort" : "IEI4-SQDr8s4OFITJ2b7Z",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

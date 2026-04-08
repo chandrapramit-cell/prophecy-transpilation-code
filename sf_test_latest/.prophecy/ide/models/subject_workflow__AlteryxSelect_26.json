@@ -1,0 +1,226 @@
+{
+  "id" : "subject_workflow__AlteryxSelect_26",
+  "metainfo" : {
+    "label" : "subject_workflow__AlteryxSelect_26",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "23" : {
+      "id" : "23",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_23",
+        "x" : 260,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "23_Input##STANDARD_VISIT_NAME" ],
+        "condition" : {
+          "expression" : "(STANDARD_VISIT_NAME = 'Randomization')"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "23_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "23_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "26" : {
+      "id" : "26",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_26",
+        "x" : 660,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"STANDARD_VISIT_NAME\")"
+          },
+          "_row_id" : "1224120636"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "26_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "-kbMIQRjeTKP5CD-_6ve-",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "24" : {
+      "id" : "24",
+      "component" : "MultiColumnRename",
+      "metadata" : {
+        "label" : "DynamicRename_24",
+        "x" : 460,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Filter_23" ],
+        "columnNames" : [ "IRT_DT", "EDC_TABLE", "EDC_DT", "IRT_TABLE" ],
+        "suffix" : "",
+        "_oldMacroProperties" : {
+          "macroName" : "MultiColumnRename",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Filter_23\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"STUDY_ID\", \"dataType\": \"String\"}, {\"name\": \"SUBJECT_ID\", \"dataType\": \"String\"}, {\"name\": \"STANDARD_VISIT_NAME\", \"dataType\": \"String\"}, {\"name\": \"EDC_DT\", \"dataType\": \"Timestamp\"}, {\"name\": \"IRT_DT\", \"dataType\": \"Timestamp\"}, {\"name\": \"EDC_TABLE\", \"dataType\": \"String\"}, {\"name\": \"IRT_TABLE\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "columnNames",
+            "value" : "[\"IRT_DT\", \"EDC_TABLE\", \"EDC_DT\", \"IRT_TABLE\"]"
+          }, {
+            "name" : "renameMethod",
+            "value" : "editPrefixSuffix"
+          }, {
+            "name" : "editType",
+            "value" : "Prefix"
+          }, {
+            "name" : "editWith",
+            "value" : "randomization_"
+          }, {
+            "name" : "customExpression",
+            "value" : ""
+          } ]
+        },
+        "editWith" : "randomization_",
+        "schema" : "[{\"name\": \"STUDY_ID\", \"dataType\": \"String\"}, {\"name\": \"SUBJECT_ID\", \"dataType\": \"String\"}, {\"name\": \"STANDARD_VISIT_NAME\", \"dataType\": \"String\"}, {\"name\": \"EDC_DT\", \"dataType\": \"Timestamp\"}, {\"name\": \"IRT_DT\", \"dataType\": \"Timestamp\"}, {\"name\": \"EDC_TABLE\", \"dataType\": \"String\"}, {\"name\": \"IRT_TABLE\", \"dataType\": \"String\"}]",
+        "customExpression" : "",
+        "renameMethod" : "editPrefixSuffix",
+        "editType" : "Prefix"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "24_Targets",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "24_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_20_20_Output" : {
+      "id" : "AlteryxSelect_20_20_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_20"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_11",
+          "id" : "output_port_11",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('subject_workflow__AlteryxSelect_20') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_26_-kbMIQRjeTKP5CD-_6ve-" : {
+      "id" : "AlteryxSelect_26_-kbMIQRjeTKP5CD-_6ve-",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_26"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_26\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_12",
+          "slug" : "input_port_12"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_12",
+          "slug" : "output_port_12"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_26_-kbMIQRjeTKP5CD-_6ve-_AlteryxSelect_26_-kbMIQRjeTKP5CD-_6ve-",
+    "source" : "26",
+    "sourcePort" : "-kbMIQRjeTKP5CD-_6ve-",
+    "target" : "AlteryxSelect_26_-kbMIQRjeTKP5CD-_6ve-",
+    "targetPort" : "input_port_12",
+    "isWireless" : false
+  }, {
+    "id" : "edge_16",
+    "source" : "24",
+    "sourcePort" : "24_Output",
+    "target" : "26",
+    "targetPort" : "26_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_15",
+    "source" : "23",
+    "sourcePort" : "23_True",
+    "target" : "24",
+    "targetPort" : "24_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_12",
+    "source" : "AlteryxSelect_20_20_Output",
+    "sourcePort" : "output_port_11",
+    "target" : "23",
+    "targetPort" : "23_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

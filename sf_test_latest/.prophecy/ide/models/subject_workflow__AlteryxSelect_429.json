@@ -1,0 +1,138 @@
+{
+  "id" : "subject_workflow__AlteryxSelect_429",
+  "metainfo" : {
+    "label" : "subject_workflow__AlteryxSelect_429",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_429_qM8r1VMjM9cLvRaZAnaj0" : {
+      "id" : "AlteryxSelect_429_qM8r1VMjM9cLvRaZAnaj0",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_429"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_429\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "429" : {
+      "id" : "429",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_429",
+        "x" : 288,
+        "y" : 144,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "429_Input##SUBJ_STRATA_NUM", "429_Input##SUBJ_COHORT_NUM" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "SUBJ_STRATA_NUM"
+          },
+          "alias" : "SBJ_STR_STRATA_NUM",
+          "_row_id" : "Whxl7hgOuwNdDsSwnadxP"
+        }, {
+          "expression" : {
+            "expression" : "CAST(SUBJ_COHORT_NUM AS INTEGER)"
+          },
+          "alias" : "SBJ_COH_COHORT_NUM",
+          "_row_id" : "5oZWFMqfVL1HBLrTIpcEx"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"SUBJ_STRATA_NUM\", \"SUBJ_COHORT_NUM\")"
+          },
+          "_row_id" : "676682253"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "429_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "qM8r1VMjM9cLvRaZAnaj0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "aka_GPDIP_EDLUD_428_428_Output" : {
+      "id" : "aka_GPDIP_EDLUD_428_428_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "aka_GPDIP_EDLUD_428"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('subject_workflow', 'aka_GPDIP_EDLUD_428') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_429_qM8r1VMjM9cLvRaZAnaj0_AlteryxSelect_429_qM8r1VMjM9cLvRaZAnaj0",
+    "source" : "429",
+    "sourcePort" : "qM8r1VMjM9cLvRaZAnaj0",
+    "target" : "AlteryxSelect_429_qM8r1VMjM9cLvRaZAnaj0",
+    "targetPort" : "input_port_4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_60",
+    "source" : "aka_GPDIP_EDLUD_428_428_Output",
+    "sourcePort" : "output_port_3",
+    "target" : "429",
+    "targetPort" : "429_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
