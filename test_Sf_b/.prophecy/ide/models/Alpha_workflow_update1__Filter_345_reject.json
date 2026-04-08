@@ -1,0 +1,124 @@
+{
+  "id" : "Alpha_workflow_update1__Filter_345_reject",
+  "metainfo" : {
+    "label" : "Alpha_workflow_update1__Filter_345_reject",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_345_reject_pmhrByfdGdQBMbbB_rC_X" : {
+      "id" : "Filter_345_reject_pmhrByfdGdQBMbbB_rC_X",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_345_reject"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_345_reject\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "345_reject" : {
+      "id" : "345_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_345_reject",
+        "x" : 520,
+        "y" : 340,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "Ek-uKZNU7qn12zNZ7ZV5p##DESCRIPTION" ],
+        "condition" : {
+          "expression" : "((NOT (NOT (CONTAINS(DESCRIPTION, 'Any Value')))) OR (((NOT (CONTAINS(DESCRIPTION, 'Any Value')))  IS NULL)))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Ek-uKZNU7qn12zNZ7ZV5p",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "pmhrByfdGdQBMbbB_rC_X",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "WorkSchedule"
+    },
+    "Work_ScheduleVa_335_335_Output" : {
+      "id" : "Work_ScheduleVa_335_335_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Work_ScheduleVa_335"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Alpha_workflow_update1', 'Work_ScheduleVa_335') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_345_reject_pmhrByfdGdQBMbbB_rC_X_Filter_345_reject_pmhrByfdGdQBMbbB_rC_X",
+    "source" : "345_reject",
+    "sourcePort" : "pmhrByfdGdQBMbbB_rC_X",
+    "target" : "Filter_345_reject_pmhrByfdGdQBMbbB_rC_X",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_76",
+    "source" : "Work_ScheduleVa_335_335_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "345_reject",
+    "targetPort" : "Ek-uKZNU7qn12zNZ7ZV5p",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

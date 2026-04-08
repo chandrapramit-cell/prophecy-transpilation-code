@@ -1,0 +1,125 @@
+{
+  "id" : "intervention__Filter_1659_reject",
+  "metainfo" : {
+    "label" : "intervention__Filter_1659_reject",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_1659_reject_eWh_Ig1LLp_wyUIYP8X1x" : {
+      "id" : "Filter_1659_reject_eWh_Ig1LLp_wyUIYP8X1x",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_1659_reject"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_1659_reject\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_91",
+          "slug" : "input_port_91"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_91",
+          "slug" : "output_port_91"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1659_reject" : {
+      "id" : "1659_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1659_reject",
+        "x" : 8080,
+        "y" : 520,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((NOT (`Member Individual Business Entity Key` = '10000010052')) OR ((`Member Individual Business Entity Key` = '10000010052') IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "m3LagXHUWwCIouqeGizxi",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "eWh_Ig1LLp_wyUIYP8X1x",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "Formula_1021_0_kWgEBQvdiuPWW7E_enuLu" : {
+      "id" : "Formula_1021_0_kWgEBQvdiuPWW7E_enuLu",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_1021_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_90",
+          "id" : "output_port_90",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Formula_1021_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_90",
+          "slug" : "input_port_90"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_90",
+          "slug" : "output_port_90"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_1659_reject_eWh_Ig1LLp_wyUIYP8X1x_Filter_1659_reject_eWh_Ig1LLp_wyUIYP8X1x",
+    "source" : "1659_reject",
+    "sourcePort" : "eWh_Ig1LLp_wyUIYP8X1x",
+    "target" : "Filter_1659_reject_eWh_Ig1LLp_wyUIYP8X1x",
+    "targetPort" : "input_port_91",
+    "isWireless" : false
+  }, {
+    "id" : "edge_396",
+    "source" : "Formula_1021_0_kWgEBQvdiuPWW7E_enuLu",
+    "sourcePort" : "output_port_90",
+    "target" : "1659_reject",
+    "targetPort" : "m3LagXHUWwCIouqeGizxi",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

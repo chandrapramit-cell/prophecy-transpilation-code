@@ -1,0 +1,216 @@
+{
+  "id" : "intervention__Filter_816",
+  "metainfo" : {
+    "label" : "intervention__Filter_816",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_816_816_True" : {
+      "id" : "Filter_816_816_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_816"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_816\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_45",
+          "slug" : "input_port_45"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_45",
+          "slug" : "output_port_45"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "816" : {
+      "id" : "816",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_816",
+        "x" : 5520,
+        "y" : 1740,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(((((READMITPREDICTION = 1) OR (`ED Prediction Score` = 'CRITICAL')) OR (`ED Prediction Score` = 'HIGH')) OR (NOT (AdvancedCKD_Risk IS NULL))) OR (SOURCE_ID = 'FEP'))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "816_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "816_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "Formula_814_0_uwRFiEoAphnGqNTrvipAd" : {
+      "id" : "Formula_814_0_uwRFiEoAphnGqNTrvipAd",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_814_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_18",
+          "id" : "output_port_18",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Formula_814_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_834_left_UnionLeftOuter_ImOvY6Vlvn9FFm8EqMUyK" : {
+      "id" : "Join_834_left_UnionLeftOuter_ImOvY6Vlvn9FFm8EqMUyK",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_834_left_UnionLeftOuter"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_41",
+          "id" : "output_port_41",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Join_834_left_UnionLeftOuter') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_41",
+          "slug" : "input_port_41"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_41",
+          "slug" : "output_port_41"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "815_left" : {
+      "id" : "815_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_815_left",
+        "x" : 5320,
+        "y" : 1740,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Member Individual Business Entity Key` = in1.`Member Individual Business Entity Key`)",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "qx6Yo8TuIkPGioyFaQWyG",
+          "slug" : "in0"
+        }, {
+          "id" : "rwXMhoTOiKHSmaTWSqUoA",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "CYeMGLpxZX9GPtdoJm6Ve",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_816_816_True_Filter_816_816_True",
+    "source" : "816",
+    "sourcePort" : "816_True",
+    "target" : "Filter_816_816_True",
+    "targetPort" : "input_port_45",
+    "isWireless" : false
+  }, {
+    "id" : "edge_327",
+    "source" : "815_left",
+    "sourcePort" : "CYeMGLpxZX9GPtdoJm6Ve",
+    "target" : "816",
+    "targetPort" : "816_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_385",
+    "source" : "Formula_814_0_uwRFiEoAphnGqNTrvipAd",
+    "sourcePort" : "output_port_18",
+    "target" : "815_left",
+    "targetPort" : "rwXMhoTOiKHSmaTWSqUoA",
+    "isWireless" : false
+  }, {
+    "id" : "edge_338",
+    "source" : "Join_834_left_UnionLeftOuter_ImOvY6Vlvn9FFm8EqMUyK",
+    "sourcePort" : "output_port_41",
+    "target" : "815_left",
+    "targetPort" : "qx6Yo8TuIkPGioyFaQWyG",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

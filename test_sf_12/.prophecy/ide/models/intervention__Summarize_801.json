@@ -1,0 +1,130 @@
+{
+  "id" : "intervention__Summarize_801",
+  "metainfo" : {
+    "label" : "intervention__Summarize_801",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_801_ia1KtM2n02j9zDZJaF8xR" : {
+      "id" : "Summarize_801_ia1KtM2n02j9zDZJaF8xR",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_801"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_801\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_69",
+          "slug" : "input_port_69"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_69",
+          "slug" : "output_port_69"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "801" : {
+      "id" : "801",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_801",
+        "x" : 4800,
+        "y" : 3980,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`",
+            "_row_id" : null
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "description" : null,
+          "_row_id" : "gsGxd5c77On6AT7uAmMeu"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "801_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ia1KtM2n02j9zDZJaF8xR",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "Join_805_left_UnionLeftOuter_90E2OGL-L227xmloR-HsI" : {
+      "id" : "Join_805_left_UnionLeftOuter_90E2OGL-L227xmloR-HsI",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_805_left_UnionLeftOuter"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_39",
+          "id" : "output_port_39",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Join_805_left_UnionLeftOuter') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_39",
+          "slug" : "input_port_39"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_39",
+          "slug" : "output_port_39"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_801_ia1KtM2n02j9zDZJaF8xR_Summarize_801_ia1KtM2n02j9zDZJaF8xR",
+    "source" : "801",
+    "sourcePort" : "ia1KtM2n02j9zDZJaF8xR",
+    "target" : "Summarize_801_ia1KtM2n02j9zDZJaF8xR",
+    "targetPort" : "input_port_69",
+    "isWireless" : false
+  }, {
+    "id" : "edge_346",
+    "source" : "Join_805_left_UnionLeftOuter_90E2OGL-L227xmloR-HsI",
+    "sourcePort" : "output_port_39",
+    "target" : "801",
+    "targetPort" : "801_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

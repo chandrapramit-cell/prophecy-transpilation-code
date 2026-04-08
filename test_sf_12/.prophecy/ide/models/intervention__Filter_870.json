@@ -1,0 +1,125 @@
+{
+  "id" : "intervention__Filter_870",
+  "metainfo" : {
+    "label" : "intervention__Filter_870",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_870_-t_MkmPyVYC62w0n4zJcY" : {
+      "id" : "Filter_870_-t_MkmPyVYC62w0n4zJcY",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_870"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_870\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_77",
+          "slug" : "input_port_77"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_77",
+          "slug" : "output_port_77"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "870" : {
+      "id" : "870",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_870",
+        "x" : 3940,
+        "y" : 1620,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(SOURCE_ID = 'FEP')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "870_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "-t_MkmPyVYC62w0n4zJcY",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "Union_784_784_Output" : {
+      "id" : "Union_784_784_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_784"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_35",
+          "id" : "output_port_35",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Union_784') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_35",
+          "slug" : "input_port_35"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_35",
+          "slug" : "output_port_35"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_870_-t_MkmPyVYC62w0n4zJcY_Filter_870_-t_MkmPyVYC62w0n4zJcY",
+    "source" : "870",
+    "sourcePort" : "-t_MkmPyVYC62w0n4zJcY",
+    "target" : "Filter_870_-t_MkmPyVYC62w0n4zJcY",
+    "targetPort" : "input_port_77",
+    "isWireless" : false
+  }, {
+    "id" : "edge_300",
+    "source" : "Union_784_784_Output",
+    "sourcePort" : "output_port_35",
+    "target" : "870",
+    "targetPort" : "870_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

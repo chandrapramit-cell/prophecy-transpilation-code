@@ -1,0 +1,73 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "tanmay",
+    "schema": "default"
+  })
+}}
+
+WITH Production_xlsx_1668 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('intervention', 'Production_xlsx_1668') }}
+
+),
+
+Union_866 AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Union_866')}}
+
+),
+
+AlteryxSelect_774 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    MBR_INDV_BE_KEY AS `Member Individual Business Entity Key`,
+    DSCHG_DT AS READMIN_DSCHG_DT,
+    `Prediction Value` AS `Prediction Value`,
+    `Prediction Score` AS `Prediction Score`,
+    DIAG_CD_DESC AS ADMITTING_DX,
+    UNIQUE_DRUG_CT_CURRENT AS UNIQUE_DRUG_CT_CURRENT
+  
+  FROM Production_xlsx_1668 AS in0
+
+),
+
+Formula_775_0 AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    CAST(1 AS DOUBLE) AS READMITPREDICTION,
+    *
+  
+  FROM AlteryxSelect_774 AS in0
+
+),
+
+Join_776_left_UnionFullOuter AS (
+
+  {#VisualGroup: STEP1#}
+  SELECT 
+    (
+      CASE
+        WHEN (in0.`Member Individual Business Entity Key` = in1.`Member Individual Business Entity Key`)
+          THEN NULL
+        ELSE in1.`Member Individual Business Entity Key`
+      END
+    ) AS `Member Individual Business Entity Key`,
+    in0.* EXCEPT (`Member Individual Business Entity Key`),
+    in1.* EXCEPT (`Member Individual Business Entity Key`)
+  
+  FROM Union_866 AS in0
+  FULL JOIN Formula_775_0 AS in1
+     ON (in0.`Member Individual Business Entity Key` = in1.`Member Individual Business Entity Key`)
+
+)
+
+SELECT *
+
+FROM Join_776_left_UnionFullOuter
