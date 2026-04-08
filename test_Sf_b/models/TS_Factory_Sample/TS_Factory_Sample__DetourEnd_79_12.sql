@@ -157,10 +157,7 @@ DetourEnd_79_12 AS (
   {{
     prophecy_basics.UnionByName(
       ['DynamicSelect_77_12', 'DynamicSelect_78_12'], 
-      [
-        '[{"name": "UNITS", "dataType": "Float"}, {"name": "PRODUCT", "dataType": "String"}, {"name": "NUMBER OF NEW STORES", "dataType": "Number"}, {"name": "TOTAL SALES AMOUNT IN DOLLARS", "dataType": "Float"}]', 
-        '[{"name": "UNITS", "dataType": "Float"}, {"name": "PRODUCT", "dataType": "String"}]'
-      ], 
+      ['[]', '[]'], 
       'allowMissingColumns'
     )
   }}
