@@ -70,8 +70,8 @@ Union_4 AS (
     prophecy_basics.UnionByName(
       ['TextInput_2_cast', 'TextInput_3_cast'], 
       [
-        '[{"name": "TREAT", "dataType": "String"}, {"name": "PRICE", "dataType": "Number"}, {"name": "YEAR", "dataType": "Number"}]', 
-        '[{"name": "STUFFED ANIMAL", "dataType": "String"}, {"name": "PRICE", "dataType": "Number"}, {"name": "YEAR", "dataType": "Number"}]'
+        '[{"name": "TREAT", "dataType": "String"}, {"name": "PRICE", "dataType": "Float"}, {"name": "YEAR", "dataType": "Number"}]', 
+        '[{"name": "STUFFED ANIMAL", "dataType": "String"}, {"name": "PRICE", "dataType": "Float"}, {"name": "YEAR", "dataType": "Number"}]'
       ], 
       'allowMissingColumns'
     )
@@ -86,8 +86,8 @@ Transpose_7 AS (
       ['TextInput_6_cast'], 
       ['BASKET LIST', 'PURCHASE YEAR'], 
       ['TREAT', 'STUFFED ANIMAL'], 
-      'Name', 
-      'Value', 
+      'NAME', 
+      '"VALUE"', 
       ['BASKET LIST', 'PURCHASE YEAR', 'TREAT', 'STUFFED ANIMAL'], 
       true
     )
@@ -103,7 +103,7 @@ Join_8_inner AS (
   
   FROM Transpose_7 AS in0
   INNER JOIN Union_4 AS in1
-     ON in0."VALUE" = in1.TREAT
+     ON (in0.VALUE = in1.TREAT)
 
 ),
 

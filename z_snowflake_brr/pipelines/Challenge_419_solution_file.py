@@ -112,15 +112,15 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    textinput_49 >> challenge_419_solution_file__textinput_49_cast
     textinput_48 >> challenge_419_solution_file__textinput_48_cast
-    textinput_32 >> challenge_419_solution_file__textinput_32_cast
     (
         challenge_419_solution_file__multirowformula_19_0._out(0)
         >> [challenge_419_solution_file__formula_22_0._in(0), challenge_419_solution_file__alteryxselect_42._in(0)]
     )
-    textinput_31 >> challenge_419_solution_file__textinput_31_cast
     textinput_6 >> challenge_419_solution_file__multirowformula_19_0._in(2)
     textinput_2 >> challenge_419_solution_file__multirowformula_19_0._in(0)
-    textinput_33 >> challenge_419_solution_file__textinput_33_cast
+    textinput_49 >> challenge_419_solution_file__textinput_49_cast
+    textinput_31 >> challenge_419_solution_file__textinput_31_cast
     textinput_3 >> challenge_419_solution_file__multirowformula_19_0._in(1)
+    textinput_32 >> challenge_419_solution_file__textinput_32_cast
+    textinput_33 >> challenge_419_solution_file__textinput_33_cast
