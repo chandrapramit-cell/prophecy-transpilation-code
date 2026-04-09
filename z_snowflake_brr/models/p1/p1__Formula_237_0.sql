@@ -1,0 +1,48 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "QA_DATABASE",
+    "schema": "PUBLIC"
+  })
+}}
+
+WITH AlteryxSelect_228 AS (
+
+  SELECT *
+  
+  FROM {{ ref('p1__AlteryxSelect_228')}}
+
+),
+
+Summarize_244 AS (
+
+  SELECT 
+    MAX(DATE_OF_EVENT) AS DATE_OF_EVENT,
+    SUM(BEGINNING_INVENTORY) AS BEGINNING_INVENTORY,
+    SUM(SALES_QTY) AS SALES_QTY,
+    SUM(PRODUCTION_QTY) AS PRODUCTION_QTY,
+    SUM(TRANSFER_QTY) AS TRANSFER_QTY,
+    SUM(QTY) AS ENDING_INVENTORY,
+    SKU_STANDARD AS SKU_STANDARD
+  
+  FROM AlteryxSelect_228 AS in0
+  
+  GROUP BY SKU_STANDARD
+
+),
+
+Formula_237_0 AS (
+
+  SELECT 
+    CAST('4_TOTAL_ITEM_LEVEL' AS STRING) AS ROWTYPE,
+    4 AS ROWSORTTIER,
+    99999 AS WH_ID_STANDARD,
+    *
+  
+  FROM Summarize_244 AS in0
+
+)
+
+SELECT *
+
+FROM Formula_237_0

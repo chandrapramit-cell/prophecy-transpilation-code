@@ -1,0 +1,312 @@
+{
+  "id" : "p1__Cleanse_214",
+  "metainfo" : {
+    "label" : "p1__Cleanse_214",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "DbFileInput_8_8_8_Output" : {
+      "id" : "DbFileInput_8_8_8_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DbFileInput_8_8"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('p1', 'DbFileInput_8_8') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "9" : {
+      "id" : "9",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_9",
+        "x" : 260,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "SOURCE_SKU",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SKU",
+          "description" : null,
+          "_row_id" : "LCIKZ90rmxFSNf8HmKP-r"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SKU_DESC",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SKU_DESC",
+          "description" : null,
+          "_row_id" : "iFkLAEz7YIwyfd01-3gS2"
+        }, {
+          "expression" : {
+            "expression" : "SKU_STANDARD",
+            "_row_id" : null
+          },
+          "alias" : "SKU_STANDARD",
+          "description" : null,
+          "_row_id" : "Cx-j9EwbHo6uAS8HfsvY6"
+        }, {
+          "expression" : {
+            "expression" : "SKU_DESC_STANDARD",
+            "_row_id" : null
+          },
+          "alias" : "SKU_DESC_STANDARD",
+          "description" : null,
+          "_row_id" : "Rt3whObGY2DQZCVN-WcLJ"
+        }, {
+          "expression" : {
+            "expression" : "\"PRP3 DESC\"",
+            "_row_id" : null
+          },
+          "alias" : "SKU_CATEGORY",
+          "description" : null,
+          "_row_id" : "sGQOubktTp8bz9CRjFRZ7"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "9_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "9_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "INPUTITEMMASTER"
+    },
+    "13" : {
+      "id" : "13",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_13",
+        "x" : 460,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(NOT (SOURCE_SKU IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "13_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "13_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "INPUTITEMMASTER"
+    },
+    "214" : {
+      "id" : "214",
+      "component" : "DataCleansing",
+      "metadata" : {
+        "label" : "Cleanse_214",
+        "x" : 660,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "trimWhiteSpace" : true,
+        "replaceNullForNumericFields" : true,
+        "cleanLetters" : false,
+        "replaceNullTextWith" : "",
+        "removeRowNullAllCols" : false,
+        "replaceNullTextFields" : true,
+        "relation_name" : [ "Filter_13" ],
+        "replaceNullDateWith" : "1970-01-01",
+        "columnNames" : [ "SOURCE_SKU", "SOURCE_SKU_DESC", "SKU_STANDARD", "SKU_DESC_STANDARD", "SKU_CATEGORY" ],
+        "replaceNullTimeFields" : false,
+        "_oldMacroProperties" : {
+          "macroName" : "DataCleansing",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Filter_13\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"SOURCE_SKU\", \"dataType\": \"String\"}, {\"name\": \"SOURCE_SKU_DESC\", \"dataType\": \"String\"}, {\"name\": \"SKU_STANDARD\", \"dataType\": \"String\"}, {\"name\": \"SKU_DESC_STANDARD\", \"dataType\": \"String\"}, {\"name\": \"SKU_CATEGORY\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "modifyCase",
+            "value" : "makeUppercase"
+          }, {
+            "name" : "columnNames",
+            "value" : "[\"SOURCE_SKU\", \"SOURCE_SKU_DESC\", \"SKU_STANDARD\", \"SKU_DESC_STANDARD\", \"SKU_CATEGORY\"]"
+          }, {
+            "name" : "replaceNullTextFields",
+            "value" : "true"
+          }, {
+            "name" : "replaceNullTextWith",
+            "value" : ""
+          }, {
+            "name" : "replaceNullForNumericFields",
+            "value" : "true"
+          }, {
+            "name" : "replaceNullNumericWith",
+            "value" : "0"
+          }, {
+            "name" : "trimWhiteSpace",
+            "value" : "true"
+          }, {
+            "name" : "removeTabsLineBreaksAndDuplicateWhitespace",
+            "value" : "false"
+          }, {
+            "name" : "allWhiteSpace",
+            "value" : "false"
+          }, {
+            "name" : "cleanLetters",
+            "value" : "false"
+          }, {
+            "name" : "cleanPunctuations",
+            "value" : "false"
+          }, {
+            "name" : "cleanNumbers",
+            "value" : "false"
+          }, {
+            "name" : "removeRowNullAllCols",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateWith",
+            "value" : "1970-01-01"
+          }, {
+            "name" : "replaceNullTimeFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullTimeWith",
+            "value" : "1970-01-01 00:00:00.0"
+          } ]
+        },
+        "replaceNullTimeWith" : "1970-01-01 00:00:00.0",
+        "schema" : "[{\"name\": \"SOURCE_SKU\", \"dataType\": \"String\"}, {\"name\": \"SOURCE_SKU_DESC\", \"dataType\": \"String\"}, {\"name\": \"SKU_STANDARD\", \"dataType\": \"String\"}, {\"name\": \"SKU_DESC_STANDARD\", \"dataType\": \"String\"}, {\"name\": \"SKU_CATEGORY\", \"dataType\": \"String\"}]",
+        "allWhiteSpace" : false,
+        "removeTabsLineBreaksAndDuplicateWhitespace" : false,
+        "modifyCase" : "makeUppercase",
+        "cleanPunctuations" : false,
+        "replaceNullDateFields" : false,
+        "cleanNumbers" : false,
+        "replaceNullNumericWith" : 0
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "214_Input2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "214_Output26",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "INPUTITEMMASTER"
+    },
+    "Cleanse_214_214_Output26" : {
+      "id" : "Cleanse_214_214_Output26",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Cleanse_214"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Cleanse_214\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_214_214_Output26_Cleanse_214_214_Output26",
+    "source" : "214",
+    "sourcePort" : "214_Output26",
+    "target" : "Cleanse_214_214_Output26",
+    "targetPort" : "input_port_17",
+    "isWireless" : false
+  }, {
+    "id" : "edge_50",
+    "source" : "13",
+    "sourcePort" : "13_True",
+    "target" : "214",
+    "targetPort" : "214_Input2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_125",
+    "source" : "9",
+    "sourcePort" : "9_Output",
+    "target" : "13",
+    "targetPort" : "13_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_246",
+    "source" : "DbFileInput_8_8_8_Output",
+    "sourcePort" : "output_port_0",
+    "target" : "9",
+    "targetPort" : "9_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

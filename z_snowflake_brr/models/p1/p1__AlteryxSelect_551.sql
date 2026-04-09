@@ -1,0 +1,62 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "QA_DATABASE",
+    "schema": "PUBLIC"
+  })
+}}
+
+WITH Formula_215_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('p1__Formula_215_0')}}
+
+),
+
+AlteryxSelect_547 AS (
+
+  SELECT *
+  
+  FROM {{ ref('p1__AlteryxSelect_547')}}
+
+),
+
+Join_540_inner AS (
+
+  SELECT 
+    in0.SKU AS SKU,
+    in1.SOURCE_SKU AS SOURCE_SKU,
+    in1.SOURCE_SKU_DESC AS SOURCE_SKU_DESC,
+    in1.SKU_STANDARD AS SKU_STANDARD,
+    in1.SKU_DESC_STANDARD AS SKU_DESC_STANDARD,
+    in1.SKU_CATEGORY AS SKU_CATEGORY,
+    in0.* EXCLUDE ("SKU"),
+    in1.* EXCLUDE ("SOURCE_SKU", "SOURCE_SKU_DESC", "SKU_STANDARD", "SKU_DESC_STANDARD", "SKU_CATEGORY")
+  
+  FROM AlteryxSelect_547 AS in0
+  INNER JOIN Formula_215_0 AS in1
+     ON (in0.SKU = in1.SOURCE_SKU)
+
+),
+
+AlteryxSelect_551 AS (
+
+  SELECT 
+    SKU_STANDARD AS SKU_STANDARD,
+    CAST(NULL AS STRING) AS "FCST_2021-09-01",
+    CAST(NULL AS STRING) AS "FCST_2021-10-01",
+    CAST(NULL AS STRING) AS "FCST_2021-11-01",
+    CAST(NULL AS STRING) AS "FCST_2021-12-01",
+    CAST(NULL AS STRING) AS "FCST_2022-01-01",
+    CAST(NULL AS STRING) AS "FCST_2022-02-01",
+    CAST(NULL AS STRING) AS "FCST_2022-03-01",
+    CAST(NULL AS STRING) AS "FCST_2022-04-01"
+  
+  FROM Join_540_inner AS in0
+
+)
+
+SELECT *
+
+FROM AlteryxSelect_551

@@ -1,0 +1,144 @@
+{
+  "id" : "1_challenge_1_1___Summarize_40",
+  "metainfo" : {
+    "label" : "1_challenge_1_1___Summarize_40",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_40_EjkON--6VAtGZ2ZMnQbGj" : {
+      "id" : "Summarize_40_EjkON--6VAtGZ2ZMnQbGj",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_40"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_40\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "40" : {
+      "id" : "40",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_40",
+        "x" : 2040,
+        "y" : 432,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((GEOID IS NULL) OR (CAST(GEOID AS STRING) = '')) THEN NULL ELSE 1 END))"
+          },
+          "alias" : "\"COUNT\"",
+          "_row_id" : "QpSvfU6kVofuGqmdAioMZ"
+        }, {
+          "expression" : {
+            "expression" : "\"INCOME CATEGORY\""
+          },
+          "alias" : "\"INCOME CATEGORY\"",
+          "_row_id" : "3CM_y-ePigrDfyQgOtSl3"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "40_Input##INCOME CATEGORY", "40_Input##GEOID" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "\"INCOME CATEGORY\""
+          },
+          "_row_id" : "Hp8oshR2wMtQQ0D-PLvQV"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "40_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EjkON--6VAtGZ2ZMnQbGj",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_29_1_Q4NheVKl40hO02tHPFrF8" : {
+      "id" : "Formula_29_1_Q4NheVKl40hO02tHPFrF8",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_29_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('1_challenge_1_1___Formula_29_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_40_EjkON--6VAtGZ2ZMnQbGj_Summarize_40_EjkON--6VAtGZ2ZMnQbGj",
+    "source" : "40",
+    "sourcePort" : "EjkON--6VAtGZ2ZMnQbGj",
+    "target" : "Summarize_40_EjkON--6VAtGZ2ZMnQbGj",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_330",
+    "source" : "Formula_29_1_Q4NheVKl40hO02tHPFrF8",
+    "sourcePort" : "output_port_2",
+    "target" : "40",
+    "targetPort" : "40_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

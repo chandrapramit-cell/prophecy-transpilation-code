@@ -1,0 +1,150 @@
+{
+  "id" : "1_challenge_1_1___Summarize_47",
+  "metainfo" : {
+    "label" : "1_challenge_1_1___Summarize_47",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_47_2B8XItdVNhHL19QC65GwP" : {
+      "id" : "Summarize_47_2B8XItdVNhHL19QC65GwP",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_47"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_47\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "47" : {
+      "id" : "47",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_47",
+        "x" : 2040,
+        "y" : 648,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "AVG(\"MEDIAN MONTHLY HOUSING COST  - RENTER\")"
+          },
+          "alias" : "\"AVG_MEDIAN MONTHLY HOUSING COST  - RENTER\"",
+          "_row_id" : "RCpsppj0ubJvvrBI77-xz"
+        }, {
+          "expression" : {
+            "expression" : "AVG(\"MEDIAN MONTHLY HOUSING COST- OWNER\")"
+          },
+          "alias" : "\"AVG_MEDIAN MONTHLY HOUSING COST- OWNER\"",
+          "_row_id" : "rftdbPnyML3ihWklu5fQO"
+        }, {
+          "expression" : {
+            "expression" : "\"INCOME CATEGORY\""
+          },
+          "alias" : "\"INCOME CATEGORY\"",
+          "_row_id" : "_hWBqEaOwXNtOyOJKVQeI"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "47_Input##INCOME CATEGORY", "47_Input##MEDIAN MONTHLY HOUSING COST  - RENTER", "47_Input##MEDIAN MONTHLY HOUSING COST- OWNER" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "\"INCOME CATEGORY\""
+          },
+          "_row_id" : "rhEdcBNNUY6Jck3r2JBoF"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "47_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2B8XItdVNhHL19QC65GwP",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_29_1_Q4NheVKl40hO02tHPFrF8" : {
+      "id" : "Formula_29_1_Q4NheVKl40hO02tHPFrF8",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_29_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('1_challenge_1_1___Formula_29_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_47_2B8XItdVNhHL19QC65GwP_Summarize_47_2B8XItdVNhHL19QC65GwP",
+    "source" : "47",
+    "sourcePort" : "2B8XItdVNhHL19QC65GwP",
+    "target" : "Summarize_47_2B8XItdVNhHL19QC65GwP",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_331",
+    "source" : "Formula_29_1_Q4NheVKl40hO02tHPFrF8",
+    "sourcePort" : "output_port_2",
+    "target" : "47",
+    "targetPort" : "47_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,346 @@
+{
+  "id" : "1_challenge_1_1___Formula_29_1",
+  "metainfo" : {
+    "label" : "1_challenge_1_1___Formula_29_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "data_1_FL_csv_1_1_Output" : {
+      "id" : "data_1_FL_csv_1_1_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "data_1_FL_csv_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('1_challenge_1_1_', 'data_1_FL_csv_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "LdivamZdgOSadpkjNbnB8" : {
+      "id" : "LdivamZdgOSadpkjNbnB8",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_29_1",
+        "x" : 1140,
+        "y" : 324,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "tLI-n9r4ThcXTVccCn82h##AMI" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "((\"MEDIAN MONTHLY HOUSING COST  - RENTER\" / AMI) * 100)"
+          },
+          "alias" : "\"PERCENT INCOME PAID AS RENT\"",
+          "_row_id" : "aAk2WGfygObpt16jDWbuz"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "1917980531"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "tLI-n9r4ThcXTVccCn82h",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Q4NheVKl40hO02tHPFrF8",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_29_1_Q4NheVKl40hO02tHPFrF8" : {
+      "id" : "Formula_29_1_Q4NheVKl40hO02tHPFrF8",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_29_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_29_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "yZOIF9k3v1DEAd0agc2SN" : {
+      "id" : "yZOIF9k3v1DEAd0agc2SN",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_29_0",
+        "x" : 960,
+        "y" : 324,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "VGI8z1fcnKknAEVaHUsyP##AMI", "VGI8z1fcnKknAEVaHUsyP##MEDIAN MONTHLY HOUSING COST- OWNER", "VGI8z1fcnKknAEVaHUsyP##MEDIAN MONTHLY HOUSING COST  - RENTER" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((AMI > 0) AND (AMI < 27750)) THEN 'Extremly Low' WHEN ((AMI > 27750) AND (AMI <= 41450)) THEN 'Very Low    ' WHEN ((AMI > 41450) AND (AMI <= 66300)) THEN 'Low         ' WHEN ((AMI > 66300) AND (AMI <= 96120)) THEN 'Moderate    ' WHEN (AMI > 96120) THEN 'Upper       ' ELSE 'None        ' END)"
+          },
+          "alias" : "\"INCOME CATEGORY\"",
+          "_row_id" : "YOzhVftkk7TaTD5-XgR68"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (\"MEDIAN MONTHLY HOUSING COST- OWNER\" < 0) THEN 0 ELSE \"MEDIAN MONTHLY HOUSING COST- OWNER\" END)"
+          },
+          "alias" : "\"MEDIAN MONTHLY HOUSING COST- OWNER\"",
+          "_row_id" : "NU5cRxA5rpT-ooNq5H0bq"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (\"MEDIAN MONTHLY HOUSING COST  - RENTER\" < 0) THEN 0 ELSE \"MEDIAN MONTHLY HOUSING COST  - RENTER\" END)"
+          },
+          "alias" : "\"MEDIAN MONTHLY HOUSING COST  - RENTER\"",
+          "_row_id" : "KYmbRvNsLkGFYHOkNUioU"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"MEDIAN MONTHLY HOUSING COST- OWNER\", \"MEDIAN MONTHLY HOUSING COST  - RENTER\")"
+          },
+          "_row_id" : "49242499"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "VGI8z1fcnKknAEVaHUsyP",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "OMP-RzZYuN-fQyIZXSiXe",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "17" : {
+      "id" : "17",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_17",
+        "x" : 240,
+        "y" : 396,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "17_Input##COUNTY" ],
+        "condition" : {
+          "expression" : "(COUNTY = '095')"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "17_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "17_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3" : {
+      "id" : "3",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_3",
+        "x" : 480,
+        "y" : 324,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "3_Input##GEOID", "3_Input##STATE_FIPS_CODE", "3_Input##COUNTY_FIPS_CODE", "3_Input##S1701_C03_001E", "3_Input##S1903_C03_001E", "3_Input##PRE1960", "3_Input##DP05_0035PE", "3_Input##DP05_0037PE", "3_Input##DP05_0038PE", "3_Input##DP05_0039PE", "3_Input##DP05_0044PE", "3_Input##DP05_0052PE", "3_Input##DP05_0057PE", "3_Input##S2503_C03_024E", "3_Input##S2503_C05_024E" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "GEOID"
+          },
+          "alias" : "GEOID",
+          "_row_id" : "iTvfobXR4NfYcib5jJYB5"
+        }, {
+          "expression" : {
+            "expression" : "STATE_FIPS_CODE"
+          },
+          "alias" : "STATE_FIPS_CODE",
+          "_row_id" : "yx3m6c3j_b3HSW5ZZbJSZ"
+        }, {
+          "expression" : {
+            "expression" : "COUNTY_FIPS_CODE"
+          },
+          "alias" : "COUNTY_FIPS_CODE",
+          "_row_id" : "X6fvZkI21t2uVnOBWYpn_"
+        }, {
+          "expression" : {
+            "expression" : "CAST(S1701_C03_001E AS DOUBLE)"
+          },
+          "alias" : "\"PERCENTAGE BELOW POVERTY LEVEL\"",
+          "_row_id" : "AG0w9JsCBivFS8bdP4Ash"
+        }, {
+          "expression" : {
+            "expression" : "CAST(S1903_C03_001E AS DOUBLE)"
+          },
+          "alias" : "AMI",
+          "_row_id" : "axfg14xk6JteOYAPpb8O_"
+        }, {
+          "expression" : {
+            "expression" : "CAST(PRE1960 AS DOUBLE)"
+          },
+          "alias" : "\"HOUSING UNITS\"",
+          "_row_id" : "wmVI6ji17ciZszpLg1jss"
+        }, {
+          "expression" : {
+            "expression" : "CAST(DP05_0035PE AS DOUBLE)"
+          },
+          "alias" : "\"TWO OR MORE RACES\"",
+          "_row_id" : "l5RGPtDFt-hdo-eFezNt6"
+        }, {
+          "expression" : {
+            "expression" : "CAST(DP05_0037PE AS DOUBLE)"
+          },
+          "alias" : "\"WHITE ONLY\"",
+          "_row_id" : "Hdpg5Xk_I-kkTlrEzC_SK"
+        }, {
+          "expression" : {
+            "expression" : "CAST(DP05_0038PE AS DOUBLE)"
+          },
+          "alias" : "\"BLACK OR AFRICAN AMERICAN ONLY\"",
+          "_row_id" : "vYuiSg8HdT8qckyup_QT4"
+        }, {
+          "expression" : {
+            "expression" : "CAST(DP05_0039PE AS DOUBLE)"
+          },
+          "alias" : "\"AMERICAN INDIAN AND ALASKA NATIVE ONLY\"",
+          "_row_id" : "OOmJfjXj7Ym7cCsvnA4zA"
+        }, {
+          "expression" : {
+            "expression" : "CAST(DP05_0044PE AS DOUBLE)"
+          },
+          "alias" : "\"ASIAN ONLY\"",
+          "_row_id" : "_GCHg4Ib_dTR7ne6uMEzU"
+        }, {
+          "expression" : {
+            "expression" : "CAST(DP05_0052PE AS DOUBLE)"
+          },
+          "alias" : "\"NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ONLY\"",
+          "_row_id" : "lQgV90hDQeBDSCO0rkP_A"
+        }, {
+          "expression" : {
+            "expression" : "CAST(DP05_0057PE AS DOUBLE)"
+          },
+          "alias" : "\"SOME OTHER RACE ONLY\"",
+          "_row_id" : "GzETh1f_Cbk2a65iu5dpO"
+        }, {
+          "expression" : {
+            "expression" : "CAST(S2503_C03_024E AS DOUBLE)"
+          },
+          "alias" : "\"MEDIAN MONTHLY HOUSING COST- OWNER\"",
+          "_row_id" : "CQ8kLLKhBk1p86d-72BBr"
+        }, {
+          "expression" : {
+            "expression" : "CAST(S2503_C05_024E AS DOUBLE)"
+          },
+          "alias" : "\"MEDIAN MONTHLY HOUSING COST  - RENTER\"",
+          "_row_id" : "jK-P1MxXFM7gC35d6rsh1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_LdivamZdgOSadpkjNbnB8_Q4NheVKl40hO02tHPFrF8_Formula_29_1_Q4NheVKl40hO02tHPFrF8",
+    "source" : "LdivamZdgOSadpkjNbnB8",
+    "sourcePort" : "Q4NheVKl40hO02tHPFrF8",
+    "target" : "Formula_29_1_Q4NheVKl40hO02tHPFrF8",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_328",
+    "source" : "yZOIF9k3v1DEAd0agc2SN",
+    "sourcePort" : "OMP-RzZYuN-fQyIZXSiXe",
+    "target" : "LdivamZdgOSadpkjNbnB8",
+    "targetPort" : "tLI-n9r4ThcXTVccCn82h",
+    "isWireless" : false
+  }, {
+    "id" : "edge_333",
+    "source" : "3",
+    "sourcePort" : "3_Output",
+    "target" : "yZOIF9k3v1DEAd0agc2SN",
+    "targetPort" : "VGI8z1fcnKknAEVaHUsyP",
+    "isWireless" : false
+  }, {
+    "id" : "edge_323",
+    "source" : "17",
+    "sourcePort" : "17_True",
+    "target" : "3",
+    "targetPort" : "3_Input",
+    "isWireless" : false
+  }, {
+    "id" : "bWc3rcmnnNf2Ao8vKaJq2",
+    "source" : "data_1_FL_csv_1_1_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "17",
+    "targetPort" : "17_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

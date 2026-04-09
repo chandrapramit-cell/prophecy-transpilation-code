@@ -1,0 +1,145 @@
+{
+  "id" : "p1__Formula_350_0",
+  "metainfo" : {
+    "label" : "p1__Formula_350_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_350_0_7-2V8D7hnjDT9G8ufaTRO" : {
+      "id" : "Formula_350_0_7-2V8D7hnjDT9G8ufaTRO",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_350_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_350_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_33",
+          "slug" : "input_port_33"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_33",
+          "slug" : "output_port_33"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "uKPH_HqVhoR_N1NZRJwLL" : {
+      "id" : "uKPH_HqVhoR_N1NZRJwLL",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_350_0",
+        "x" : 11560,
+        "y" : 5080,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (WEEKS_ON_HAND_INV <= 3) THEN 'Ending WOH for Item < or = 3 weeks' ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "ALERT_ITEM_WOH_INV_LOW",
+          "description" : null,
+          "_row_id" : "WxPq5IBymAPJAsdfmty76"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (WEEKS_ON_HAND_INV >= 12) THEN 'Ending WOH for Item > or = 12 weeks' ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "ALERT_ITEM_WOH_INV_HIGH",
+          "description" : null,
+          "_row_id" : "8A7Y4QoN15csG3b_Cqpib"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "90n9WejJA-ncQUflQJe1e",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "7-2V8D7hnjDT9G8ufaTRO",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_347_1_L77IWarxNyT_O2tSX01CQ" : {
+      "id" : "Formula_347_1_L77IWarxNyT_O2tSX01CQ",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_347_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_32",
+          "id" : "output_port_32",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('p1__Formula_347_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_32",
+          "slug" : "input_port_32"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_32",
+          "slug" : "output_port_32"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_uKPH_HqVhoR_N1NZRJwLL_7-2V8D7hnjDT9G8ufaTRO_Formula_350_0_7-2V8D7hnjDT9G8ufaTRO",
+    "source" : "uKPH_HqVhoR_N1NZRJwLL",
+    "sourcePort" : "7-2V8D7hnjDT9G8ufaTRO",
+    "target" : "Formula_350_0_7-2V8D7hnjDT9G8ufaTRO",
+    "targetPort" : "input_port_33",
+    "isWireless" : false
+  }, {
+    "id" : "edge_23",
+    "source" : "Formula_347_1_L77IWarxNyT_O2tSX01CQ",
+    "sourcePort" : "output_port_32",
+    "target" : "uKPH_HqVhoR_N1NZRJwLL",
+    "targetPort" : "90n9WejJA-ncQUflQJe1e",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
