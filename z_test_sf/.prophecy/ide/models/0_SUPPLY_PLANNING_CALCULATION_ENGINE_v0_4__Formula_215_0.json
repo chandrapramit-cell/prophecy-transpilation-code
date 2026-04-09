@@ -1,0 +1,138 @@
+{
+  "id" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4__Formula_215_0",
+  "metainfo" : {
+    "label" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4__Formula_215_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_215_0_uN8-HbRdisiSr83WN3oNL" : {
+      "id" : "Formula_215_0_uN8-HbRdisiSr83WN3oNL",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_215_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_215_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2DIOMVFc21_TrcCWehr0W" : {
+      "id" : "2DIOMVFc21_TrcCWehr0W",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_215_0",
+        "x" : 860,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((SKU_STANDARD IS NULL) OR ((LENGTH(SKU_STANDARD)) = 0)) THEN SOURCE_SKU ELSE SKU_STANDARD END)",
+            "_row_id" : null
+          },
+          "alias" : "SKU_STANDARD",
+          "description" : null,
+          "_row_id" : "r5LMCEsebGEbX7JtyIG_K"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"SKU_STANDARD\")",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dnNsruYWowgj-o-8RiKvE",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "uN8-HbRdisiSr83WN3oNL",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "INPUTITEMMASTER"
+    },
+    "Cleanse_214_214_Output26" : {
+      "id" : "Cleanse_214_214_Output26",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Cleanse_214"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_17",
+          "id" : "output_port_17",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4__Cleanse_214') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_2DIOMVFc21_TrcCWehr0W_uN8-HbRdisiSr83WN3oNL_Formula_215_0_uN8-HbRdisiSr83WN3oNL",
+    "source" : "2DIOMVFc21_TrcCWehr0W",
+    "sourcePort" : "uN8-HbRdisiSr83WN3oNL",
+    "target" : "Formula_215_0_uN8-HbRdisiSr83WN3oNL",
+    "targetPort" : "input_port_18",
+    "isWireless" : false
+  }, {
+    "id" : "edge_112",
+    "source" : "Cleanse_214_214_Output26",
+    "sourcePort" : "output_port_17",
+    "target" : "2DIOMVFc21_TrcCWehr0W",
+    "targetPort" : "dnNsruYWowgj-o-8RiKvE",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

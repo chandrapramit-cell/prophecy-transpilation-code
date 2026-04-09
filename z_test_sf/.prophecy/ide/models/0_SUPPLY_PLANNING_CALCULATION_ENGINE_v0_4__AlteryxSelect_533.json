@@ -1,0 +1,129 @@
+{
+  "id" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4__AlteryxSelect_533",
+  "metainfo" : {
+    "label" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4__AlteryxSelect_533",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_533_533_Output" : {
+      "id" : "AlteryxSelect_533_533_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_533"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_533\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "533" : {
+      "id" : "533",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_533",
+        "x" : 8160,
+        "y" : 4440,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"F2\", \"F3\", \"F4\", \"F5\", \"F6\", \"F7\")",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "533_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "533_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SalesForecastMa_532_532_Output" : {
+      "id" : "SalesForecastMa_532_532_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SalesForecastMa_532"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_5",
+          "id" : "output_port_5",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4', 'SalesForecastMa_532') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_533_533_Output_AlteryxSelect_533_533_Output",
+    "source" : "533",
+    "sourcePort" : "533_Output",
+    "target" : "AlteryxSelect_533_533_Output",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_170",
+    "source" : "SalesForecastMa_532_532_Output",
+    "sourcePort" : "output_port_5",
+    "target" : "533",
+    "targetPort" : "533_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

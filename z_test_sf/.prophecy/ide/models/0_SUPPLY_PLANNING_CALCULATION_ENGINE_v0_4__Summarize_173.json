@@ -1,0 +1,129 @@
+{
+  "id" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4__Summarize_173",
+  "metainfo" : {
+    "label" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4__Summarize_173",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_173_XOgx6yP4P5o3VmAgqdsB8" : {
+      "id" : "Summarize_173_XOgx6yP4P5o3VmAgqdsB8",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_173"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_173\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_27",
+          "slug" : "input_port_27"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_27",
+          "slug" : "output_port_27"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "173" : {
+      "id" : "173",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_173",
+        "x" : 4220,
+        "y" : 980,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "SOURCE_WH_DESC",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_WH_DESC",
+          "description" : null,
+          "_row_id" : "FaRNtL2DtLG4hQPBCgnc2"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "173_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "XOgx6yP4P5o3VmAgqdsB8",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_160_160_Output" : {
+      "id" : "Union_160_160_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_160"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_26",
+          "id" : "output_port_26",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4__Union_160') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_26",
+          "slug" : "input_port_26"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_26",
+          "slug" : "output_port_26"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_173_XOgx6yP4P5o3VmAgqdsB8_Summarize_173_XOgx6yP4P5o3VmAgqdsB8",
+    "source" : "173",
+    "sourcePort" : "XOgx6yP4P5o3VmAgqdsB8",
+    "target" : "Summarize_173_XOgx6yP4P5o3VmAgqdsB8",
+    "targetPort" : "input_port_27",
+    "isWireless" : false
+  }, {
+    "id" : "edge_173",
+    "source" : "Union_160_160_Output",
+    "sourcePort" : "output_port_26",
+    "target" : "173",
+    "targetPort" : "173_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
