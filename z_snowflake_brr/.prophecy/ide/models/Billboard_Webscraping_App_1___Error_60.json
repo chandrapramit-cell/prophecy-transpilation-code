@@ -1,0 +1,88 @@
+{
+  "id" : "Billboard_Webscraping_App_1___Error_60",
+  "metainfo" : {
+    "label" : "Billboard_Webscraping_App_1___Error_60",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Error_60_s90mybEW8mGbvqngumE2h" : {
+      "id" : "Error_60_s90mybEW8mGbvqngumE2h",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Error_60"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Error_60\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "60" : {
+      "id" : "60",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Error_60",
+        "x" : 2220,
+        "y" : 1044,
+        "phase" : -1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n  CASE\n    WHEN (\n  NOT(\n    (\n      (\n        (\n          coalesce(\n            CAST((SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 4)) AS DOUBLE), \n            CAST((REGEXP_SUBSTR((SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 4)), '^[0-9]+')) AS INTEGER), \n            0)\n        ) <= 1958\n      )\n      AND (\n            (\n              coalesce(\n                CAST((\n                  SUBSTRING(\n                    (SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 7)), \n                    (\n                      (\n                        (LENGTH((SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 7))))\n                        - 2\n                      )\n                      + 1\n                    ), \n                    2)\n                ) AS DOUBLE), \n                CAST((\n                  REGEXP_SUBSTR(\n                    (\n                      SUBSTRING(\n                        (SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 7)), \n                        (\n                          (\n                            (LENGTH((SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 7))))\n                            - 2\n                          )\n                          + 1\n                        ), \n                        2)\n                    ), \n                    '^[0-9]+')\n                ) AS INTEGER), \n                0)\n            ) < 8\n          )\n    )\n    AND (\n          (\n            coalesce(\n              CAST((\n                SUBSTRING(\n                  {{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, \n                  (((LENGTH({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }})) - 2) + 1), \n                  2)\n              ) AS DOUBLE), \n              CAST((\n                REGEXP_SUBSTR(\n                  (\n                    SUBSTRING(\n                      {{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, \n                      (((LENGTH({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }})) - 2) + 1), \n                      2)\n                  ), \n                  '^[0-9]+')\n              ) AS INTEGER), \n              0)\n          ) > 0\n        ))\n) THEN TRUE\n    ELSE RAISE_ERROR('Error validating config for tool: 60')\n  END AS check_config60\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "s90mybEW8mGbvqngumE2h",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_60_s90mybEW8mGbvqngumE2h_Error_60_s90mybEW8mGbvqngumE2h",
+    "source" : "60",
+    "sourcePort" : "s90mybEW8mGbvqngumE2h",
+    "target" : "Error_60_s90mybEW8mGbvqngumE2h",
+    "targetPort" : "input_port_4",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

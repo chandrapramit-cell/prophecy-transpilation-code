@@ -1,0 +1,88 @@
+{
+  "id" : "Billboard_Webscraping_App_1___Error_63",
+  "metainfo" : {
+    "label" : "Billboard_Webscraping_App_1___Error_63",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Error_63_DiutrS3AHvvDnWzlGLkyC" : {
+      "id" : "Error_63_DiutrS3AHvvDnWzlGLkyC",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Error_63"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Error_63\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "63" : {
+      "id" : "63",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Error_63",
+        "x" : 0,
+        "y" : 252,
+        "phase" : -1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\nSELECT\n  CASE\n    WHEN (\n  NOT(\n    (\n      (\n        coalesce(\n          CAST((\n            SUBSTRING(\n              (SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 7)), \n              (\n                (\n                  (LENGTH((SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 7))))\n                  - 2\n                )\n                + 1\n              ), \n              2)\n          ) AS DOUBLE), \n          CAST((\n            REGEXP_SUBSTR(\n              (\n                SUBSTRING(\n                  (SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 7)), \n                  (\n                    (\n                      (LENGTH((SUBSTRING({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, 1, 7))))\n                      - 2\n                    )\n                    + 1\n                  ), \n                  2)\n              ), \n              '^[0-9]+')\n          ) AS INTEGER), \n          0)\n      ) > 12\n    )\n    OR (\n         (\n           coalesce(\n             CAST((\n               SUBSTRING(\n                 {{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, \n                 (((LENGTH({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }})) - 2) + 1), \n                 2)\n             ) AS DOUBLE), \n             CAST((\n               REGEXP_SUBSTR(\n                 (\n                   SUBSTRING(\n                     {{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }}, \n                     (((LENGTH({{ var('INPUT_A_DATE_TO_SEE_CORRESPONDING_BILLBOARD_HOT_100_DATA__') }})) - 2) + 1), \n                     2)\n                 ), \n                 '^[0-9]+')\n             ) AS INTEGER), \n             0)\n         ) > 31\n       ))\n) THEN TRUE\n    ELSE RAISE_ERROR('Error validating config for tool: 63')\n  END AS check_config63\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "DiutrS3AHvvDnWzlGLkyC",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_63_DiutrS3AHvvDnWzlGLkyC_Error_63_DiutrS3AHvvDnWzlGLkyC",
+    "source" : "63",
+    "sourcePort" : "DiutrS3AHvvDnWzlGLkyC",
+    "target" : "Error_63_DiutrS3AHvvDnWzlGLkyC",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
