@@ -70,7 +70,7 @@ with Pipeline(args) as pipeline:
           method = "GET",
           body = "",
           url = "{{ _processedUrl }}",
-          targetColumnName = "",
+          targetColumnName = "API_DATA",
           params = [],
           authType = "",
           headers = [],
