@@ -23,7 +23,7 @@ WITH Error_62 AS (
                ) AS INTEGER) < 0)
            )
              THEN TRUE
-           ELSE RAISE_ERROR('Error validating config for tool: 62')
+           ELSE 1 / 0
          END AS check_config62
 
 )

@@ -21,6 +21,10 @@ args = PipelineArgs(
 )
 
 with Pipeline(args) as pipeline:
+    billboard_webscraping_app_1___datacleansing_1 = Process(
+        name = "Billboard_Webscraping_App_1___DataCleansing_1",
+        properties = ModelTransform(modelName = "Billboard_Webscraping_App_1___DataCleansing_1")
+    )
     billboard_webscraping_app_1___download_21_21_requestcomponents_0 = Process(
         name = "Billboard_Webscraping_App_1___Download_21_21_requestComponents_0",
         properties = ModelTransform(modelName = "Billboard_Webscraping_App_1___Download_21_21_requestComponents_0")
@@ -60,6 +64,10 @@ with Pipeline(args) as pipeline:
         properties = ModelTransform(modelName = "Billboard_Webscraping_App_1___Error_64"),
         input_ports = None
     )
+    billboard_webscraping_app_1___regex_25 = Process(
+        name = "Billboard_Webscraping_App_1___RegEx_25",
+        properties = ModelTransform(modelName = "Billboard_Webscraping_App_1___RegEx_25")
+    )
     billboard_webscraping_app_1___sample_44 = Process(
         name = "Billboard_Webscraping_App_1___Sample_44",
         properties = ModelTransform(modelName = "Billboard_Webscraping_App_1___Sample_44")
@@ -86,6 +94,10 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    download_21_21 >> billboard_webscraping_app_1___sample_44
+    download_21_21 >> billboard_webscraping_app_1___regex_25
+    (
+        billboard_webscraping_app_1___regex_25._out(0)
+        >> [billboard_webscraping_app_1___sample_44._in(0), billboard_webscraping_app_1___datacleansing_1._in(0)]
+    )
     textinput_20 >> billboard_webscraping_app_1___download_21_21_requestcomponents_0
     billboard_webscraping_app_1___download_21_21_requestcomponents_0 >> download_21_21

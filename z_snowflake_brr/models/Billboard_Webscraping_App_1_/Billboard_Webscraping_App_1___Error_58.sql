@@ -18,7 +18,7 @@ WITH Error_58 AS (
                  ) > 0))
            )
              THEN TRUE
-           ELSE RAISE_ERROR('Error validating config for tool: 58')
+           ELSE 1 / 0
          END AS check_config58
 
 )
