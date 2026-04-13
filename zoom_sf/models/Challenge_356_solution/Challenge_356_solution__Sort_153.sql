@@ -25,6 +25,41 @@ Formula_147_0 AS (
 
 ),
 
+RegEx_142 AS (
+
+  {{
+    prophecy_basics.Regex(
+      ['Formula_147_0'], 
+      [{ 'columnName': 'regex_col1', 'dataType': 'string', 'rgxExpression': '(.)' }], 
+      '[{"name": "WORD", "dataType": "String"}, {"name": "LENGTH", "dataType": "Number"}, {"name": "FIELD_1", "dataType": "String"}]', 
+      'FIELD_1', 
+      '(.)', 
+      'tokenize', 
+      true, 
+      false, 
+      '', 
+      false, 
+      'splitRows', 
+      1, 
+      'dropExtraWithoutWarning', 
+      'GENERATED', 
+      '', 
+      false
+    )
+  }}
+
+),
+
+RegEx_142_dropGem_0 AS (
+
+  SELECT 
+    GENERATED AS FIELD_1,
+    * EXCLUDE ("GENERATED", "TOKEN_SEQUENCE", "FIELD_1")
+  
+  FROM RegEx_142 AS in0
+
+),
+
 TextInput_131 AS (
 
   SELECT * 
@@ -85,7 +120,7 @@ Filter_138 AS (
   
   FROM Transpose_136 AS in0
   
-  WHERE not(isnull(VALUE))
+  WHERE (NOT(VALUE IS NULL))
 
 ),
 
@@ -103,41 +138,6 @@ Formula_139_0 AS (
     * EXCLUDE ("VALUE")
   
   FROM Filter_138 AS in0
-
-),
-
-RegEx_142 AS (
-
-  {{
-    prophecy_basics.Regex(
-      ['Formula_147_0'], 
-      [{ 'columnName': 'regex_col1', 'dataType': 'string', 'rgxExpression': '(.)' }], 
-      '[{"name": "WORD", "dataType": "String"}, {"name": "LENGTH", "dataType": "Number"}, {"name": "FIELD_1", "dataType": "String"}]', 
-      'FIELD_1', 
-      '(.)', 
-      'tokenize', 
-      true, 
-      false, 
-      '', 
-      false, 
-      'splitRows', 
-      1, 
-      'dropExtraWithoutWarning', 
-      'GENERATED', 
-      '', 
-      false
-    )
-  }}
-
-),
-
-RegEx_142_dropGem_0 AS (
-
-  SELECT 
-    GENERATED AS FIELD_1,
-    * EXCLUDE ("GENERATED", "TOKEN_POSITION", "TOKEN_SEQUENCE", "FIELD_1")
-  
-  FROM RegEx_142 AS in0
 
 ),
 
@@ -161,7 +161,6 @@ Summarize_148 AS (
 
   SELECT 
     MAX("CONTAINS MIDDLE LETTERQUESMARK") AS "CONTAINS MIDDLE LETTERQUESMARK",
-    (FIRST_VALUE(LENGTH) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) AS LENGTH,
     COUNT(
       (
         CASE
@@ -170,7 +169,8 @@ Summarize_148 AS (
           ELSE 1
         END
       )) AS "COUNT",
-    WORD AS WORD
+    WORD AS WORD,
+    MAX(LENGTH) AS LENGTH
   
   FROM Join_143_inner AS in0
   
