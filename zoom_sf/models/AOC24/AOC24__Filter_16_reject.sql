@@ -21,9 +21,17 @@ Filter_16_reject AS (
   FROM Filter_17 AS in0
   
   WHERE (
-          NOT ((((("X-INT" >= 2.0E14D) AND ("X-INT" <= 4.0E14D)) AND ("Y-INT" >= 2.0E14D)) AND ("Y-INT" <= 4.0E14D)))
-          OR isnull(
-               (((("X-INT" >= 2.0E14D) AND ("X-INT" <= 4.0E14D)) AND ("Y-INT" >= 2.0E14D)) AND ("Y-INT" <= 4.0E14D)))
+          (
+            NOT(
+              ((("X-INT" >= 200000000000000) AND ("X-INT" <= 400000000000000)) AND ("Y-INT" >= 200000000000000))
+              AND ("Y-INT" <= 400000000000000))
+          )
+          OR (
+               (
+                 ((("X-INT" >= 200000000000000) AND ("X-INT" <= 400000000000000)) AND ("Y-INT" >= 200000000000000))
+                 AND ("Y-INT" <= 400000000000000)
+               ) IS NULL
+             )
         )
 
 )

@@ -1,6 +1,6 @@
 from prophecy_pipeline_sdk.graph import *
 from prophecy_pipeline_sdk.properties import *
-args = PipelineArgs(label = "AOC24", version = 1, auto_layout = False, params = Parameters(WORKFLOW_NAME = "'AOC24'"))
+args = PipelineArgs(label = "AOC24", version = 1, auto_layout = False, params = Parameters(WORKFLOW_NAME = "'test'"))
 
 with Pipeline(args) as pipeline:
     aoc24__filter_16 = Process(name = "AOC24__Filter_16", properties = ModelTransform(modelName = "AOC24__Filter_16"))

@@ -20,7 +20,10 @@ Filter_16 AS (
   
   FROM Filter_17 AS in0
   
-  WHERE (((("X-INT" >= 2.0E14D) AND ("X-INT" <= 4.0E14D)) AND ("Y-INT" >= 2.0E14D)) AND ("Y-INT" <= 4.0E14D))
+  WHERE (
+          ((("X-INT" >= 200000000000000) AND ("X-INT" <= 400000000000000)) AND ("Y-INT" >= 200000000000000))
+          AND ("Y-INT" <= 400000000000000)
+        )
 
 )
 
