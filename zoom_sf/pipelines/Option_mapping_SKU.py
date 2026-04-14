@@ -85,7 +85,7 @@ with Pipeline(args) as pipeline:
               ports = None,
               scriptMethodHeader = "def Script(spark: SparkSession, in0: DataFrame, in1: DataFrame) -> DataFrame:",
               scriptMethodFooter = "return out0",
-              script = "\nfrom pyspark.sql.functions import col\n\n# Fixed list of input columns to rename\nrename_cols = [\"LISTING PRICE\", \"AGE GROUP\", \"DETAILED PRODUCT GROUP\", \"COLOR GROUP\", \"UPPER_MATERIAL\", \"\"19\"\", \"\"23\"\", \"SIZE RANGE\", \"PRICE GROUP\", \"SPECIALIZED FUNCTION\", \"HEEL HEIGHT\", \"\"15\"\", \"COLLECTION\", \"LIFESTYLE GROUP\", \"DESIGN INSPIRATION\", \"\"22\"\", \"PRODUCT GROUP\", \"MG GROUP\", \"MCH EXPLANATION\", \"SKU\", \"SIZE\", \"F45\", \"COPYRIGHT GROUP\", \"\"16\"\", \"F54\", \"FACTORY\", \"\"21\"\", \"DESIGN TEAM\", \"\"43\"\", \"MOLD CODE\", \"PRODUCT LINE\", \"STYLE COLOR\", \"LAUNCH SEASON\", \"SIZE GROUP\", \"\"42\"\", \"ACTIVITY GROUP\", \"F55\", \"\"20\"\", \"MC EXPLANATION\", \"F47\", \"SIMILAR GROUP\", \"\"18\"\", \"MCH GROUP\", \"UNIT\", \"BRAND\", \"SOLE_TYPE\", \"NAME EXPLANATION\", \"\"41\"\", \"STYLE\", \"GENDER\", \"COLOR\", \"SHOE STYLE\", \"SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE\", \"DEDICATED FUNCTIONS\", \"IMAGE COPYRIGHT\"]\n\n# Collect new names from right input\nnew_names = [row[\"NewName\"] for row in in1.select(\"NewName\").collect()]\n\n\n# Build rename mapping\nrename_map = dict(zip(rename_cols, new_names))\n\n# Build final select expressions (preserve column order)\noutputCols = [\n    col(c).alias(rename_map[c]) if c in rename_map else col(c)\n    for c in in0.columns\n]\n\nout0 = in0.select(*outputCols)\n"
+              script = "\nfrom pyspark.sql.functions import col\n\n# Fixed list of input columns to rename\nrename_cols = [\"LISTING PRICE\", \"AGE GROUP\", \"DETAILED PRODUCT GROUP\", \"COLOR GROUP\", \"UPPER_MATERIAL\", \"19\", \"23\", \"SIZE RANGE\", \"PRICE GROUP\", \"SPECIALIZED FUNCTION\", \"HEEL HEIGHT\", \"15\", \"COLLECTION\", \"LIFESTYLE GROUP\", \"DESIGN INSPIRATION\", \"22\", \"PRODUCT GROUP\", \"MG GROUP\", \"MCH EXPLANATION\", \"SKU\", \"SIZE\", \"F45\", \"COPYRIGHT GROUP\", \"16\", \"F54\", \"FACTORY\", \"21\", \"DESIGN TEAM\", \"43\", \"MOLD CODE\", \"PRODUCT LINE\", \"STYLE COLOR\", \"LAUNCH SEASON\", \"SIZE GROUP\", \"42\", \"ACTIVITY GROUP\", \"F55\", \"20\", \"MC EXPLANATION\", \"F47\", \"SIMILAR GROUP\", \"18\", \"MCH GROUP\", \"UNIT\", \"BRAND\", \"SOLE_TYPE\", \"NAME EXPLANATION\", \"41\", \"STYLE\", \"GENDER\", \"COLOR\", \"SHOE STYLE\", \"SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE\", \"DEDICATED FUNCTIONS\", \"IMAGE COPYRIGHT\"]\n\n# Collect new names from right input\nnew_names = [row[\"NewName\"] for row in in1.select(\"NewName\").collect()]\n\n\n# Build rename mapping\nrename_map = dict(zip(rename_cols, new_names))\n\n# Build final select expressions (preserve column order)\noutputCols = [\n    col(c).alias(rename_map[c]) if c in rename_map else col(c)\n    for c in in0.columns\n]\n\nout0 = in0.select(*outputCols)\n"
             ),
             input_ports = 2,
             is_custom_output_schema = True
@@ -137,7 +137,6 @@ with Pipeline(args) as pipeline:
             input_ports = None
         )
 
-    option_mapping_sku__formula_254_0 >> dynamicrename_255._in(1)
     (
         attributecodes__225._out(0)
         >> [option_mapping_sku__formula_243_0._in(1), option_mapping_sku__formula_243_0._in(2),
@@ -145,7 +144,8 @@ with Pipeline(args) as pipeline:
               option_mapping_sku__formula_243_0._in(5), option_mapping_sku__formula_243_0._in(6),
               option_mapping_sku__formula_243_0._in(7), option_mapping_sku__formula_243_0._in(8)]
     )
+    option_mapping_sku__formula_243_0 >> optionmapped_sk_244
+    option_mapping_sku__formula_254_0 >> dynamicrename_255._in(1)
     textinput_213 >> option_mapping_sku__textinput_213_cast
     caysanphammaste_233._out(0) >> [dynamicrename_255._in(0), option_mapping_sku__formula_254_0._in(0)]
-    option_mapping_sku__formula_243_0 >> optionmapped_sk_244
     dynamicrename_255 >> option_mapping_sku__formula_243_0._in(0)

@@ -85,17 +85,17 @@ DynamicSelect_256 AS (
     "DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
     "COLOR GROUP" AS "COLOR GROUP",
     UPPER_MATERIAL AS UPPER_MATERIAL,
-    19 AS "19",
-    23 AS "23",
+    "19" AS "19",
+    "23" AS "23",
     "SIZE RANGE" AS "SIZE RANGE",
     "PRICE GROUP" AS "PRICE GROUP",
     "SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     "HEEL HEIGHT" AS "HEEL HEIGHT",
-    15 AS "15",
+    "15" AS "15",
     COLLECTION AS COLLECTION,
     "LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
     "DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    22 AS "22",
+    "22" AS "22",
     "PRODUCT GROUP" AS "PRODUCT GROUP",
     "MG GROUP" AS "MG GROUP",
     "MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -103,27 +103,27 @@ DynamicSelect_256 AS (
     SIZE AS SIZE,
     F45 AS F45,
     "COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    16 AS "16",
-    21 AS "21",
-    43 AS "43",
+    "16" AS "16",
+    "21" AS "21",
+    "43" AS "43",
     "MOLD CODE" AS "MOLD CODE",
     "PRODUCT LINE" AS "PRODUCT LINE",
     "STYLE COLOR" AS "STYLE COLOR",
     "LAUNCH SEASON" AS "LAUNCH SEASON",
     "SIZE GROUP" AS "SIZE GROUP",
-    42 AS "42",
+    "42" AS "42",
     "ACTIVITY GROUP" AS "ACTIVITY GROUP",
-    20 AS "20",
+    "20" AS "20",
     "MC EXPLANATION" AS "MC EXPLANATION",
     F47 AS F47,
     "SIMILAR GROUP" AS "SIMILAR GROUP",
-    18 AS "18",
+    "18" AS "18",
     "MCH GROUP" AS "MCH GROUP",
     UNIT AS UNIT,
     BRAND AS BRAND,
     SOLE_TYPE AS SOLE_TYPE,
     "NAME EXPLANATION" AS "NAME EXPLANATION",
-    41 AS "41",
+    "41" AS "41",
     STYLE AS STYLE,
     GENDER AS GENDER,
     COLOR AS COLOR,
@@ -141,13 +141,13 @@ Formula_176_0 AS (
   {#VisualGroup: SKUOptionmapping#}
   SELECT 
     CAST((CONCAT(GENDER, "SHOE STYLE")) AS STRING) AS GTCL,
-    CAST(TRIM("COLOR GROUP") AS STRING) AS "COLOR GROUP",
-    CAST(TRIM("SPECIALIZED FUNCTION") AS STRING) AS "SPECIALIZED FUNCTION",
-    CAST(TRIM("AGE GROUP") AS STRING) AS "AGE GROUP",
-    CAST(TRIM(UPPER_MATERIAL) AS STRING) AS UPPER_MATERIAL,
-    CAST(TRIM("HEEL HEIGHT") AS STRING) AS "HEEL HEIGHT",
-    CAST(TRIM("LIFESTYLE GROUP") AS STRING) AS "LIFESTYLE GROUP",
-    CAST(TRIM("SIMILAR GROUP") AS STRING) AS "SIMILAR GROUP",
+    1 AS "COLOR GROUP",
+    1 AS "SPECIALIZED FUNCTION",
+    1 AS "AGE GROUP",
+    1 AS UPPER_MATERIAL,
+    1 AS "HEEL HEIGHT",
+    1 AS "LIFESTYLE GROUP",
+    1 AS "SIMILAR GROUP",
     * EXCLUDE ("AGE GROUP", 
     "COLOR GROUP", 
     "UPPER_MATERIAL", 
@@ -181,37 +181,37 @@ FindReplace_224_join AS (
     in0."DEDICATED FUNCTIONS" AS "DEDICATED FUNCTIONS",
     in0.SKU AS SKU,
     in0."DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
-    in0.19 AS "19",
-    in0.23 AS "23",
+    in0."19" AS "19",
+    in0."23" AS "23",
     in0.COLLECTION AS COLLECTION,
     in0.SIZE AS SIZE,
     in0."NAME EXPLANATION" AS "NAME EXPLANATION",
-    in0.15 AS "15",
+    in0."15" AS "15",
     in0."PRODUCT GROUP" AS "PRODUCT GROUP",
     in0."SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE" AS "SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE",
     in0."SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     in0.STYLE AS STYLE,
     in0."LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
-    in0.22 AS "22",
+    in0."22" AS "22",
     in0."SIZE RANGE" AS "SIZE RANGE",
-    in0.16 AS "16",
+    in0."16" AS "16",
     in0."HEEL HEIGHT" AS "HEEL HEIGHT",
     in0.SOLE_TYPE AS SOLE_TYPE,
     in0.GTCL AS GTCL,
     in0."MCH GROUP" AS "MCH GROUP",
     in0.COLOR AS COLOR,
     in0."DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    in0.21 AS "21",
+    in0."21" AS "21",
     in0.BRAND AS BRAND,
-    in0.43 AS "43",
+    in0."43" AS "43",
     in0."PRICE GROUP" AS "PRICE GROUP",
     in0."IMAGE COPYRIGHT" AS "IMAGE COPYRIGHT",
     in0."SHOE STYLE" AS "SHOE STYLE",
     in0."PRODUCT LINE" AS "PRODUCT LINE",
     in0."COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    in0.42 AS "42",
+    in0."42" AS "42",
     in0."MC EXPLANATION" AS "MC EXPLANATION",
-    in0.20 AS "20",
+    in0."20" AS "20",
     in0.UPPER_MATERIAL AS UPPER_MATERIAL,
     in1._RULES AS _RULES,
     in0."SIMILAR GROUP" AS "SIMILAR GROUP",
@@ -220,9 +220,9 @@ FindReplace_224_join AS (
     in0."STYLE COLOR" AS "STYLE COLOR",
     in0.UNIT AS UNIT,
     in0."LAUNCH SEASON" AS "LAUNCH SEASON",
-    in0.18 AS "18",
+    in0."18" AS "18",
     in0."COLOR GROUP" AS "COLOR GROUP",
-    in0.41 AS "41",
+    in0."41" AS "41",
     in0."SIZE GROUP" AS "SIZE GROUP",
     in0."MG GROUP" AS "MG GROUP",
     in0."MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -283,38 +283,38 @@ FindReplace_179_join AS (
     in0."DEDICATED FUNCTIONS" AS "DEDICATED FUNCTIONS",
     in0.SKU AS SKU,
     in0."DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
-    in0.19 AS "19",
-    in0.23 AS "23",
+    in0."19" AS "19",
+    in0."23" AS "23",
     in0.COLLECTION AS COLLECTION,
     in0.SIZE AS SIZE,
     in0."NAME EXPLANATION" AS "NAME EXPLANATION",
     in0."ATTRIBUTE CODE" AS "ATTRIBUTE CODE",
-    in0.15 AS "15",
+    in0."15" AS "15",
     in0."PRODUCT GROUP" AS "PRODUCT GROUP",
     in0."SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE" AS "SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE",
     in0."SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     in0.STYLE AS STYLE,
     in0."LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
-    in0.22 AS "22",
+    in0."22" AS "22",
     in0."SIZE RANGE" AS "SIZE RANGE",
-    in0.16 AS "16",
+    in0."16" AS "16",
     in0."HEEL HEIGHT" AS "HEEL HEIGHT",
     in0.SOLE_TYPE AS SOLE_TYPE,
     in0.GTCL AS GTCL,
     in0."MCH GROUP" AS "MCH GROUP",
     in0.COLOR AS COLOR,
     in0."DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    in0.21 AS "21",
+    in0."21" AS "21",
     in0.BRAND AS BRAND,
-    in0.43 AS "43",
+    in0."43" AS "43",
     in0."PRICE GROUP" AS "PRICE GROUP",
     in0."IMAGE COPYRIGHT" AS "IMAGE COPYRIGHT",
     in0."SHOE STYLE" AS "SHOE STYLE",
     in0."PRODUCT LINE" AS "PRODUCT LINE",
     in0."COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    in0.42 AS "42",
+    in0."42" AS "42",
     in0."MC EXPLANATION" AS "MC EXPLANATION",
-    in0.20 AS "20",
+    in0."20" AS "20",
     in0.UPPER_MATERIAL AS UPPER_MATERIAL,
     in1._RULES AS _RULES,
     in0."SIMILAR GROUP" AS "SIMILAR GROUP",
@@ -323,9 +323,9 @@ FindReplace_179_join AS (
     in0."STYLE COLOR" AS "STYLE COLOR",
     in0.UNIT AS UNIT,
     in0."LAUNCH SEASON" AS "LAUNCH SEASON",
-    in0.18 AS "18",
+    in0."18" AS "18",
     in0."COLOR GROUP" AS "COLOR GROUP",
-    in0.41 AS "41",
+    in0."41" AS "41",
     in0."SIZE GROUP" AS "SIZE GROUP",
     in0."MG GROUP" AS "MG GROUP",
     in0."MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -386,39 +386,39 @@ FindReplace_227_join AS (
     in0."DEDICATED FUNCTIONS" AS "DEDICATED FUNCTIONS",
     in0.SKU AS SKU,
     in0."DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
-    in0.19 AS "19",
-    in0.23 AS "23",
+    in0."19" AS "19",
+    in0."23" AS "23",
     in0.COLLECTION AS COLLECTION,
     in0.SIZE AS SIZE,
     in0."NAME EXPLANATION" AS "NAME EXPLANATION",
     in0."ATTRIBUTE CODE" AS "ATTRIBUTE CODE",
-    in0.15 AS "15",
+    in0."15" AS "15",
     in0."PRODUCT GROUP" AS "PRODUCT GROUP",
     in0."SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE" AS "SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE",
     in0."SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     in0.STYLE AS STYLE,
     in0."LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
-    in0.22 AS "22",
+    in0."22" AS "22",
     in0."SIZE RANGE" AS "SIZE RANGE",
-    in0.16 AS "16",
+    in0."16" AS "16",
     in0."HEEL HEIGHT" AS "HEEL HEIGHT",
     in0.SOLE_TYPE AS SOLE_TYPE,
     in0.GTCL AS GTCL,
     in0."MCH GROUP" AS "MCH GROUP",
     in0.COLOR AS COLOR,
     in0."DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    in0.21 AS "21",
+    in0."21" AS "21",
     in0.BRAND AS BRAND,
-    in0.43 AS "43",
+    in0."43" AS "43",
     in0."PRICE GROUP" AS "PRICE GROUP",
     in0."IMAGE COPYRIGHT" AS "IMAGE COPYRIGHT",
     in0."SHOE STYLE" AS "SHOE STYLE",
     in0."PRODUCT LINE" AS "PRODUCT LINE",
     in0."COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    in0.42 AS "42",
+    in0."42" AS "42",
     in0."ATTRIBUTE CODE2" AS "ATTRIBUTE CODE2",
     in0."MC EXPLANATION" AS "MC EXPLANATION",
-    in0.20 AS "20",
+    in0."20" AS "20",
     in0.UPPER_MATERIAL AS UPPER_MATERIAL,
     in1._RULES AS _RULES,
     in0."SIMILAR GROUP" AS "SIMILAR GROUP",
@@ -427,9 +427,9 @@ FindReplace_227_join AS (
     in0."STYLE COLOR" AS "STYLE COLOR",
     in0.UNIT AS UNIT,
     in0."LAUNCH SEASON" AS "LAUNCH SEASON",
-    in0.18 AS "18",
+    in0."18" AS "18",
     in0."COLOR GROUP" AS "COLOR GROUP",
-    in0.41 AS "41",
+    in0."41" AS "41",
     in0."SIZE GROUP" AS "SIZE GROUP",
     in0."MG GROUP" AS "MG GROUP",
     in0."MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -490,39 +490,39 @@ FindReplace_182_join AS (
     in0."DEDICATED FUNCTIONS" AS "DEDICATED FUNCTIONS",
     in0.SKU AS SKU,
     in0."DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
-    in0.19 AS "19",
-    in0.23 AS "23",
+    in0."19" AS "19",
+    in0."23" AS "23",
     in0.COLLECTION AS COLLECTION,
     in0.SIZE AS SIZE,
     in0."NAME EXPLANATION" AS "NAME EXPLANATION",
     in0."ATTRIBUTE CODE" AS "ATTRIBUTE CODE",
-    in0.15 AS "15",
+    in0."15" AS "15",
     in0."PRODUCT GROUP" AS "PRODUCT GROUP",
     in0."SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE" AS "SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE",
     in0."SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     in0.STYLE AS STYLE,
     in0."LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
-    in0.22 AS "22",
+    in0."22" AS "22",
     in0."SIZE RANGE" AS "SIZE RANGE",
-    in0.16 AS "16",
+    in0."16" AS "16",
     in0."HEEL HEIGHT" AS "HEEL HEIGHT",
     in0.SOLE_TYPE AS SOLE_TYPE,
     in0.GTCL AS GTCL,
     in0."MCH GROUP" AS "MCH GROUP",
     in0.COLOR AS COLOR,
     in0."DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    in0.21 AS "21",
+    in0."21" AS "21",
     in0.BRAND AS BRAND,
-    in0.43 AS "43",
+    in0."43" AS "43",
     in0."PRICE GROUP" AS "PRICE GROUP",
     in0."IMAGE COPYRIGHT" AS "IMAGE COPYRIGHT",
     in0."SHOE STYLE" AS "SHOE STYLE",
     in0."PRODUCT LINE" AS "PRODUCT LINE",
     in0."COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    in0.42 AS "42",
+    in0."42" AS "42",
     in0."ATTRIBUTE CODE2" AS "ATTRIBUTE CODE2",
     in0."MC EXPLANATION" AS "MC EXPLANATION",
-    in0.20 AS "20",
+    in0."20" AS "20",
     in0.UPPER_MATERIAL AS UPPER_MATERIAL,
     in1._RULES AS _RULES,
     in0."SIMILAR GROUP" AS "SIMILAR GROUP",
@@ -531,9 +531,9 @@ FindReplace_182_join AS (
     in0."STYLE COLOR" AS "STYLE COLOR",
     in0.UNIT AS UNIT,
     in0."LAUNCH SEASON" AS "LAUNCH SEASON",
-    in0.18 AS "18",
+    in0."18" AS "18",
     in0."COLOR GROUP" AS "COLOR GROUP",
-    in0.41 AS "41",
+    in0."41" AS "41",
     in0."SIZE GROUP" AS "SIZE GROUP",
     in0."MG GROUP" AS "MG GROUP",
     in0."MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -595,40 +595,40 @@ FindReplace_180_join AS (
     in0."DEDICATED FUNCTIONS" AS "DEDICATED FUNCTIONS",
     in0.SKU AS SKU,
     in0."DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
-    in0.19 AS "19",
-    in0.23 AS "23",
+    in0."19" AS "19",
+    in0."23" AS "23",
     in0.COLLECTION AS COLLECTION,
     in0.SIZE AS SIZE,
     in0."NAME EXPLANATION" AS "NAME EXPLANATION",
     in0."ATTRIBUTE CODE" AS "ATTRIBUTE CODE",
-    in0.15 AS "15",
+    in0."15" AS "15",
     in0."PRODUCT GROUP" AS "PRODUCT GROUP",
     in0."SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE" AS "SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE",
     in0."ATTRIBUTE CODE4" AS "ATTRIBUTE CODE4",
     in0."SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     in0.STYLE AS STYLE,
     in0."LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
-    in0.22 AS "22",
+    in0."22" AS "22",
     in0."SIZE RANGE" AS "SIZE RANGE",
-    in0.16 AS "16",
+    in0."16" AS "16",
     in0."HEEL HEIGHT" AS "HEEL HEIGHT",
     in0.SOLE_TYPE AS SOLE_TYPE,
     in0.GTCL AS GTCL,
     in0."MCH GROUP" AS "MCH GROUP",
     in0.COLOR AS COLOR,
     in0."DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    in0.21 AS "21",
+    in0."21" AS "21",
     in0.BRAND AS BRAND,
-    in0.43 AS "43",
+    in0."43" AS "43",
     in0."PRICE GROUP" AS "PRICE GROUP",
     in0."IMAGE COPYRIGHT" AS "IMAGE COPYRIGHT",
     in0."SHOE STYLE" AS "SHOE STYLE",
     in0."PRODUCT LINE" AS "PRODUCT LINE",
     in0."COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    in0.42 AS "42",
+    in0."42" AS "42",
     in0."ATTRIBUTE CODE2" AS "ATTRIBUTE CODE2",
     in0."MC EXPLANATION" AS "MC EXPLANATION",
-    in0.20 AS "20",
+    in0."20" AS "20",
     in0.UPPER_MATERIAL AS UPPER_MATERIAL,
     in1._RULES AS _RULES,
     in0."SIMILAR GROUP" AS "SIMILAR GROUP",
@@ -637,9 +637,9 @@ FindReplace_180_join AS (
     in0."STYLE COLOR" AS "STYLE COLOR",
     in0.UNIT AS UNIT,
     in0."LAUNCH SEASON" AS "LAUNCH SEASON",
-    in0.18 AS "18",
+    in0."18" AS "18",
     in0."COLOR GROUP" AS "COLOR GROUP",
-    in0.41 AS "41",
+    in0."41" AS "41",
     in0."SIZE GROUP" AS "SIZE GROUP",
     in0."MG GROUP" AS "MG GROUP",
     in0."MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -710,41 +710,41 @@ FindReplace_181_join AS (
     in0."DEDICATED FUNCTIONS" AS "DEDICATED FUNCTIONS",
     in0.SKU AS SKU,
     in0."DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
-    in0.19 AS "19",
-    in0.23 AS "23",
+    in0."19" AS "19",
+    in0."23" AS "23",
     in0.COLLECTION AS COLLECTION,
     in0.SIZE AS SIZE,
     in0."NAME EXPLANATION" AS "NAME EXPLANATION",
     in0."ATTRIBUTE CODE" AS "ATTRIBUTE CODE",
-    in0.15 AS "15",
+    in0."15" AS "15",
     in0."PRODUCT GROUP" AS "PRODUCT GROUP",
     in0."SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE" AS "SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE",
     in0."ATTRIBUTE CODE4" AS "ATTRIBUTE CODE4",
     in0."SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     in0.STYLE AS STYLE,
     in0."LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
-    in0.22 AS "22",
+    in0."22" AS "22",
     in0."SIZE RANGE" AS "SIZE RANGE",
-    in0.16 AS "16",
+    in0."16" AS "16",
     in0."HEEL HEIGHT" AS "HEEL HEIGHT",
     in0.SOLE_TYPE AS SOLE_TYPE,
     in0.GTCL AS GTCL,
     in0."MCH GROUP" AS "MCH GROUP",
     in0.COLOR AS COLOR,
     in0."DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    in0.21 AS "21",
+    in0."21" AS "21",
     in0.BRAND AS BRAND,
-    in0.43 AS "43",
+    in0."43" AS "43",
     in0."PRICE GROUP" AS "PRICE GROUP",
     in0."ATTRIBUTE CODE5" AS "ATTRIBUTE CODE5",
     in0."IMAGE COPYRIGHT" AS "IMAGE COPYRIGHT",
     in0."SHOE STYLE" AS "SHOE STYLE",
     in0."PRODUCT LINE" AS "PRODUCT LINE",
     in0."COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    in0.42 AS "42",
+    in0."42" AS "42",
     in0."ATTRIBUTE CODE2" AS "ATTRIBUTE CODE2",
     in0."MC EXPLANATION" AS "MC EXPLANATION",
-    in0.20 AS "20",
+    in0."20" AS "20",
     in0.UPPER_MATERIAL AS UPPER_MATERIAL,
     in1._RULES AS _RULES,
     in0."SIMILAR GROUP" AS "SIMILAR GROUP",
@@ -753,9 +753,9 @@ FindReplace_181_join AS (
     in0."STYLE COLOR" AS "STYLE COLOR",
     in0.UNIT AS UNIT,
     in0."LAUNCH SEASON" AS "LAUNCH SEASON",
-    in0.18 AS "18",
+    in0."18" AS "18",
     in0."COLOR GROUP" AS "COLOR GROUP",
-    in0.41 AS "41",
+    in0."41" AS "41",
     in0."SIZE GROUP" AS "SIZE GROUP",
     in0."MG GROUP" AS "MG GROUP",
     in0."MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -819,41 +819,41 @@ FindReplace_228_join AS (
     in0."DEDICATED FUNCTIONS" AS "DEDICATED FUNCTIONS",
     in0.SKU AS SKU,
     in0."DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
-    in0.19 AS "19",
-    in0.23 AS "23",
+    in0."19" AS "19",
+    in0."23" AS "23",
     in0.COLLECTION AS COLLECTION,
     in0.SIZE AS SIZE,
     in0."NAME EXPLANATION" AS "NAME EXPLANATION",
     in0."ATTRIBUTE CODE" AS "ATTRIBUTE CODE",
-    in0.15 AS "15",
+    in0."15" AS "15",
     in0."PRODUCT GROUP" AS "PRODUCT GROUP",
     in0."SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE" AS "SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE",
     in0."ATTRIBUTE CODE4" AS "ATTRIBUTE CODE4",
     in0."SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     in0.STYLE AS STYLE,
     in0."LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
-    in0.22 AS "22",
+    in0."22" AS "22",
     in0."SIZE RANGE" AS "SIZE RANGE",
-    in0.16 AS "16",
+    in0."16" AS "16",
     in0."HEEL HEIGHT" AS "HEEL HEIGHT",
     in0.SOLE_TYPE AS SOLE_TYPE,
     in0.GTCL AS GTCL,
     in0."MCH GROUP" AS "MCH GROUP",
     in0.COLOR AS COLOR,
     in0."DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    in0.21 AS "21",
+    in0."21" AS "21",
     in0.BRAND AS BRAND,
-    in0.43 AS "43",
+    in0."43" AS "43",
     in0."PRICE GROUP" AS "PRICE GROUP",
     in0."ATTRIBUTE CODE5" AS "ATTRIBUTE CODE5",
     in0."IMAGE COPYRIGHT" AS "IMAGE COPYRIGHT",
     in0."SHOE STYLE" AS "SHOE STYLE",
     in0."PRODUCT LINE" AS "PRODUCT LINE",
     in0."COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    in0.42 AS "42",
+    in0."42" AS "42",
     in0."ATTRIBUTE CODE2" AS "ATTRIBUTE CODE2",
     in0."MC EXPLANATION" AS "MC EXPLANATION",
-    in0.20 AS "20",
+    in0."20" AS "20",
     in0.UPPER_MATERIAL AS UPPER_MATERIAL,
     in1._RULES AS _RULES,
     in0."SIMILAR GROUP" AS "SIMILAR GROUP",
@@ -863,9 +863,9 @@ FindReplace_228_join AS (
     in0."STYLE COLOR" AS "STYLE COLOR",
     in0.UNIT AS UNIT,
     in0."LAUNCH SEASON" AS "LAUNCH SEASON",
-    in0.18 AS "18",
+    in0."18" AS "18",
     in0."COLOR GROUP" AS "COLOR GROUP",
-    in0.41 AS "41",
+    in0."41" AS "41",
     in0."SIZE GROUP" AS "SIZE GROUP",
     in0."MG GROUP" AS "MG GROUP",
     in0."MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -936,41 +936,41 @@ FindReplace_183_join AS (
     in0."DEDICATED FUNCTIONS" AS "DEDICATED FUNCTIONS",
     in0.SKU AS SKU,
     in0."DETAILED PRODUCT GROUP" AS "DETAILED PRODUCT GROUP",
-    in0.19 AS "19",
-    in0.23 AS "23",
+    in0."19" AS "19",
+    in0."23" AS "23",
     in0.COLLECTION AS COLLECTION,
     in0.SIZE AS SIZE,
     in0."NAME EXPLANATION" AS "NAME EXPLANATION",
     in0."ATTRIBUTE CODE" AS "ATTRIBUTE CODE",
-    in0.15 AS "15",
+    in0."15" AS "15",
     in0."PRODUCT GROUP" AS "PRODUCT GROUP",
     in0."SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE" AS "SOLE_CODE PARANTHESESOPENSAPPARANTHESESCLOSE",
     in0."ATTRIBUTE CODE4" AS "ATTRIBUTE CODE4",
     in0."SPECIALIZED FUNCTION" AS "SPECIALIZED FUNCTION",
     in0.STYLE AS STYLE,
     in0."LIFESTYLE GROUP" AS "LIFESTYLE GROUP",
-    in0.22 AS "22",
+    in0."22" AS "22",
     in0."SIZE RANGE" AS "SIZE RANGE",
-    in0.16 AS "16",
+    in0."16" AS "16",
     in0."HEEL HEIGHT" AS "HEEL HEIGHT",
     in0.SOLE_TYPE AS SOLE_TYPE,
     in0.GTCL AS GTCL,
     in0."MCH GROUP" AS "MCH GROUP",
     in0.COLOR AS COLOR,
     in0."DESIGN INSPIRATION" AS "DESIGN INSPIRATION",
-    in0.21 AS "21",
+    in0."21" AS "21",
     in0.BRAND AS BRAND,
-    in0.43 AS "43",
+    in0."43" AS "43",
     in0."PRICE GROUP" AS "PRICE GROUP",
     in0."ATTRIBUTE CODE5" AS "ATTRIBUTE CODE5",
     in0."IMAGE COPYRIGHT" AS "IMAGE COPYRIGHT",
     in0."SHOE STYLE" AS "SHOE STYLE",
     in0."PRODUCT LINE" AS "PRODUCT LINE",
     in0."COPYRIGHT GROUP" AS "COPYRIGHT GROUP",
-    in0.42 AS "42",
+    in0."42" AS "42",
     in0."ATTRIBUTE CODE2" AS "ATTRIBUTE CODE2",
     in0."MC EXPLANATION" AS "MC EXPLANATION",
-    in0.20 AS "20",
+    in0."20" AS "20",
     in0.UPPER_MATERIAL AS UPPER_MATERIAL,
     in1._RULES AS _RULES,
     in0."SIMILAR GROUP" AS "SIMILAR GROUP",
@@ -980,9 +980,9 @@ FindReplace_183_join AS (
     in0."STYLE COLOR" AS "STYLE COLOR",
     in0.UNIT AS UNIT,
     in0."LAUNCH SEASON" AS "LAUNCH SEASON",
-    in0.18 AS "18",
+    in0."18" AS "18",
     in0."COLOR GROUP" AS "COLOR GROUP",
-    in0.41 AS "41",
+    in0."41" AS "41",
     in0."SIZE GROUP" AS "SIZE GROUP",
     in0."MG GROUP" AS "MG GROUP",
     in0."MCH EXPLANATION" AS "MCH EXPLANATION",
@@ -1099,87 +1099,26 @@ DynamicSelect_248 AS (
 
 ),
 
-Filter_202 AS (
+Filter_187 AS (
 
   {#VisualGroup: SKUOptionmapping#}
   SELECT * 
   
   FROM DynamicSelect_248 AS in0
   
-  WHERE (
-          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TT')
-          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'S')
-        )
+  WHERE (GENDER IN ('BOY', 'GIR'))
 
 ),
 
-Formula_203_0 AS (
+Formula_188_to_Formula_189_0 AS (
 
   {#VisualGroup: SKUOptionmapping#}
   SELECT 
-    CAST((CONCAT("A CODE 1", '-', "A CODE 2")) AS STRING) AS "OPTION CODE",
-    CAST((CONCAT("PRICE GROUP", '-', "COLOR GROUP")) AS STRING) AS OPTION,
+    CAST((CONCAT("A CODE 1", '-', "A CODE 2", '-', "A CODE 3")) AS STRING) AS "OPTION CODE",
+    CAST((CONCAT("PRICE GROUP", '-', "COLOR GROUP", '-', "AGE GROUP")) AS STRING) AS OPTION,
     *
   
-  FROM Filter_202 AS in0
-
-),
-
-Filter_200 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT * 
-  
-  FROM DynamicSelect_248 AS in0
-  
-  WHERE (
-          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TY')
-          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'G')
-        )
-
-),
-
-Formula_201_0 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT 
-    CAST((CONCAT("A CODE 1", '-', "A CODE 4")) AS STRING) AS "OPTION CODE",
-    CAST((CONCAT("PRICE GROUP", '-', "LIFESTYLE GROUP")) AS STRING) AS OPTION,
-    *
-  
-  FROM Filter_200 AS in0
-
-),
-
-Filter_192 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT * 
-  
-  FROM DynamicSelect_248 AS in0
-  
-  WHERE (
-          (
-            (
-              ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'CH')
-              OR ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'FB')
-            )
-            OR ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TS')
-          )
-          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'G')
-        )
-
-),
-
-Formula_193_0 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT 
-    CAST((CONCAT("A CODE 1", '-', "A CODE 6")) AS STRING) AS "OPTION CODE",
-    CAST((CONCAT("PRICE GROUP", '-', "SPECIALIZED FUNCTION")) AS STRING) AS OPTION,
-    *
-  
-  FROM Filter_192 AS in0
+  FROM Filter_187 AS in0
 
 ),
 
@@ -1206,44 +1145,6 @@ Formula_199_0 AS (
     *
   
   FROM Filter_198 AS in0
-
-),
-
-Filter_204 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT * 
-  
-  FROM DynamicSelect_248 AS in0
-  
-  WHERE (
-          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TD')
-          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'S')
-        )
-
-),
-
-Formula_205_0 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT 
-    (
-      CASE
-        WHEN (GENDER = 'WOM')
-          THEN (CONCAT("A CODE 1", '-', "A CODE 2"))
-        ELSE (CONCAT("A CODE 1", '-', "A CODE 3"))
-      END
-    ) AS "OPTION CODE",
-    (
-      CASE
-        WHEN (GENDER = 'WOM')
-          THEN (CONCAT("PRICE GROUP", '-', "COLOR GROUP"))
-        ELSE (CONCAT("PRICE GROUP", '-', "AGE GROUP"))
-      END
-    ) AS OPTION,
-    *
-  
-  FROM Filter_204 AS in0
 
 ),
 
@@ -1284,7 +1185,7 @@ Formula_186_0 AS (
 
 ),
 
-Filter_208 AS (
+Filter_196 AS (
 
   {#VisualGroup: SKUOptionmapping#}
   SELECT * 
@@ -1292,85 +1193,25 @@ Filter_208 AS (
   FROM DynamicSelect_248 AS in0
   
   WHERE (
-          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'XP')
-          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'S')
-        )
-
-),
-
-Formula_209_0 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT 
-    (
-      CASE
-        WHEN (GENDER = 'WOM')
-          THEN (CONCAT("A CODE 1", '-', "A CODE 2", '-', "A CODE 3"))
-        ELSE (CONCAT("A CODE 1", '-', "A CODE 3"))
-      END
-    ) AS "OPTION CODE",
-    (
-      CASE
-        WHEN (GENDER = 'WOM')
-          THEN (CONCAT("PRICE GROUP", '-', "COLOR GROUP", '-', "AGE GROUP"))
-        ELSE (CONCAT("PRICE GROUP", '-', "AGE GROUP"))
-      END
-    ) AS OPTION,
-    *
-  
-  FROM Filter_208 AS in0
-
-),
-
-Filter_210 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT * 
-  
-  FROM DynamicSelect_248 AS in0
-  
-  WHERE (
-          (
-            (
-              ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BB')
-              OR ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BI')
-            )
-            OR ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BT')
-          )
+          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'SK')
           AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'G')
         )
 
 ),
 
-Formula_211_0 AS (
+Formula_197_0 AS (
 
   {#VisualGroup: SKUOptionmapping#}
   SELECT 
-    (
-      CASE
-        WHEN ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BB')
-          THEN (CONCAT("A CODE 1", '-', "A CODE 4"))
-        WHEN ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BI')
-          THEN (CONCAT("A CODE 1", '-', "A CODE 4", '-', "A CODE 5"))
-        ELSE (CONCAT("A CODE 1", '-', "A CODE 2", '-', "A CODE 5"))
-      END
-    ) AS "OPTION CODE",
-    (
-      CASE
-        WHEN ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BB')
-          THEN (CONCAT("PRICE GROUP", '-', "LIFESTYLE GROUP"))
-        WHEN ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BI')
-          THEN (CONCAT("PRICE GROUP", '-', "LIFESTYLE GROUP", '-', "HEEL HEIGHT"))
-        ELSE (CONCAT("PRICE GROUP", '-', "COLOR GROUP", '-', "HEEL HEIGHT"))
-      END
-    ) AS OPTION,
+    CAST((CONCAT("A CODE 1", '-', "A CODE 2", '-', "A CODE 7")) AS STRING) AS "OPTION CODE",
+    CAST((CONCAT("PRICE GROUP", '-', "COLOR GROUP", '-', "PRODUCT LINE")) AS STRING) AS OPTION,
     *
   
-  FROM Filter_210 AS in0
+  FROM Filter_196 AS in0
 
 ),
 
-Filter_206 AS (
+Filter_202 AS (
 
   {#VisualGroup: SKUOptionmapping#}
   SELECT * 
@@ -1378,44 +1219,21 @@ Filter_206 AS (
   FROM DynamicSelect_248 AS in0
   
   WHERE (
-          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TR')
+          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TT')
           AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'S')
         )
 
 ),
 
-Formula_207_0 AS (
+Formula_203_0 AS (
 
   {#VisualGroup: SKUOptionmapping#}
   SELECT 
-    CAST((CONCAT("A CODE 1", '-', "A CODE 4", '-', "A CODE 5")) AS STRING) AS "OPTION CODE",
-    CAST((CONCAT("PRICE GROUP", '-', "LIFESTYLE GROUP", '-', "HEEL HEIGHT")) AS STRING) AS OPTION,
+    CAST((CONCAT("A CODE 1", '-', "A CODE 2")) AS STRING) AS "OPTION CODE",
+    CAST((CONCAT("PRICE GROUP", '-', "COLOR GROUP")) AS STRING) AS OPTION,
     *
   
-  FROM Filter_206 AS in0
-
-),
-
-Filter_187 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT * 
-  
-  FROM DynamicSelect_248 AS in0
-  
-  WHERE (GENDER IN ('BOY', 'GIR'))
-
-),
-
-Formula_188_to_Formula_189_0 AS (
-
-  {#VisualGroup: SKUOptionmapping#}
-  SELECT 
-    CAST((CONCAT("A CODE 1", '-', "A CODE 2", '-', "A CODE 3")) AS STRING) AS "OPTION CODE",
-    CAST((CONCAT("PRICE GROUP", '-', "COLOR GROUP", '-', "AGE GROUP")) AS STRING) AS OPTION,
-    *
-  
-  FROM Filter_187 AS in0
+  FROM Filter_202 AS in0
 
 ),
 
@@ -1481,7 +1299,7 @@ Formula_190_0 AS (
 
 ),
 
-Filter_196 AS (
+Filter_208 AS (
 
   {#VisualGroup: SKUOptionmapping#}
   SELECT * 
@@ -1489,21 +1307,203 @@ Filter_196 AS (
   FROM DynamicSelect_248 AS in0
   
   WHERE (
-          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'SK')
+          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'XP')
+          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'S')
+        )
+
+),
+
+Formula_209_0 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT 
+    (
+      CASE
+        WHEN (GENDER = 'WOM')
+          THEN (CONCAT("A CODE 1", '-', "A CODE 2", '-', "A CODE 3"))
+        ELSE (CONCAT("A CODE 1", '-', "A CODE 3"))
+      END
+    ) AS "OPTION CODE",
+    (
+      CASE
+        WHEN (GENDER = 'WOM')
+          THEN (CONCAT("PRICE GROUP", '-', "COLOR GROUP", '-', "AGE GROUP"))
+        ELSE (CONCAT("PRICE GROUP", '-', "AGE GROUP"))
+      END
+    ) AS OPTION,
+    *
+  
+  FROM Filter_208 AS in0
+
+),
+
+Filter_206 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT * 
+  
+  FROM DynamicSelect_248 AS in0
+  
+  WHERE (
+          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TR')
+          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'S')
+        )
+
+),
+
+Formula_207_0 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT 
+    CAST((CONCAT("A CODE 1", '-', "A CODE 4", '-', "A CODE 5")) AS STRING) AS "OPTION CODE",
+    CAST((CONCAT("PRICE GROUP", '-', "LIFESTYLE GROUP", '-', "HEEL HEIGHT")) AS STRING) AS OPTION,
+    *
+  
+  FROM Filter_206 AS in0
+
+),
+
+Filter_192 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT * 
+  
+  FROM DynamicSelect_248 AS in0
+  
+  WHERE (
+          (
+            (
+              ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'CH')
+              OR ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'FB')
+            )
+            OR ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TS')
+          )
           AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'G')
         )
 
 ),
 
-Formula_197_0 AS (
+Formula_193_0 AS (
 
   {#VisualGroup: SKUOptionmapping#}
   SELECT 
-    CAST((CONCAT("A CODE 1", '-', "A CODE 2", '-', "A CODE 7")) AS STRING) AS "OPTION CODE",
-    CAST((CONCAT("PRICE GROUP", '-', "COLOR GROUP", '-', "PRODUCT LINE")) AS STRING) AS OPTION,
+    CAST((CONCAT("A CODE 1", '-', "A CODE 6")) AS STRING) AS "OPTION CODE",
+    CAST((CONCAT("PRICE GROUP", '-', "SPECIALIZED FUNCTION")) AS STRING) AS OPTION,
     *
   
-  FROM Filter_196 AS in0
+  FROM Filter_192 AS in0
+
+),
+
+Filter_200 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT * 
+  
+  FROM DynamicSelect_248 AS in0
+  
+  WHERE (
+          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TY')
+          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'G')
+        )
+
+),
+
+Formula_201_0 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT 
+    CAST((CONCAT("A CODE 1", '-', "A CODE 4")) AS STRING) AS "OPTION CODE",
+    CAST((CONCAT("PRICE GROUP", '-', "LIFESTYLE GROUP")) AS STRING) AS OPTION,
+    *
+  
+  FROM Filter_200 AS in0
+
+),
+
+Filter_204 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT * 
+  
+  FROM DynamicSelect_248 AS in0
+  
+  WHERE (
+          ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'TD')
+          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'S')
+        )
+
+),
+
+Formula_205_0 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT 
+    (
+      CASE
+        WHEN (GENDER = 'WOM')
+          THEN (CONCAT("A CODE 1", '-', "A CODE 2"))
+        ELSE (CONCAT("A CODE 1", '-', "A CODE 3"))
+      END
+    ) AS "OPTION CODE",
+    (
+      CASE
+        WHEN (GENDER = 'WOM')
+          THEN (CONCAT("PRICE GROUP", '-', "COLOR GROUP"))
+        ELSE (CONCAT("PRICE GROUP", '-', "AGE GROUP"))
+      END
+    ) AS OPTION,
+    *
+  
+  FROM Filter_204 AS in0
+
+),
+
+Filter_210 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT * 
+  
+  FROM DynamicSelect_248 AS in0
+  
+  WHERE (
+          (
+            (
+              ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BB')
+              OR ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BI')
+            )
+            OR ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BT')
+          )
+          AND ((SUBSTRING("SHOE STYLE", 1, 1)) = 'G')
+        )
+
+),
+
+Formula_211_0 AS (
+
+  {#VisualGroup: SKUOptionmapping#}
+  SELECT 
+    (
+      CASE
+        WHEN ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BB')
+          THEN (CONCAT("A CODE 1", '-', "A CODE 4"))
+        WHEN ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BI')
+          THEN (CONCAT("A CODE 1", '-', "A CODE 4", '-', "A CODE 5"))
+        ELSE (CONCAT("A CODE 1", '-', "A CODE 2", '-', "A CODE 5"))
+      END
+    ) AS "OPTION CODE",
+    (
+      CASE
+        WHEN ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BB')
+          THEN (CONCAT("PRICE GROUP", '-', "LIFESTYLE GROUP"))
+        WHEN ((SUBSTRING("SHOE STYLE", (((LENGTH("SHOE STYLE")) - 2) + 1), 2)) = 'BI')
+          THEN (CONCAT("PRICE GROUP", '-', "LIFESTYLE GROUP", '-', "HEEL HEIGHT"))
+        ELSE (CONCAT("PRICE GROUP", '-', "COLOR GROUP", '-', "HEEL HEIGHT"))
+      END
+    ) AS OPTION,
+    *
+  
+  FROM Filter_210 AS in0
 
 ),
 
