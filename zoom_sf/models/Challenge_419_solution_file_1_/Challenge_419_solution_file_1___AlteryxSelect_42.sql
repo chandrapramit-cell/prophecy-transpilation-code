@@ -40,8 +40,7 @@ Formula_45_0 AS (
 CrossTab_41 AS (
 
   {#VisualGroup: Task1#}
-  SELECT 
-    1 AS BASET_LIST
+  SELECT 1 AS BASET_LIST
   
   FROM Formula_45_0 AS in0
   PIVOT (

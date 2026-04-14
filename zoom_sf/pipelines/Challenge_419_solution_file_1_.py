@@ -10,19 +10,17 @@ args = PipelineArgs(
 with Pipeline(args) as pipeline:
 
     with visual_group("Task1"):
-        pass
+        challenge_419_solution_file_1___alteryxselect_42 = Process(
+            name = "Challenge_419_solution_file_1___AlteryxSelect_42",
+            properties = ModelTransform(modelName = "Challenge_419_solution_file_1___AlteryxSelect_42")
+        )
 
     with visual_group("Task2"):
-        pass
+        challenge_419_solution_file_1___formula_22_0 = Process(
+            name = "Challenge_419_solution_file_1___Formula_22_0",
+            properties = ModelTransform(modelName = "Challenge_419_solution_file_1___Formula_22_0")
+        )
 
-    challenge_419_solution_file_1___alteryxselect_42 = Process(
-        name = "Challenge_419_solution_file_1___AlteryxSelect_42",
-        properties = ModelTransform(modelName = "Challenge_419_solution_file_1___AlteryxSelect_42")
-    )
-    challenge_419_solution_file_1___formula_22_0 = Process(
-        name = "Challenge_419_solution_file_1___Formula_22_0",
-        properties = ModelTransform(modelName = "Challenge_419_solution_file_1___Formula_22_0")
-    )
     challenge_419_solution_file_1___multirowformula_19_0 = Process(
         name = "Challenge_419_solution_file_1___MultiRowFormula_19_0",
         properties = ModelTransform(modelName = "Challenge_419_solution_file_1___MultiRowFormula_19_0"),
