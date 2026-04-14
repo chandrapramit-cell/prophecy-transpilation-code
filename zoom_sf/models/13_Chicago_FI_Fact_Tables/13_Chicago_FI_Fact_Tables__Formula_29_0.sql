@@ -165,6 +165,22 @@ DSN_Chicago_SSM_12 AS (
 
 ),
 
+DSN_Chicago_SSM_62 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('13_Chicago_FI_Fact_Tables', 'DSN_Chicago_SSM_62') }}
+
+),
+
+DSN_Chicago_SSM_18 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('13_Chicago_FI_Fact_Tables', 'DSN_Chicago_SSM_18') }}
+
+),
+
 DSN_Chicago_SSM_14 AS (
 
   SELECT *
@@ -188,22 +204,6 @@ Join_11_inner AS (
   FROM Join_9_inner AS in0
   INNER JOIN DSN_Chicago_SSM_12 AS in1
      ON (in0."INSPECTION TYPE" = in1.INSPECTIONTYPE)
-
-),
-
-DSN_Chicago_SSM_18 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('13_Chicago_FI_Fact_Tables', 'DSN_Chicago_SSM_18') }}
-
-),
-
-DSN_Chicago_SSM_62 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('13_Chicago_FI_Fact_Tables', 'DSN_Chicago_SSM_62') }}
 
 ),
 
