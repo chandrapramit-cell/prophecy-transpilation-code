@@ -1,0 +1,155 @@
+{
+  "id" : "m_mmrt_credit_card_cal_hist_sum_load__SM_ACCOUNT_GOOD_BAD",
+  "metainfo" : {
+    "label" : "m_mmrt_credit_card_cal_hist_sum_load__SM_ACCOUNT_GOOD_BAD",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"SM_ACCOUNT_GOOD_BAD\"",
+        "materialized" : "table",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "SM_ACCOUNT_GOOD_BAD" : {
+      "id" : "SM_ACCOUNT_GOOD_BAD",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "SM_ACCOUNT_GOOD_BAD",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM SQTRANS_EXPR_21\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SM_ACCOUNT_GOOD_BAD_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "KHjx0AjN9tpi9afklbixX",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SQTRANS_EXPR_21" : {
+      "id" : "SQTRANS_EXPR_21",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "SQTRANS_EXPR_21",
+        "x" : 220,
+        "y" : 220,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "PERIODID",
+            "_row_id" : null
+          },
+          "alias" : "PERIODID",
+          "description" : null,
+          "_row_id" : "wW0hsr3rvnFOIcldIgCFa"
+        }, {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "0BIfdVCT9--JPUez1diKp"
+        }, {
+          "expression" : {
+            "expression" : "STATUS",
+            "_row_id" : null
+          },
+          "alias" : "ACCOUNT_STATUS",
+          "description" : null,
+          "_row_id" : "1wQN4SJlP5_ItPYWHmZK9"
+        }, {
+          "expression" : {
+            "expression" : "GOOD_BAD_FLAG",
+            "_row_id" : null
+          },
+          "alias" : "GOOD_BAD_FLAG",
+          "description" : null,
+          "_row_id" : "CmKueC4fr5R2aoyg655M1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SQTRANS_EXPR_21_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "SQTRANS_EXPR_21_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_credit_card_cal_hist_sum_load_SQTRANS_SQTRANS_out0" : {
+      "id" : "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_credit_card_cal_hist_sum_load_SQTRANS_SQTRANS_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_credit_card_cal_hist_sum_load_SQTRANS"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('m_mmrt_credit_card_cal_hist_sum_load', '{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_credit_card_cal_hist_sum_load_SQTRANS') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_134",
+    "source" : "SQTRANS_EXPR_21",
+    "sourcePort" : "SQTRANS_EXPR_21_out0",
+    "target" : "SM_ACCOUNT_GOOD_BAD",
+    "targetPort" : "SM_ACCOUNT_GOOD_BAD_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_136",
+    "source" : "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_credit_card_cal_hist_sum_load_SQTRANS_SQTRANS_out0",
+    "sourcePort" : "output_port_0",
+    "target" : "SQTRANS_EXPR_21",
+    "targetPort" : "SQTRANS_EXPR_21_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

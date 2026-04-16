@@ -1,0 +1,231 @@
+{
+  "id" : "m_mmrt_credit_card_plan_cal_hist_sum_load",
+  "metainfo" : {
+    "label" : "m_mmrt_credit_card_plan_cal_hist_sum_load",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "MP_BUSDATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS" : "models/m_mmrt_credit_card_plan_cal_hist_sum_load/m_mmrt_credit_card_plan_cal_hist_sum_load__SM_CREDIT_CARD_PLAN_CAL_MTH_HIS.sql",
+      "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_credit_card_plan_cal_hist_sum_load_SQ_CREDIT_PLAN_SQ_CREDIT_PLAN_out0" : "models/m_mmrt_credit_card_plan_cal_hist_sum_load/m_mmrt_credit_card_plan_cal_hist_sum_load__SM_CREDIT_CARD_PLAN_CAL_MTH_HIS.sql",
+      "SQ_CREDIT_PLAN_EXPR_6" : "models/m_mmrt_credit_card_plan_cal_hist_sum_load/m_mmrt_credit_card_plan_cal_hist_sum_load__SM_CREDIT_CARD_PLAN_CAL_MTH_HIS.sql"
+    }
+  },
+  "processes" : {
+    "SQ_CREDIT_PLAN" : {
+      "id" : "SQ_CREDIT_PLAN",
+      "component" : "OrchestrationSource",
+      "kind" : "OracleSource",
+      "metadata" : {
+        "label" : "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_credit_card_plan_cal_hist_sum_load_SQ_CREDIT_PLAN",
+        "x" : 20,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "connector" : {
+          "kind" : "oracle",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "database" : "dbName",
+            "server" : "$$jdbcUrl",
+            "username" : "$$username",
+            "id" : "transpiled_connection",
+            "port" : "1521",
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
+        },
+        "properties" : {
+          "pathSelection" : "warehouseQuery",
+          "tableFullName" : {
+            "schema" : {
+              "type" : "concat_operation",
+              "properties" : {
+                "elements" : [ {
+                  "type" : "config",
+                  "properties" : {
+                    "kind" : "prophecy",
+                    "name" : "SCHEMA"
+                  }
+                } ]
+              }
+            },
+            "name" : "MinervaRepository"
+          },
+          "warehouseQuery" : {
+            "query" : "SELECT /*+ parallel(AMA) parallel(PLB) parallel(PLI) use_hash(AMA PLB PLI) */   \r        \tSUBSTR('$$MP_BUSDATE',1,6) PERIODID,\r        \tAMA.ACC_NUM,\r        \tPLI.APR_1,\r        \tPLB.CURRENT_BALANCE,\r        \tPLB.PLAN_NUMBER,\r        \tPLB.PLAN_TYPE \r FROM   \r \tALL_MONTHLY_ACCOUNTS AMA, \r        \tCREDIT_PLAN_BALANCE PLB,\r        \tCREDIT_PLAN_INTEREST PLI\r WHERE  \r \tAMA.ACCID = PLB.ACCID\r AND\tAMA.ACCID = PLI.ACCID\r AND\tPLB.PLAN_NUMBER = PLI.PLAN_NUMBER\r AND\tPLB.PLAN_DATE = PLI.PLAN_DATE\r AND    \tAMA.SOURCE_SYSTEM_CODE = 'G'\r AND    \tAMA.ACC_TYPE           IN ('410', '420', '510', '520')\r AND\tAMA.CLIENTID IS NOT NULL\r AND   \tTO_DATE('$$MP_BUSDATE','YYYYMMDD') BETWEEN PLB.EFROM \r                               AND NVL(PLB.ETO, TO_DATE('40001231', 'YYYYMMDD'))\r AND   \tTO_DATE('$$MP_BUSDATE','YYYYMMDD') BETWEEN PLI.EFROM \r                               AND NVL(PLI.ETO, TO_DATE('40001231', 'YYYYMMDD'))"
+          }
+        },
+        "format" : {
+          "kind" : "oracle",
+          "category" : "table",
+          "properties" : {
+            "kind" : "oracle",
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "Databricks",
+              "fields" : [ {
+                "name" : "PLAN_NUMBER",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "CURRENT_BALANCE",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "PERIODID",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "PLAN_TYPE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "ACCOUNT_NUMBER",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "APR_1",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              } ]
+            }
+          }
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CREDIT_PLAN_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "Databricks",
+            "fields" : [ {
+              "name" : "PLAN_NUMBER",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "CURRENT_BALANCE",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "PERIODID",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "PLAN_TYPE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "ACCOUNT_NUMBER",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "APR_1",
+              "dataType" : {
+                "type" : "Double"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS" : {
+      "id" : "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS",
+      "component" : "Model",
+      "metadata" : {
+        "label" : "m_mmrt_credit_card_plan_cal_hist_sum_load__SM_CREDIT_CARD_PLAN_CAL_MTH_HIS",
+        "phase" : 1
+      },
+      "properties" : {
+        "modelName" : "m_mmrt_credit_card_plan_cal_hist_sum_load__SM_CREDIT_CARD_PLAN_CAL_MTH_HIS"
+      },
+      "visualMetaInfo" : {
+        "lastNodeProcessIds" : [ "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS" ],
+        "skipIfZeroRows" : false,
+        "visualProcessIds" : [ "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS", "SQ_CREDIT_PLAN_EXPR_6", "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_credit_card_plan_cal_hist_sum_load_SQ_CREDIT_PLAN_SQ_CREDIT_PLAN_out0" ],
+        "type" : "table",
+        "isTemporaryTable" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SQ_CREDIT_PLAN_EXPR_6_in0",
+          "slug" : "in_0"
+        } ],
+        "outputs" : [ {
+          "id" : "SQ_CREDIT_PLAN_EXPR_6_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_99",
+    "source" : "SQ_CREDIT_PLAN",
+    "sourcePort" : "SQ_CREDIT_PLAN_out0",
+    "target" : "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS",
+    "targetPort" : "SQ_CREDIT_PLAN_EXPR_6_in0"
+  } ],
+  "component" : "Pipeline"
+}

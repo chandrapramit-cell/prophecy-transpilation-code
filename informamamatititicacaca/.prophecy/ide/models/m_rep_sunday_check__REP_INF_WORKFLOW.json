@@ -1,0 +1,131 @@
+{
+  "id" : "m_rep_sunday_check__REP_INF_WORKFLOW",
+  "metainfo" : {
+    "label" : "m_rep_sunday_check__REP_INF_WORKFLOW",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"REP_INF_WORKFLOW\"",
+        "materialized" : "table",
+        "database" : "\"tanmay\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "REP_INF_WORKFLOW" : {
+      "id" : "REP_INF_WORKFLOW",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "REP_INF_WORKFLOW",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM EXPTRANS\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "REP_INF_WORKFLOW_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "bRZwpBXIyN3yFiniRoxSD",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXPTRANS" : {
+      "id" : "EXPTRANS",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXPTRANS",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "'1'",
+            "_row_id" : null
+          },
+          "alias" : "DECISION",
+          "description" : null,
+          "_row_id" : "piG_EYSRKNVNQvsvMQf6l"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXPTRANS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXPTRANS_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "{11_0_1}_Database___Generate_Monthly_Financialsm_rep_sunday_check_SQ_DBATTRIBUTE_SQ_DBATTRIBUTE_out0" : {
+      "id" : "{11_0_1}_Database___Generate_Monthly_Financialsm_rep_sunday_check_SQ_DBATTRIBUTE_SQ_DBATTRIBUTE_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "{11_0_1}_Database___Generate_Monthly_Financialsm_rep_sunday_check_SQ_DBATTRIBUTE"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('m_rep_sunday_check', '{11_0_1}_Database___Generate_Monthly_Financialsm_rep_sunday_check_SQ_DBATTRIBUTE') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_123",
+    "source" : "EXPTRANS",
+    "sourcePort" : "EXPTRANS_out0",
+    "target" : "REP_INF_WORKFLOW",
+    "targetPort" : "REP_INF_WORKFLOW_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_124",
+    "source" : "{11_0_1}_Database___Generate_Monthly_Financialsm_rep_sunday_check_SQ_DBATTRIBUTE_SQ_DBATTRIBUTE_out0",
+    "sourcePort" : "output_port_0",
+    "target" : "EXPTRANS",
+    "targetPort" : "EXPTRANS_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

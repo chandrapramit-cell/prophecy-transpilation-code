@@ -1,0 +1,214 @@
+{
+  "id" : "m_mmrt_sc_transaction_derivation_load",
+  "metainfo" : {
+    "label" : "m_mmrt_sc_transaction_derivation_load",
+    "autoLayout" : true,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "MP_BUSDATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica"
+  },
+  "processes" : {
+    "SQ_CARD_TRANSACTION" : {
+      "id" : "SQ_CARD_TRANSACTION",
+      "component" : "OrchestrationSource",
+      "kind" : "OracleSource",
+      "metadata" : {
+        "label" : "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_sc_transaction_derivation_load_SQ_CARD_TRANSACTION",
+        "phase" : 1
+      },
+      "properties" : {
+        "connector" : {
+          "kind" : "oracle",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "database" : "dbName",
+            "server" : "$$jdbcUrl",
+            "username" : "$$username",
+            "id" : "transpiled_connection",
+            "port" : "1521",
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
+        },
+        "properties" : {
+          "pathSelection" : "warehouseQuery",
+          "tableFullName" : {
+            "schema" : {
+              "type" : "concat_operation",
+              "properties" : {
+                "elements" : [ {
+                  "type" : "config",
+                  "properties" : {
+                    "kind" : "prophecy",
+                    "name" : "SCHEMA"
+                  }
+                } ]
+              }
+            },
+            "name" : "MinervaRepository"
+          },
+          "warehouseQuery" : {
+            "query" : "SELECT /*+ parallel(TRN) parallel(AMA) use_hash(TRN AMA) */\r --           \r   TRN.ACCID,\r   AMA.ACC_TYPE,\r --\r -- LAST Transaction Effective Date\r --\r NULL as LAST_SCHEME_ACTIVE_EFF_DATE,\r --\r MAX(CASE WHEN TRANSACTION_CODE = '40'\r       AND EFFECTIVE_DATE BETWEEN \r       TO_DATE(\r       ADD_MONTHS(TO_DATE('$$MP_BUSDATE','YYYYMMDD'),-3)+1) AND TO_DATE('$$MP_BUSDATE','YYYYMMDD')\r       THEN 'Y'\r       ELSE 'N'\r     END) STORECARD_SCHEME_ACTIVE,\r --\r   MAX(CASE WHEN EFFECTIVE_DATE <= TO_DATE ('$$MP_BUSDATE', 'YYYYMMDD')\r            THEN EFFECTIVE_DATE\r            ELSE NULL\r            END) LAST_EFFECTIVE_DATE\r --\r FROM \r (SELECT /*+ parallel(TR1) */ \r         ACCID, \r         EFFECTIVE_DATE, \r         POSTING_DATE, \r        TRANSACTION_CODE\r         from STORECARD_TRANSACTION TR1\r         WHERE TRANSACTION_CODE = '40') TRN,\r   ALL_MONTHLY_ACCOUNTS AMA\r --\r WHERE TRN.ACCID = AMA.ACCID\r --\r GROUP BY TRN.ACCID,\r          AMA.ACC_TYPE"
+          }
+        },
+        "format" : {
+          "kind" : "oracle",
+          "category" : "table",
+          "properties" : {
+            "kind" : "oracle",
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "Databricks",
+              "fields" : [ {
+                "name" : "ACC_TYPE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "LAST_EFFECTIVE_DATE",
+                "dataType" : {
+                  "type" : "Timestamp"
+                }
+              }, {
+                "name" : "STORECARD_SCHEME_ACTIVE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "ACCID",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "LAST_SCHEME_ACTIVE_EFF_DATE",
+                "dataType" : {
+                  "type" : "Timestamp"
+                }
+              } ]
+            }
+          }
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CARD_TRANSACTION_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "Databricks",
+            "fields" : [ {
+              "name" : "ACC_TYPE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "LAST_EFFECTIVE_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "STORECARD_SCHEME_ACTIVE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "ACCID",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "LAST_SCHEME_ACTIVE_EFF_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "MRT_SCARD_TRANS_DERIVATIONS" : {
+      "id" : "MRT_SCARD_TRANS_DERIVATIONS",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "MRT_SCARD_TRANS_DERIVATIONS",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "MRT_SCARD_TRANS_DERIVATIONS",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MRT_SCARD_TRANS_DERIVATIONS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "GlEWkACz9rSGIjMdvMgk3",
+          "slug" : "out0"
+        } ]
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_107",
+    "source" : "SQ_CARD_TRANSACTION",
+    "sourcePort" : "SQ_CARD_TRANSACTION_out0",
+    "target" : "MRT_SCARD_TRANS_DERIVATIONS",
+    "targetPort" : "MRT_SCARD_TRANS_DERIVATIONS_in0"
+  } ],
+  "component" : "Pipeline"
+}

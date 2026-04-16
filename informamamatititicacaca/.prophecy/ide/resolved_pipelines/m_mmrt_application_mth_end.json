@@ -1,0 +1,401 @@
+{
+  "id" : "m_mmrt_application_mth_end",
+  "metainfo" : {
+    "label" : "m_mmrt_application_mth_end",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "MP_BUSDATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "SM_APPLICATION_CAL_MTH_END" : "models/m_mmrt_application_mth_end/m_mmrt_application_mth_end__SM_APPLICATION_CAL_MTH_END.sql",
+      "SQTRANS_EXPR_2" : "models/m_mmrt_application_mth_end/m_mmrt_application_mth_end__SM_APPLICATION_CAL_MTH_END.sql",
+      "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_application_mth_end_SQTRANS_SQTRANS_out0" : "models/m_mmrt_application_mth_end/m_mmrt_application_mth_end__SM_APPLICATION_CAL_MTH_END.sql"
+    }
+  },
+  "processes" : {
+    "SQTRANS" : {
+      "id" : "SQTRANS",
+      "component" : "OrchestrationSource",
+      "kind" : "OracleSource",
+      "metadata" : {
+        "label" : "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_application_mth_end_SQTRANS",
+        "x" : 20,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "connector" : {
+          "kind" : "oracle",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "database" : "dbName",
+            "server" : "$$jdbcUrl",
+            "username" : "$$username",
+            "id" : "transpiled_connection",
+            "port" : "1521",
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
+        },
+        "properties" : {
+          "pathSelection" : "warehouseQuery",
+          "tableFullName" : {
+            "schema" : {
+              "type" : "concat_operation",
+              "properties" : {
+                "elements" : [ {
+                  "type" : "config",
+                  "properties" : {
+                    "kind" : "prophecy",
+                    "name" : "SCHEMA"
+                  }
+                } ]
+              }
+            },
+            "name" : "MinervaRepository"
+          },
+          "warehouseQuery" : {
+            "query" : "SELECT /*+ parallel(AMA) parallel(APP) \r        use_hash(AMA APP) */\r        TO_NUMBER(SUBSTR('$$MP_BUSDATE',1,6)) PERIODID,\r        APP.APPLICATION_DATE,\r        APP.ACCID,\r        APP.APPLICATION_TYPE,\r        APP.CARD_PROTECTION,\r        APP.CARDSAFE,\r        APP.CUSTOMER_NUMBER,\r        APP.DISPLAY_ACCOUNT_NUMBER,\r        APP.EMBOSSER_NUMBER_AU,\r        AMA.ACC_NUM,\r        APP.FINAL_DECISION_COARSE,\r        AMA.STATUS,\r        APP.INITIAL_DECISION_COARSE,\r        APP.MIGRATION_FLAG,\r        APP.OFFER_CODE,\r        AMA.ACC_TYPE,\r        APP.PRODUCT_CODE,\r        AMA.SOURCE_CODE,\r        AMA.CLIENTID,\r        APP.ACTION_DATE,\r        APP.FINAL_DECISION_PRIMARY,\r        APP.SYSTEM_CREDIT_LIMIT,\r        APP.CARD_ORIGIN\r FROM   ALL_MONTHLY_ACCOUNTS  AMA, \r        CREDIT_APPLICATION APP\r WHERE  AMA.ACCID              = APP.ACCID\r AND    AMA.SOURCE_SYSTEM_CODE IN ('M', 'U')\r AND    AMA.CLIENTID           IS NOT NULL\r   AND\tAPP.EFROM > \t( SELECT to_date(CURRVALUE,'YYYYMMDD') FROM DBATTRIBUTE\r \t                  WHERE NAME = 'lastmartrundate' )\r   AND\tTO_DATE('$$MP_BUSDATE','YYYYMMDD') BETWEEN APP.EFROM AND NVL(APP.ETO,TO_DATE('40000101','YYYYMMDD'))"
+          }
+        },
+        "format" : {
+          "kind" : "oracle",
+          "category" : "table",
+          "properties" : {
+            "kind" : "oracle",
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "Databricks",
+              "fields" : [ {
+                "name" : "APPLICATION_DATE",
+                "dataType" : {
+                  "type" : "Timestamp"
+                }
+              }, {
+                "name" : "PERIODID",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "MIGRATION_FLAG",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "CLIENTID",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "FINAL_DECISION_PRIMARY",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "LAST_DECISION_DATE",
+                "dataType" : {
+                  "type" : "Timestamp"
+                }
+              }, {
+                "name" : "APPLICATION_TYPE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "STATUS",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "DISPLAY_ACCOUNT_NUMBER",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "PRODUCT",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "ACC_NUM",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "CARD_ORIGIN",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "ACCID",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "CARDSAFE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "EMBOSSER_NUMBER",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "FINAL_DECISION_COARSE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "CARD_PROTECTION",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "CUSTOMER_NUMBER",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "SOURCE_CODE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "PRODUCT_CODE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "SYSTEM_CREDIT_LIMIT",
+                "dataType" : {
+                  "type" : "Double"
+                }
+              }, {
+                "name" : "OFFER_CODE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "INITIAL_DECISION_COARSE",
+                "dataType" : {
+                  "type" : "String"
+                }
+              } ]
+            }
+          }
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQTRANS_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "Databricks",
+            "fields" : [ {
+              "name" : "APPLICATION_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "PERIODID",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "MIGRATION_FLAG",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "CLIENTID",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "FINAL_DECISION_PRIMARY",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "LAST_DECISION_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "APPLICATION_TYPE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "STATUS",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "DISPLAY_ACCOUNT_NUMBER",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "PRODUCT",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "ACC_NUM",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "CARD_ORIGIN",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "ACCID",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "CARDSAFE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "EMBOSSER_NUMBER",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "FINAL_DECISION_COARSE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "CARD_PROTECTION",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "CUSTOMER_NUMBER",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "SOURCE_CODE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "PRODUCT_CODE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "SYSTEM_CREDIT_LIMIT",
+              "dataType" : {
+                "type" : "Double"
+              }
+            }, {
+              "name" : "OFFER_CODE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "INITIAL_DECISION_COARSE",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "SM_APPLICATION_CAL_MTH_END" : {
+      "id" : "SM_APPLICATION_CAL_MTH_END",
+      "component" : "Model",
+      "metadata" : {
+        "label" : "m_mmrt_application_mth_end__SM_APPLICATION_CAL_MTH_END",
+        "phase" : 1
+      },
+      "properties" : {
+        "modelName" : "m_mmrt_application_mth_end__SM_APPLICATION_CAL_MTH_END"
+      },
+      "visualMetaInfo" : {
+        "lastNodeProcessIds" : [ "SM_APPLICATION_CAL_MTH_END" ],
+        "skipIfZeroRows" : false,
+        "visualProcessIds" : [ "SM_APPLICATION_CAL_MTH_END", "SQTRANS_EXPR_2", "{11_0_1}_Database___Generate_Monthly_Financialsm_mmrt_application_mth_end_SQTRANS_SQTRANS_out0" ],
+        "type" : "table",
+        "isTemporaryTable" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SQTRANS_EXPR_2_in0",
+          "slug" : "in_0"
+        } ],
+        "outputs" : [ {
+          "id" : "SQTRANS_EXPR_2_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_95",
+    "source" : "SQTRANS",
+    "sourcePort" : "SQTRANS_out0",
+    "target" : "SM_APPLICATION_CAL_MTH_END",
+    "targetPort" : "SQTRANS_EXPR_2_in0"
+  } ],
+  "component" : "Pipeline"
+}
