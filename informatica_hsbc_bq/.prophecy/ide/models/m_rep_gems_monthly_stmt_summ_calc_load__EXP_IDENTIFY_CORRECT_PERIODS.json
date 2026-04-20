@@ -1,0 +1,181 @@
+{
+  "id" : "m_rep_gems_monthly_stmt_summ_calc_load__EXP_IDENTIFY_CORRECT_PERIODS",
+  "metainfo" : {
+    "label" : "m_rep_gems_monthly_stmt_summ_calc_load__EXP_IDENTIFY_CORRECT_PERIODS",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "EXP_IDENTIFY_CORRECT_PERIODS_EXP_IDENTIFY_CORRECT_PERIODS_out0" : {
+      "id" : "EXP_IDENTIFY_CORRECT_PERIODS_EXP_IDENTIFY_CORRECT_PERIODS_out0",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "EXP_IDENTIFY_CORRECT_PERIODS"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM EXP_IDENTIFY_CORRECT_PERIODS\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_IDENTIFY_CORRECT_PERIODS" : {
+      "id" : "EXP_IDENTIFY_CORRECT_PERIODS",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_IDENTIFY_CORRECT_PERIODS",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "EXP_IDENTIFY_CORRECT_PERIODS_in0##ACCID", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CURR_PERIOD", "EXP_IDENTIFY_CORRECT_PERIODS_in0##PREV_PERIOD", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CYCLE_DAY", "EXP_IDENTIFY_CORRECT_PERIODS_in0##BUSINESS_DATE", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CURR_STATEMENT_BALANCE_TOTAL", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CURR_TOTAL_INT", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CURR_VAL_CREDITS", "EXP_IDENTIFY_CORRECT_PERIODS_in0##PREV_TOTAL_INT" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID"
+          },
+          "alias" : "ACCID",
+          "_row_id" : "KJqNRXaOPllVvq9jylK6h"
+        }, {
+          "expression" : {
+            "expression" : "CURR_PERIOD"
+          },
+          "alias" : "CURR_PERIOD",
+          "_row_id" : "BF632BvukwAKXSOIGhZ-9"
+        }, {
+          "expression" : {
+            "expression" : "PREV_PERIOD"
+          },
+          "alias" : "PREV_PERIOD",
+          "_row_id" : "ztHj-SmXoSbGMA_qsqCcp"
+        }, {
+          "expression" : {
+            "expression" : "CYCLE_DAY"
+          },
+          "alias" : "CYCLE_DAY",
+          "_row_id" : "usZIHQXRttQgMcP39Hh0d"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_STATEMENT_BALANCE_TOTAL ELSE 0 END)"
+          },
+          "alias" : "CURR_STATEMENT_BALANCE_TOTAL",
+          "_row_id" : "XWQbLSVhCU7PCHAtFTgeh"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_TOTAL_INT ELSE 0 END)"
+          },
+          "alias" : "CURR_TOTAL_INT",
+          "_row_id" : "HMAhj8dpVca_QqbHzBfds"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_VAL_CREDITS ELSE 0 END)"
+          },
+          "alias" : "CURR_VAL_CREDITS",
+          "_row_id" : "-2VpKfTXTRk9Gu22KpGhR"
+        }, {
+          "expression" : {
+            "expression" : "(\n  CASE\n    WHEN (\n      (\n        CASE\n          WHEN (\n            PREV_PERIOD = CAST(SUBSTRING(\n              (PARSE_TIMESTAMP('%Y%m%d', (DATE_ADD(CAST((PARSE_TIMESTAMP('%Y%m%d', BUSINESS_DATE)) AS DATE), INTERVAL -1 MONTH)))), \n              0, \n              6) AS FLOAT64)\n          )\n            THEN 'Y'\n          ELSE 'N'\n        END\n      ) = 'Y'\n    )\n      THEN PREV_TOTAL_INT\n    ELSE 0\n  END\n)"
+          },
+          "alias" : "PREV_STATEMENT_BALANCE_TOTAL",
+          "_row_id" : "lNQsh6we51geKCTAJcxK-"
+        }, {
+          "expression" : {
+            "expression" : "1"
+          },
+          "alias" : "PREV_TOTAL_INT",
+          "_row_id" : "OyZuieR1TRWu2DcfQ8EH3"
+        }, {
+          "expression" : {
+            "expression" : "1"
+          },
+          "alias" : "PREV_VAL_CREDITS",
+          "_row_id" : "Vyeimk_kLigkV1Hk8E7-O"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_IDENTIFY_CORRECT_PERIODS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_IDENTIFY_CORRECT_PERIODS_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SQ_CREDIT_CARD_STATEMENT_SUMMARY" : {
+      "id" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY",
+        "x" : -600,
+        "y" : 40,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(AMA) parallel(A) parallel(B) use_hash(AMA A B) */\r AMA.ACCID AS ACCID,\r A.PERIOD AS CURR_PERIOD,\r B.PERIOD AS PREV_PERIOD,\r NVL(A.STATEMENT_BALANCE_TOTAL,0) AS CURR_STATEMENT_BALANCE_TOTAL,\r NVL(A.TOTAL_INT_THIS_STMT,0) AS CURR_TOTAL_INT_THIS_STATEMENT,\r NVL(A.VAL_CREDITS,0) AS CURR_VAL_CREDITS,\r NVL(B.STATEMENT_BALANCE_TOTAL,0) AS PREV_STATEMENT_BALANCE_TOTAL,\r NVL(B.TOTAL_INT_THIS_STMT,0) AS         PREV_TOTAL_INT_THIS_STATEMENT,\r NVL(B.VAL_CREDITS,0) AS PREV_VAL_CREDITS,\r AMA.CYCLE_DAY AS CYCLE_DAY,\r A.BUSINESS_DATE\r FROM\r ALL_MONTHLY_ACCOUNTS AMA,\r (SELECT /*+ parallel(VEWA,4) */\r * FROM (\r SELECT /*+ parallel(CCSS) */\r             ACCID,\r             PERIOD,\r             STATEMENT_BALANCE_TOTAL,\r             TOTAL_INT_THIS_STMT,\r             VAL_CREDITS,\r             '$$MP_BUSDATE' BUSINESS_DATE,\r             RANK() over (partition by accid order by period desc, statement_date desc)  RANK_NUM\r          FROM CREDIT_CARD_STATEMENT_SUMMARY CCSS\r          WHERE PERIOD <= SUBSTR('$$MP_BUSDATE',1,6)) VEWA\r       WHERE RANK_NUM = 1) A,\r (SELECT /*+ parallel(VEWB) */\r * FROM (\r SELECT /*+ parallel(CCSSB) */\r             ACCID,\r             PERIOD,\r             STATEMENT_BALANCE_TOTAL,\r             TOTAL_INT_THIS_STMT,\r             VAL_CREDITS,\r             RANK() over (partition by accid order by  period desc, statement_date desc)  RANK_NUM\r          FROM CREDIT_CARD_STATEMENT_SUMMARY CCSSB\r          WHERE PERIOD <= SUBSTR('$$MP_BUSDATE',1,6)) VEWB\r       WHERE RANK_NUM = 2) B\r WHERE AMA.ACCID = B.ACCID(+)\r AND   AMA.ACCID = A.ACCID\r AND  AMA.ACC_TYPE in ('410','420','510','520')"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_EXP_IDENTIFY_CORRECT_PERIODS_EXP_IDENTIFY_CORRECT_PERIODS_out0_EXP_IDENTIFY_CORRECT_PERIODS_EXP_IDENTIFY_CORRECT_PERIODS_out0",
+    "source" : "EXP_IDENTIFY_CORRECT_PERIODS",
+    "sourcePort" : "EXP_IDENTIFY_CORRECT_PERIODS_out0",
+    "target" : "EXP_IDENTIFY_CORRECT_PERIODS_EXP_IDENTIFY_CORRECT_PERIODS_out0",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_356",
+    "source" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY",
+    "sourcePort" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY_out0",
+    "target" : "EXP_IDENTIFY_CORRECT_PERIODS",
+    "targetPort" : "EXP_IDENTIFY_CORRECT_PERIODS_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

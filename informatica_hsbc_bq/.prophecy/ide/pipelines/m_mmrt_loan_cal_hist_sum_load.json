@@ -1,0 +1,690 @@
+{
+  "id" : "m_mmrt_loan_cal_hist_sum_load",
+  "metainfo" : {
+    "label" : "m_mmrt_loan_cal_hist_sum_load",
+    "autoLayout" : true,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "MP_BUSDATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "MP_PERIOD_END_DATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "EXP_CURRENT_DELINQUENCY_EXP_CURRENT_DELINQUENCY_out0" : "models/m_mmrt_loan_cal_hist_sum_load/m_mmrt_loan_cal_hist_sum_load__SM_LOAN_CAL_MTH_END_HIST.sql",
+      "SM_ACCOUNT_GOOD_BAD" : "models/m_mmrt_loan_cal_hist_sum_load/m_mmrt_loan_cal_hist_sum_load__SM_ACCOUNT_GOOD_BAD.sql",
+      "SQTRANS" : "models/m_mmrt_loan_cal_hist_sum_load/m_mmrt_loan_cal_hist_sum_load__EXP_CURRENT_DELINQUENCY.sql",
+      "SM_LOAN_CAL_MTH_END_HIST" : "models/m_mmrt_loan_cal_hist_sum_load/m_mmrt_loan_cal_hist_sum_load__SM_LOAN_CAL_MTH_END_HIST.sql",
+      "EXP_CURRENT_DELINQUENCY" : "models/m_mmrt_loan_cal_hist_sum_load/m_mmrt_loan_cal_hist_sum_load__EXP_CURRENT_DELINQUENCY.sql",
+      "SM_ACCOUNT_GOOD_BAD_EXP" : "models/m_mmrt_loan_cal_hist_sum_load/m_mmrt_loan_cal_hist_sum_load__SM_ACCOUNT_GOOD_BAD.sql",
+      "EXP_CURRENT_DELINQUENCY_EXPR_96" : "models/m_mmrt_loan_cal_hist_sum_load/m_mmrt_loan_cal_hist_sum_load__SM_LOAN_CAL_MTH_END_HIST.sql"
+    }
+  },
+  "processes" : {
+    "SM_ACCOUNT_GOOD_BAD" : {
+      "id" : "SM_ACCOUNT_GOOD_BAD",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "SM_ACCOUNT_GOOD_BAD",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "SM_ACCOUNT_GOOD_BAD",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SM_ACCOUNT_GOOD_BAD_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "fexMU6VGu2SBkgieg_TJ_",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQTRANS" : {
+      "id" : "SQTRANS",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQTRANS",
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(AMA) parallel(ACH) \r            parallel(BHS) parallel(ACC\r            use_hash(AMA ACH ACC BHS) */\r AMA.ACCID,\r SUBSTR('$$MP_BUSDATE',1,6) PERIODID,\r AMA.ACC_NUM,\r ACH.STATUS,\r --\r NVL(ACH.PAST_DUE,0) + NVL(ACH.DELQ_30_DAYS,0) + NVL(ACH.DELQ_60_DAYS,0) +\r \tNVL(ACH.DELQ_90_DAYS,0) + NVL(ACH.DELQ_120_DAYS,0) + NVL(ACH.DELQ_150_DAYS,0) +\r \tNVL(ACH.DELQ_180_DAYS,0) + NVL(ACH.DELQ_210_DAYS,0) ARREARS_VALUE,\r --\r ACH.BLOCK_CODE,\r ACH.GBP_AMT_CHARGE_OFF,\r ACH.CURR_BALANCE,\r ACH.CYCLE_DAY,\r --\r CASE\tWHEN NVL(ACH.GBP_AMT_CHARGE_OFF,0) > 0 THEN\r     '2'\r \tWHEN NVL(AMA.DATE_CLOSED, TO_DATE('40001231','YYYYMMDD')) < \r \t         ADD_MONTHS(TO_DATE('$$MP_BUSDATE','YYYYMMDD'), -12) THEN\r     '4'\r \tWHEN (NVL(ACH.DELQ_30_DAYS,0) + NVL(ACH.DELQ_60_DAYS,0) +\r \t      NVL(ACH.DELQ_90_DAYS,0) + NVL(ACH.DELQ_120_DAYS,0) + NVL(ACH.DELQ_150_DAYS,0) +\r \t      NVL(ACH.DELQ_180_DAYS,0) + NVL(ACH.DELQ_210_DAYS,0)) > 0 THEN\r     '2'\r \tWHEN ACH.BLOCK_CODE IN ('E','F','L','R','W','X','Y') THEN\r     '2'\r \tWHEN NVL(ACH.PAST_DUE,0) > 0\r          AND ACH.BLOCK_CODE IN ('A','G','K') THEN\r     '2'\r \tWHEN ACH.CONTRA_RESCHEDULE_FLAG = 'R' THEN\r     '2'\r \tWHEN NVL(ACH.PAST_DUE,0) > 0 THEN\r     '3'\r \tWHEN NVL(ACH.CURR_DUE,0) >= 0\r          AND ACH.BLOCK_CODE IN ('A','D','G','I','K') THEN\r     '3'\r \tELSE\r     '1'\r END GOOD_BAD_FLAG,\r --\r ACH.PAST_DUE,\r ACH.PAYMENT_METHOD,\r BHS.SCORE,\r ACH.DELQ_30_DAYS,\r ACH.DELQ_60_DAYS,\r ACH.DELQ_90_DAYS,\r ACH.DELQ_120_DAYS,\r ACH.DELQ_150_DAYS,\r ACH.DELQ_180_DAYS,\r ACH.DELQ_210_DAYS,\r LOA.UNEARNED_INTEREST,\r LOA.REBATE_PROMOTION_INDICATOR,\r ACC.USER_CODE_1,\r ACC.USER_CODE_2\r --\r FROM\tALL_MONTHLY_ACCOUNTS AMA,\r         ACCOUNT ACC,\r \tACCOUNT_HISTORY partition(hot) ACH,\r   \tBEHAVIOUR_SCORE BHS,\r   \tLOAN LOA\r  --\r WHERE AMA.ACCID = ACH.ACCID\r   AND AMA.ACCID = ACC.ACCID\r   AND AMA.ACCID = LOA.ACCID (+)\r   AND AMA.ACCID = BHS.ACCID (+)\r   AND AMA.ACC_TYPE IN ('200','210','220','230','240')\r   AND ACC.ACC_TYPE IN ('200','210','220','230','240')\r   AND AMA.BUSINESS_DATE BETWEEN BHS.EFROM (+) AND NVL(BHS.ETO (+), TO_DATE('40001231','YYYYMMDD'))\r   AND TO_DATE('$$MP_BUSDATE','YYYYMMDD') between ACH.EFROM AND NVL(ACH.ETO,TO_DATE('01014000','DDMMYYYY'))\r   AND AMA.CLIENTID IS NOT NULL\r   AND LOA.EFROM <= TO_DATE('$$MP_PERIOD_END_DATE', 'YYYYMMDD')\r   AND (LOA.ETO IS NULL OR LOA.ETO >= TO_DATE('$$MP_PERIOD_END_DATE', 'YYYYMMDD') )"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQTRANS_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "CYCLE_DAY",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PERIODID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "REBATE_PROMOTION_INDICATOR",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "CHARGE_OFF_AMOUNT",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "SCORE",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "ARREARS_VALUE",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "STATUS",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "USER_CODE_1",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "UNEARNED_INTEREST",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "GOOD_BAD_FLAG",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "ACC_NUM",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "PAYMENT_METHOD",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "DELQ_60_DAYS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "DELQ_90_DAYS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "BLOCK_CODE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "USER_CODE_2",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "ACCID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "DELQ_180_DAYS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CURR_BALANCE",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PAST_DUE",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "DELQ_210_DAYS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "DELQ_30_DAYS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "DELQ_150_DAYS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "DELQ_120_DAYS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "SM_LOAN_CAL_MTH_END_HIST" : {
+      "id" : "SM_LOAN_CAL_MTH_END_HIST",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "SM_LOAN_CAL_MTH_END_HIST",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "SM_LOAN_CAL_MTH_END_HIST",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SM_LOAN_CAL_MTH_END_HIST_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "8D8Jrr5gHkcAjRfcpE4K4",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "EXP_CURRENT_DELINQUENCY" : {
+      "id" : "EXP_CURRENT_DELINQUENCY",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CURRENT_DELINQUENCY",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "STATUS",
+            "_row_id" : null
+          },
+          "alias" : "STATUS",
+          "description" : null,
+          "_row_id" : "92Te6tG7EiqU1qeI1Q4Nw"
+        }, {
+          "expression" : {
+            "expression" : "PAST_DUE",
+            "_row_id" : null
+          },
+          "alias" : "PAST_DUE",
+          "description" : null,
+          "_row_id" : "TgcAz8y0Q6K7G-44vQNqv"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (STATUS = '5') THEN 'Charged Off' WHEN (DELQ_210_DAYS > 0) THEN '210 days   ' WHEN (DELQ_180_DAYS > 0) THEN '180 days   ' WHEN (DELQ_150_DAYS > 0) THEN '150 days   ' WHEN (DELQ_120_DAYS > 0) THEN '120 days   ' WHEN (DELQ_90_DAYS > 0) THEN '90 days    ' WHEN (DELQ_60_DAYS > 0) THEN '60 days    ' WHEN (DELQ_30_DAYS > 0) THEN '30 days    ' WHEN (PAST_DUE > 0) THEN 'Past Due   ' ELSE 'Current    ' END)",
+            "_row_id" : null
+          },
+          "alias" : "CURRENT_DEINQUENCY",
+          "description" : null,
+          "_row_id" : "E4UHW6YdMdxwmkZ0QH_mw"
+        }, {
+          "expression" : {
+            "expression" : "PERIODID",
+            "_row_id" : null
+          },
+          "alias" : "PERIODID",
+          "description" : null,
+          "_row_id" : "ri5nRIi15zRHqWzDBX0F3"
+        }, {
+          "expression" : {
+            "expression" : "ACC_NUM",
+            "_row_id" : null
+          },
+          "alias" : "ACC_NUM",
+          "description" : null,
+          "_row_id" : "fxTPcg6bpON4zMULLg3Iy"
+        }, {
+          "expression" : {
+            "expression" : "ARREARS_VALUE",
+            "_row_id" : null
+          },
+          "alias" : "ARREARS_VALUE",
+          "description" : null,
+          "_row_id" : "OHTxai-JsHomYEv2xI86i"
+        }, {
+          "expression" : {
+            "expression" : "BLOCK_CODE",
+            "_row_id" : null
+          },
+          "alias" : "BLOCK_CODE",
+          "description" : null,
+          "_row_id" : "v4kHoZEbO0TIzB5eXzR8J"
+        }, {
+          "expression" : {
+            "expression" : "CHARGE_OFF_AMOUNT",
+            "_row_id" : null
+          },
+          "alias" : "CHARGE_OFF_AMOUNT",
+          "description" : null,
+          "_row_id" : "xYASeu0iV3FARGEIFG2pG"
+        }, {
+          "expression" : {
+            "expression" : "CURR_BALANCE",
+            "_row_id" : null
+          },
+          "alias" : "CURR_BALANCE",
+          "description" : null,
+          "_row_id" : "0IbenH8cNXtAb0AtuQF7G"
+        }, {
+          "expression" : {
+            "expression" : "CYCLE_DAY",
+            "_row_id" : null
+          },
+          "alias" : "CYCLE_DAY",
+          "description" : null,
+          "_row_id" : "mFSiQOXfTnbEOy_uQWxu9"
+        }, {
+          "expression" : {
+            "expression" : "GOOD_BAD_FLAG",
+            "_row_id" : null
+          },
+          "alias" : "GOOD_BAD_FLAG",
+          "description" : null,
+          "_row_id" : "pq4XoA_DGl0URPfTkGZOS"
+        }, {
+          "expression" : {
+            "expression" : "PAYMENT_METHOD",
+            "_row_id" : null
+          },
+          "alias" : "PAYMENT_METHOD",
+          "description" : null,
+          "_row_id" : "qdLIYrXhNl7H5Z1DRkQRl"
+        }, {
+          "expression" : {
+            "expression" : "SCORE",
+            "_row_id" : null
+          },
+          "alias" : "SCORE",
+          "description" : null,
+          "_row_id" : "jazBdR9-mtfJpim-JxsRw"
+        }, {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "jRABoZYK8vR840oKlCUtN"
+        }, {
+          "expression" : {
+            "expression" : "UNEARNED_INTEREST",
+            "_row_id" : null
+          },
+          "alias" : "UNEARNED_INTEREST",
+          "description" : null,
+          "_row_id" : "KmapKxNZSne8LeLwTBOLZ"
+        }, {
+          "expression" : {
+            "expression" : "REBATE_PROMOTION_INDICATOR",
+            "_row_id" : null
+          },
+          "alias" : "REBATE_PROMOTION_INDICATOR",
+          "description" : null,
+          "_row_id" : "VwO8j53l2WvdsWo-lG0zg"
+        }, {
+          "expression" : {
+            "expression" : "USER_CODE_1",
+            "_row_id" : null
+          },
+          "alias" : "USER_CODE_1",
+          "description" : null,
+          "_row_id" : "xcDU6qZ36rFtN9JwrImh7"
+        }, {
+          "expression" : {
+            "expression" : "USER_CODE_2",
+            "_row_id" : null
+          },
+          "alias" : "USER_CODE_2",
+          "description" : null,
+          "_row_id" : "oOP7Jk4-paohKVxoA0dHf"
+        }, {
+          "expression" : {
+            "expression" : "STATUS",
+            "_row_id" : null
+          },
+          "alias" : "ACCOUNT_STATUS",
+          "description" : null,
+          "_row_id" : "wCThsmgrwyXGsVQUrT1ro"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CURRENT_DELINQUENCY_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CURRENT_DELINQUENCY_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "SM_ACCOUNT_GOOD_BAD_EXP" : {
+      "id" : "SM_ACCOUNT_GOOD_BAD_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "SM_ACCOUNT_GOOD_BAD_EXP",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "aBM9ZU1sRFdBQ2SLKKBzO"
+        }, {
+          "expression" : {
+            "expression" : "ACCOUNT_STATUS",
+            "_row_id" : null
+          },
+          "alias" : "ACCOUNT_STATUS",
+          "description" : null,
+          "_row_id" : "25rqpnZRagscp8_xiCuG1"
+        }, {
+          "expression" : {
+            "expression" : "GOOD_BAD_FLAG",
+            "_row_id" : null
+          },
+          "alias" : "GOOD_BAD_FLAG",
+          "description" : null,
+          "_row_id" : "naFLxTYjzNfT1zY6DGwxL"
+        }, {
+          "expression" : {
+            "expression" : "PERIODID",
+            "_row_id" : null
+          },
+          "alias" : "PERIODID",
+          "description" : null,
+          "_row_id" : "h_6kr4AmOWOZTLCeB5Pgk"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SM_ACCOUNT_GOOD_BAD_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "SM_ACCOUNT_GOOD_BAD_EXP_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "EXP_CURRENT_DELINQUENCY_EXPR_96" : {
+      "id" : "EXP_CURRENT_DELINQUENCY_EXPR_96",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CURRENT_DELINQUENCY_EXPR_96",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACC_NUM",
+            "_row_id" : null
+          },
+          "alias" : "LN_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "mwED7jNU91XftBoXDkkFH"
+        }, {
+          "expression" : {
+            "expression" : "PAST_DUE",
+            "_row_id" : null
+          },
+          "alias" : "LN_PAST_DUE",
+          "description" : null,
+          "_row_id" : "rb11pHsuLHJIv5YP1qkwh"
+        }, {
+          "expression" : {
+            "expression" : "BLOCK_CODE",
+            "_row_id" : null
+          },
+          "alias" : "LN_BLOCK_CODE",
+          "description" : null,
+          "_row_id" : "8bOibJvAHfHQYvM7ddQCq"
+        }, {
+          "expression" : {
+            "expression" : "CHARGE_OFF_AMOUNT",
+            "_row_id" : null
+          },
+          "alias" : "LN_CHARGE_OFF_AMOUNT",
+          "description" : null,
+          "_row_id" : "M6rBXOTD65iAHuL9ylY1r"
+        }, {
+          "expression" : {
+            "expression" : "CURR_BALANCE",
+            "_row_id" : null
+          },
+          "alias" : "LN_CURRENT_BALANCE",
+          "description" : null,
+          "_row_id" : "4J7-Z2v3SnoxRWcoaOQHq"
+        }, {
+          "expression" : {
+            "expression" : "CYCLE_DAY",
+            "_row_id" : null
+          },
+          "alias" : "LN_CYCLE_DAY",
+          "description" : null,
+          "_row_id" : "RQCBr8mlSc5x0KfcMU_Sx"
+        }, {
+          "expression" : {
+            "expression" : "GOOD_BAD_FLAG",
+            "_row_id" : null
+          },
+          "alias" : "LN_GOOD_BAD_FLAG",
+          "description" : null,
+          "_row_id" : "I7lOt2VAKNhArFXBS1w6b"
+        }, {
+          "expression" : {
+            "expression" : "PAYMENT_METHOD",
+            "_row_id" : null
+          },
+          "alias" : "LN_PAYMENT_METHOD",
+          "description" : null,
+          "_row_id" : "Q1Rg7Q7kx2bItrdqUUVVp"
+        }, {
+          "expression" : {
+            "expression" : "SCORE",
+            "_row_id" : null
+          },
+          "alias" : "LN_BEHAVIOUR_SCORE",
+          "description" : null,
+          "_row_id" : "2LoAVUemQ7reuKZkFhtoA"
+        }, {
+          "expression" : {
+            "expression" : "CURRENT_DEINQUENCY",
+            "_row_id" : null
+          },
+          "alias" : "LN_CURRENT_DELINQUENCY",
+          "description" : null,
+          "_row_id" : "hl9fXgaca8t26-XIfZYT5"
+        }, {
+          "expression" : {
+            "expression" : "UNEARNED_INTEREST",
+            "_row_id" : null
+          },
+          "alias" : "LN_UNEARNED_INTEREST",
+          "description" : null,
+          "_row_id" : "lqOCtcO30qwjL2J_MK8Hy"
+        }, {
+          "expression" : {
+            "expression" : "REBATE_PROMOTION_INDICATOR",
+            "_row_id" : null
+          },
+          "alias" : "LN_REBATE_PROMOTION_INDICATOR",
+          "description" : null,
+          "_row_id" : "cBXKILlx0bXnFkdiqSOzr"
+        }, {
+          "expression" : {
+            "expression" : "PERIODID",
+            "_row_id" : null
+          },
+          "alias" : "PERIODID",
+          "description" : null,
+          "_row_id" : "A7BCTsWQZgs9IU_96qHT2"
+        }, {
+          "expression" : {
+            "expression" : "STATUS",
+            "_row_id" : null
+          },
+          "alias" : "LN_ACCOUNT_STATUS",
+          "description" : null,
+          "_row_id" : "WEhNvBBMNVqdNOQkgL3Z-"
+        }, {
+          "expression" : {
+            "expression" : "ARREARS_VALUE",
+            "_row_id" : null
+          },
+          "alias" : "LN_ARREARS_VALUE",
+          "description" : null,
+          "_row_id" : "ANd-lx8-NhpbJtSe4A73q"
+        }, {
+          "expression" : {
+            "expression" : "USER_CODE_1",
+            "_row_id" : null
+          },
+          "alias" : "LN_USER_CODE_1",
+          "description" : null,
+          "_row_id" : "mcDXrcPzP6SzGbDzXJOnU"
+        }, {
+          "expression" : {
+            "expression" : "USER_CODE_2",
+            "_row_id" : null
+          },
+          "alias" : "LN_USER_CODE_2",
+          "description" : null,
+          "_row_id" : "c-JNI_bkgKWZuLOrKGdsq"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CURRENT_DELINQUENCY_EXPR_96_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CURRENT_DELINQUENCY_EXPR_96_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_359",
+    "source" : "EXP_CURRENT_DELINQUENCY_EXPR_96",
+    "sourcePort" : "EXP_CURRENT_DELINQUENCY_EXPR_96_out0",
+    "target" : "SM_LOAN_CAL_MTH_END_HIST",
+    "targetPort" : "SM_LOAN_CAL_MTH_END_HIST_in0"
+  }, {
+    "id" : "edge_360",
+    "source" : "SM_ACCOUNT_GOOD_BAD_EXP",
+    "sourcePort" : "SM_ACCOUNT_GOOD_BAD_EXP_out0",
+    "target" : "SM_ACCOUNT_GOOD_BAD",
+    "targetPort" : "SM_ACCOUNT_GOOD_BAD_in0"
+  }, {
+    "id" : "edge_361",
+    "source" : "EXP_CURRENT_DELINQUENCY",
+    "sourcePort" : "EXP_CURRENT_DELINQUENCY_out0",
+    "target" : "EXP_CURRENT_DELINQUENCY_EXPR_96",
+    "targetPort" : "EXP_CURRENT_DELINQUENCY_EXPR_96_in0"
+  }, {
+    "id" : "edge_362",
+    "source" : "EXP_CURRENT_DELINQUENCY",
+    "sourcePort" : "EXP_CURRENT_DELINQUENCY_out0",
+    "target" : "SM_ACCOUNT_GOOD_BAD_EXP",
+    "targetPort" : "SM_ACCOUNT_GOOD_BAD_EXP_in0"
+  }, {
+    "id" : "edge_363",
+    "source" : "SQTRANS",
+    "sourcePort" : "SQTRANS_out0",
+    "target" : "EXP_CURRENT_DELINQUENCY",
+    "targetPort" : "EXP_CURRENT_DELINQUENCY_in0"
+  } ],
+  "component" : "Pipeline"
+}

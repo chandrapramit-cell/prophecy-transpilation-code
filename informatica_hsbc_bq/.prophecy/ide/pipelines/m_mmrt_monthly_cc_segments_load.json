@@ -1,0 +1,122 @@
+{
+  "id" : "m_mmrt_monthly_cc_segments_load",
+  "metainfo" : {
+    "label" : "m_mmrt_monthly_cc_segments_load",
+    "autoLayout" : true,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "SQ_MRT_CARD_TRANS_DERIVATIONS" : "models/m_mmrt_monthly_cc_segments_load/m_mmrt_monthly_cc_segments_load__MRT_MONTHLY_CC_SEGMENT.sql",
+      "MRT_MONTHLY_CC_SEGMENT" : "models/m_mmrt_monthly_cc_segments_load/m_mmrt_monthly_cc_segments_load__MRT_MONTHLY_CC_SEGMENT.sql"
+    }
+  },
+  "processes" : {
+    "MRT_MONTHLY_CC_SEGMENT" : {
+      "id" : "MRT_MONTHLY_CC_SEGMENT",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "MRT_MONTHLY_CC_SEGMENT",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "MRT_MONTHLY_CC_SEGMENT",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MRT_MONTHLY_CC_SEGMENT_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "BlFioSo3RXUNlMDELjn5A",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQ_MRT_CARD_TRANS_DERIVATIONS" : {
+      "id" : "SQ_MRT_CARD_TRANS_DERIVATIONS",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_MRT_CARD_TRANS_DERIVATIONS",
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "select /*+ parallel(r1) parallel(mc1) parallel(mc5) use_hash(r1 mc1 mc5) */\r \tmc1.accid,\r case \twhen\r \tmc1.status in ('8','9','Z','F','P','R','T','X')\r \tthen 'Attrition'\r \twhen\r \tmc1.delq_120_days + \r \tmc1.delq_150_days + \r \tmc1.delq_180_days + \r \tmc1.delq_210_days + \r \tmc1.delq_30_days + \r \tmc1.delq_60_days + \r \tmc1.delq_90_days > 0\r \tor\r \tmc1.fraud_type is not null\r \tthen 'Delinquent'\r \twhen\r \tr1.accid is null\r \tthen 'New'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'N'\r \tand\r \tr1.curr_total_int <= 0\r \tand\r \tr1.curr_statement_balance_total < 0\r \tthen\r \t'Inactive Credit Balance'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'N'\r \tand\r \tr1.curr_total_int <= 0\r \tand\r \tr1.curr_statement_balance_total >= 0\r \tand\r \tr1.curr_statement_balance_total <= 1\r \tthen 'Dormant'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'N'\r \tand\r \tr1.curr_total_int <= 0\r \tand\r \tr1.curr_statement_balance_total > 1\r \tthen '0% Offer Paying Down'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'N'\r \tand\r \tr1.curr_total_int > 0\r \tand\r \tr1.curr_statement_balance_total > 1\r \tthen 'Paying Down'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'Y'\r \tand\r \tnvl(mc5.usage_outside_3_months, 'N') = 'Y'\r \tand\r \tr1.curr_val_credits < r1.prev_statement_balance_total\r \tand\r \tr1.prev_statement_balance_total > 1\r \tand\r \tr1.curr_total_int <= 0\r \tthen 'External 0% Offer'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'Y'\r \tand\r \tnvl(mc5.usage_outside_3_months, 'N') = 'Y'\r \tand\r \tr1.curr_val_credits < r1.prev_statement_balance_total\r \tand\r \tr1.prev_statement_balance_total > 1\r \tand\r \tr1.curr_total_int > 0\r \tthen 'External Revolver'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'Y'\r \tand\r \tnvl(mc5.usage_outside_3_months, 'N') = 'Y'\r \tand\r \tr1.curr_val_credits >= r1.prev_statement_balance_total\r \tand\r \tr1.curr_statement_balance_total <= 1\r \tthen 'External Full Payer'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'Y'\r \tand\r \tnvl(mc5.usage_outside_3_months, 'N') = 'Y'\r \tand\r \tr1.curr_val_credits >= r1.prev_statement_balance_total\r \tand\r \tr1.curr_statement_balance_total > 1\r \tthen 'External Full Payer (Current)'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'Y'\r \tand\r \tnvl(mc5.usage_outside_3_months, 'N') = 'N'\r \tand\r \tnvl(mc5.usage_inside_3_months, 'N') = 'Y'\r \tand\r \tr1.curr_val_credits < r1.prev_statement_balance_total\r \tand\r \tr1.curr_statement_balance_total > 1\r \tand\r \tr1.curr_total_int <= 0\r \tthen 'MandS 0% Offer (Not Used)'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'Y'\r \tand\r \tnvl(mc5.usage_outside_3_months, 'N') = 'N'\r \tand\r \tnvl(mc5.usage_inside_3_months, 'N') = 'Y'\r \tand\r \tr1.curr_val_credits < r1.prev_statement_balance_total\r \tand\r \tr1.curr_statement_balance_total > 1\r \tand\r \tr1.curr_total_int > 0\r \tthen 'MandS Revolver'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'Y'\r \tand\r \tnvl(mc5.usage_outside_3_months, 'N') = 'N'\r \tand\r \tnvl(mc5.usage_inside_3_months, 'N') = 'Y'\r \tand\r \tr1.curr_val_credits >= r1.prev_statement_balance_total\r \tand\r \tr1.curr_statement_balance_total <= 1\r \tthen 'MandS Full Payer'\r \twhen\r \tnvl(mc5.scheme_active, 'N') = 'Y'\r \tand\r \tnvl(mc5.usage_outside_3_months, 'N') = 'N'\r \tand\r \tnvl(mc5.usage_inside_3_months, 'N') = 'Y'\r \tand\r \tr1.curr_val_credits >= r1.prev_statement_balance_total\r \tand\r \tr1.curr_statement_balance_total >= 1\t\r \tthen 'MandS Full Payer (Current)'\r \telse 'Unknown'\r end \tsegment\r from\r rep_cc_statement_mart_calc r1,\r account mc1,\r mrt_ccard_trans_derivations mc5\r where\tmc1.accid = r1.accid(+)\r and\tmc1.accid = mc5.accid(+)\r and    mc1.acc_type in ('410','420','510','520')"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_MRT_CARD_TRANS_DERIVATIONS_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "ACCID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "SEGMENT",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_373",
+    "source" : "SQ_MRT_CARD_TRANS_DERIVATIONS",
+    "sourcePort" : "SQ_MRT_CARD_TRANS_DERIVATIONS_out0",
+    "target" : "MRT_MONTHLY_CC_SEGMENT",
+    "targetPort" : "MRT_MONTHLY_CC_SEGMENT_in0"
+  } ],
+  "component" : "Pipeline"
+}

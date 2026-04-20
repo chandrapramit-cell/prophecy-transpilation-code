@@ -1,0 +1,128 @@
+{
+  "id" : "m_mmrt_monthly_sc_segments_load",
+  "metainfo" : {
+    "label" : "m_mmrt_monthly_sc_segments_load",
+    "autoLayout" : true,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "MP_BUSDATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "SQ_MONTHLY_SEGMENTS" : "models/m_mmrt_monthly_sc_segments_load/m_mmrt_monthly_sc_segments_load__MRT_MONTHLY_SC_SEGMENT.sql",
+      "MRT_MONTHLY_SC_SEGMENT" : "models/m_mmrt_monthly_sc_segments_load/m_mmrt_monthly_sc_segments_load__MRT_MONTHLY_SC_SEGMENT.sql"
+    }
+  },
+  "processes" : {
+    "MRT_MONTHLY_SC_SEGMENT" : {
+      "id" : "MRT_MONTHLY_SC_SEGMENT",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "MRT_MONTHLY_SC_SEGMENT",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "MRT_MONTHLY_SC_SEGMENT",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MRT_MONTHLY_SC_SEGMENT_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "KpPLlGS3xQ2WRKLbfTT9z",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQ_MONTHLY_SEGMENTS" : {
+      "id" : "SQ_MONTHLY_SEGMENTS",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_MONTHLY_SEGMENTS",
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "select /*+ parallel(ama) parallel(cs) parallel(mc1) parallel(bal)\r            use_hash(ama cs mc1 bal) */\r   ama.accid,\r --\r   case when ama.status in ('8','9') then\r     'Attrition'\r   when mc1.is_delinquent = 1 then\r     'Delinquent'\r   when cs.accid is null then\r     'New'\r --\r   when nvl(bal.is_scheme_active,0) = 1 then\r     -- *** Active ***\r     case when cs.curr_val_credits >= cs.curr_prev_balance then\r       -- *** Full Payer ***\r       case when cs.curr_statement_balance_total > 1 then\r         'Full Payer (Current)'\r       else\r         'Full Payer'\r       end\r     else\r       -- *** Not Full Payer ***\r       -- Probably cannot have credits of less than #1\r       -- making following condition superfluous\r       -- Otherwise credits of less than the balance\r       -- where the balance is #1 or less will slip into 'Unknown'\r       case when cs.curr_val_credits > 1 and cs.curr_int = 'Y' then\r         'Revolver'\r       else\r         'Unknown'\r       end\r     end\r --\r   else\r     -- *** Inactive ***\r     case when cs.curr_int = 'Y' then\r       -- *** Interest Charged ***\r       -- Probably no interest charged on balances of #1 or less\r       -- making following condition superfluous.\r       -- Otherwise any balances of #1 or less\r       -- where interest has been charged slip into Unknown\r       case when cs.curr_statement_balance_total > 1 then\r         'Paying Down'\r       else\r         'Unknown'\r       end\r     else\r       -- *** No Interest Charged ***\r       case when cs.curr_statement_balance_total between 0 and 1 then\r         'Dormant'\r       -- Superfluous\r       when cs.curr_statement_balance_total < 0 then\r         'Inactive Credit Balance'\r       else\r         'Unknown'\r       end\r     end\r   end segment\r --\r from \r   (\r   select /*+ parallel(ama) */\r     ama.accid,\r     ama.acc_num,\r     ama.status\r   from all_monthly_accounts ama\r   where ama.source_system_code = 'C'\r     and ama.acc_type in ('001','010','011','012')\r     and clientid is not null\r   ) ama,\r --\r   (\r   select /*+ parallel(mc1) */\r     mc1.accid,\r     case when mc1.delq_210_days + mc1.delq_180_days + mc1.delq_150_days +\r           mc1.delq_120_days + mc1.delq_90_days + mc1.delq_60_days +\r           mc1.delq_30_days > 0 then 1 else 0 end is_delinquent\r   from account mc1\r   where mc1.acc_type in ('001','010','011','012')\r   ) mc1,\r --\r   (\r   select /*+ parallel(cs) */\r       cs.accid,\r       min(decode(rnk,1,cs.periodid,null)) curr_period,\r       min(decode(rnk,2,cs.periodid,null)) prev_period,\r       nvl(min(decode(rnk,1,cs.gbp_current_bal,null)),0) curr_statement_balance_total,\r       nvl(min(decode(rnk,2,cs.gbp_current_bal,null)),0) prev_statement_balance_total,\r       nvl(min(decode(rnk,1,decode(cs.interest_flag,'0','N','Y'),null)),0) curr_int,\r       nvl(min(decode(rnk,2,decode(cs.interest_flag,'0','N','Y'),null)),0) prev_int,\r       nvl(min(decode(rnk,1,cs.gbp_credit_amt,null)),0) curr_val_credits,\r       nvl(min(decode(rnk,2,cs.gbp_credit_amt,null)),0) prev_val_credits,\r       nvl(min(decode(rnk,1,cs.gbp_prev_bal,null)),0) curr_prev_balance\r     from\r       (\r       select /*+ parallel(cs) */\r         accid,\r         periodid,\r         gbp_current_bal,\r         interest_flag,\r         gbp_credit_amt,\r         gbp_prev_bal,\r         rank() over (partition by accid\r            order by periodid desc, statement_date desc) rnk\r       from (select /*+ parallel(cs1) */\r         accid,\r         periodid,\r         statement_date,\r         sum(gbp_current_bal) gbp_current_bal,\r         sum(decode(interest_flag,'N',0,'Y',1,0)) interest_flag,\r         sum(abs(gbp_credit_amt)) gbp_credit_amt,\r         sum(gbp_prev_bal) gbp_prev_bal\r         from storecard_statement_summary cs1\r         group by accid, periodid, statement_date) cs) cs\r         where rnk <= 2\r       group by cs.accid\r     ) cs,\r   --\r   (\r   select /*+ parallel(bal) */\r     accid,\r     DECODE(storecard_scheme_active,'Y',1,0)      is_scheme_active\r   from MRT_SCARD_TRANS_DERIVATIONS\r   ) bal\r --\r where ama.accid = mc1.accid (+)\r   and ama.accid = cs.accid (+)\r   and ama.accid = bal.accid (+)"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_MONTHLY_SEGMENTS_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "ACCID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "SEGMENT",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_358",
+    "source" : "SQ_MONTHLY_SEGMENTS",
+    "sourcePort" : "SQ_MONTHLY_SEGMENTS_out0",
+    "target" : "MRT_MONTHLY_SC_SEGMENT",
+    "targetPort" : "MRT_MONTHLY_SC_SEGMENT_in0"
+  } ],
+  "component" : "Pipeline"
+}

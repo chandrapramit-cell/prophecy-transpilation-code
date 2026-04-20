@@ -1,0 +1,161 @@
+{
+  "id" : "m_rep_non_sunday_check",
+  "metainfo" : {
+    "label" : "m_rep_non_sunday_check",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "EXPTRANS" : "models/m_rep_non_sunday_check/m_rep_non_sunday_check__REP_INF_WORKFLOW.sql",
+      "SQ_DBATTRIBUTE" : "models/m_rep_non_sunday_check/m_rep_non_sunday_check__REP_INF_WORKFLOW.sql",
+      "REP_INF_WORKFLOW" : "models/m_rep_non_sunday_check/m_rep_non_sunday_check__REP_INF_WORKFLOW.sql"
+    }
+  },
+  "processes" : {
+    "REP_INF_WORKFLOW" : {
+      "id" : "REP_INF_WORKFLOW",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "REP_INF_WORKFLOW",
+        "x" : 420,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "REP_INF_WORKFLOW",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "REP_INF_WORKFLOW_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "6WkkDEIB82rXdaNdw9fvP",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "EXPTRANS" : {
+      "id" : "EXPTRANS",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXPTRANS",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "'1'",
+            "_row_id" : null
+          },
+          "alias" : "DECISION",
+          "description" : null,
+          "_row_id" : "Z78we0hh-3W1yXuENYA7i"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXPTRANS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXPTRANS_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "SQ_DBATTRIBUTE" : {
+      "id" : "SQ_DBATTRIBUTE",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_DBATTRIBUTE",
+        "x" : 20,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(db) */ rtrim(to_char(to_date(currvalue, 'YYYYMMDD'), 'DAY')) AS day_of_week FROM dbattribute db WHERE name = 'businessdate' AND DAY_OF_WEEK != 'SATURDAY'"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_DBATTRIBUTE_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "DAY_OF_WEEK",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_364",
+    "source" : "EXPTRANS",
+    "sourcePort" : "EXPTRANS_out0",
+    "target" : "REP_INF_WORKFLOW",
+    "targetPort" : "REP_INF_WORKFLOW_in0"
+  }, {
+    "id" : "edge_365",
+    "source" : "SQ_DBATTRIBUTE",
+    "sourcePort" : "SQ_DBATTRIBUTE_out0",
+    "target" : "EXPTRANS",
+    "targetPort" : "EXPTRANS_in0"
+  } ],
+  "component" : "Pipeline"
+}

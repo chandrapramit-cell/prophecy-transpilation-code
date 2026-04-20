@@ -1,0 +1,453 @@
+{
+  "id" : "m_mmrt_drms_cal_hist_sum_load",
+  "metainfo" : {
+    "label" : "m_mmrt_drms_cal_hist_sum_load",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "MP_BUSDATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "SQ_DRMS_DETAIL" : "models/m_mmrt_drms_cal_hist_sum_load/m_mmrt_drms_cal_hist_sum_load__SM_DRMS_CAL_MTH_END_HIST.sql",
+      "SQ_DRMS_DETAIL_EXPR_94" : "models/m_mmrt_drms_cal_hist_sum_load/m_mmrt_drms_cal_hist_sum_load__SM_DRMS_CAL_MTH_END_HIST.sql",
+      "SM_DRMS_CAL_MTH_END_HIST" : "models/m_mmrt_drms_cal_hist_sum_load/m_mmrt_drms_cal_hist_sum_load__SM_DRMS_CAL_MTH_END_HIST.sql"
+    }
+  },
+  "processes" : {
+    "SM_DRMS_CAL_MTH_END_HIST" : {
+      "id" : "SM_DRMS_CAL_MTH_END_HIST",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "SM_DRMS_CAL_MTH_END_HIST",
+        "x" : 420,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "SM_DRMS_CAL_MTH_END_HIST",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SM_DRMS_CAL_MTH_END_HIST_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "QtdUVgTzGEYX4ypBhsXLQ",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQ_DRMS_DETAIL" : {
+      "id" : "SQ_DRMS_DETAIL",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_DRMS_DETAIL",
+        "x" : 20,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(DTL) parallel(CAL) parallel(AMA) use_hash(DTL CAL AMA) */\r SUBSTR('$$MP_BUSDATE',1,6) PERIODID,\r DTL.ACCOUNT_NUM,\r DTL.ACCOUNT_BALANCE,\r DTL.ACCOUNT_STATUS,\r DTL.ASSOCIATED_COSTS,\r DTL.JUDGEMENT_ARREARS,\r DTL.JUDGEMENT_SOLICITOR_COSTS,\r DTL.LAST_PAYMENT_DATE,\r DTL.ORDER_FEE,\r DTL.PAID_SINCE_JUDGEMENT,\r DTL.PAYMENT_AMOUNT,\r DTL.PAYMENT_DUE_AMOUNT,\r DTL.RECOVERY_COSTS,\r DTL.RECOVERY_INTEREST,\r DTL.RECOVERY_PRINCIPAL,\r DTL.SUMMONS_AMOUNT,\r DTL.SUMMONS_FEE,\r DTL.SUMMONS_SOLICITOR_COSTS,\r DTL.WARRANT_COSTS,\r DTL.EFROM,\r DTL.LOAN_TYPE_CODE,\r DTL.CHARGE_OFF_AMOUNT,\r DTL.CHARGE_OFF_DATE\r FROM   DRMS_DETAIL           DTL,\r        ALL_MONTHLY_ACCOUNTS  AMA\r WHERE  TO_DATE('$$MP_BUSDATE','YYYYMMDD')  BETWEEN DTL.EFROM AND NVL(DTL.ETO, TO_DATE('40001231', 'YYYYMMDD'))\r AND    AMA.ACCID = DTL.ACCID"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_DRMS_DETAIL_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "SUMMONS_AMOUNT",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PAID_SINCE_JUDGEMENT",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PAYMENT_AMOUNT",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "SUMMONS_FEE",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PERIODID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "JUDGEMENT_ARREARS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "ACCOUNT_BALANCE",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CHARGE_OFF_AMOUNT",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "JUDGEMENT_SOLICITOR_COSTS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "RECOVERY_COSTS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "ACCOUNT_STATUS",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "RECOVERY_PRINCIPAL",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "ASSOCIATED_COSTS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PAYMENT_DUE_AMOUNT",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "ACCOUNT_NUM",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "LOAN_TYPE_CODE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "SUMMONS_SOLICITOR_COSTS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "WARRANT_COSTS",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "RECOVERY_INTEREST",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "LAST_PAYMENT_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "CHARGE_OFF_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "EFROM",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "ORDER_FEE",
+              "dataType" : {
+                "type" : "Float"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "SQ_DRMS_DETAIL_EXPR_94" : {
+      "id" : "SQ_DRMS_DETAIL_EXPR_94",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "SQ_DRMS_DETAIL_EXPR_94",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "WARRANT_COSTS",
+            "_row_id" : null
+          },
+          "alias" : "DR_WARRANT_COSTS",
+          "description" : null,
+          "_row_id" : "60rIOB9CNEjZRd65eFTo4"
+        }, {
+          "expression" : {
+            "expression" : "EFROM",
+            "_row_id" : null
+          },
+          "alias" : "DR_DETAIL_EFROM",
+          "description" : null,
+          "_row_id" : "yildS7wwQo--UOv1cE11z"
+        }, {
+          "expression" : {
+            "expression" : "LOAN_TYPE_CODE",
+            "_row_id" : null
+          },
+          "alias" : "DR_LOAN_TYPE_CODE",
+          "description" : null,
+          "_row_id" : "fYFLshw_hoP1t1xcvIeTO"
+        }, {
+          "expression" : {
+            "expression" : "CHARGE_OFF_AMOUNT",
+            "_row_id" : null
+          },
+          "alias" : "DR_CHARGE_OFF_AMOUNT",
+          "description" : null,
+          "_row_id" : "Dz2MF2q19yMxos4NLsGHh"
+        }, {
+          "expression" : {
+            "expression" : "CHARGE_OFF_DATE",
+            "_row_id" : null
+          },
+          "alias" : "DR_CHARGE_OFF_DATE",
+          "description" : null,
+          "_row_id" : "JAJhqD_d9mKUqF3YVsXfE"
+        }, {
+          "expression" : {
+            "expression" : "PERIODID",
+            "_row_id" : null
+          },
+          "alias" : "PERIODID",
+          "description" : null,
+          "_row_id" : "Nz1EgPclUpRhvmZuGuVNp"
+        }, {
+          "expression" : {
+            "expression" : "ACCOUNT_NUM",
+            "_row_id" : null
+          },
+          "alias" : "DR_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "fFXdDL1Ag_CQr6QJT1P78"
+        }, {
+          "expression" : {
+            "expression" : "ACCOUNT_BALANCE",
+            "_row_id" : null
+          },
+          "alias" : "DR_ACCOUNT_BALANCE",
+          "description" : null,
+          "_row_id" : "jxqN9x0uOiMb2TVOV3Ja8"
+        }, {
+          "expression" : {
+            "expression" : "ACCOUNT_STATUS",
+            "_row_id" : null
+          },
+          "alias" : "DR_ACCOUNT_STATUS",
+          "description" : null,
+          "_row_id" : "nx-7zvH8mD1-vTifC2J4V"
+        }, {
+          "expression" : {
+            "expression" : "ASSOCIATED_COSTS",
+            "_row_id" : null
+          },
+          "alias" : "DR_ASSOCIATED_COSTS",
+          "description" : null,
+          "_row_id" : "RLuCz6xG2f5RtAtYxl96_"
+        }, {
+          "expression" : {
+            "expression" : "JUDGEMENT_ARREARS",
+            "_row_id" : null
+          },
+          "alias" : "DR_JUDGEMENT_ARREARS",
+          "description" : null,
+          "_row_id" : "cCyHBilYC7f-A6n6N11uV"
+        }, {
+          "expression" : {
+            "expression" : "JUDGEMENT_SOLICITOR_COSTS",
+            "_row_id" : null
+          },
+          "alias" : "DR_JUDGEMENT_SOLICITOR_COSTS",
+          "description" : null,
+          "_row_id" : "zWkPZpUks-dZV237A6J8G"
+        }, {
+          "expression" : {
+            "expression" : "LAST_PAYMENT_DATE",
+            "_row_id" : null
+          },
+          "alias" : "DR_LAST_PAYMENT_DATE",
+          "description" : null,
+          "_row_id" : "LwXU-K_Ll4EacN4zJNerB"
+        }, {
+          "expression" : {
+            "expression" : "ORDER_FEE",
+            "_row_id" : null
+          },
+          "alias" : "DR_ORDER_FEE",
+          "description" : null,
+          "_row_id" : "9VJDJktFSXCXdQ7YR_FQU"
+        }, {
+          "expression" : {
+            "expression" : "PAID_SINCE_JUDGEMENT",
+            "_row_id" : null
+          },
+          "alias" : "DR_PAID_SINCE_JUDGEMENT",
+          "description" : null,
+          "_row_id" : "kJxa-elhXT8x4hTzT2wKZ"
+        }, {
+          "expression" : {
+            "expression" : "PAYMENT_AMOUNT",
+            "_row_id" : null
+          },
+          "alias" : "DR_PAYMENT_AMOUNT",
+          "description" : null,
+          "_row_id" : "BJbDsPX7oLcj1g6TI2oUJ"
+        }, {
+          "expression" : {
+            "expression" : "PAYMENT_DUE_AMOUNT",
+            "_row_id" : null
+          },
+          "alias" : "DR_PAYMENT_DUE_AMOUNT",
+          "description" : null,
+          "_row_id" : "KcXyTRkdDt1jxw-01PH0D"
+        }, {
+          "expression" : {
+            "expression" : "RECOVERY_COSTS",
+            "_row_id" : null
+          },
+          "alias" : "DR_RECOVERY_COSTS",
+          "description" : null,
+          "_row_id" : "UfkVPivGNWuqQhfWWKiwf"
+        }, {
+          "expression" : {
+            "expression" : "RECOVERY_INTEREST",
+            "_row_id" : null
+          },
+          "alias" : "DR_RECOVERY_INTEREST",
+          "description" : null,
+          "_row_id" : "H9mh_424dwewbGjRFEPMO"
+        }, {
+          "expression" : {
+            "expression" : "RECOVERY_PRINCIPAL",
+            "_row_id" : null
+          },
+          "alias" : "DR_RECOVERY_PRINCIPAL",
+          "description" : null,
+          "_row_id" : "_Qv3Yo4tHDJT_6xEuGP4a"
+        }, {
+          "expression" : {
+            "expression" : "SUMMONS_AMOUNT",
+            "_row_id" : null
+          },
+          "alias" : "DR_SUMMONS_AMOUNT",
+          "description" : null,
+          "_row_id" : "TPF-7tP9999yOGy9YQtlm"
+        }, {
+          "expression" : {
+            "expression" : "SUMMONS_FEE",
+            "_row_id" : null
+          },
+          "alias" : "DR_SUMMONS_FEE",
+          "description" : null,
+          "_row_id" : "10m5td_uzFqJM_iKTHpfI"
+        }, {
+          "expression" : {
+            "expression" : "SUMMONS_SOLICITOR_COSTS",
+            "_row_id" : null
+          },
+          "alias" : "DR_SUMMONS_SOLICITOR_COSTS",
+          "description" : null,
+          "_row_id" : "rrZ5HYUP2W76Qh6V-sXhV"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SQ_DRMS_DETAIL_EXPR_94_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "SQ_DRMS_DETAIL_EXPR_94_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_347",
+    "source" : "SQ_DRMS_DETAIL_EXPR_94",
+    "sourcePort" : "SQ_DRMS_DETAIL_EXPR_94_out0",
+    "target" : "SM_DRMS_CAL_MTH_END_HIST",
+    "targetPort" : "SM_DRMS_CAL_MTH_END_HIST_in0"
+  }, {
+    "id" : "edge_348",
+    "source" : "SQ_DRMS_DETAIL",
+    "sourcePort" : "SQ_DRMS_DETAIL_out0",
+    "target" : "SQ_DRMS_DETAIL_EXPR_94",
+    "targetPort" : "SQ_DRMS_DETAIL_EXPR_94_in0"
+  } ],
+  "component" : "Pipeline"
+}

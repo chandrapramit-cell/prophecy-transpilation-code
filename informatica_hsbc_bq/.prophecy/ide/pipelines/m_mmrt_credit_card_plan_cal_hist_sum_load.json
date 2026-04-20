@@ -1,0 +1,232 @@
+{
+  "id" : "m_mmrt_credit_card_plan_cal_hist_sum_load",
+  "metainfo" : {
+    "label" : "m_mmrt_credit_card_plan_cal_hist_sum_load",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "MP_BUSDATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "SQ_CREDIT_PLAN_EXPR_93" : "models/m_mmrt_credit_card_plan_cal_hist_sum_load/m_mmrt_credit_card_plan_cal_hist_sum_load__SM_CREDIT_CARD_PLAN_CAL_MTH_HIS.sql",
+      "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS" : "models/m_mmrt_credit_card_plan_cal_hist_sum_load/m_mmrt_credit_card_plan_cal_hist_sum_load__SM_CREDIT_CARD_PLAN_CAL_MTH_HIS.sql",
+      "SQ_CREDIT_PLAN" : "models/m_mmrt_credit_card_plan_cal_hist_sum_load/m_mmrt_credit_card_plan_cal_hist_sum_load__SM_CREDIT_CARD_PLAN_CAL_MTH_HIS.sql"
+    }
+  },
+  "processes" : {
+    "SQ_CREDIT_PLAN" : {
+      "id" : "SQ_CREDIT_PLAN",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CREDIT_PLAN",
+        "x" : 20,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(AMA) parallel(PLB) parallel(PLI) use_hash(AMA PLB PLI) */   \r        \tSUBSTR('$$MP_BUSDATE',1,6) PERIODID,\r        \tAMA.ACC_NUM,\r        \tPLI.APR_1,\r        \tPLB.CURRENT_BALANCE,\r        \tPLB.PLAN_NUMBER,\r        \tPLB.PLAN_TYPE \r FROM   \r \tALL_MONTHLY_ACCOUNTS AMA, \r        \tCREDIT_PLAN_BALANCE PLB,\r        \tCREDIT_PLAN_INTEREST PLI\r WHERE  \r \tAMA.ACCID = PLB.ACCID\r AND\tAMA.ACCID = PLI.ACCID\r AND\tPLB.PLAN_NUMBER = PLI.PLAN_NUMBER\r AND\tPLB.PLAN_DATE = PLI.PLAN_DATE\r AND    \tAMA.SOURCE_SYSTEM_CODE = 'G'\r AND    \tAMA.ACC_TYPE           IN ('410', '420', '510', '520')\r AND\tAMA.CLIENTID IS NOT NULL\r AND   \tTO_DATE('$$MP_BUSDATE','YYYYMMDD') BETWEEN PLB.EFROM \r                               AND NVL(PLB.ETO, TO_DATE('40001231', 'YYYYMMDD'))\r AND   \tTO_DATE('$$MP_BUSDATE','YYYYMMDD') BETWEEN PLI.EFROM \r                               AND NVL(PLI.ETO, TO_DATE('40001231', 'YYYYMMDD'))"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CREDIT_PLAN_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "PLAN_NUMBER",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CURRENT_BALANCE",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PERIODID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PLAN_TYPE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "ACCOUNT_NUMBER",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "APR_1",
+              "dataType" : {
+                "type" : "Float"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS" : {
+      "id" : "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS",
+        "x" : 420,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1DxKugXwRF7i6WIWhlC4t",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQ_CREDIT_PLAN_EXPR_93" : {
+      "id" : "SQ_CREDIT_PLAN_EXPR_93",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "SQ_CREDIT_PLAN_EXPR_93",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCOUNT_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CC_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "LTzlVO3z4gvTD_86w5PL-"
+        }, {
+          "expression" : {
+            "expression" : "APR_1",
+            "_row_id" : null
+          },
+          "alias" : "CC_PLAN_APR",
+          "description" : null,
+          "_row_id" : "dSvbac9eNnPLd25si1Vik"
+        }, {
+          "expression" : {
+            "expression" : "CURRENT_BALANCE",
+            "_row_id" : null
+          },
+          "alias" : "CC_PLAN_CURRENT_BALANCE",
+          "description" : null,
+          "_row_id" : "fWhHxn-rXYakyqpOxX54D"
+        }, {
+          "expression" : {
+            "expression" : "PLAN_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CC_PLAN_NUMBER",
+          "description" : null,
+          "_row_id" : "FtPojkVPMAT4F5GlFiR6u"
+        }, {
+          "expression" : {
+            "expression" : "PLAN_TYPE",
+            "_row_id" : null
+          },
+          "alias" : "CC_PLAN_TYPE",
+          "description" : null,
+          "_row_id" : "DJMIwNBmShqaqCFD_82Mh"
+        }, {
+          "expression" : {
+            "expression" : "PERIODID",
+            "_row_id" : null
+          },
+          "alias" : "PERIODID",
+          "description" : null,
+          "_row_id" : "stTnoTuhZlMZ3Z-duXyPQ"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SQ_CREDIT_PLAN_EXPR_93_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "SQ_CREDIT_PLAN_EXPR_93_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_345",
+    "source" : "SQ_CREDIT_PLAN_EXPR_93",
+    "sourcePort" : "SQ_CREDIT_PLAN_EXPR_93_out0",
+    "target" : "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS",
+    "targetPort" : "SM_CREDIT_CARD_PLAN_CAL_MTH_HIS_in0"
+  }, {
+    "id" : "edge_346",
+    "source" : "SQ_CREDIT_PLAN",
+    "sourcePort" : "SQ_CREDIT_PLAN_out0",
+    "target" : "SQ_CREDIT_PLAN_EXPR_93",
+    "targetPort" : "SQ_CREDIT_PLAN_EXPR_93_in0"
+  } ],
+  "component" : "Pipeline"
+}

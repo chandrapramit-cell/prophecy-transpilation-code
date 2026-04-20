@@ -1,0 +1,143 @@
+{
+  "id" : "m_mmrt_sc_transaction_derivation_load",
+  "metainfo" : {
+    "label" : "m_mmrt_sc_transaction_derivation_load",
+    "autoLayout" : true,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "MP_BUSDATE",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "MRT_SCARD_TRANS_DERIVATIONS" : "models/m_mmrt_sc_transaction_derivation_load/m_mmrt_sc_transaction_derivation_load__MRT_SCARD_TRANS_DERIVATIONS.sql",
+      "SQ_CARD_TRANSACTION" : "models/m_mmrt_sc_transaction_derivation_load/m_mmrt_sc_transaction_derivation_load__MRT_SCARD_TRANS_DERIVATIONS.sql"
+    }
+  },
+  "processes" : {
+    "MRT_SCARD_TRANS_DERIVATIONS" : {
+      "id" : "MRT_SCARD_TRANS_DERIVATIONS",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "MRT_SCARD_TRANS_DERIVATIONS",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "MRT_SCARD_TRANS_DERIVATIONS",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MRT_SCARD_TRANS_DERIVATIONS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "rnt6h4VIZ7ZcAxjv4TTdn",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQ_CARD_TRANSACTION" : {
+      "id" : "SQ_CARD_TRANSACTION",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CARD_TRANSACTION",
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(TRN) parallel(AMA) use_hash(TRN AMA) */\r --           \r   TRN.ACCID,\r   AMA.ACC_TYPE,\r --\r -- LAST Transaction Effective Date\r --\r NULL as LAST_SCHEME_ACTIVE_EFF_DATE,\r --\r MAX(CASE WHEN TRANSACTION_CODE = '40'\r       AND EFFECTIVE_DATE BETWEEN \r       TO_DATE(\r       ADD_MONTHS(TO_DATE('$$MP_BUSDATE','YYYYMMDD'),-3)+1) AND TO_DATE('$$MP_BUSDATE','YYYYMMDD')\r       THEN 'Y'\r       ELSE 'N'\r     END) STORECARD_SCHEME_ACTIVE,\r --\r   MAX(CASE WHEN EFFECTIVE_DATE <= TO_DATE ('$$MP_BUSDATE', 'YYYYMMDD')\r            THEN EFFECTIVE_DATE\r            ELSE NULL\r            END) LAST_EFFECTIVE_DATE\r --\r FROM \r (SELECT /*+ parallel(TR1) */ \r         ACCID, \r         EFFECTIVE_DATE, \r         POSTING_DATE, \r        TRANSACTION_CODE\r         from STORECARD_TRANSACTION TR1\r         WHERE TRANSACTION_CODE = '40') TRN,\r   ALL_MONTHLY_ACCOUNTS AMA\r --\r WHERE TRN.ACCID = AMA.ACCID\r --\r GROUP BY TRN.ACCID,\r          AMA.ACC_TYPE"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CARD_TRANSACTION_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "ACC_TYPE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "LAST_EFFECTIVE_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            }, {
+              "name" : "STORECARD_SCHEME_ACTIVE",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "ACCID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "LAST_SCHEME_ACTIVE_EFF_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_354",
+    "source" : "SQ_CARD_TRANSACTION",
+    "sourcePort" : "SQ_CARD_TRANSACTION_out0",
+    "target" : "MRT_SCARD_TRANS_DERIVATIONS",
+    "targetPort" : "MRT_SCARD_TRANS_DERIVATIONS_in0"
+  } ],
+  "component" : "Pipeline"
+}
