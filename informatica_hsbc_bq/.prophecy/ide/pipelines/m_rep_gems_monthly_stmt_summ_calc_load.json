@@ -2,7 +2,7 @@
   "id" : "m_rep_gems_monthly_stmt_summ_calc_load",
   "metainfo" : {
     "label" : "m_rep_gems_monthly_stmt_summ_calc_load",
-    "autoLayout" : false,
+    "autoLayout" : true,
     "version" : 1,
     "configuration" : {
       "schema" : {
@@ -42,24 +42,97 @@
     },
     "isTranspiledPipeline" : false,
     "publishDiagnosticMetrics" : true,
-    "transpilerType" : "informatica",
-    "processesVsModelFiles" : {
-      "9t-1kfSqR6SXs30xzBdb2$$syKhYd_1HqvUV5ZWyNPdp" : "models/m_rep_gems_monthly_stmt_summ_calc_load/m_rep_gems_monthly_stmt_summ_calc_load__Reformat_1.sql",
-      "Reformat_1_toHJks-z42D_61GXp23ZP$$9_W09HfTvoXm9y2t0UIJt" : "models/m_rep_gems_monthly_stmt_summ_calc_load/m_rep_gems_monthly_stmt_summ_calc_load__Reformat_1.sql",
-      "SQ_CREDIT_CARD_STATEMENT_SUMMARY" : "models/m_rep_gems_monthly_stmt_summ_calc_load/m_rep_gems_monthly_stmt_summ_calc_load__EXP_IDENTIFY_CORRECT_PERIODS.sql",
-      "EXP_IDENTIFY_CORRECT_PERIODS" : "models/m_rep_gems_monthly_stmt_summ_calc_load/m_rep_gems_monthly_stmt_summ_calc_load__EXP_IDENTIFY_CORRECT_PERIODS.sql",
-      "EXP_IDENTIFY_CORRECT_PERIODS_EXP_IDENTIFY_CORRECT_PERIODS_out0" : "models/m_rep_gems_monthly_stmt_summ_calc_load/m_rep_gems_monthly_stmt_summ_calc_load__EXP_IDENTIFY_CORRECT_PERIODS.sql",
-      "rD5dV8ZVqZBYyWF57mw8b$$k9l3IuaWe3Qvh7yjT2KGc" : "models/m_rep_gems_monthly_stmt_summ_calc_load/m_rep_gems_monthly_stmt_summ_calc_load__Reformat_1.sql"
-    }
+    "transpilerType" : "informatica"
   },
   "processes" : {
+    "REP_CC_STATEMENT_MART_CALC" : {
+      "id" : "REP_CC_STATEMENT_MART_CALC",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "REP_CC_STATEMENT_MART_CALC",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "REP_CC_STATEMENT_MART_CALC",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "REP_CC_STATEMENT_MART_CALC_in0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "CYCLE_DAY",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CURR_VAL_CREDITS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CURR_PERIOD",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CURR_STATEMENT_BALANCE_TOTAL",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PREV_PERIOD",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PREV_STATEMENT_BALANCE_TOTAL",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "ACCID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PREV_TOTAL_INT",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CURR_TOTAL_INT",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "PREV_VAL_CREDITS",
+              "dataType" : {
+                "type" : "Float"
+              }
+            } ]
+          },
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "zGfm6PSwfEBHDFO1eo9ld",
+          "slug" : "out0"
+        } ]
+      }
+    },
     "SQ_CREDIT_CARD_STATEMENT_SUMMARY" : {
       "id" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY",
       "component" : "SQLStatement",
       "metadata" : {
         "label" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY",
-        "x" : -600,
-        "y" : 40,
         "phase" : 1
       },
       "properties" : {
@@ -144,72 +217,90 @@
       "component" : "Reformat",
       "metadata" : {
         "label" : "EXP_IDENTIFY_CORRECT_PERIODS",
-        "x" : 220,
-        "y" : 20,
         "phase" : 1
       },
       "properties" : {
-        "columnsSelector" : [ "EXP_IDENTIFY_CORRECT_PERIODS_in0##ACCID", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CURR_PERIOD", "EXP_IDENTIFY_CORRECT_PERIODS_in0##PREV_PERIOD", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CYCLE_DAY", "EXP_IDENTIFY_CORRECT_PERIODS_in0##BUSINESS_DATE", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CURR_STATEMENT_BALANCE_TOTAL", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CURR_TOTAL_INT", "EXP_IDENTIFY_CORRECT_PERIODS_in0##CURR_VAL_CREDITS", "EXP_IDENTIFY_CORRECT_PERIODS_in0##PREV_TOTAL_INT" ],
+        "columnsSelector" : [ ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "ACCID"
+            "expression" : "ACCID",
+            "_row_id" : null
           },
           "alias" : "ACCID",
-          "_row_id" : "KJqNRXaOPllVvq9jylK6h"
+          "description" : null,
+          "_row_id" : "ZdLAIjflkvnvCxISwbsTY"
         }, {
           "expression" : {
-            "expression" : "CURR_PERIOD"
+            "expression" : "CURR_PERIOD",
+            "_row_id" : null
           },
           "alias" : "CURR_PERIOD",
-          "_row_id" : "BF632BvukwAKXSOIGhZ-9"
+          "description" : null,
+          "_row_id" : "9qBg4eBIOLhQ3gmd-UZNn"
         }, {
           "expression" : {
-            "expression" : "PREV_PERIOD"
+            "expression" : "PREV_PERIOD",
+            "_row_id" : null
           },
           "alias" : "PREV_PERIOD",
-          "_row_id" : "ztHj-SmXoSbGMA_qsqCcp"
+          "description" : null,
+          "_row_id" : "GfjsiLr81Bs9yQLzazzEe"
         }, {
           "expression" : {
-            "expression" : "CYCLE_DAY"
+            "expression" : "CYCLE_DAY",
+            "_row_id" : null
           },
           "alias" : "CYCLE_DAY",
-          "_row_id" : "usZIHQXRttQgMcP39Hh0d"
+          "description" : null,
+          "_row_id" : "of8m6BWz9ZSzzeezJa5n2"
         }, {
           "expression" : {
-            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_STATEMENT_BALANCE_TOTAL ELSE 0 END)"
+            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_STATEMENT_BALANCE_TOTAL ELSE 0 END)",
+            "_row_id" : null
           },
           "alias" : "CURR_STATEMENT_BALANCE_TOTAL",
-          "_row_id" : "XWQbLSVhCU7PCHAtFTgeh"
+          "description" : null,
+          "_row_id" : "DAsZILRyhUC-EX2tBSlFs"
         }, {
           "expression" : {
-            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_TOTAL_INT ELSE 0 END)"
+            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_TOTAL_INT ELSE 0 END)",
+            "_row_id" : null
           },
           "alias" : "CURR_TOTAL_INT",
-          "_row_id" : "HMAhj8dpVca_QqbHzBfds"
+          "description" : null,
+          "_row_id" : "lGpV9Ug23YgWEthnflVVx"
         }, {
           "expression" : {
-            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_VAL_CREDITS ELSE 0 END)"
+            "expression" : "(CASE WHEN ((CASE WHEN (CURR_PERIOD = CAST (SUBSTRING(BUSINESS_DATE , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN CURR_VAL_CREDITS ELSE 0 END)",
+            "_row_id" : null
           },
           "alias" : "CURR_VAL_CREDITS",
-          "_row_id" : "-2VpKfTXTRk9Gu22KpGhR"
+          "description" : null,
+          "_row_id" : "0r2-T6_EFd_iMS_I5n8D_"
         }, {
           "expression" : {
-            "expression" : "(\n  CASE\n    WHEN (\n      (\n        CASE\n          WHEN (\n            PREV_PERIOD = CAST(SUBSTRING(\n              (PARSE_TIMESTAMP('%Y%m%d', (DATE_ADD(CAST((PARSE_TIMESTAMP('%Y%m%d', BUSINESS_DATE)) AS DATE), INTERVAL -1 MONTH)))), \n              0, \n              6) AS FLOAT64)\n          )\n            THEN 'Y'\n          ELSE 'N'\n        END\n      ) = 'Y'\n    )\n      THEN PREV_TOTAL_INT\n    ELSE 0\n  END\n)"
+            "expression" : "(CASE WHEN ((CASE WHEN (PREV_PERIOD = CAST(SUBSTRING((PARSE_TIMESTAMP('%Y%m%d', CAST((DATE_ADD(CAST((PARSE_TIMESTAMP('%Y%m%d', BUSINESS_DATE))  AS DATE),INTERVAL -1  MONTH)) AS STRING))) , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN PREV_STATEMENT_BALANCE_TOTAL ELSE 0 END)",
+            "_row_id" : null
           },
           "alias" : "PREV_STATEMENT_BALANCE_TOTAL",
-          "_row_id" : "lNQsh6we51geKCTAJcxK-"
+          "description" : null,
+          "_row_id" : "NY6vEOkSdmzuP7suSfSW7"
         }, {
           "expression" : {
-            "expression" : "1"
+            "expression" : "(CASE WHEN ((CASE WHEN (PREV_PERIOD = CAST(SUBSTRING((PARSE_TIMESTAMP('%Y%m%d', CAST((DATE_ADD(CAST((PARSE_TIMESTAMP('%Y%m%d', BUSINESS_DATE))  AS DATE),INTERVAL -1  MONTH)) AS STRING))) , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN PREV_TOTAL_INT ELSE 0 END)",
+            "_row_id" : null
           },
           "alias" : "PREV_TOTAL_INT",
-          "_row_id" : "OyZuieR1TRWu2DcfQ8EH3"
+          "description" : null,
+          "_row_id" : "8din7aYMYPRB8SBiEOquE"
         }, {
           "expression" : {
-            "expression" : "1"
+            "expression" : "(CASE WHEN ((CASE WHEN (PREV_PERIOD = CAST(SUBSTRING((PARSE_TIMESTAMP('%Y%m%d', CAST((DATE_ADD(CAST((PARSE_TIMESTAMP('%Y%m%d', BUSINESS_DATE))  AS DATE),INTERVAL -1  MONTH)) AS STRING))) , 0 , 6) AS FLOAT64)) THEN 'Y' ELSE 'N' END) = 'Y') THEN PREV_VAL_CREDITS ELSE 0 END)",
+            "_row_id" : null
           },
           "alias" : "PREV_VAL_CREDITS",
-          "_row_id" : "Vyeimk_kLigkV1Hk8E7-O"
+          "description" : null,
+          "_row_id" : "kD05S1YmPjU73VKWw1LkS"
         } ]
       },
       "ports" : {
@@ -220,81 +311,22 @@
         "outputs" : [ {
           "id" : "EXP_IDENTIFY_CORRECT_PERIODS_out0",
           "slug" : "out0"
-        } ],
-        "isCustomOutputSchema" : false
-      }
-    },
-    "rD5dV8ZVqZBYyWF57mw8b$$k9l3IuaWe3Qvh7yjT2KGc" : {
-      "id" : "rD5dV8ZVqZBYyWF57mw8b$$k9l3IuaWe3Qvh7yjT2KGc",
-      "component" : "Reformat",
-      "metadata" : {
-        "label" : "Reformat_1",
-        "x" : -160,
-        "y" : -300,
-        "phase" : 0
-      },
-      "properties" : {
-        "columnsSelector" : [ "JAAO3CrSCmLMB_jTat93m$$QYtJqBNt2C95PxZNTW9h5##PREV_VAL_CREDITS" ],
-        "expressions" : [ {
-          "expression" : {
-            "expression" : "(\n  CASE\n    WHEN (\n      (\n        CASE\n          WHEN (\n              DATE_ADD(DATE(2006,4,30), INTERVAL -1 MONTH) IS NULL\n              \n          )\n            THEN 'Y'\n          ELSE 'N'\n        END\n      ) = 'Y'\n    )\n      THEN PREV_VAL_CREDITS\n    ELSE \"0\"\n  END\n)"
-          },
-          "alias" : "targ",
-          "_row_id" : "9gClOpdL8p"
         } ]
-      },
-      "ports" : {
-        "inputs" : [ {
-          "id" : "JAAO3CrSCmLMB_jTat93m$$QYtJqBNt2C95PxZNTW9h5",
-          "slug" : "in0"
-        } ],
-        "outputs" : [ {
-          "id" : "toHJks-z42D_61GXp23ZP$$9_W09HfTvoXm9y2t0UIJt",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
-      }
-    },
-    "9t-1kfSqR6SXs30xzBdb2$$syKhYd_1HqvUV5ZWyNPdp" : {
-      "id" : "9t-1kfSqR6SXs30xzBdb2$$syKhYd_1HqvUV5ZWyNPdp",
-      "component" : "Dataset",
-      "metadata" : {
-        "label" : "Table_1",
-        "x" : -840,
-        "y" : -280,
-        "phase" : 0
-      },
-      "properties" : {
-        "table" : {
-          "name" : "edgef",
-          "sourceType" : "Seed"
-        },
-        "writeOptions" : {
-          "writeMode" : "overwrite"
-        }
-      },
-      "ports" : {
-        "inputs" : [ ],
-        "outputs" : [ {
-          "id" : "sJa-9oIPcCFMMLKGNtL9M$$p5Yz_7476BO6L2z2FZGvA",
-          "slug" : "out"
-        } ],
-        "isCustomOutputSchema" : false
       }
     }
   },
   "connections" : [ {
-    "id" : "edge_356",
+    "id" : "edge_1",
+    "source" : "EXP_IDENTIFY_CORRECT_PERIODS",
+    "sourcePort" : "EXP_IDENTIFY_CORRECT_PERIODS_out0",
+    "target" : "REP_CC_STATEMENT_MART_CALC",
+    "targetPort" : "REP_CC_STATEMENT_MART_CALC_in0"
+  }, {
+    "id" : "edge_2",
     "source" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY",
     "sourcePort" : "SQ_CREDIT_CARD_STATEMENT_SUMMARY_out0",
     "target" : "EXP_IDENTIFY_CORRECT_PERIODS",
     "targetPort" : "EXP_IDENTIFY_CORRECT_PERIODS_in0"
-  }, {
-    "id" : "LOq_gyRRVaoVyilZUwwmO",
-    "source" : "9t-1kfSqR6SXs30xzBdb2$$syKhYd_1HqvUV5ZWyNPdp",
-    "sourcePort" : "sJa-9oIPcCFMMLKGNtL9M$$p5Yz_7476BO6L2z2FZGvA",
-    "target" : "rD5dV8ZVqZBYyWF57mw8b$$k9l3IuaWe3Qvh7yjT2KGc",
-    "targetPort" : "JAAO3CrSCmLMB_jTat93m$$QYtJqBNt2C95PxZNTW9h5"
   } ],
   "component" : "Pipeline"
 }
