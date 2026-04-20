@@ -1,0 +1,1083 @@
+{
+  "id" : "m_rep_cards_orig_client_alias_update",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_client_alias_update",
+    "autoLayout" : true,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica"
+  },
+  "processes" : {
+    "CHOOSES_EXP" : {
+      "id" : "CHOOSES_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CHOOSES_EXP",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "9wsLAs-E9bdqEctXSSKwJ"
+        }, {
+          "expression" : {
+            "expression" : "CLIENT_HISTORY_EFFECT_FROM",
+            "_row_id" : null
+          },
+          "alias" : "CLIENT_HISTORY_EFFECT_FROM",
+          "description" : null,
+          "_row_id" : "9Hbwt12RN_H1ATWJdE2eq"
+        }, {
+          "expression" : {
+            "expression" : "FEED_UPDATE_ID",
+            "_row_id" : null
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "description" : null,
+          "_row_id" : "UQ8TpoRGGyMBe6jnQZy5P"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CHOOSES_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CHOOSES_EXP_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQ_CLIENT_ALIAS" : {
+      "id" : "SQ_CLIENT_ALIAS",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CLIENT_ALIAS",
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(C) parallel(P) use_hash(C P) */\r         DISTINCT C.CLID,\r         P.CUSTOMER_NUMBER\r FROM\r         CLIENT_ALIAS C,\r         WORK_CARDS_ORIG_STAGING P\r WHERE\r         ltrim(rtrim(C.SOURCE_CLIENT_REF(+))) = ltrim(rtrim(P.CUSTOMER_NUMBER))\r AND     C.ETO (+) IS NULL\r AND     C.SOURCE_TYPE (+) = 0\r AND     C.SOURCE_SYSTEM_CODE (+) = 'U'\r AND     C.CLASS (+) = '585'\r AND     P.CUSTOMER_NUMBER IS NOT NULL"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CLIENT_ALIAS_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "CLID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CUSTOMER_NUMBER",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "Shortcut_to_SEQ_clid_EXPR_371" : {
+      "id" : "Shortcut_to_SEQ_clid_EXPR_371",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Shortcut_to_SEQ_clid_EXPR_371",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "1_MAhNlULtEtzWtjfWel2"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "description" : null,
+          "_row_id" : "PlMXPWRQWJU0HdQvJVSZh"
+        }, {
+          "expression" : {
+            "expression" : "(((ROW_NUMBER() OVER (PARTITION BY 1)) - 1) + 1)",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID",
+          "description" : null,
+          "_row_id" : "yHRn26F6OXpfjA1nLXX5R"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Shortcut_to_SEQ_clid_EXPR_371_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Shortcut_to_SEQ_clid_EXPR_371_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "CLIENT_ALIAS1" : {
+      "id" : "CLIENT_ALIAS1",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "CLIENT_ALIAS1",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "CLIENT_ALIAS1",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLIENT_ALIAS1_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "UBw0S2Qph0JpXhRTl-h84",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS" : {
+      "id" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID1",
+          "description" : null,
+          "_row_id" : "FcBcpq8BkEOfe-U6tUgjP"
+        }, {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID1",
+          "description" : null,
+          "_row_id" : "NeqNwujFNJaHUpz0qXX_v"
+        }, {
+          "expression" : {
+            "expression" : "ADID",
+            "_row_id" : null
+          },
+          "alias" : "ADID1",
+          "description" : null,
+          "_row_id" : "8Uqm-liBPohQ6HcmpOPHR"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER1",
+          "description" : null,
+          "_row_id" : "LHNYgmBrvngDXSvQWjdLm"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER_SHORT",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER_SHORT1",
+          "description" : null,
+          "_row_id" : "R_mzx5yUGPLFtFV_Q0lum"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE1",
+          "description" : null,
+          "_row_id" : "rV6ucBIL65lRK73Ib5nI1"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE1",
+          "description" : null,
+          "_row_id" : "dgJdiyOYRD0CldJFFifQD"
+        }, {
+          "expression" : {
+            "expression" : "CLIENT_ALIAS_CLASS",
+            "_row_id" : null
+          },
+          "alias" : "CLIENT_ALIAS_CLASS1",
+          "description" : null,
+          "_row_id" : "imntuIzW7NtzUdSFiOMn0"
+        }, {
+          "expression" : {
+            "expression" : "RESIDES_CLASS",
+            "_row_id" : null
+          },
+          "alias" : "RESIDES_CLASS1",
+          "description" : null,
+          "_row_id" : "vGSy4ufXPtGaHNlGSkF-F"
+        }, {
+          "expression" : {
+            "expression" : "business_date",
+            "_row_id" : null
+          },
+          "alias" : "business_date1",
+          "description" : null,
+          "_row_id" : "82jDzAVOljgxcgpOztHAI"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id1",
+          "description" : null,
+          "_row_id" : "lUxnCQu9B84snuNpoHUBZ"
+        }, {
+          "expression" : {
+            "expression" : "GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "EOnP7aYNw2mwVGAAjwHQL"
+        }, {
+          "expression" : {
+            "expression" : "business_date",
+            "_row_id" : null
+          },
+          "alias" : "CLIENT_HISTORY_EFFECT_FROM",
+          "description" : null,
+          "_row_id" : "tjuSLTJmnLNo5Jy8A2P9g"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id",
+            "_row_id" : null
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "description" : null,
+          "_row_id" : "63OjYKpOgQwoTUh2fCkG4"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "lcJGF5YlkDAzFOwS--Mau" : {
+      "id" : "lcJGF5YlkDAzFOwS--Mau",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "INS_CLIENT_ALIAS_add_missing_column_0",
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "7DZooWbip0g8EcEHGN8Uc"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS TIMESTAMP)",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "hcIaLb-eOXb67Rh8jaLWq"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "VzlLNWn9EQSD2qE2uqeOv",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "UtvK2E08VoXRpWrp0nAcJ",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "Fu-Kb53FVj9oSdaGF8ooT" : {
+      "id" : "Fu-Kb53FVj9oSdaGF8ooT",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CLIENT_ALIAS_VARS_0",
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(SUM(1) OVER (PARTITION BY 1 ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))",
+            "_row_id" : null
+          },
+          "alias" : "count1",
+          "description" : null,
+          "_row_id" : "5HD4ae3OprNxw5TqET-Zu"
+        }, {
+          "expression" : {
+            "expression" : "unknown_expression(\n  '\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'businessdate\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\'')",
+            "_row_id" : null
+          },
+          "alias" : "lookup_string",
+          "description" : null,
+          "_row_id" : "tk16NmUyzEFi3eB19mrPB"
+        }, {
+          "expression" : {
+            "expression" : "unknown_expression(\n  'IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))')",
+            "_row_id" : null
+          },
+          "alias" : "businessdate",
+          "description" : null,
+          "_row_id" : "c4vgyL1s1Va1cnyK-ISZr"
+        }, {
+          "expression" : {
+            "expression" : "unknown_expression(\n  'if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (count1 == 1) find_business_date(lookup_string) else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (count1 == 1) find_business_date(lookup_string) else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL')",
+            "_row_id" : null
+          },
+          "alias" : "business_date_string",
+          "description" : null,
+          "_row_id" : "tIgNtbZbvNcO564DFjIhs"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "FJsfz2X3QucpzWNJApayD",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EYU03zwUxnl0GEsmyY-5R",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "CHOOSES" : {
+      "id" : "CHOOSES",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "CHOOSES",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "CHOOSES",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CHOOSES_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "U-qIyupgsdlthCrzhXCvm",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "feed_number_generator1" : {
+      "id" : "feed_number_generator1",
+      "component" : "StoredProcedure",
+      "metadata" : {
+        "label" : "feed_number_generator1",
+        "phase" : 0
+      },
+      "properties" : {
+        "storedProcedureIdentifier" : "generate_feed_id",
+        "parameters" : {
+          "IN_SOURCE_SYSTEM_CODE" : "dummy"
+        },
+        "passThroughColumns" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "feed_number_generator1_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "CLIENT_ALIAS1_EXP" : {
+      "id" : "CLIENT_ALIAS1_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CLIENT_ALIAS1_EXP",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "GENERATED_CLID1",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "yIzTIriStxEM3v_VdBQiF"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE",
+          "description" : null,
+          "_row_id" : "xRRjcE753fkMWLksz8c_1"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "biFa_2rGkmQ30AXdUNhR4"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "B4Zl4jTuEjyDNvnNwiZjt"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER_SHORT1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_CLIENT_REF",
+          "description" : null,
+          "_row_id" : "F58uApXZYYfm25g90baul"
+        }, {
+          "expression" : {
+            "expression" : "business_date1",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "ysVRZejwj3zqMhKvXwqXZ"
+        }, {
+          "expression" : {
+            "expression" : "ETO",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "IsHU5qqP_x8_BADoVUNdu"
+        }, {
+          "expression" : {
+            "expression" : "CLIENT_ALIAS_CLASS1",
+            "_row_id" : null
+          },
+          "alias" : "CLASS",
+          "description" : null,
+          "_row_id" : "9tDMJ3ykaq0PX-Q1fpWYn"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLIENT_ALIAS1_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CLIENT_ALIAS1_EXP_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SOURCE_find_business_date" : {
+      "id" : "SOURCE_find_business_date",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "DBATTRIBUTE",
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "DBATTRIBUTE",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_find_business_date_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "RESIDES_EXP" : {
+      "id" : "RESIDES_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RESIDES_EXP",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ADID1",
+            "_row_id" : null
+          },
+          "alias" : "ADID",
+          "description" : null,
+          "_row_id" : "UCdA7_NzZc5jDRpNLGPWU"
+        }, {
+          "expression" : {
+            "expression" : "GENERATED_CLID1",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "qZtrdIz_PIqaVW9ryVEh2"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE",
+          "description" : null,
+          "_row_id" : "c76y4NYC_6iznMLgjKkfw"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "MWRJ_ZiJ1nAQ26iBdvUoS"
+        }, {
+          "expression" : {
+            "expression" : "business_date1",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "HHf9K-DelykPjiucQJUn2"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "hAySztNx2itCAZqEUBSh_"
+        }, {
+          "expression" : {
+            "expression" : "RESIDES_CLASS1",
+            "_row_id" : null
+          },
+          "alias" : "CLASS",
+          "description" : null,
+          "_row_id" : "mfITJLeQI9CVXy-Quvwho"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RESIDES_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RESIDES_EXP_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "Shortcut_to_SEQ_adid_EXPR_372" : {
+      "id" : "Shortcut_to_SEQ_adid_EXPR_372",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Shortcut_to_SEQ_adid_EXPR_372",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "GWhlzWFF67rar_J-gmZPP"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "description" : null,
+          "_row_id" : "n-eJWfSzzBzTRZCHl9s8a"
+        }, {
+          "expression" : {
+            "expression" : "GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID",
+          "description" : null,
+          "_row_id" : "qTfET6EGUNWqor5pkVUX6"
+        }, {
+          "expression" : {
+            "expression" : "(((ROW_NUMBER() OVER (PARTITION BY 1)) - 1) + 1)",
+            "_row_id" : null
+          },
+          "alias" : "ADID",
+          "description" : null,
+          "_row_id" : "Kc3bejL6qt5XQIP42fHdU"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Shortcut_to_SEQ_adid_EXPR_372_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Shortcut_to_SEQ_adid_EXPR_372_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "find_business_date" : {
+      "id" : "find_business_date",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "find_business_date",
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "SOURCE_find_business_date" ],
+        "code_string" : "Component not supported in sql: TLookup",
+        "diag_message" : "Component not supported in sql: TLookup",
+        "error_string" : "Component not supported in sql: TLookup"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "find_business_date_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "N9GaLsQJpfXYfA6sXrdGr",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "error_message",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      },
+      "componentInfo" : {
+        "gemId" : "ToDo_prophecy_basics",
+        "name" : "ToDo",
+        "projectName" : "prophecy_basics",
+        "sourceProjectName" : "prophecy_basics"
+      }
+    },
+    "EXP_CLIENT_ALIAS" : {
+      "id" : "EXP_CLIENT_ALIAS",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CLIENT_ALIAS",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID",
+          "description" : null,
+          "_row_id" : "sd7ekHhCzeHPLPEsmf4Rm"
+        }, {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "s48CaafP9ErXu3Fq_L3e7"
+        }, {
+          "expression" : {
+            "expression" : "ADID",
+            "_row_id" : null
+          },
+          "alias" : "ADID",
+          "description" : null,
+          "_row_id" : "AwBW_724GtgswlkIDcySY"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "description" : null,
+          "_row_id" : "aF7QEXZ1YxkNfPQZ2XkqF"
+        }, {
+          "expression" : {
+            "expression" : "(LTRIM((RTRIM(CUSTOMER_NUMBER))))",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER_SHORT",
+          "description" : null,
+          "_row_id" : "UJf6QZp9wUod0khEhB_0v"
+        }, {
+          "expression" : {
+            "expression" : "0",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE",
+          "description" : null,
+          "_row_id" : "jQ2JhC0R9BKv_tF5_XZ9X"
+        }, {
+          "expression" : {
+            "expression" : "'U'",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "GPoHU2fRx7_ByQCrFRKnb"
+        }, {
+          "expression" : {
+            "expression" : "585",
+            "_row_id" : null
+          },
+          "alias" : "CLIENT_ALIAS_CLASS",
+          "description" : null,
+          "_row_id" : "Gm2zzeZlZIevIW17d7Vrk"
+        }, {
+          "expression" : {
+            "expression" : "450",
+            "_row_id" : null
+          },
+          "alias" : "RESIDES_CLASS",
+          "description" : null,
+          "_row_id" : "tmxnCqSfLx_ktogF3Tfhk"
+        }, {
+          "expression" : {
+            "expression" : "unknown_expression(\n  'IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))')",
+            "_row_id" : null
+          },
+          "alias" : "business_date",
+          "description" : null,
+          "_row_id" : "nnY2NGNii2Bqc_SIlKWlw"
+        }, {
+          "expression" : {
+            "expression" : "unknown_expression(\n  'if (over(sum(1), partitionBy(1), orderBy(1)) == 1) feed_number_generator1(\\'U\\',360,if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1))),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(over(lag(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(if (over(sum(1), partitionBy(1), orderBy(1)) == 1) find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL), partitionBy(1), orderBy(1)),1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\') else (string)NULL,1,8)) else (string)NULL')",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id",
+          "description" : null,
+          "_row_id" : "7XZE6snqYPaUwZGdgdc9s"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "Ni8Sw1p07w-zXf89TTDWi" : {
+      "id" : "Ni8Sw1p07w-zXf89TTDWi",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "INS_RESIDES_add_missing_column_0",
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "4QJSqiTcowcRC6zqa8yJz"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS TIMESTAMP)",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "Y07eIH2-bE1TjZUMCLMTC"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Y8BQg-a2b4qGTM_C_ptgr",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "H-BLPS94SbtkOCHW8_BzP",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "RESIDES" : {
+      "id" : "RESIDES",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "RESIDES",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "RESIDES",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RESIDES_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "qAhVjb9pVEqD7YblrDP2F",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "RTR_CLIENT_ALIAS" : {
+      "id" : "RTR_CLIENT_ALIAS",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_CLIENT_ALIAS",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(CLID IS NULL)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_CLIENT_ALIAS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_CLIENT_ALIAS_out0",
+          "slug" : "out0"
+        } ]
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_958",
+    "source" : "SOURCE_find_business_date",
+    "sourcePort" : "SOURCE_find_business_date_out0",
+    "target" : "find_business_date",
+    "targetPort" : "find_business_date_in0"
+  }, {
+    "id" : "edge_959",
+    "source" : "CHOOSES_EXP",
+    "sourcePort" : "CHOOSES_EXP_out0",
+    "target" : "CHOOSES",
+    "targetPort" : "CHOOSES_in0"
+  }, {
+    "id" : "edge_960",
+    "source" : "CLIENT_ALIAS1_EXP",
+    "sourcePort" : "CLIENT_ALIAS1_EXP_out0",
+    "target" : "CLIENT_ALIAS1",
+    "targetPort" : "CLIENT_ALIAS1_in0"
+  }, {
+    "id" : "edge_961",
+    "source" : "RESIDES_EXP",
+    "sourcePort" : "RESIDES_EXP_out0",
+    "target" : "RESIDES",
+    "targetPort" : "RESIDES_in0"
+  }, {
+    "id" : "edge_962",
+    "source" : "EXP_CLIENT_ALIAS",
+    "sourcePort" : "EXP_CLIENT_ALIAS_out0",
+    "target" : "RTR_CLIENT_ALIAS",
+    "targetPort" : "RTR_CLIENT_ALIAS_in0"
+  }, {
+    "id" : "edge_963",
+    "source" : "SQ_CLIENT_ALIAS",
+    "sourcePort" : "SQ_CLIENT_ALIAS_out0",
+    "target" : "Shortcut_to_SEQ_clid_EXPR_371",
+    "targetPort" : "Shortcut_to_SEQ_clid_EXPR_371_in0"
+  }, {
+    "id" : "edge_964",
+    "source" : "Shortcut_to_SEQ_clid_EXPR_371",
+    "sourcePort" : "Shortcut_to_SEQ_clid_EXPR_371_out0",
+    "target" : "Shortcut_to_SEQ_adid_EXPR_372",
+    "targetPort" : "Shortcut_to_SEQ_adid_EXPR_372_in0"
+  }, {
+    "id" : "edge_965",
+    "source" : "RTR_CLIENT_ALIAS",
+    "sourcePort" : "RTR_CLIENT_ALIAS_out0",
+    "target" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+    "targetPort" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_in0"
+  }, {
+    "id" : "edge_966",
+    "source" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+    "sourcePort" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_out0",
+    "target" : "CHOOSES_EXP",
+    "targetPort" : "CHOOSES_EXP_in0"
+  }, {
+    "id" : "edge_967",
+    "source" : "Fu-Kb53FVj9oSdaGF8ooT",
+    "sourcePort" : "EYU03zwUxnl0GEsmyY-5R",
+    "target" : "EXP_CLIENT_ALIAS",
+    "targetPort" : "EXP_CLIENT_ALIAS_in0"
+  }, {
+    "id" : "edge_968",
+    "source" : "Shortcut_to_SEQ_adid_EXPR_372",
+    "sourcePort" : "Shortcut_to_SEQ_adid_EXPR_372_out0",
+    "target" : "Fu-Kb53FVj9oSdaGF8ooT",
+    "targetPort" : "FJsfz2X3QucpzWNJApayD"
+  }, {
+    "id" : "edge_969",
+    "source" : "Ni8Sw1p07w-zXf89TTDWi",
+    "sourcePort" : "H-BLPS94SbtkOCHW8_BzP",
+    "target" : "RESIDES_EXP",
+    "targetPort" : "RESIDES_EXP_in0"
+  }, {
+    "id" : "edge_970",
+    "source" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+    "sourcePort" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_out0",
+    "target" : "Ni8Sw1p07w-zXf89TTDWi",
+    "targetPort" : "Y8BQg-a2b4qGTM_C_ptgr"
+  }, {
+    "id" : "edge_971",
+    "source" : "lcJGF5YlkDAzFOwS--Mau",
+    "sourcePort" : "UtvK2E08VoXRpWrp0nAcJ",
+    "target" : "CLIENT_ALIAS1_EXP",
+    "targetPort" : "CLIENT_ALIAS1_EXP_in0"
+  }, {
+    "id" : "edge_972",
+    "source" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+    "sourcePort" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_out0",
+    "target" : "lcJGF5YlkDAzFOwS--Mau",
+    "targetPort" : "VzlLNWn9EQSD2qE2uqeOv"
+  } ],
+  "component" : "Pipeline"
+}
