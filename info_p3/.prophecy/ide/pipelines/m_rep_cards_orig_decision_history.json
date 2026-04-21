@@ -1,0 +1,908 @@
+{
+  "id" : "m_rep_cards_orig_decision_history",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_decision_history",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "bzi-Ofh1IaZ1-8S-lqlLB" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__MINERVA_EXCEPTION.sql",
+      "SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__SQ_CARDS_ORIG_DECISION_HISTORY.sql",
+      "EXPTRANS" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__CREDIT_APPLICATION_DAILY_HIST.sql",
+      "DBcpogqBys1VAFGBlY5Uf" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__CREDIT_APPLICATION_DAILY_HIST.sql",
+      "CREDIT_APPLICATION_DAILY_HIST" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__CREDIT_APPLICATION_DAILY_HIST.sql",
+      "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__CREDIT_APPLICATION_DAILY_HIST.sql",
+      "MINERVA_EXCEPTION_EXP" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__MINERVA_EXCEPTION.sql",
+      "EXP_GET_BUSINESS_DATE" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__MINERVA_EXCEPTION.sql",
+      "SOURCE_find_business_date" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__find_business_date.sql",
+      "CREDIT_APPLICATION_DAILY_HIST_EXP" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__CREDIT_APPLICATION_DAILY_HIST.sql",
+      "MINERVA_EXCEPTION" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__MINERVA_EXCEPTION.sql",
+      "SQ_CARDS_ORIG_DECISION_HISTORY" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__SQ_CARDS_ORIG_DECISION_HISTORY.sql",
+      "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__MINERVA_EXCEPTION.sql",
+      "find_business_date" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__find_business_date.sql",
+      "find_business_date_z6D0NxfDAOmUTt0EUfv1J" : "models/m_rep_cards_orig_decision_history/m_rep_cards_orig_decision_history__find_business_date.sql"
+    }
+  },
+  "processes" : {
+    "bzi-Ofh1IaZ1-8S-lqlLB" : {
+      "id" : "bzi-Ofh1IaZ1-8S-lqlLB",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_CARDS_ORIG_DECISION_HISTORY_out1",
+        "x" : 220,
+        "y" : 220,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((LAST_ACTION_DATE IS NULL) OR ((LENGTH(LAST_ACTION_DATE)) = 0))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "XtYC9a1xkM096ghkmzN5c",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "_Jl8xjY7e9cnjVqp4hzze",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "EXPTRANS" : {
+      "id" : "EXPTRANS",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXPTRANS",
+        "x" : 620,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "uQ6GlODqTZVbd_lVVu9iD"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (in_APPLICATION_STATUS = 'CANCELLED') THEN 'CA' WHEN (in_APPLICATION_STATUS = 'APPROVED') THEN 'AP' WHEN (in_APPLICATION_STATUS = 'ABORTED') THEN 'AX' WHEN (in_APPLICATION_STATUS = 'PRODUCT_ONBOARDING_COMPLETED') THEN 'AF' WHEN (in_APPLICATION_STATUS = 'REFERRED') THEN 'RF' WHEN (in_APPLICATION_STATUS = 'DECLINED') THEN 'DE' ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "EQA_STATUS",
+          "description" : null,
+          "_row_id" : "YjaeWF7o2HXvlZ5NxT0Cz"
+        }, {
+          "expression" : {
+            "expression" : "LAST_ACTION_DATE",
+            "_row_id" : null
+          },
+          "alias" : "OCCURRENCE_DATE",
+          "description" : null,
+          "_row_id" : "4P5Tc6OrtuSRqMUQ2d7Sy"
+        }, {
+          "expression" : {
+            "expression" : "2",
+            "_row_id" : null
+          },
+          "alias" : "CARD_ORIGIN",
+          "description" : null,
+          "_row_id" : "3SCQ4MKbwMir5aL_RjyL9"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXPTRANS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXPTRANS_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "DBcpogqBys1VAFGBlY5Uf" : {
+      "id" : "DBcpogqBys1VAFGBlY5Uf",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_CARDS_ORIG_DECISION_HISTORY_out0",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((LAST_ACTION_DATE IS NOT NULL) AND ((LENGTH(LAST_ACTION_DATE)) > 0))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "nIZ3BXqUwDJozQMNAnmnX",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "LzbG0p5RuuK--MuWk9B8V",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "CREDIT_APPLICATION_DAILY_HIST" : {
+      "id" : "CREDIT_APPLICATION_DAILY_HIST",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "CREDIT_APPLICATION_DAILY_HIST",
+        "x" : 1020,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "CREDIT_APPLICATION_DAILY_HIST",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CREDIT_APPLICATION_DAILY_HIST_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "NZ8SC80f5Ix2c4v4mWzme",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT" : {
+      "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT",
+        "x" : 420,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "1GJKJXJPU04pd3VqXx42s"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "APPLICATION_NUMBER1",
+          "description" : null,
+          "_row_id" : "ZtAHhPMS5hQ2qaHiFpUeF"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_STATUS",
+            "_row_id" : null
+          },
+          "alias" : "in_APPLICATION_STATUS",
+          "description" : null,
+          "_row_id" : "NnckctKQb0CuyN40865__"
+        }, {
+          "expression" : {
+            "expression" : "LAST_ACTION_DATE",
+            "_row_id" : null
+          },
+          "alias" : "LAST_ACTION_DATE",
+          "description" : null,
+          "_row_id" : "y7INjF_FaWAX0EelDJB9J"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "MINERVA_EXCEPTION_EXP" : {
+      "id" : "MINERVA_EXCEPTION_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MINERVA_EXCEPTION_EXP",
+        "x" : 820,
+        "y" : 220,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLASS",
+            "_row_id" : null
+          },
+          "alias" : "CLASS",
+          "description" : null,
+          "_row_id" : "qHZbSgVW5HfZ27YqIt6L_"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE",
+          "description" : null,
+          "_row_id" : "fk_rg3oowrmOVAl9bWCLM"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "v0KQ99dGDqizyFCkrdmDV"
+        }, {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "UwF1I3NPdOFn6aPq-B45R"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "ADID",
+          "description" : null,
+          "_row_id" : "xFKEKj_3CBEEtI28WkkRV"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "S1BsUTBA_2qkz7lbzypxh"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_CLIENT_REF",
+          "description" : null,
+          "_row_id" : "W3k727PNkpg0oRRjilvgp"
+        }, {
+          "expression" : {
+            "expression" : "ACCOUNT_ALIAS_ID",
+            "_row_id" : null
+          },
+          "alias" : "ACCOUNT_ALIAS_ID",
+          "description" : null,
+          "_row_id" : "07QtkC54ebPWqCaQJdNSk"
+        }, {
+          "expression" : {
+            "expression" : "ERROR_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "ERROR_NUMBER",
+          "description" : null,
+          "_row_id" : "gSkfemw61fy7HcIuN-FjO"
+        }, {
+          "expression" : {
+            "expression" : "PROCESS_NAME",
+            "_row_id" : null
+          },
+          "alias" : "PROCESS_NAME",
+          "description" : null,
+          "_row_id" : "TbDxBM0YVjb9f9Ku7hHDs"
+        }, {
+          "expression" : {
+            "expression" : "FUNCTION_NAME",
+            "_row_id" : null
+          },
+          "alias" : "FUNCTION_NAME",
+          "description" : null,
+          "_row_id" : "DAxxNYkX5pkVv430d3EtB"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "ADDITIONAL_IDENTIFIER",
+          "description" : null,
+          "_row_id" : "yQ5HcKlbUFruZcMtf9VWR"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "ADDITIONAL_IDENTIFIER_TYPE",
+          "description" : null,
+          "_row_id" : "42C8CAZJ7AETOU-iujzXU"
+        }, {
+          "expression" : {
+            "expression" : "LOAD_INDICATOR",
+            "_row_id" : null
+          },
+          "alias" : "LOAD_INDICATOR",
+          "description" : null,
+          "_row_id" : "iVfaaNJme6vj-Um4yXpaV"
+        }, {
+          "expression" : {
+            "expression" : "EXCEPTION_COMMENT",
+            "_row_id" : null
+          },
+          "alias" : "EXCEPTION_COMMENT",
+          "description" : null,
+          "_row_id" : "FIHEnQl51PsjaHNZbeGnx"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MINERVA_EXCEPTION_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "MINERVA_EXCEPTION_EXP_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "EXP_GET_BUSINESS_DATE" : {
+      "id" : "EXP_GET_BUSINESS_DATE",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_GET_BUSINESS_DATE",
+        "x" : 620,
+        "y" : 220,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID3",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "TRm-MAVXqZgmnSpSCB8z6"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "ACCOUNT_ALIAS_ID",
+          "description" : null,
+          "_row_id" : "YpmFfcAmocXd0ATWt508S"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN CAST(((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN (FIND_BUSINESS_DATE('businessdate')) ELSE CAST(NULL AS STRING) END) IS NULL) AS BOOL) THEN (force_error('No Business date found on DBATTRIBUTE')) ELSE (PARSE_TIMESTAMP('%Y%m%d', SUBSTRING((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN (FIND_BUSINESS_DATE('businessdate')) ELSE CAST(NULL AS STRING) END) FROM 0 FOR 8))) END)",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE",
+          "description" : null,
+          "_row_id" : "Xbbpf15_GGWqcxVCxBVuc"
+        }, {
+          "expression" : {
+            "expression" : "'m_rep_cards_orig_decision_history'",
+            "_row_id" : null
+          },
+          "alias" : "PROCESS_NAME",
+          "description" : null,
+          "_row_id" : "3LdnhCC0KmmBrYJzj3rFt"
+        }, {
+          "expression" : {
+            "expression" : "'Last Action Date not Present in Cards Origination record'",
+            "_row_id" : null
+          },
+          "alias" : "EXCEPTION_COMMENT",
+          "description" : null,
+          "_row_id" : "pftP0UbLnAk5u0qrGkcIX"
+        }, {
+          "expression" : {
+            "expression" : "'RTR_CHECK_ACTION_DATE'",
+            "_row_id" : null
+          },
+          "alias" : "FUNCTION_NAME",
+          "description" : null,
+          "_row_id" : "CpTgtAclGwoj41kzlrPXG"
+        }, {
+          "expression" : {
+            "expression" : "'N'",
+            "_row_id" : null
+          },
+          "alias" : "LOAD_INDICATOR",
+          "description" : null,
+          "_row_id" : "9uBkY1w_2LtJxKSZITGzp"
+        }, {
+          "expression" : {
+            "expression" : "'U'",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "qeHPGXHPa52jPTRchoWpg"
+        }, {
+          "expression" : {
+            "expression" : "18",
+            "_row_id" : null
+          },
+          "alias" : "ERROR_NUMBER",
+          "description" : null,
+          "_row_id" : "XryyyExSseNcTXTUu5g1h"
+        }, {
+          "expression" : {
+            "expression" : "5053",
+            "_row_id" : null
+          },
+          "alias" : "CLASS",
+          "description" : null,
+          "_row_id" : "smNdpDW2IajnxshY1mnSl"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_GET_BUSINESS_DATE_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_GET_BUSINESS_DATE_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "SOURCE_find_business_date" : {
+      "id" : "SOURCE_find_business_date",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "DBATTRIBUTE",
+        "x" : 20,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "DBATTRIBUTE",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_find_business_date_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "CREDIT_APPLICATION_DAILY_HIST_EXP" : {
+      "id" : "CREDIT_APPLICATION_DAILY_HIST_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CREDIT_APPLICATION_DAILY_HIST_EXP",
+        "x" : 820,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "LD60nVceDrNi5ykvoBjQG"
+        }, {
+          "expression" : {
+            "expression" : "EQA_STATUS",
+            "_row_id" : null
+          },
+          "alias" : "EQA_STATUS",
+          "description" : null,
+          "_row_id" : "vGhMOLMAXOgEa5ywZK6qB"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "DECISION_ACTION",
+          "description" : null,
+          "_row_id" : "Wm2wBn9QiejsrVS4CRkyl"
+        }, {
+          "expression" : {
+            "expression" : "OCCURRENCE_DATE",
+            "_row_id" : null
+          },
+          "alias" : "OCCURRENCE_DATE",
+          "description" : null,
+          "_row_id" : "FQwaKVgWEHAc0tPBOQq0Q"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "DECISION_OPERATOR",
+          "description" : null,
+          "_row_id" : "ICsY9qybpcBhvYeyqQsgL"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "DECISION_CLASS",
+          "description" : null,
+          "_row_id" : "II_bflG2aiQ5vD_k2A0pk"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "DECISION_CODE",
+          "description" : null,
+          "_row_id" : "PaDu9oJjlky6ZJABo36jB"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "DECISION_SUBCODE",
+          "description" : null,
+          "_row_id" : "iZrnxLlyDvRnAL7PjiglK"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "DECISION_QUEUE_ID",
+          "description" : null,
+          "_row_id" : "_m-i7Vjcr3NnRUYMZ9OqA"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "DECISION_LETTER_CODE",
+          "description" : null,
+          "_row_id" : "ITJrjAvqHj_kNzcosCX8P"
+        }, {
+          "expression" : {
+            "expression" : "CARD_ORIGIN",
+            "_row_id" : null
+          },
+          "alias" : "CARD_ORIGIN",
+          "description" : null,
+          "_row_id" : "nx-aYEBqAXwvHr22hz1cS"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CREDIT_APPLICATION_DAILY_HIST_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CREDIT_APPLICATION_DAILY_HIST_EXP_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "MINERVA_EXCEPTION" : {
+      "id" : "MINERVA_EXCEPTION",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "MINERVA_EXCEPTION",
+        "x" : 1020,
+        "y" : 220,
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "MINERVA_EXCEPTION",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MINERVA_EXCEPTION_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "jQVP6oKHoftB3RvIJKt7d",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQ_CARDS_ORIG_DECISION_HISTORY" : {
+      "id" : "SQ_CARDS_ORIG_DECISION_HISTORY",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CARDS_ORIG_DECISION_HISTORY",
+        "x" : 20,
+        "y" : 120,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(WORK) parallel(ACCOUNT_ALIAS) \r            use_hash(WORK ACCOUNT_ALIAS) */ \r distinct\r ACCOUNT_ALIAS.ACCID,\r WORK.APPLICATION_NUMBER, \r WORK.APPLICATION_STATUS, \r WORK.LAST_ACTION_DATE\r FROM  WORK_CARDS_ORIG_STAGING WORK, \r       ACCOUNT_ALIAS\r WHERE WORK.APPLICATION_NUMBER   = ACCOUNT_ALIAS.ACCOUNT_ALIAS_ID\r AND   ACCOUNT_ALIAS.SOURCE_SYSTEM_CODE = 'U'\r AND   ACCOUNT_ALIAS.ETO                IS NULL\r AND   ACCOUNT_ALIAS.CLASS = '563'"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "ACCID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "APPLICATION_NUMBER",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "APPLICATION_STATUS",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "LAST_ACTION_DATE",
+              "dataType" : {
+                "type" : "Timestamp"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT" : {
+      "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT",
+        "x" : 420,
+        "y" : 220,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID3",
+          "description" : null,
+          "_row_id" : "r6UHLpc67zq-R5donK7fV"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "APPLICATION_NUMBER",
+          "description" : null,
+          "_row_id" : "-YyFeiFI08RjKgUi2qaye"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_STATUS",
+            "_row_id" : null
+          },
+          "alias" : "APPLICATION_STATUS3",
+          "description" : null,
+          "_row_id" : "YG3pDIlKpJF2PoVf9VyOo"
+        }, {
+          "expression" : {
+            "expression" : "LAST_ACTION_DATE",
+            "_row_id" : null
+          },
+          "alias" : "LAST_ACTION_DATE3",
+          "description" : null,
+          "_row_id" : "DGy1M4vfPCbujbHKIjUuO"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "find_business_date" : {
+      "id" : "find_business_date",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "find_business_date",
+        "x" : 220,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "DBATTRIBUTE" ],
+        "_oldMacroProperties" : {
+          "macroName" : "ToDo",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "diag_message",
+            "value" : "Component not supported in sql: TLookup"
+          } ]
+        },
+        "code_string" : "Component not supported in sql: TLookup",
+        "diag_message" : "Component not supported in sql: TLookup",
+        "error_string" : "Component not supported in sql: TLookup"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "find_business_date_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "z6D0NxfDAOmUTt0EUfv1J",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "error_message",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      },
+      "componentInfo" : {
+        "gemId" : "ToDo_prophecy_basics",
+        "name" : "ToDo",
+        "projectName" : "prophecy_basics",
+        "sourceProjectName" : "prophecy_basics"
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_29",
+    "source" : "SOURCE_find_business_date",
+    "sourcePort" : "SOURCE_find_business_date_out0",
+    "target" : "find_business_date",
+    "targetPort" : "find_business_date_in0"
+  }, {
+    "id" : "edge_30",
+    "source" : "EXP_GET_BUSINESS_DATE",
+    "sourcePort" : "EXP_GET_BUSINESS_DATE_out0",
+    "target" : "MINERVA_EXCEPTION_EXP",
+    "targetPort" : "MINERVA_EXCEPTION_EXP_in0"
+  }, {
+    "id" : "edge_31",
+    "source" : "EXPTRANS",
+    "sourcePort" : "EXPTRANS_out0",
+    "target" : "CREDIT_APPLICATION_DAILY_HIST_EXP",
+    "targetPort" : "CREDIT_APPLICATION_DAILY_HIST_EXP_in0"
+  }, {
+    "id" : "edge_32",
+    "source" : "CREDIT_APPLICATION_DAILY_HIST_EXP",
+    "sourcePort" : "CREDIT_APPLICATION_DAILY_HIST_EXP_out0",
+    "target" : "CREDIT_APPLICATION_DAILY_HIST",
+    "targetPort" : "CREDIT_APPLICATION_DAILY_HIST_in0"
+  }, {
+    "id" : "edge_33",
+    "source" : "MINERVA_EXCEPTION_EXP",
+    "sourcePort" : "MINERVA_EXCEPTION_EXP_out0",
+    "target" : "MINERVA_EXCEPTION",
+    "targetPort" : "MINERVA_EXCEPTION_in0"
+  }, {
+    "id" : "edge_34",
+    "source" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT",
+    "sourcePort" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_out0",
+    "target" : "EXPTRANS",
+    "targetPort" : "EXPTRANS_in0"
+  }, {
+    "id" : "edge_35",
+    "source" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT",
+    "sourcePort" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT_out0",
+    "target" : "EXP_GET_BUSINESS_DATE",
+    "targetPort" : "EXP_GET_BUSINESS_DATE_in0"
+  }, {
+    "id" : "edge_36",
+    "source" : "DBcpogqBys1VAFGBlY5Uf",
+    "sourcePort" : "LzbG0p5RuuK--MuWk9B8V",
+    "target" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT",
+    "targetPort" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_in0"
+  }, {
+    "id" : "edge_37",
+    "source" : "SQ_CARDS_ORIG_DECISION_HISTORY",
+    "sourcePort" : "SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+    "target" : "DBcpogqBys1VAFGBlY5Uf",
+    "targetPort" : "nIZ3BXqUwDJozQMNAnmnX"
+  }, {
+    "id" : "edge_38",
+    "source" : "bzi-Ofh1IaZ1-8S-lqlLB",
+    "sourcePort" : "_Jl8xjY7e9cnjVqp4hzze",
+    "target" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT",
+    "targetPort" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_NOT_PRESENT_in0"
+  }, {
+    "id" : "edge_39",
+    "source" : "SQ_CARDS_ORIG_DECISION_HISTORY",
+    "sourcePort" : "SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+    "target" : "bzi-Ofh1IaZ1-8S-lqlLB",
+    "targetPort" : "XtYC9a1xkM096ghkmzN5c"
+  } ],
+  "component" : "Pipeline"
+}

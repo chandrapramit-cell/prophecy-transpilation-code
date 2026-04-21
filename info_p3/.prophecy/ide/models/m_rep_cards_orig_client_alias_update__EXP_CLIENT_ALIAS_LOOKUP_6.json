@@ -1,0 +1,320 @@
+{
+  "id" : "m_rep_cards_orig_client_alias_update__EXP_CLIENT_ALIAS_LOOKUP_6",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_client_alias_update__EXP_CLIENT_ALIAS_LOOKUP_6",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Shortcut_to_SEQ_adid_EXPR_4" : {
+      "id" : "Shortcut_to_SEQ_adid_EXPR_4",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Shortcut_to_SEQ_adid_EXPR_4",
+        "x" : 420,
+        "y" : 720,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "Shortcut_to_SEQ_adid_EXPR_4_in0##CLID", "Shortcut_to_SEQ_adid_EXPR_4_in0##CUSTOMER_NUMBER", "Shortcut_to_SEQ_adid_EXPR_4_in0##GENERATED_CLID" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID"
+          },
+          "alias" : "CLID",
+          "_row_id" : "MuYIErhcKMAbnoN-wDUYS"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER"
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "_row_id" : "ENO13F0O3OTCBmqFemFUY"
+        }, {
+          "expression" : {
+            "expression" : "GENERATED_CLID"
+          },
+          "alias" : "GENERATED_CLID",
+          "_row_id" : "OzDfniQ4E3jlT4HyqnRU3"
+        }, {
+          "expression" : {
+            "expression" : "(((ROW_NUMBER() OVER (PARTITION BY 1)) - 1) + 1)"
+          },
+          "alias" : "ADID",
+          "_row_id" : "-GbdZp8plPofbiSETlHm9"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Shortcut_to_SEQ_adid_EXPR_4_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Shortcut_to_SEQ_adid_EXPR_4_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SQ_CLIENT_ALIAS" : {
+      "id" : "SQ_CLIENT_ALIAS",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CLIENT_ALIAS",
+        "x" : -540,
+        "y" : 720,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(C) parallel(P) use_hash(C P) */\r         DISTINCT C.CLID,\r         P.CUSTOMER_NUMBER\r FROM\r         CLIENT_ALIAS C,\r         WORK_CARDS_ORIG_STAGING P\r WHERE\r         ltrim(rtrim(C.SOURCE_CLIENT_REF(+))) = ltrim(rtrim(P.CUSTOMER_NUMBER))\r AND     C.ETO (+) IS NULL\r AND     C.SOURCE_TYPE (+) = 0\r AND     C.SOURCE_SYSTEM_CODE (+) = 'U'\r AND     C.CLASS (+) = '585'\r AND     P.CUSTOMER_NUMBER IS NOT NULL"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CLIENT_ALIAS_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Shortcut_to_SEQ_clid_EXPR_3" : {
+      "id" : "Shortcut_to_SEQ_clid_EXPR_3",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Shortcut_to_SEQ_clid_EXPR_3",
+        "x" : 40,
+        "y" : 740,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "Shortcut_to_SEQ_clid_EXPR_3_in0##CLID", "Shortcut_to_SEQ_clid_EXPR_3_in0##CUSTOMER_NUMBER" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID"
+          },
+          "alias" : "CLID",
+          "_row_id" : "y78Lgz_nDRlz-7UxCSPSB"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER"
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "_row_id" : "vuyk-RQpXVvmYzSemUKs1"
+        }, {
+          "expression" : {
+            "expression" : "(((ROW_NUMBER() OVER (PARTITION BY 1)) - 1) + 1)"
+          },
+          "alias" : "GENERATED_CLID",
+          "_row_id" : "K9WpPZcf6I_3fAZDBx2yd"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Shortcut_to_SEQ_clid_EXPR_3_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Shortcut_to_SEQ_clid_EXPR_3_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CLIENT_ALIAS_LOOKUP_6" : {
+      "id" : "EXP_CLIENT_ALIAS_LOOKUP_6",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "EXP_CLIENT_ALIAS_LOOKUP_6",
+        "x" : 620,
+        "y" : 620,
+        "phase" : 1
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.NAME = 'find_business_date(\\'over(lag(IIF(ISNULL(business_date_string),ABORT(\\'No Business Date found on dbattribute\\'),TO_DATE(SUBSTR(business_date_string,1,8),\\'YYYYMMDD\\'))), partitionBy(1), orderBy(1))\\')')"
+          },
+          "joinType" : "left"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.CURRVALUE"
+          },
+          "alias" : "LOOKUP_VARIABLE_1",
+          "_row_id" : "qOE7vwMcjuna2KS5WEIx7"
+        }, {
+          "expression" : {
+            "expression" : "in0.NAME"
+          },
+          "alias" : "NAME",
+          "_row_id" : "fqEG7Zh-ekVmC3KRjTgzU"
+        }, {
+          "expression" : {
+            "expression" : "in0.CURRVALUE"
+          },
+          "alias" : "CURRVALUE",
+          "_row_id" : "O-mcnMgKIyqFBhU19Jm2d"
+        }, {
+          "expression" : {
+            "expression" : "in1.CLID"
+          },
+          "alias" : "CLID",
+          "_row_id" : "ydZSwwPy5DP12A5sqepyi"
+        }, {
+          "expression" : {
+            "expression" : "in1.CUSTOMER_NUMBER"
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "_row_id" : "chtxvsE-HbYbQUfSwxPlp"
+        }, {
+          "expression" : {
+            "expression" : "in1.GENERATED_CLID"
+          },
+          "alias" : "GENERATED_CLID",
+          "_row_id" : "2Lo8yDReVJSSk0m1p45pd"
+        }, {
+          "expression" : {
+            "expression" : "in1.ADID"
+          },
+          "alias" : "ADID",
+          "_row_id" : "qRCb96ur8C25gEX6Q99XA"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "EXP_CLIENT_ALIAS_LOOKUP_6_in1##CLID", "EXP_CLIENT_ALIAS_LOOKUP_6_in1##CUSTOMER_NUMBER", "EXP_CLIENT_ALIAS_LOOKUP_6_in1##GENERATED_CLID", "EXP_CLIENT_ALIAS_LOOKUP_6_in1##ADID" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_LOOKUP_6_in0",
+          "slug" : "in0"
+        }, {
+          "id" : "EXP_CLIENT_ALIAS_LOOKUP_6_in1",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_LOOKUP_6_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SOURCE_find_business_date" : {
+      "id" : "SOURCE_find_business_date",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "DBATTRIBUTE",
+        "x" : -180,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "DBATTRIBUTE",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_find_business_date_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CLIENT_ALIAS_LOOKUP_6_EXP_CLIENT_ALIAS_LOOKUP_6_out0" : {
+      "id" : "EXP_CLIENT_ALIAS_LOOKUP_6_EXP_CLIENT_ALIAS_LOOKUP_6_out0",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "EXP_CLIENT_ALIAS_LOOKUP_6"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM EXP_CLIENT_ALIAS_LOOKUP_6\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_EXP_CLIENT_ALIAS_LOOKUP_6_EXP_CLIENT_ALIAS_LOOKUP_6_out0_EXP_CLIENT_ALIAS_LOOKUP_6_EXP_CLIENT_ALIAS_LOOKUP_6_out0",
+    "source" : "EXP_CLIENT_ALIAS_LOOKUP_6",
+    "sourcePort" : "EXP_CLIENT_ALIAS_LOOKUP_6_out0",
+    "target" : "EXP_CLIENT_ALIAS_LOOKUP_6_EXP_CLIENT_ALIAS_LOOKUP_6_out0",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1",
+    "source" : "SOURCE_find_business_date",
+    "sourcePort" : "SOURCE_find_business_date_out0",
+    "target" : "EXP_CLIENT_ALIAS_LOOKUP_6",
+    "targetPort" : "EXP_CLIENT_ALIAS_LOOKUP_6_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_8",
+    "source" : "Shortcut_to_SEQ_adid_EXPR_4",
+    "sourcePort" : "Shortcut_to_SEQ_adid_EXPR_4_out0",
+    "target" : "EXP_CLIENT_ALIAS_LOOKUP_6",
+    "targetPort" : "EXP_CLIENT_ALIAS_LOOKUP_6_in1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_7",
+    "source" : "Shortcut_to_SEQ_clid_EXPR_3",
+    "sourcePort" : "Shortcut_to_SEQ_clid_EXPR_3_out0",
+    "target" : "Shortcut_to_SEQ_adid_EXPR_4",
+    "targetPort" : "Shortcut_to_SEQ_adid_EXPR_4_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_6",
+    "source" : "SQ_CLIENT_ALIAS",
+    "sourcePort" : "SQ_CLIENT_ALIAS_out0",
+    "target" : "Shortcut_to_SEQ_clid_EXPR_3",
+    "targetPort" : "Shortcut_to_SEQ_clid_EXPR_3_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
