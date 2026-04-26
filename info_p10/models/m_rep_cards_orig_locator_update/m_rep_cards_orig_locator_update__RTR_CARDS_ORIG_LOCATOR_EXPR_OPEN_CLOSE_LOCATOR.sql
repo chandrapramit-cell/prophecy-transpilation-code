@@ -1,0 +1,52 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "prophecy-databricks-qa",
+    "schema": "pramit_test"
+  })
+}}
+
+WITH EXP_CARDS_ORIG_LOCATOR AS (
+
+  SELECT *
+  
+  FROM {{ ref('m_rep_cards_orig_locator_update__EXP_CARDS_ORIG_LOCATOR')}}
+
+),
+
+RTR_CARDS_ORIG_LOCATOR_out1 AS (
+
+  SELECT * 
+  
+  FROM EXP_CARDS_ORIG_LOCATOR AS in0
+  
+  WHERE (((CLID_LOCATOR IS NOT NULL) AND (VALUE IS NOT NULL)) AND (TOTAL_COMPARE <> 0))
+
+),
+
+RTR_CARDS_ORIG_LOCATOR_EXPR_OPEN_CLOSE_LOCATOR AS (
+
+  SELECT 
+    CLID_CLIENT_ALIAS AS CLID_CLIENT_ALIAS3,
+    MERGE_CLID_CLIENT_ALIAS AS MERGE_CLID_CLIENT_ALIAS3,
+    CLASS AS CLASS3,
+    SUBCLASS AS SUBCLASS3,
+    VALUE AS VALUE3,
+    CLID_LOCATOR AS CLID_LOCATOR3,
+    EFROM_LOCATOR AS EFROM_LOCATOR3,
+    CLASS_LOCATOR AS CLASS_LOCATOR3,
+    SUBCLASS_LOCATOR AS SUBCLASS_LOCATOR3,
+    VALUE_LOCATOR AS VALUE_LOCATOR3,
+    SOURCE_TYPE AS SOURCE_TYPE3,
+    business_date AS business_date3,
+    business_date_minus_1 AS business_date_minus_13,
+    feed_update_id AS feed_update_id3,
+    TOTAL_COMPARE AS TOTAL_COMPARE3
+  
+  FROM RTR_CARDS_ORIG_LOCATOR_out1 AS in0
+
+)
+
+SELECT *
+
+FROM RTR_CARDS_ORIG_LOCATOR_EXPR_OPEN_CLOSE_LOCATOR
