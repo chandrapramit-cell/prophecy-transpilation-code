@@ -6,11 +6,11 @@
   })
 }}
 
-WITH EXP_WORK_CARDS_ORIG_STAGING_EXPR_18 AS (
+WITH EXP_WORK_CARDS_ORIG_STAGING_EXPR_1 AS (
 
   SELECT *
   
-  FROM {{ ref('m_rep_cards_orig_credit_application_update__EXP_WORK_CARDS_ORIG_STAGING_EXPR_18')}}
+  FROM {{ ref('m_rep_cards_orig_credit_application_update__EXP_WORK_CARDS_ORIG_STAGING_EXPR_1')}}
 
 ),
 
@@ -18,7 +18,7 @@ RTR_CREDIT_APPLICATION_out0 AS (
 
   SELECT * 
   
-  FROM EXP_WORK_CARDS_ORIG_STAGING_EXPR_18 AS in0
+  FROM EXP_WORK_CARDS_ORIG_STAGING_EXPR_1 AS in0
   
   WHERE (
           (ACCID_TGT IS NOT NULL)
