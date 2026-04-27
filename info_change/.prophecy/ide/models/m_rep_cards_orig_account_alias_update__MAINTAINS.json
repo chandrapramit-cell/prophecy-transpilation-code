@@ -1,0 +1,141 @@
+{
+  "id" : "m_rep_cards_orig_account_alias_update__MAINTAINS",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_account_alias_update__MAINTAINS",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"MAINTAINS\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "MAINTAINS" : {
+      "id" : "MAINTAINS",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "MAINTAINS",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MAINTAINS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "JZsl4nUOChrmjCQC5Zsmi",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16" : {
+      "id" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16",
+        "x" : 1420,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "NEW_ACCID1"
+          },
+          "alias" : "ACCID",
+          "_row_id" : "3FnNhqmPyGjUMriJaQbyF"
+        }, {
+          "expression" : {
+            "expression" : "business_date1"
+          },
+          "alias" : "ACCOUNT_HISTORY_EFFECT_FROM",
+          "_row_id" : "RujTFKqkcQgnxrE9zwPfH"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id1"
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "_row_id" : "fDiyjZufdK3kirZUaeWl5"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_out0" : {
+      "id" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('m_rep_cards_orig_account_alias_update__RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_16",
+    "source" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16",
+    "sourcePort" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16_out0",
+    "target" : "MAINTAINS",
+    "targetPort" : "MAINTAINS_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_22",
+    "source" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_out0",
+    "sourcePort" : "output_port_2",
+    "target" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16",
+    "targetPort" : "RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS_EXPR_16_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

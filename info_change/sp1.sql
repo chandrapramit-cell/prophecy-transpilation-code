@@ -1,0 +1,4 @@
+CREATE OR REPLACE PROCEDURE `prophecy-databricks-qa`.Avpreet.sp1(IN arg1 BIGNUMERIC, IN arg2 BIGNUMERIC, IN arg3 BIGNUMERIC, OUT output_sp BIGNUMERIC)
+BEGIN
+SET output_sp = 'DUMMY';
+END;

@@ -1,0 +1,88 @@
+{
+  "id" : "m_rep_cards_orig_decision_history__SQ_CARDS_ORIG_DECISION_HISTORY",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_decision_history__SQ_CARDS_ORIG_DECISION_HISTORY",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0" : {
+      "id" : "SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "SQ_CARDS_ORIG_DECISION_HISTORY"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM SQ_CARDS_ORIG_DECISION_HISTORY\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SQ_CARDS_ORIG_DECISION_HISTORY" : {
+      "id" : "SQ_CARDS_ORIG_DECISION_HISTORY",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CARDS_ORIG_DECISION_HISTORY",
+        "x" : 20,
+        "y" : 320,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(WORK) parallel(ACCOUNT_ALIAS) \r            use_hash(WORK ACCOUNT_ALIAS) */ \r distinct\r ACCOUNT_ALIAS.ACCID,\r WORK.APPLICATION_NUMBER, \r WORK.APPLICATION_STATUS, \r WORK.LAST_ACTION_DATE\r FROM  WORK_CARDS_ORIG_STAGING WORK, \r       ACCOUNT_ALIAS\r WHERE WORK.APPLICATION_NUMBER   = ACCOUNT_ALIAS.ACCOUNT_ALIAS_ID\r AND   ACCOUNT_ALIAS.SOURCE_SYSTEM_CODE = 'U'\r AND   ACCOUNT_ALIAS.ETO                IS NULL\r AND   ACCOUNT_ALIAS.CLASS = '563'"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0_SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+    "source" : "SQ_CARDS_ORIG_DECISION_HISTORY",
+    "sourcePort" : "SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+    "target" : "SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

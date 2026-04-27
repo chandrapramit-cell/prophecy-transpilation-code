@@ -1,0 +1,389 @@
+{
+  "id" : "m_rep_cards_orig_account_history_update__EXP_GET_DATES_AND_FEED_NUMBER_VARS_0",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_account_history_update__EXP_GET_DATES_AND_FEED_NUMBER_VARS_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "EXP_GET_DATES_AND_FEED_NUMBER_VARS_0_S90tn5OuHq6I3q_AoF5AG" : {
+      "id" : "EXP_GET_DATES_AND_FEED_NUMBER_VARS_0_S90tn5OuHq6I3q_AoF5AG",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "EXP_GET_DATES_AND_FEED_NUMBER_VARS_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM EXP_GET_DATES_AND_FEED_NUMBER_VARS_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SQ_WORK_CARDS_ORIG_STAGING" : {
+      "id" : "SQ_WORK_CARDS_ORIG_STAGING",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_WORK_CARDS_ORIG_STAGING",
+        "x" : 20,
+        "y" : 520,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "select * from \r (select /*+  parallel(wrk)  parallel(account_history) parallel(account_alias) use_hash(wrk account_history account_alias) */\r \taccount_alias.accid accid_account_alias,\r     wrk.application_store_number as application_store_number_src,\r     case when wrk.application_status = 'CANCELLED' then 'CA'\r \t\t when wrk.application_status = 'APPROVED' then 'AP'\r \t\t when wrk.application_status = 'ABORTED' then 'AX'\r \t\t when wrk.application_status = 'PRODUCT_ONBOARDING_COMPLETED' then 'AF'\r \t\t when wrk.application_status = 'REFERRED' then 'RF'\r \t\t when wrk.application_status = 'DECLINED' then 'DE'\r      end as status_src,\r \t wrk.last_action_date as status_date_src,\r \taccount_history.accid as accid_tgt,\r \taccount_history.domicile_branch as domicile_branch_tgt, \r \taccount_history.status as status_tgt,\r \taccount_history.status_date as status_date_tgt,\r \taccount_history.efrom,\r     row_number() over (partition by wrk.application_number order by wrk.last_action_date desc) row_number\r from  work_cards_orig_staging wrk, \r \t  account_history partition(hot),\r \t  account_alias\r where \r       wrk.application_number = account_alias.account_alias_id\r and   account_alias.accid = account_history.accid (+)\r and   account_alias.source_system_code = 'U'\r and   account_alias.class ='563'\r and   account_alias.eto is null\r and   account_history.eto (+) is null)\r where row_number = 1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_WORK_CARDS_ORIG_STAGING_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SOURCE_find_business_date" : {
+      "id" : "SOURCE_find_business_date",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "DBATTRIBUTE",
+        "x" : 220,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "sp2",
+          "sourceType" : "Seed"
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_find_business_date_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "x9aZ6F59PbOfslgHJFTgu" : {
+      "id" : "x9aZ6F59PbOfslgHJFTgu",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_GET_DATES_AND_FEED_NUMBER_VARS_0",
+        "x" : 620,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "6psr0RrUN7oOQHI8xConO##LOOKUP_VARIABLE_3" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "'businessdate'"
+          },
+          "alias" : "lookup_string",
+          "_row_id" : "Mio1YItFBC7jnp2dip-l0"
+        }, {
+          "expression" : {
+            "expression" : "LOOKUP_VARIABLE_3"
+          },
+          "alias" : "business_date_string__find_business_date_lkp_1",
+          "_row_id" : "BdpzOGu3V8egULZzXDPzb"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "1075457452"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "6psr0RrUN7oOQHI8xConO",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "S90tn5OuHq6I3q_AoF5AG",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_COMPARE_ACCOUNT_HISTORY" : {
+      "id" : "EXP_COMPARE_ACCOUNT_HISTORY",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_COMPARE_ACCOUNT_HISTORY",
+        "x" : 220,
+        "y" : 520,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "EXP_COMPARE_ACCOUNT_HISTORY_in0##ACCID_ACCOUNT_ALIAS", "EXP_COMPARE_ACCOUNT_HISTORY_in0##ACCID", "EXP_COMPARE_ACCOUNT_HISTORY_in0##APPLICATION_STORE_NUMBER", "EXP_COMPARE_ACCOUNT_HISTORY_in0##LAST_ACTION_DATE", "EXP_COMPARE_ACCOUNT_HISTORY_in0##APPLICATION_STATUS", "EXP_COMPARE_ACCOUNT_HISTORY_in0##DOMICILE_BRANCH", "EXP_COMPARE_ACCOUNT_HISTORY_in0##STATUS", "EXP_COMPARE_ACCOUNT_HISTORY_in0##STATUS_DATE", "EXP_COMPARE_ACCOUNT_HISTORY_in0##EFROM" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID_ACCOUNT_ALIAS"
+          },
+          "alias" : "ACCID_ACCOUNT_ALIAS",
+          "_row_id" : "ciH1bYsPyPkN10QxDj6yb"
+        }, {
+          "expression" : {
+            "expression" : "ACCID"
+          },
+          "alias" : "ACCID_TGT",
+          "_row_id" : "2HEz_mEMef0nAP1s4qA3T"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_STORE_NUMBER"
+          },
+          "alias" : "APPLICATION_STORE_NUMBER_SRC",
+          "_row_id" : "vjBhZ-kOl8vRWLk2r6tHn"
+        }, {
+          "expression" : {
+            "expression" : "LAST_ACTION_DATE"
+          },
+          "alias" : "STATUS_DATE_SRC",
+          "_row_id" : "wxsHcKo3uzMAKM_weOt80"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_STATUS"
+          },
+          "alias" : "STATUS_SRC",
+          "_row_id" : "2kfZRPNhVhDUPuo_KBg0R"
+        }, {
+          "expression" : {
+            "expression" : "DOMICILE_BRANCH"
+          },
+          "alias" : "DOMICILE_BRANCH_TGT",
+          "_row_id" : "VbriGE9QRZMMeG0YKDW72"
+        }, {
+          "expression" : {
+            "expression" : "STATUS"
+          },
+          "alias" : "STATUS_TGT",
+          "_row_id" : "aEj40l2HyniJfp8FDLhYJ"
+        }, {
+          "expression" : {
+            "expression" : "STATUS_DATE"
+          },
+          "alias" : "STATUS_DATE_TGT",
+          "_row_id" : "6V4KKnfYKiNUiuWelHMWe"
+        }, {
+          "expression" : {
+            "expression" : "EFROM"
+          },
+          "alias" : "EFROM_TGT",
+          "_row_id" : "njAbtp1OfeMk5XtPyGxO3"
+        }, {
+          "expression" : {
+            "expression" : "(((CASE WHEN (((((LENGTH(APPLICATION_STORE_NUMBER)) = 0) OR (APPLICATION_STORE_NUMBER IS NULL)) AND (DOMICILE_BRANCH IS NULL)) OR (APPLICATION_STORE_NUMBER = DOMICILE_BRANCH)) THEN 0 ELSE 1 END) + (CASE WHEN (APPLICATION_STATUS = STATUS) THEN 0 ELSE 1 END)) + (CASE WHEN (LAST_ACTION_DATE = STATUS_DATE) THEN 0 ELSE 1 END))"
+          },
+          "alias" : "total_compare",
+          "_row_id" : "O95BzBTA304P6s7P1N8be"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_COMPARE_ACCOUNT_HISTORY_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_COMPARE_ACCOUNT_HISTORY_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12" : {
+      "id" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12",
+        "x" : 420,
+        "y" : 420,
+        "phase" : 1
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.NAME = 'businessdate')"
+          },
+          "joinType" : "left"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.CURRVALUE"
+          },
+          "alias" : "LOOKUP_VARIABLE_3",
+          "_row_id" : "gDMwrr9xpVvWQyX_PM7Iy"
+        }, {
+          "expression" : {
+            "expression" : "in0.NAME"
+          },
+          "alias" : "NAME",
+          "_row_id" : "lkzA0mFnhaGNc9zfgQZkz"
+        }, {
+          "expression" : {
+            "expression" : "in0.CURRVALUE"
+          },
+          "alias" : "CURRVALUE",
+          "_row_id" : "P_BGceLBne3ZgNLxBULGZ"
+        }, {
+          "expression" : {
+            "expression" : "in1.ACCID_ACCOUNT_ALIAS"
+          },
+          "alias" : "ACCID_ACCOUNT_ALIAS",
+          "_row_id" : "61BdMw_LqM5NTpkWq1-x3"
+        }, {
+          "expression" : {
+            "expression" : "in1.ACCID_TGT"
+          },
+          "alias" : "ACCID_TGT",
+          "_row_id" : "U8mjBuwYsxoX66oalVcfm"
+        }, {
+          "expression" : {
+            "expression" : "in1.STATUS_DATE_SRC"
+          },
+          "alias" : "STATUS_DATE_SRC",
+          "_row_id" : "XRT3H2gjYY0YBLdbcIIIi"
+        }, {
+          "expression" : {
+            "expression" : "in1.STATUS_SRC"
+          },
+          "alias" : "STATUS_SRC",
+          "_row_id" : "ef0zcqx5SZ-fK5lyp_M2l"
+        }, {
+          "expression" : {
+            "expression" : "in1.DOMICILE_BRANCH_TGT"
+          },
+          "alias" : "DOMICILE_BRANCH_TGT",
+          "_row_id" : "XWwO3-msvcvT0tiflZ7ML"
+        }, {
+          "expression" : {
+            "expression" : "in1.STATUS_TGT"
+          },
+          "alias" : "STATUS_TGT",
+          "_row_id" : "8u-nXxCI2lm0Z3A_KyocS"
+        }, {
+          "expression" : {
+            "expression" : "in1.STATUS_DATE_TGT"
+          },
+          "alias" : "STATUS_DATE_TGT",
+          "_row_id" : "4IDZmLjSzAeddp__PGeaa"
+        }, {
+          "expression" : {
+            "expression" : "in1.total_compare"
+          },
+          "alias" : "total_compare",
+          "_row_id" : "dE3yE9MU24N87687QkT_V"
+        }, {
+          "expression" : {
+            "expression" : "in1.APPLICATION_STORE_NUMBER_SRC"
+          },
+          "alias" : "APPLICATION_STORE_NUMBER_SRC",
+          "_row_id" : "O0sS9oJtRUVm76JW6h6_6"
+        }, {
+          "expression" : {
+            "expression" : "in1.EFROM_TGT"
+          },
+          "alias" : "EFROM_TGT",
+          "_row_id" : "MnNfDz7gB0gZ5zmYR6ObU"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in0##NAME", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in0##CURRVALUE", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in0##NAME", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##ACCID_ACCOUNT_ALIAS", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##ACCID_TGT", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##STATUS_DATE_SRC", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##STATUS_SRC", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##DOMICILE_BRANCH_TGT", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##STATUS_TGT", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##STATUS_DATE_TGT", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##total_compare", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##APPLICATION_STORE_NUMBER_SRC", "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1##EFROM_TGT" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in0",
+          "slug" : "in0"
+        }, {
+          "id" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_x9aZ6F59PbOfslgHJFTgu_S90tn5OuHq6I3q_AoF5AG_EXP_GET_DATES_AND_FEED_NUMBER_VARS_0_S90tn5OuHq6I3q_AoF5AG",
+    "source" : "x9aZ6F59PbOfslgHJFTgu",
+    "sourcePort" : "S90tn5OuHq6I3q_AoF5AG",
+    "target" : "EXP_GET_DATES_AND_FEED_NUMBER_VARS_0_S90tn5OuHq6I3q_AoF5AG",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_37",
+    "source" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12",
+    "sourcePort" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_out0",
+    "target" : "x9aZ6F59PbOfslgHJFTgu",
+    "targetPort" : "6psr0RrUN7oOQHI8xConO",
+    "isWireless" : false
+  }, {
+    "id" : "edge_31",
+    "source" : "EXP_COMPARE_ACCOUNT_HISTORY",
+    "sourcePort" : "EXP_COMPARE_ACCOUNT_HISTORY_out0",
+    "target" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12",
+    "targetPort" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in1",
+    "isWireless" : false
+  }, {
+    "id" : "VGXnXmrRV-wPNdl3gvNzl",
+    "source" : "SOURCE_find_business_date",
+    "sourcePort" : "SOURCE_find_business_date_out0",
+    "target" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12",
+    "targetPort" : "EXP_GET_DATES_AND_FEED_NUMBER_LOOKUP_12_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_33",
+    "source" : "SQ_WORK_CARDS_ORIG_STAGING",
+    "sourcePort" : "SQ_WORK_CARDS_ORIG_STAGING_out0",
+    "target" : "EXP_COMPARE_ACCOUNT_HISTORY",
+    "targetPort" : "EXP_COMPARE_ACCOUNT_HISTORY_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

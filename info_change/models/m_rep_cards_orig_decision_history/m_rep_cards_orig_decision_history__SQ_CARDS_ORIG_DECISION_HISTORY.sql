@@ -1,0 +1,29 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "prophecy-databricks-qa",
+    "schema": "pramit_test"
+  })
+}}
+
+WITH SQ_CARDS_ORIG_DECISION_HISTORY AS (
+
+  SELECT 
+    /*+ parallel(WORK) parallel(ACCOUNT_ALIAS)             use_hash(WORK ACCOUNT_ALIAS)*/
+    DISTINCT ACCOUNT_ALIAS.ACCID,
+    WORK.APPLICATION_NUMBER,
+    WORK.APPLICATION_STATUS,
+    WORK.LAST_ACTION_DATE
+  
+  FROM WORK_CARDS_ORIG_STAGING AS WORK, ACCOUNT_ALIAS
+  
+  WHERE WORK.APPLICATION_NUMBER = ACCOUNT_ALIAS.ACCOUNT_ALIAS_ID
+        AND ACCOUNT_ALIAS.SOURCE_SYSTEM_CODE = 'U'
+        AND ACCOUNT_ALIAS.ETO IS NULL
+        AND ACCOUNT_ALIAS.CLASS = '563'
+
+)
+
+SELECT *
+
+FROM SQ_CARDS_ORIG_DECISION_HISTORY

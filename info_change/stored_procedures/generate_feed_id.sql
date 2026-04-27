@@ -1,0 +1,3 @@
+-- Source: Informatica Stored Procedure transformation
+-- Stored procedure: GENERATE_FEED_ID
+-- Call text: dummy
