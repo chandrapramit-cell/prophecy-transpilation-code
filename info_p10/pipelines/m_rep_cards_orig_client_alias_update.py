@@ -8,6 +8,11 @@ args = PipelineArgs(
 )
 
 with Pipeline(args) as pipeline:
+    dbattribute = Process(
+        name = "DBATTRIBUTE",
+        properties = Dataset(table = Dataset.DBTSource(name = "sf", sourceType = "Seed"), writeOptions = {"writeMode" : "overwrite"}),
+        input_ports = None
+    )
     feed_number_generator1 = Process(
         name = "feed_number_generator1",
         properties = CallStoredProc(
@@ -31,16 +36,12 @@ with Pipeline(args) as pipeline:
     )
     m_rep_cards_orig_client_alias_update__rtr_client_alias_expr_new_client_alias = Process(
         name = "m_rep_cards_orig_client_alias_update__RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
-        properties = ModelTransform(modelName = "m_rep_cards_orig_client_alias_update__RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS"),
-        input_ports = None
+        properties = ModelTransform(modelName = "m_rep_cards_orig_client_alias_update__RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS")
     )
-    m_rep_cards_orig_client_alias_update__find_business_date = Process(
-        name = "m_rep_cards_orig_client_alias_update__find_business_date",
-        properties = ModelTransform(modelName = "m_rep_cards_orig_client_alias_update__find_business_date")
-    )
+    dbattribute >> m_rep_cards_orig_client_alias_update__rtr_client_alias_expr_new_client_alias
     (
         m_rep_cards_orig_client_alias_update__rtr_client_alias_expr_new_client_alias._out(0)
         >> [m_rep_cards_orig_client_alias_update__chooses._in(0),
-              m_rep_cards_orig_client_alias_update__client_alias1._in(0),
-              m_rep_cards_orig_client_alias_update__resides._in(0)]
+              m_rep_cards_orig_client_alias_update__resides._in(0),
+              m_rep_cards_orig_client_alias_update__client_alias1._in(0)]
     )
