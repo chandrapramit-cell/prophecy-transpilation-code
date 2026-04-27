@@ -8,11 +8,6 @@ args = PipelineArgs(
 )
 
 with Pipeline(args) as pipeline:
-    dbattribute = Process(
-        name = "DBATTRIBUTE",
-        properties = Dataset(table = Dataset.DBTSource(name = "sf", sourceType = "Seed"), writeOptions = {"writeMode" : "overwrite"}),
-        input_ports = None
-    )
     feed_number_generator1 = Process(
         name = "feed_number_generator1",
         properties = CallStoredProc(
@@ -36,7 +31,6 @@ with Pipeline(args) as pipeline:
           modelName = "m_rep_cards_orig_account_alias_update__RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS"
         )
     )
-    dbattribute >> m_rep_cards_orig_account_alias_update__rtr_fortrav_account_alias_expr_new_account_alias
     (
         m_rep_cards_orig_account_alias_update__rtr_fortrav_account_alias_expr_new_account_alias._out(0)
         >> [m_rep_cards_orig_account_alias_update__new_account_alias._in(0),

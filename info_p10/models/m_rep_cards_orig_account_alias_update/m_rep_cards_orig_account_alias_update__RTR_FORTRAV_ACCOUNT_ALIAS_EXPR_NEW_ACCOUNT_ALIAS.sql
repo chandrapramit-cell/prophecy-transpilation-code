@@ -10,7 +10,7 @@ WITH DBATTRIBUTE AS (
 
   SELECT * 
   
-  FROM {{ ref('sf')}}
+  FROM {{ source('transpiled_sources', 'DBATTRIBUTE') }}
 
 ),
 
@@ -30,19 +30,18 @@ SQ_WORK_CARDS_ORIG_STAGING AS (
 
 ),
 
-SEQ_accid_EXPR_2 AS (
+SEQ_accid_EXPR_4 AS (
 
   SELECT 
     APPLICATION_NUMBER AS APPLICATION_NUMBER,
     ACCID AS EXISTING_ACCID,
-    ((ROW_NUMBER() OVER (PARTITION BY 1)) - 1) AS NEW_ACCID,
-    '1' AS lookup_field
+    ((ROW_NUMBER() OVER (PARTITION BY 1)) - 1) AS NEW_ACCID
   
   FROM SQ_WORK_CARDS_ORIG_STAGING AS in0
 
 ),
 
-EXP_ACCOUNT_ALIAS_LOOKUP_5 AS (
+EXP_ACCOUNT_ALIAS_LKP_LOCAL_1_LOOKUP_7 AS (
 
   SELECT 
     in0.CURRVALUE AS LOOKUP_VARIABLE_2,
@@ -53,18 +52,57 @@ EXP_ACCOUNT_ALIAS_LOOKUP_5 AS (
     in1.NEW_ACCID AS NEW_ACCID
   
   FROM DBATTRIBUTE AS in0
-  LEFT JOIN SEQ_accid_EXPR_2 AS in1
-     ON in1.lookup_field = in0.NAME
+  LEFT JOIN SEQ_accid_EXPR_4 AS in1
+     ON (in0.NAME = 'businessdate')
 
 ),
 
-EXP_ACCOUNT_ALIAS_VARS_0 AS (
+EXP_ACCOUNT_ALIAS_LKP_LOCAL_1_VARS_0 AS (
 
   SELECT 
     LOOKUP_VARIABLE_2 AS business_date_string__find_business_date_lkp_1,
+    'businessdate' AS lookup_string,
     *
   
-  FROM EXP_ACCOUNT_ALIAS_LOOKUP_5 AS in0
+  FROM EXP_ACCOUNT_ALIAS_LKP_LOCAL_1_LOOKUP_7 AS in0
+
+),
+
+EXP_ACCOUNT_ALIAS_LKP_LOCAL_1 AS (
+
+  SELECT 
+    APPLICATION_NUMBER AS APPLICATION_NUMBER,
+    NEW_ACCID AS NEW_ACCID,
+    EXISTING_ACCID AS EXISTING_ACCID
+  
+  FROM EXP_ACCOUNT_ALIAS_LKP_LOCAL_1_VARS_0 AS in0
+
+),
+
+EXP_ACCOUNT_ALIAS_JOIN AS (
+
+  SELECT 
+    in1.APPLICATION_NUMBER AS APPLICATION_NUMBER,
+    in1.ACCID AS ACCID,
+    in0.count1 AS count1,
+    in0.business_date_string AS business_date_string,
+    in0.business_date_string__find_business_date_lkp_1 AS business_date_string__find_business_date_lkp_1,
+    in0.NEXTVAL AS NEXTVAL,
+    in0.businessdate AS businessdate,
+    in0.lookup_string AS lookup_string
+  
+  FROM EXP_ACCOUNT_ALIAS_LKP_LOCAL_1 AS in0
+  INNER JOIN EXP_ACCOUNT_ALIAS_LKP_LOCAL_1 AS in1
+     ON (
+      (
+        (
+          ((in0.count1 = in1.count1) AND (in0.business_date_string = in1.business_date_string))
+          AND (in0.business_date_string__find_business_date_lkp_1 = in1.business_date_string__find_business_date_lkp_1)
+        )
+        AND (in0.businessdate = in1.businessdate)
+      )
+      AND (in0.lookup_string = in1.lookup_string)
+    )
 
 ),
 
@@ -72,66 +110,20 @@ EXP_ACCOUNT_ALIAS AS (
 
   SELECT 
     APPLICATION_NUMBER AS APPLICATION_NUMBER,
-    NEW_ACCID AS NEW_ACCID,
-    EXISTING_ACCID AS EXISTING_ACCID,
+    NEXTVAL AS NEW_ACCID,
+    ACCID AS EXISTING_ACCID,
     'U' AS SOURCE_SYSTEM_CODE,
     563 AS CLASS,
+    businessdate AS business_date,
     (
       CASE
-        WHEN CAST((
-          (
-            CASE
-              WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1)
-                THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1
-              ELSE CAST(NULL AS string)
-            END
-          ) IS NULL
-        ) AS BOOLEAN)
-          THEN (force_error('No Business Date found on dbattriute'))
-        ELSE (
-          PARSE_TIMESTAMP(
-            '%Y%m%d', 
-            CAST(SUBSTRING(
-              (
-                CASE
-                  WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1)
-                    THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1
-                  ELSE CAST(NULL AS string)
-                END
-              ) FROM 0 FOR 8) AS STRING))
-        )
-      END
-    ) AS business_date,
-    (
-      CASE
-        WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) = 1)
-          THEN CAST((
-            FEED_NUMBER_GENERATOR1(
-              'U', 
-              '360', 
-              (
-                CASE
-                  WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) = 1)
-                    THEN business_date_string__find_business_date_lkp_1
-                  ELSE NULL
-                END
-              ), 
-              SUBSTRING(
-                (
-                  CASE
-                    WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) = 1)
-                      THEN business_date_string__find_business_date_lkp_1
-                    ELSE NULL
-                  END
-                ), 
-                0, 
-                8))
-          ) AS STRING)
+        WHEN (count1 = 1)
+          THEN CAST((FEED_NUMBER_GENERATOR1('U', '360', business_date_string, SUBSTRING(business_date_string, 0, 8))) AS STRING)
         ELSE NULL
       END
     ) AS feed_update_id
   
-  FROM EXP_ACCOUNT_ALIAS_VARS_0 AS in0
+  FROM EXP_ACCOUNT_ALIAS_JOIN AS in0
 
 ),
 
