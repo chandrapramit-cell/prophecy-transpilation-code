@@ -1,1 +1,3 @@
--- IDK
+CREATE OR REPLACE PROCEDURE feed_number_generator1()
+BEGIN
+END;
