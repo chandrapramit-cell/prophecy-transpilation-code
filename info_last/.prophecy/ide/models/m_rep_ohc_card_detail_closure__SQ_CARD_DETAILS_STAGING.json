@@ -1,0 +1,86 @@
+{
+  "id" : "m_rep_ohc_card_detail_closure__SQ_CARD_DETAILS_STAGING",
+  "metainfo" : {
+    "label" : "m_rep_ohc_card_detail_closure__SQ_CARD_DETAILS_STAGING",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "SQ_CARD_DETAILS_STAGING_SQ_CARD_DETAILS_STAGING_out0" : {
+      "id" : "SQ_CARD_DETAILS_STAGING_SQ_CARD_DETAILS_STAGING_out0",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "SQ_CARD_DETAILS_STAGING"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM SQ_CARD_DETAILS_STAGING\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SQ_CARD_DETAILS_STAGING" : {
+      "id" : "SQ_CARD_DETAILS_STAGING",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CARD_DETAILS_STAGING",
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(F) parallel(AA) use_hash (F AA) ordered */\r \tF.CARD_NUMBER,\r \tF.ACCOUNT_NUMBER,\r \tF.ACTIVE_DATE,\r \tF.BLOCK_CODE,\r \tF.EXPIRY_DATE,\r \tF.CARDHOLDER_FLAG,\r \tF.NUMBER_CARDS,\r \tF.ACTIV_RQD_CURR,\r \tF.ACTIV_RQD_PREV,\r \tF.EMBOSSER_NAME1,\r \tF.PRIOR_CARD_EXPIRY,\r \tF.PRY_SDY_IND,\r \tF.CURR_PREV_IND,\r         F.ACTUAL_PROGRAM_ID,\r         F.PREVIOUS_PROGRAM_ID,\r \tAA.ACCID\r FROM\r \tFSK2CARD_STAGING F, ACCOUNT_TRANSFER_HISTORY AA\r WHERE \r \tF.ACCOUNT_NUMBER = AA.PREV_ACCOUNT_ALIAS_ID\r AND     F.TRANSFER_INDICATOR = 'O'"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CARD_DETAILS_STAGING_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_SQ_CARD_DETAILS_STAGING_SQ_CARD_DETAILS_STAGING_out0_SQ_CARD_DETAILS_STAGING_SQ_CARD_DETAILS_STAGING_out0",
+    "source" : "SQ_CARD_DETAILS_STAGING",
+    "sourcePort" : "SQ_CARD_DETAILS_STAGING_out0",
+    "target" : "SQ_CARD_DETAILS_STAGING_SQ_CARD_DETAILS_STAGING_out0",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,147 @@
+{
+  "id" : "m_rep_ohc_account_transfer_staging__REP_G2_ACCOUNT_TFR_STAGING",
+  "metainfo" : {
+    "label" : "m_rep_ohc_account_transfer_staging__REP_G2_ACCOUNT_TFR_STAGING",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"REP_G2_ACCOUNT_TFR_STAGING\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "REP_G2_ACCOUNT_TFR_STAGING" : {
+      "id" : "REP_G2_ACCOUNT_TFR_STAGING",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "REP_G2_ACCOUNT_TFR_STAGING",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM SQ_account_transfer_EXPR_106\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "REP_G2_ACCOUNT_TFR_STAGING_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "h527llGHiX19WWHD2mTHI",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SQ_account_transfer_EXPR_106" : {
+      "id" : "SQ_account_transfer_EXPR_106",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "SQ_account_transfer_EXPR_106",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "old_acct",
+            "_row_id" : null
+          },
+          "alias" : "OLD_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "l_NcgJZ_RFqdiA9ZV0AHx"
+        }, {
+          "expression" : {
+            "expression" : "new_acct",
+            "_row_id" : null
+          },
+          "alias" : "NEW_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "w6DqIR8AiIzWySDdDttE9"
+        }, {
+          "expression" : {
+            "expression" : "tfr_eff_date",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE",
+          "description" : null,
+          "_row_id" : "rQ3c3RDu1c1NOPyKxAjoF"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SQ_account_transfer_EXPR_106_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "SQ_account_transfer_EXPR_106_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "account_transfer_account_transfer_out0" : {
+      "id" : "account_transfer_account_transfer_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "account_transfer"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('m_rep_ohc_account_transfer_staging', 'account_transfer') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_306",
+    "source" : "SQ_account_transfer_EXPR_106",
+    "sourcePort" : "SQ_account_transfer_EXPR_106_out0",
+    "target" : "REP_G2_ACCOUNT_TFR_STAGING",
+    "targetPort" : "REP_G2_ACCOUNT_TFR_STAGING_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_307",
+    "source" : "account_transfer_account_transfer_out0",
+    "sourcePort" : "output_port_0",
+    "target" : "SQ_account_transfer_EXPR_106",
+    "targetPort" : "SQ_account_transfer_EXPR_106_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

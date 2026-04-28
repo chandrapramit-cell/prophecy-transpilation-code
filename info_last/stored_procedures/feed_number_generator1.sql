@@ -1,4 +1,4 @@
 -- Source: Informatica Stored Procedure transformation
 -- Stored procedure: feed_number_generator1
--- Output column: FEED_UPDATE_ID
+-- Output column: feed_update_id
 -- Procedure result binding in expressions: output_sp

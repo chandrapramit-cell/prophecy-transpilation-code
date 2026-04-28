@@ -1,0 +1,192 @@
+{
+  "id" : "m_rep_ohc_account_transfer_staging",
+  "metainfo" : {
+    "label" : "m_rep_ohc_account_transfer_staging",
+    "autoLayout" : false,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "InputFile_fsk2tfr",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica",
+    "processesVsModelFiles" : {
+      "SQ_account_transfer_EXPR_106" : "models/m_rep_ohc_account_transfer_staging/m_rep_ohc_account_transfer_staging__REP_G2_ACCOUNT_TFR_STAGING.sql",
+      "account_transfer_account_transfer_out0" : "models/m_rep_ohc_account_transfer_staging/m_rep_ohc_account_transfer_staging__REP_G2_ACCOUNT_TFR_STAGING.sql",
+      "REP_G2_ACCOUNT_TFR_STAGING" : "models/m_rep_ohc_account_transfer_staging/m_rep_ohc_account_transfer_staging__REP_G2_ACCOUNT_TFR_STAGING.sql"
+    }
+  },
+  "processes" : {
+    "account_transfer" : {
+      "id" : "account_transfer",
+      "component" : "OrchestrationSource",
+      "kind" : "SFTPSource",
+      "metadata" : {
+        "label" : "account_transfer",
+        "x" : 20,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "connector" : {
+          "kind" : "sftp",
+          "id" : "transpiled_connection",
+          "properties" : {
+            "authMethod" : "password",
+            "username" : "transpiled_username",
+            "host" : "sftp.prophecy.io",
+            "id" : "transpiled_connection",
+            "port" : 22,
+            "password" : {
+              "kind" : "prophecy",
+              "properties" : {
+                "name" : "transpiled_secret",
+                "value" : "transpiled_secret"
+              },
+              "subKind" : "text",
+              "type" : "secret"
+            }
+          },
+          "type" : "connector"
+        },
+        "properties" : {
+          "filePath" : {
+            "type" : "concat_operation",
+            "properties" : {
+              "elements" : [ {
+                "type" : "config",
+                "properties" : {
+                  "kind" : "prophecy",
+                  "name" : "InputFile_fsk2tfr"
+                }
+              } ]
+            }
+          }
+        },
+        "format" : {
+          "kind" : "csv",
+          "properties" : {
+            "schema" : {
+              "entityType" : "",
+              "providerType" : "BigQuery",
+              "fields" : [ {
+                "name" : "old_acct",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "new_acct",
+                "dataType" : {
+                  "type" : "String"
+                }
+              }, {
+                "name" : "tfr_eff_date",
+                "dataType" : {
+                  "type" : "String"
+                }
+              } ]
+            }
+          }
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "account_transfer_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "old_acct",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "new_acct",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "tfr_eff_date",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "REP_G2_ACCOUNT_TFR_STAGING" : {
+      "id" : "REP_G2_ACCOUNT_TFR_STAGING",
+      "component" : "Model",
+      "metadata" : {
+        "label" : "m_rep_ohc_account_transfer_staging__REP_G2_ACCOUNT_TFR_STAGING",
+        "phase" : 1
+      },
+      "properties" : {
+        "modelName" : "m_rep_ohc_account_transfer_staging__REP_G2_ACCOUNT_TFR_STAGING"
+      },
+      "visualMetaInfo" : {
+        "lastNodeProcessIds" : [ "REP_G2_ACCOUNT_TFR_STAGING" ],
+        "skipIfZeroRows" : false,
+        "visualProcessIds" : [ "REP_G2_ACCOUNT_TFR_STAGING", "SQ_account_transfer_EXPR_106", "account_transfer_account_transfer_out0" ],
+        "type" : "table",
+        "isTemporaryTable" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SQ_account_transfer_EXPR_106_in0",
+          "slug" : "in_0"
+        } ],
+        "outputs" : [ {
+          "id" : "SQ_account_transfer_EXPR_106_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_307",
+    "source" : "account_transfer",
+    "sourcePort" : "account_transfer_out0",
+    "target" : "REP_G2_ACCOUNT_TFR_STAGING",
+    "targetPort" : "SQ_account_transfer_EXPR_106_in0"
+  } ],
+  "component" : "Pipeline"
+}

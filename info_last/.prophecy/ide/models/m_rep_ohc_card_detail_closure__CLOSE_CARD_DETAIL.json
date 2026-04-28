@@ -1,0 +1,976 @@
+{
+  "id" : "m_rep_ohc_card_detail_closure__CLOSE_CARD_DETAIL",
+  "metainfo" : {
+    "label" : "m_rep_ohc_card_detail_closure__CLOSE_CARD_DETAIL",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"CLOSE_CARD_DETAIL\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "FIL_CREDIT_DETAIL_JOIN_EXPR_118" : {
+      "id" : "FIL_CREDIT_DETAIL_JOIN_EXPR_118",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "FIL_CREDIT_DETAIL_JOIN_EXPR_118",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "mvtmZTY1Owf7gvOk0N-CZ"
+        }, {
+          "expression" : {
+            "expression" : "EFROM",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "CVIDIvOxrOXGVXoB98YKJ"
+        }, {
+          "expression" : {
+            "expression" : "prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "A3zvuRWWPLhqFDBoP_7bm"
+        }, {
+          "expression" : {
+            "expression" : "CARD_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CARD_NUMBER_IN",
+          "description" : null,
+          "_row_id" : "ynoRJjbeYTuzgNlLZydjo"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE",
+          "description" : null,
+          "_row_id" : "GmobotnxdwHtScrbMY-lP"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "FIL_CREDIT_DETAIL_JOIN_EXPR_118_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "FIL_CREDIT_DETAIL_JOIN_EXPR_118_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SOURCE_LKP_ACCID_ON_CARD_DETAIL" : {
+      "id" : "SOURCE_LKP_ACCID_ON_CARD_DETAIL",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SOURCE_LKP_ACCID_ON_CARD_DETAIL",
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+parallel(C)*/\r \tC.EFROM as EFROM,\r \tC.ACCID as ACCID,\r \tC.CARD_NUMBER as CARD_NUMBER\r FROM\r \tCARD_DETAIL C\r WHERE \r \tC.ETO IS NULL"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_LKP_ACCID_ON_CARD_DETAIL_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "FIL_CREDIT_DETAIL" : {
+      "id" : "FIL_CREDIT_DETAIL",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "FIL_CREDIT_DETAIL",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "CAST((ACCID IS NOT NULL) AS BOOL)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "FIL_CREDIT_DETAIL_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "FIL_CREDIT_DETAIL_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CONSTRUCT_CARD_DETAIL_sp_EXP_CONSTRUCT_CARD_DETAIL_sp_out0" : {
+      "id" : "EXP_CONSTRUCT_CARD_DETAIL_sp_EXP_CONSTRUCT_CARD_DETAIL_sp_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "EXP_CONSTRUCT_CARD_DETAIL_sp"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('m_rep_ohc_card_detail_closure', 'EXP_CONSTRUCT_CARD_DETAIL_sp') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CLOSE_CARD_DETAIL" : {
+      "id" : "CLOSE_CARD_DETAIL",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CLOSE_CARD_DETAIL",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CLOSE_CARD_DETAIL_EXP\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLOSE_CARD_DETAIL_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "mJb4-X7XrbKDRtVVMrMRP",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CONSTRUCT_CARD_DETAIL_reformat" : {
+      "id" : "EXP_CONSTRUCT_CARD_DETAIL_reformat",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CONSTRUCT_CARD_DETAIL_reformat",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CARD_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CARD_NUMBER",
+          "description" : null,
+          "_row_id" : "jmMABL_69Fk2EpLVkDAv9"
+        }, {
+          "expression" : {
+            "expression" : "BLOCK_CODE",
+            "_row_id" : null
+          },
+          "alias" : "BLOCK_CODE",
+          "description" : null,
+          "_row_id" : "aKSAHORKQnvmJ-RFaUyWA"
+        }, {
+          "expression" : {
+            "expression" : "CARDHOLDER_FLAG",
+            "_row_id" : null
+          },
+          "alias" : "CARDHOLDER_FLAG",
+          "description" : null,
+          "_row_id" : "sJUr2C_kk-EJ6y8Uz5_G3"
+        }, {
+          "expression" : {
+            "expression" : "ACTV_RQD_CURR",
+            "_row_id" : null
+          },
+          "alias" : "ACTV_RQD_CURR",
+          "description" : null,
+          "_row_id" : "47GmGgCMmgbmt9ok_bwou"
+        }, {
+          "expression" : {
+            "expression" : "ACTV_RQD_PREV",
+            "_row_id" : null
+          },
+          "alias" : "ACTV_RQD_PREV",
+          "description" : null,
+          "_row_id" : "mKVi92PTaOQDSd2dm9jNq"
+        }, {
+          "expression" : {
+            "expression" : "(LTRIM((RTRIM((CASE WHEN (EMBOSSER_NAME1 IS NOT NULL) THEN (CONCAT(SUBSTRING(EMBOSSER_NAME1 , 0 , (0 - 1)), ' ', SUBSTRING(EMBOSSER_NAME1 , (1 - 1) , ((0 - 0) - 1)), ' ', SUBSTRING(EMBOSSER_NAME1 , (1 - 1) , (LENGTH(EMBOSSER_NAME1))))) ELSE NULL END)))))",
+            "_row_id" : null
+          },
+          "alias" : "O_EMBOSSER_NAME",
+          "description" : null,
+          "_row_id" : "xpqZ9Pt6ZAOtqaZomGTLo"
+        }, {
+          "expression" : {
+            "expression" : "PRY_SDY_IND",
+            "_row_id" : null
+          },
+          "alias" : "PRY_SDY_IND",
+          "description" : null,
+          "_row_id" : "s1rdWabW9gTOkMxUIXD_K"
+        }, {
+          "expression" : {
+            "expression" : "CURR_PREV_IND",
+            "_row_id" : null
+          },
+          "alias" : "CURR_PREV_IND",
+          "description" : null,
+          "_row_id" : "HbVM67z2bV4DybGKnCmI6"
+        }, {
+          "expression" : {
+            "expression" : "CAST(ACTUAL_PROGRAM_ID AS FLOAT64)",
+            "_row_id" : null
+          },
+          "alias" : "O_ACTUAL_PROGRAM_ID",
+          "description" : null,
+          "_row_id" : "V87Pxw2h8B162L4Yj4W2b"
+        }, {
+          "expression" : {
+            "expression" : "CAST(PREVIOUS_PROGRAM_ID AS FLOAT64)",
+            "_row_id" : null
+          },
+          "alias" : "O_PREVIOUS_PROGRAM_ID",
+          "description" : null,
+          "_row_id" : "RGofclWvI6Y1DqrFzgdo6"
+        }, {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "4uBXD9tu3M3iR0079t-Bc"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (ACTIVE_DATE IS NULL) THEN NULL WHEN (ACTIVE_DATE = '0000000') THEN NULL WHEN (ACTIVE_DATE = '9999999') THEN NULL WHEN (ACTIVE_DATE = CAST((NOT (CASE WHEN ((REGEXP_CONTAINS(ACTIVE_DATE, '^[0-9]+$')) OR ((LENGTH(ACTIVE_DATE)) = 0)) THEN TRUE ELSE FALSE END)) AS STRING)) THEN NULL ELSE (DATE_ADD((PARSE_TIMESTAMP('%Y%m%d', CAST((CONCAT(SUBSTRING(ACTIVE_DATE , 0 , 4), '0101')) AS STRING)))  , INTERVAL (CAST(SUBSTRING(ACTIVE_DATE , 4 , 3) AS FLOAT64) - 1)  DAY)) END)",
+            "_row_id" : null
+          },
+          "alias" : "O_ACTIVE_DATE",
+          "description" : null,
+          "_row_id" : "pZeWKV-cKjhxwJ2NQtBpR"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (EXPIRY_DATE <> '0000000') THEN (CASE WHEN (EXPIRY_DATE IS NULL) THEN NULL WHEN (EXPIRY_DATE = CAST((NOT (CASE WHEN ((REGEXP_CONTAINS(EXPIRY_DATE, '^[0-9]+$')) OR ((LENGTH(EXPIRY_DATE)) = 0)) THEN TRUE ELSE FALSE END)) AS STRING)) THEN NULL ELSE (DATE_ADD((PARSE_TIMESTAMP('%Y%m%d', CAST((CONCAT(SUBSTRING(EXPIRY_DATE , 0 , 4), '0101')) AS STRING)))  , INTERVAL (CAST(SUBSTRING(EXPIRY_DATE , 4 , 3) AS FLOAT64) - 1)  DAY)) END) ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "O_EXPIRY_DATE",
+          "description" : null,
+          "_row_id" : "LWg1O0-OaSC5oWNl9GuSY"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (PRIOR_CARD_EXPIRY <> '0000000') THEN (CASE WHEN (PRIOR_CARD_EXPIRY IS NULL) THEN NULL WHEN (PRIOR_CARD_EXPIRY = CAST((NOT (CASE WHEN ((REGEXP_CONTAINS(PRIOR_CARD_EXPIRY, '^[0-9]+$')) OR ((LENGTH(PRIOR_CARD_EXPIRY)) = 0)) THEN TRUE ELSE FALSE END)) AS STRING)) THEN NULL ELSE (DATE_ADD((PARSE_TIMESTAMP('%Y%m%d', CAST((CONCAT(SUBSTRING(PRIOR_CARD_EXPIRY , 0 , 4), '0101')) AS STRING)))  , INTERVAL (CAST(SUBSTRING(PRIOR_CARD_EXPIRY , 4 , 3) AS FLOAT64) - 1)  DAY)) END) ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "O_PRIOR_CARD_EXPIRY",
+          "description" : null,
+          "_row_id" : "nuYJFbZw1KQNiR0faU6iu"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (NUMBER_CARDS IS NOT NULL) THEN CAST(NUMBER_CARDS AS FLOAT64) ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "O_NUMBER_CARDS",
+          "description" : null,
+          "_row_id" : "4mc89UuOi7GY42N3Kr9HI"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) IS NULL) OR ((LENGTH(CAST((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) AS STRING))) = 0)) THEN (ERROR('No Business date found on DBATTRIBUTE')) ELSE (PARSE_TIMESTAMP('%Y%m%d', CAST(SUBSTRING((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) , 0 , 8) AS STRING))) END)",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE",
+          "description" : null,
+          "_row_id" : "wSPOg6OgPg88usTVuwRBt"
+        }, {
+          "expression" : {
+            "expression" : "(DATE_ADD((CASE WHEN (((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) IS NULL) OR ((LENGTH(CAST((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) AS STRING))) = 0)) THEN (ERROR('No Business date found on DBATTRIBUTE')) ELSE (PARSE_TIMESTAMP('%Y%m%d', CAST(SUBSTRING((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) , 0 , 8) AS STRING))) END)  ,INTERVAL -1  DAY))",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE_MINUS_1",
+          "description" : null,
+          "_row_id" : "odH4lBvh-dkTcZ9MCs0io"
+        }, {
+          "expression" : {
+            "expression" : "(UNKNOWN_EXPRESSION('if (over(sum(1), partitionBy(1), orderBy(1)) == 1) output_sp else (real(8))(string)NULL'))",
+            "_row_id" : null
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "description" : null,
+          "_row_id" : "oqiu3Qe5E2CFhvf5j_6Cy"
+        }, {
+          "expression" : {
+            "expression" : "prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "3HaBUA1f2vbSW4aNIkIgb"
+        }, {
+          "expression" : {
+            "expression" : "PREVIOUS_PROGRAM_ID",
+            "_row_id" : null
+          },
+          "alias" : "PREVIOUS_PROGRAM_ID",
+          "description" : null,
+          "_row_id" : "lVzJAsCFi3eHaltORve91"
+        }, {
+          "expression" : {
+            "expression" : "ACTIVE_DATE",
+            "_row_id" : null
+          },
+          "alias" : "ACTIVE_DATE",
+          "description" : null,
+          "_row_id" : "yWYcfs5bZG2cMfSmHxZdG"
+        }, {
+          "expression" : {
+            "expression" : "EXPIRY_DATE",
+            "_row_id" : null
+          },
+          "alias" : "EXPIRY_DATE",
+          "description" : null,
+          "_row_id" : "uJ1LJ1W2U7R5S8NAgOwNI"
+        }, {
+          "expression" : {
+            "expression" : "NUMBER_CARDS",
+            "_row_id" : null
+          },
+          "alias" : "NUMBER_CARDS",
+          "description" : null,
+          "_row_id" : "z2U9sIHa8Msr0eY8LVZp7"
+        }, {
+          "expression" : {
+            "expression" : "EMBOSSER_NAME1",
+            "_row_id" : null
+          },
+          "alias" : "EMBOSSER_NAME1",
+          "description" : null,
+          "_row_id" : "0ozEc3Bcoh5oP1PTxyhXi"
+        }, {
+          "expression" : {
+            "expression" : "PRIOR_CARD_EXPIRY",
+            "_row_id" : null
+          },
+          "alias" : "PRIOR_CARD_EXPIRY",
+          "description" : null,
+          "_row_id" : "OYufC7SfcQkt7OmxiesYM"
+        }, {
+          "expression" : {
+            "expression" : "ACTUAL_PROGRAM_ID",
+            "_row_id" : null
+          },
+          "alias" : "ACTUAL_PROGRAM_ID",
+          "description" : null,
+          "_row_id" : "NewrOj3zsho4jmn0KIqnL"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE_STRING__find_business_date_lkp_1",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE_STRING__find_business_date_lkp_1",
+          "description" : null,
+          "_row_id" : "2wmZsnyfsAmB1z2n7qm8j"
+        }, {
+          "expression" : {
+            "expression" : "LOOKUP_VARIABLE_4",
+            "_row_id" : null
+          },
+          "alias" : "LOOKUP_VARIABLE_4",
+          "description" : null,
+          "_row_id" : "kYvbYr_--GufnN7e9rt2l"
+        }, {
+          "expression" : {
+            "expression" : "output_sp",
+            "_row_id" : null
+          },
+          "alias" : "output_sp",
+          "description" : null,
+          "_row_id" : "3xRKPpCFA_1mUbQlOY-dM"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CONSTRUCT_CARD_DETAIL_reformat_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CONSTRUCT_CARD_DETAIL_reformat_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "FIL_CREDIT_DETAIL_JOIN_merged" : {
+      "id" : "FIL_CREDIT_DETAIL_JOIN_merged",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "FIL_CREDIT_DETAIL_JOIN_merged",
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in1.ACCID = in0.ACCID_IN) AND (in1.CARD_NUMBER = in0.CARD_NUMBER_IN))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        }, {
+          "alias" : "in2",
+          "expression" : {
+            "expression" : "in0.prophecy_sk = in2.prophecy_sk",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "jJY6YCWOXzGEDgVquaJ4H"
+        }, {
+          "expression" : {
+            "expression" : "in1.EFROM",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "8WKsn9GMuFIA39-BwaLcX"
+        }, {
+          "expression" : {
+            "expression" : "in1.CARD_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CARD_NUMBER",
+          "description" : null,
+          "_row_id" : "GNg6UKQNo1yQfOKC9aAVq"
+        }, {
+          "expression" : {
+            "expression" : "in0.ACCID_IN",
+            "_row_id" : null
+          },
+          "alias" : "ACCID_IN",
+          "description" : null,
+          "_row_id" : "359_mrVbT0PPKqm5WqhoP"
+        }, {
+          "expression" : {
+            "expression" : "in0.prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "st-pK68r5rHfatQNnOni8"
+        }, {
+          "expression" : {
+            "expression" : "in2.BUSINESS_DATE",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE",
+          "description" : null,
+          "_row_id" : "pn52Img7cvxGb-2pKbUML"
+        }, {
+          "expression" : {
+            "expression" : "in0.CARD_NUMBER_IN",
+            "_row_id" : null
+          },
+          "alias" : "CARD_NUMBER_IN",
+          "description" : null,
+          "_row_id" : "86KvPDb2U8eSagxAaL9jo"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "FIL_CREDIT_DETAIL_JOIN_merged_in0",
+          "slug" : "in0"
+        }, {
+          "id" : "FIL_CREDIT_DETAIL_JOIN_merged_in1",
+          "slug" : "in1"
+        }, {
+          "id" : "FIL_CREDIT_DETAIL_JOIN_merged_in2",
+          "slug" : "in2"
+        } ],
+        "outputs" : [ {
+          "id" : "FIL_CREDIT_DETAIL_JOIN_merged_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CLOSE_CARD_DETAIL_EXP" : {
+      "id" : "CLOSE_CARD_DETAIL_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CLOSE_CARD_DETAIL_EXP",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "Z2XuRdb2UoIkZ5qYtFh2N"
+        }, {
+          "expression" : {
+            "expression" : "CARD_NUMBER_IN",
+            "_row_id" : null
+          },
+          "alias" : "CARD_NUMBER",
+          "description" : null,
+          "_row_id" : "Hi1levD6oQoxe7sgToYZE"
+        }, {
+          "expression" : {
+            "expression" : "EFROM",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "HDDOrGyjP8n1ykmU_rio9"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "BmuKnsF71Z0YkGyjiwve7"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "ACTIVE_DATE",
+          "description" : null,
+          "_row_id" : "DY5BTbcQkxMOqAaEd9_gb"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "BLOCK_CODE",
+          "description" : null,
+          "_row_id" : "_1_IKpUYNTeQwyHT7xCuZ"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "EXPIRY_DATE",
+          "description" : null,
+          "_row_id" : "kuJatezdUcVUcJqKBy8Hr"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "CARDHOLDER_FLAG",
+          "description" : null,
+          "_row_id" : "lauMN199ifCvfaZROqxgE"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "NUMBER_CARDS_ISSUED",
+          "description" : null,
+          "_row_id" : "bnlnFapW6FkUd196SxWt6"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "ACTIVATION_REQ",
+          "description" : null,
+          "_row_id" : "M4oMsNfHSUawUAXyo8ABU"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "ACTIVATION_RQD_PREV",
+          "description" : null,
+          "_row_id" : "D27IHZcfqeglIifHFFXM0"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "EMBOSSER_NAME",
+          "description" : null,
+          "_row_id" : "vQzmG2Za43r6KPEACoEhO"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "PRIOR_CARD_EXPIRY",
+          "description" : null,
+          "_row_id" : "oTERVL2Ul-hoMID4x4_zp"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "PRY_SDY_IND",
+          "description" : null,
+          "_row_id" : "SOIzOfHo4LFCDIdwcI8fg"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "CURR_PREV_IND",
+          "description" : null,
+          "_row_id" : "skCaW_Oi-QzJtuL3FJlqT"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "ACTUAL_PROGRAM_ID",
+          "description" : null,
+          "_row_id" : "t5vr9_rlYNaZawSfW_zKA"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "PREVIOUS_PROGRAM_ID",
+          "description" : null,
+          "_row_id" : "alX6FlT-yBonMZEgcEvnw"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "CARD_TECHNOLOGY",
+          "description" : null,
+          "_row_id" : "VWAlE7_5TLDTQyRJgumDv"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLOSE_CARD_DETAIL_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CLOSE_CARD_DETAIL_EXP_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121" : {
+      "id" : "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID_IN",
+          "description" : null,
+          "_row_id" : "k_ldz_VGbfgWOMZnMvo_m"
+        }, {
+          "expression" : {
+            "expression" : "CARD_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CARD_NUMBER_IN",
+          "description" : null,
+          "_row_id" : "VXRDyPX0ZCuqJWmEXyzdJ"
+        }, {
+          "expression" : {
+            "expression" : "prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "LSfh_0Z-9CEOvwEBFP0ug"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE_STRING__find_business_date_lkp_1",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE_STRING__find_business_date_lkp_1",
+          "description" : null,
+          "_row_id" : "kf5VWbZCVJ7XDuwQlbZ-9"
+        }, {
+          "expression" : {
+            "expression" : "BLOCK_CODE",
+            "_row_id" : null
+          },
+          "alias" : "BLOCK_CODE",
+          "description" : null,
+          "_row_id" : "Z8VUTzNfFCv4A_Baqac4u"
+        }, {
+          "expression" : {
+            "expression" : "CARDHOLDER_FLAG",
+            "_row_id" : null
+          },
+          "alias" : "CARDHOLDER_FLAG",
+          "description" : null,
+          "_row_id" : "UnYhj8qLuVZKYimv9bkjK"
+        }, {
+          "expression" : {
+            "expression" : "ACTV_RQD_CURR",
+            "_row_id" : null
+          },
+          "alias" : "ACTV_RQD_CURR",
+          "description" : null,
+          "_row_id" : "I21OVaOT5HrFbENiAWWJJ"
+        }, {
+          "expression" : {
+            "expression" : "ACTV_RQD_PREV",
+            "_row_id" : null
+          },
+          "alias" : "ACTV_RQD_PREV",
+          "description" : null,
+          "_row_id" : "_U9OeXr8mSpgabfs1TQMr"
+        }, {
+          "expression" : {
+            "expression" : "O_EMBOSSER_NAME",
+            "_row_id" : null
+          },
+          "alias" : "O_EMBOSSER_NAME",
+          "description" : null,
+          "_row_id" : "PCVth1F2hkGfbN3fRnkih"
+        }, {
+          "expression" : {
+            "expression" : "PRY_SDY_IND",
+            "_row_id" : null
+          },
+          "alias" : "PRY_SDY_IND",
+          "description" : null,
+          "_row_id" : "mmQLgK7rUhrPnOaGIEO8Z"
+        }, {
+          "expression" : {
+            "expression" : "CURR_PREV_IND",
+            "_row_id" : null
+          },
+          "alias" : "CURR_PREV_IND",
+          "description" : null,
+          "_row_id" : "1_-H6yMao-C2j6kZG5lfX"
+        }, {
+          "expression" : {
+            "expression" : "O_ACTUAL_PROGRAM_ID",
+            "_row_id" : null
+          },
+          "alias" : "O_ACTUAL_PROGRAM_ID",
+          "description" : null,
+          "_row_id" : "9pYajrDDjWUaIspxyEzpS"
+        }, {
+          "expression" : {
+            "expression" : "O_PREVIOUS_PROGRAM_ID",
+            "_row_id" : null
+          },
+          "alias" : "O_PREVIOUS_PROGRAM_ID",
+          "description" : null,
+          "_row_id" : "EPcqIZmP6OcshfSaH5SF2"
+        }, {
+          "expression" : {
+            "expression" : "O_ACTIVE_DATE",
+            "_row_id" : null
+          },
+          "alias" : "O_ACTIVE_DATE",
+          "description" : null,
+          "_row_id" : "i1b-yrxkuEmw-3JeCuBHH"
+        }, {
+          "expression" : {
+            "expression" : "O_EXPIRY_DATE",
+            "_row_id" : null
+          },
+          "alias" : "O_EXPIRY_DATE",
+          "description" : null,
+          "_row_id" : "9tfAOGNeHsf0V_50Eva0O"
+        }, {
+          "expression" : {
+            "expression" : "O_PRIOR_CARD_EXPIRY",
+            "_row_id" : null
+          },
+          "alias" : "O_PRIOR_CARD_EXPIRY",
+          "description" : null,
+          "_row_id" : "c5IhJByv0ScmD9HCyq4-K"
+        }, {
+          "expression" : {
+            "expression" : "O_NUMBER_CARDS",
+            "_row_id" : null
+          },
+          "alias" : "O_NUMBER_CARDS",
+          "description" : null,
+          "_row_id" : "6kv3SZz-vxRqypJfu8NBJ"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE",
+          "description" : null,
+          "_row_id" : "bSbpGywFhoJ-TbV_9Rv37"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE_MINUS_1",
+            "_row_id" : null
+          },
+          "alias" : "BUSINESS_DATE_MINUS_1",
+          "description" : null,
+          "_row_id" : "64hCyq7sOCbLPwbOhH7bQ"
+        }, {
+          "expression" : {
+            "expression" : "FEED_UPDATE_ID",
+            "_row_id" : null
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "description" : null,
+          "_row_id" : "tWGqg8fqb6GvADZL1TWOK"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_349",
+    "source" : "CLOSE_CARD_DETAIL_EXP",
+    "sourcePort" : "CLOSE_CARD_DETAIL_EXP_out0",
+    "target" : "CLOSE_CARD_DETAIL",
+    "targetPort" : "CLOSE_CARD_DETAIL_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_347",
+    "source" : "FIL_CREDIT_DETAIL",
+    "sourcePort" : "FIL_CREDIT_DETAIL_out0",
+    "target" : "CLOSE_CARD_DETAIL_EXP",
+    "targetPort" : "CLOSE_CARD_DETAIL_EXP_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_345",
+    "source" : "FIL_CREDIT_DETAIL_JOIN_EXPR_118",
+    "sourcePort" : "FIL_CREDIT_DETAIL_JOIN_EXPR_118_out0",
+    "target" : "FIL_CREDIT_DETAIL",
+    "targetPort" : "FIL_CREDIT_DETAIL_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_344",
+    "source" : "FIL_CREDIT_DETAIL_JOIN_merged",
+    "sourcePort" : "FIL_CREDIT_DETAIL_JOIN_merged_out0",
+    "target" : "FIL_CREDIT_DETAIL_JOIN_EXPR_118",
+    "targetPort" : "FIL_CREDIT_DETAIL_JOIN_EXPR_118_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_352",
+    "source" : "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121",
+    "sourcePort" : "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121_out0",
+    "target" : "FIL_CREDIT_DETAIL_JOIN_merged",
+    "targetPort" : "FIL_CREDIT_DETAIL_JOIN_merged_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_353",
+    "source" : "SOURCE_LKP_ACCID_ON_CARD_DETAIL",
+    "sourcePort" : "SOURCE_LKP_ACCID_ON_CARD_DETAIL_out0",
+    "target" : "FIL_CREDIT_DETAIL_JOIN_merged",
+    "targetPort" : "FIL_CREDIT_DETAIL_JOIN_merged_in1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_356",
+    "source" : "EXP_CONSTRUCT_CARD_DETAIL_reformat",
+    "sourcePort" : "EXP_CONSTRUCT_CARD_DETAIL_reformat_out0",
+    "target" : "FIL_CREDIT_DETAIL_JOIN_merged",
+    "targetPort" : "FIL_CREDIT_DETAIL_JOIN_merged_in2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_355",
+    "source" : "EXP_CONSTRUCT_CARD_DETAIL_reformat",
+    "sourcePort" : "EXP_CONSTRUCT_CARD_DETAIL_reformat_out0",
+    "target" : "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121",
+    "targetPort" : "EXP_CONSTRUCT_CARD_DETAIL_EXPR_121_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_354",
+    "source" : "EXP_CONSTRUCT_CARD_DETAIL_sp_EXP_CONSTRUCT_CARD_DETAIL_sp_out0",
+    "sourcePort" : "output_port_2",
+    "target" : "EXP_CONSTRUCT_CARD_DETAIL_reformat",
+    "targetPort" : "EXP_CONSTRUCT_CARD_DETAIL_reformat_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
