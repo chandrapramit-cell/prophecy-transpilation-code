@@ -1,0 +1,200 @@
+{
+  "id" : "m_rep_cards_orig_account_update__HOLDS",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_account_update__HOLDS",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"HOLDS\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "HOLDS" : {
+      "id" : "HOLDS",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "HOLDS",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM HOLDS_EXP\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "HOLDS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Rv9Di5LvjF3APkLyL99Zz",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "HOLDS_EXP" : {
+      "id" : "HOLDS_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "HOLDS_EXP",
+        "x" : 2020,
+        "y" : 420,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID_CLIENT_ALIAS"
+          },
+          "alias" : "CLID",
+          "_row_id" : "IarRyO1nZQafaD7m_OvVp"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE"
+          },
+          "alias" : "SOURCE_TYPE",
+          "_row_id" : "cDKZhnWSjJxZ3Yw86IHAt"
+        }, {
+          "expression" : {
+            "expression" : "MERGE_CLID"
+          },
+          "alias" : "MERGE_CLID",
+          "_row_id" : "Ejf8UlDyS5OXcDTG1087t"
+        }, {
+          "expression" : {
+            "expression" : "ACCID_ACCOUNT_ALIAS"
+          },
+          "alias" : "ACCID",
+          "_row_id" : "TehysPmiIH3QWqvCBy9Mv"
+        }, {
+          "expression" : {
+            "expression" : "HOLDS_CLASS"
+          },
+          "alias" : "CLASS",
+          "_row_id" : "stxZYgwlYgDhHQW5mOYJL"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE"
+          },
+          "alias" : "EFROM",
+          "_row_id" : "CtxJ04kQ1DQfTe3jOQVCq"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "ETO",
+          "_row_id" : "3taoJgXClrVtHH6dFrjfH"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "HOLDS_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "HOLDS_EXP_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "QG0bswlvuUHhM7ZhjgbSI" : {
+      "id" : "QG0bswlvuUHhM7ZhjgbSI",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_ACCOUNT_out4",
+        "x" : 1820,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((CLID_CLIENT_ALIAS IS NOT NULL) AND (ACCID_ACCOUNT IS NULL))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLwNFcz05KdlEiPJ4mvrD",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "LWD81FS_eAe1L4Bodq5yf",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTR_ACCOUNT_JOIN_EXPR_83_RTR_ACCOUNT_JOIN_EXPR_83_out0" : {
+      "id" : "RTR_ACCOUNT_JOIN_EXPR_83_RTR_ACCOUNT_JOIN_EXPR_83_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RTR_ACCOUNT_JOIN_EXPR_83"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('m_rep_cards_orig_account_update__RTR_ACCOUNT_JOIN_EXPR_83') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_247",
+    "source" : "HOLDS_EXP",
+    "sourcePort" : "HOLDS_EXP_out0",
+    "target" : "HOLDS",
+    "targetPort" : "HOLDS_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_270",
+    "source" : "QG0bswlvuUHhM7ZhjgbSI",
+    "sourcePort" : "LWD81FS_eAe1L4Bodq5yf",
+    "target" : "HOLDS_EXP",
+    "targetPort" : "HOLDS_EXP_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_271",
+    "source" : "RTR_ACCOUNT_JOIN_EXPR_83_RTR_ACCOUNT_JOIN_EXPR_83_out0",
+    "sourcePort" : "output_port_3",
+    "target" : "QG0bswlvuUHhM7ZhjgbSI",
+    "targetPort" : "CLwNFcz05KdlEiPJ4mvrD",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
