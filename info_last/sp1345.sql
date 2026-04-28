@@ -1,0 +1,4 @@
+CREATE OR REPLACE PROCEDURE `prophecy-databricks-qa`.sfgf.sp1345(OUT OUT STRING)
+BEGIN
+SET OUT = '1';
+END;
