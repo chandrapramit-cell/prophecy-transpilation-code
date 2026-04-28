@@ -1,0 +1,1226 @@
+{
+  "id" : "m_rep_cards_orig_client_alias_update",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_client_alias_update",
+    "autoLayout" : true,
+    "version" : 1,
+    "configuration" : {
+      "schema" : {
+        "type" : "record",
+        "fields" : [ {
+          "name" : "jdbcUrl",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "username",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "password",
+          "kind" : {
+            "type" : "string",
+            "value" : "''"
+          }
+        }, {
+          "name" : "SCHEMA",
+          "kind" : {
+            "type" : "string",
+            "value" : "'SCHEMA'"
+          }
+        } ]
+      }
+    },
+    "isTranspiledPipeline" : false,
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "informatica"
+  },
+  "processes" : {
+    "jp3hJXBWZrRZQRyEY4SGE" : {
+      "id" : "jp3hJXBWZrRZQRyEY4SGE",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CLIENT_ALIAS_VARS_0",
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "'businessdate'",
+            "_row_id" : null
+          },
+          "alias" : "lookup_string",
+          "description" : null,
+          "_row_id" : "_3GNfjDrN8bCdb7UApA65"
+        }, {
+          "expression" : {
+            "expression" : "LOOKUP_VARIABLE_3",
+            "_row_id" : null
+          },
+          "alias" : "business_date_string__find_business_date_lkp_1",
+          "description" : null,
+          "_row_id" : "-L4-FqwmR7jvGLZOGdvpX"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "xqlAtQWtWWZED-CWh0fBl",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "mzV-TctDenDMHB6RePYGx",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "CHOOSES_EXP" : {
+      "id" : "CHOOSES_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CHOOSES_EXP",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "P0uSFSJcUbJZSMr8H13F8"
+        }, {
+          "expression" : {
+            "expression" : "CLIENT_HISTORY_EFFECT_FROM",
+            "_row_id" : null
+          },
+          "alias" : "CLIENT_HISTORY_EFFECT_FROM",
+          "description" : null,
+          "_row_id" : "7jw7BtQaTxSgpQW3fT8TS"
+        }, {
+          "expression" : {
+            "expression" : "FEED_UPDATE_ID",
+            "_row_id" : null
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "description" : null,
+          "_row_id" : "fCz-tkVx94gX76opa7qe9"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CHOOSES_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CHOOSES_EXP_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SQ_CLIENT_ALIAS" : {
+      "id" : "SQ_CLIENT_ALIAS",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CLIENT_ALIAS",
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(C) parallel(P) use_hash(C P) */\r         DISTINCT C.CLID,\r         P.CUSTOMER_NUMBER\r FROM\r         CLIENT_ALIAS C,\r         WORK_CARDS_ORIG_STAGING P\r WHERE\r         ltrim(rtrim(C.SOURCE_CLIENT_REF(+))) = ltrim(rtrim(P.CUSTOMER_NUMBER))\r AND     C.ETO (+) IS NULL\r AND     C.SOURCE_TYPE (+) = 0\r AND     C.SOURCE_SYSTEM_CODE (+) = 'U'\r AND     C.CLASS (+) = '585'\r AND     P.CUSTOMER_NUMBER IS NOT NULL"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_CLIENT_ALIAS_out0",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "BigQuery",
+            "fields" : [ {
+              "name" : "CLID",
+              "dataType" : {
+                "type" : "Float"
+              }
+            }, {
+              "name" : "CUSTOMER_NUMBER",
+              "dataType" : {
+                "type" : "String"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "zUIHPiQuvPi0HsCzUGJxL" : {
+      "id" : "zUIHPiQuvPi0HsCzUGJxL",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "INS_RESIDES_add_missing_column_0",
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "Icj_aVUR7drGNVOvanXSI"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS TIMESTAMP)",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "oBrl9wub1Pm5_j-kUzcLA"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "YRvWDMoPhE28Urn3fquuL",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "jg2SCALRb4ivDclztjFrH",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "EXP_CLIENT_ALIAS_reformat" : {
+      "id" : "EXP_CLIENT_ALIAS_reformat",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CLIENT_ALIAS_reformat",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID",
+          "description" : null,
+          "_row_id" : "9dHePj5GWIRUDKOdEuX9y"
+        }, {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "IErprOcuffj35fO8OHvPW"
+        }, {
+          "expression" : {
+            "expression" : "ADID",
+            "_row_id" : null
+          },
+          "alias" : "ADID",
+          "description" : null,
+          "_row_id" : "2xmJTIMLf95Zw_vMjyUcM"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "description" : null,
+          "_row_id" : "tN5AF7Ysws1pxvIDbDyk4"
+        }, {
+          "expression" : {
+            "expression" : "(LTRIM((RTRIM(CUSTOMER_NUMBER))))",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER_SHORT",
+          "description" : null,
+          "_row_id" : "WU62qqySLdhDie0a8Rirr"
+        }, {
+          "expression" : {
+            "expression" : "0",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE",
+          "description" : null,
+          "_row_id" : "GvwfKvS42KjWR9YJRWLYM"
+        }, {
+          "expression" : {
+            "expression" : "'U'",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "P8SyJJy4dxTR3wub1De0R"
+        }, {
+          "expression" : {
+            "expression" : "585",
+            "_row_id" : null
+          },
+          "alias" : "CLIENT_ALIAS_CLASS",
+          "description" : null,
+          "_row_id" : "U6Qll2thP83pp4TY46He4"
+        }, {
+          "expression" : {
+            "expression" : "450",
+            "_row_id" : null
+          },
+          "alias" : "RESIDES_CLASS",
+          "description" : null,
+          "_row_id" : "mbkWDjdwRGEQp3tB1He1H"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN CAST(((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) IS NULL) AS BOOL) THEN (ERROR('No Business Date found on dbattribute')) ELSE (PARSE_TIMESTAMP('%Y%m%d', CAST(SUBSTRING((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) , 0 , 8) AS STRING))) END)",
+            "_row_id" : null
+          },
+          "alias" : "business_date",
+          "description" : null,
+          "_row_id" : "SLmzUXltYtnxQLX9UqYzR"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) = 1) THEN output_sp ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id",
+          "description" : null,
+          "_row_id" : "FQQh9RH1xverbITvJm97m"
+        }, {
+          "expression" : {
+            "expression" : "lookup_string",
+            "_row_id" : null
+          },
+          "alias" : "lookup_string",
+          "description" : null,
+          "_row_id" : "LJAbdTG3KJgRmzBYQNehm"
+        }, {
+          "expression" : {
+            "expression" : "business_date_string__find_business_date_lkp_1",
+            "_row_id" : null
+          },
+          "alias" : "business_date_string__find_business_date_lkp_1",
+          "description" : null,
+          "_row_id" : "6Mx_t2v21gMOUp_m9M7_B"
+        }, {
+          "expression" : {
+            "expression" : "LOOKUP_VARIABLE_3",
+            "_row_id" : null
+          },
+          "alias" : "LOOKUP_VARIABLE_3",
+          "description" : null,
+          "_row_id" : "8dCEziJnknHc-3B3IVAVk"
+        }, {
+          "expression" : {
+            "expression" : "output_sp",
+            "_row_id" : null
+          },
+          "alias" : "output_sp",
+          "description" : null,
+          "_row_id" : "i_NpelJSurYtqWBoJ4ToV"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_reformat_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_reformat_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "CLIENT_ALIAS1" : {
+      "id" : "CLIENT_ALIAS1",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "CLIENT_ALIAS1",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "CLIENT_ALIAS1",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLIENT_ALIAS1_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "iftMGefnUPer5qqcYtQdl",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS" : {
+      "id" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID1",
+          "description" : null,
+          "_row_id" : "0ZqfISa3B2ZFFtQPo6i92"
+        }, {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID1",
+          "description" : null,
+          "_row_id" : "PpIBpmWV4WmebSW8Ej5ki"
+        }, {
+          "expression" : {
+            "expression" : "ADID",
+            "_row_id" : null
+          },
+          "alias" : "ADID1",
+          "description" : null,
+          "_row_id" : "6RjxBtBkP2bbLqzuIqhnS"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER1",
+          "description" : null,
+          "_row_id" : "9ox7G5yL0nH49cEpsM6MJ"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER_SHORT",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER_SHORT1",
+          "description" : null,
+          "_row_id" : "ugGQ7XbsttsX1w3mZYBM3"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE1",
+          "description" : null,
+          "_row_id" : "T00flcoYdn75ZjDqlkiEL"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE1",
+          "description" : null,
+          "_row_id" : "eKzV8yWsWgvnGJ8PXozPc"
+        }, {
+          "expression" : {
+            "expression" : "CLIENT_ALIAS_CLASS",
+            "_row_id" : null
+          },
+          "alias" : "CLIENT_ALIAS_CLASS1",
+          "description" : null,
+          "_row_id" : "yvaoqpexG9Tww43qILyRq"
+        }, {
+          "expression" : {
+            "expression" : "RESIDES_CLASS",
+            "_row_id" : null
+          },
+          "alias" : "RESIDES_CLASS1",
+          "description" : null,
+          "_row_id" : "j7N47E44LLMzIjXBC-nII"
+        }, {
+          "expression" : {
+            "expression" : "business_date",
+            "_row_id" : null
+          },
+          "alias" : "business_date1",
+          "description" : null,
+          "_row_id" : "O2ZCI_Wj3PyoAXQsiKqv1"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id1",
+          "description" : null,
+          "_row_id" : "gLAYd81teQMkr27wEe-z0"
+        }, {
+          "expression" : {
+            "expression" : "GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "bN3GPNqvjPbfdyQgivmVb"
+        }, {
+          "expression" : {
+            "expression" : "business_date",
+            "_row_id" : null
+          },
+          "alias" : "CLIENT_HISTORY_EFFECT_FROM",
+          "description" : null,
+          "_row_id" : "O2m3etduWDS7alIw1MvUY"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id",
+            "_row_id" : null
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "description" : null,
+          "_row_id" : "ul0rK0ofkQj44gevYa4rI"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "EXP_CLIENT_ALIAS_sp" : {
+      "id" : "EXP_CLIENT_ALIAS_sp",
+      "component" : "StoredProcedure",
+      "metadata" : {
+        "label" : "EXP_CLIENT_ALIAS_sp",
+        "phase" : 1
+      },
+      "properties" : {
+        "storedProcedureIdentifier" : "feed_number_generator1",
+        "parameters" : {
+          "arg1" : "'U'",
+          "arg2" : "360",
+          "arg3" : "CASE WHEN sum(1) OVER (PARTITION BY 1 ORDER BY 1 ASC NULLS FIRST) = 1 THEN business_date_string__find_business_date_lkp_1 ELSE cast(null as STRING) END",
+          "arg4" : "substring(CASE WHEN sum(1) OVER (PARTITION BY 1 ORDER BY 1 ASC NULLS FIRST) = 1 THEN business_date_string__find_business_date_lkp_1 ELSE cast(null as STRING) END, 1, 8)"
+        },
+        "passThroughColumns" : [ {
+          "alias" : "CLID",
+          "expression" : {
+            "expression" : "CLID"
+          }
+        }, {
+          "alias" : "CUSTOMER_NUMBER",
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER"
+          }
+        }, {
+          "alias" : "GENERATED_CLID",
+          "expression" : {
+            "expression" : "GENERATED_CLID"
+          }
+        }, {
+          "alias" : "ADID",
+          "expression" : {
+            "expression" : "ADID"
+          }
+        }, {
+          "alias" : "lookup_string",
+          "expression" : {
+            "expression" : "lookup_string"
+          }
+        }, {
+          "alias" : "business_date_string__find_business_date_lkp_1",
+          "expression" : {
+            "expression" : "business_date_string__find_business_date_lkp_1"
+          }
+        }, {
+          "alias" : "LOOKUP_VARIABLE_3",
+          "expression" : {
+            "expression" : "LOOKUP_VARIABLE_3"
+          }
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_sp_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_sp_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "CHOOSES" : {
+      "id" : "CHOOSES",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "CHOOSES",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "CHOOSES",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CHOOSES_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "qwBW_5D7lpAUhkHH-pxTO",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "feed_number_generator1" : {
+      "id" : "feed_number_generator1",
+      "component" : "StoredProcedure",
+      "metadata" : {
+        "label" : "feed_number_generator1",
+        "phase" : 0
+      },
+      "properties" : {
+        "storedProcedureIdentifier" : "generate_feed_id",
+        "parameters" : {
+          "IN_SOURCE_SYSTEM_CODE" : "dummy"
+        },
+        "passThroughColumns" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "feed_number_generator1_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "mpWictFDEWMlcos6g1DE1" : {
+      "id" : "mpWictFDEWMlcos6g1DE1",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "INS_CLIENT_ALIAS_add_missing_column_0",
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "mNaR64qyOIjQnhehAIlA9"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS TIMESTAMP)",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "LbZ0UTzttHJrp2EdBtgbk"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dIWxCdnXdQ5WoI01zVt-L",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "qHMJ7L7D8LFB-gJ1ktm0z",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "CLIENT_ALIAS1_EXP" : {
+      "id" : "CLIENT_ALIAS1_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CLIENT_ALIAS1_EXP",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "GENERATED_CLID1",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "UG5jdSpEbPebhkZdueO3u"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE",
+          "description" : null,
+          "_row_id" : "m1NPYpOs6aY3PFllq1OkN"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "ZHsATNGqINy2wrcdWStOn"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "MSwWFg46sWeVI-IIRlRmE"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER_SHORT1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_CLIENT_REF",
+          "description" : null,
+          "_row_id" : "LyRUhVg5UtDN-7SVmD05o"
+        }, {
+          "expression" : {
+            "expression" : "business_date1",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "jtwyjd3wlZDtTByS7b26K"
+        }, {
+          "expression" : {
+            "expression" : "ETO",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "T1T_9IbET-QtNy-Zwq-S1"
+        }, {
+          "expression" : {
+            "expression" : "CLIENT_ALIAS_CLASS1",
+            "_row_id" : null
+          },
+          "alias" : "CLASS",
+          "description" : null,
+          "_row_id" : "xtt1GBroggrk-66Q_x0Ir"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLIENT_ALIAS1_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CLIENT_ALIAS1_EXP_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "SOURCE_find_business_date" : {
+      "id" : "SOURCE_find_business_date",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "DBATTRIBUTE",
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "DBATTRIBUTE",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_find_business_date_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "RESIDES_EXP" : {
+      "id" : "RESIDES_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RESIDES_EXP",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ADID1",
+            "_row_id" : null
+          },
+          "alias" : "ADID",
+          "description" : null,
+          "_row_id" : "6QV8JiGP-lEpjsxQRYxFm"
+        }, {
+          "expression" : {
+            "expression" : "GENERATED_CLID1",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "FzOAnEA8VRIoBmNuuaWwu"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE",
+          "description" : null,
+          "_row_id" : "2tyes6jlG5ktrAjNhEe-j"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS NUMERIC)",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "tgmNFk47Je-FTfdWz-vAN"
+        }, {
+          "expression" : {
+            "expression" : "business_date1",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "Fs949JIwBJhG3ulJLlrE3"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "X1diRA9yCmo1fQvfLmUfn"
+        }, {
+          "expression" : {
+            "expression" : "RESIDES_CLASS1",
+            "_row_id" : null
+          },
+          "alias" : "CLASS",
+          "description" : null,
+          "_row_id" : "3qpvPD2E2y-5svgVAGwRS"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RESIDES_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RESIDES_EXP_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "Shortcut_to_SEQ_clid_EXPR_79" : {
+      "id" : "Shortcut_to_SEQ_clid_EXPR_79",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Shortcut_to_SEQ_clid_EXPR_79",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "5YHyvIFzRqyDW8SxjXkla"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "description" : null,
+          "_row_id" : "wQ0xWUpcOQzemEb9UXrIa"
+        }, {
+          "expression" : {
+            "expression" : "(((ROW_NUMBER() OVER (PARTITION BY 1)) - 1) + 1)",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID",
+          "description" : null,
+          "_row_id" : "__axCaJcbDWudrh3LByC1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Shortcut_to_SEQ_clid_EXPR_79_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Shortcut_to_SEQ_clid_EXPR_79_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "EXP_CLIENT_ALIAS_LOOKUP_82" : {
+      "id" : "EXP_CLIENT_ALIAS_LOOKUP_82",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "EXP_CLIENT_ALIAS_LOOKUP_82",
+        "phase" : 1
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.NAME = 'businessdate')",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.CURRVALUE",
+            "_row_id" : null
+          },
+          "alias" : "LOOKUP_VARIABLE_3",
+          "description" : null,
+          "_row_id" : "QXyyPmNndyAQ6xXqa-pEC"
+        }, {
+          "expression" : {
+            "expression" : "in0.NAME",
+            "_row_id" : null
+          },
+          "alias" : "NAME",
+          "description" : null,
+          "_row_id" : "2YKnv_ggBBEFjbUjVrwL_"
+        }, {
+          "expression" : {
+            "expression" : "in0.CURRVALUE",
+            "_row_id" : null
+          },
+          "alias" : "CURRVALUE",
+          "description" : null,
+          "_row_id" : "gl9mRBhAn5cGP_yn5esme"
+        }, {
+          "expression" : {
+            "expression" : "in1.CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "RPubi4cNtuug1gmNOMM0V"
+        }, {
+          "expression" : {
+            "expression" : "in1.CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "description" : null,
+          "_row_id" : "79jxMj1wDdgfKbU6K5Qm6"
+        }, {
+          "expression" : {
+            "expression" : "in1.GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID",
+          "description" : null,
+          "_row_id" : "q37BiY0CAO-ydEQQeVS6C"
+        }, {
+          "expression" : {
+            "expression" : "in1.ADID",
+            "_row_id" : null
+          },
+          "alias" : "ADID",
+          "description" : null,
+          "_row_id" : "0rza6VCchfWjZICiivA6o"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_LOOKUP_82_in0",
+          "slug" : "in0"
+        }, {
+          "id" : "EXP_CLIENT_ALIAS_LOOKUP_82_in1",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CLIENT_ALIAS_LOOKUP_82_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "RESIDES" : {
+      "id" : "RESIDES",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "RESIDES",
+        "phase" : 1
+      },
+      "properties" : {
+        "table" : {
+          "name" : "RESIDES",
+          "sourceType" : "UnreferencedSource",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RESIDES_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "sMiNVN7UQCy1rwWNsfJaN",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "Shortcut_to_SEQ_adid_EXPR_80" : {
+      "id" : "Shortcut_to_SEQ_adid_EXPR_80",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Shortcut_to_SEQ_adid_EXPR_80",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "9_q673zA7bFYBbirtZzVS"
+        }, {
+          "expression" : {
+            "expression" : "CUSTOMER_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "CUSTOMER_NUMBER",
+          "description" : null,
+          "_row_id" : "0eoV20hIZKIAt0iVM6uuq"
+        }, {
+          "expression" : {
+            "expression" : "GENERATED_CLID",
+            "_row_id" : null
+          },
+          "alias" : "GENERATED_CLID",
+          "description" : null,
+          "_row_id" : "ujbJ1kE2eOtOucXKBwgSg"
+        }, {
+          "expression" : {
+            "expression" : "(((ROW_NUMBER() OVER (PARTITION BY 1)) - 1) + 1)",
+            "_row_id" : null
+          },
+          "alias" : "ADID",
+          "description" : null,
+          "_row_id" : "y6LUg88iqAX2teIxpoenq"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Shortcut_to_SEQ_adid_EXPR_80_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Shortcut_to_SEQ_adid_EXPR_80_out0",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "RTR_CLIENT_ALIAS" : {
+      "id" : "RTR_CLIENT_ALIAS",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_CLIENT_ALIAS",
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(CLID IS NULL)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_CLIENT_ALIAS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_CLIENT_ALIAS_out0",
+          "slug" : "out0"
+        } ]
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_227",
+    "source" : "SOURCE_find_business_date",
+    "sourcePort" : "SOURCE_find_business_date_out0",
+    "target" : "EXP_CLIENT_ALIAS_LOOKUP_82",
+    "targetPort" : "EXP_CLIENT_ALIAS_LOOKUP_82_in0"
+  }, {
+    "id" : "edge_228",
+    "source" : "CHOOSES_EXP",
+    "sourcePort" : "CHOOSES_EXP_out0",
+    "target" : "CHOOSES",
+    "targetPort" : "CHOOSES_in0"
+  }, {
+    "id" : "edge_229",
+    "source" : "CLIENT_ALIAS1_EXP",
+    "sourcePort" : "CLIENT_ALIAS1_EXP_out0",
+    "target" : "CLIENT_ALIAS1",
+    "targetPort" : "CLIENT_ALIAS1_in0"
+  }, {
+    "id" : "edge_230",
+    "source" : "RESIDES_EXP",
+    "sourcePort" : "RESIDES_EXP_out0",
+    "target" : "RESIDES",
+    "targetPort" : "RESIDES_in0"
+  }, {
+    "id" : "edge_231",
+    "source" : "SQ_CLIENT_ALIAS",
+    "sourcePort" : "SQ_CLIENT_ALIAS_out0",
+    "target" : "Shortcut_to_SEQ_clid_EXPR_79",
+    "targetPort" : "Shortcut_to_SEQ_clid_EXPR_79_in0"
+  }, {
+    "id" : "edge_232",
+    "source" : "Shortcut_to_SEQ_clid_EXPR_79",
+    "sourcePort" : "Shortcut_to_SEQ_clid_EXPR_79_out0",
+    "target" : "Shortcut_to_SEQ_adid_EXPR_80",
+    "targetPort" : "Shortcut_to_SEQ_adid_EXPR_80_in0"
+  }, {
+    "id" : "edge_233",
+    "source" : "Shortcut_to_SEQ_adid_EXPR_80",
+    "sourcePort" : "Shortcut_to_SEQ_adid_EXPR_80_out0",
+    "target" : "EXP_CLIENT_ALIAS_LOOKUP_82",
+    "targetPort" : "EXP_CLIENT_ALIAS_LOOKUP_82_in1"
+  }, {
+    "id" : "edge_234",
+    "source" : "RTR_CLIENT_ALIAS",
+    "sourcePort" : "RTR_CLIENT_ALIAS_out0",
+    "target" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+    "targetPort" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_in0"
+  }, {
+    "id" : "edge_235",
+    "source" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+    "sourcePort" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_out0",
+    "target" : "CHOOSES_EXP",
+    "targetPort" : "CHOOSES_EXP_in0"
+  }, {
+    "id" : "edge_236",
+    "source" : "EXP_CLIENT_ALIAS_sp",
+    "sourcePort" : "EXP_CLIENT_ALIAS_sp_out0",
+    "target" : "EXP_CLIENT_ALIAS_reformat",
+    "targetPort" : "EXP_CLIENT_ALIAS_reformat_in0"
+  }, {
+    "id" : "edge_237",
+    "source" : "EXP_CLIENT_ALIAS_reformat",
+    "sourcePort" : "EXP_CLIENT_ALIAS_reformat_out0",
+    "target" : "RTR_CLIENT_ALIAS",
+    "targetPort" : "RTR_CLIENT_ALIAS_in0"
+  }, {
+    "id" : "edge_238",
+    "source" : "jp3hJXBWZrRZQRyEY4SGE",
+    "sourcePort" : "mzV-TctDenDMHB6RePYGx",
+    "target" : "EXP_CLIENT_ALIAS_sp",
+    "targetPort" : "EXP_CLIENT_ALIAS_sp_in0"
+  }, {
+    "id" : "edge_239",
+    "source" : "EXP_CLIENT_ALIAS_LOOKUP_82",
+    "sourcePort" : "EXP_CLIENT_ALIAS_LOOKUP_82_out0",
+    "target" : "jp3hJXBWZrRZQRyEY4SGE",
+    "targetPort" : "xqlAtQWtWWZED-CWh0fBl"
+  }, {
+    "id" : "edge_240",
+    "source" : "zUIHPiQuvPi0HsCzUGJxL",
+    "sourcePort" : "jg2SCALRb4ivDclztjFrH",
+    "target" : "RESIDES_EXP",
+    "targetPort" : "RESIDES_EXP_in0"
+  }, {
+    "id" : "edge_241",
+    "source" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+    "sourcePort" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_out0",
+    "target" : "zUIHPiQuvPi0HsCzUGJxL",
+    "targetPort" : "YRvWDMoPhE28Urn3fquuL"
+  }, {
+    "id" : "edge_242",
+    "source" : "mpWictFDEWMlcos6g1DE1",
+    "sourcePort" : "qHMJ7L7D8LFB-gJ1ktm0z",
+    "target" : "CLIENT_ALIAS1_EXP",
+    "targetPort" : "CLIENT_ALIAS1_EXP_in0"
+  }, {
+    "id" : "edge_243",
+    "source" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS",
+    "sourcePort" : "RTR_CLIENT_ALIAS_EXPR_NEW_CLIENT_ALIAS_out0",
+    "target" : "mpWictFDEWMlcos6g1DE1",
+    "targetPort" : "dIWxCdnXdQ5WoI01zVt-L"
+  } ],
+  "component" : "Pipeline"
+}
