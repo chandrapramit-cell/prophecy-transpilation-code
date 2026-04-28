@@ -1,0 +1,137 @@
+{
+  "id" : "m_rep_cards_orig_cust_add_paf__SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_cust_add_paf__SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0_TD7e81u2mpt8KiWAKAe9R" : {
+      "id" : "SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0_TD7e81u2mpt8KiWAKAe9R",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "-hl-mp-RghC7XxdJsQsZr" : {
+      "id" : "-hl-mp-RghC7XxdJsQsZr",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER ())",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "HD5mHOlC_fItI8-FAgU41"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "G7KED5W-FfcQDbHPhax_C",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "TD7e81u2mpt8KiWAKAe9R",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SQ_WORK_CARDS_ORIG_STAGING" : {
+      "id" : "SQ_WORK_CARDS_ORIG_STAGING",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_WORK_CARDS_ORIG_STAGING",
+        "x" : 20,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "select  *  from (\r select\r a.customer_number,\r a.addressline1,\r a.addressline2,\r a.addressline3,\r a.addressline4,\r a.addressline5,\r a.addressline6,\r a.postcode,\r a.country,\r rank() over (partition by customer_number order by last_action_date desc) r \r from work_cards_orig_staging  a \r where customer_number is not null) \r where r=1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SQ_WORK_CARDS_ORIG_STAGING_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_-hl-mp-RghC7XxdJsQsZr_TD7e81u2mpt8KiWAKAe9R_SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0_TD7e81u2mpt8KiWAKAe9R",
+    "source" : "-hl-mp-RghC7XxdJsQsZr",
+    "sourcePort" : "TD7e81u2mpt8KiWAKAe9R",
+    "target" : "SQ_WORK_CARDS_ORIG_STAGING_GENERATE_SK_0_TD7e81u2mpt8KiWAKAe9R",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_167",
+    "source" : "SQ_WORK_CARDS_ORIG_STAGING",
+    "sourcePort" : "SQ_WORK_CARDS_ORIG_STAGING_out0",
+    "target" : "-hl-mp-RghC7XxdJsQsZr",
+    "targetPort" : "G7KED5W-FfcQDbHPhax_C",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

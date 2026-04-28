@@ -1,0 +1,215 @@
+{
+  "id" : "m_rep_cards_orig_client_flag_update__CLIENT_FLAG",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_client_flag_update__CLIENT_FLAG",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"CLIENT_FLAG\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "CLIENT_FLAG" : {
+      "id" : "CLIENT_FLAG",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CLIENT_FLAG",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CLIENT_FLAG_EXP\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLIENT_FLAG_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "GbjMktu4BLB7IYCloXaHb",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CLIENT_FLAG_EXP" : {
+      "id" : "CLIENT_FLAG_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CLIENT_FLAG_EXP",
+        "x" : 1220,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID",
+            "_row_id" : null
+          },
+          "alias" : "CLID",
+          "description" : null,
+          "_row_id" : "jEu4HW8Jjrc57VM4RVDmM"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_TYPE",
+          "description" : null,
+          "_row_id" : "KHkpICkIAld-N-Q265bj0"
+        }, {
+          "expression" : {
+            "expression" : "MERGE_CLID",
+            "_row_id" : null
+          },
+          "alias" : "MERGE_CLID",
+          "description" : null,
+          "_row_id" : "N8Q_M2UU0572RUJZzaT9K"
+        }, {
+          "expression" : {
+            "expression" : "CREDIT_DECLINES_CLASS",
+            "_row_id" : null
+          },
+          "alias" : "CLASS",
+          "description" : null,
+          "_row_id" : "PreSo0rEiNpm41WxPNkM2"
+        }, {
+          "expression" : {
+            "expression" : "CREDIT_DECLINES_SUBCLASS",
+            "_row_id" : null
+          },
+          "alias" : "SUBCLASS",
+          "description" : null,
+          "_row_id" : "3VSYST_Rmm0BLFa4f9vIt"
+        }, {
+          "expression" : {
+            "expression" : "business_date",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "-MUz0292lQx5WFdFvE-JC"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "ETO",
+          "description" : null,
+          "_row_id" : "suXmWTFTMrBwOjzzd_EqY"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLIENT_FLAG_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CLIENT_FLAG_EXP_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "p_JNhqmJ_zRTQbuM2bJQc" : {
+      "id" : "p_JNhqmJ_zRTQbuM2bJQc",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_CLIENT_FLAG_out0",
+        "x" : 1020,
+        "y" : 20,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((APPLICATION_STATUS = 'DECLINED') AND (CAST((DATE_ADD(CAST(business_date  AS DATE),INTERVAL -6  MONTH)) AS TIMESTAMP) < LAST_ACTION_DATE))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "e9I2PEpxmnAlNO1iXrWsv",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "QOZD0qF3oQjMLr4_XuKcV",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0" : {
+      "id" : "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "EXP_CLIENT_FLAG_reformat"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('m_rep_cards_orig_client_flag_update__EXP_CLIENT_FLAG_reformat') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_170",
+    "source" : "CLIENT_FLAG_EXP",
+    "sourcePort" : "CLIENT_FLAG_EXP_out0",
+    "target" : "CLIENT_FLAG",
+    "targetPort" : "CLIENT_FLAG_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_175",
+    "source" : "p_JNhqmJ_zRTQbuM2bJQc",
+    "sourcePort" : "QOZD0qF3oQjMLr4_XuKcV",
+    "target" : "CLIENT_FLAG_EXP",
+    "targetPort" : "CLIENT_FLAG_EXP_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_176",
+    "source" : "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+    "sourcePort" : "output_port_2",
+    "target" : "p_JNhqmJ_zRTQbuM2bJQc",
+    "targetPort" : "e9I2PEpxmnAlNO1iXrWsv",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

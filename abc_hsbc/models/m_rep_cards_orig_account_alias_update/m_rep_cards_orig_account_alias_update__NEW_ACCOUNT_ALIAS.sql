@@ -1,0 +1,35 @@
+{{
+  config({    
+    "materialized": "table",
+    "alias": "NEW_ACCOUNT_ALIAS",
+    "database": "prophecy-databricks-qa",
+    "schema": "pramit_test"
+  })
+}}
+
+WITH RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS AS (
+
+  SELECT *
+  
+  FROM {{ ref('m_rep_cards_orig_account_alias_update__RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS')}}
+
+),
+
+NEW_ACCOUNT_ALIAS_EXP AS (
+
+  SELECT 
+    ACCID AS ACCID,
+    SOURCE_SYSTEM_CODE AS SOURCE_SYSTEM_CODE,
+    ACCOUNT_ALIAS_ID AS ACCOUNT_ALIAS_ID,
+    CLASS AS CLASS,
+    EFROM AS EFROM,
+    CAST(NULL AS STRING) AS ETO,
+    FEED_UPDATE_ID AS FEED_UPDATE_ID
+  
+  FROM RTR_FORTRAV_ACCOUNT_ALIAS_EXPR_NEW_ACCOUNT_ALIAS AS in0
+
+)
+
+SELECT *
+
+FROM NEW_ACCOUNT_ALIAS_EXP
