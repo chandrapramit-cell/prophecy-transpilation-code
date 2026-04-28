@@ -1,0 +1,200 @@
+{
+  "id" : "m_rep_cards_orig_client_flag_update__CLIENT_FLAG",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_client_flag_update__CLIENT_FLAG",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"CLIENT_FLAG\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "CLIENT_FLAG" : {
+      "id" : "CLIENT_FLAG",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CLIENT_FLAG",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CLIENT_FLAG_EXP\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLIENT_FLAG_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "QJScdHEtYs8CtUL9XvBTU",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CLIENT_FLAG_EXP" : {
+      "id" : "CLIENT_FLAG_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CLIENT_FLAG_EXP",
+        "x" : 1220,
+        "y" : 220,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "CLIENT_FLAG_EXP_in0##CLID", "CLIENT_FLAG_EXP_in0##SOURCE_TYPE", "CLIENT_FLAG_EXP_in0##MERGE_CLID", "CLIENT_FLAG_EXP_in0##CREDIT_DECLINES_CLASS", "CLIENT_FLAG_EXP_in0##CREDIT_DECLINES_SUBCLASS", "CLIENT_FLAG_EXP_in0##business_date" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID"
+          },
+          "alias" : "CLID",
+          "_row_id" : "7Qi1As9Xmvs9pbyL3MSVp"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_TYPE"
+          },
+          "alias" : "SOURCE_TYPE",
+          "_row_id" : "OqMCXvcE7fi-pZrmLZ8hK"
+        }, {
+          "expression" : {
+            "expression" : "MERGE_CLID"
+          },
+          "alias" : "MERGE_CLID",
+          "_row_id" : "L-cUo4w6p8LciEBnJrwhf"
+        }, {
+          "expression" : {
+            "expression" : "CREDIT_DECLINES_CLASS"
+          },
+          "alias" : "CLASS",
+          "_row_id" : "xI0vhAtNBJTV27xGTPukk"
+        }, {
+          "expression" : {
+            "expression" : "CREDIT_DECLINES_SUBCLASS"
+          },
+          "alias" : "SUBCLASS",
+          "_row_id" : "sGHDyi3KHNfMkNnWomWc0"
+        }, {
+          "expression" : {
+            "expression" : "business_date"
+          },
+          "alias" : "EFROM",
+          "_row_id" : "O89_QDgsQuK1NdeXTI-4H"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "ETO",
+          "_row_id" : "O-EPgJsIkQVM4VYmlJqCT"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CLIENT_FLAG_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CLIENT_FLAG_EXP_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RlT9_kMohnFnMlm3MLSCj" : {
+      "id" : "RlT9_kMohnFnMlm3MLSCj",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_CLIENT_FLAG_out0",
+        "x" : 1020,
+        "y" : 220,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "w1q_rkCmAUIBpjA8KREjb##APPLICATION_STATUS", "w1q_rkCmAUIBpjA8KREjb##business_date", "w1q_rkCmAUIBpjA8KREjb##LAST_ACTION_DATE" ],
+        "condition" : {
+          "expression" : "((APPLICATION_STATUS = 'DECLINED') AND (CAST((DATE_ADD(CAST(business_date  AS DATE),INTERVAL -6  MONTH)) AS TIMESTAMP) < LAST_ACTION_DATE))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "w1q_rkCmAUIBpjA8KREjb",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "AIsw1xgreJwDolbRKkgjl",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0" : {
+      "id" : "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "EXP_CLIENT_FLAG_reformat"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('m_rep_cards_orig_client_flag_update__EXP_CLIENT_FLAG_reformat') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_210",
+    "source" : "CLIENT_FLAG_EXP",
+    "sourcePort" : "CLIENT_FLAG_EXP_out0",
+    "target" : "CLIENT_FLAG",
+    "targetPort" : "CLIENT_FLAG_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_215",
+    "source" : "RlT9_kMohnFnMlm3MLSCj",
+    "sourcePort" : "AIsw1xgreJwDolbRKkgjl",
+    "target" : "CLIENT_FLAG_EXP",
+    "targetPort" : "CLIENT_FLAG_EXP_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_216",
+    "source" : "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+    "sourcePort" : "output_port_2",
+    "target" : "RlT9_kMohnFnMlm3MLSCj",
+    "targetPort" : "w1q_rkCmAUIBpjA8KREjb",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

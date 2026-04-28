@@ -1,0 +1,176 @@
+{
+  "id" : "m_rep_cards_orig_account_update__NEW_CHOOSES",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_account_update__NEW_CHOOSES",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"NEW_CHOOSES\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "NEW_CHOOSES" : {
+      "id" : "NEW_CHOOSES",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "NEW_CHOOSES",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM RTR_ACCOUNT_EXPR_CHOOSES\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "NEW_CHOOSES_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "uEKenJAvw9FBO-L4G71Zt",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTR_ACCOUNT_EXPR_CHOOSES" : {
+      "id" : "RTR_ACCOUNT_EXPR_CHOOSES",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_ACCOUNT_EXPR_CHOOSES",
+        "x" : 2020,
+        "y" : 820,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "RTR_ACCOUNT_EXPR_CHOOSES_in0##CLID_CLIENT_ALIAS", "RTR_ACCOUNT_EXPR_CHOOSES_in0##BUSINESS_DATE", "RTR_ACCOUNT_EXPR_CHOOSES_in0##feed_update_id" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID_CLIENT_ALIAS"
+          },
+          "alias" : "CLID",
+          "_row_id" : "m0aWww0_ty61U3j3fX4Xf"
+        }, {
+          "expression" : {
+            "expression" : "BUSINESS_DATE"
+          },
+          "alias" : "CLIENT_HISTORY_EFFECT_FROM",
+          "_row_id" : "Jfl5cVREq155xfMcy1coA"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id"
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "_row_id" : "9a34ubbIdChfM_K3-qGkP"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_ACCOUNT_EXPR_CHOOSES_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_ACCOUNT_EXPR_CHOOSES_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "4bIW7OLQ8Hxa7AbTatYIC" : {
+      "id" : "4bIW7OLQ8Hxa7AbTatYIC",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_ACCOUNT_out5",
+        "x" : 1820,
+        "y" : 820,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "jdBtPTECmvP_Bs-wk3xwS##CLID_CLIENT_ALIAS", "jdBtPTECmvP_Bs-wk3xwS##ACCID_ACCOUNT" ],
+        "condition" : {
+          "expression" : "((CLID_CLIENT_ALIAS IS NOT NULL) AND (ACCID_ACCOUNT IS NULL))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "jdBtPTECmvP_Bs-wk3xwS",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3R7YcBTckFC2OGywrWaAU",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTR_ACCOUNT_JOIN_EXPR_42_RTR_ACCOUNT_JOIN_EXPR_42_out0" : {
+      "id" : "RTR_ACCOUNT_JOIN_EXPR_42_RTR_ACCOUNT_JOIN_EXPR_42_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "RTR_ACCOUNT_JOIN_EXPR_42"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('m_rep_cards_orig_account_update__RTR_ACCOUNT_JOIN_EXPR_42') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_73",
+    "source" : "RTR_ACCOUNT_EXPR_CHOOSES",
+    "sourcePort" : "RTR_ACCOUNT_EXPR_CHOOSES_out0",
+    "target" : "NEW_CHOOSES",
+    "targetPort" : "NEW_CHOOSES_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_95",
+    "source" : "4bIW7OLQ8Hxa7AbTatYIC",
+    "sourcePort" : "3R7YcBTckFC2OGywrWaAU",
+    "target" : "RTR_ACCOUNT_EXPR_CHOOSES",
+    "targetPort" : "RTR_ACCOUNT_EXPR_CHOOSES_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_96",
+    "source" : "RTR_ACCOUNT_JOIN_EXPR_42_RTR_ACCOUNT_JOIN_EXPR_42_out0",
+    "sourcePort" : "output_port_3",
+    "target" : "4bIW7OLQ8Hxa7AbTatYIC",
+    "targetPort" : "jdBtPTECmvP_Bs-wk3xwS",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

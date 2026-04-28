@@ -1,0 +1,176 @@
+{
+  "id" : "m_rep_cards_orig_client_flag_update__INS_CHOOSES",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_client_flag_update__INS_CHOOSES",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"INS_CHOOSES\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "INS_CHOOSES" : {
+      "id" : "INS_CHOOSES",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "INS_CHOOSES",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM RTR_CLIENT_FLAG_EXPR_INS_CHOOSES\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "INS_CHOOSES_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CFmn0CFESxaXw8qnxBRdm",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES" : {
+      "id" : "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES",
+        "x" : 1220,
+        "y" : 20,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES_in0##CLID", "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES_in0##business_date", "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES_in0##feed_update_id" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID"
+          },
+          "alias" : "CLID",
+          "_row_id" : "gUz3OzB2Spqh6L0vRdCE9"
+        }, {
+          "expression" : {
+            "expression" : "business_date"
+          },
+          "alias" : "CLIENT_HISTORY_EFFECT_FROM",
+          "_row_id" : "jQy57KalEpyl3v72r6lts"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id"
+          },
+          "alias" : "FEED_UPDATE_ID",
+          "_row_id" : "HSs1CNP9OJkN12hnnxloy"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Cj6mtoTKpotnVImOV9SHG" : {
+      "id" : "Cj6mtoTKpotnVImOV9SHG",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_CLIENT_FLAG_out1",
+        "x" : 1020,
+        "y" : 20,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "AKkyT16ToE2yApINDl927##APPLICATION_STATUS", "AKkyT16ToE2yApINDl927##business_date", "AKkyT16ToE2yApINDl927##LAST_ACTION_DATE" ],
+        "condition" : {
+          "expression" : "((APPLICATION_STATUS = 'DECLINED') AND (CAST((DATE_ADD(CAST(business_date  AS DATE),INTERVAL -6  MONTH)) AS TIMESTAMP) < LAST_ACTION_DATE))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "AKkyT16ToE2yApINDl927",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3Tt3nKnyCu4Kf6vAt942E",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0" : {
+      "id" : "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "EXP_CLIENT_FLAG_reformat"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('m_rep_cards_orig_client_flag_update__EXP_CLIENT_FLAG_reformat') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_209",
+    "source" : "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES",
+    "sourcePort" : "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES_out0",
+    "target" : "INS_CHOOSES",
+    "targetPort" : "INS_CHOOSES_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_217",
+    "source" : "Cj6mtoTKpotnVImOV9SHG",
+    "sourcePort" : "3Tt3nKnyCu4Kf6vAt942E",
+    "target" : "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES",
+    "targetPort" : "RTR_CLIENT_FLAG_EXPR_INS_CHOOSES_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_218",
+    "source" : "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+    "sourcePort" : "output_port_2",
+    "target" : "Cj6mtoTKpotnVImOV9SHG",
+    "targetPort" : "AKkyT16ToE2yApINDl927",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

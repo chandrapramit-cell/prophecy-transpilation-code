@@ -1,0 +1,199 @@
+{
+  "id" : "m_rep_cards_orig_client_flag_update__EXP_CLIENT_FLAG_reformat",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_client_flag_update__EXP_CLIENT_FLAG_reformat",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0" : {
+      "id" : "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "EXP_CLIENT_FLAG_reformat"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM EXP_CLIENT_FLAG_reformat\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CLIENT_FLAG_reformat" : {
+      "id" : "EXP_CLIENT_FLAG_reformat",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CLIENT_FLAG_reformat",
+        "x" : 820,
+        "y" : 120,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "EXP_CLIENT_FLAG_reformat_in0##CLID", "EXP_CLIENT_FLAG_reformat_in0##MERGE_CLID", "EXP_CLIENT_FLAG_reformat_in0##APPLICATION_STATUS", "EXP_CLIENT_FLAG_reformat_in0##LAST_ACTION_DATE", "EXP_CLIENT_FLAG_reformat_in0##BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1", "EXP_CLIENT_FLAG_reformat_in0##output_sp", "EXP_CLIENT_FLAG_reformat_in0##lookup_string", "EXP_CLIENT_FLAG_reformat_in0##business_date_string__find_business_date_lkp_1", "EXP_CLIENT_FLAG_reformat_in0##LOOKUP_VARIABLE_3" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CLID"
+          },
+          "alias" : "CLID",
+          "_row_id" : "kuBdtvVbv6UGLHTPDm4q-"
+        }, {
+          "expression" : {
+            "expression" : "MERGE_CLID"
+          },
+          "alias" : "MERGE_CLID",
+          "_row_id" : "YiOtLLZcE0FaYxtbLT8go"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_STATUS"
+          },
+          "alias" : "APPLICATION_STATUS",
+          "_row_id" : "Bwe5hVnnev3IAuhu-L3y7"
+        }, {
+          "expression" : {
+            "expression" : "LAST_ACTION_DATE"
+          },
+          "alias" : "LAST_ACTION_DATE",
+          "_row_id" : "qx--4k_jpOXaO5VEcqLjn"
+        }, {
+          "expression" : {
+            "expression" : "206"
+          },
+          "alias" : "CREDIT_DECLINES_CLASS",
+          "_row_id" : "aDAjiuQrYxR_vxTK7PlYi"
+        }, {
+          "expression" : {
+            "expression" : "296"
+          },
+          "alias" : "CREDIT_DECLINES_SUBCLASS",
+          "_row_id" : "j2njyORdkh9OjqmACkrWp"
+        }, {
+          "expression" : {
+            "expression" : "0"
+          },
+          "alias" : "SOURCE_TYPE",
+          "_row_id" : "gx-Ev4Lc4hbl3R5IXOTAO"
+        }, {
+          "expression" : {
+            "expression" : "(\n  CASE\n    WHEN CAST((\n      (\n        CASE\n          WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1)\n            THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1\n          ELSE CAST(NULL AS STRING)\n        END\n      ) IS NULL\n    ) AS BOOL)\n      THEN NULL\n    ELSE (\n      PARSE_TIMESTAMP(\n        '%Y%m%d', \n        CAST(SUBSTRING(\n          (\n            CASE\n              WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1)\n                THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1\n              ELSE CAST(NULL AS STRING)\n            END\n          ), \n          0, \n          8) AS STRING))\n    )\n  END\n)"
+          },
+          "alias" : "business_date",
+          "_row_id" : "yd6VfzbCu4jEbYVK4DTyM"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) = 1) THEN output_sp ELSE NULL END)"
+          },
+          "alias" : "feed_update_id",
+          "_row_id" : "fnuJggHqHVE_jRgl3cdQz"
+        }, {
+          "expression" : {
+            "expression" : "lookup_string"
+          },
+          "alias" : "lookup_string",
+          "_row_id" : "6p2lqoPa-d3EI4UJ7G14N"
+        }, {
+          "expression" : {
+            "expression" : "business_date_string__find_business_date_lkp_1"
+          },
+          "alias" : "business_date_string__find_business_date_lkp_1",
+          "_row_id" : "_24XaAcmq-H3vVnF8q_WC"
+        }, {
+          "expression" : {
+            "expression" : "LOOKUP_VARIABLE_3"
+          },
+          "alias" : "LOOKUP_VARIABLE_3",
+          "_row_id" : "3SaIqyBRR4VlQ9FQpmDm5"
+        }, {
+          "expression" : {
+            "expression" : "output_sp"
+          },
+          "alias" : "output_sp",
+          "_row_id" : "YhAoQNfW8B6eJZk9g4gNr"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CLIENT_FLAG_reformat_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CLIENT_FLAG_reformat_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CLIENT_FLAG_sp_EXP_CLIENT_FLAG_sp_out0" : {
+      "id" : "EXP_CLIENT_FLAG_sp_EXP_CLIENT_FLAG_sp_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "EXP_CLIENT_FLAG_sp"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('m_rep_cards_orig_client_flag_update', 'EXP_CLIENT_FLAG_sp') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0_EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+    "source" : "EXP_CLIENT_FLAG_reformat",
+    "sourcePort" : "EXP_CLIENT_FLAG_reformat_out0",
+    "target" : "EXP_CLIENT_FLAG_reformat_EXP_CLIENT_FLAG_reformat_out0",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_212",
+    "source" : "EXP_CLIENT_FLAG_sp_EXP_CLIENT_FLAG_sp_out0",
+    "sourcePort" : "output_port_1",
+    "target" : "EXP_CLIENT_FLAG_reformat",
+    "targetPort" : "EXP_CLIENT_FLAG_reformat_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

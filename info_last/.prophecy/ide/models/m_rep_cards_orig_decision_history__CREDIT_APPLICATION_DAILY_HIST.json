@@ -1,0 +1,338 @@
+{
+  "id" : "m_rep_cards_orig_decision_history__CREDIT_APPLICATION_DAILY_HIST",
+  "metainfo" : {
+    "label" : "m_rep_cards_orig_decision_history__CREDIT_APPLICATION_DAILY_HIST",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"CREDIT_APPLICATION_DAILY_HIST\"",
+        "materialized" : "table",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0" : {
+      "id" : "SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SQ_CARDS_ORIG_DECISION_HISTORY"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('m_rep_cards_orig_decision_history__SQ_CARDS_ORIG_DECISION_HISTORY') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXPTRANS" : {
+      "id" : "EXPTRANS",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXPTRANS",
+        "x" : 620,
+        "y" : 420,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "EXPTRANS_in0##ACCID", "EXPTRANS_in0##in_APPLICATION_STATUS", "EXPTRANS_in0##LAST_ACTION_DATE" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID"
+          },
+          "alias" : "ACCID",
+          "_row_id" : "tbqomtESTJyXJXErEqpdw"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (in_APPLICATION_STATUS = 'CANCELLED') THEN 'CA' WHEN (in_APPLICATION_STATUS = 'APPROVED') THEN 'AP' WHEN (in_APPLICATION_STATUS = 'ABORTED') THEN 'AX' WHEN (in_APPLICATION_STATUS = 'PRODUCT_ONBOARDING_COMPLETED') THEN 'AF' WHEN (in_APPLICATION_STATUS = 'REFERRED') THEN 'RF' WHEN (in_APPLICATION_STATUS = 'DECLINED') THEN 'DE' ELSE NULL END)"
+          },
+          "alias" : "EQA_STATUS",
+          "_row_id" : "I4v6OfscnyA3D8r9kajxB"
+        }, {
+          "expression" : {
+            "expression" : "LAST_ACTION_DATE"
+          },
+          "alias" : "OCCURRENCE_DATE",
+          "_row_id" : "A8pal_VRwUxpIOscyKUOo"
+        }, {
+          "expression" : {
+            "expression" : "2"
+          },
+          "alias" : "CARD_ORIGIN",
+          "_row_id" : "uDkgs-EqbtDCZOlr2HT2j"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXPTRANS_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXPTRANS_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CREDIT_APPLICATION_DAILY_HIST" : {
+      "id" : "CREDIT_APPLICATION_DAILY_HIST",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CREDIT_APPLICATION_DAILY_HIST",
+        "phase" : 1
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CREDIT_APPLICATION_DAILY_HIST_EXP\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CREDIT_APPLICATION_DAILY_HIST_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Et9N76UnqY3gd1w38bfpc",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT" : {
+      "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT",
+        "x" : 420,
+        "y" : 420,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_in0##ACCID", "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_in0##APPLICATION_NUMBER", "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_in0##APPLICATION_STATUS", "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_in0##LAST_ACTION_DATE" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID"
+          },
+          "alias" : "ACCID",
+          "_row_id" : "va_lEg_Ujhd7OmBGUUNg_"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_NUMBER"
+          },
+          "alias" : "APPLICATION_NUMBER1",
+          "_row_id" : "z4rGoivjCrL39KgdXhrcR"
+        }, {
+          "expression" : {
+            "expression" : "APPLICATION_STATUS"
+          },
+          "alias" : "in_APPLICATION_STATUS",
+          "_row_id" : "nhZlDlEryomTx2lpUJXuG"
+        }, {
+          "expression" : {
+            "expression" : "LAST_ACTION_DATE"
+          },
+          "alias" : "LAST_ACTION_DATE",
+          "_row_id" : "kOpedr60-2M5K7_PnWf2V"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "OORw5tsjbcXTKOPi_cD3q" : {
+      "id" : "OORw5tsjbcXTKOPi_cD3q",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_CARDS_ORIG_DECISION_HISTORY_out0",
+        "x" : 220,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "FeALPvjE1YQ783ScNYwWY##LAST_ACTION_DATE" ],
+        "condition" : {
+          "expression" : "((LAST_ACTION_DATE IS NOT NULL) AND ((LENGTH(CAST(LAST_ACTION_DATE AS STRING))) > 0))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "FeALPvjE1YQ783ScNYwWY",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "IND2BbFTwMtyNwWkraXIc",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CREDIT_APPLICATION_DAILY_HIST_EXP" : {
+      "id" : "CREDIT_APPLICATION_DAILY_HIST_EXP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CREDIT_APPLICATION_DAILY_HIST_EXP",
+        "x" : 820,
+        "y" : 420,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ "CREDIT_APPLICATION_DAILY_HIST_EXP_in0##ACCID", "CREDIT_APPLICATION_DAILY_HIST_EXP_in0##EQA_STATUS", "CREDIT_APPLICATION_DAILY_HIST_EXP_in0##OCCURRENCE_DATE", "CREDIT_APPLICATION_DAILY_HIST_EXP_in0##CARD_ORIGIN" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID"
+          },
+          "alias" : "ACCID",
+          "_row_id" : "Wi-wYtMHsExDExdlZHvKk"
+        }, {
+          "expression" : {
+            "expression" : "EQA_STATUS"
+          },
+          "alias" : "EQA_STATUS",
+          "_row_id" : "8mmTh1f0ZsxJSN5ZH7RIj"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "DECISION_ACTION",
+          "_row_id" : "U71oBY71gtQRm7KcpVtkl"
+        }, {
+          "expression" : {
+            "expression" : "OCCURRENCE_DATE"
+          },
+          "alias" : "OCCURRENCE_DATE",
+          "_row_id" : "LCSNSzXSdzFBOl2BJAJTn"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "DECISION_OPERATOR",
+          "_row_id" : "B-jUe1QUzT9QtiV6fIirV"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "DECISION_CLASS",
+          "_row_id" : "pXhfE82lo72Hq_8hCQ5JX"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "DECISION_CODE",
+          "_row_id" : "KHMmXSAxoOvMLBcVbGU2X"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "DECISION_SUBCODE",
+          "_row_id" : "2uHpYgXgg8acd_GLaiWX9"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "DECISION_QUEUE_ID",
+          "_row_id" : "e67p66thx3RPTmNg-vwIj"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS STRING)"
+          },
+          "alias" : "DECISION_LETTER_CODE",
+          "_row_id" : "ld4yrYGzaC8IjS3oNVuGt"
+        }, {
+          "expression" : {
+            "expression" : "CARD_ORIGIN"
+          },
+          "alias" : "CARD_ORIGIN",
+          "_row_id" : "52BbKwGUgZuUQMEs58T2m"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CREDIT_APPLICATION_DAILY_HIST_EXP_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CREDIT_APPLICATION_DAILY_HIST_EXP_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_38",
+    "source" : "CREDIT_APPLICATION_DAILY_HIST_EXP",
+    "sourcePort" : "CREDIT_APPLICATION_DAILY_HIST_EXP_out0",
+    "target" : "CREDIT_APPLICATION_DAILY_HIST",
+    "targetPort" : "CREDIT_APPLICATION_DAILY_HIST_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_37",
+    "source" : "EXPTRANS",
+    "sourcePort" : "EXPTRANS_out0",
+    "target" : "CREDIT_APPLICATION_DAILY_HIST_EXP",
+    "targetPort" : "CREDIT_APPLICATION_DAILY_HIST_EXP_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_40",
+    "source" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT",
+    "sourcePort" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_out0",
+    "target" : "EXPTRANS",
+    "targetPort" : "EXPTRANS_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_44",
+    "source" : "OORw5tsjbcXTKOPi_cD3q",
+    "sourcePort" : "IND2BbFTwMtyNwWkraXIc",
+    "target" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT",
+    "targetPort" : "RTR_CARDS_ORIG_DECISION_HISTORY_EXPR_DATE_PRESENT_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_45",
+    "source" : "SQ_CARDS_ORIG_DECISION_HISTORY_SQ_CARDS_ORIG_DECISION_HISTORY_out0",
+    "sourcePort" : "output_port_0",
+    "target" : "OORw5tsjbcXTKOPi_cD3q",
+    "targetPort" : "FeALPvjE1YQ783ScNYwWY",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
