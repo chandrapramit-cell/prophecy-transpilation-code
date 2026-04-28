@@ -1,0 +1,82 @@
+{{
+  config({    
+    "materialized": "ephemeral",
+    "database": "prophecy-databricks-qa",
+    "schema": "pramit_test"
+  })
+}}
+
+WITH SQ_REP_G2_ACCOUNT_TFR_STAGING AS (
+
+  SELECT 
+    /*+ parallel(RTS)*/
+    --
+    RTS.OLD_ACCOUNT_NUMBER,
+    RTS.NEW_ACCOUNT_NUMBER,
+    RTS.TRANSFER_EFFECTIVE_DATE
+  
+  FROM --
+  REP_G2_ACCOUNT_TFR_STAGING AS RTS
+
+),
+
+SQ_REP_G2_ACCOUNT_TFR_STAGING_EXPR_116 AS (
+
+  SELECT 
+    OLD_ACCOUNT_NUMBER AS OLD_ACCOUNT_NUMBER_IN,
+    NEW_ACCOUNT_NUMBER AS NEW_ACCOUNT_NUMBER_IN,
+    TRANSFER_EFFECTIVE_DATE AS TRANSFER_EFFECTIVE_DATE_IN
+  
+  FROM SQ_REP_G2_ACCOUNT_TFR_STAGING AS in0
+
+),
+
+SQ_REP_G2_ACCOUNT_TFR_STAGING_GENERATE_SK_0 AS (
+
+  SELECT 
+    (ROW_NUMBER() OVER ()) AS prophecy_sk,
+    *
+  
+  FROM SQ_REP_G2_ACCOUNT_TFR_STAGING_EXPR_116 AS in0
+
+),
+
+DBATTRIBUTE AS (
+
+  SELECT * 
+  
+  FROM {{ source('transpiled_sources', 'DBATTRIBUTE') }}
+
+),
+
+EXP_CONV_LOOKUP_117 AS (
+
+  SELECT 
+    in0.CURRVALUE AS LOOKUP_VARIABLE_3,
+    in0.NAME AS NAME,
+    in0.CURRVALUE AS CURRVALUE,
+    in1.OLD_ACCOUNT_NUMBER_IN AS OLD_ACCOUNT_NUMBER_IN,
+    in1.NEW_ACCOUNT_NUMBER_IN AS NEW_ACCOUNT_NUMBER_IN,
+    in1.TRANSFER_EFFECTIVE_DATE_IN AS TRANSFER_EFFECTIVE_DATE_IN,
+    in1.prophecy_sk AS prophecy_sk
+  
+  FROM DBATTRIBUTE AS in0
+  LEFT JOIN SQ_REP_G2_ACCOUNT_TFR_STAGING_GENERATE_SK_0 AS in1
+     ON (in0.NAME = 'businessdate')
+
+),
+
+EXP_CONV_VARS_0 AS (
+
+  SELECT 
+    'businessdate' AS lookup_string,
+    LOOKUP_VARIABLE_3 AS business_date_string__find_business_date_lkp_1,
+    *
+  
+  FROM EXP_CONV_LOOKUP_117 AS in0
+
+)
+
+SELECT *
+
+FROM EXP_CONV_VARS_0

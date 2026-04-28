@@ -1,0 +1,634 @@
+{
+  "id" : "m_rep_ohc_account_transfer_history_update__RTRTRANS_JOIN_EXPR_107",
+  "metainfo" : {
+    "label" : "m_rep_ohc_account_transfer_history_update__RTRTRANS_JOIN_EXPR_107",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY" : {
+      "id" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY",
+        "x" : 2100,
+        "y" : 320,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(A) */ \r \tA.EFROM as EFROM, \r \tA.PREV_ACCOUNT_ALIAS_ID as PREV_ACCOUNT_ALIAS_ID,\r \tA.CURR_ACCOUNT_ALIAS_ID as CURR_ACCOUNT_ALIAS_ID, \r \tA.SOURCE_SYSTEM_CODE as SOURCE_SYSTEM_CODE, \r \tA.TRANSFER_EFFECTIVE_DATE as TRANSFER_EFFECTIVE_DATE\r \tA.NUMBER_OF_TRANSFERS as NUMBER_OF_TRANSFERS, \r \tA.ACCID as ACCID \r FROM \r \tACCOUNT_TRANSFER_HISTORY A\r WHERE\r \tA.ETO IS NULL"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_DERIVE_ACCID_EXP_DERIVE_ACCID_out0" : {
+      "id" : "EXP_DERIVE_ACCID_EXP_DERIVE_ACCID_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "EXP_DERIVE_ACCID"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('m_rep_ohc_account_transfer_history_update__EXP_DERIVE_ACCID') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTRTRANS_JOIN_EXPR_107_RTRTRANS_JOIN_EXPR_107_out0" : {
+      "id" : "RTRTRANS_JOIN_EXPR_107_RTRTRANS_JOIN_EXPR_107_out0",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "RTRTRANS_JOIN_EXPR_107"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM RTRTRANS_JOIN_EXPR_107\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTRTRANS_JOIN_EXPR_107" : {
+      "id" : "RTRTRANS_JOIN_EXPR_107",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTRTRANS_JOIN_EXPR_107",
+        "x" : 2560,
+        "y" : 540,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "LKP_ACCID",
+          "description" : null,
+          "_row_id" : "4D54qR7pbGnVLCf4STQVw"
+        }, {
+          "expression" : {
+            "expression" : "EFROM",
+            "_row_id" : null
+          },
+          "alias" : "LKP_EFROM",
+          "description" : null,
+          "_row_id" : "tbt1sk1q6WEGtTpaHpSnl"
+        }, {
+          "expression" : {
+            "expression" : "PREV_ACCOUNT_ALIAS_ID",
+            "_row_id" : null
+          },
+          "alias" : "LKP_PREV_ACCOUNT_ALIAS_ID",
+          "description" : null,
+          "_row_id" : "-seHThtIAAqCNPqbJb4q9"
+        }, {
+          "expression" : {
+            "expression" : "CURR_ACCOUNT_ALIAS_ID",
+            "_row_id" : null
+          },
+          "alias" : "LKP_CURR_ACCOUNT_ALIAS_ID",
+          "description" : null,
+          "_row_id" : "NlYwLL6AuwqGgeMrTScg6"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE",
+            "_row_id" : null
+          },
+          "alias" : "LKP_SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "S4zdxxmufsAkd4F3EpJbz"
+        }, {
+          "expression" : {
+            "expression" : "TRANSFER_EFFECTIVE_DATE",
+            "_row_id" : null
+          },
+          "alias" : "LKP_TRANSFER_EFFECTIVE_DATE",
+          "description" : null,
+          "_row_id" : "IvoJKuZk54iv-zqhuVE4j"
+        }, {
+          "expression" : {
+            "expression" : "NUMBER_OF_TRANSFERS",
+            "_row_id" : null
+          },
+          "alias" : "NUMBER_OF_ACCOUNT_TRANSFERS",
+          "description" : null,
+          "_row_id" : "Cuk3WCG34JmimwoK02xgO"
+        }, {
+          "expression" : {
+            "expression" : "PRIMARY_ACCID",
+            "_row_id" : null
+          },
+          "alias" : "PRIMARY_ACCID",
+          "description" : null,
+          "_row_id" : "JE3Z5fhmpIPrYi16SBs1U"
+        }, {
+          "expression" : {
+            "expression" : "prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "zKffSPQ0hVTvaLP0CQStY"
+        }, {
+          "expression" : {
+            "expression" : "business_date1",
+            "_row_id" : null
+          },
+          "alias" : "business_date",
+          "description" : null,
+          "_row_id" : "4H3s02eOqc072haz_1Ee7"
+        }, {
+          "expression" : {
+            "expression" : "business_date_minus_11",
+            "_row_id" : null
+          },
+          "alias" : "business_date_minus_1",
+          "description" : null,
+          "_row_id" : "VglCPht8fqPkfDU1EoLtb"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id1",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id",
+          "description" : null,
+          "_row_id" : "7huNAdH3-0foWdEYuUWTt"
+        }, {
+          "expression" : {
+            "expression" : "OLD_ACCOUNT_NUMBER1",
+            "_row_id" : null
+          },
+          "alias" : "OLD_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "Jui-xH1HxfQUA8qV2ljag"
+        }, {
+          "expression" : {
+            "expression" : "NEW_ACCOUNT_NUMBER1",
+            "_row_id" : null
+          },
+          "alias" : "NEW_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "cxd0RwUqncoYO6J_ooSZv"
+        }, {
+          "expression" : {
+            "expression" : "TRANSFER_EFFECTIVE_DATE1",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE",
+          "description" : null,
+          "_row_id" : "51RwqfstrxIbzKzMztmz3"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE1",
+          "description" : null,
+          "_row_id" : "KNYG_nH7z5NNDEDPtzbb1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTRTRANS_JOIN_EXPR_107_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTRTRANS_JOIN_EXPR_107_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "b4QMqIfO0ACm8VYpOqVnD" : {
+      "id" : "b4QMqIfO0ACm8VYpOqVnD",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "RTR_ACCID_FOUND_out0",
+        "x" : 1900,
+        "y" : 520,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(PRIMARY_ACCID IS NOT NULL)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "X1PuAFWWB-Ba6MyNiVpLy",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "LO76Yx-iyMebKXMU-1Uco",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTR_ACCID_FOUND_EXPR_ACCID_FOUND" : {
+      "id" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND",
+        "x" : 2100,
+        "y" : 520,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "business_date",
+            "_row_id" : null
+          },
+          "alias" : "business_date1",
+          "description" : null,
+          "_row_id" : "jxuw8J4APAyIDG-_esNn7"
+        }, {
+          "expression" : {
+            "expression" : "business_date_minus_1",
+            "_row_id" : null
+          },
+          "alias" : "business_date_minus_11",
+          "description" : null,
+          "_row_id" : "QtEZzjH3SKBOOlqc3Xdvp"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id1",
+          "description" : null,
+          "_row_id" : "4_N_a5_IX0ofxRmBqEtam"
+        }, {
+          "expression" : {
+            "expression" : "OLD_ACCOUNT_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "OLD_ACCOUNT_NUMBER1",
+          "description" : null,
+          "_row_id" : "SM5vlmGG4PoWtb47IzTQz"
+        }, {
+          "expression" : {
+            "expression" : "NEW_ACCOUNT_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "NEW_ACCOUNT_NUMBER1",
+          "description" : null,
+          "_row_id" : "kPWSBDz9f4geMnHG2TS0q"
+        }, {
+          "expression" : {
+            "expression" : "TRANSFER_EFFECTIVE_DATE",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE1",
+          "description" : null,
+          "_row_id" : "ggc3zafhDJGVHHxq6Q1fE"
+        }, {
+          "expression" : {
+            "expression" : "PRIMARY_ACCID",
+            "_row_id" : null
+          },
+          "alias" : "PRIMARY_ACCID1",
+          "description" : null,
+          "_row_id" : "iPCZ8ey8Yg8U3PS5Es6AE"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE1",
+          "description" : null,
+          "_row_id" : "0mdnQ7cntHDbJJXk0J8sk"
+        }, {
+          "expression" : {
+            "expression" : "(ROW_NUMBER() OVER ())",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "UIUwTbhR6qEGA3_45WQcV"
+        }, {
+          "expression" : {
+            "expression" : "PRIMARY_ACCID",
+            "_row_id" : null
+          },
+          "alias" : "PRIMARY_ACCID",
+          "description" : null,
+          "_row_id" : "5bYGas8mjORRYD20XBLDF"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RTRTRANS_JOIN_merged" : {
+      "id" : "RTRTRANS_JOIN_merged",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "RTRTRANS_JOIN_merged",
+        "x" : 2360,
+        "y" : 540,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in1.ACCID = in0.PRIMARY_ACCID)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        }, {
+          "alias" : "in2",
+          "expression" : {
+            "expression" : "in0.prophecy_sk = in2.prophecy_sk",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.NEW_ACCOUNT_NUMBER1",
+            "_row_id" : null
+          },
+          "alias" : "NEW_ACCOUNT_NUMBER1",
+          "description" : null,
+          "_row_id" : "RHXiISxGYjQDoK_hUAjWS"
+        }, {
+          "expression" : {
+            "expression" : "in1.NUMBER_OF_TRANSFERS",
+            "_row_id" : null
+          },
+          "alias" : "NUMBER_OF_TRANSFERS",
+          "description" : null,
+          "_row_id" : "vUp4QDbnZs-qeXWiBLcNs"
+        }, {
+          "expression" : {
+            "expression" : "in1.ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "UiW0iLfNrz8XQksnK_GlF"
+        }, {
+          "expression" : {
+            "expression" : "in0.feed_update_id1",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id1",
+          "description" : null,
+          "_row_id" : "UKXPkZpD8Z3THEGQ6PAcp"
+        }, {
+          "expression" : {
+            "expression" : "in1.TRANSFER_EFFECTIVE_DATE",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE",
+          "description" : null,
+          "_row_id" : "xnTxM3dHZwj_OUKwP_kZc"
+        }, {
+          "expression" : {
+            "expression" : "in1.EFROM",
+            "_row_id" : null
+          },
+          "alias" : "EFROM",
+          "description" : null,
+          "_row_id" : "q1brz8-kFAt6-xvNYx268"
+        }, {
+          "expression" : {
+            "expression" : "in0.PRIMARY_ACCID1",
+            "_row_id" : null
+          },
+          "alias" : "PRIMARY_ACCID1",
+          "description" : null,
+          "_row_id" : "Kjp9Jd7lVl-ObvJnhVsBj"
+        }, {
+          "expression" : {
+            "expression" : "in1.PREV_ACCOUNT_ALIAS_ID",
+            "_row_id" : null
+          },
+          "alias" : "PREV_ACCOUNT_ALIAS_ID",
+          "description" : null,
+          "_row_id" : "2ctYfC22j8_AT4-yMz-9G"
+        }, {
+          "expression" : {
+            "expression" : "in0.PRIMARY_ACCID",
+            "_row_id" : null
+          },
+          "alias" : "PRIMARY_ACCID",
+          "description" : null,
+          "_row_id" : "zz12hPZMJV4P6_8Kqy88g"
+        }, {
+          "expression" : {
+            "expression" : "in1.CURR_ACCOUNT_ALIAS_ID",
+            "_row_id" : null
+          },
+          "alias" : "CURR_ACCOUNT_ALIAS_ID",
+          "description" : null,
+          "_row_id" : "Fc6JX0cqkfssmf2M7mhqB"
+        }, {
+          "expression" : {
+            "expression" : "in1.SOURCE_SYSTEM_CODE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "ZqvKt827O_vGlxrgI2KE_"
+        }, {
+          "expression" : {
+            "expression" : "in0.OLD_ACCOUNT_NUMBER1",
+            "_row_id" : null
+          },
+          "alias" : "OLD_ACCOUNT_NUMBER1",
+          "description" : null,
+          "_row_id" : "EVsvUC6nDJwNCZnt5_dhU"
+        }, {
+          "expression" : {
+            "expression" : "in0.business_date1",
+            "_row_id" : null
+          },
+          "alias" : "business_date1",
+          "description" : null,
+          "_row_id" : "Ae2gefveMvXChhveFqUDm"
+        }, {
+          "expression" : {
+            "expression" : "in0.prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "YJ_0YkHp3Q2yIZiwmGeXJ"
+        }, {
+          "expression" : {
+            "expression" : "in0.TRANSFER_EFFECTIVE_DATE1",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE1",
+          "description" : null,
+          "_row_id" : "fWmt0pWIg_aZM-mobMm38"
+        }, {
+          "expression" : {
+            "expression" : "in0.SOURCE_SYSTEM_CODE1",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE1",
+          "description" : null,
+          "_row_id" : "MSHwov-v2z4pD-ABn-CUE"
+        }, {
+          "expression" : {
+            "expression" : "in0.business_date_minus_11",
+            "_row_id" : null
+          },
+          "alias" : "business_date_minus_11",
+          "description" : null,
+          "_row_id" : "WH7Yd2gNDOZKCoEdXAQ44"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "RTRTRANS_JOIN_merged_in0",
+          "slug" : "in0"
+        }, {
+          "id" : "RTRTRANS_JOIN_merged_in1",
+          "slug" : "in1"
+        }, {
+          "id" : "RTRTRANS_JOIN_merged_in2",
+          "slug" : "in2"
+        } ],
+        "outputs" : [ {
+          "id" : "RTRTRANS_JOIN_merged_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_RTRTRANS_JOIN_EXPR_107_RTRTRANS_JOIN_EXPR_107_out0_RTRTRANS_JOIN_EXPR_107_RTRTRANS_JOIN_EXPR_107_out0",
+    "source" : "RTRTRANS_JOIN_EXPR_107",
+    "sourcePort" : "RTRTRANS_JOIN_EXPR_107_out0",
+    "target" : "RTRTRANS_JOIN_EXPR_107_RTRTRANS_JOIN_EXPR_107_out0",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_309",
+    "source" : "RTRTRANS_JOIN_merged",
+    "sourcePort" : "RTRTRANS_JOIN_merged_out0",
+    "target" : "RTRTRANS_JOIN_EXPR_107",
+    "targetPort" : "RTRTRANS_JOIN_EXPR_107_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_323",
+    "source" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND",
+    "sourcePort" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND_out0",
+    "target" : "RTRTRANS_JOIN_merged",
+    "targetPort" : "RTRTRANS_JOIN_merged_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_325",
+    "source" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND",
+    "sourcePort" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND_out0",
+    "target" : "RTRTRANS_JOIN_merged",
+    "targetPort" : "RTRTRANS_JOIN_merged_in2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_324",
+    "source" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY",
+    "sourcePort" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY_out0",
+    "target" : "RTRTRANS_JOIN_merged",
+    "targetPort" : "RTRTRANS_JOIN_merged_in1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_338",
+    "source" : "b4QMqIfO0ACm8VYpOqVnD",
+    "sourcePort" : "LO76Yx-iyMebKXMU-1Uco",
+    "target" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND",
+    "targetPort" : "RTR_ACCID_FOUND_EXPR_ACCID_FOUND_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_339",
+    "source" : "EXP_DERIVE_ACCID_EXP_DERIVE_ACCID_out0",
+    "sourcePort" : "output_port_2",
+    "target" : "b4QMqIfO0ACm8VYpOqVnD",
+    "targetPort" : "X1PuAFWWB-Ba6MyNiVpLy",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

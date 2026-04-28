@@ -1,0 +1,597 @@
+{
+  "id" : "m_rep_ohc_account_transfer_history_update__EXP_DERIVE_ACCID",
+  "metainfo" : {
+    "label" : "m_rep_ohc_account_transfer_history_update__EXP_DERIVE_ACCID",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"prophecy-databricks-qa\"",
+        "schema" : "\"pramit_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY_ACCID" : {
+      "id" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY_ACCID",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY_ACCID",
+        "x" : 1220,
+        "y" : 520,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(A) */\r \tA.ACCID as ACCID, \r \tA.CURR_ACCOUNT_ALIAS_ID as CURR_ACCOUNT_ALIAS_ID \r FROM \r \tACCOUNT_TRANSFER_HISTORY A\r WHERE\r \tA.ETO IS NULL"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY_ACCID_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CONV_sp_EXP_CONV_sp_out0" : {
+      "id" : "EXP_CONV_sp_EXP_CONV_sp_out0",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "EXP_CONV_sp"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('m_rep_ohc_account_transfer_history_update', 'EXP_CONV_sp') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_DERIVE_ACCID_EXP_DERIVE_ACCID_out0" : {
+      "id" : "EXP_DERIVE_ACCID_EXP_DERIVE_ACCID_out0",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "EXP_DERIVE_ACCID"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM EXP_DERIVE_ACCID\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_DERIVE_ACCID_JOIN_merged" : {
+      "id" : "EXP_DERIVE_ACCID_JOIN_merged",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "EXP_DERIVE_ACCID_JOIN_merged",
+        "x" : 1480,
+        "y" : 340,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in1.ACCOUNT_ALIAS_ID = in0.OLD_ACCOUNT_NUMBER)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        }, {
+          "alias" : "in2",
+          "expression" : {
+            "expression" : "in0.prophecy_sk = in2.prophecy_sk",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        }, {
+          "alias" : "in3",
+          "expression" : {
+            "expression" : "(in2.prophecy_sk = in3.prophecy_sk)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        }, {
+          "alias" : "in4",
+          "expression" : {
+            "expression" : "(in4.CURR_ACCOUNT_ALIAS_ID = in3.OLD_ACCOUNT_NUMBER)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.OLD_ACCOUNT_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "OLD_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "fnZz9XtvvLMJt4vZJLYrP"
+        }, {
+          "expression" : {
+            "expression" : "in1.ACCID",
+            "_row_id" : null
+          },
+          "alias" : "ACCID",
+          "description" : null,
+          "_row_id" : "F9xoLJOFYvhx92vLjB7ly"
+        }, {
+          "expression" : {
+            "expression" : "in2.NEW_ACCOUNT_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "NEW_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "3v8noIuSNHbFslImCS82C"
+        }, {
+          "expression" : {
+            "expression" : "in2.TRANSFER_EFFECTIVE_DATE",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE",
+          "description" : null,
+          "_row_id" : "A8MMp7RA_qWq8hV9_QI5e"
+        }, {
+          "expression" : {
+            "expression" : "in2.feed_update_id",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id",
+          "description" : null,
+          "_row_id" : "qULe0rm7IByDf9JxR5VlJ"
+        }, {
+          "expression" : {
+            "expression" : "in2.business_date_minus_1",
+            "_row_id" : null
+          },
+          "alias" : "business_date_minus_1",
+          "description" : null,
+          "_row_id" : "XfZ0ZSi7s77idJsoXdErU"
+        }, {
+          "expression" : {
+            "expression" : "in4.CURR_ACCOUNT_ALIAS_ID",
+            "_row_id" : null
+          },
+          "alias" : "CURR_ACCOUNT_ALIAS_ID",
+          "description" : null,
+          "_row_id" : "CqhDrYdlmH2K774JrTkYb"
+        }, {
+          "expression" : {
+            "expression" : "in2.SOURCE_SYSTEM_CODE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "SAG_TYfebvCrqXZ_Qmc5q"
+        }, {
+          "expression" : {
+            "expression" : "in0.prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "X6zGn3zatdqiQKy0FhXpv"
+        }, {
+          "expression" : {
+            "expression" : "in2.business_date",
+            "_row_id" : null
+          },
+          "alias" : "business_date",
+          "description" : null,
+          "_row_id" : "g7PVeldrC3s6lc1FQ4Zbp"
+        }, {
+          "expression" : {
+            "expression" : "in1.ACCOUNT_ALIAS_ID",
+            "_row_id" : null
+          },
+          "alias" : "ACCOUNT_ALIAS_ID",
+          "description" : null,
+          "_row_id" : "tSd9tC48OHH-0OPpMTUeT"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_DERIVE_ACCID_JOIN_merged_in0",
+          "slug" : "in0"
+        }, {
+          "id" : "EXP_DERIVE_ACCID_JOIN_merged_in1",
+          "slug" : "in1"
+        }, {
+          "id" : "EXP_DERIVE_ACCID_JOIN_merged_in2",
+          "slug" : "in2"
+        }, {
+          "id" : "EXP_DERIVE_ACCID_JOIN_merged_in3",
+          "slug" : "in3"
+        }, {
+          "id" : "EXP_DERIVE_ACCID_JOIN_merged_in4",
+          "slug" : "in4"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_DERIVE_ACCID_JOIN_merged_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_DERIVE_ACCID" : {
+      "id" : "EXP_DERIVE_ACCID",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_DERIVE_ACCID",
+        "x" : 1700,
+        "y" : 340,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "business_date",
+            "_row_id" : null
+          },
+          "alias" : "business_date",
+          "description" : null,
+          "_row_id" : "tdeQNZE5YJW04jXz1q1lN"
+        }, {
+          "expression" : {
+            "expression" : "business_date_minus_1",
+            "_row_id" : null
+          },
+          "alias" : "business_date_minus_1",
+          "description" : null,
+          "_row_id" : "gmwx0a52KCXtHqJ2-U9ED"
+        }, {
+          "expression" : {
+            "expression" : "feed_update_id",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id",
+          "description" : null,
+          "_row_id" : "X9ZMq16t0B0uy63Kue5il"
+        }, {
+          "expression" : {
+            "expression" : "ACCID",
+            "_row_id" : null
+          },
+          "alias" : "PRIMARY_ACCID",
+          "description" : null,
+          "_row_id" : "Z52QZTOw6Xult2ge7kHC4"
+        }, {
+          "expression" : {
+            "expression" : "OLD_ACCOUNT_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "OLD_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "wcEqdz9KbfbVPsOp9u5_v"
+        }, {
+          "expression" : {
+            "expression" : "NEW_ACCOUNT_NUMBER",
+            "_row_id" : null
+          },
+          "alias" : "NEW_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "9FPuKNmCeCn8H0FJWTUA1"
+        }, {
+          "expression" : {
+            "expression" : "TRANSFER_EFFECTIVE_DATE",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE",
+          "description" : null,
+          "_row_id" : "OCG9yOb83yAXsAio162WJ"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_SYSTEM_CODE",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "bZUkJL0UJMqZ9gNKyGORz"
+        }, {
+          "expression" : {
+            "expression" : "prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "bF9F5pYyLiwlDKS_33MYo"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_DERIVE_ACCID_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_DERIVE_ACCID_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EXP_CONV_reformat" : {
+      "id" : "EXP_CONV_reformat",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "EXP_CONV_reformat",
+        "x" : 1220,
+        "y" : 320,
+        "phase" : 1
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN CAST(((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) IS NULL) AS BOOL) THEN (ERROR('No Business Date found on dbattriute')) ELSE (PARSE_TIMESTAMP('%Y%m%d', CAST(SUBSTRING((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) , 0 , 8) AS STRING))) END)",
+            "_row_id" : null
+          },
+          "alias" : "business_date",
+          "description" : null,
+          "_row_id" : "Dp_099glxF-Z7oMqRazom"
+        }, {
+          "expression" : {
+            "expression" : "(DATE_ADD((CASE WHEN CAST(((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) IS NULL) AS BOOL) THEN (ERROR('No Business Date found on dbattriute')) ELSE (PARSE_TIMESTAMP('%Y%m%d', CAST(SUBSTRING((CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 NULLS FIRST)) = 1) THEN BUSINESS_DATE_STRING__FIND_BUSINESS_DATE_LKP_1 ELSE CAST(NULL AS STRING) END) , 0 , 8) AS STRING))) END)  ,INTERVAL -1  DAY))",
+            "_row_id" : null
+          },
+          "alias" : "business_date_minus_1",
+          "description" : null,
+          "_row_id" : "-EKTv-kH2ZvdqJlplv1E0"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN ((SUM(1) OVER (PARTITION BY 1 ORDER BY 1 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) = 1) THEN output_sp ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "feed_update_id",
+          "description" : null,
+          "_row_id" : "8URFn46siuxajsRExCK70"
+        }, {
+          "expression" : {
+            "expression" : "SUBSTRING(OLD_ACCOUNT_NUMBER_IN , 3 , 16)",
+            "_row_id" : null
+          },
+          "alias" : "OLD_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "-zhNVlXO9W0E2a88iUSL9"
+        }, {
+          "expression" : {
+            "expression" : "SUBSTRING(NEW_ACCOUNT_NUMBER_IN , 3 , 16)",
+            "_row_id" : null
+          },
+          "alias" : "NEW_ACCOUNT_NUMBER",
+          "description" : null,
+          "_row_id" : "fqhs47cXLVuBeRhNxvomA"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (CAST(SUBSTRING((LTRIM((RTRIM(TRANSFER_EFFECTIVE_DATE_IN)))) , 0 , 7) AS STRING) = '0000000') THEN NULL WHEN (SUBSTRING((LTRIM((RTRIM(TRANSFER_EFFECTIVE_DATE_IN)))) , 0 , 7) IS NULL) THEN NULL WHEN (SUBSTRING((LTRIM((RTRIM(TRANSFER_EFFECTIVE_DATE_IN)))) , 0 , 7) = CAST((NOT (CASE WHEN ((REGEXP_CONTAINS(SUBSTRING((LTRIM((RTRIM(TRANSFER_EFFECTIVE_DATE_IN)))) , 0 , 7), '^[0-9]+$')) OR ((LENGTH(CAST(SUBSTRING((LTRIM((RTRIM(TRANSFER_EFFECTIVE_DATE_IN)))) , 0 , 7) AS STRING))) = 0)) THEN TRUE ELSE FALSE END)) AS STRING)) THEN NULL ELSE (DATE_ADD((PARSE_TIMESTAMP('%Y%m%d', CAST((CONCAT(SUBSTRING(SUBSTRING((LTRIM((RTRIM(TRANSFER_EFFECTIVE_DATE_IN)))) , 0 , 7) , 0 , 4), '0101')) AS STRING)))  , INTERVAL (CAST(SUBSTRING(SUBSTRING((LTRIM((RTRIM(TRANSFER_EFFECTIVE_DATE_IN)))) , 0 , 7) , 4 , 3) AS FLOAT64) - 1)  DAY)) END)",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE",
+          "description" : null,
+          "_row_id" : "D8PIVqQIZbEWtI0wlbKzy"
+        }, {
+          "expression" : {
+            "expression" : "'G'",
+            "_row_id" : null
+          },
+          "alias" : "SOURCE_SYSTEM_CODE",
+          "description" : null,
+          "_row_id" : "RR8Yv00-CzOMsYvfHCW_B"
+        }, {
+          "expression" : {
+            "expression" : "prophecy_sk",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_sk",
+          "description" : null,
+          "_row_id" : "CmIda1F3-cbCCFqDoAOWO"
+        }, {
+          "expression" : {
+            "expression" : "OLD_ACCOUNT_NUMBER_IN",
+            "_row_id" : null
+          },
+          "alias" : "OLD_ACCOUNT_NUMBER_IN",
+          "description" : null,
+          "_row_id" : "XcBzk566yBseTduGz7TEo"
+        }, {
+          "expression" : {
+            "expression" : "NEW_ACCOUNT_NUMBER_IN",
+            "_row_id" : null
+          },
+          "alias" : "NEW_ACCOUNT_NUMBER_IN",
+          "description" : null,
+          "_row_id" : "7ezANa5UAW7TVMu7Q_RXg"
+        }, {
+          "expression" : {
+            "expression" : "TRANSFER_EFFECTIVE_DATE_IN",
+            "_row_id" : null
+          },
+          "alias" : "TRANSFER_EFFECTIVE_DATE_IN",
+          "description" : null,
+          "_row_id" : "IJDoVrT1LNapBETggPdY4"
+        }, {
+          "expression" : {
+            "expression" : "lookup_string",
+            "_row_id" : null
+          },
+          "alias" : "lookup_string",
+          "description" : null,
+          "_row_id" : "36KyBw5epJrtm29Yo_Y4v"
+        }, {
+          "expression" : {
+            "expression" : "business_date_string__find_business_date_lkp_1",
+            "_row_id" : null
+          },
+          "alias" : "business_date_string__find_business_date_lkp_1",
+          "description" : null,
+          "_row_id" : "wQsxhuxoiova5XGWMLTZC"
+        }, {
+          "expression" : {
+            "expression" : "LOOKUP_VARIABLE_3",
+            "_row_id" : null
+          },
+          "alias" : "LOOKUP_VARIABLE_3",
+          "description" : null,
+          "_row_id" : "zB18VHmaFhC3Lf84Wbvns"
+        }, {
+          "expression" : {
+            "expression" : "output_sp",
+            "_row_id" : null
+          },
+          "alias" : "output_sp",
+          "description" : null,
+          "_row_id" : "5jmDn9AHasAgma-MkrxAe"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EXP_CONV_reformat_in0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EXP_CONV_reformat_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "SOURCE_LKP_OLD_ACCOUNT_ALIAS" : {
+      "id" : "SOURCE_LKP_OLD_ACCOUNT_ALIAS",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "SOURCE_LKP_OLD_ACCOUNT_ALIAS",
+        "x" : 1220,
+        "y" : 120,
+        "phase" : 1
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "SELECT /*+ parallel(A) */\r \tA.ACCID as ACCID, \r \tA.ACCOUNT_ALIAS_ID as ACCOUNT_ALIAS_ID \r FROM \r \tACCOUNT_ALIAS A\r WHERE\r \tA.ETO IS NULL\r AND\tA.SOURCE_SYSTEM_CODE = 'G'"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "SOURCE_LKP_OLD_ACCOUNT_ALIAS_out0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_EXP_DERIVE_ACCID_EXP_DERIVE_ACCID_out0_EXP_DERIVE_ACCID_EXP_DERIVE_ACCID_out0",
+    "source" : "EXP_DERIVE_ACCID",
+    "sourcePort" : "EXP_DERIVE_ACCID_out0",
+    "target" : "EXP_DERIVE_ACCID_EXP_DERIVE_ACCID_out0",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_310",
+    "source" : "EXP_DERIVE_ACCID_JOIN_merged",
+    "sourcePort" : "EXP_DERIVE_ACCID_JOIN_merged_out0",
+    "target" : "EXP_DERIVE_ACCID",
+    "targetPort" : "EXP_DERIVE_ACCID_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_321",
+    "source" : "SOURCE_LKP_OLD_ACCOUNT_ALIAS",
+    "sourcePort" : "SOURCE_LKP_OLD_ACCOUNT_ALIAS_out0",
+    "target" : "EXP_DERIVE_ACCID_JOIN_merged",
+    "targetPort" : "EXP_DERIVE_ACCID_JOIN_merged_in1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_322",
+    "source" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY_ACCID",
+    "sourcePort" : "SOURCE_LKP_ACCOUNT_TRANSFER_HISTORY_ACCID_out0",
+    "target" : "EXP_DERIVE_ACCID_JOIN_merged",
+    "targetPort" : "EXP_DERIVE_ACCID_JOIN_merged_in4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_327",
+    "source" : "EXP_CONV_reformat",
+    "sourcePort" : "EXP_CONV_reformat_out0",
+    "target" : "EXP_DERIVE_ACCID_JOIN_merged",
+    "targetPort" : "EXP_DERIVE_ACCID_JOIN_merged_in0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_328",
+    "source" : "EXP_CONV_reformat",
+    "sourcePort" : "EXP_CONV_reformat_out0",
+    "target" : "EXP_DERIVE_ACCID_JOIN_merged",
+    "targetPort" : "EXP_DERIVE_ACCID_JOIN_merged_in2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_329",
+    "source" : "EXP_CONV_reformat",
+    "sourcePort" : "EXP_CONV_reformat_out0",
+    "target" : "EXP_DERIVE_ACCID_JOIN_merged",
+    "targetPort" : "EXP_DERIVE_ACCID_JOIN_merged_in3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_326",
+    "source" : "EXP_CONV_sp_EXP_CONV_sp_out0",
+    "sourcePort" : "output_port_1",
+    "target" : "EXP_CONV_reformat",
+    "targetPort" : "EXP_CONV_reformat_in0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
