@@ -1,0 +1,267 @@
+{
+  "id" : "alteryx_all_test_sql__MakeColumns_32_groupAndPosition_0",
+  "metainfo" : {
+    "label" : "alteryx_all_test_sql__MakeColumns_32_groupAndPosition_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "TextInput_31_cast_PGxyT656Y81OEs_kbsnir" : {
+      "id" : "TextInput_31_cast_PGxyT656Y81OEs_kbsnir",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "TextInput_31_cast"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('alteryx_all_test_sql__TextInput_31_cast') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "32_window" : {
+      "id" : "32_window",
+      "component" : "WindowFunction",
+      "metadata" : {
+        "label" : "MakeColumns_32_window",
+        "x" : 2220,
+        "y" : 3020,
+        "phase" : 0
+      },
+      "properties" : {
+        "frameEndType" : null,
+        "frameEndValue" : null,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "COUNT(*)",
+            "_row_id" : null
+          },
+          "alias" : "_TOTAL_RECORDS",
+          "description" : null,
+          "_row_id" : "W5L1YNAnStkEIPzemyi5y"
+        } ],
+        "frameType" : null,
+        "activeTab" : "partitionTab",
+        "columnsSelector" : [ ],
+        "partitionExpressions" : [ ],
+        "frameStartValue" : null,
+        "frameStartType" : null,
+        "ordersBy" : [ {
+          "expression" : {
+            "expression" : {
+              "expression" : "'1'",
+              "_row_id" : null
+            },
+            "alias" : null,
+            "description" : null,
+            "_row_id" : "Hb4HlzzhU2L7PqktqnYrN"
+          },
+          "sortType" : "asc",
+          "nullsType" : "nulls first"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "PnDnVdJ2LGQuYPnYVn_gZ",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "TH5KXSimmKUpi8V48YKJq",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "32_sequenceNumber" : {
+      "id" : "32_sequenceNumber",
+      "component" : "WindowFunction",
+      "metadata" : {
+        "label" : "MakeColumns_32_sequenceNumber",
+        "x" : 2020,
+        "y" : 3020,
+        "phase" : 0
+      },
+      "properties" : {
+        "frameEndType" : null,
+        "frameEndValue" : null,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ROW_NUMBER()",
+            "_row_id" : null
+          },
+          "alias" : "_SEQUENCE_ID",
+          "description" : null,
+          "_row_id" : "vIbn3BVjvswKo_9s0Sknv"
+        } ],
+        "frameType" : null,
+        "activeTab" : "partitionTab",
+        "columnsSelector" : [ ],
+        "partitionExpressions" : [ ],
+        "frameStartValue" : null,
+        "frameStartType" : null,
+        "ordersBy" : [ {
+          "expression" : {
+            "expression" : {
+              "expression" : "'1'",
+              "_row_id" : null
+            },
+            "alias" : null,
+            "description" : null,
+            "_row_id" : "scn0yjuu_zB6aFpW4SLYV"
+          },
+          "sortType" : "asc",
+          "nullsType" : "nulls first"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "88ZySftCnMIq6aJvsqNBT",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ZkKdY5pZ1qn5-UqOFzKIH",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "_TO0vtv-HjTugv5W8uBXC" : {
+      "id" : "_TO0vtv-HjTugv5W8uBXC",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MakeColumns_32_groupAndPosition_0",
+        "x" : 2480,
+        "y" : 3020,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "FLOOR(((_SEQUENCE_ID - 1) / 3))",
+            "_row_id" : null
+          },
+          "alias" : "_GROUP_ID",
+          "description" : null,
+          "_row_id" : "fkyir7u12W-Uy4FfzJktT"
+        }, {
+          "expression" : {
+            "expression" : "(CONCAT('Column', '_', ((MOD((_SEQUENCE_ID - 1), 3)) + 1)))",
+            "_row_id" : null
+          },
+          "alias" : "_POSITION_ID",
+          "description" : null,
+          "_row_id" : "7buBcJ_NdNWgKlb9rilRF"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ErkUrA3EPvNa25wXh7OSz",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "uD3pRdfJ6Oa3LqMkvK5Nj",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MakeColumns_32_groupAndPosition_0_uD3pRdfJ6Oa3LqMkvK5Nj" : {
+      "id" : "MakeColumns_32_groupAndPosition_0_uD3pRdfJ6Oa3LqMkvK5Nj",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "MakeColumns_32_groupAndPosition_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM MakeColumns_32_groupAndPosition_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn__TO0vtv-HjTugv5W8uBXC_uD3pRdfJ6Oa3LqMkvK5Nj_MakeColumns_32_groupAndPosition_0_uD3pRdfJ6Oa3LqMkvK5Nj",
+    "source" : "_TO0vtv-HjTugv5W8uBXC",
+    "sourcePort" : "uD3pRdfJ6Oa3LqMkvK5Nj",
+    "target" : "MakeColumns_32_groupAndPosition_0_uD3pRdfJ6Oa3LqMkvK5Nj",
+    "targetPort" : "input_port_13",
+    "isWireless" : false
+  }, {
+    "id" : "edge_305",
+    "source" : "32_window",
+    "sourcePort" : "TH5KXSimmKUpi8V48YKJq",
+    "target" : "_TO0vtv-HjTugv5W8uBXC",
+    "targetPort" : "ErkUrA3EPvNa25wXh7OSz",
+    "isWireless" : false
+  }, {
+    "id" : "edge_37",
+    "source" : "32_sequenceNumber",
+    "sourcePort" : "ZkKdY5pZ1qn5-UqOFzKIH",
+    "target" : "32_window",
+    "targetPort" : "PnDnVdJ2LGQuYPnYVn_gZ",
+    "isWireless" : false
+  }, {
+    "id" : "edge_126",
+    "source" : "TextInput_31_cast_PGxyT656Y81OEs_kbsnir",
+    "sourcePort" : "output_port_2",
+    "target" : "32_sequenceNumber",
+    "targetPort" : "88ZySftCnMIq6aJvsqNBT",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

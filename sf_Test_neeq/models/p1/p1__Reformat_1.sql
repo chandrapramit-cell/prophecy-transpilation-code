@@ -6,20 +6,22 @@
   })
 }}
 
-WITH Except_1 AS (
+WITH seed_403_459 AS (
 
   SELECT * 
   
-  FROM "" AS in0
-  
-  EXCEPT
-  
+  FROM {{ ref('seed_403_459')}}
+
+),
+
+Reformat_1 AS (
+
   SELECT * 
   
-  FROM "" AS in1
+  FROM seed_403_459 AS in0
 
 )
 
 SELECT *
 
-FROM Except_1
+FROM Reformat_1
