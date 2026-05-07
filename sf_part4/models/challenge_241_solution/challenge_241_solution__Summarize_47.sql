@@ -17,7 +17,41 @@ WITH GenerateRows_44 AS (
 Formula_45_0 AS (
 
   SELECT 
-    1 AS MONTHLY13TH,
+    (
+      TO_CHAR(
+        (
+          DATE_PART(
+            'EPOCH_SECOND', 
+            (
+              TO_TIMESTAMP(
+                (
+                  REGEXP_REPLACE(
+                    (
+                      CONCAT(
+                        (REGEXP_REPLACE((REGEXP_REPLACE((TO_CHAR(CAST(MO AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), '__THS__', '')), 
+                        '-', 
+                        (
+                          REGEXP_REPLACE(
+                            (REGEXP_REPLACE((TO_CHAR(CAST(DAY_OF_MONTH AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), 
+                            '__THS__', 
+                            '')
+                        ), 
+                        '-', 
+                        (
+                          REGEXP_REPLACE(
+                            (REGEXP_REPLACE((TO_CHAR(CAST("YEAR" AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), 
+                            '__THS__', 
+                            '')
+                        ))
+                    ), 
+                    '\\.\\d+', 
+                    '')
+                ), 
+                'MM-DD-YY')
+            ))
+        ), 
+        'YYYY-MM-DD')
+    ) AS MONTHLY13TH,
     *
   
   FROM GenerateRows_44 AS in0
@@ -27,7 +61,7 @@ Formula_45_0 AS (
 Formula_45_1 AS (
 
   SELECT 
-    CAST((TO_CHAR(MONTHLY13TH, 'DY')) AS STRING) AS ACTUAL_DAY_OF_WEEK,
+    CAST((TO_CHAR(TO_DATE(MONTHLY13TH), 'DY')) AS STRING) AS ACTUAL_DAY_OF_WEEK,
     *
   
   FROM Formula_45_0 AS in0

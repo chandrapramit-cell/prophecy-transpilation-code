@@ -28,19 +28,23 @@ with Pipeline(args) as pipeline:
         ),
         is_custom_output_schema = True
     )
-    table_1 = Process(
-        name = "Table_1",
-        properties = Dataset(
-          table = Dataset.DBTSource(name = "se2", sourceType = "Seed"),
-          writeOptions = {"writeMode" : "overwrite"}
-        ),
-        input_ports = None
+    script_1 = Process(
+        name = "Script_1",
+        properties = Script(ports = None, scriptMethodHeader = "def Script():", scriptMethodFooter = "return", script = "")
     )
     textinput_41 = Process(
         name = "TextInput_41",
         properties = Dataset(
           writeOptions = {"writeMode" : "overwrite"},
           table = Dataset.DBTSource(name = "seed_41", sourceType = "Seed")
+        ),
+        input_ports = None
+    )
+    textinput_42 = Process(
+        name = "TextInput_42",
+        properties = Dataset(
+          writeOptions = {"writeMode" : "overwrite"},
+          table = Dataset.DBTSource(name = "seed_42", sourceType = "Seed")
         ),
         input_ports = None
     )
@@ -56,8 +60,8 @@ with Pipeline(args) as pipeline:
         name = "challenge_241_solution__TextInput_42_cast",
         properties = ModelTransform(modelName = "challenge_241_solution__TextInput_42_cast")
     )
-    textinput_41 >> challenge_241_solution__textinput_41_cast
-    table_1 >> challenge_241_solution__textinput_42_cast
     challenge_241_solution__textinput_42_cast >> generaterows_43
+    textinput_42 >> challenge_241_solution__textinput_42_cast
+    textinput_41 >> challenge_241_solution__textinput_41_cast
     generaterows_44 >> challenge_241_solution__summarize_47
     generaterows_43 >> generaterows_44
