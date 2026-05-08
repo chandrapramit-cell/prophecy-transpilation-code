@@ -1,0 +1,224 @@
+{
+  "id" : "seed_join_pipeline__seed_table_price_descending",
+  "metainfo" : {
+    "label" : "seed_join_pipeline__seed_table_price_descending",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"QA_SCHEMA\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "seed_table_price_descending_afHxgYcL" : {
+      "id" : "seed_table_price_descending_afHxgYcL",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "seed_table_price_descending"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM seed_table_price_descending\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "VdsFzVAqMAnK4I5bf6dgO$$pasvyRbqjlSlWg2Z4Kh_4" : {
+      "id" : "VdsFzVAqMAnK4I5bf6dgO$$pasvyRbqjlSlWg2Z4Kh_4",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "seed_table_price_descending",
+        "x" : 500,
+        "y" : 220,
+        "phase" : 0,
+        "comment" : "Sorts seed data by price from highest to lowest to highlight premium offerings.",
+        "autoUpdateComment" : true
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "TABLEPRICE"
+          },
+          "sortType" : "desc",
+          "nullsType" : "nulls last"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "wbB5IacM",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "afHxgYcL",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "join_seeds##d9U5Be5N" : {
+      "id" : "join_seeds##d9U5Be5N",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "join_seeds",
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "in0.\"ID\" = in1.\"ID\""
+          },
+          "joinType" : "INNER"
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.\"ID\""
+          },
+          "alias" : "\"ID\"",
+          "_row_id" : "515781078"
+        }, {
+          "expression" : {
+            "expression" : "in0.\"TABLE\""
+          },
+          "alias" : "\"TABLE\"",
+          "_row_id" : "1936915212"
+        }, {
+          "expression" : {
+            "expression" : "in0.\"TABLEPRICE\""
+          },
+          "alias" : "\"TABLEPRICE\"",
+          "_row_id" : "432882204"
+        }, {
+          "expression" : {
+            "expression" : "in1.\"CATALOGUE\""
+          },
+          "alias" : "\"CATALOGUE\"",
+          "_row_id" : "938060029"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "KytiVEE9",
+          "slug" : "in0"
+        }, {
+          "id" : "BGKwmQje",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "x91qkMLe",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "14wQz4nLWl" : {
+      "id" : "14wQz4nLWl",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "seed_table_prices",
+        "phase" : 0,
+        "comment" : "Imports seed price data into the workflow to initialize pricing analytics."
+      },
+      "properties" : {
+        "table" : {
+          "name" : "seed_table_prices",
+          "sourceType" : "Seed"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "eXz0pu66oa",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "5ZjGTQ1NhK" : {
+      "id" : "5ZjGTQ1NhK",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "seed_catalogues",
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "seed_catalogues",
+          "sourceType" : "Seed"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "9BAA1aGKaX",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_VdsFzVAqMAnK4I5bf6dgO$$pasvyRbqjlSlWg2Z4Kh_4_afHxgYcL_seed_table_price_descending_afHxgYcL",
+    "source" : "VdsFzVAqMAnK4I5bf6dgO$$pasvyRbqjlSlWg2Z4Kh_4",
+    "sourcePort" : "afHxgYcL",
+    "target" : "seed_table_price_descending_afHxgYcL",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "bcY4Pker",
+    "source" : "join_seeds##d9U5Be5N",
+    "sourcePort" : "x91qkMLe",
+    "target" : "VdsFzVAqMAnK4I5bf6dgO$$pasvyRbqjlSlWg2Z4Kh_4",
+    "targetPort" : "wbB5IacM",
+    "isWireless" : false
+  }, {
+    "id" : "eXz0pu66oa_to_Lx5rbCy6bI##vkrbuN2u",
+    "source" : "14wQz4nLWl",
+    "sourcePort" : "eXz0pu66oa",
+    "target" : "join_seeds##d9U5Be5N",
+    "targetPort" : "KytiVEE9",
+    "isWireless" : false
+  }, {
+    "id" : "9BAA1aGKaX_to_WBIn4ihHkt##Qkwda5j3",
+    "source" : "5ZjGTQ1NhK",
+    "sourcePort" : "9BAA1aGKaX",
+    "target" : "join_seeds##d9U5Be5N",
+    "targetPort" : "BGKwmQje",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
