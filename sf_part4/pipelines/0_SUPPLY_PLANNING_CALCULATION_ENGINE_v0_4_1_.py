@@ -494,8 +494,9 @@ with Pipeline(args) as pipeline:
     findreplace_390 = Process(
         name = "FindReplace_390",
         properties = Script(
-          scriptMethodHeader = "def Script(spark: SparkSession, in0: Dataframe) -> (Dataframe):",
-          scriptMethodFooter = "return (out0)",
+          ports = None,
+          scriptMethodHeader = "def Script(spark: SparkSession, in0: DataFrame) -> DataFrame:",
+          scriptMethodFooter = "return out0",
           script = "\nimport re\nimport pandas as pd\nimport json\n\nfind_col = \"ROWTYPE\"\nbase_col = \"ROWTYPE\"\nflags = 0\n\ndef wrap_pat(pat):\n    p = str(pat)\n    if False:\n        p = r\"\\b\" + p + r\"\\b\"\n    if False:\n        p = \"^\" + p\n    elif False:\n        p = \"^\" + p + \"$\"\n    return p\n\ndef first_matching_rule(text, rules):\n    if text is None or (isinstance(text, float) and pd.isna(text)):\n        return \"{}\"\n    text = str(text)\n    for rule in rules:\n        if rule is None or not isinstance(rule, dict):\n            continue\n        pat = rule.get(find_col) or rule.get(find_col.replace(\"`\", \"\"))\n        if pat is None:\n            continue\n        pat = wrap_pat(pat)\n        if re.search(pat, text, flags=flags):\n            return json.dumps(rule)\n    return \"{}\"\n\nout0 = in0.copy()\nrules_col = out0[\"_rules\"]\nextracted = [\n    first_matching_rule(row[base_col], row[rules_col] if isinstance(row[rules_col], list) else [])\n    for _, row in out0.iterrows()\n]\nout0[\"_extracted_rule\"] = extracted\n"
         ),
         is_custom_output_schema = True
@@ -812,121 +813,117 @@ with Pipeline(args) as pipeline:
               node_0_supply_planning_calculation_engine_v0_4_1___summarize_173._in(0)]
     )
     salesforecastma_532 >> node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_533
-    (
-        node_0_supply_planning_calculation_engine_v0_4_1___formula_350_0._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(10),
-              node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(0)]
-    )
+    node_0_supply_planning_calculation_engine_v0_4_1___findreplace_390_join >> findreplace_390
     node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_387 >> rgf_inv_availab_383
     dbfileinput_8_8 >> node_0_supply_planning_calculation_engine_v0_4_1___cleanse_214
-    (
-        node_0_supply_planning_calculation_engine_v0_4_1___formula_282_0._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(6),
-              node_0_supply_planning_calculation_engine_v0_4_1___cleanse_317._in(1)]
-    )
-    findreplace_369 >> node_0_supply_planning_calculation_engine_v0_4_1___findreplace_370_join._in(0)
     dbfileinput_254_254 >> node_0_supply_planning_calculation_engine_v0_4_1___union_160._in(3)
     (
         node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_533._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(17),
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(18),
               node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_547._in(0)]
     )
-    node_0_supply_planning_calculation_engine_v0_4_1___findreplace_390_join >> findreplace_390
-    node_0_supply_planning_calculation_engine_v0_4_1___selectrecords_386_cleanup_0 >> rgf_inv_availab_385
     (
         node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_551._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(5),
-              node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(5)]
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(2),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(13)]
     )
     dbfileinput_127_127 >> node_0_supply_planning_calculation_engine_v0_4_1___union_160._in(5)
+    findreplace_369 >> node_0_supply_planning_calculation_engine_v0_4_1___findreplace_370_join._in(1)
     node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422 >> rgf_inv_availab_421
     (
         node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_547._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(13),
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(3),
               node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_551._in(0)]
     )
     salesqb11_10_21_264 >> node_0_supply_planning_calculation_engine_v0_4_1___formula_282_0._in(1)
     (
-        node_0_supply_planning_calculation_engine_v0_4_1___join_195_left._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(2),
-              node_0_supply_planning_calculation_engine_v0_4_1___union_198._in(1)]
-    )
-    (
         node_0_supply_planning_calculation_engine_v0_4_1___union_449._out(0)
         >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(8),
-              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(9),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(15),
               node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_228._in(0)]
+    )
+    (
+        node_0_supply_planning_calculation_engine_v0_4_1___join_339_left._out(0)
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(17),
+              node_0_supply_planning_calculation_engine_v0_4_1___formula_347_1._in(0)]
     )
     (
         node_0_supply_planning_calculation_engine_v0_4_1___union_198._out(0)
         >> [node_0_supply_planning_calculation_engine_v0_4_1___union_449._in(1),
               node_0_supply_planning_calculation_engine_v0_4_1___join_202_left._in(1)]
     )
+    (
+        node_0_supply_planning_calculation_engine_v0_4_1___formula_350_0._out(0)
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(5),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(6)]
+    )
     targetquan_xlsx_620 >> node_0_supply_planning_calculation_engine_v0_4_1___summarize_626
-    textinput_388 >> node_0_supply_planning_calculation_engine_v0_4_1___findreplace_390_join._in(1)
+    textinput_388 >> node_0_supply_planning_calculation_engine_v0_4_1___findreplace_390_join._in(0)
+    (
+        node_0_supply_planning_calculation_engine_v0_4_1___join_195_left._out(0)
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(1),
+              node_0_supply_planning_calculation_engine_v0_4_1___union_198._in(2)]
+    )
     (
         node_0_supply_planning_calculation_engine_v0_4_1___summarize_355._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(4),
-              node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(6)]
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(4),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(9)]
     )
+    findreplace_370 >> node_0_supply_planning_calculation_engine_v0_4_1___findreplace_390_join._in(1)
     (
-        node_0_supply_planning_calculation_engine_v0_4_1___join_339_left._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(1),
-              node_0_supply_planning_calculation_engine_v0_4_1___formula_347_1._in(0)]
+        node_0_supply_planning_calculation_engine_v0_4_1___formula_282_0._out(0)
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(2),
+              node_0_supply_planning_calculation_engine_v0_4_1___cleanse_317._in(2)]
     )
+    node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join >> findreplace_369
     (
-        node_0_supply_planning_calculation_engine_v0_4_1___join_202_left._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(15),
-              node_0_supply_planning_calculation_engine_v0_4_1___union_449._in(2)]
+        node_0_supply_planning_calculation_engine_v0_4_1___formula_215_0._out(0)
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(1),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(0),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(11),
+              node_0_supply_planning_calculation_engine_v0_4_1___union_449._in(2),
+              node_0_supply_planning_calculation_engine_v0_4_1___join_202_left._in(0),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_338._in(1),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_551._in(1)]
+    )
+    node_0_supply_planning_calculation_engine_v0_4_1___selectrecords_386_cleanup_0 >> rgf_inv_availab_385
+    (
+        node_0_supply_planning_calculation_engine_v0_4_1___formula_237_0._out(0)
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(14),
+              node_0_supply_planning_calculation_engine_v0_4_1___formula_347_1._in(2),
+              node_0_supply_planning_calculation_engine_v0_4_1___join_339_left._in(1)]
     )
     (
         node_0_supply_planning_calculation_engine_v0_4_1___cleanse_317._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___union_198._in(0),
-              node_0_supply_planning_calculation_engine_v0_4_1___join_195_left._in(0)]
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___union_198._in(1),
+              node_0_supply_planning_calculation_engine_v0_4_1___join_195_left._in(1)]
     )
     lineage11_01_21_570 >> node_0_supply_planning_calculation_engine_v0_4_1___union_160._in(1)
     rls20211129_001_615 >> node_0_supply_planning_calculation_engine_v0_4_1___union_160._in(7)
     (
         node_0_supply_planning_calculation_engine_v0_4_1___cleanse_214._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(3),
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(7),
               node_0_supply_planning_calculation_engine_v0_4_1___formula_215_0._in(0)]
     )
+    node_0_supply_planning_calculation_engine_v0_4_1___findreplace_370_join >> findreplace_370
     (
         node_0_supply_planning_calculation_engine_v0_4_1___filter_480._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(16),
-              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_338._in(1)]
-    )
-    (
-        node_0_supply_planning_calculation_engine_v0_4_1___formula_347_1._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(14),
-              node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(4),
-              node_0_supply_planning_calculation_engine_v0_4_1___formula_350_0._in(0)]
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(12),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_338._in(0)]
     )
     (
         node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_338._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(0),
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(5),
               node_0_supply_planning_calculation_engine_v0_4_1___formula_347_1._in(1),
-              node_0_supply_planning_calculation_engine_v0_4_1___join_339_left._in(1)]
-    )
-    (
-        node_0_supply_planning_calculation_engine_v0_4_1___formula_237_0._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(11),
-              node_0_supply_planning_calculation_engine_v0_4_1___formula_347_1._in(2),
               node_0_supply_planning_calculation_engine_v0_4_1___join_339_left._in(0)]
     )
-    node_0_supply_planning_calculation_engine_v0_4_1___findreplace_370_join >> findreplace_370
-    woh120921_xlsx__476 >> node_0_supply_planning_calculation_engine_v0_4_1___filter_480
-    node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join >> findreplace_369
     (
-        node_0_supply_planning_calculation_engine_v0_4_1___formula_215_0._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(7),
-              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(18),
-              node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(2),
-              node_0_supply_planning_calculation_engine_v0_4_1___union_449._in(0),
-              node_0_supply_planning_calculation_engine_v0_4_1___join_202_left._in(0),
-              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_338._in(0),
-              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_551._in(1)]
+        node_0_supply_planning_calculation_engine_v0_4_1___formula_347_1._out(0)
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(6),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(16),
+              node_0_supply_planning_calculation_engine_v0_4_1___formula_350_0._in(0)]
     )
+    woh120921_xlsx__476 >> node_0_supply_planning_calculation_engine_v0_4_1___filter_480
     dbfileinput_265_265 >> node_0_supply_planning_calculation_engine_v0_4_1___formula_282_0._in(0)
     (
         dbfileinput_503_503._out(0)
@@ -934,13 +931,18 @@ with Pipeline(args) as pipeline:
               node_0_supply_planning_calculation_engine_v0_4_1___union_160._in(4)]
     )
     findreplace_390 >> node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_372
-    dbfileinput_297_297 >> node_0_supply_planning_calculation_engine_v0_4_1___cleanse_317._in(2)
+    dbfileinput_297_297 >> node_0_supply_planning_calculation_engine_v0_4_1___cleanse_317._in(1)
     (
         node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_228._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(1),
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(0),
               node_0_supply_planning_calculation_engine_v0_4_1___findreplace_369_join._in(3),
-              node_0_supply_planning_calculation_engine_v0_4_1___formula_237_0._in(0),
-              node_0_supply_planning_calculation_engine_v0_4_1___summarize_355._in(0)]
+              node_0_supply_planning_calculation_engine_v0_4_1___summarize_355._in(0),
+              node_0_supply_planning_calculation_engine_v0_4_1___formula_237_0._in(0)]
+    )
+    (
+        node_0_supply_planning_calculation_engine_v0_4_1___join_202_left._out(0)
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(4),
+              node_0_supply_planning_calculation_engine_v0_4_1___union_449._in(0)]
     )
     dbfileinput_572_572 >> node_0_supply_planning_calculation_engine_v0_4_1___union_160._in(6)
     (
@@ -950,12 +952,11 @@ with Pipeline(args) as pipeline:
     )
     (
         node_0_supply_planning_calculation_engine_v0_4_1___cleanse_316._out(0)
-        >> [node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(12),
-              node_0_supply_planning_calculation_engine_v0_4_1___findreplace_370_join._in(1),
-              node_0_supply_planning_calculation_engine_v0_4_1___union_198._in(2),
-              node_0_supply_planning_calculation_engine_v0_4_1___join_195_left._in(1)]
+        >> [node_0_supply_planning_calculation_engine_v0_4_1___findreplace_370_join._in(0),
+              node_0_supply_planning_calculation_engine_v0_4_1___alteryxselect_422._in(10),
+              node_0_supply_planning_calculation_engine_v0_4_1___union_198._in(0),
+              node_0_supply_planning_calculation_engine_v0_4_1___join_195_left._in(0)]
     )
     dbfileinput_35_35 >> node_0_supply_planning_calculation_engine_v0_4_1___union_160._in(0)
     warehousemaster_129 >> node_0_supply_planning_calculation_engine_v0_4_1___cleanse_316
     dbfileinput_255_255 >> node_0_supply_planning_calculation_engine_v0_4_1___union_160._in(8)
-    findreplace_370 >> node_0_supply_planning_calculation_engine_v0_4_1___findreplace_390_join._in(0)

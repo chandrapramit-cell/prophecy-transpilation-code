@@ -6,98 +6,7 @@
   })
 }}
 
-WITH Formula_282_0 AS (
-
-  SELECT *
-  
-  FROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Formula_282_0')}}
-
-),
-
-Union_160 AS (
-
-  SELECT *
-  
-  FROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Union_160')}}
-
-),
-
-Filter_571 AS (
-
-  SELECT * 
-  
-  FROM Union_160 AS in0
-  
-  WHERE (
-          (
-            (
-              NOT(
-                QTY = 0)
-            ) OR (QTY IS NULL)
-          ) AND (QTY IS NOT NULL)
-        )
-
-),
-
-Formula_178_0 AS (
-
-  SELECT 
-    CURRENT_DATE AS DATE_OF_EVENT,
-    CAST('1_BEG_INVENTORY' AS STRING) AS ROWTYPE,
-    1 AS ROWSORTTIER,
-    *
-  
-  FROM Filter_571 AS in0
-
-),
-
-Cleanse_219 AS (
-
-  {{
-    prophecy_basics.DataCleansing(
-      ['Formula_178_0'], 
-      [
-        { "name": "DATE_OF_EVENT", "dataType": "Date" }, 
-        { "name": "ROWTYPE", "dataType": "String" }, 
-        { "name": "ROWSORTTIER", "dataType": "Number" }, 
-        { "name": "SOURCE_WH_DESC", "dataType": "String" }, 
-        { "name": "SKU", "dataType": "String" }, 
-        { "name": "FILENAME", "dataType": "String" }, 
-        { "name": "QTY", "dataType": "Number" }
-      ], 
-      'keepOriginal', 
-      ['QTY'], 
-      true, 
-      '', 
-      true, 
-      0, 
-      false, 
-      false, 
-      false, 
-      true, 
-      true, 
-      false, 
-      false, 
-      false, 
-      '1970-01-01', 
-      false, 
-      '1970-01-01 00:00:00.0'
-    )
-  }}
-
-),
-
-AlteryxSelect_193 AS (
-
-  SELECT 
-    CAST(QTY AS INTEGER) AS QTY,
-    * EXCLUDE ("QTY")
-  
-  FROM Cleanse_219 AS in0
-
-),
-
-DbFileInput_297_297 AS (
+WITH DbFileInput_297_297 AS (
 
   SELECT *
   
@@ -119,7 +28,7 @@ DynamicRename_298 AS (
 
   SELECT 
     "REAL GOOD FOOD COMPANY" AS FIELD_26,
-    F2 AS VARIABLEDATE,
+    F2 AS "DATE",
     F3 AS NUM,
     F4 AS VENDOR,
     F5 AS PRODUCTSLASHSERVICE,
@@ -202,8 +111,8 @@ Formula_301_0 AS (
         ELSE NULL
       END
     ) AS PRODUCTION_OR_TRANSFER_FLAG,
-    CAST((DATE_PART('EPOCH_SECOND', (TO_TIMESTAMP((REGEXP_REPLACE(VARIABLEDATE, '\\.\\d+', '')), 'MM/DD/YY')))) AS STRING) AS VARIABLEDATE,
-    * EXCLUDE ("VARIABLEDATE")
+    CAST(date_part('EPOCH_SECOND', to_timestamp(regexp_replace(DATE, '\\.\\d+', ''), 'MM/DD/YY')) AS STRING) AS "DATE",
+    * EXCLUDE ("DATE")
   
   FROM DynamicRename_298_drop_0 AS in0
 
@@ -306,10 +215,10 @@ Formula_499_0 AS (
       DATE_PART(
         'EPOCH_SECOND', 
         (TO_TIMESTAMP((REGEXP_REPLACE("CLIENTSLASHVENDOR MESSAGE3", '\\.\\d+', '')), 'MMDDYY')))
-    ) AS STRING) AS VARIABLEDATE,
+    ) AS STRING) AS "DATE",
     CAST("CLIENTSLASHVENDOR MESSAGE2" AS STRING) AS SOURCE_WH_DESC,
     (-1 * QTY) AS QTY,
-    * EXCLUDE ("VARIABLEDATE", "SOURCE_WH_DESC", "QTY")
+    * EXCLUDE ("DATE", "SOURCE_WH_DESC", "QTY")
   
   FROM TextToColumns_498_dropGem_0 AS in0
 
@@ -318,16 +227,8 @@ Formula_499_0 AS (
 Formula_499_1 AS (
 
   SELECT 
-    (TO_CHAR(TRY_TO_DATE(VARIABLEDATE), 'YYYY-MM-DD')) AS SHIP_DT,
-    (
-      TO_CHAR(
-        (
-          DATE_PART(
-            'EPOCH_SECOND', 
-            (TO_TIMESTAMP((REGEXP_REPLACE("CLIENTSLASHVENDOR MESSAGE6", '\\.\\d+', '')), 'MMDDYY')))
-        ), 
-        'YYYY-MM-DD')
-    ) AS DELIVERY_DT,
+    1 AS SHIP_DT,
+    1 AS DELIVERY_DT,
     *
   
   FROM Formula_499_0 AS in0
@@ -343,46 +244,10 @@ Formula_307_0 AS (
       DATE_PART(
         'EPOCH_SECOND', 
         (TO_TIMESTAMP((REGEXP_REPLACE("CLIENTSLASHVENDOR MESSAGE6", '\\.\\d+', '')), 'MMDDYY')))
-    ) AS STRING) AS VARIABLEDATE,
-    * EXCLUDE ("VARIABLEDATE", "SOURCE_WH_DESC", "QTY")
+    ) AS STRING) AS "DATE",
+    * EXCLUDE ("DATE", "SOURCE_WH_DESC", "QTY")
   
   FROM Formula_499_1 AS in0
-
-),
-
-Union_191_reformat_2 AS (
-
-  SELECT 
-    CAST(CUSTOMER AS STRING) AS CUSTOMER,
-    DATE_OF_EVENT AS DATE_OF_EVENT,
-    (TO_CHAR(TRY_TO_DATE(DELIVERY_DT), 'YYYY-MM-DD')) AS DELIVERY_DT,
-    FILENAME AS FILENAME,
-    CAST(PICKUP_OR_DELIVERY AS STRING) AS PICKUP_OR_DELIVERY,
-    CAST(PO_NUMBER AS STRING) AS PO_NUMBER,
-    CAST(QTY AS FLOAT) AS QTY,
-    ROWSORTTIER AS ROWSORTTIER,
-    ROWTYPE AS ROWTYPE,
-    CAST(SALES_ORDER AS STRING) AS SALES_ORDER,
-    (TO_CHAR(TRY_TO_DATE(SHIP_DT), 'YYYY-MM-DD')) AS SHIP_DT,
-    SKU AS SKU,
-    SOURCE_WH_DESC AS SOURCE_WH_DESC
-  
-  FROM Formula_282_0 AS in0
-
-),
-
-Union_191_reformat_0 AS (
-
-  SELECT 
-    DATE_OF_EVENT AS DATE_OF_EVENT,
-    FILENAME AS FILENAME,
-    CAST(QTY AS FLOAT) AS QTY,
-    ROWSORTTIER AS ROWSORTTIER,
-    ROWTYPE AS ROWTYPE,
-    SKU AS SKU,
-    SOURCE_WH_DESC AS SOURCE_WH_DESC
-  
-  FROM AlteryxSelect_193 AS in0
 
 ),
 
@@ -402,9 +267,9 @@ Union_309 AS (
     prophecy_basics.UnionByName(
       ['Formula_307_0', 'Filter_496', 'Formula_499_1'], 
       [
-        '[{"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "QTY", "dataType": "Number"}, {"name": "VARIABLEDATE", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "String"}, {"name": "DELIVERY_DT", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE1", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE2", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE3", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE4", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE5", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE6", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "FROM_WH_ID", "dataType": "String"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "PRODUCTION_OR_TRANSFER_FLAG", "dataType": "String"}, {"name": "RATE", "dataType": "String"}, {"name": "TOTAL AMT", "dataType": "String"}, {"name": "CREATED BY", "dataType": "String"}, {"name": "PRODUCTSLASHSERVICE", "dataType": "String"}, {"name": "ACCOUNT", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "TAX NAME", "dataType": "String"}, {"name": "LAST MODIFIED BY", "dataType": "String"}, {"name": "RECEIVED AMT", "dataType": "String"}, {"name": "VENDOR", "dataType": "String"}, {"name": "RECEIVED QTY", "dataType": "String"}, {"name": "LAST MODIFIED", "dataType": "String"}, {"name": "TAXABLE AMOUNT", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "OPEN BALANCE", "dataType": "String"}, {"name": "TAX AMOUNT", "dataType": "String"}, {"name": "BACKORDERED QTY", "dataType": "String"}, {"name": "CLASS", "dataType": "String"}, {"name": "MEMOSLASHDESCRIPTION", "dataType": "String"}, {"name": "FIELD_26", "dataType": "String"}, {"name": "CREATE DATE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_1_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_2_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_3_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_4_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_5_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_6_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}]', 
-        '[{"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "FROM_WH_ID", "dataType": "String"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "QTY", "dataType": "Number"}, {"name": "PRODUCTION_OR_TRANSFER_FLAG", "dataType": "String"}, {"name": "VARIABLEDATE", "dataType": "String"}, {"name": "RATE", "dataType": "String"}, {"name": "TOTAL AMT", "dataType": "String"}, {"name": "CREATED BY", "dataType": "String"}, {"name": "PRODUCTSLASHSERVICE", "dataType": "String"}, {"name": "ACCOUNT", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "TAX NAME", "dataType": "String"}, {"name": "LAST MODIFIED BY", "dataType": "String"}, {"name": "RECEIVED AMT", "dataType": "String"}, {"name": "VENDOR", "dataType": "String"}, {"name": "RECEIVED QTY", "dataType": "String"}, {"name": "LAST MODIFIED", "dataType": "String"}, {"name": "TAXABLE AMOUNT", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "OPEN BALANCE", "dataType": "String"}, {"name": "TAX AMOUNT", "dataType": "String"}, {"name": "BACKORDERED QTY", "dataType": "String"}, {"name": "CLASS", "dataType": "String"}, {"name": "MEMOSLASHDESCRIPTION", "dataType": "String"}, {"name": "FIELD_26", "dataType": "String"}, {"name": "CREATE DATE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}]', 
-        '[{"name": "SHIP_DT", "dataType": "String"}, {"name": "DELIVERY_DT", "dataType": "String"}, {"name": "VARIABLEDATE", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "QTY", "dataType": "Number"}, {"name": "CLIENTSLASHVENDOR MESSAGE1", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE2", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE3", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE4", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE5", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE6", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "FROM_WH_ID", "dataType": "String"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "PRODUCTION_OR_TRANSFER_FLAG", "dataType": "String"}, {"name": "RATE", "dataType": "String"}, {"name": "TOTAL AMT", "dataType": "String"}, {"name": "CREATED BY", "dataType": "String"}, {"name": "PRODUCTSLASHSERVICE", "dataType": "String"}, {"name": "ACCOUNT", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "TAX NAME", "dataType": "String"}, {"name": "LAST MODIFIED BY", "dataType": "String"}, {"name": "RECEIVED AMT", "dataType": "String"}, {"name": "VENDOR", "dataType": "String"}, {"name": "RECEIVED QTY", "dataType": "String"}, {"name": "LAST MODIFIED", "dataType": "String"}, {"name": "TAXABLE AMOUNT", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "OPEN BALANCE", "dataType": "String"}, {"name": "TAX AMOUNT", "dataType": "String"}, {"name": "BACKORDERED QTY", "dataType": "String"}, {"name": "CLASS", "dataType": "String"}, {"name": "MEMOSLASHDESCRIPTION", "dataType": "String"}, {"name": "FIELD_26", "dataType": "String"}, {"name": "CREATE DATE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_1_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_2_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_3_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_4_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_5_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_6_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}]'
+        '[{"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "QTY", "dataType": "Number"}, {"name": "DATE", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "Number"}, {"name": "DELIVERY_DT", "dataType": "Number"}, {"name": "CLIENTSLASHVENDOR MESSAGE1", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE2", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE3", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE4", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE5", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE6", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "FROM_WH_ID", "dataType": "String"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "PRODUCTION_OR_TRANSFER_FLAG", "dataType": "String"}, {"name": "RATE", "dataType": "String"}, {"name": "TOTAL AMT", "dataType": "String"}, {"name": "CREATED BY", "dataType": "String"}, {"name": "PRODUCTSLASHSERVICE", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "TAX NAME", "dataType": "String"}, {"name": "LAST MODIFIED BY", "dataType": "String"}, {"name": "RECEIVED AMT", "dataType": "String"}, {"name": "VENDOR", "dataType": "String"}, {"name": "RECEIVED QTY", "dataType": "String"}, {"name": "ACCOUNT", "dataType": "String"}, {"name": "LAST MODIFIED", "dataType": "String"}, {"name": "TAXABLE AMOUNT", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "OPEN BALANCE", "dataType": "String"}, {"name": "TAX AMOUNT", "dataType": "String"}, {"name": "BACKORDERED QTY", "dataType": "String"}, {"name": "CLASS", "dataType": "String"}, {"name": "MEMOSLASHDESCRIPTION", "dataType": "String"}, {"name": "FIELD_26", "dataType": "String"}, {"name": "CREATE DATE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_1_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_2_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_3_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_4_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_5_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_6_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}]', 
+        '[{"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "FROM_WH_ID", "dataType": "String"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "QTY", "dataType": "Number"}, {"name": "PRODUCTION_OR_TRANSFER_FLAG", "dataType": "String"}, {"name": "DATE", "dataType": "String"}, {"name": "RATE", "dataType": "String"}, {"name": "TOTAL AMT", "dataType": "String"}, {"name": "CREATED BY", "dataType": "String"}, {"name": "PRODUCTSLASHSERVICE", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "TAX NAME", "dataType": "String"}, {"name": "LAST MODIFIED BY", "dataType": "String"}, {"name": "RECEIVED AMT", "dataType": "String"}, {"name": "VENDOR", "dataType": "String"}, {"name": "RECEIVED QTY", "dataType": "String"}, {"name": "ACCOUNT", "dataType": "String"}, {"name": "LAST MODIFIED", "dataType": "String"}, {"name": "TAXABLE AMOUNT", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "OPEN BALANCE", "dataType": "String"}, {"name": "TAX AMOUNT", "dataType": "String"}, {"name": "BACKORDERED QTY", "dataType": "String"}, {"name": "CLASS", "dataType": "String"}, {"name": "MEMOSLASHDESCRIPTION", "dataType": "String"}, {"name": "FIELD_26", "dataType": "String"}, {"name": "CREATE DATE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}]', 
+        '[{"name": "SHIP_DT", "dataType": "Number"}, {"name": "DELIVERY_DT", "dataType": "Number"}, {"name": "DATE", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "QTY", "dataType": "Number"}, {"name": "CLIENTSLASHVENDOR MESSAGE1", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE2", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE3", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE4", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE5", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE6", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "FROM_WH_ID", "dataType": "String"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "PRODUCTION_OR_TRANSFER_FLAG", "dataType": "String"}, {"name": "RATE", "dataType": "String"}, {"name": "TOTAL AMT", "dataType": "String"}, {"name": "CREATED BY", "dataType": "String"}, {"name": "PRODUCTSLASHSERVICE", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "TAX NAME", "dataType": "String"}, {"name": "LAST MODIFIED BY", "dataType": "String"}, {"name": "RECEIVED AMT", "dataType": "String"}, {"name": "VENDOR", "dataType": "String"}, {"name": "RECEIVED QTY", "dataType": "String"}, {"name": "ACCOUNT", "dataType": "String"}, {"name": "LAST MODIFIED", "dataType": "String"}, {"name": "TAXABLE AMOUNT", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "OPEN BALANCE", "dataType": "String"}, {"name": "TAX AMOUNT", "dataType": "String"}, {"name": "BACKORDERED QTY", "dataType": "String"}, {"name": "CLASS", "dataType": "String"}, {"name": "MEMOSLASHDESCRIPTION", "dataType": "String"}, {"name": "FIELD_26", "dataType": "String"}, {"name": "CREATE DATE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_1_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_2_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_3_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_4_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_5_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}, {"name": "CLIENTSLASHVENDOR MESSAGE_6_CLIENTSLASHVENDOR MESSAGE", "dataType": "String"}]'
       ], 
       'allowMissingColumns'
     )
@@ -416,7 +281,12 @@ AlteryxSelect_300 AS (
 
   SELECT 
     SOURCE_WH_DESC AS SOURCE_WH_DESC,
-    CAST((TRY_TO_TIMESTAMP(CAST(VARIABLEDATE AS string), 'YYYY-MM-DD HH24:MI:SS.FF4')) AS DATE) AS DATE_OF_EVENT,
+    to_date(
+      CAST(coalesce(
+        to_timestamp(CAST(DATE AS STRING), 'YYYY-MM-DD HH24:MI:SS.FF4'), 
+        to_timestamp(CAST(DATE AS STRING), 'YYYY-MM-DD HH24:MI:SS'), 
+        to_timestamp(CAST(DATE AS STRING), 'YYYY-MM-DD')) AS STRING), 
+      'YYYY-MM-DD HH24:MI:SS.FF4') AS DATE_OF_EVENT,
     PO_NUMBER AS PO_NUMBER,
     SKU AS SKU,
     QTY AS QTY,
@@ -435,18 +305,145 @@ Union_191_reformat_1 AS (
 
   SELECT 
     DATE_OF_EVENT AS DATE_OF_EVENT,
-    (TO_CHAR(TRY_TO_DATE(DELIVERY_DT), 'YYYY-MM-DD')) AS DELIVERY_DT,
+    (TO_CHAR((TRY_TO_DATE(DELIVERY_DT)), 'YYYY-MM-DD')) AS DELIVERY_DT,
     FILENAME AS FILENAME,
     CAST(PO_NUMBER AS STRING) AS PO_NUMBER,
     CAST(PRODUCTION_OR_TRANSFER AS STRING) AS PRODUCTION_OR_TRANSFER,
     CAST(QTY AS FLOAT) AS QTY,
     ROWSORTTIER AS ROWSORTTIER,
     ROWTYPE AS ROWTYPE,
-    (TO_CHAR(TRY_TO_DATE(SHIP_DT), 'YYYY-MM-DD')) AS SHIP_DT,
+    (TO_CHAR((TRY_TO_DATE(SHIP_DT)), 'YYYY-MM-DD')) AS SHIP_DT,
     SKU AS SKU,
     SOURCE_WH_DESC AS SOURCE_WH_DESC
   
   FROM AlteryxSelect_300 AS in0
+
+),
+
+Union_160 AS (
+
+  SELECT *
+  
+  FROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Union_160')}}
+
+),
+
+Filter_571 AS (
+
+  SELECT * 
+  
+  FROM Union_160 AS in0
+  
+  WHERE (
+          (
+            (
+              NOT(
+                QTY = 0)
+            ) OR (QTY IS NULL)
+          ) AND (QTY IS NOT NULL)
+        )
+
+),
+
+Formula_178_0 AS (
+
+  SELECT 
+    CURRENT_DATE AS DATE_OF_EVENT,
+    CAST('1_BEG_INVENTORY' AS STRING) AS ROWTYPE,
+    1 AS ROWSORTTIER,
+    *
+  
+  FROM Filter_571 AS in0
+
+),
+
+Cleanse_219 AS (
+
+  {{
+    prophecy_basics.DataCleansing(
+      ['Formula_178_0'], 
+      [
+        { "name": "DATE_OF_EVENT", "dataType": "Date" }, 
+        { "name": "ROWTYPE", "dataType": "String" }, 
+        { "name": "ROWSORTTIER", "dataType": "Number" }, 
+        { "name": "SOURCE_WH_DESC", "dataType": "String" }, 
+        { "name": "SKU", "dataType": "String" }, 
+        { "name": "FILENAME", "dataType": "String" }, 
+        { "name": "QTY", "dataType": "Number" }
+      ], 
+      'keepOriginal', 
+      ['QTY'], 
+      true, 
+      '', 
+      true, 
+      0, 
+      false, 
+      false, 
+      false, 
+      true, 
+      true, 
+      false, 
+      false, 
+      false, 
+      '1970-01-01', 
+      false, 
+      '1970-01-01 00:00:00.0'
+    )
+  }}
+
+),
+
+AlteryxSelect_193 AS (
+
+  SELECT 
+    CAST(QTY AS INTEGER) AS QTY,
+    * EXCLUDE ("QTY")
+  
+  FROM Cleanse_219 AS in0
+
+),
+
+Union_191_reformat_0 AS (
+
+  SELECT 
+    DATE_OF_EVENT AS DATE_OF_EVENT,
+    FILENAME AS FILENAME,
+    CAST(QTY AS FLOAT) AS QTY,
+    ROWSORTTIER AS ROWSORTTIER,
+    ROWTYPE AS ROWTYPE,
+    SKU AS SKU,
+    SOURCE_WH_DESC AS SOURCE_WH_DESC
+  
+  FROM AlteryxSelect_193 AS in0
+
+),
+
+Formula_282_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Formula_282_0')}}
+
+),
+
+Union_191_reformat_2 AS (
+
+  SELECT 
+    CAST(CUSTOMER AS STRING) AS CUSTOMER,
+    DATE_OF_EVENT AS DATE_OF_EVENT,
+    (TO_CHAR((TRY_TO_DATE(DELIVERY_DT)), 'YYYY-MM-DD')) AS DELIVERY_DT,
+    FILENAME AS FILENAME,
+    CAST(PICKUP_OR_DELIVERY AS STRING) AS PICKUP_OR_DELIVERY,
+    CAST(PO_NUMBER AS STRING) AS PO_NUMBER,
+    CAST(QTY AS FLOAT) AS QTY,
+    ROWSORTTIER AS ROWSORTTIER,
+    ROWTYPE AS ROWTYPE,
+    CAST(SALES_ORDER AS STRING) AS SALES_ORDER,
+    (TO_CHAR((TRY_TO_DATE(SHIP_DT)), 'YYYY-MM-DD')) AS SHIP_DT,
+    SKU AS SKU,
+    SOURCE_WH_DESC AS SOURCE_WH_DESC
+  
+  FROM Formula_282_0 AS in0
 
 ),
 
@@ -456,9 +453,9 @@ Union_191 AS (
     prophecy_basics.UnionByName(
       ['Union_191_reformat_0', 'Union_191_reformat_2', 'Union_191_reformat_1'], 
       [
-        '[{"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "FILENAME", "dataType": "String"}, {"name": "QTY", "dataType": "Float"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}]', 
-        '[{"name": "CUSTOMER", "dataType": "String"}, {"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "DELIVERY_DT", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "PICKUP_OR_DELIVERY", "dataType": "String"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "QTY", "dataType": "Float"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "SALES_ORDER", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}]', 
-        '[{"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "DELIVERY_DT", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "PRODUCTION_OR_TRANSFER", "dataType": "String"}, {"name": "QTY", "dataType": "Float"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}]'
+        '[{"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "FILENAME", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "QTY", "dataType": "Integer"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Integer"}]', 
+        '[{"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "FILENAME", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "SALES_ORDER", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "DELIVERY_DT", "dataType": "Date"}, {"name": "QTY", "dataType": "Integer"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "PICKUP_OR_DELIVERY", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "Date"}, {"name": "ROWSORTTIER", "dataType": "Integer"}]', 
+        '[{"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "FILENAME", "dataType": "String"}, {"name": "SKU", "dataType": "String"}, {"name": "DELIVERY_DT", "dataType": "Date"}, {"name": "QTY", "dataType": "Double"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "Date"}, {"name": "PRODUCTION_OR_TRANSFER", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Integer"}]'
       ], 
       'allowMissingColumns'
     )
@@ -482,20 +479,20 @@ Cleanse_317 AS (
     prophecy_basics.DataCleansing(
       ['AlteryxSelect_204'], 
       [
-        { "name": "SOURCE_SKU", "dataType": "String" }, 
         { "name": "DATE_OF_EVENT", "dataType": "Date" }, 
         { "name": "FILENAME", "dataType": "String" }, 
-        { "name": "QTY", "dataType": "Float" }, 
-        { "name": "ROWSORTTIER", "dataType": "Number" }, 
-        { "name": "ROWTYPE", "dataType": "String" }, 
-        { "name": "SOURCE_WH_DESC", "dataType": "String" }, 
-        { "name": "CUSTOMER", "dataType": "String" }, 
-        { "name": "DELIVERY_DT", "dataType": "String" }, 
-        { "name": "PICKUP_OR_DELIVERY", "dataType": "String" }, 
-        { "name": "PO_NUMBER", "dataType": "String" }, 
         { "name": "SALES_ORDER", "dataType": "String" }, 
-        { "name": "SHIP_DT", "dataType": "String" }, 
-        { "name": "PRODUCTION_OR_TRANSFER", "dataType": "String" }
+        { "name": "SOURCE_SKU", "dataType": "String" }, 
+        { "name": "CUSTOMER", "dataType": "String" }, 
+        { "name": "DELIVERY_DT", "dataType": "Date" }, 
+        { "name": "QTY", "dataType": "Double" }, 
+        { "name": "ROWTYPE", "dataType": "String" }, 
+        { "name": "PO_NUMBER", "dataType": "String" }, 
+        { "name": "PICKUP_OR_DELIVERY", "dataType": "String" }, 
+        { "name": "SOURCE_WH_DESC", "dataType": "String" }, 
+        { "name": "SHIP_DT", "dataType": "Date" }, 
+        { "name": "PRODUCTION_OR_TRANSFER", "dataType": "String" }, 
+        { "name": "ROWSORTTIER", "dataType": "Integer" }
       ], 
       'makeUppercase', 
       ['SOURCE_WH_DESC', 'SOURCE_SKU'], 

@@ -468,6 +468,86 @@ Summarize_523 AS (
 
 ),
 
+Filter_245 AS (
+
+  SELECT * 
+  
+  FROM DbFileInput_254_254 AS in0
+  
+  WHERE (F3 IS NOT NULL)
+
+),
+
+DynamicRename_252 AS (
+
+  SELECT 
+    "INVENTORY LIST" AS "PRODUCT CODE",
+    F2 AS DESCRIPTION,
+    F3 AS "ONHAND QTY",
+    F4 AS "PENDING QTY",
+    F5 AS "NA QTY",
+    F6 AS "HOLD QTY",
+    F7 AS "AVAIL QTY",
+    F8 AS FIELD_10,
+    FILENAME AS "12__13__21_IWI"
+  
+  FROM Filter_245 AS in0
+
+),
+
+DynamicRename_252_row_number AS (
+
+  {{
+    prophecy_basics.RecordID(
+      ['DynamicRename_252'], 
+      'incremental_id', 
+      'PROPHECY_ROW_ID', 
+      'integer', 
+      6, 
+      1, 
+      'tableLevel', 
+      'first_column', 
+      [], 
+      []
+    )
+  }}
+
+),
+
+DynamicRename_252_filter AS (
+
+  SELECT * 
+  
+  FROM DynamicRename_252_row_number AS in0
+  
+  WHERE (
+          (
+            NOT(
+              PROPHECY_ROW_ID = 1)
+          ) OR (PROPHECY_ROW_ID IS NULL)
+        )
+
+),
+
+DynamicRename_252_drop_0 AS (
+
+  SELECT * EXCLUDE ("PROPHECY_ROW_ID")
+  
+  FROM DynamicRename_252_filter AS in0
+
+),
+
+Formula_247_0 AS (
+
+  SELECT 
+    CAST('IWI Franklin' AS STRING) AS SOURCE_WH_DESC,
+    CAST('1_iv Franklin Inventory' AS STRING) AS FILENAME,
+    *
+  
+  FROM DynamicRename_252_drop_0 AS in0
+
+),
+
 DbFileInput_35_35 AS (
 
   SELECT *
@@ -596,86 +676,6 @@ Summarize_613 AS (
   
   GROUP BY 
     SOURCE_WH_DESC, SKU, FILENAME
-
-),
-
-Filter_245 AS (
-
-  SELECT * 
-  
-  FROM DbFileInput_254_254 AS in0
-  
-  WHERE (F3 IS NOT NULL)
-
-),
-
-DynamicRename_252 AS (
-
-  SELECT 
-    "INVENTORY LIST" AS "PRODUCT CODE",
-    F2 AS DESCRIPTION,
-    F3 AS "ONHAND QTY",
-    F4 AS "PENDING QTY",
-    F5 AS "NA QTY",
-    F6 AS "HOLD QTY",
-    F7 AS "AVAIL QTY",
-    F8 AS FIELD_10,
-    FILENAME AS "12__13__21_IWI"
-  
-  FROM Filter_245 AS in0
-
-),
-
-DynamicRename_252_row_number AS (
-
-  {{
-    prophecy_basics.RecordID(
-      ['DynamicRename_252'], 
-      'incremental_id', 
-      'PROPHECY_ROW_ID', 
-      'integer', 
-      6, 
-      1, 
-      'tableLevel', 
-      'first_column', 
-      [], 
-      []
-    )
-  }}
-
-),
-
-DynamicRename_252_filter AS (
-
-  SELECT * 
-  
-  FROM DynamicRename_252_row_number AS in0
-  
-  WHERE (
-          (
-            NOT(
-              PROPHECY_ROW_ID = 1)
-          ) OR (PROPHECY_ROW_ID IS NULL)
-        )
-
-),
-
-DynamicRename_252_drop_0 AS (
-
-  SELECT * EXCLUDE ("PROPHECY_ROW_ID")
-  
-  FROM DynamicRename_252_filter AS in0
-
-),
-
-Formula_247_0 AS (
-
-  SELECT 
-    CAST('IWI Franklin' AS STRING) AS SOURCE_WH_DESC,
-    CAST('1_iv Franklin Inventory' AS STRING) AS FILENAME,
-    *
-  
-  FROM DynamicRename_252_drop_0 AS in0
 
 ),
 

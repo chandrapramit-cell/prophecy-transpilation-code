@@ -17,7 +17,7 @@ WITH FindReplace_390 AS (
 FindReplace_390_reorg_0 AS (
 
   SELECT 
-    (GET_JSON_OBJECT(_EXTRACTED_RULE, '$.EVENT')) AS EVENT,
+    (GET_PATH((PARSE_JSON(_EXTRACTED_RULE)), 'EVENT')) AS EVENT,
     * EXCLUDE ("_RULES", "_EXTRACTED_RULE")
   
   FROM FindReplace_390 AS in0

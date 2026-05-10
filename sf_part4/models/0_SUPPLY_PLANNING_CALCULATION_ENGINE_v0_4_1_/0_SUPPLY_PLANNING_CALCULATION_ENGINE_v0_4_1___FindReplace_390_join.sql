@@ -6,7 +6,15 @@
   })
 }}
 
-WITH FindReplace_370 AS (
+WITH TextInput_388 AS (
+
+  SELECT * 
+  
+  FROM {{ ref('seed_388')}}
+
+),
+
+FindReplace_370 AS (
 
   SELECT *
   
@@ -14,11 +22,13 @@ WITH FindReplace_370 AS (
 
 ),
 
-TextInput_388 AS (
+FindReplace_370_reorg_0 AS (
 
-  SELECT * 
+  SELECT 
+    (GET_PATH((PARSE_JSON(_EXTRACTED_RULE)), 'WH_DESC_STANDARD')) AS WH_DESC_STANDARD,
+    * EXCLUDE ("_RULES", "_EXTRACTED_RULE")
   
-  FROM {{ ref('seed_388')}}
+  FROM FindReplace_370 AS in0
 
 ),
 
@@ -34,19 +44,9 @@ TextInput_388_cast AS (
 
 FindReplace_390_allRules AS (
 
-  SELECT (ARRAY_AGG((OBJECT_CONSTRUCT(EVENT, ROWTYPE)))) AS _RULES
+  SELECT (ARRAY_AGG((OBJECT_CONSTRUCT('EVENT', EVENT, 'ROWTYPE', ROWTYPE)))) AS _RULES
   
   FROM TextInput_388_cast AS in0
-
-),
-
-FindReplace_370_reorg_0 AS (
-
-  SELECT 
-    (GET_JSON_OBJECT(_EXTRACTED_RULE, '$.WH_DESC_STANDARD')) AS WH_DESC_STANDARD,
-    * EXCLUDE ("_RULES", "_EXTRACTED_RULE")
-  
-  FROM FindReplace_370 AS in0
 
 ),
 

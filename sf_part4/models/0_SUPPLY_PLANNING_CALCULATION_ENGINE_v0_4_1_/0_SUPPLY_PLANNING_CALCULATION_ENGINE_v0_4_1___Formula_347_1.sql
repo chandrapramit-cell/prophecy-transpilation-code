@@ -6,7 +6,15 @@
   })
 }}
 
-WITH AlteryxSelect_338 AS (
+WITH Join_339_left AS (
+
+  SELECT *
+  
+  FROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Join_339_left')}}
+
+),
+
+AlteryxSelect_338 AS (
 
   SELECT *
   
@@ -31,14 +39,6 @@ Join_339_inner AS (
   FROM Formula_237_0 AS in0
   INNER JOIN AlteryxSelect_338 AS in1
      ON (in0.SKU_STANDARD = in1.SKU_STANDARD)
-
-),
-
-Join_339_left AS (
-
-  SELECT *
-  
-  FROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Join_339_left')}}
 
 ),
 

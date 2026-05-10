@@ -28,7 +28,7 @@ DynamicRename_478 AS (
 
   SELECT 
     "1" AS SKU,
-    "2" AS VARIABLEDESC,
+    "2" AS "DESC",
     "3" AS "PRP2 DESC",
     "4" AS "PRP3 DESC",
     "5" AS F21WK36,

@@ -6,7 +6,86 @@
   })
 }}
 
-WITH DbFileInput_265_265 AS (
+WITH SalesQB11_10_21_264 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1_', 'SalesQB11_10_21_264') }}
+
+),
+
+Filter_270 AS (
+
+  SELECT * 
+  
+  FROM SalesQB11_10_21_264 AS in0
+  
+  WHERE ((F2 IS NOT NULL) AND (F5 IS NOT NULL))
+
+),
+
+DynamicRename_269 AS (
+
+  SELECT 
+    "REAL GOOD FOOD COMPANY" AS FIELD_12,
+    F2 AS "DATE",
+    F3 AS "TRANSACTION TYPE",
+    F4 AS NUM,
+    F5 AS "PO NUMBER",
+    F6 AS CUSTOMER,
+    F7 AS PRODUCTSLASHSERVICE,
+    F8 AS SKU,
+    F9 AS QTY,
+    F10 AS "SALES PRICE",
+    F11 AS AMOUNT
+  
+  FROM Filter_270 AS in0
+
+),
+
+DynamicRename_269_row_number AS (
+
+  {{
+    prophecy_basics.RecordID(
+      ['DynamicRename_269'], 
+      'incremental_id', 
+      'PROPHECY_ROW_ID', 
+      'integer', 
+      6, 
+      1, 
+      'tableLevel', 
+      'first_column', 
+      [], 
+      []
+    )
+  }}
+
+),
+
+DynamicRename_269_filter AS (
+
+  SELECT * 
+  
+  FROM DynamicRename_269_row_number AS in0
+  
+  WHERE (
+          (
+            NOT(
+              PROPHECY_ROW_ID = 1)
+          ) OR (PROPHECY_ROW_ID IS NULL)
+        )
+
+),
+
+DynamicRename_269_drop_0 AS (
+
+  SELECT * EXCLUDE ("PROPHECY_ROW_ID")
+  
+  FROM DynamicRename_269_filter AS in0
+
+),
+
+DbFileInput_265_265 AS (
 
   SELECT *
   
@@ -28,7 +107,7 @@ DynamicRename_266 AS (
 
   SELECT 
     F1 AS FIELD_8,
-    F2 AS VARIABLEDATE,
+    F2 AS "DATE",
     F3 AS "EXPIRATION DATE",
     F4 AS "NAME",
     F5 AS "PO NUMBER",
@@ -99,6 +178,57 @@ TextToColumns_273 AS (
 
 ),
 
+Formula_272_0 AS (
+
+  SELECT 
+    CAST(date_part('EPOCH_SECOND', to_timestamp(regexp_replace(DATE, '\\.\\d+', ''), 'MM/DD/YY')) AS STRING) AS "DATE",
+    CAST((
+      (
+        CASE
+          WHEN (
+            (((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1) < 0)
+            AND (
+                  (
+                    ((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1)
+                    - FLOOR(((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1))
+                  ) = 0.5
+                )
+          )
+            THEN CEIL(((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1))
+          ELSE ROUND(((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1))
+        END
+      )
+      * 1
+    ) AS STRING) AS QTY,
+    * EXCLUDE ("DATE", "QTY")
+  
+  FROM DynamicRename_269_drop_0 AS in0
+
+),
+
+Filter_280 AS (
+
+  SELECT * 
+  
+  FROM Formula_272_0 AS in0
+  
+  WHERE (
+          (
+            (
+              (SKU IS NOT NULL) AND (
+                    (
+                      NOT(
+                        QTY = '0')
+                    ) OR (QTY IS NULL)
+                  )
+            )
+            AND (NOT(coalesce(((POSITION(LOWER('OFF INVOICE') IN LOWER(UPPER(SKU)))) > 0), FALSE)))
+          )
+          AND (NOT(coalesce(((POSITION(LOWER('CREDIT') IN LOWER(UPPER(SKU)))) > 0), FALSE)))
+        )
+
+),
+
 TextToColumns_273_dropGem_0 AS (
 
   SELECT 
@@ -113,8 +243,8 @@ TextToColumns_273_dropGem_0 AS (
 Formula_274_0 AS (
 
   SELECT 
-    CAST((DATE_PART('EPOCH_SECOND', (TO_TIMESTAMP((REGEXP_REPLACE(VARIABLEDATE, '\\.\\d+', '')), 'MM/DD/YY')))) AS STRING) AS VARIABLEDATE,
-    * EXCLUDE ("VARIABLEDATE")
+    CAST(date_part('EPOCH_SECOND', to_timestamp(regexp_replace(DATE, '\\.\\d+', ''), 'MM/DD/YY')) AS STRING) AS "DATE",
+    * EXCLUDE ("DATE")
   
   FROM TextToColumns_273_dropGem_0 AS in0
 
@@ -123,7 +253,7 @@ Formula_274_0 AS (
 Formula_274_1 AS (
 
   SELECT 
-    (TO_CHAR(TRY_TO_DATE(VARIABLEDATE), 'YYYY-MM-DD')) AS SHIP_DT,
+    1 AS SHIP_DT,
     to_char(
       date_part('EPOCH_SECOND', to_timestamp(regexp_replace("EXPIRATION DATE", '\\.\\d+', ''), 'MM/DD/YY')), 
       'YYYY-MM-DD') AS DELIVERY_DT,
@@ -136,7 +266,7 @@ Formula_274_1 AS (
 Summarize_277 AS (
 
   SELECT 
-    MIN(VARIABLEDATE) AS DATE_OF_EVENT,
+    min(DATE) AS DATE_OF_EVENT,
     MAX(AMOUNT) AS AMOUNT,
     MIN(SHIP_DT) AS SHIP_DT,
     MIN(DELIVERY_DT) AS DELIVERY_DT,
@@ -168,140 +298,10 @@ AlteryxSelect_268 AS (
 
 ),
 
-SalesQB11_10_21_264 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1_', 'SalesQB11_10_21_264') }}
-
-),
-
-Filter_270 AS (
-
-  SELECT * 
-  
-  FROM SalesQB11_10_21_264 AS in0
-  
-  WHERE ((F2 IS NOT NULL) AND (F5 IS NOT NULL))
-
-),
-
-DynamicRename_269 AS (
-
-  SELECT 
-    "REAL GOOD FOOD COMPANY" AS FIELD_12,
-    F2 AS VARIABLEDATE,
-    F3 AS "TRANSACTION TYPE",
-    F4 AS NUM,
-    F5 AS "PO NUMBER",
-    F6 AS CUSTOMER,
-    F7 AS PRODUCTSLASHSERVICE,
-    F8 AS SKU,
-    F9 AS QTY,
-    F10 AS "SALES PRICE",
-    F11 AS AMOUNT
-  
-  FROM Filter_270 AS in0
-
-),
-
-DynamicRename_269_row_number AS (
-
-  {{
-    prophecy_basics.RecordID(
-      ['DynamicRename_269'], 
-      'incremental_id', 
-      'PROPHECY_ROW_ID', 
-      'integer', 
-      6, 
-      1, 
-      'tableLevel', 
-      'first_column', 
-      [], 
-      []
-    )
-  }}
-
-),
-
-DynamicRename_269_filter AS (
-
-  SELECT * 
-  
-  FROM DynamicRename_269_row_number AS in0
-  
-  WHERE (
-          (
-            NOT(
-              PROPHECY_ROW_ID = 1)
-          ) OR (PROPHECY_ROW_ID IS NULL)
-        )
-
-),
-
-DynamicRename_269_drop_0 AS (
-
-  SELECT * EXCLUDE ("PROPHECY_ROW_ID")
-  
-  FROM DynamicRename_269_filter AS in0
-
-),
-
-Formula_272_0 AS (
-
-  SELECT 
-    CAST((DATE_PART('EPOCH_SECOND', (TO_TIMESTAMP((REGEXP_REPLACE(VARIABLEDATE, '\\.\\d+', '')), 'MM/DD/YY')))) AS STRING) AS VARIABLEDATE,
-    CAST((
-      (
-        CASE
-          WHEN (
-            (((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1) < 0)
-            AND (
-                  (
-                    ((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1)
-                    - FLOOR(((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1))
-                  ) = 0.5
-                )
-          )
-            THEN CEIL(((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1))
-          ELSE ROUND(((coalesce(CAST(QTY AS FLOAT), CAST((REGEXP_SUBSTR(QTY, '^[0-9]+')) AS INTEGER), 0)) / 1))
-        END
-      )
-      * 1
-    ) AS STRING) AS QTY,
-    * EXCLUDE ("VARIABLEDATE", "QTY")
-  
-  FROM DynamicRename_269_drop_0 AS in0
-
-),
-
-Filter_280 AS (
-
-  SELECT * 
-  
-  FROM Formula_272_0 AS in0
-  
-  WHERE (
-          (
-            (
-              (SKU IS NOT NULL) AND (
-                    (
-                      NOT(
-                        QTY = '0')
-                    ) OR (QTY IS NULL)
-                  )
-            )
-            AND (NOT(coalesce(((POSITION(LOWER('OFF INVOICE') IN LOWER(UPPER(SKU)))) > 0), FALSE)))
-          )
-          AND (NOT(coalesce(((POSITION(LOWER('CREDIT') IN LOWER(UPPER(SKU)))) > 0), FALSE)))
-        )
-
-),
-
 AlteryxSelect_271 AS (
 
   SELECT 
-    VARIABLEDATE AS VARIABLEDATE,
+    "DATE" AS "DATE",
     NUM AS SALES_ORDER,
     "PO NUMBER" AS PO_NUMBER,
     CUSTOMER AS CUSTOMER,

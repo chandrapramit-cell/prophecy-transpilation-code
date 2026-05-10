@@ -6,15 +6,7 @@
   })
 }}
 
-WITH Join_195_left AS (
-
-  SELECT *
-  
-  FROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Join_195_left')}}
-
-),
-
-Cleanse_316 AS (
+WITH Cleanse_316 AS (
 
   SELECT *
   
@@ -56,14 +48,22 @@ Join_195_inner AS (
 
 ),
 
+Join_195_left AS (
+
+  SELECT *
+  
+  FROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Join_195_left')}}
+
+),
+
 Union_198 AS (
 
   {{
     prophecy_basics.UnionByName(
       ['Join_195_inner', 'Join_195_left'], 
       [
-        '[{"name": "SOURCE_SKU", "dataType": "String"}, {"name": "WH_DESC_STANDARD", "dataType": "String"}, {"name": "PICKUP_OR_DELIVERY", "dataType": "String"}, {"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "PRODUCTION_OR_TRANSFER", "dataType": "String"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "DELIVERY_DT", "dataType": "String"}, {"name": "WH_ID_STANDARD", "dataType": "String"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "QTY", "dataType": "Float"}, {"name": "SALES_ORDER", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Number"}]', 
-        '[{"name": "SOURCE_SKU", "dataType": "String"}, {"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "FILENAME", "dataType": "String"}, {"name": "QTY", "dataType": "Float"}, {"name": "ROWSORTTIER", "dataType": "Number"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "DELIVERY_DT", "dataType": "String"}, {"name": "PICKUP_OR_DELIVERY", "dataType": "String"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "SALES_ORDER", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "String"}, {"name": "PRODUCTION_OR_TRANSFER", "dataType": "String"}]'
+        '[{"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "WH_ID_STANDARD", "dataType": "String"}, {"name": "FILENAME", "dataType": "String"}, {"name": "SALES_ORDER", "dataType": "String"}, {"name": "SOURCE_SKU", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "DELIVERY_DT", "dataType": "Date"}, {"name": "QTY", "dataType": "Double"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "PICKUP_OR_DELIVERY", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "Date"}, {"name": "WH_DESC_STANDARD", "dataType": "String"}, {"name": "PRODUCTION_OR_TRANSFER", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Integer"}]', 
+        '[{"name": "DATE_OF_EVENT", "dataType": "Date"}, {"name": "FILENAME", "dataType": "String"}, {"name": "SALES_ORDER", "dataType": "String"}, {"name": "SOURCE_SKU", "dataType": "String"}, {"name": "CUSTOMER", "dataType": "String"}, {"name": "DELIVERY_DT", "dataType": "Date"}, {"name": "QTY", "dataType": "Double"}, {"name": "ROWTYPE", "dataType": "String"}, {"name": "PO_NUMBER", "dataType": "String"}, {"name": "PICKUP_OR_DELIVERY", "dataType": "String"}, {"name": "SOURCE_WH_DESC", "dataType": "String"}, {"name": "SHIP_DT", "dataType": "Date"}, {"name": "PRODUCTION_OR_TRANSFER", "dataType": "String"}, {"name": "ROWSORTTIER", "dataType": "Integer"}]'
       ], 
       'allowMissingColumns'
     )
