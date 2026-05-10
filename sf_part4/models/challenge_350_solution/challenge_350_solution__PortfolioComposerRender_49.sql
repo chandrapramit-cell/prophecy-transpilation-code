@@ -6,58 +6,19 @@
   })
 }}
 
-WITH TextInput_58 AS (
-
-  SELECT * 
-  
-  FROM {{ ref('seed_58')}}
-
-),
-
-TextInput_58_cast AS (
-
-  SELECT 
-    CAST("LANGUAGE" AS STRING) AS "LANGUAGE",
-    CAST(VARIABLETYPE AS STRING) AS VARIABLETYPE,
-    CAST("HOLIDAY MESSAGES" AS STRING) AS "HOLIDAY MESSAGES"
-  
-  FROM TextInput_58 AS in0
-
-),
-
-Filter_2_to_Filter_73 AS (
-
-  SELECT * 
-  
-  FROM TextInput_58_cast AS in0
-  
-  WHERE (("LANGUAGE" = 'English') AND (VARIABLETYPE = 'Corporate'))
-
-),
-
-Formula_32_0 AS (
-
-  SELECT 
-    CAST((uniform(0, 1, random())) AS STRING) AS RANDOM,
-    *
-  
-  FROM Filter_2_to_Filter_73 AS in0
-
-),
-
-PortfolioComposerImage_40 AS (
+WITH PortfolioComposerImage_40 AS (
 
   {{ prophecy_basics.ToDo('Component type: Image is not supported.') }}
 
 ),
 
-SelectRecords_50_rowNumber AS (
+JoinMultiple_21_in1 AS (
 
   {{
     prophecy_basics.RecordID(
-      ['Formula_32_0'], 
+      ['PortfolioComposerImage_40'], 
       'incremental_id', 
-      'ROW_NUMBER', 
+      'RECORDPOSITIONFORJOIN_1', 
       'integer', 
       6, 
       1, 
@@ -70,21 +31,33 @@ SelectRecords_50_rowNumber AS (
 
 ),
 
-SelectRecords_50 AS (
+Type_yxdb_6 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM SelectRecords_50_rowNumber AS in0
-  
-  WHERE (ROW_NUMBER = 1)
+  FROM {{ prophecy_tmp_source('challenge_350_solution', 'Type_yxdb_6') }}
 
 ),
 
-SelectRecords_50_cleanup_0 AS (
+Filter_2 AS (
 
-  SELECT * EXCLUDE ("ROW_NUMBER")
+  SELECT * 
   
-  FROM SelectRecords_50 AS in0
+  FROM Type_yxdb_6 AS in0
+  
+  WHERE ("HOLIDAY MESSAGES" = 'At this special time of year, we want to take a moment to thank you for your dedication to our company. Happy Holidays!')
+
+),
+
+Formula_32_0 AS (
+
+  SELECT 
+    {{ var('VARIABLE32_FORMULAFIELDS_FORMULAFIELDFIELDHEADER_EXPRESSION') }} AS HEADER,
+    1 AS PERSONALMESSAGE,
+    {{ var('VARIABLE32_FORMULAFIELDS_FORMULAFIELDFIELDFOOTER_EXPRESSION') }} AS FOOTER,
+    *
+  
+  FROM Filter_2 AS in0
 
 ),
 
@@ -119,34 +92,17 @@ JoinMultiple_21_in0 AS (
 
 ),
 
-JoinMultiple_21_in1 AS (
-
-  {{
-    prophecy_basics.RecordID(
-      ['PortfolioComposerImage_40'], 
-      'incremental_id', 
-      'RECORDPOSITIONFORJOIN_1', 
-      'integer', 
-      6, 
-      1, 
-      'tableLevel', 
-      'first_column', 
-      [], 
-      []
-    )
-  }}
-
-),
-
 JoinMultiple_21 AS (
 
   SELECT 
-    in0.RANDOM AS RANDOM,
+    in0.PERSONALMESSAGE AS PERSONALMESSAGE,
     in0."HOLIDAY MESSAGES" AS "HOLIDAY MESSAGES",
     in1.IMAGE AS IMAGE,
     in0.TEXT AS TEXT,
     in0."LANGUAGE" AS "LANGUAGE",
-    in0.VARIABLETYPE AS VARIABLETYPE,
+    in0.HEADER AS HEADER,
+    in0."TYPE" AS "TYPE",
+    in0.FOOTER AS FOOTER,
     in0."TABLE" AS "TABLE"
   
   FROM JoinMultiple_21_in0 AS in0
@@ -158,6 +114,16 @@ JoinMultiple_21 AS (
 Overlay_43 AS (
 
   {{ prophecy_basics.ToDo('Component type: PortfolioPluginsGui.ComposerOverlay.Overlay is not supported.') }}
+
+),
+
+Detour_61_out0 AS (
+
+  SELECT * 
+  
+  FROM Overlay_43 AS in0
+  
+  WHERE FALSE
 
 ),
 

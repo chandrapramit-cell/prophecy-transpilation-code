@@ -1,0 +1,221 @@
+{
+  "id" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Summarize_355",
+  "metainfo" : {
+    "label" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Summarize_355",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "GPVFie9v81laVx3T8ooFc" : {
+      "id" : "GPVFie9v81laVx3T8ooFc",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_351_0",
+        "x" : 10960,
+        "y" : 1620,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "HGvJ2QWqk9YMndFoN-kNt##ENDING_INVENTORY" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (ENDING_INVENTORY <= 0) THEN 'Projected Short Shipment for item from WH' ELSE NULL END)"
+          },
+          "alias" : "ALERT_PROJECTED_SHORT_IN_WH_FOR_ITEM",
+          "_row_id" : "Hau6kAsDORc_b33T1b6yx"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "1247968936"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "HGvJ2QWqk9YMndFoN-kNt",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "JYgABt1xJbgGbWznEIZW0",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_228_228_Output" : {
+      "id" : "AlteryxSelect_228_228_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_228"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_33",
+          "id" : "output_port_33",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___AlteryxSelect_228') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_33",
+          "slug" : "input_port_33"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_33",
+          "slug" : "output_port_33"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "354" : {
+      "id" : "354",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_354",
+        "x" : 11480,
+        "y" : 1620,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "354_Input##ALERT_PROJECTED_SHORT_IN_WH_FOR_ITEM" ],
+        "condition" : {
+          "expression" : "(ALERT_PROJECTED_SHORT_IN_WH_FOR_ITEM IS NOT NULL)"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "354_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "354_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "355" : {
+      "id" : "355",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_355",
+        "x" : 11740,
+        "y" : 1620,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "SKU_STANDARD"
+          },
+          "alias" : "SKU_STANDARD",
+          "_row_id" : "tb9WD8lieZVY9LyOR_24O"
+        }, {
+          "expression" : {
+            "expression" : "WH_ID_STANDARD"
+          },
+          "alias" : "WH_ID_STANDARD",
+          "_row_id" : "kkPzywipgIitFTs8GN7sr"
+        }, {
+          "expression" : {
+            "expression" : "ALERT_PROJECTED_SHORT_IN_WH_FOR_ITEM"
+          },
+          "alias" : "ALERT_PROJECTED_SHORT_IN_WH_FOR_ITEM",
+          "_row_id" : "hOCUs1IV5fUC__lqCVus0"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ "355_Input##SKU_STANDARD", "355_Input##WH_ID_STANDARD", "355_Input##ALERT_PROJECTED_SHORT_IN_WH_FOR_ITEM" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "355_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "355_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_355_355_Output" : {
+      "id" : "Summarize_355_355_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_355"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_355\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_34",
+          "slug" : "input_port_34"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_34",
+          "slug" : "output_port_34"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_355_355_Output_Summarize_355_355_Output",
+    "source" : "355",
+    "sourcePort" : "355_Output",
+    "target" : "Summarize_355_355_Output",
+    "targetPort" : "input_port_34",
+    "isWireless" : false
+  }, {
+    "id" : "edge_196",
+    "source" : "354",
+    "sourcePort" : "354_True",
+    "target" : "355",
+    "targetPort" : "355_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_301",
+    "source" : "GPVFie9v81laVx3T8ooFc",
+    "sourcePort" : "JYgABt1xJbgGbWznEIZW0",
+    "target" : "354",
+    "targetPort" : "354_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_315",
+    "source" : "AlteryxSelect_228_228_Output",
+    "sourcePort" : "output_port_33",
+    "target" : "GPVFie9v81laVx3T8ooFc",
+    "targetPort" : "HGvJ2QWqk9YMndFoN-kNt",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

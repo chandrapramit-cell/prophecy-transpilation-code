@@ -1,0 +1,133 @@
+{
+  "id" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Formula_215_0",
+  "metainfo" : {
+    "label" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Formula_215_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_215_0_dJFVs0kiNctKbKnLFaSfI" : {
+      "id" : "Formula_215_0_dJFVs0kiNctKbKnLFaSfI",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_215_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_215_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "QdV-wz2_mFQtO4RCYL48P" : {
+      "id" : "QdV-wz2_mFQtO4RCYL48P",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_215_0",
+        "x" : 860,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "tGll39wUfqRfRIvB57RQF##SKU_STANDARD", "tGll39wUfqRfRIvB57RQF##SOURCE_SKU" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((SKU_STANDARD IS NULL) OR ((LENGTH(SKU_STANDARD)) = 0)) THEN SOURCE_SKU ELSE SKU_STANDARD END)"
+          },
+          "alias" : "SKU_STANDARD",
+          "_row_id" : "VRQVdeho_8RL2GNSwEo1J"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"SKU_STANDARD\")"
+          },
+          "_row_id" : "282682854"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "tGll39wUfqRfRIvB57RQF",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "dJFVs0kiNctKbKnLFaSfI",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "INPUTITEMMASTER"
+    },
+    "Cleanse_214_214_Output26" : {
+      "id" : "Cleanse_214_214_Output26",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Cleanse_214"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_18",
+          "id" : "output_port_18",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Cleanse_214') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_QdV-wz2_mFQtO4RCYL48P_dJFVs0kiNctKbKnLFaSfI_Formula_215_0_dJFVs0kiNctKbKnLFaSfI",
+    "source" : "QdV-wz2_mFQtO4RCYL48P",
+    "sourcePort" : "dJFVs0kiNctKbKnLFaSfI",
+    "target" : "Formula_215_0_dJFVs0kiNctKbKnLFaSfI",
+    "targetPort" : "input_port_19",
+    "isWireless" : false
+  }, {
+    "id" : "edge_43",
+    "source" : "Cleanse_214_214_Output26",
+    "sourcePort" : "output_port_18",
+    "target" : "QdV-wz2_mFQtO4RCYL48P",
+    "targetPort" : "tGll39wUfqRfRIvB57RQF",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

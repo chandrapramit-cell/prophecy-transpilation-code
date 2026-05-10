@@ -1,0 +1,711 @@
+{
+  "id" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Filter_480",
+  "metainfo" : {
+    "label" : "0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1___Filter_480",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "lUjjARXG1QYs61LwMy9i3" : {
+      "id" : "lUjjARXG1QYs61LwMy9i3",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_479_0",
+        "x" : 9360,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((\n  (\n    CASE\n      WHEN (\n        (\n          (\n            (\n              coalesce(\n                CAST(\"13_WK_WKLY_AVG_SALES\" AS FLOAT), \n                CAST((REGEXP_SUBSTR(\"13_WK_WKLY_AVG_SALES\", '^[0-9]+')) AS INTEGER), \n                0)\n            )\n            / 1\n          ) < 0\n        )\n        AND (\n              (\n                (\n                  (\n                    coalesce(\n                      CAST(\"13_WK_WKLY_AVG_SALES\" AS FLOAT), \n                      CAST((REGEXP_SUBSTR(\"13_WK_WKLY_AVG_SALES\", '^[0-9]+')) AS INTEGER), \n                      0)\n                  )\n                  / 1\n                )\n                - FLOOR(\n                    (\n                      (\n                        coalesce(\n                          CAST(\"13_WK_WKLY_AVG_SALES\" AS FLOAT), \n                          CAST((REGEXP_SUBSTR(\"13_WK_WKLY_AVG_SALES\", '^[0-9]+')) AS INTEGER), \n                          0)\n                      )\n                      / 1\n                    ))\n              ) = 0.5\n            )\n      )\n        THEN CEIL(\n          (\n            (\n              coalesce(\n                CAST(\"13_WK_WKLY_AVG_SALES\" AS FLOAT), \n                CAST((REGEXP_SUBSTR(\"13_WK_WKLY_AVG_SALES\", '^[0-9]+')) AS INTEGER), \n                0)\n            )\n            / 1\n          ))\n      ELSE ROUND(\n        (\n          (\n            coalesce(\n              CAST(\"13_WK_WKLY_AVG_SALES\" AS FLOAT), \n              CAST((REGEXP_SUBSTR(\"13_WK_WKLY_AVG_SALES\", '^[0-9]+')) AS INTEGER), \n              0)\n          )\n          / 1\n        ))\n    END\n  )\n  * 1\n) AS STRING)"
+          },
+          "alias" : "\"13_WK_WKLY_AVG_SALES\"",
+          "_row_id" : "OC7vTpge1B7tYy14fylTA"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"13_WK_WKLY_AVG_SALES\")"
+          },
+          "_row_id" : "111364605"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "JUffTguPjRO5ynuh5G7M5",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "PtLvMF4odu-ZW0wO1aa1l",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "481" : {
+      "id" : "481",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_481",
+        "x" : 8160,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(\"3\" IS NOT NULL)"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "481_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "481_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "486" : {
+      "id" : "486",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_486",
+        "x" : 9560,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "486_Input##13_WK_WKLY_AVG_SALES" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(\"13_WK_WKLY_AVG_SALES\" AS INTEGER)"
+          },
+          "alias" : "\"13_WK_WKLY_AVG_SALES\"",
+          "_row_id" : "A3Y3dSbsXRNMj735OHeMF"
+        }, {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"13_WK_WKLY_AVG_SALES\")"
+          },
+          "_row_id" : "1831686948"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "486_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "486_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "O6EReVcdEGNWszNAOpBiV" : {
+      "id" : "O6EReVcdEGNWszNAOpBiV",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DynamicRename_478_drop_0",
+        "x" : 8960,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCLUDE(\"PROPHECY_ROW_ID\")"
+          },
+          "_row_id" : "737364696"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "aq9qEt-AbRUrzjwZOuFHY",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ZFj8XxqyOobkGs4-bcOgm",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "478_row_number" : {
+      "id" : "478_row_number",
+      "component" : "RecordID",
+      "metadata" : {
+        "label" : "DynamicRename_478_row_number",
+        "x" : 8560,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "incremental_id_type" : "integer",
+        "incremental_id_starting_val" : 1,
+        "method" : "incremental_id",
+        "relation_name" : [ "DynamicRename_478" ],
+        "generationMethod" : "tableLevel",
+        "_oldMacroProperties" : {
+          "macroName" : "RecordID",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"DynamicRename_478\"]"
+          }, {
+            "name" : "method",
+            "value" : "incremental_id"
+          }, {
+            "name" : "incremental_id_column_name",
+            "value" : "PROPHECY_ROW_ID"
+          }, {
+            "name" : "incremental_id_type",
+            "value" : "integer"
+          }, {
+            "name" : "incremental_id_size",
+            "value" : "6"
+          }, {
+            "name" : "incremental_id_starting_val",
+            "value" : "1"
+          }, {
+            "name" : "generationMethod",
+            "value" : "tableLevel"
+          }, {
+            "name" : "position",
+            "value" : "first_column"
+          }, {
+            "name" : "groupByColumnNames",
+            "value" : "[]"
+          }, {
+            "name" : "orders",
+            "value" : "[]"
+          } ]
+        },
+        "incremental_id_column_name" : "PROPHECY_ROW_ID",
+        "orders" : [ ],
+        "position" : "first_column",
+        "incremental_id_size" : 6,
+        "groupByColumnNames" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ALRpnbsP2-ymBPlkxT5Oe",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "FIluKL47-QpjEoxWEIrxp",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "480" : {
+      "id" : "480",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_480",
+        "x" : 9960,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "480_Input##SKU" ],
+        "condition" : {
+          "expression" : "((SKU IS NOT NULL) AND ((NOT (SKU = 'Total')) OR (SKU IS NULL)))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "480_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "480_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_480_480_True" : {
+      "id" : "Filter_480_480_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_480"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_480\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "477" : {
+      "id" : "477",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_477",
+        "x" : 9160,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "477_Input##SKU", "477_Input##AVERAGE 14 WEEKS" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "SKU"
+          },
+          "alias" : "SKU",
+          "_row_id" : "7KS8kH8L12Ya_CukSptyl"
+        }, {
+          "expression" : {
+            "expression" : "\"AVERAGE 14 WEEKS\""
+          },
+          "alias" : "\"13_WK_WKLY_AVG_SALES\"",
+          "_row_id" : "tCwXcaLfJvAcVlNpXSPss"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "477_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "477_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "WOH120921_xlsx__476_476_Output" : {
+      "id" : "WOH120921_xlsx__476_476_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "WOH120921_xlsx__476"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('0_SUPPLY_PLANNING_CALCULATION_ENGINE_v0_4_1_', 'WOH120921_xlsx__476') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "482" : {
+      "id" : "482",
+      "component" : "DataCleansing",
+      "metadata" : {
+        "label" : "Cleanse_482",
+        "x" : 9760,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "trimWhiteSpace" : true,
+        "replaceNullForNumericFields" : false,
+        "cleanLetters" : false,
+        "replaceNullTextWith" : "",
+        "removeRowNullAllCols" : false,
+        "replaceNullTextFields" : false,
+        "relation_name" : [ "AlteryxSelect_486" ],
+        "replaceNullDateWith" : "1970-01-01",
+        "columnNames" : [ "SKU" ],
+        "replaceNullTimeFields" : false,
+        "_oldMacroProperties" : {
+          "macroName" : "DataCleansing",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"AlteryxSelect_486\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"13_WK_WKLY_AVG_SALES\", \"dataType\": \"Number\"}, {\"name\": \"SKU\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "modifyCase",
+            "value" : "makeUppercase"
+          }, {
+            "name" : "columnNames",
+            "value" : "[\"SKU\"]"
+          }, {
+            "name" : "replaceNullTextFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullTextWith",
+            "value" : ""
+          }, {
+            "name" : "replaceNullForNumericFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullNumericWith",
+            "value" : "0"
+          }, {
+            "name" : "trimWhiteSpace",
+            "value" : "true"
+          }, {
+            "name" : "removeTabsLineBreaksAndDuplicateWhitespace",
+            "value" : "false"
+          }, {
+            "name" : "allWhiteSpace",
+            "value" : "false"
+          }, {
+            "name" : "cleanLetters",
+            "value" : "false"
+          }, {
+            "name" : "cleanPunctuations",
+            "value" : "false"
+          }, {
+            "name" : "cleanNumbers",
+            "value" : "false"
+          }, {
+            "name" : "removeRowNullAllCols",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateWith",
+            "value" : "1970-01-01"
+          }, {
+            "name" : "replaceNullTimeFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullTimeWith",
+            "value" : "1970-01-01 00:00:00.0"
+          } ]
+        },
+        "replaceNullTimeWith" : "1970-01-01 00:00:00.0",
+        "schema" : "[{\"name\": \"13_WK_WKLY_AVG_SALES\", \"dataType\": \"Number\"}, {\"name\": \"SKU\", \"dataType\": \"String\"}]",
+        "allWhiteSpace" : false,
+        "removeTabsLineBreaksAndDuplicateWhitespace" : false,
+        "modifyCase" : "makeUppercase",
+        "cleanPunctuations" : false,
+        "replaceNullDateFields" : false,
+        "cleanNumbers" : false,
+        "replaceNullNumericWith" : 0
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "482_Input2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "482_Output26",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "478" : {
+      "id" : "478",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DynamicRename_478",
+        "x" : 8360,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "478_Targets##1", "478_Targets##2", "478_Targets##3", "478_Targets##4", "478_Targets##5", "478_Targets##6", "478_Targets##7", "478_Targets##8", "478_Targets##9", "478_Targets##10", "478_Targets##11", "478_Targets##12", "478_Targets##13", "478_Targets##14", "478_Targets##15", "478_Targets##16", "478_Targets##17", "478_Targets##18", "478_Targets##F19", "478_Targets##19", "478_Targets##20" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "\"1\""
+          },
+          "alias" : "SKU",
+          "_row_id" : "KS9I8Kyv7gYbi9wCJp-C4"
+        }, {
+          "expression" : {
+            "expression" : "\"2\""
+          },
+          "alias" : "VARIABLEDESC",
+          "_row_id" : "xAVZNvU8uC9YiQ7uJ35hy"
+        }, {
+          "expression" : {
+            "expression" : "\"3\""
+          },
+          "alias" : "\"PRP2 DESC\"",
+          "_row_id" : "_PDDtMkGQTTo7nJylMRIO"
+        }, {
+          "expression" : {
+            "expression" : "\"4\""
+          },
+          "alias" : "\"PRP3 DESC\"",
+          "_row_id" : "KyrRAWwoJ7rYaqpM_aiON"
+        }, {
+          "expression" : {
+            "expression" : "\"5\""
+          },
+          "alias" : "F21WK36",
+          "_row_id" : "cvMl_KTt3I9d4TI-dfMT3"
+        }, {
+          "expression" : {
+            "expression" : "\"6\""
+          },
+          "alias" : "F21WK37",
+          "_row_id" : "u0FqPeScJXYT0rof7WPdg"
+        }, {
+          "expression" : {
+            "expression" : "\"7\""
+          },
+          "alias" : "F21WK38",
+          "_row_id" : "44KP4TzVROfmlz5R3HVSH"
+        }, {
+          "expression" : {
+            "expression" : "\"8\""
+          },
+          "alias" : "F21WK39",
+          "_row_id" : "WY8CFn3YHUIDRE5g5Eb2C"
+        }, {
+          "expression" : {
+            "expression" : "\"9\""
+          },
+          "alias" : "F21WK40",
+          "_row_id" : "Kelua4IywySKq9SDL4C0R"
+        }, {
+          "expression" : {
+            "expression" : "\"10\""
+          },
+          "alias" : "F21WK41",
+          "_row_id" : "T2REP2n-3tkO11B5Slsqh"
+        }, {
+          "expression" : {
+            "expression" : "\"11\""
+          },
+          "alias" : "F21WK42",
+          "_row_id" : "hA3o-VJEg4qVJd430NdrT"
+        }, {
+          "expression" : {
+            "expression" : "\"12\""
+          },
+          "alias" : "F21WK43",
+          "_row_id" : "MVZzyNEjnH258jEW6_xi7"
+        }, {
+          "expression" : {
+            "expression" : "\"13\""
+          },
+          "alias" : "F21WK44",
+          "_row_id" : "lMnkVadeY1t98cUKBE3QB"
+        }, {
+          "expression" : {
+            "expression" : "\"14\""
+          },
+          "alias" : "F21WK45",
+          "_row_id" : "qp3DBE3THMMPxrIIMkvA3"
+        }, {
+          "expression" : {
+            "expression" : "\"15\""
+          },
+          "alias" : "F21WK46",
+          "_row_id" : "1PH5ZVwppwSEXWjGVruNu"
+        }, {
+          "expression" : {
+            "expression" : "\"16\""
+          },
+          "alias" : "F21WK47",
+          "_row_id" : "PPX6-PoaD5vqe47m4xcf_"
+        }, {
+          "expression" : {
+            "expression" : "\"17\""
+          },
+          "alias" : "F21WK48",
+          "_row_id" : "pPqSrbiUg0sbv6AOFgdxB"
+        }, {
+          "expression" : {
+            "expression" : "\"18\""
+          },
+          "alias" : "F21WK49",
+          "_row_id" : "_ljf1vdpfYjKZJ6SQ29SW"
+        }, {
+          "expression" : {
+            "expression" : "F19"
+          },
+          "alias" : "\"TOTAL\"",
+          "_row_id" : "oE8wkvIoyhnS1-_ZUCyjO"
+        }, {
+          "expression" : {
+            "expression" : "\"19\""
+          },
+          "alias" : "\"AVERAGE 14 WEEKS\"",
+          "_row_id" : "mAO_kT7DJBOsoFyUmUlYK"
+        }, {
+          "expression" : {
+            "expression" : "\"20\""
+          },
+          "alias" : "\"AVERAGE LAST 6 WEEKS\"",
+          "_row_id" : "yJNaxfnO3E_TbwVAqupRK"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "478_Targets",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "478_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "478_filter" : {
+      "id" : "478_filter",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "DynamicRename_478_filter",
+        "x" : 8760,
+        "y" : 5120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "BS4xbdoLoQAEQfPIN4McH##PROPHECY_ROW_ID" ],
+        "condition" : {
+          "expression" : "((NOT (PROPHECY_ROW_ID = 1)) OR (PROPHECY_ROW_ID IS NULL))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "BS4xbdoLoQAEQfPIN4McH",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "5CJwDFZbZKWpfpUBNfiP8",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_480_480_True_Filter_480_480_True",
+    "source" : "480",
+    "sourcePort" : "480_True",
+    "target" : "Filter_480_480_True",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_100",
+    "source" : "482",
+    "sourcePort" : "482_Output26",
+    "target" : "480",
+    "targetPort" : "480_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_290",
+    "source" : "486",
+    "sourcePort" : "486_Output",
+    "target" : "482",
+    "targetPort" : "482_Input2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_233",
+    "source" : "lUjjARXG1QYs61LwMy9i3",
+    "sourcePort" : "PtLvMF4odu-ZW0wO1aa1l",
+    "target" : "486",
+    "targetPort" : "486_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_94",
+    "source" : "477",
+    "sourcePort" : "477_Output",
+    "target" : "lUjjARXG1QYs61LwMy9i3",
+    "targetPort" : "JUffTguPjRO5ynuh5G7M5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_49",
+    "source" : "O6EReVcdEGNWszNAOpBiV",
+    "sourcePort" : "ZFj8XxqyOobkGs4-bcOgm",
+    "target" : "477",
+    "targetPort" : "477_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_86",
+    "source" : "478_filter",
+    "sourcePort" : "5CJwDFZbZKWpfpUBNfiP8",
+    "target" : "O6EReVcdEGNWszNAOpBiV",
+    "targetPort" : "aq9qEt-AbRUrzjwZOuFHY",
+    "isWireless" : false
+  }, {
+    "id" : "edge_187",
+    "source" : "478_row_number",
+    "sourcePort" : "FIluKL47-QpjEoxWEIrxp",
+    "target" : "478_filter",
+    "targetPort" : "BS4xbdoLoQAEQfPIN4McH",
+    "isWireless" : false
+  }, {
+    "id" : "edge_34",
+    "source" : "478",
+    "sourcePort" : "478_Output",
+    "target" : "478_row_number",
+    "targetPort" : "ALRpnbsP2-ymBPlkxT5Oe",
+    "isWireless" : false
+  }, {
+    "id" : "edge_91",
+    "source" : "481",
+    "sourcePort" : "481_True",
+    "target" : "478",
+    "targetPort" : "478_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_248",
+    "source" : "WOH120921_xlsx__476_476_Output",
+    "sourcePort" : "output_port_10",
+    "target" : "481",
+    "targetPort" : "481_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
