@@ -10,7 +10,7 @@ WITH AdidasUSSalesDa_1 AS (
 
   SELECT *
   
-  FROM {{ prophecy_tmp_source('Alteryx_Data_Visualization_for_2021_Adidas_Sales_Data', 'AdidasUSSalesDa_1') }}
+  FROM {{ prophecy_tmp_source('Alteryx_Data_Visualization_for_2021_Adidas_Sales_Data11', 'AdidasUSSalesDa_1') }}
 
 ),
 
@@ -25,8 +25,8 @@ AlteryxSelect_2 AS (
 Formula_4_0 AS (
 
   SELECT 
-    CAST((TO_CHAR((TRY_TO_DATE("INVOICE DATE")), 'MON YYYY')) AS STRING) AS "MONTH AMPERSAND YEAR OF INVOICE DATE",
-    CAST((TO_CHAR((TRY_TO_DATE("INVOICE DATE")), 'YYYY')) AS STRING) AS "YEAR",
+    CAST((TO_CHAR("INVOICE DATE", 'MON YYYY')) AS STRING) AS "MONTH AMPERSAND YEAR OF INVOICE DATE",
+    CAST((TO_CHAR("INVOICE DATE", 'YYYY')) AS STRING) AS "YEAR",
     *
   
   FROM AlteryxSelect_2 AS in0
@@ -40,6 +40,95 @@ AlteryxSelect_8 AS (
     * EXCLUDE ("INVOICE DATE", "SALES METHOD", "MONTH AMPERSAND YEAR OF INVOICE DATE")
   
   FROM Formula_4_0 AS in0
+
+),
+
+Summarize_53 AS (
+
+  SELECT 
+    SUM("TOTAL SALES") AS "TOTAL SALES",
+    RETAILER AS RETAILER
+  
+  FROM AlteryxSelect_8 AS in0
+  
+  GROUP BY RETAILER
+
+),
+
+Sample_55 AS (
+
+  {{
+    prophecy_basics.Sample(
+      ['Summarize_53'], 
+      '[{"name": "TOTAL SALES", "dataType": "Float"}, {"name": "RETAILER", "dataType": "String"}]', 
+      'sampleDataset', 
+      [], 
+      1002, 
+      'firstN', 
+      5
+    )
+  }}
+
+),
+
+Formula_56_0 AS (
+
+  SELECT 
+    CAST((
+      REGEXP_REPLACE(
+        (REGEXP_REPLACE((TO_CHAR(CAST("TOTAL SALES" AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), 
+        '__THS__', 
+        ',')
+    ) AS STRING) AS "TOTAL SALES FOR TOOLTIP",
+    *
+  
+  FROM Sample_55 AS in0
+
+),
+
+Formula_56_1 AS (
+
+  SELECT 
+    CAST(concat(
+      '$', 
+      regexp_replace(
+        regexp_replace(format_number(CAST("TOTAL SALES FOR TOOLTIP" AS DOUBLE), 0), ',', '__THS__'), 
+        '__THS__', 
+        ',')) AS STRING) AS "TOTAL SALES FOR TOOLTIP",
+    * EXCLUDE ("TOTAL SALES FOR TOOLTIP")
+  
+  FROM Formula_56_0 AS in0
+
+),
+
+PlotlyCharting_58 AS (
+
+  {{ prophecy_basics.ToDo('Component type: PlotlyCharting is not supported.') }}
+
+),
+
+PortfolioComposerText_69 AS (
+
+  {{ prophecy_basics.ToDo('Component type: Report Text is not supported.') }}
+
+),
+
+JoinMultiple_75_in2 AS (
+
+  {{
+    prophecy_basics.RecordID(
+      ['PortfolioComposerText_69'], 
+      'incremental_id', 
+      'RECORDPOSITIONFORJOIN_2', 
+      'integer', 
+      6, 
+      1, 
+      'tableLevel', 
+      'first_column', 
+      [], 
+      []
+    )
+  }}
 
 ),
 
@@ -59,8 +148,8 @@ Sample_34 AS (
 
   {{
     prophecy_basics.Sample(
-      [], 
-      '[{"name": "STATE", "dataType": "String"}, {"name": "TOTAL SALES", "dataType": "Double"}]', 
+      ['Summarize_29'], 
+      '[{"name": "TOTAL SALES", "dataType": "Float"}, {"name": "STATE", "dataType": "String"}]', 
       'sampleDataset', 
       [], 
       1002, 
@@ -77,14 +166,14 @@ Summarize_9 AS (
     SUM("TOTAL SALES") AS "SUM_TOTAL SALES",
     SUM("OPERATING PROFIT") AS "SUM_OPERATING PROFIT",
     RETAILER AS RETAILER,
-    REGION AS "REGION",
+    "REGION" AS "REGION",
     PRODUCT AS PRODUCT,
     "YEAR" AS "YEAR"
   
   FROM AlteryxSelect_8 AS in0
   
   GROUP BY 
-    RETAILER, REGION, PRODUCT, "YEAR"
+    RETAILER, "REGION", PRODUCT, "YEAR"
 
 ),
 
@@ -187,14 +276,14 @@ MultiFieldFormula_24 AS (
   {{
     prophecy_basics.MultiColumnEdit(
       ['Formula_18_0'], 
-      "(REGEXP_REPLACE((REGEXP_REPLACE((TO_CHAR(CAST(CAST(column_value AS STRING) AS FLOAT) , 'FM999999999999999990')), ',', '__THS__')), '__THS__', ','))", 
+      "(REGEXP_REPLACE((REGEXP_REPLACE((TO_CHAR(CAST(CAST(column_value AS STRING) AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), '__THS__', ','))", 
       [
         "MEN'S APPAREL", 
         "MEN'S STREET FOOTWEAR", 
-        '"TOTAL"', 
         "WOMEN'S STREET FOOTWEAR", 
         "MEN'S ATHLETIC FOOTWEAR", 
         "WOMEN'S APPAREL", 
+        'TOTAL', 
         "WOMEN'S ATHLETIC FOOTWEAR", 
         'RETAILER'
       ], 
@@ -220,14 +309,14 @@ MultiFieldFormula_25 AS (
   {{
     prophecy_basics.MultiColumnEdit(
       ['MultiFieldFormula_24'], 
-      "(CONCAT('$', (REGEXP_REPLACE((REGEXP_REPLACE((TO_CHAR(CAST(column_value AS FLOAT) , 'FM999999999999999990')), ',', '__THS__')), '__THS__', ','))))", 
+      "(CONCAT('$', (REGEXP_REPLACE((REGEXP_REPLACE((TO_CHAR(CAST(column_value AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), '__THS__', ','))))", 
       [
         "MEN'S APPAREL", 
         "MEN'S STREET FOOTWEAR", 
-        '"TOTAL"', 
         "WOMEN'S STREET FOOTWEAR", 
         "MEN'S ATHLETIC FOOTWEAR", 
         "WOMEN'S APPAREL", 
+        'TOTAL', 
         "WOMEN'S ATHLETIC FOOTWEAR", 
         'RETAILER'
       ], 
@@ -260,49 +349,6 @@ PortfolioComposerText_67 AS (
 
 ),
 
-Summarize_53 AS (
-
-  SELECT 
-    SUM("TOTAL SALES") AS "TOTAL SALES",
-    RETAILER AS RETAILER
-  
-  FROM AlteryxSelect_8 AS in0
-  
-  GROUP BY RETAILER
-
-),
-
-Sample_55 AS (
-
-  {{
-    prophecy_basics.Sample(
-      [], 
-      '[{"name": "RETAILER", "dataType": "String"}, {"name": "TOTAL SALES", "dataType": "Double"}]', 
-      'sampleDataset', 
-      [], 
-      1002, 
-      'firstN', 
-      5
-    )
-  }}
-
-),
-
-Formula_56_0 AS (
-
-  SELECT 
-    CAST((
-      REGEXP_REPLACE(
-        (REGEXP_REPLACE((TO_CHAR(CAST("TOTAL SALES" AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), 
-        '__THS__', 
-        ',')
-    ) AS STRING) AS "TOTAL SALES FOR TOOLTIP",
-    *
-  
-  FROM Sample_55 AS in0
-
-),
-
 Formula_50_0 AS (
 
   SELECT 
@@ -321,16 +367,12 @@ Formula_50_0 AS (
 Formula_50_1 AS (
 
   SELECT 
-    CAST((
-      CONCAT(
-        '$', 
-        (
-          REGEXP_REPLACE(
-            (REGEXP_REPLACE((TO_CHAR(CAST("TOTAL SALES FOR TOOLTIP" AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), 
-            '__THS__', 
-            ',')
-        ))
-    ) AS STRING) AS "TOTAL SALES FOR TOOLTIP",
+    CAST(concat(
+      '$', 
+      regexp_replace(
+        regexp_replace(format_number(CAST("TOTAL SALES FOR TOOLTIP" AS DOUBLE), 0), ',', '__THS__'), 
+        '__THS__', 
+        ',')) AS STRING) AS "TOTAL SALES FOR TOOLTIP",
     * EXCLUDE ("TOTAL SALES FOR TOOLTIP")
   
   FROM Formula_50_0 AS in0
@@ -372,28 +414,28 @@ Sample_62 AS (
 
 ),
 
-Formula_56_1 AS (
-
-  SELECT 
-    CAST((
-      CONCAT(
-        '$', 
-        (
-          REGEXP_REPLACE(
-            (REGEXP_REPLACE((TO_CHAR(CAST("TOTAL SALES FOR TOOLTIP" AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), 
-            '__THS__', 
-            ',')
-        ))
-    ) AS STRING) AS "TOTAL SALES FOR TOOLTIP",
-    * EXCLUDE ("TOTAL SALES FOR TOOLTIP")
-  
-  FROM Formula_56_0 AS in0
-
-),
-
 PortfolioComposerText_68 AS (
 
   {{ prophecy_basics.ToDo('Component type: Report Text is not supported.') }}
+
+),
+
+JoinMultiple_75_in0 AS (
+
+  {{
+    prophecy_basics.RecordID(
+      ['PortfolioComposerText_67'], 
+      'incremental_id', 
+      'RECORDPOSITIONFORJOIN_0', 
+      'integer', 
+      6, 
+      1, 
+      'tableLevel', 
+      'first_column', 
+      [], 
+      []
+    )
+  }}
 
 ),
 
@@ -415,50 +457,15 @@ Formula_63_0 AS (
 Formula_63_1 AS (
 
   SELECT 
-    CAST((
-      CONCAT(
-        '$', 
-        (
-          REGEXP_REPLACE(
-            (REGEXP_REPLACE((TO_CHAR(CAST("TOTAL SALES FOR TOOLTIP" AS FLOAT), 'FM999999999999999990')), ',', '__THS__')), 
-            '__THS__', 
-            ',')
-        ))
-    ) AS STRING) AS "TOTAL SALES FOR TOOLTIP",
+    CAST(concat(
+      '$', 
+      regexp_replace(
+        regexp_replace(format_number(CAST("TOTAL SALES FOR TOOLTIP" AS DOUBLE), 0), ',', '__THS__'), 
+        '__THS__', 
+        ',')) AS STRING) AS "TOTAL SALES FOR TOOLTIP",
     * EXCLUDE ("TOTAL SALES FOR TOOLTIP")
   
   FROM Formula_63_0 AS in0
-
-),
-
-PlotlyCharting_65 AS (
-
-  {{ prophecy_basics.ToDo('Component type: PlotlyCharting is not supported.') }}
-
-),
-
-PortfolioComposerText_70 AS (
-
-  {{ prophecy_basics.ToDo('Component type: Report Text is not supported.') }}
-
-),
-
-JoinMultiple_75_in3 AS (
-
-  {{
-    prophecy_basics.RecordID(
-      ['PortfolioComposerText_70'], 
-      'incremental_id', 
-      'RECORDPOSITIONFORJOIN_3', 
-      'integer', 
-      6, 
-      1, 
-      'tableLevel', 
-      'first_column', 
-      [], 
-      []
-    )
-  }}
 
 ),
 
@@ -471,6 +478,12 @@ PortfolioComposerImage_71 AS (
 PortfolioComposerText_72 AS (
 
   {{ prophecy_basics.ToDo('Component type: Report Text is not supported.') }}
+
+),
+
+PlotlyCharting_65 AS (
+
+  {{ prophecy_basics.ToDo('Component type: PlotlyCharting is not supported.') }}
 
 ),
 
@@ -499,44 +512,19 @@ JoinMultiple_75_in1 AS (
 
 ),
 
-PlotlyCharting_58 AS (
-
-  {{ prophecy_basics.ToDo('Component type: PlotlyCharting is not supported.') }}
-
-),
-
-PortfolioComposerText_69 AS (
+PortfolioComposerText_70 AS (
 
   {{ prophecy_basics.ToDo('Component type: Report Text is not supported.') }}
 
 ),
 
-JoinMultiple_75_in2 AS (
+JoinMultiple_75_in3 AS (
 
   {{
     prophecy_basics.RecordID(
-      ['PortfolioComposerText_69'], 
+      ['PortfolioComposerText_70'], 
       'incremental_id', 
-      'RECORDPOSITIONFORJOIN_2', 
-      'integer', 
-      6, 
-      1, 
-      'tableLevel', 
-      'first_column', 
-      [], 
-      []
-    )
-  }}
-
-),
-
-JoinMultiple_75_in0 AS (
-
-  {{
-    prophecy_basics.RecordID(
-      ['PortfolioComposerText_67'], 
-      'incremental_id', 
-      'RECORDPOSITIONFORJOIN_0', 
+      'RECORDPOSITIONFORJOIN_3', 
       'integer', 
       6, 
       1, 
