@@ -59,8 +59,8 @@ Sample_34 AS (
 
   {{
     prophecy_basics.Sample(
-      [], 
-      '[{"name": "STATE", "dataType": "String"}, {"name": "TOTAL SALES", "dataType": "Double"}]', 
+      ['Summarize_29'], 
+      '[{"name": "TOTAL SALES", "dataType": "Float"}, {"name": "STATE", "dataType": "String"}]', 
       'sampleDataset', 
       [], 
       1002, 
@@ -276,8 +276,8 @@ Sample_55 AS (
 
   {{
     prophecy_basics.Sample(
-      [], 
-      '[{"name": "RETAILER", "dataType": "String"}, {"name": "TOTAL SALES", "dataType": "Double"}]', 
+      ['Summarize_53'], 
+      '[{"name": "TOTAL SALES", "dataType": "Float"}, {"name": "RETAILER", "dataType": "String"}]', 
       'sampleDataset', 
       [], 
       1002, 
