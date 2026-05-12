@@ -1,0 +1,280 @@
+{
+  "id" : "Log_Extraction__AppendFields_40",
+  "metainfo" : {
+    "label" : "Log_Extraction__AppendFields_40",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"QA_DATABASE\"",
+        "schema" : "\"PUBLIC\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "40" : {
+      "id" : "40",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_40",
+        "x" : 4280,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE"
+          },
+          "joinType" : "inner"
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.\"COUNT\""
+          },
+          "alias" : "NBRLOGS",
+          "_row_id" : "DOSeTnY8YOPoBeA-ABvW2"
+        }, {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "2022858637"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCLUDE(\"COUNT\")"
+          },
+          "_row_id" : "1301982019"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "40_Targets##COUNT" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "40_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "40_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "40_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AppendFields_40_40_Output" : {
+      "id" : "AppendFields_40_40_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AppendFields_40"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AppendFields_40\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_15",
+          "slug" : "input_port_15"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_15",
+          "slug" : "output_port_15"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "37" : {
+      "id" : "37",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_37",
+        "x" : 3880,
+        "y" : 220,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "LOGOUTPUTPATH"
+          },
+          "alias" : "LOGOUTPUTPATH",
+          "_row_id" : "zg6_n2BAcGcxKLj3K8Cpt"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ "37_Input##LOGOUTPUTPATH" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "37_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "37_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "39" : {
+      "id" : "39",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "CountRecords_39",
+        "x" : 4080,
+        "y" : 220,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "COUNT(*)"
+          },
+          "alias" : "\"COUNT\"",
+          "_row_id" : "RpzLnnvC87EUOmPvyjI6E"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "39_Input8",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "39_Output9",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_41_41_Output" : {
+      "id" : "AlteryxSelect_41_41_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_41"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_14",
+          "id" : "output_port_14",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Log_Extraction__AlteryxSelect_41') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "38" : {
+      "id" : "38",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_38",
+        "x" : 4080,
+        "y" : 20,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "DIRECTORY_NEW"
+          },
+          "alias" : "DIRECTORY_NEW",
+          "_row_id" : "PG-atgM9vGqWuQ2NLgpwM"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ "38_Input##DIRECTORY_NEW" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "38_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "38_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_40_40_Output_AppendFields_40_40_Output",
+    "source" : "40",
+    "sourcePort" : "40_Output",
+    "target" : "AppendFields_40_40_Output",
+    "targetPort" : "input_port_15",
+    "isWireless" : false
+  }, {
+    "id" : "edge_327",
+    "source" : "38",
+    "sourcePort" : "38_Output",
+    "target" : "40",
+    "targetPort" : "40_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_328",
+    "source" : "39",
+    "sourcePort" : "39_Output9",
+    "target" : "40",
+    "targetPort" : "40_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_331",
+    "source" : "AlteryxSelect_41_41_Output",
+    "sourcePort" : "output_port_14",
+    "target" : "38",
+    "targetPort" : "38_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_326",
+    "source" : "37",
+    "sourcePort" : "37_Output",
+    "target" : "39",
+    "targetPort" : "39_Input8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_330",
+    "source" : "AlteryxSelect_41_41_Output",
+    "sourcePort" : "output_port_14",
+    "target" : "37",
+    "targetPort" : "37_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
