@@ -1,0 +1,1227 @@
+{
+  "id" : "Barrier_Bend_Monitoring_1___AlteryxSelect_84",
+  "metainfo" : {
+    "label" : "Barrier_Bend_Monitoring_1___AlteryxSelect_84",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "7jE54hDHtyL6dZmt0-vfo" : {
+      "id" : "7jE54hDHtyL6dZmt0-vfo",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_63_0",
+        "x" : 7380,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "vp44XmWvrPyyiT8xdmjm0##Legal Barrier Next", "vp44XmWvrPyyiT8xdmjm0##Asset Spot", "vp44XmWvrPyyiT8xdmjm0##Legal Barrier At Max Disc", "vp44XmWvrPyyiT8xdmjm0##barType", "vp44XmWvrPyyiT8xdmjm0##Relative Risk Levels", "vp44XmWvrPyyiT8xdmjm0##Relative Legal Levels" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((`Legal Barrier Next` / CAST(`Asset Spot` AS DOUBLE)) * 100) AS DOUBLE)"
+          },
+          "alias" : "`Next Barrier vs Current Spot`",
+          "_row_id" : "bwGy8JDpl_lLouRRNb4c4"
+        }, {
+          "expression" : {
+            "expression" : "CAST((MOD(`Legal Barrier At Max Disc`, `Asset Spot`)) AS DOUBLE)"
+          },
+          "alias" : "`Barrier at max disc vs Current Spot`",
+          "_row_id" : "FxB8ptMRIn_P5wxi2Lr6t"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS string)"
+          },
+          "alias" : "`VCG Accepted`",
+          "_row_id" : "cK97XkHUlK2ulw2Y3ZBDQ"
+        }, {
+          "expression" : {
+            "expression" : "CAST((\n  CONCAT(\n    barType, \n    ' Barrier breached on relative strike @', \n    (SUBSTRING(`Relative Risk Levels`, (((LENGTH(`Relative Risk Levels`)) - 6) + 1), 6)), \n    ' But ATM bending is ', \n    (\n      REGEXP_REPLACE(\n        (\n          REGEXP_REPLACE(\n            (\n              FORMAT_NUMBER(\n                CAST((\n                  (\n                    coalesce(\n                      CAST((SUBSTRING(`Relative Legal Levels`, (((LENGTH(`Relative Legal Levels`)) - 6) + 1), 6)) AS DOUBLE), \n                      CAST((\n                        REGEXP_EXTRACT(\n                          (SUBSTRING(`Relative Legal Levels`, (((LENGTH(`Relative Legal Levels`)) - 6) + 1), 6)), \n                          '^[0-9]+', \n                          0)\n                      ) AS INTEGER), \n                      0)\n                  )\n                  - (\n                      coalesce(\n                        CAST((SUBSTRING(`Relative Risk Levels`, (((LENGTH(`Relative Risk Levels`)) - 6) + 1), 6)) AS DOUBLE), \n                        CAST((\n                          REGEXP_EXTRACT(\n                            (SUBSTRING(`Relative Risk Levels`, (((LENGTH(`Relative Risk Levels`)) - 6) + 1), 6)), \n                            '^[0-9]+', \n                            0)\n                        ) AS INTEGER), \n                        0)\n                    )\n                ) AS DOUBLE), \n                0)\n            ), \n            ',', \n            '__THS__')\n        ), \n        '__THS__', \n        '')\n    ), \n    '%')\n) AS string)"
+          },
+          "alias" : "Comment",
+          "_row_id" : "c5Wb30MS2irZYXWRXzDLB"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "1017186586"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vp44XmWvrPyyiT8xdmjm0",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "KGZBNjkGZvz0fuwF4T13D",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "84" : {
+      "id" : "84",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_84",
+        "x" : 8520,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Smart Bending Breach`",
+            "_row_id" : null
+          },
+          "alias" : "`Smart Bending Breach`",
+          "description" : null,
+          "_row_id" : "bniV24hpoV21hMF6weZqS"
+        }, {
+          "expression" : {
+            "expression" : "`Asset Pyramid Name`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset Pyramid Name`",
+          "description" : null,
+          "_row_id" : "OgXzFwMzIS95Bb0KoGzai"
+        }, {
+          "expression" : {
+            "expression" : "`Asset Spot`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset Spot`",
+          "description" : null,
+          "_row_id" : "bxTh6mFCcdtD1NYNAiOYS"
+        }, {
+          "expression" : {
+            "expression" : "`Legal Barrier Next`",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier Next`",
+          "description" : null,
+          "_row_id" : "iBO5Ge2Xkq7ac91_eIYfp"
+        }, {
+          "expression" : {
+            "expression" : "`Legal Barrier At Max Disc`",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier At Max Disc`",
+          "description" : null,
+          "_row_id" : "DbKNYMqckuUepaH2jrYnM"
+        }, {
+          "expression" : {
+            "expression" : "hasStaticCheckMaxBreach",
+            "_row_id" : null
+          },
+          "alias" : "hasStaticCheckMaxBreach",
+          "description" : null,
+          "_row_id" : "6HD1PBewLs7W0vaoiy4gk"
+        }, {
+          "expression" : {
+            "expression" : "MaxBends",
+            "_row_id" : null
+          },
+          "alias" : "MaxBends",
+          "description" : null,
+          "_row_id" : "nAIqy1MZ3K0SSq-YG_HmS"
+        }, {
+          "expression" : {
+            "expression" : "Bends",
+            "_row_id" : null
+          },
+          "alias" : "Bends",
+          "description" : null,
+          "_row_id" : "k_lyLwg4mOO-5h7dl8chR"
+        }, {
+          "expression" : {
+            "expression" : "`Relative Risk Levels`",
+            "_row_id" : null
+          },
+          "alias" : "`Relative Risk Levels`",
+          "description" : null,
+          "_row_id" : "d3GnWlzeCkeBjLsC-ed36"
+        }, {
+          "expression" : {
+            "expression" : "`Relative Legal Levels`",
+            "_row_id" : null
+          },
+          "alias" : "`Relative Legal Levels`",
+          "description" : null,
+          "_row_id" : "WCEXPzVYzDuARe3P0h5Ko"
+        }, {
+          "expression" : {
+            "expression" : "Sum_USDLegalRisky",
+            "_row_id" : null
+          },
+          "alias" : "Sum_USDLegalRisky",
+          "description" : null,
+          "_row_id" : "gE77m56kZpl5mslOKpyYi"
+        }, {
+          "expression" : {
+            "expression" : "Desk",
+            "_row_id" : null
+          },
+          "alias" : "Desk",
+          "description" : null,
+          "_row_id" : "QSCmmE_zyplFWEZwm4U_p"
+        }, {
+          "expression" : {
+            "expression" : "`Imnt Id`",
+            "_row_id" : null
+          },
+          "alias" : "`Imnt Id`",
+          "description" : null,
+          "_row_id" : "lCMtuWyxl_ibFyl74zHRj"
+        }, {
+          "expression" : {
+            "expression" : "`Option Class`",
+            "_row_id" : null
+          },
+          "alias" : "`Option Class`",
+          "description" : null,
+          "_row_id" : "d1DwA9-b0X0wansXm8LwK"
+        }, {
+          "expression" : {
+            "expression" : "barType",
+            "_row_id" : null
+          },
+          "alias" : "barType",
+          "description" : null,
+          "_row_id" : "e6JPCZP6HP6DBLESwjUoI"
+        }, {
+          "expression" : {
+            "expression" : "`Next Barrier vs Current Spot`",
+            "_row_id" : null
+          },
+          "alias" : "`Next Barrier vs Current Spot`",
+          "description" : null,
+          "_row_id" : "UEtrrAHYV8yL5N8LloJfc"
+        }, {
+          "expression" : {
+            "expression" : "`Barrier at max disc vs Current Spot`",
+            "_row_id" : null
+          },
+          "alias" : "`Barrier at max disc vs Current Spot`",
+          "description" : null,
+          "_row_id" : "sak07KZRvoZoIEwpnRowV"
+        }, {
+          "expression" : {
+            "expression" : "`VCG Accepted`",
+            "_row_id" : null
+          },
+          "alias" : "`VCG Accepted`",
+          "description" : null,
+          "_row_id" : "8343vF8_68t405TU3PBAY"
+        }, {
+          "expression" : {
+            "expression" : "Comment",
+            "_row_id" : null
+          },
+          "alias" : "Comment",
+          "description" : null,
+          "_row_id" : "ELNwgJtEyrLfDEec8Iquq"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Smart Bending`, `Smart Bending Instrument`, `Smart Bending Breach`, `Asset Pyramid Name`, `Asset Spot`, `Legal Barrier Next`, `Legal Barrier At Max Disc`, `hasStaticCheckMaxBreach`, `MaxBends`, `Bends`, `Relative Risk Levels`, `Relative Legal Levels`, `Sum_USDLegalRisky`, `Desk`, `Imnt Id`, `Option Class`, `barType`, `Next Barrier vs Current Spot`, `Barrier at max disc vs Current Spot`, `VCG Accepted`, `Comment`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "84_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "84_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "82_left" : {
+      "id" : "82_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_82_left_UnionLeftOuter",
+        "x" : 7860,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Imnt Id` = in1.`Imnt Id`)",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.`Smart Bending`",
+            "_row_id" : null
+          },
+          "alias" : "`Smart Bending`",
+          "description" : null,
+          "_row_id" : "wcy9t-Gggcxh-O8Ysiegm"
+        }, {
+          "expression" : {
+            "expression" : "in1.`Smart Bending Instrument`",
+            "_row_id" : null
+          },
+          "alias" : "`Smart Bending Instrument`",
+          "description" : null,
+          "_row_id" : "4svBrnLhHIoC3lmMZp4wg"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Asset Pyramid Name`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset Pyramid Name`",
+          "description" : null,
+          "_row_id" : "3s4fYWiVP3Fn6dNSicKhG"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Asset Spot`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset Spot`",
+          "description" : null,
+          "_row_id" : "Wm5Tzec3u_C1dasQf7yjD"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Legal Barrier Next`",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier Next`",
+          "description" : null,
+          "_row_id" : "JVLntFTChxC7LQaiceBRf"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Legal Barrier At Max Disc`",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier At Max Disc`",
+          "description" : null,
+          "_row_id" : "FojW8oSvBVDaijGnknIyH"
+        }, {
+          "expression" : {
+            "expression" : "in0.hasStaticCheckMaxBreach",
+            "_row_id" : null
+          },
+          "alias" : "hasStaticCheckMaxBreach",
+          "description" : null,
+          "_row_id" : "QKm2O9KeqhOttukxn74X6"
+        }, {
+          "expression" : {
+            "expression" : "in0.MaxBends",
+            "_row_id" : null
+          },
+          "alias" : "MaxBends",
+          "description" : null,
+          "_row_id" : "PuDXkYkNYM2uQ6ByAPm5L"
+        }, {
+          "expression" : {
+            "expression" : "in0.Bends",
+            "_row_id" : null
+          },
+          "alias" : "Bends",
+          "description" : null,
+          "_row_id" : "nKmZ9NJN0IrgcDIrfUnHL"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Relative Risk Levels`",
+            "_row_id" : null
+          },
+          "alias" : "`Relative Risk Levels`",
+          "description" : null,
+          "_row_id" : "GAtEpWdT12clVNjf97V2L"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Relative Legal Levels`",
+            "_row_id" : null
+          },
+          "alias" : "`Relative Legal Levels`",
+          "description" : null,
+          "_row_id" : "RKLvyHrozu1ZRjP4m1W6e"
+        }, {
+          "expression" : {
+            "expression" : "in0.Sum_USDLegalRisky",
+            "_row_id" : null
+          },
+          "alias" : "Sum_USDLegalRisky",
+          "description" : null,
+          "_row_id" : "ohKeoBHebPUGSORN67ieL"
+        }, {
+          "expression" : {
+            "expression" : "in0.Desk",
+            "_row_id" : null
+          },
+          "alias" : "Desk",
+          "description" : null,
+          "_row_id" : "rit-gsyXzQ0KZAUeMccqv"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Imnt Id`",
+            "_row_id" : null
+          },
+          "alias" : "`Imnt Id`",
+          "description" : null,
+          "_row_id" : "X2GZrgenq8zzcNJUmKH82"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Option Class`",
+            "_row_id" : null
+          },
+          "alias" : "`Option Class`",
+          "description" : null,
+          "_row_id" : "iOJYB1n4P9YbJXmeSuaeQ"
+        }, {
+          "expression" : {
+            "expression" : "in0.barType",
+            "_row_id" : null
+          },
+          "alias" : "barType",
+          "description" : null,
+          "_row_id" : "kaobGMOuw9B9qg6SCQKPK"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Next Barrier vs Current Spot`",
+            "_row_id" : null
+          },
+          "alias" : "`Next Barrier vs Current Spot`",
+          "description" : null,
+          "_row_id" : "liQ4VTFFTKeG9PB-yx_Nx"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Barrier at max disc vs Current Spot`",
+            "_row_id" : null
+          },
+          "alias" : "`Barrier at max disc vs Current Spot`",
+          "description" : null,
+          "_row_id" : "XkX3lIXfojozD2T1FqZsm"
+        }, {
+          "expression" : {
+            "expression" : "in0.`VCG Accepted`",
+            "_row_id" : null
+          },
+          "alias" : "`VCG Accepted`",
+          "description" : null,
+          "_row_id" : "n3uqQrN4p3aPg9a4nxdV6"
+        }, {
+          "expression" : {
+            "expression" : "in0.Comment",
+            "_row_id" : null
+          },
+          "alias" : "Comment",
+          "description" : null,
+          "_row_id" : "29UtqbcglsovxEux-WZ4t"
+        }, {
+          "expression" : {
+            "expression" : "in1.`Smart Bending Breach`",
+            "_row_id" : null
+          },
+          "alias" : "`Smart Bending Breach`",
+          "description" : null,
+          "_row_id" : "U05A3AA7_-xoyDebmBnpj"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Asset Pyramid Name`, `Asset Spot`, `Legal Barrier Next`, `Legal Barrier At Max Disc`, `hasStaticCheckMaxBreach`, `MaxBends`, `Bends`, `Relative Risk Levels`, `Relative Legal Levels`, `Sum_USDLegalRisky`, `Desk`, `Imnt Id`, `Option Class`, `barType`, `Next Barrier vs Current Spot`, `Barrier at max disc vs Current Spot`, `VCG Accepted`, `Comment`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Smart Bending`, `Smart Bending Instrument`, `Imnt Id`, `Final Breach`, `LegalslashRisky`, `Abs`, `CheckquesMark`, `Inmt ID Accepted`, `Accepted BreachquesMark`, `Final- Breach or Pending QR or <TH`, `Smart Bending Breach`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "0OMJzBWESIw-NEomeGiWg",
+          "slug" : "in0"
+        }, {
+          "id" : "mCDTe2Yt59qWyzcW0Huib",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "KkWu9yQZO0nps-tx5UmWM",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "zTSef5Nhsr_XeeTXXBDWx" : {
+      "id" : "zTSef5Nhsr_XeeTXXBDWx",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_57_0",
+        "x" : 4260,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((`Breach Inmt ID` IS NULL) AS BOOLEAN) THEN 'N' ELSE 'Y' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Breach To investigate`",
+          "description" : null,
+          "_row_id" : "hzTcqY4Fotg28pFPhSZw4"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "U-LIJqa2cF3iZpWfRq0hV",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "HwJWnNKgfF3p3tpyOVPXL",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_85_0_-ZdnO8DZ482GiaxHlg4mB" : {
+      "id" : "Formula_85_0_-ZdnO8DZ482GiaxHlg4mB",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_85_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Barrier_Bend_Monitoring_1___Formula_85_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "50" : {
+      "id" : "50",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_50",
+        "x" : 6240,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(USDLegalRisky)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_USDLegalRisky",
+          "description" : null,
+          "_row_id" : "-MRbnnDOt6nC-8iEGFKmM"
+        }, {
+          "expression" : {
+            "expression" : "`Imnt Id`",
+            "_row_id" : null
+          },
+          "alias" : "`Imnt Id`",
+          "description" : null,
+          "_row_id" : "xmNw7GqRlQdVdyBhgrF5v"
+        }, {
+          "expression" : {
+            "expression" : "`Asset Pyramid Name`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset Pyramid Name`",
+          "description" : null,
+          "_row_id" : "TERdnXexGNvJvMQsUbU8u"
+        }, {
+          "expression" : {
+            "expression" : "MaxBends",
+            "_row_id" : null
+          },
+          "alias" : "MaxBends",
+          "description" : null,
+          "_row_id" : "N19L5cBhchwRN-JGwWNam"
+        }, {
+          "expression" : {
+            "expression" : "Desk",
+            "_row_id" : null
+          },
+          "alias" : "Desk",
+          "description" : null,
+          "_row_id" : "Lbv6bxqvRq-JOUoEr4Iz6"
+        }, {
+          "expression" : {
+            "expression" : "`Relative Risk Levels`",
+            "_row_id" : null
+          },
+          "alias" : "`Relative Risk Levels`",
+          "description" : null,
+          "_row_id" : "PJfH8z-fj0x_1VXQQ204U"
+        }, {
+          "expression" : {
+            "expression" : "Bends",
+            "_row_id" : null
+          },
+          "alias" : "Bends",
+          "description" : null,
+          "_row_id" : "bVRtx6uWNucu9aS8u14G0"
+        }, {
+          "expression" : {
+            "expression" : "`Asset Spot`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset Spot`",
+          "description" : null,
+          "_row_id" : "9t6ibk3FKv1hBDKyW_sAC"
+        }, {
+          "expression" : {
+            "expression" : "barType",
+            "_row_id" : null
+          },
+          "alias" : "barType",
+          "description" : null,
+          "_row_id" : "1jJoiVsJcyDXX-qIU_rbP"
+        }, {
+          "expression" : {
+            "expression" : "`Option Class`",
+            "_row_id" : null
+          },
+          "alias" : "`Option Class`",
+          "description" : null,
+          "_row_id" : "uG6xva8Mo3I9Ci4hur2dT"
+        }, {
+          "expression" : {
+            "expression" : "`Legal Barrier Next`",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier Next`",
+          "description" : null,
+          "_row_id" : "iS2o8SjvYyvkHyoo_u3ZW"
+        }, {
+          "expression" : {
+            "expression" : "hasStaticCheckMaxBreach",
+            "_row_id" : null
+          },
+          "alias" : "hasStaticCheckMaxBreach",
+          "description" : null,
+          "_row_id" : "tWP7sct7r-yPfn3hxvkrm"
+        }, {
+          "expression" : {
+            "expression" : "`Relative Legal Levels`",
+            "_row_id" : null
+          },
+          "alias" : "`Relative Legal Levels`",
+          "description" : null,
+          "_row_id" : "QKFUKuNIWWejh33jq-nP3"
+        }, {
+          "expression" : {
+            "expression" : "`Legal Barrier At Max Disc`",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier At Max Disc`",
+          "description" : null,
+          "_row_id" : "Yp0N-QahqUyLabM9ja9Wb"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Imnt Id`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "1RGn3lVYtAP4pssealv2z"
+        }, {
+          "expression" : {
+            "expression" : "`Asset Pyramid Name`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "E4mhQQMGvOfWBykWQSrDm"
+        }, {
+          "expression" : {
+            "expression" : "MaxBends",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "W1w69d7UyepA2yMr4xSZU"
+        }, {
+          "expression" : {
+            "expression" : "Desk",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "WaGGDz-Qbpo5NqN8eU_TD"
+        }, {
+          "expression" : {
+            "expression" : "`Relative Risk Levels`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "LZZshe3ELnNdWoPoB_JkH"
+        }, {
+          "expression" : {
+            "expression" : "Bends",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "f6jpZZq1s73B5RmxFfJ9n"
+        }, {
+          "expression" : {
+            "expression" : "`Asset Spot`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "gBikeq6uDHv7ucew5lNa2"
+        }, {
+          "expression" : {
+            "expression" : "barType",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "fb_4aJsuHAnReikbmqxSY"
+        }, {
+          "expression" : {
+            "expression" : "`Option Class`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "eh09du6xeyoKH-K_yF1x7"
+        }, {
+          "expression" : {
+            "expression" : "`Legal Barrier Next`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "3uBHweDVgLDraEFx7zhZi"
+        }, {
+          "expression" : {
+            "expression" : "hasStaticCheckMaxBreach",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "N7ntHF6dx_hTSP-xhCQuY"
+        }, {
+          "expression" : {
+            "expression" : "`Relative Legal Levels`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "deuLnEB47cw99iaqxtZCu"
+        }, {
+          "expression" : {
+            "expression" : "`Legal Barrier At Max Disc`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "vxobVXI-BM_8iQ82FDp-Y"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "50_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "50_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "51_left" : {
+      "id" : "51_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_51_left_UnionLeftOuter",
+        "x" : 2340,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Imnt Id` = in1.`Imnt Id`)",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.`Asset Spot`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset Spot`",
+          "description" : null,
+          "_row_id" : "LCJLpZivf3kN02RvXWeXw"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Legal Barrier Next`",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier Next`",
+          "description" : null,
+          "_row_id" : "68dzKFlN4Ejggp5tn1MZo"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Risky Barrier Next`",
+            "_row_id" : null
+          },
+          "alias" : "`Risky Barrier Next`",
+          "description" : null,
+          "_row_id" : "DkTkaEK157JwnczMrPG2l"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Legal Barrier At Max Disc`",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier At Max Disc`",
+          "description" : null,
+          "_row_id" : "tnzfQMWQi5_Fnw_K0rR6u"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Risky Barrier At Max Disc`",
+            "_row_id" : null
+          },
+          "alias" : "`Risky Barrier At Max Disc`",
+          "description" : null,
+          "_row_id" : "VA0ELXJ2-GPvyCZae8Ig-"
+        }, {
+          "expression" : {
+            "expression" : "(CASE WHEN (in0.`Imnt Id` = in1.`Imnt Id`) THEN in1.`Imnt Id` ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "`Breach Inmt ID`",
+          "description" : null,
+          "_row_id" : "x6P1oT3A8DrCJ47wbjLU0"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Asset Spot`, `Legal Barrier Next`, `Risky Barrier Next`, `Legal Barrier At Max Disc`, `Risky Barrier At Max Disc`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Imnt Id`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "O9y5_ynr6kQK3BeGWeJMM",
+          "slug" : "in0"
+        }, {
+          "id" : "tBq-ZMO4Kc_0gtIhBsD6p",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "rdQxSlfxH1wXrHqASAFOu",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_84_84_Output" : {
+      "id" : "AlteryxSelect_84_84_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_84"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_84\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "59" : {
+      "id" : "59",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_59",
+        "x" : 5520,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(`Breach To investigate` = 'Y')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "59_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "59_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "54" : {
+      "id" : "54",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_54",
+        "x" : 1380,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(`Final- Breach or Pending QR or <TH` = 'Breach')",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "54_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "54_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "58" : {
+      "id" : "58",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_58",
+        "x" : 5280,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(`Legal Barrier Next` AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`Legal Barrier Next`",
+          "description" : null,
+          "_row_id" : "sTw2Mh4rentMc5hdr9oMA"
+        }, {
+          "expression" : {
+            "expression" : "CAST(`Risky Barrier Next` AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`Risky Barrier Next`",
+          "description" : null,
+          "_row_id" : "eD6tUZ02xJ7cpiJZEG3BY"
+        }, {
+          "expression" : {
+            "expression" : "CAST(USDRiskyFV AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "USDRiskyFV",
+          "description" : null,
+          "_row_id" : "gzKZ3yQku7AQERntO-lOe"
+        }, {
+          "expression" : {
+            "expression" : "CAST(USDLegalFV AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "USDLegalFV",
+          "description" : null,
+          "_row_id" : "09d94eod11uvhQrM1keXP"
+        }, {
+          "expression" : {
+            "expression" : "CAST(USDLegalRisky AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "USDLegalRisky",
+          "description" : null,
+          "_row_id" : "d_yzkMTz0StiXXwqzOgk0"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Breach Inmt ID`, `Legal Barrier Next`, `Risky Barrier Next`, `USDRiskyFV`, `USDLegalFV`, `USDLegalRisky`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "58_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "58_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "BarReport_APAC__1_1_Output" : {
+      "id" : "BarReport_APAC__1_1_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "BarReport_APAC__1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_', 'BarReport_APAC__1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "52" : {
+      "id" : "52",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_52",
+        "x" : 1860,
+        "y" : 1512,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Imnt Id`",
+            "_row_id" : null
+          },
+          "alias" : "`Imnt Id`",
+          "description" : null,
+          "_row_id" : "RL-yp9EV3esM1lqkaq9BN"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "52_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "52_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_84_84_Output_AlteryxSelect_84_84_Output",
+    "source" : "84",
+    "sourcePort" : "84_Output",
+    "target" : "AlteryxSelect_84_84_Output",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_426",
+    "source" : "82_left",
+    "sourcePort" : "KkWu9yQZO0nps-tx5UmWM",
+    "target" : "84",
+    "targetPort" : "84_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_455",
+    "source" : "7jE54hDHtyL6dZmt0-vfo",
+    "sourcePort" : "KGZBNjkGZvz0fuwF4T13D",
+    "target" : "82_left",
+    "targetPort" : "0OMJzBWESIw-NEomeGiWg",
+    "isWireless" : false
+  }, {
+    "id" : "edge_451",
+    "source" : "Formula_85_0_-ZdnO8DZ482GiaxHlg4mB",
+    "sourcePort" : "output_port_7",
+    "target" : "82_left",
+    "targetPort" : "mCDTe2Yt59qWyzcW0Huib",
+    "isWireless" : false
+  }, {
+    "id" : "edge_456",
+    "source" : "50",
+    "sourcePort" : "50_Output",
+    "target" : "7jE54hDHtyL6dZmt0-vfo",
+    "targetPort" : "vp44XmWvrPyyiT8xdmjm0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_410",
+    "source" : "59",
+    "sourcePort" : "59_True",
+    "target" : "50",
+    "targetPort" : "50_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_409",
+    "source" : "58",
+    "sourcePort" : "58_Output",
+    "target" : "59",
+    "targetPort" : "59_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_453",
+    "source" : "zTSef5Nhsr_XeeTXXBDWx",
+    "sourcePort" : "HwJWnNKgfF3p3tpyOVPXL",
+    "target" : "58",
+    "targetPort" : "58_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_454",
+    "source" : "51_left",
+    "sourcePort" : "rdQxSlfxH1wXrHqASAFOu",
+    "target" : "zTSef5Nhsr_XeeTXXBDWx",
+    "targetPort" : "U-LIJqa2cF3iZpWfRq0hV",
+    "isWireless" : false
+  }, {
+    "id" : "edge_424",
+    "source" : "52",
+    "sourcePort" : "52_Output",
+    "target" : "51_left",
+    "targetPort" : "tBq-ZMO4Kc_0gtIhBsD6p",
+    "isWireless" : false
+  }, {
+    "id" : "edge_423",
+    "source" : "BarReport_APAC__1_1_Output",
+    "sourcePort" : "output_port_3",
+    "target" : "51_left",
+    "targetPort" : "O9y5_ynr6kQK3BeGWeJMM",
+    "isWireless" : false
+  }, {
+    "id" : "edge_408",
+    "source" : "54",
+    "sourcePort" : "54_True",
+    "target" : "52",
+    "targetPort" : "52_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_449",
+    "source" : "Formula_85_0_-ZdnO8DZ482GiaxHlg4mB",
+    "sourcePort" : "output_port_7",
+    "target" : "54",
+    "targetPort" : "54_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

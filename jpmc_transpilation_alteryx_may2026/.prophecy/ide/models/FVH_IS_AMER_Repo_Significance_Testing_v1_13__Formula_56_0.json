@@ -1,0 +1,173 @@
+{
+  "id" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13__Formula_56_0",
+  "metainfo" : {
+    "label" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13__Formula_56_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_56_0_3V2W1EhnXM1I8YnxiicXe" : {
+      "id" : "Formula_56_0_3V2W1EhnXM1I8YnxiicXe",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_56_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_56_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AJ7hW0y5ot4WKuItPuzhV" : {
+      "id" : "AJ7hW0y5ot4WKuItPuzhV",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_56_0",
+        "x" : 10440,
+        "y" : 2592,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT(VA_CURVE, TENOR)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Concat",
+          "description" : null,
+          "_row_id" : "k9WOeSfvrneIn3XGigxnr"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "5c6DNkqsPsO6wvdV1q76v",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3V2W1EhnXM1I8YnxiicXe",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "55" : {
+      "id" : "55",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_55",
+        "x" : 9240,
+        "y" : 2628,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((CP_TYPE = 'IG') AND (COUNTERPARTY = 'ALL'))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "55_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "55_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DynamicInput_213_213_Output" : {
+      "id" : "DynamicInput_213_213_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DynamicInput_213"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing_v1_13', 'DynamicInput_213') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_AJ7hW0y5ot4WKuItPuzhV_3V2W1EhnXM1I8YnxiicXe_Formula_56_0_3V2W1EhnXM1I8YnxiicXe",
+    "source" : "AJ7hW0y5ot4WKuItPuzhV",
+    "sourcePort" : "3V2W1EhnXM1I8YnxiicXe",
+    "target" : "Formula_56_0_3V2W1EhnXM1I8YnxiicXe",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_756",
+    "source" : "55",
+    "sourcePort" : "55_True",
+    "target" : "AJ7hW0y5ot4WKuItPuzhV",
+    "targetPort" : "5c6DNkqsPsO6wvdV1q76v",
+    "isWireless" : false
+  }, {
+    "id" : "edge_573",
+    "source" : "DynamicInput_213_213_Output",
+    "sourcePort" : "output_port_7",
+    "target" : "55",
+    "targetPort" : "55_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

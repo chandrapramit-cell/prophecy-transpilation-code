@@ -1,0 +1,137 @@
+{
+  "id" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13__AlteryxSelect_42",
+  "metainfo" : {
+    "label" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13__AlteryxSelect_42",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_42_42_Output" : {
+      "id" : "AlteryxSelect_42_42_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_42"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_42\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "42" : {
+      "id" : "42",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_42",
+        "x" : 6480,
+        "y" : 1368,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`2026-02-05`",
+            "_row_id" : null
+          },
+          "alias" : "F1",
+          "description" : null,
+          "_row_id" : "GLhCeNw6-fvqdY5m-f_8s"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`F2`, `2026-02-05`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "42_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "42_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DynamicInput_211_211_Output" : {
+      "id" : "DynamicInput_211_211_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DynamicInput_211"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing_v1_13', 'DynamicInput_211') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_42_42_Output_AlteryxSelect_42_42_Output",
+    "source" : "42",
+    "sourcePort" : "42_Output",
+    "target" : "AlteryxSelect_42_42_Output",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_572",
+    "source" : "DynamicInput_211_211_Output",
+    "sourcePort" : "output_port_10",
+    "target" : "42",
+    "targetPort" : "42_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
