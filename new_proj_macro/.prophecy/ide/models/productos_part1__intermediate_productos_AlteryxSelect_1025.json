@@ -1,0 +1,656 @@
+{
+  "id" : "productos_part1__intermediate_productos_AlteryxSelect_1025",
+  "metainfo" : {
+    "label" : "productos_part1__intermediate_productos_AlteryxSelect_1025",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"intermediate_productos_AlteryxSelect_1025\"",
+        "materialized" : "table",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_988_inner_fCq4m-C8FOiJaO64YRx6i" : {
+      "id" : "Join_988_inner_fCq4m-C8FOiJaO64YRx6i",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_988_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_8",
+          "id" : "output_port_8",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('productos_part1__Join_988_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "eVSjjxLFnqTKBebkE-kkY" : {
+      "id" : "eVSjjxLFnqTKBebkE-kkY",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1020_0",
+        "x" : 1178,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN ((cantidad_tarjetas_con_consumo IS NULL) OR ((LENGTH(cantidad_tarjetas_con_consumo)) = 0)) THEN CAST(0 AS string) ELSE cantidad_tarjetas_con_consumo END) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "cantidad_tarjetas_con_consumo",
+          "description" : null,
+          "_row_id" : "DPfi-1AIbqRDJNRfu9iiV"
+        }, {
+          "expression" : {
+            "expression" : "CAST(21 AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "CodProducto",
+          "description" : null,
+          "_row_id" : "SdGf-vWSvmZ0XNlxlCYWG"
+        }, {
+          "expression" : {
+            "expression" : "CAST(descripcion_crm AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col1",
+          "description" : null,
+          "_row_id" : "QxDFN7Vr8KX5Ft_SxV2p1"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Cantidad de Tarjetas: ', (CASE WHEN ((cantidad_tarjetas IS NULL) OR ((LENGTH(CAST(cantidad_tarjetas AS string))) = 0)) THEN 0 ELSE (REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(cantidad_tarjetas AS DOUBLE), 0)), ',', '__THS__')), '__THS__', '')) END))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col2",
+          "description" : null,
+          "_row_id" : "nOpZhQN3HkVTcUwSIigMB"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`cantidad_tarjetas_con_consumo`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "xIGJL_eBpJC_G0z-hZmOo",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "9PnJKkWRH083TRNPCtxRJ",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TarjetasCorporativasCodigoProducto21"
+    },
+    "1018" : {
+      "id" : "1018",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1018",
+        "x" : 458,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT pan)",
+            "_row_id" : null
+          },
+          "alias" : "cantidad_tarjetas",
+          "description" : null,
+          "_row_id" : "vxuLRB9WXYHMqD0NvG15v"
+        }, {
+          "expression" : {
+            "expression" : "SUM(cantidad_compras_totales)",
+            "_row_id" : null
+          },
+          "alias" : "cantidad_compras_totales",
+          "description" : null,
+          "_row_id" : "KaYy3jC2c19Hy8dafYC86"
+        }, {
+          "expression" : {
+            "expression" : "SUM(cantidad_compras_totales_3meses)",
+            "_row_id" : null
+          },
+          "alias" : "cantidad_compras_totales_3meses",
+          "description" : null,
+          "_row_id" : "Wy1iqBwKVSri6UxsCzNYt"
+        }, {
+          "expression" : {
+            "expression" : "SUM(limite_tarjeta)",
+            "_row_id" : null
+          },
+          "alias" : "limite_tarjeta",
+          "description" : null,
+          "_row_id" : "tqHhnMHCj5Iuiijc1ayo7"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods_contrato",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods_contrato",
+          "description" : null,
+          "_row_id" : "zIV9CsWRArauLBDDDqkpp"
+        }, {
+          "expression" : {
+            "expression" : "numero_contrato",
+            "_row_id" : null
+          },
+          "alias" : "numero_contrato",
+          "description" : null,
+          "_row_id" : "oU8h5qxAX8fvpoyg0T9To"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_crm",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_crm",
+          "description" : null,
+          "_row_id" : "SFAnZJORRgQixH4uqhR94"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "idf_pers_ods_contrato",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "e0Qq7mDctFv0Mt7kofym_"
+        }, {
+          "expression" : {
+            "expression" : "numero_contrato",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "g8N-ThUCtURIckuKeAjQJ"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_crm",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "oAM9SARdluLlUbAhG8Gvc"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1018_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1018_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TarjetasCorporativasCodigoProducto21"
+    },
+    "oTwfm1ef20sRXhoQpaqIl" : {
+      "id" : "oTwfm1ef20sRXhoQpaqIl",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1020_1",
+        "x" : 1358,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Cantidad de Tarjetas con Consumo: ', (CASE WHEN ((cantidad_tarjetas_con_consumo IS NULL) OR ((LENGTH(CAST(cantidad_tarjetas_con_consumo AS string))) = 0)) THEN 0 ELSE (REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(cantidad_tarjetas_con_consumo AS DOUBLE), 0)), ',', '__THS__')), '__THS__', '')) END))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col3",
+          "description" : null,
+          "_row_id" : "QukSgbVTzDA4oUkKzEDyy"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Cantidad transacciones mes: ', (CASE WHEN ((cantidad_compras_totales IS NULL) OR ((LENGTH(CAST(cantidad_compras_totales AS string))) = 0)) THEN 0 ELSE (REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(cantidad_compras_totales AS DOUBLE), 0)), ',', '__THS__')), '__THS__', '')) END))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col4",
+          "description" : null,
+          "_row_id" : "lGWEkvtB6ihqgE8VAltkJ"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Cantidad transacciones 3 meses: ', (CASE WHEN ((cantidad_compras_totales_3meses IS NULL) OR ((LENGTH(CAST(cantidad_compras_totales_3meses AS string))) = 0)) THEN 0 ELSE (REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(cantidad_compras_totales_3meses AS DOUBLE), 0)), ',', '__THS__')), '__THS__', '')) END))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Col5",
+          "description" : null,
+          "_row_id" : "-ePApBt7f39EBql-BnxAz"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Rm77tusFg-FpYO3u_QbG2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "5DnuAOVVrsERgnN8B4EkQ",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TarjetasCorporativasCodigoProducto21"
+    },
+    "1023_left" : {
+      "id" : "1023_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_1023_left_UnionLeftOuter",
+        "x" : 938,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.idf_pers_ods_contrato = in1.idf_pers_ods_contrato) AND (in0.numero_contrato = in1.numero_contrato))",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((in0.idf_pers_ods_contrato = in1.idf_pers_ods_contrato) AND (in0.numero_contrato = in1.numero_contrato)) THEN in1.cantidad_tarjetas ELSE NULL END)",
+            "_row_id" : null
+          },
+          "alias" : "cantidad_tarjetas_con_consumo",
+          "description" : null,
+          "_row_id" : "kLRCCTZofwMXqqS41S-4X"
+        }, {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`idf_pers_ods_contrato`, `numero_contrato`, `descripcion_crm`, `cantidad_tarjetas`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "oPIrXF8nYk5-2RwA7KqED",
+          "slug" : "in0"
+        }, {
+          "id" : "_Bd8FWS2DDz2dUgGzFh9x",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "K8yHH58Y6vPWV9Zgs9B9p",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TarjetasCorporativasCodigoProducto21"
+    },
+    "1022" : {
+      "id" : "1022",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1022",
+        "x" : 698,
+        "y" : 363,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT pan)",
+            "_row_id" : null
+          },
+          "alias" : "cantidad_tarjetas",
+          "description" : null,
+          "_row_id" : "B5xcI2FedMiu_Iww29M8t"
+        }, {
+          "expression" : {
+            "expression" : "idf_pers_ods_contrato",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods_contrato",
+          "description" : null,
+          "_row_id" : "ffr2mvcFWVuGGN4fxx494"
+        }, {
+          "expression" : {
+            "expression" : "numero_contrato",
+            "_row_id" : null
+          },
+          "alias" : "numero_contrato",
+          "description" : null,
+          "_row_id" : "cQWVl_pqfBVUI-DR6_znI"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_crm",
+            "_row_id" : null
+          },
+          "alias" : "descripcion_crm",
+          "description" : null,
+          "_row_id" : "EGwohnlZRerp6AbBQUBDQ"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "idf_pers_ods_contrato",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "zh-iSpzLOhERDEIOXm7iy"
+        }, {
+          "expression" : {
+            "expression" : "numero_contrato",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "MQzLGAplGRh3RyGlwFQAp"
+        }, {
+          "expression" : {
+            "expression" : "descripcion_crm",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "35_i5mGaotzlI-Di_D_eA"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1022_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1022_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TarjetasCorporativasCodigoProducto21"
+    },
+    "4e-3ZMEIi5_vm8bl0urxO" : {
+      "id" : "4e-3ZMEIi5_vm8bl0urxO",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "intermediate_productos_AlteryxSelect_1025",
+        "phase" : 0
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_1025\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "yBSQ5xledzrCZ6r8OL7L-",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "LMxEUpLpNl22tNhGZPsHn",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Intermediate Target Nodes"
+    },
+    "BpnpRVoDajTFTjxXPIdWR" : {
+      "id" : "BpnpRVoDajTFTjxXPIdWR",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1017_to_Filter_1019",
+        "x" : 50,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(((coalesce(contains(lower(sub_tipo_producto_comercial), lower('Corporativa')), false) OR coalesce(contains(lower(sub_tipo_producto_comercial), lower('Pyme')), false)) AND (bloqueo_duro_contrato = false)) AND (bloqueo_duro_tarjeta = false))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "BgugvgYrqDktoavYKU1pb",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "yNvVRwYVPVK0Cx3mOHyQX",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TarjetasCorporativasCodigoProducto21"
+    },
+    "1025" : {
+      "id" : "1025",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1025",
+        "x" : 1598,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "idf_pers_ods_contrato",
+            "_row_id" : null
+          },
+          "alias" : "idf_pers_ods",
+          "description" : null,
+          "_row_id" : "cGevzTKJ8R1UB7X-KDsWl"
+        }, {
+          "expression" : {
+            "expression" : "CodProducto",
+            "_row_id" : null
+          },
+          "alias" : "CodProducto",
+          "description" : null,
+          "_row_id" : "BrpoyO_n3oX4vyQPwEdv4"
+        }, {
+          "expression" : {
+            "expression" : "Col1",
+            "_row_id" : null
+          },
+          "alias" : "Col1",
+          "description" : null,
+          "_row_id" : "a-enIcKYrl1pIHwbkE-Ph"
+        }, {
+          "expression" : {
+            "expression" : "Col2",
+            "_row_id" : null
+          },
+          "alias" : "Col2",
+          "description" : null,
+          "_row_id" : "RChDu20hz0og2Raj75z12"
+        }, {
+          "expression" : {
+            "expression" : "Col3",
+            "_row_id" : null
+          },
+          "alias" : "Col3",
+          "description" : null,
+          "_row_id" : "t1pRkV5LgShiYsm3141xy"
+        }, {
+          "expression" : {
+            "expression" : "Col4",
+            "_row_id" : null
+          },
+          "alias" : "Col4",
+          "description" : null,
+          "_row_id" : "MG5Jnf85-EAhw6B_Q5A0a"
+        }, {
+          "expression" : {
+            "expression" : "Col5",
+            "_row_id" : null
+          },
+          "alias" : "Col5",
+          "description" : null,
+          "_row_id" : "1sGBBQK_4O4sFUYDEBUAf"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1025_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1025_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TarjetasCorporativasCodigoProducto21"
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_423",
+    "source" : "1025",
+    "sourcePort" : "1025_Output",
+    "target" : "4e-3ZMEIi5_vm8bl0urxO",
+    "targetPort" : "yBSQ5xledzrCZ6r8OL7L-",
+    "isWireless" : false
+  }, {
+    "id" : "edge_459",
+    "source" : "oTwfm1ef20sRXhoQpaqIl",
+    "sourcePort" : "5DnuAOVVrsERgnN8B4EkQ",
+    "target" : "1025",
+    "targetPort" : "1025_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_458",
+    "source" : "eVSjjxLFnqTKBebkE-kkY",
+    "sourcePort" : "9PnJKkWRH083TRNPCtxRJ",
+    "target" : "oTwfm1ef20sRXhoQpaqIl",
+    "targetPort" : "Rm77tusFg-FpYO3u_QbG2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_460",
+    "source" : "1023_left",
+    "sourcePort" : "K8yHH58Y6vPWV9Zgs9B9p",
+    "target" : "eVSjjxLFnqTKBebkE-kkY",
+    "targetPort" : "xIGJL_eBpJC_G0z-hZmOo",
+    "isWireless" : false
+  }, {
+    "id" : "edge_319",
+    "source" : "1022",
+    "sourcePort" : "1022_Output",
+    "target" : "1023_left",
+    "targetPort" : "_Bd8FWS2DDz2dUgGzFh9x",
+    "isWireless" : false
+  }, {
+    "id" : "edge_320",
+    "source" : "1018",
+    "sourcePort" : "1018_Output",
+    "target" : "1023_left",
+    "targetPort" : "oPIrXF8nYk5-2RwA7KqED",
+    "isWireless" : false
+  }, {
+    "id" : "edge_310",
+    "source" : "BpnpRVoDajTFTjxXPIdWR",
+    "sourcePort" : "yNvVRwYVPVK0Cx3mOHyQX",
+    "target" : "1022",
+    "targetPort" : "1022_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_311",
+    "source" : "BpnpRVoDajTFTjxXPIdWR",
+    "sourcePort" : "yNvVRwYVPVK0Cx3mOHyQX",
+    "target" : "1018",
+    "targetPort" : "1018_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_312",
+    "source" : "Join_988_inner_fCq4m-C8FOiJaO64YRx6i",
+    "sourcePort" : "output_port_8",
+    "target" : "BpnpRVoDajTFTjxXPIdWR",
+    "targetPort" : "BgugvgYrqDktoavYKU1pb",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
