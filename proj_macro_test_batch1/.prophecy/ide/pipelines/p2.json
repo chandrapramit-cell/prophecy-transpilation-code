@@ -7,13 +7,330 @@
     "configuration" : {
       "schema" : {
         "type" : "record",
-        "fields" : [ ]
+        "fields" : [ {
+          "name" : "workflow_name",
+          "kind" : {
+            "type" : "string",
+            "value" : "'p2'"
+          }
+        } ]
       }
     },
     "isTranspiledPipeline" : false,
-    "publishDiagnosticMetrics" : false
+    "publishDiagnosticMetrics" : true,
+    "transpilerType" : "alteryx"
   },
-  "processes" : { },
-  "connections" : [ ],
+  "processes" : {
+    "ZbmrZPAewcaDGPwoPTU8Q" : {
+      "id" : "ZbmrZPAewcaDGPwoPTU8Q",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_2_cast",
+        "x" : 180,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Product AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "QHWmiNSu--zZ_WvaZhzt2"
+        }, {
+          "expression" : {
+            "expression" : "CAST(`Box Size` AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "`Box Size`",
+          "description" : null,
+          "_row_id" : "Ff1T40Z_ejHFO-sJrO32J"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "KTvcdTVm6-GUrJ4pI7jko",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "y05Jl1gPDznzZS2-N353F",
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "5" : {
+      "id" : "5",
+      "component" : "Pipeline",
+      "metadata" : {
+        "label" : "Macro_5",
+        "x" : 780,
+        "y" : 72,
+        "phase" : 1
+      },
+      "properties" : {
+        "maxTriggers" : 10000,
+        "triggerCondition" : "Always",
+        "enableMaxTriggers" : false,
+        "pipelineName" : "5",
+        "parameters" : {
+          "Box_Size" : "Box Size"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "5_Control",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "K7rWwpjZrl2z3srw2ODVY",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false
+      }
+    },
+    "3wPyRVRpiD9v_ufiWuPkA" : {
+      "id" : "3wPyRVRpiD9v_ufiWuPkA",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "5_Input19_macro_ip",
+        "x" : 420,
+        "y" : 72,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "5_Input19_macro_ip",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "d8YdeUm2ywUixdpsY2TE_",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "Databricks",
+            "fields" : [ ]
+          },
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "hjWkHMpuAPE6Bz0-63Otn",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "Databricks",
+            "fields" : [ ]
+          },
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "2" : {
+      "id" : "2",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "TextInput_2",
+        "x" : 0,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_test_2",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "2_Output",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "Databricks",
+            "fields" : [ {
+              "name" : "Product",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "Box Size",
+              "dataType" : {
+                "type" : "Integer"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "CVubdjMcGsxQK00q7-wH6" : {
+      "id" : "CVubdjMcGsxQK00q7-wH6",
+      "component" : "Script",
+      "metadata" : {
+        "label" : "BatchMacroOutputBoundaryTruncate_Macro_5",
+        "x" : 600,
+        "y" : 72,
+        "phase" : 0
+      },
+      "properties" : {
+        "scriptMethodHeader" : "",
+        "scriptMethodFooter" : "",
+        "script" : "spark.sql(\"TRUNCATE TABLE 14_5_Output14_macro_op\")\nout0 = in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "kKtGSYUlzNBTOFZcGwe69",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "rtifMoPXwpSWnDucU-s8A",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : true
+      }
+    },
+    "3" : {
+      "id" : "3",
+      "component" : "Dataset",
+      "metadata" : {
+        "label" : "TextInput_3",
+        "x" : 0,
+        "y" : 180,
+        "phase" : 0
+      },
+      "properties" : {
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        },
+        "table" : {
+          "name" : "seed_test_3",
+          "sourceType" : "Seed",
+          "alias" : ""
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "3_Output",
+          "schema" : {
+            "entityType" : "",
+            "providerType" : "Databricks",
+            "fields" : [ {
+              "name" : "Country",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "Product",
+              "dataType" : {
+                "type" : "String"
+              }
+            }, {
+              "name" : "Units",
+              "dataType" : {
+                "type" : "Integer"
+              }
+            } ]
+          },
+          "slug" : "out0"
+        } ]
+      }
+    },
+    "zhLTE2RacMGRIkkN0uWF3" : {
+      "id" : "zhLTE2RacMGRIkkN0uWF3",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextInput_3_cast",
+        "x" : 180,
+        "y" : 180,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Country AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Country",
+          "description" : null,
+          "_row_id" : "IhFkMqs66OcVfQYcWvpVw"
+        }, {
+          "expression" : {
+            "expression" : "CAST(Product AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "4sT5Cckx9U3tfoV0Y2bq2"
+        }, {
+          "expression" : {
+            "expression" : "CAST(Units AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "Units",
+          "description" : null,
+          "_row_id" : "l4i_YvninKVKeKxs5rL6F"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "17kf69abCAeugKiGuMI1k",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "q-QHLSEcITggszO5ub6A-",
+          "slug" : "out0"
+        } ]
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_1",
+    "source" : "2",
+    "sourcePort" : "2_Output",
+    "target" : "ZbmrZPAewcaDGPwoPTU8Q",
+    "targetPort" : "KTvcdTVm6-GUrJ4pI7jko",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2",
+    "source" : "ZbmrZPAewcaDGPwoPTU8Q",
+    "sourcePort" : "y05Jl1gPDznzZS2-N353F",
+    "target" : "5",
+    "targetPort" : "5_Control",
+    "isWireless" : false
+  }, {
+    "id" : "edge_3",
+    "source" : "3",
+    "sourcePort" : "3_Output",
+    "target" : "zhLTE2RacMGRIkkN0uWF3",
+    "targetPort" : "17kf69abCAeugKiGuMI1k",
+    "isWireless" : false
+  }, {
+    "id" : "edge_4",
+    "source" : "zhLTE2RacMGRIkkN0uWF3",
+    "sourcePort" : "q-QHLSEcITggszO5ub6A-",
+    "target" : "3wPyRVRpiD9v_ufiWuPkA",
+    "targetPort" : "d8YdeUm2ywUixdpsY2TE_",
+    "isWireless" : false
+  }, {
+    "id" : "edge_5",
+    "source" : "3wPyRVRpiD9v_ufiWuPkA",
+    "sourcePort" : "hjWkHMpuAPE6Bz0-63Otn",
+    "target" : "CVubdjMcGsxQK00q7-wH6",
+    "targetPort" : "kKtGSYUlzNBTOFZcGwe69",
+    "isWireless" : false
+  } ],
   "component" : "Pipeline"
 }
