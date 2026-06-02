@@ -1,0 +1,132 @@
+{
+  "id" : "p23__excel_data_combined",
+  "metainfo" : {
+    "label" : "p23__excel_data_combined",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "excel_data_combined_HAfmE5pG" : {
+      "id" : "excel_data_combined_HAfmE5pG",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "excel_data_combined"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM excel_data_combined\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "excel_data_combi##r8KiYajW" : {
+      "id" : "excel_data_combi##r8KiYajW",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "excel_data_combined",
+        "x" : 1140,
+        "y" : 20,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "1050457851"
+        }, {
+          "expression" : {
+            "expression" : "current_timestamp()"
+          },
+          "alias" : "loaded_at",
+          "_row_id" : "1693609395"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "cvrjZRix",
+          "slug" : "read_excel_sheets"
+        } ],
+        "outputs" : [ {
+          "id" : "HAfmE5pG",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "read_excel_sheets_Q2FgMFY9LB" : {
+      "id" : "read_excel_sheets_Q2FgMFY9LB",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "read_excel_sheets"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('p23', 'read_excel_sheets') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_excel_data_combi##r8KiYajW_HAfmE5pG_excel_data_combined_HAfmE5pG",
+    "source" : "excel_data_combi##r8KiYajW",
+    "sourcePort" : "HAfmE5pG",
+    "target" : "excel_data_combined_HAfmE5pG",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "Q2FgMFY9LB_to_fl6ayn24vw##AJwYJg17",
+    "source" : "read_excel_sheets_Q2FgMFY9LB",
+    "sourcePort" : "output_port_1",
+    "target" : "excel_data_combi##r8KiYajW",
+    "targetPort" : "cvrjZRix",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

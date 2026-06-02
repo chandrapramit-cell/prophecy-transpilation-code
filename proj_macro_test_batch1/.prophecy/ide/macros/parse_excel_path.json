@@ -1,0 +1,239 @@
+{
+  "_build_struct" : {
+    "name" : "_build_struct",
+    "macroType" : "query",
+    "definition" : "{% if target.type == 'databricks' or target.type == 'spark' %}\nNAMED_STRUCT(\n  'file_path', {{ file_path_expr }},\n  'sheet_name', {{ sheet_name_expr }}\n)\n{% elif target.type == 'snowflake' %}\nOBJECT_CONSTRUCT(\n  'file_path', {{ file_path_expr }},\n  'sheet_name', {{ sheet_name_expr }}\n)\n{% elif target.type == 'bigquery' %}\nSTRUCT(\n  {{ file_path_expr }} AS file_path,\n  {{ sheet_name_expr }} AS sheet_name\n)\n{% elif target.type == 'duckdb' %}\n{'file_path': {{ file_path_expr }}, 'sheet_name': {{ sheet_name_expr }}}\n{% else %}\nNAMED_STRUCT(\n  'file_path', {{ file_path_expr }},\n  'sheet_name', {{ sheet_name_expr }}\n)\n{% endif %}",
+    "parameters" : {
+      "type" : "record",
+      "fields" : [ {
+        "name" : "file_path_expr",
+        "kind" : {
+          "type" : "value"
+        },
+        "optional" : false,
+        "isWorkflowNodeConfiguration" : false,
+        "isReferenced" : false
+      }, {
+        "name" : "sheet_name_expr",
+        "kind" : {
+          "type" : "value"
+        },
+        "optional" : false,
+        "isWorkflowNodeConfiguration" : false,
+        "isReferenced" : false
+      } ]
+    },
+    "staleState" : "none",
+    "propertiesFile" : {
+      "name" : "macros",
+      "content" : "---\nversion: 2\nmacros:\n- name: \"parse_excel_path\"\n  arguments:\n  - name: \"templatePath\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"pathColumn\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"mode\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"query\"\n- name: \"some\"\n  arguments: []\n  macroType: \"expression\"\n- name: \"_build_struct\"\n  arguments:\n  - name: \"file_path_expr\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"sheet_name_expr\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"query\"\n- name: \"_locate_delim\"\n  arguments:\n  - name: \"column\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"expression\"\n",
+      "path" : "proj_macro_test_batch1/macros/macros.yml",
+      "projectConfiguration" : null,
+      "folderConfiguration" : {
+        "version" : 2,
+        "macros" : [ {
+          "name" : "parse_excel_path",
+          "arguments" : [ {
+            "name" : "templatePath",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "pathColumn",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "mode",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "query"
+        }, {
+          "name" : "some",
+          "arguments" : [ ],
+          "macroType" : "expression"
+        }, {
+          "name" : "_build_struct",
+          "arguments" : [ {
+            "name" : "file_path_expr",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "sheet_name_expr",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "query"
+        }, {
+          "name" : "_locate_delim",
+          "arguments" : [ {
+            "name" : "column",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "expression"
+        } ]
+      },
+      "packagesYml" : null,
+      "editable" : true
+    },
+    "version" : 0
+  },
+  "_locate_delim" : {
+    "name" : "_locate_delim",
+    "macroType" : "expression",
+    "definition" : "{% if target.type == 'bigquery' %}\n  STRPOS({{column}}, '|||')\n{% elif target.type == 'snowflake' %}\n  POSITION('|||' IN {{column}})\n{% else %}\n  LOCATE('|||', {{column}})\n{% endif %} ",
+    "parameters" : {
+      "type" : "record",
+      "fields" : [ {
+        "name" : "column",
+        "kind" : {
+          "type" : "value"
+        },
+        "optional" : false,
+        "isWorkflowNodeConfiguration" : false,
+        "isReferenced" : false
+      } ]
+    },
+    "staleState" : "none",
+    "propertiesFile" : {
+      "name" : "macros",
+      "content" : "---\nversion: 2\nmacros:\n- name: \"parse_excel_path\"\n  arguments:\n  - name: \"templatePath\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"pathColumn\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"mode\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"query\"\n- name: \"some\"\n  arguments: []\n  macroType: \"expression\"\n- name: \"_build_struct\"\n  arguments:\n  - name: \"file_path_expr\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"sheet_name_expr\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"query\"\n- name: \"_locate_delim\"\n  arguments:\n  - name: \"column\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"expression\"\n",
+      "path" : "proj_macro_test_batch1/macros/macros.yml",
+      "projectConfiguration" : null,
+      "folderConfiguration" : {
+        "version" : 2,
+        "macros" : [ {
+          "name" : "parse_excel_path",
+          "arguments" : [ {
+            "name" : "templatePath",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "pathColumn",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "mode",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "query"
+        }, {
+          "name" : "some",
+          "arguments" : [ ],
+          "macroType" : "expression"
+        }, {
+          "name" : "_build_struct",
+          "arguments" : [ {
+            "name" : "file_path_expr",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "sheet_name_expr",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "query"
+        }, {
+          "name" : "_locate_delim",
+          "arguments" : [ {
+            "name" : "column",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "expression"
+        } ]
+      },
+      "packagesYml" : null,
+      "editable" : true
+    },
+    "version" : 0
+  },
+  "parse_excel_path" : {
+    "name" : "parse_excel_path",
+    "macroType" : "query",
+    "definition" : "{% set parts = templatePath.split('|||') %}\n{% set tpl_file = parts[0] %}\n{% set tpl_sheet = parts[1] if parts | length > 1 else '' %}\n{% set last_slash = tpl_file.rfind('/') %}\n{% set tpl_dir = tpl_file[:last_slash + 1] if last_slash >= 0 else '' %}\n{% set tpl_fullname = tpl_file[last_slash + 1:] if last_slash >= 0 else tpl_file %}\n{% set last_dot = tpl_fullname.rfind('.') %}\n{% set tpl_name = tpl_fullname[:last_dot] if last_dot >= 0 else tpl_fullname %}\n{% set tpl_ext = tpl_fullname[last_dot:] if last_dot >= 0 else '' %}\n\n{% if mode == 'path' %}\n{{ _build_struct(\n    \"SUBSTRING(\" ~ pathColumn ~ \", 1, \" ~ _locate_delim(pathColumn) ~ \" - 1)\",\n    \"SUBSTRING(\" ~ pathColumn ~ \", \" ~ _locate_delim(pathColumn) ~ \" + 3)\"\n) }}\n{% elif mode == 'fileName' %}\n{{ _build_struct(\n    \"CONCAT('\" ~ tpl_dir ~ \"', \" ~ pathColumn ~ \")\",\n    \"'\" ~ tpl_sheet ~ \"'\"\n) }}\n{% elif mode == 'suffix' %}\n{{ _build_struct(\n    \"CONCAT('\" ~ tpl_dir ~ \"', '\" ~ tpl_name ~ \"', \" ~ pathColumn ~ \", '\" ~ tpl_ext ~ \"')\",\n    \"'\" ~ tpl_sheet ~ \"'\"\n) }}\n{% elif mode == 'prefix' %}\n{{ _build_struct(\n    \"CONCAT('\" ~ tpl_dir ~ \"', \" ~ pathColumn ~ \", '\" ~ tpl_name ~ \"', '\" ~ tpl_ext ~ \"')\",\n    \"'\" ~ tpl_sheet ~ \"'\"\n) }}\n{% endif %}",
+    "parameters" : {
+      "type" : "record",
+      "fields" : [ {
+        "name" : "templatePath",
+        "kind" : {
+          "type" : "value"
+        },
+        "optional" : false,
+        "isWorkflowNodeConfiguration" : false,
+        "isReferenced" : false
+      }, {
+        "name" : "pathColumn",
+        "kind" : {
+          "type" : "value"
+        },
+        "optional" : false,
+        "isWorkflowNodeConfiguration" : false,
+        "isReferenced" : false
+      }, {
+        "name" : "mode",
+        "kind" : {
+          "type" : "value"
+        },
+        "optional" : false,
+        "isWorkflowNodeConfiguration" : false,
+        "isReferenced" : false
+      } ]
+    },
+    "staleState" : "none",
+    "propertiesFile" : {
+      "name" : "macros",
+      "content" : "---\nversion: 2\nmacros:\n- name: \"parse_excel_path\"\n  arguments:\n  - name: \"templatePath\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"pathColumn\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"mode\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"query\"\n- name: \"some\"\n  arguments: []\n  macroType: \"expression\"\n- name: \"_build_struct\"\n  arguments:\n  - name: \"file_path_expr\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  - name: \"sheet_name_expr\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"query\"\n- name: \"_locate_delim\"\n  arguments:\n  - name: \"column\"\n    type: \"value\"\n    description: \"{\\\"ProphecyType\\\": \\\"value\\\"}\"\n  macroType: \"expression\"\n",
+      "path" : "proj_macro_test_batch1/macros/macros.yml",
+      "projectConfiguration" : null,
+      "folderConfiguration" : {
+        "version" : 2,
+        "macros" : [ {
+          "name" : "parse_excel_path",
+          "arguments" : [ {
+            "name" : "templatePath",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "pathColumn",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "mode",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "query"
+        }, {
+          "name" : "some",
+          "arguments" : [ ],
+          "macroType" : "expression"
+        }, {
+          "name" : "_build_struct",
+          "arguments" : [ {
+            "name" : "file_path_expr",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          }, {
+            "name" : "sheet_name_expr",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "query"
+        }, {
+          "name" : "_locate_delim",
+          "arguments" : [ {
+            "name" : "column",
+            "type" : "value",
+            "description" : "{\"ProphecyType\": \"value\"}"
+          } ],
+          "macroType" : "expression"
+        } ]
+      },
+      "packagesYml" : null,
+      "editable" : true
+    },
+    "version" : 0
+  }
+}

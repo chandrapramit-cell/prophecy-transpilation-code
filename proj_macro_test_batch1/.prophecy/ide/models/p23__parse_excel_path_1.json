@@ -1,0 +1,209 @@
+{
+  "id" : "p23__parse_excel_path_1",
+  "metainfo" : {
+    "label" : "p23__parse_excel_path_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "wEpPnQmP10" : {
+      "id" : "wEpPnQmP10",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "excel_file_list",
+        "x" : -260,
+        "y" : 20,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "excel_file_list",
+          "sourceType" : "Seed"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "JTZBQdRsPQ",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "chGmIWlb1IBDAS8IGyr0C$$KRIncrSzVn9w56GhUhY3D" : {
+      "id" : "chGmIWlb1IBDAS8IGyr0C$$KRIncrSzVn9w56GhUhY3D",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Reformat_1",
+        "x" : -100,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CONCAT(file_path, '|||', sheet_name)"
+          },
+          "alias" : "raw_path",
+          "_row_id" : "1126819469"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vVOgsz44",
+          "slug" : "excel_file_list"
+        } ],
+        "outputs" : [ {
+          "id" : "mz2nYjhH",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "parse_excel_path_1_m41NvS8z" : {
+      "id" : "parse_excel_path_1_m41NvS8z",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "parse_excel_path_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM parse_excel_path_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "8rZpcAmb9aBVr-W3LDp3K$$XuAPXpphUud8CL6mbsLiG" : {
+      "id" : "8rZpcAmb9aBVr-W3LDp3K$$XuAPXpphUud8CL6mbsLiG",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "parse_excel_path_1",
+        "x" : 340,
+        "y" : -140,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "parsed.file_path"
+          },
+          "alias" : "file_path",
+          "_row_id" : "785740172"
+        }, {
+          "expression" : {
+            "expression" : "parsed.sheet_name"
+          },
+          "alias" : "sheet_name",
+          "_row_id" : "1694763211"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Fr6HEAAg",
+          "slug" : "path_struct"
+        } ],
+        "outputs" : [ {
+          "id" : "m41NvS8z",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "path_struct##RJ2Ge9pw" : {
+      "id" : "path_struct##RJ2Ge9pw",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "path_struct",
+        "x" : 60,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "{{ parse_excel_path('/data/sales_report.xlsx|||Q1_Sales', 'raw_path', 'path') }}"
+          },
+          "alias" : "parsed",
+          "_row_id" : "1124070780"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "aEnIZLBJ",
+          "slug" : "reformat_input"
+        } ],
+        "outputs" : [ {
+          "id" : "dKvWn2ft",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_8rZpcAmb9aBVr-W3LDp3K$$XuAPXpphUud8CL6mbsLiG_m41NvS8z_parse_excel_path_1_m41NvS8z",
+    "source" : "8rZpcAmb9aBVr-W3LDp3K$$XuAPXpphUud8CL6mbsLiG",
+    "sourcePort" : "m41NvS8z",
+    "target" : "parse_excel_path_1_m41NvS8z",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "Y2ARlvAt",
+    "source" : "path_struct##RJ2Ge9pw",
+    "sourcePort" : "dKvWn2ft",
+    "target" : "8rZpcAmb9aBVr-W3LDp3K$$XuAPXpphUud8CL6mbsLiG",
+    "targetPort" : "Fr6HEAAg",
+    "isWireless" : false
+  }, {
+    "id" : "5IPnOazgpz_to_fWHNB1Y8Wv##TSGOA8LW",
+    "source" : "chGmIWlb1IBDAS8IGyr0C$$KRIncrSzVn9w56GhUhY3D",
+    "sourcePort" : "mz2nYjhH",
+    "target" : "path_struct##RJ2Ge9pw",
+    "targetPort" : "aEnIZLBJ",
+    "isWireless" : false
+  }, {
+    "id" : "JTZBQdRsPQ_to_fcJMClwBo0##LBPQyLR2",
+    "source" : "wEpPnQmP10",
+    "sourcePort" : "JTZBQdRsPQ",
+    "target" : "chGmIWlb1IBDAS8IGyr0C$$KRIncrSzVn9w56GhUhY3D",
+    "targetPort" : "vVOgsz44",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
