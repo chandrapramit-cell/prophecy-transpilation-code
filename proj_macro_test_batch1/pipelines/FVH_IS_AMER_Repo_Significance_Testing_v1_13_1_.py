@@ -380,7 +380,7 @@ with Pipeline(args) as pipeline:
           xlsxFileIntegration = "sftp",
           replaceSpecificString = [],
           tableIntegration = "oracle",
-          outputMode = "",
+          outputMode = "unionDatasetByName",
           tableConnector = "transpiled_connection",
           passFieldsToOutput = [],
           fileType = "fileType_XLSX",
@@ -388,11 +388,12 @@ with Pipeline(args) as pipeline:
           sheetNameColumnName = "Sheet Names",
           header = False,
           fileConnector = "transpiled_connection",
-          readOptions = "modifySQLQuery",
-          xlsxSheetColumn = "",
-          xlsxFilePathColumn = ""
+          readOptions = "dynamicReadFiles",
+          xlsxSheetColumn = "`Backtested Trades`",
+          xlsxFilePathColumn = "`TOTEM Map`"
         ),
-        is_custom_output_schema = True
+        is_custom_output_schema = True,
+        comment = "Ingests 'Backtested Trades' sheet from Excel files on SFTP and combines with Oracle CurveMap table into a unified dataset for downstream analysis."
     )
     dynamicinput_213 = Process(
         name = "DynamicInput_213",
