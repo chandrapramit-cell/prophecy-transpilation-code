@@ -1,0 +1,145 @@
+{
+  "id" : "Op_Lease_Tax_Billing_and_Tax_Income_Prophecy_Usecase_Final__AlteryxSelect_37",
+  "metainfo" : {
+    "label" : "Op_Lease_Tax_Billing_and_Tax_Income_Prophecy_Usecase_Final__AlteryxSelect_37",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_37_37_Output" : {
+      "id" : "AlteryxSelect_37_37_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_37"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_37\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "37" : {
+      "id" : "37",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_37",
+        "x" : 1010,
+        "y" : 438,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "37_Input##POSTING_MON", "37_Input##MF03_REF_NBR", "37_Input##AMT" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "POSTING_MON"
+          },
+          "alias" : "run_yr_mo",
+          "_row_id" : "inFbZDHcBKvELYFsGoCmV"
+        }, {
+          "expression" : {
+            "expression" : "CAST(MF03_REF_NBR AS INTEGER)"
+          },
+          "alias" : "loan_ls_nb",
+          "_row_id" : "XMoNW2JPnvKH31ZNvjLpA"
+        }, {
+          "expression" : {
+            "expression" : "AMT"
+          },
+          "alias" : "inpt_am",
+          "_row_id" : "8XYPkNEn6I7eZr3Pgyng4"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`POSTING_MON`, `MF03_REF_NBR`, `AMT`)"
+          },
+          "_row_id" : "1863941920"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "37_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "37_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "OpLeaseTaxBillingandTaxIncomeChangepyyyymmtocurrmonthRunSecond"
+    },
+    "tax_bill_202504_33_33_Output" : {
+      "id" : "tax_bill_202504_33_33_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "tax_bill_202504_33"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Op_Lease_Tax_Billing_and_Tax_Income_Prophecy_Usecase_Final', 'tax_bill_202504_33') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_37_37_Output_AlteryxSelect_37_37_Output",
+    "source" : "37",
+    "sourcePort" : "37_Output",
+    "target" : "AlteryxSelect_37_37_Output",
+    "targetPort" : "input_port_4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_6",
+    "source" : "tax_bill_202504_33_33_Output",
+    "sourcePort" : "output_port_3",
+    "target" : "37",
+    "targetPort" : "37_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

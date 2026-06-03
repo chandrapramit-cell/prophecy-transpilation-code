@@ -1,0 +1,133 @@
+{
+  "id" : "Op_Lease_Tax_Billing_and_Tax_Income_Prophecy_Usecase_Final__Formula_57_0",
+  "metainfo" : {
+    "label" : "Op_Lease_Tax_Billing_and_Tax_Income_Prophecy_Usecase_Final__Formula_57_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_57_0_9Cb7xh04q-q7rEBFnkIcS" : {
+      "id" : "Formula_57_0_9Cb7xh04q-q7rEBFnkIcS",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_57_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_57_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "tPlKaLHmwQz_ex2sC88Hi" : {
+      "id" : "tPlKaLHmwQz_ex2sC88Hi",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_57_0",
+        "x" : 3110,
+        "y" : 975,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('.\\\\AFSL_INPT_EXPEN_TAX_BILL_', (DATE_FORMAT((DATE_ADD((DATE_TRUNC('month', CURRENT_TIMESTAMP)), CAST(-1 AS INTEGER))), 'yyyyMM')), '.xlsx', '|', 'Sheet1')) AS string)"
+          },
+          "alias" : "TODAY",
+          "_row_id" : "x7VQlUKYDAiykGijp7cSt"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "2064860101"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "8SrOGzwFMIuem00-Egv5M",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "9Cb7xh04q-q7rEBFnkIcS",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "OpLeaseTaxBillingandTaxIncomeChangepyyyymmtocurrmonthRunSecond"
+    },
+    "Union_47_47_Output" : {
+      "id" : "Union_47_47_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_47"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Op_Lease_Tax_Billing_and_Tax_Income_Prophecy_Usecase_Final__Union_47') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_tPlKaLHmwQz_ex2sC88Hi_9Cb7xh04q-q7rEBFnkIcS_Formula_57_0_9Cb7xh04q-q7rEBFnkIcS",
+    "source" : "tPlKaLHmwQz_ex2sC88Hi",
+    "sourcePort" : "9Cb7xh04q-q7rEBFnkIcS",
+    "target" : "Formula_57_0_9Cb7xh04q-q7rEBFnkIcS",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_19",
+    "source" : "Union_47_47_Output",
+    "sourcePort" : "output_port_7",
+    "target" : "tPlKaLHmwQz_ex2sC88Hi",
+    "targetPort" : "8SrOGzwFMIuem00-Egv5M",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

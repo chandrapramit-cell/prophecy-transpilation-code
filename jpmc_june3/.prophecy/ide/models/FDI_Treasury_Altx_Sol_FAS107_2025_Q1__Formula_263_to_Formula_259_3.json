@@ -1,0 +1,724 @@
+{
+  "id" : "FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Formula_263_to_Formula_259_3",
+  "metainfo" : {
+    "label" : "FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Formula_263_to_Formula_259_3",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "f2kGeSaCwOVj00HZksLWz" : {
+      "id" : "f2kGeSaCwOVj00HZksLWz",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_263_to_Formula_259_0",
+        "x" : 60,
+        "y" : 400,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (CD_NXTMATDT_FLR > CD_NXTMATDT_2) THEN (CONCAT(Mat_Dt_Then_str, ' - ', CD_NXTMATDT_FLR_str)) ELSE (CONCAT(CD_NXTMATDT_FLR_str, ' - ', Mat_Dt_Else_str)) END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "MATURITY_RANGE",
+          "description" : null,
+          "_row_id" : "mE6e5c6W2c38EF6ylZei3"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (CD_NXTMATDT_FLR > CD_NXTMATDT_2) THEN CAST((MONTHS_BETWEEN((TO_DATE((DATE_TRUNC('month', CD_NXTMATDT_FLR)))), (TO_DATE((DATE_TRUNC('month', PRD_END_DT_FLR)))))) AS INTEGER) ELSE CAST((MONTHS_BETWEEN((TO_DATE((ADD_MONTHS((DATE_TRUNC('month', CD_NXTMATDT_FLR)), 1)))), (TO_DATE((DATE_TRUNC('month', PRD_END_DT_FLR)))))) AS INTEGER) END) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "REMAINING_MONTHS_ACT",
+          "description" : null,
+          "_row_id" : "-f83dbnXshMnIrsac1yxj"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "H30X8id-86PKjVtWTZU42",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "fs3RVogWWcIG-E9b6BTR1",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Container138"
+    },
+    "T72yIJZBb1tzbhOPa64sa" : {
+      "id" : "T72yIJZBb1tzbhOPa64sa",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DateTime_253_0",
+        "x" : 1060,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(DATE_FORMAT(Mat_Dt_Else, 'yyyy-MM-dd'))",
+            "_row_id" : null
+          },
+          "alias" : "Mat_Dt_Else_str",
+          "description" : null,
+          "_row_id" : "VL3dHMZKCCIu1RrlmOruN"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "9gY7M32IdDWC515YmrKgG",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "bo4a3Fkdu6z5vDfGkdqlV",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CodeCurrentMonth"
+    },
+    "lkFTw4kRg-xkWmXoackeA" : {
+      "id" : "lkFTw4kRg-xkWmXoackeA",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_263_to_Formula_259_1",
+        "x" : 260,
+        "y" : 400,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (REMAINING_MONTHS_ACT < 1) THEN 1 WHEN (REMAINING_MONTHS_ACT > 120) THEN 120 ELSE REMAINING_MONTHS_ACT END) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "REMAINING_MONTHS",
+          "description" : null,
+          "_row_id" : "0kK3H0jHJofAZFn6Mpawh"
+        }, {
+          "expression" : {
+            "expression" : "CAST((\n  (\n    CASE\n      WHEN (\n        (\n          (\n            CAST((\n              MONTHS_BETWEEN(\n                (TO_DATE(CD_NXTMATDT_2)), \n                (\n                  TO_DATE(\n                    (\n                      CASE\n                        WHEN CAST((CD_RENDATE IS NULL) AS BOOLEAN)\n                          THEN CD_ISSDATE\n                        ELSE CD_RENDATE\n                      END\n                    ))\n                ))\n            ) AS INTEGER)\n            / 1\n          ) < 0\n        )\n        AND (\n              (\n                (\n                  CAST((\n                    MONTHS_BETWEEN(\n                      (TO_DATE(CD_NXTMATDT_2)), \n                      (\n                        TO_DATE(\n                          (\n                            CASE\n                              WHEN CAST((CD_RENDATE IS NULL) AS BOOLEAN)\n                                THEN CD_ISSDATE\n                              ELSE CD_RENDATE\n                            END\n                          ))\n                      ))\n                  ) AS INTEGER)\n                  / 1\n                )\n                - FLOOR(\n                    (\n                      CAST((\n                        MONTHS_BETWEEN(\n                          (TO_DATE(CD_NXTMATDT_2)), \n                          (\n                            TO_DATE(\n                              (\n                                CASE\n                                  WHEN CAST((CD_RENDATE IS NULL) AS BOOLEAN)\n                                    THEN CD_ISSDATE\n                                  ELSE CD_RENDATE\n                                END\n                              ))\n                          ))\n                      ) AS INTEGER)\n                      / 1\n                    ))\n              ) = 0.5\n            )\n      )\n        THEN CEIL(\n          (\n            CAST((\n              MONTHS_BETWEEN(\n                (TO_DATE(CD_NXTMATDT_2)), \n                (\n                  TO_DATE(\n                    (\n                      CASE\n                        WHEN CAST((CD_RENDATE IS NULL) AS BOOLEAN)\n                          THEN CD_ISSDATE\n                        ELSE CD_RENDATE\n                      END\n                    ))\n                ))\n            ) AS INTEGER)\n            / 1\n          ))\n      ELSE ROUND(\n        (\n          CAST((\n            MONTHS_BETWEEN(\n              (TO_DATE(CD_NXTMATDT_2)), \n              (\n                TO_DATE(\n                  (\n                    CASE\n                      WHEN CAST((CD_RENDATE IS NULL) AS BOOLEAN)\n                        THEN CD_ISSDATE\n                      ELSE CD_RENDATE\n                    END\n                  ))\n              ))\n          ) AS INTEGER)\n          / 1\n        ))\n    END\n  )\n  * 1\n) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "TERM",
+          "description" : null,
+          "_row_id" : "ejy15fWNlD26GqS7S-iPl"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((CD_RENDATE IS NULL) AS BOOLEAN) THEN (((DAY((LAST_DAY ( CAST ( CD_ISSDATE  AS DATE ) )))) - (DAY(CD_ISSDATE))) / (DAY((LAST_DAY ( CAST ( CD_ISSDATE  AS DATE ) ))))) ELSE (((DAY((LAST_DAY ( CAST ( CD_RENDATE  AS DATE ) )))) - (DAY(CD_RENDATE))) / (DAY((LAST_DAY ( CAST ( CD_RENDATE  AS DATE ) ))))) END) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`New Term Calc 1st Mo`",
+          "description" : null,
+          "_row_id" : "lGRrVnkMAT0zLYWhp9VMm"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((CD_RENDATE IS NULL) AS BOOLEAN) THEN CAST((MONTHS_BETWEEN((TO_DATE((ADD_MONTHS((DATE_TRUNC('month', CD_NXTMATDT_2)), 0)))), (TO_DATE((ADD_MONTHS((DATE_TRUNC('day', CD_ISSDATE)), 1)))))) AS INTEGER) ELSE CAST((MONTHS_BETWEEN((TO_DATE((ADD_MONTHS((DATE_TRUNC('month', CD_NXTMATDT_2)), 0)))), (TO_DATE((ADD_MONTHS((DATE_TRUNC('day', CD_RENDATE)), 1)))))) AS INTEGER) END) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`New Term Calc Mid Mo`",
+          "description" : null,
+          "_row_id" : "MFEpiEanjOrDEFJqJaiNo"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((DAY(CD_NXTMATDT_2)) / (DAY((LAST_DAY ( CAST ( CD_NXTMATDT_2  AS DATE ) ))))) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`New Term Calc Last Mo`",
+          "description" : null,
+          "_row_id" : "-EBAXXH2Ps3Mnr4HJrVop"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "zZnHgBcsfX8oacW7ZrrAr",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "r03JsB5SJXj1t_lbtnfPo",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Container138"
+    },
+    "Formula_263_to_Formula_259_3_EjpSdWr-LpCClUt2i0DWB" : {
+      "id" : "Formula_263_to_Formula_259_3_EjpSdWr-LpCClUt2i0DWB",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_263_to_Formula_259_3"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_263_to_Formula_259_3\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "sy4bG_H2NI3M96GfQK1u0" : {
+      "id" : "sy4bG_H2NI3M96GfQK1u0",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_256_2",
+        "x" : 460,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(ADD_MONTHS(CD_NXTMATDT_FLR, -1))",
+            "_row_id" : null
+          },
+          "alias" : "Mat_Dt_Then",
+          "description" : null,
+          "_row_id" : "DhOLJAzyILzr9ll1xYMSx"
+        }, {
+          "expression" : {
+            "expression" : "(DATE_ADD((ADD_MONTHS(CD_NXTMATDT_FLR, 1)), CAST(-1 AS INTEGER)))",
+            "_row_id" : null
+          },
+          "alias" : "Mat_Dt_Else",
+          "description" : null,
+          "_row_id" : "kxGHET3VPHr7HHAnFpR1Q"
+        }, {
+          "expression" : {
+            "expression" : "(TO_DATE((CASE WHEN CAST((CD_NXTMATDT_2 IS NULL) AS BOOLEAN) THEN '1970-01-01' ELSE CAST(CD_NXTMATDT_2 AS string) END), 'yyyy-MM-dd'))",
+            "_row_id" : null
+          },
+          "alias" : "CD_NXTMATDT_2",
+          "description" : null,
+          "_row_id" : "7QoMQU0kl7zSY5pkYR2E-"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`cd_nxtmatdt_2`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "O0wAtbZbuf4slaTXsgWgd",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "X561j0dD3-asIE6FlGlEC",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CodeCurrentMonth"
+    },
+    "r6xDQFpEeF9Xz6IXaNECZ" : {
+      "id" : "r6xDQFpEeF9Xz6IXaNECZ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_263_to_Formula_259_3",
+        "x" : 660,
+        "y" : 400,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (`LOB Lvl2` = 'S570308') THEN 'Commercial Banking' WHEN (`LOB Lvl2` = 'S572000') THEN 'Asset & Wealth Management' WHEN (`LOB Lvl2` = 'S573050') THEN 'Corporate & Investment Bank' WHEN CAST((`LOB Lvl2` IN ('S576344', 'S536099')) AS BOOLEAN) THEN 'Consumer & Community Banking' ELSE NULL END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Node__Description",
+          "description" : null,
+          "_row_id" : "n-C-CAp5ACddS732UL_F4"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CAST(CD_VALUE AS DECIMAL(19, 9)) * CAST(CD_INTRATE_R AS DECIMAL(19, 9))) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "WAC1",
+          "description" : null,
+          "_row_id" : "MDB20W6FxteAHRW2B1IvX"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CAST(CD_VALUE AS DOUBLE) * TERM) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "WAM1",
+          "description" : null,
+          "_row_id" : "Sl5SCEIS6N0xJUVwx2t8q"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CAST(CD_VALUE AS DOUBLE) * REMAINING_MONTHS_ADJ) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "COUPON_PAYMENTS1",
+          "description" : null,
+          "_row_id" : "6P7P5og3hyR_HITVAzIU4"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((CAST(CD_VALUE AS DECIMAL(19, 9)) * CAST(CD_INTRATE_R AS DECIMAL(19, 9))) * REMAINING_MONTHS_ADJ) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Total_Coupon_Payments",
+          "description" : null,
+          "_row_id" : "nlXoIOEyThlspQMJ7FXev"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "axsyV-EFKlKtyg6y8QBCH",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EjpSdWr-LpCClUt2i0DWB",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Container138"
+    },
+    "WFIrw0N9wWswiICDOe-JW" : {
+      "id" : "WFIrw0N9wWswiICDOe-JW",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DateTime_254_0",
+        "x" : 860,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(DATE_FORMAT(Mat_Dt_Then, 'yyyy-MM-dd'))",
+            "_row_id" : null
+          },
+          "alias" : "Mat_Dt_Then_str",
+          "description" : null,
+          "_row_id" : "CIimdzBHvwvcIbET_9mZP"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "fVKpzAaz9E4wK2_zMpA1d",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "a4f9JSZBXcypCO8QPfy2X",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CodeCurrentMonth"
+    },
+    "Filter_251_251_True" : {
+      "id" : "Filter_251_251_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_251"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Filter_251') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "7b-jMixUdW0KKYywYwutD" : {
+      "id" : "7b-jMixUdW0KKYywYwutD",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_256_1",
+        "x" : 260,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(DATE_ADD((DATE_TRUNC('month', CD_NXTMATDT_2)), CAST(27 AS INTEGER)))",
+            "_row_id" : null
+          },
+          "alias" : "CD_NXTMATDT_FLR",
+          "description" : null,
+          "_row_id" : "HXIx1XIIn5_t6M1zm21Ib"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Jss1BSjPIrrzZKSuVJqVX",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "aUYi_kMS2ZNJkIGR2UyFn",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CodeCurrentMonth"
+    },
+    "rNS9NXlps3A2G8vbP176F" : {
+      "id" : "rNS9NXlps3A2G8vbP176F",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_263_to_Formula_259_2",
+        "x" : 460,
+        "y" : 400,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((`New Term Calc 1st Mo` + `New Term Calc Mid Mo`) + `New Term Calc Last Mo`) AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "`New Term`",
+          "description" : null,
+          "_row_id" : "31iNynqG6XoJdRvfFfkfM"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((`New Term Calc 1st Mo` + `New Term Calc Mid Mo`) + `New Term Calc Last Mo`) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`New Term Double`",
+          "description" : null,
+          "_row_id" : "gxukhKuszKDg4RrKu9kIx"
+        }, {
+          "expression" : {
+            "expression" : "CAST(CASE WHEN (CAST(CD_INTRATE_R AS INT) < 2) THEN '\\'0-1' WHEN (CAST(CD_INTRATE_R AS INT) < 5) THEN '\\'2-4' WHEN (CAST(CD_INTRATE_R AS INT) < 9) THEN '\\'5-8' WHEN (CAST(CD_INTRATE_R AS INT) < 12) THEN '\\'9-11' ELSE '12+' END AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "COUPONAGG",
+          "description" : null,
+          "_row_id" : "OgjuLuDx2_QccLpexIkvy"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REMAINING_MONTHS - 1) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "REMAINING_MONTHS_ADJ",
+          "description" : null,
+          "_row_id" : "4s8V_61D7hr3pd_5l-qYX"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (HCS_LOB_NODE03_NB = 'S577006') THEN HCS_LOB_NODE04_NB ELSE HCS_LOB_NODE03_NB END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`LOB Lvl2`",
+          "description" : null,
+          "_row_id" : "n3eHeWJ1d8kFzxM0DcBGD"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "GrIvl3OSgnfozuDdCgmMv",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Dv2HfjvpHizLHaXEN0Srw",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Container138"
+    },
+    "SvAbo5DaZUnwr2pGKeACX" : {
+      "id" : "SvAbo5DaZUnwr2pGKeACX",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DateTime_255_0",
+        "x" : 660,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(DATE_FORMAT(CD_NXTMATDT_FLR, 'yyyy-MM-dd'))",
+            "_row_id" : null
+          },
+          "alias" : "CD_NXTMATDT_FLR_str",
+          "description" : null,
+          "_row_id" : "fD6exkFJcAwrHT4w3vPO0"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "bbr9oRxBlZ5uyVhL4Cxrt",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "0nISMQYQEHdsHZeMk1GfF",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CodeCurrentMonth"
+    },
+    "LXdrTfkhLBXu4SP-fE3YD" : {
+      "id" : "LXdrTfkhLBXu4SP-fE3YD",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_256_0",
+        "x" : 60,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(DATE_ADD((DATE_TRUNC('month', PRD_END_DT)), CAST(27 AS INTEGER)))",
+            "_row_id" : null
+          },
+          "alias" : "PRD_END_DT_FLR",
+          "description" : null,
+          "_row_id" : "sq6LZRg6rbW1-p0wrnLtC"
+        }, {
+          "expression" : {
+            "expression" : "(TO_DATE((CASE WHEN (CD_NXTMATDT < PRD_END_DT) THEN PRD_END_DT ELSE CD_NXTMATDT END), 'yyyy-MM-dd'))",
+            "_row_id" : null
+          },
+          "alias" : "CD_NXTMATDT_2",
+          "description" : null,
+          "_row_id" : "z3oStoky17aSsIs74LpZc"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CAST(CD_INTRATE_R AS DECIMAL(19, 9)) * CAST(CD_VALUE AS DECIMAL(19, 9))) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "CD_WEIGHT",
+          "description" : null,
+          "_row_id" : "ih-QkVhISdZ8WE28tGK1s"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "NOQhUAlgTeWJLJFGYVCyh",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "9YbWF4bV4xduf1qX0Hb28",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CodeCurrentMonth"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_r6xDQFpEeF9Xz6IXaNECZ_EjpSdWr-LpCClUt2i0DWB_Formula_263_to_Formula_259_3_EjpSdWr-LpCClUt2i0DWB",
+    "source" : "r6xDQFpEeF9Xz6IXaNECZ",
+    "sourcePort" : "EjpSdWr-LpCClUt2i0DWB",
+    "target" : "Formula_263_to_Formula_259_3_EjpSdWr-LpCClUt2i0DWB",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_77",
+    "source" : "rNS9NXlps3A2G8vbP176F",
+    "sourcePort" : "Dv2HfjvpHizLHaXEN0Srw",
+    "target" : "r6xDQFpEeF9Xz6IXaNECZ",
+    "targetPort" : "axsyV-EFKlKtyg6y8QBCH",
+    "isWireless" : false
+  }, {
+    "id" : "edge_76",
+    "source" : "lkFTw4kRg-xkWmXoackeA",
+    "sourcePort" : "r03JsB5SJXj1t_lbtnfPo",
+    "target" : "rNS9NXlps3A2G8vbP176F",
+    "targetPort" : "GrIvl3OSgnfozuDdCgmMv",
+    "isWireless" : false
+  }, {
+    "id" : "edge_75",
+    "source" : "f2kGeSaCwOVj00HZksLWz",
+    "sourcePort" : "fs3RVogWWcIG-E9b6BTR1",
+    "target" : "lkFTw4kRg-xkWmXoackeA",
+    "targetPort" : "zZnHgBcsfX8oacW7ZrrAr",
+    "isWireless" : false
+  }, {
+    "id" : "edge_80",
+    "source" : "T72yIJZBb1tzbhOPa64sa",
+    "sourcePort" : "bo4a3Fkdu6z5vDfGkdqlV",
+    "target" : "f2kGeSaCwOVj00HZksLWz",
+    "targetPort" : "H30X8id-86PKjVtWTZU42",
+    "isWireless" : false
+  }, {
+    "id" : "edge_74",
+    "source" : "WFIrw0N9wWswiICDOe-JW",
+    "sourcePort" : "a4f9JSZBXcypCO8QPfy2X",
+    "target" : "T72yIJZBb1tzbhOPa64sa",
+    "targetPort" : "9gY7M32IdDWC515YmrKgG",
+    "isWireless" : false
+  }, {
+    "id" : "edge_73",
+    "source" : "SvAbo5DaZUnwr2pGKeACX",
+    "sourcePort" : "0nISMQYQEHdsHZeMk1GfF",
+    "target" : "WFIrw0N9wWswiICDOe-JW",
+    "targetPort" : "fVKpzAaz9E4wK2_zMpA1d",
+    "isWireless" : false
+  }, {
+    "id" : "edge_72",
+    "source" : "sy4bG_H2NI3M96GfQK1u0",
+    "sourcePort" : "X561j0dD3-asIE6FlGlEC",
+    "target" : "SvAbo5DaZUnwr2pGKeACX",
+    "targetPort" : "bbr9oRxBlZ5uyVhL4Cxrt",
+    "isWireless" : false
+  }, {
+    "id" : "edge_70",
+    "source" : "7b-jMixUdW0KKYywYwutD",
+    "sourcePort" : "aUYi_kMS2ZNJkIGR2UyFn",
+    "target" : "sy4bG_H2NI3M96GfQK1u0",
+    "targetPort" : "O0wAtbZbuf4slaTXsgWgd",
+    "isWireless" : false
+  }, {
+    "id" : "edge_69",
+    "source" : "LXdrTfkhLBXu4SP-fE3YD",
+    "sourcePort" : "9YbWF4bV4xduf1qX0Hb28",
+    "target" : "7b-jMixUdW0KKYywYwutD",
+    "targetPort" : "Jss1BSjPIrrzZKSuVJqVX",
+    "isWireless" : false
+  }, {
+    "id" : "edge_71",
+    "source" : "Filter_251_251_True",
+    "sourcePort" : "output_port_2",
+    "target" : "LXdrTfkhLBXu4SP-fE3YD",
+    "targetPort" : "NOQhUAlgTeWJLJFGYVCyh",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,388 @@
+{
+  "id" : "FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Formula_273_1",
+  "metainfo" : {
+    "label" : "FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Formula_273_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "270_left" : {
+      "id" : "270_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_270_left_UnionLeftOuter",
+        "x" : 260,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.CCXREF_SAP_COST_CENTER = in1.COSTCENTER)",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1UpnOBusAdHJd-oQsGd6a",
+          "slug" : "in0"
+        }, {
+          "id" : "I5RH2dTu56craT2LNsTST",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "SfzXeA8eB3buDMwtQDXDR",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakeSoxControlPull"
+    },
+    "rCSz1T29OMvEVasXwXgfe" : {
+      "id" : "rCSz1T29OMvEVasXwXgfe",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_273_0",
+        "x" : 660,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN ((CCXREF_SAP_COST_CENTER = COSTCENTER) OR (CAST(CD_CONVERSION_IDENTIFIER AS string) IN ('WMU', 'W40'))) THEN 'WAMU' ELSE 'CHASE' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Heritage",
+          "description" : null,
+          "_row_id" : "wIzwd-LH7Vv8Hs51SmDz1"
+        }, {
+          "expression" : {
+            "expression" : "CAST(HCS_LOB_NODE04_NB AS string)",
+            "_row_id" : null
+          },
+          "alias" : "HCS_LOB_NODE04_Orig",
+          "description" : null,
+          "_row_id" : "8UpWSoDj2Pr6PMW2JV3Xp"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((CAST(HCS_LOB_NODE04_NB AS string) IN ('S570405', 'S578955', 'S577279', 'S576175')) AS BOOLEAN) THEN HCS_LOB_NODE04_NB WHEN (HCS_LOB_NODE03_NB = 'S577006') THEN HCS_LOB_NODE04_NB ELSE HCS_LOB_NODE03_NB END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "HCS_LOB_NODE04_NB",
+          "description" : null,
+          "_row_id" : "StBBw2z2pWetR16MdI8hj"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`hcs_lob_node04_nb`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "dvHjgOWjqX38Gt_bLYQZN",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "b9hgy9M8G4z5taaZpmmB9",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakeSoxControlPull"
+    },
+    "275" : {
+      "id" : "275",
+      "component" : "RecordID",
+      "metadata" : {
+        "label" : "RecordID_275",
+        "x" : 460,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "incremental_id_type" : "integer",
+        "incremental_id_starting_val" : 1,
+        "method" : "incremental_id",
+        "relation_name" : [ "Join_270_left_UnionLeftOuter" ],
+        "generationMethod" : "tableLevel",
+        "_oldMacroProperties" : {
+          "macroName" : "RecordID",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Join_270_left_UnionLeftOuter\"]"
+          }, {
+            "name" : "method",
+            "value" : "incremental_id"
+          }, {
+            "name" : "incremental_id_column_name",
+            "value" : "RecordID"
+          }, {
+            "name" : "incremental_id_type",
+            "value" : "integer"
+          }, {
+            "name" : "incremental_id_size",
+            "value" : "6"
+          }, {
+            "name" : "incremental_id_starting_val",
+            "value" : "1"
+          }, {
+            "name" : "generationMethod",
+            "value" : "tableLevel"
+          }, {
+            "name" : "position",
+            "value" : "first_column"
+          }, {
+            "name" : "groupByColumnNames",
+            "value" : "[]"
+          }, {
+            "name" : "orders",
+            "value" : "[]"
+          } ]
+        },
+        "incremental_id_column_name" : "RecordID",
+        "orders" : [ ],
+        "position" : "first_column",
+        "incremental_id_size" : 6,
+        "groupByColumnNames" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "275_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "275_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakeSoxControlPull"
+    },
+    "l71nI1gblohtF6zMcltFP" : {
+      "id" : "l71nI1gblohtF6zMcltFP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_273_1",
+        "x" : 860,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((\n  CASE\n    WHEN (HCS_LOB_NODE04_NB = 'S576344')\n      THEN 'CONSUMER & BUSINESS BANKING'\n    WHEN (HCS_LOB_NODE04_NB = 'S536099')\n      THEN 'CARD COMMERCE SOLUTIONS AND AUTO'\n    WHEN (HCS_LOB_NODE04_NB = 'S535852')\n      THEN 'GIM INCLUDING HBG- DD'\n    WHEN (HCS_LOB_NODE04_NB = 'S551549')\n      THEN 'COMMUNITY DEVELOPMENT- CI'\n    WHEN (HCS_LOB_NODE04_NB = 'S556845')\n      THEN 'COMMERCIAL TERM LENDING- CH'\n    WHEN (HCS_LOB_NODE04_NB = 'S570325')\n      THEN 'REAL ESTATE- CA'\n    WHEN (HCS_LOB_NODE04_NB = 'S570405')\n      THEN 'MIDDLE MARKET- CD'\n    WHEN (HCS_LOB_NODE04_NB = 'S570512')\n      THEN 'COMMERCIAL BANK ADMINISTRATION- CF'\n    WHEN (HCS_LOB_NODE04_NB = 'S570545')\n      THEN 'TO TRANSFER OUT OF COMML BANK- CG'\n    WHEN (HCS_LOB_NODE04_NB = 'S572323')\n      THEN 'CIB RISK- GS'\n    WHEN (HCS_LOB_NODE04_NB = 'S572332')\n      THEN 'GLOBAL COVERAGE & MGMT- GA'\n    WHEN (HCS_LOB_NODE04_NB = 'S572391')\n      THEN 'GLOBAL MANAGEMENT & OTHER NON BUSI- GF'\n    WHEN (HCS_LOB_NODE04_NB = 'S576175')\n      THEN 'TREASURY SERVICES- GR'\n    WHEN (HCS_LOB_NODE04_NB = 'S576549')\n      THEN 'CHIEF OPERATING OFFICE- T'\n    WHEN (HCS_LOB_NODE04_NB = 'S577279')\n      THEN 'CORPORATE CLIENT BANKING- CE'\n    WHEN (HCS_LOB_NODE04_NB = 'S578955')\n      THEN 'GLOBAL WEALTH MANAGEMENT- DB'\n    WHEN (HCS_LOB_NODE04_NB = 'S579000')\n      THEN 'CORPORATE ALIGNED- E'\n    WHEN (HCS_LOB_NODE04_NB = 'S582269')\n      THEN 'CIO - TREASURY SUMMARY- J'\n    ELSE NULL\n  END\n) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "LOB_DESC",
+          "description" : null,
+          "_row_id" : "-vFE4KsljLKF5gNQrLQSq"
+        }, {
+          "expression" : {
+            "expression" : "CAST(1 AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "RPJMlfHLgg2lqHGh00AGL"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "_NNb8aOHlW32l53YIaifj",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "qDPiRsNRGkk0z2-wJ3XFj",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakeSoxControlPull"
+    },
+    "Filter_251_251_True" : {
+      "id" : "Filter_251_251_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_251"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Filter_251') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_273_1_qDPiRsNRGkk0z2-wJ3XFj" : {
+      "id" : "Formula_273_1_qDPiRsNRGkk0z2-wJ3XFj",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_273_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_273_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "ICDW_DEPBAL_CC__269_269_Output" : {
+      "id" : "ICDW_DEPBAL_CC__269_269_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "ICDW_DEPBAL_CC__269"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('FDI_Treasury_Altx_Sol_FAS107_2025_Q1', 'ICDW_DEPBAL_CC__269') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_l71nI1gblohtF6zMcltFP_qDPiRsNRGkk0z2-wJ3XFj_Formula_273_1_qDPiRsNRGkk0z2-wJ3XFj",
+    "source" : "l71nI1gblohtF6zMcltFP",
+    "sourcePort" : "qDPiRsNRGkk0z2-wJ3XFj",
+    "target" : "Formula_273_1_qDPiRsNRGkk0z2-wJ3XFj",
+    "targetPort" : "input_port_7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_66",
+    "source" : "rCSz1T29OMvEVasXwXgfe",
+    "sourcePort" : "b9hgy9M8G4z5taaZpmmB9",
+    "target" : "l71nI1gblohtF6zMcltFP",
+    "targetPort" : "_NNb8aOHlW32l53YIaifj",
+    "isWireless" : false
+  }, {
+    "id" : "edge_68",
+    "source" : "275",
+    "sourcePort" : "275_Output",
+    "target" : "rCSz1T29OMvEVasXwXgfe",
+    "targetPort" : "dvHjgOWjqX38Gt_bLYQZN",
+    "isWireless" : false
+  }, {
+    "id" : "edge_47",
+    "source" : "270_left",
+    "sourcePort" : "SfzXeA8eB3buDMwtQDXDR",
+    "target" : "275",
+    "targetPort" : "275_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_46",
+    "source" : "Filter_251_251_True",
+    "sourcePort" : "output_port_2",
+    "target" : "270_left",
+    "targetPort" : "1UpnOBusAdHJd-oQsGd6a",
+    "isWireless" : false
+  }, {
+    "id" : "edge_45",
+    "source" : "ICDW_DEPBAL_CC__269_269_Output",
+    "sourcePort" : "output_port_6",
+    "target" : "270_left",
+    "targetPort" : "I5RH2dTu56craT2LNsTST",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

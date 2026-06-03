@@ -1,0 +1,512 @@
+{
+  "id" : "FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Filter_251",
+  "metainfo" : {
+    "label" : "FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Filter_251",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_220_to_Formula_286_2_B8VzAZuGGKdqGnXBIPGMn" : {
+      "id" : "Formula_220_to_Formula_286_2_B8VzAZuGGKdqGnXBIPGMn",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_220_to_Formula_286_2"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Formula_220_to_Formula_286_2') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Od_avH_qpT6ACTfoCSRsi" : {
+      "id" : "Od_avH_qpT6ACTfoCSRsi",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_248_1",
+        "x" : 260,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE(DynamicQuery, 'Rpt_Dt_EOM', Rpt_Dt_EOM)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "DynamicQuery",
+          "description" : null,
+          "_row_id" : "zq6HIvR2QcY-SoFZpDAQG"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`dynamicquery`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "LNlqU-Hsea10hRmu_nRjm",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "WrWw4Uwo1rJbGcIe9_Cs3",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakePrep"
+    },
+    "anNQCK4td01qFpS83Yg7h" : {
+      "id" : "anNQCK4td01qFpS83Yg7h",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_248_0",
+        "x" : 60,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('SELECT AL1.prd_end_dt,\nAL1.cd_conversion_identifier,\nAL1.cd_conversion_dt,\nAL1.CD_CERTNBR,\nAL1.CD_BANK,\nAL1.cd_cost_center_exp,\nAL4.CCXREF_SAP_COMPANY,\nAL4.CCXREF_SAP_COST_CENTER,\nAL4.HCS_LOB_NODE03_NB,\nAL4.HCS_LOB_NODE04_NB,\nAL1.CD_VALUE,\nAL1.cd_dlyaccrl,\nAL1.CD_INTRATE_R,\nAL1.CD_ACCRTD,\nAL1.CD_INTPDTD,\nAL1.CD_ISSDATE,\nAL1.CD_RENDATE,\nAL1.CD_NXTMATDT,\nAL1.cd_closedt\nFROM PROD_110575_ICDW_DB.DEPOSITS_V.LDA_CSCDS_ACCT_MONTHLY AS AL1\nLEFT OUTER JOIN\n(SELECT AL2.CCXREF_MSA_COMPANY,\nAL2.CCXREF_MSA_COST_CENTER,\nAL2.CCXREF_SAP_COMPANY,\nAL2.CCXREF_SAP_COST_CENTER,\nAL3.HCS_LOB_NODE03_NB,\nAL3.HCS_LOB_NODE04_NB\nFROM PROD_110575_ICDW_DB.DIGITAL_V.LDA_SAP_LKP_FISP_MONTHLY AS AL2,\nPROD_110575_ICDW_DB.RELATIONSHIP_V.CDW_HCS_LOB AS AL3\nWHERE AL2.PRD_END_DT = \\'Rpt_Dt_EOM\\'\nAND AL3.PRD_END_DT = \\'Rpt_Dt_EOM\\'\nAND 1 * AL2.CCXREF_SAP_COST_CENTER = 1 * AL3.PLN_CC_CD) AS AL4 ON 1 * AL1.cd_cost_center_exp = 1 * AL4.CCXREF_MSA_COST_CENTER\nAND 1 * AL1.CD_BANK = 1 * AL4.CCXREF_MSA_COMPANY\nWHERE AL1.PRD_END_DT = \\'Rpt_Dt_EOM\\'\nAND NOT AL1.CD_TYPE_ID = 200\nAND AL1.CD_VALUE > 0' AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "DynamicQuery",
+          "description" : null,
+          "_row_id" : "3yvbHPvE8jRW8KJMjgtcV"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "TZOQm1FMMwiIwid781Q60",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Wz_7Bh5ARYikBusGDkFYY",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakePrep"
+    },
+    "252" : {
+      "id" : "252",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_252",
+        "x" : 660,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.CD_CLOSEDT",
+            "_row_id" : null
+          },
+          "alias" : "CD_CLOSEDT",
+          "description" : null,
+          "_row_id" : "JguaB360mJVNyXvRO0w8r"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_ACCRTD",
+            "_row_id" : null
+          },
+          "alias" : "CD_ACCRTD",
+          "description" : null,
+          "_row_id" : "O3FTliFCEFgN6ey8YPRAO"
+        }, {
+          "expression" : {
+            "expression" : "in1.CCXREF_SAP_COMPANY",
+            "_row_id" : null
+          },
+          "alias" : "CCXREF_SAP_COMPANY",
+          "description" : null,
+          "_row_id" : "6SF7L0smR-j8NoUNRPaTL"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_INTRATE_R",
+            "_row_id" : null
+          },
+          "alias" : "CD_INTRATE_R",
+          "description" : null,
+          "_row_id" : "24BC4lnWTr1jcjJWHsRpA"
+        }, {
+          "expression" : {
+            "expression" : "in1.CCXREF_SAP_COST_CENTER",
+            "_row_id" : null
+          },
+          "alias" : "CCXREF_SAP_COST_CENTER",
+          "description" : null,
+          "_row_id" : "21EahJsVZyG0Extgh37oa"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_NXTMATDT",
+            "_row_id" : null
+          },
+          "alias" : "CD_NXTMATDT",
+          "description" : null,
+          "_row_id" : "PHu9sZzczmIBE0O0WQEhW"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_RENDATE",
+            "_row_id" : null
+          },
+          "alias" : "CD_RENDATE",
+          "description" : null,
+          "_row_id" : "3QWNfViuSb0nNu6Syn31p"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_VALUE",
+            "_row_id" : null
+          },
+          "alias" : "CD_VALUE",
+          "description" : null,
+          "_row_id" : "jJpMKaHY6Xpu7p8PvUcFj"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_CONVERSION_IDENTIFIER",
+            "_row_id" : null
+          },
+          "alias" : "CD_CONVERSION_IDENTIFIER",
+          "description" : null,
+          "_row_id" : "BFfBCcu-XXOW-x5d868t1"
+        }, {
+          "expression" : {
+            "expression" : "in1.HCS_LOB_NODE03_NB",
+            "_row_id" : null
+          },
+          "alias" : "HCS_LOB_NODE03_NB",
+          "description" : null,
+          "_row_id" : "fV-UnwaNkZuvWWB3NuYrG"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_ISSDATE",
+            "_row_id" : null
+          },
+          "alias" : "CD_ISSDATE",
+          "description" : null,
+          "_row_id" : "QtCfFTic8BgufrZsXGFqN"
+        }, {
+          "expression" : {
+            "expression" : "in0.Rpt_Dt_EOM",
+            "_row_id" : null
+          },
+          "alias" : "Rpt_Dt_EOM",
+          "description" : null,
+          "_row_id" : "-JOZTjeotG91_xhJbyhrA"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_COST_CENTER_EXP",
+            "_row_id" : null
+          },
+          "alias" : "CD_COST_CENTER_EXP",
+          "description" : null,
+          "_row_id" : "RVhVOFEHsV_SSeXYrp_MD"
+        }, {
+          "expression" : {
+            "expression" : "in1.PRD_END_DT",
+            "_row_id" : null
+          },
+          "alias" : "PRD_END_DT",
+          "description" : null,
+          "_row_id" : "rUSBIAgaCWq8nX3rNojYa"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_BANK",
+            "_row_id" : null
+          },
+          "alias" : "CD_BANK",
+          "description" : null,
+          "_row_id" : "kfE-mEN-bMdAQ5qIaP61N"
+        }, {
+          "expression" : {
+            "expression" : "in1.HCS_LOB_NODE04_NB",
+            "_row_id" : null
+          },
+          "alias" : "HCS_LOB_NODE04_NB",
+          "description" : null,
+          "_row_id" : "FjYT5InYjiEOLwq8YodlR"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_CONVERSION_DT",
+            "_row_id" : null
+          },
+          "alias" : "CD_CONVERSION_DT",
+          "description" : null,
+          "_row_id" : "dBLkEaOum3DBDzAsinUKd"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_DLYACCRL",
+            "_row_id" : null
+          },
+          "alias" : "CD_DLYACCRL",
+          "description" : null,
+          "_row_id" : "uEqnhhiq63v8oBr-k4O0D"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_CERTNBR",
+            "_row_id" : null
+          },
+          "alias" : "CD_CERTNBR",
+          "description" : null,
+          "_row_id" : "SLEWjUzMseYz4xX5OK6Cc"
+        }, {
+          "expression" : {
+            "expression" : "in1.CD_INTPDTD",
+            "_row_id" : null
+          },
+          "alias" : "CD_INTPDTD",
+          "description" : null,
+          "_row_id" : "F8awzKlxP-ZiUrLBLQTyi"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "252_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "252_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "252_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakePrep"
+    },
+    "Filter_251_251_True" : {
+      "id" : "Filter_251_251_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_251"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_251\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "251" : {
+      "id" : "251",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_251",
+        "x" : 860,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(CD_NXTMATDT > Rpt_Dt_EOM)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "251_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "251_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakePrep"
+    },
+    "Formula_233_0_nzbUGYR4cF-mVFQTV3XdG" : {
+      "id" : "Formula_233_0_nzbUGYR4cF-mVFQTV3XdG",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_233_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Formula_233_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "243" : {
+      "id" : "243",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "Macro_243",
+        "x" : 460,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Formula_248_1" ],
+        "_oldMacroProperties" : {
+          "macroName" : "ToDo",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "diag_message",
+            "value" : "Failed to parse Macro. Please upload the file 1/Alteryx_Snowflake_Download_IDA_BlockTD_INDB.yxmc to resolve it."
+          } ]
+        },
+        "code_string" : "<Node ToolID=\"243\">\n          <GuiSettings>\n            <Position y=\"1270\" x=\"678\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <Value name=\"Radio Button (165)\">False</Value>\n              <Value name=\"Drop Down (116)\">https://idag2.jpmorganchase.com/adfs/oauth2/token</Value>\n              <Value name=\"Text Box (105)\">password</Value>\n              <Value name=\"Text Box (106)\"/>\n              <Value name=\"Text Box (108)\"/>\n              <Value name=\"Text Box (51)\"/>\n              <Value name=\"Text Box (53)\"/>\n              <Value name=\"Text Box (55)\"/>\n              <Value name=\"Text Box (57)\"/>\n              <Value name=\"Text Box (66)\"/>\n              <Value name=\"Radio Button (118)\">True</Value>\n              <Value name=\"Text Box (143)\">PROD_110575_CCB_FIN_WH_FR</Value>\n              <Value name=\"Text Box (145)\">PROD_110575_CCB_FIN_WH</Value>\n              <Value name=\"Text Box (147)\">ccbpawsuseast1vps.hassium.us-east-1.aws.snowflakecomputing.com</Value>\n              <Value name=\"Text Box (156)\"/>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText/>\n              <Left value=\"False\"/>\n            </Annotation>\n            <Dependencies>\n              <Implicit/>\n            </Dependencies>\n          </Properties>\n          <EngineSettings Macro=\"_externals\\1\\Alteryx_Snowflake_Download_IDA_BlockTD_INDB.yxmc\"/>\n        </Node>",
+        "diag_message" : "Failed to parse Macro. Please upload the file 1/Alteryx_Snowflake_Download_IDA_BlockTD_INDB.yxmc to resolve it.",
+        "error_string" : "Failed to parse Macro. Please upload the file 1/Alteryx_Snowflake_Download_IDA_BlockTD_INDB.yxmc to resolve it."
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "243_",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "243_Dataoutput",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakePrep"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_251_251_True_Filter_251_251_True",
+    "source" : "251",
+    "sourcePort" : "251_True",
+    "target" : "Filter_251_251_True",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_34",
+    "source" : "252",
+    "sourcePort" : "252_Output",
+    "target" : "251",
+    "targetPort" : "251_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_44",
+    "source" : "243",
+    "sourcePort" : "243_Dataoutput",
+    "target" : "252",
+    "targetPort" : "252_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_57",
+    "source" : "Formula_220_to_Formula_286_2_B8VzAZuGGKdqGnXBIPGMn",
+    "sourcePort" : "output_port_1",
+    "target" : "252",
+    "targetPort" : "252_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_64",
+    "source" : "Od_avH_qpT6ACTfoCSRsi",
+    "sourcePort" : "WrWw4Uwo1rJbGcIe9_Cs3",
+    "target" : "243",
+    "targetPort" : "243_",
+    "isWireless" : false
+  }, {
+    "id" : "edge_63",
+    "source" : "anNQCK4td01qFpS83Yg7h",
+    "sourcePort" : "Wz_7Bh5ARYikBusGDkFYY",
+    "target" : "Od_avH_qpT6ACTfoCSRsi",
+    "targetPort" : "LNlqU-Hsea10hRmu_nRjm",
+    "isWireless" : false
+  }, {
+    "id" : "edge_65",
+    "source" : "Formula_233_0_nzbUGYR4cF-mVFQTV3XdG",
+    "sourcePort" : "output_port_0",
+    "target" : "anNQCK4td01qFpS83Yg7h",
+    "targetPort" : "TZOQm1FMMwiIwid781Q60",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

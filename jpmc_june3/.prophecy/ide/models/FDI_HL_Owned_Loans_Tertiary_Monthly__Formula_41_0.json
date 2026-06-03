@@ -1,0 +1,224 @@
+{
+  "id" : "FDI_HL_Owned_Loans_Tertiary_Monthly__Formula_41_0",
+  "metainfo" : {
+    "label" : "FDI_HL_Owned_Loans_Tertiary_Monthly__Formula_41_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Source__User_Db_42_42_Output" : {
+      "id" : "Source__User_Db_42_42_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Source__User_Db_42"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('FDI_HL_Owned_Loans_Tertiary_Monthly', 'Source__User_Db_42') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Source__User_Db_45_45_Output" : {
+      "id" : "Source__User_Db_45_45_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Source__User_Db_45"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('FDI_HL_Owned_Loans_Tertiary_Monthly', 'Source__User_Db_45') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_41_0_dzP_x4G32uSARP1ui0FIQ" : {
+      "id" : "Formula_41_0_dzP_x4G32uSARP1ui0FIQ",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_41_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_41_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "39" : {
+      "id" : "39",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_39",
+        "x" : 676,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Source__User_Db_42", "Source__User_Db_45" ],
+        "schemas" : [ "[]", "[]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Source__User_Db_42\", \"Source__User_Db_45\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[]\", \"[]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "39_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "39_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "39_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "FDIHLOwnedLoansSummary"
+    },
+    "ic9x5iTp2YHZSvhQVNm55" : {
+      "id" : "ic9x5iTp2YHZSvhQVNm55",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_41_0",
+        "x" : 1060,
+        "y" : 366,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(TO_TIMESTAMP(CURRENT_TIMESTAMP))",
+            "_row_id" : null
+          },
+          "alias" : "Data_Refresh_Date",
+          "description" : null,
+          "_row_id" : "MQOWBbUPC448WHgtvRn37"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "AMrjV32bkpJXgMxjRH5WN",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "dzP_x4G32uSARP1ui0FIQ",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "FDIHLOwnedLoansSummary"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_ic9x5iTp2YHZSvhQVNm55_dzP_x4G32uSARP1ui0FIQ_Formula_41_0_dzP_x4G32uSARP1ui0FIQ",
+    "source" : "ic9x5iTp2YHZSvhQVNm55",
+    "sourcePort" : "dzP_x4G32uSARP1ui0FIQ",
+    "target" : "Formula_41_0_dzP_x4G32uSARP1ui0FIQ",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_5",
+    "source" : "39",
+    "sourcePort" : "39_Output",
+    "target" : "ic9x5iTp2YHZSvhQVNm55",
+    "targetPort" : "AMrjV32bkpJXgMxjRH5WN",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1",
+    "source" : "Source__User_Db_42_42_Output",
+    "sourcePort" : "output_port_0",
+    "target" : "39",
+    "targetPort" : "39_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2",
+    "source" : "Source__User_Db_45_45_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "39",
+    "targetPort" : "39_#2_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

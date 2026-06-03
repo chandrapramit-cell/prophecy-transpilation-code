@@ -1,0 +1,326 @@
+{
+  "id" : "FDI_Treasury_Altx_Sol_FAS107_2025_Q1__AppendFields_282",
+  "metainfo" : {
+    "label" : "FDI_Treasury_Altx_Sol_FAS107_2025_Q1__AppendFields_282",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_220_to_Formula_286_2_B8VzAZuGGKdqGnXBIPGMn" : {
+      "id" : "Formula_220_to_Formula_286_2_B8VzAZuGGKdqGnXBIPGMn",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_220_to_Formula_286_2"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Formula_220_to_Formula_286_2') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "279" : {
+      "id" : "279",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_279",
+        "x" : 1320,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(CAST(CD_VALUE AS DECIMAL(19, 9)))",
+            "_row_id" : null
+          },
+          "alias" : "Sum_CD_VALUE",
+          "description" : null,
+          "_row_id" : "I4fmM2hPhvHnUjZbz5fyi"
+        }, {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((RecordID IS NULL) OR (CAST(RecordID AS string) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "CNT",
+          "description" : null,
+          "_row_id" : "W5iaksvcy4TwOV_gKSrSi"
+        }, {
+          "expression" : {
+            "expression" : "Year_CD_NXTMATDT",
+            "_row_id" : null
+          },
+          "alias" : "Year_CD_NXTMATDT",
+          "description" : null,
+          "_row_id" : "QIOF_jkCQwDvnfHGVszn4"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Year_CD_NXTMATDT",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "CcTnrYdkri-fYXK-vVzNt"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "279_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "279_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakeSoxControlPull"
+    },
+    "AppendFields_282_282_Output" : {
+      "id" : "AppendFields_282_282_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AppendFields_282"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AppendFields_282\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "282" : {
+      "id" : "282",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_282",
+        "x" : 1520,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.Year_CD_NXTMATDT",
+            "_row_id" : null
+          },
+          "alias" : "Year_CD_NXTMATDT",
+          "description" : null,
+          "_row_id" : "29uUFsfxxW7CdAzXm6HGv"
+        }, {
+          "expression" : {
+            "expression" : "in1.Sum_CD_VALUE",
+            "_row_id" : null
+          },
+          "alias" : "Sum_CD_VALUE",
+          "description" : null,
+          "_row_id" : "xlVgirGDo2J5jQgDZgh9d"
+        }, {
+          "expression" : {
+            "expression" : "in1.CNT",
+            "_row_id" : null
+          },
+          "alias" : "CNT",
+          "description" : null,
+          "_row_id" : "qiAgZ6H-M9YBDiCyUtxMo"
+        }, {
+          "expression" : {
+            "expression" : "in0.FilePath",
+            "_row_id" : null
+          },
+          "alias" : "FilePath",
+          "description" : null,
+          "_row_id" : "o3ruvRXoqTBgIHkXJo6gI"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "282_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "282_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "282_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakeSoxControlPull"
+    },
+    "XhfLNPJK5C-NP_pRpojE-" : {
+      "id" : "XhfLNPJK5C-NP_pRpojE-",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_280_0",
+        "x" : 1120,
+        "y" : 160,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(year(CD_NXTMATDT) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Year_CD_NXTMATDT",
+          "description" : null,
+          "_row_id" : "NLNE6uWNNcE8G04QrpyDE"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "R6QGv5aA3ft4LaI7MCyBd",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "V4s05kKzIbd_ysHf_f_5O",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SnowflakeSoxControlPull"
+    },
+    "Formula_273_1_qDPiRsNRGkk0z2-wJ3XFj" : {
+      "id" : "Formula_273_1_qDPiRsNRGkk0z2-wJ3XFj",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_273_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FDI_Treasury_Altx_Sol_FAS107_2025_Q1__Formula_273_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_282_282_Output_AppendFields_282_282_Output",
+    "source" : "282",
+    "sourcePort" : "282_Output",
+    "target" : "AppendFields_282_282_Output",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_36",
+    "source" : "279",
+    "sourcePort" : "279_Output",
+    "target" : "282",
+    "targetPort" : "282_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_59",
+    "source" : "Formula_220_to_Formula_286_2_B8VzAZuGGKdqGnXBIPGMn",
+    "sourcePort" : "output_port_1",
+    "target" : "282",
+    "targetPort" : "282_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_89",
+    "source" : "XhfLNPJK5C-NP_pRpojE-",
+    "sourcePort" : "V4s05kKzIbd_ysHf_f_5O",
+    "target" : "279",
+    "targetPort" : "279_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_90",
+    "source" : "Formula_273_1_qDPiRsNRGkk0z2-wJ3XFj",
+    "sourcePort" : "output_port_7",
+    "target" : "XhfLNPJK5C-NP_pRpojE-",
+    "targetPort" : "R6QGv5aA3ft4LaI7MCyBd",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
