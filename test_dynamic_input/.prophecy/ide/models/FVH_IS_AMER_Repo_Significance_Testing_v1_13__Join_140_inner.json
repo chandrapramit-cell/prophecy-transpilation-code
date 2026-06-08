@@ -1,0 +1,186 @@
+{
+  "id" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13__Join_140_inner",
+  "metainfo" : {
+    "label" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13__Join_140_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_140_inner_f2jkXEp8I6vFHKbnxwT69" : {
+      "id" : "Join_140_inner_f2jkXEp8I6vFHKbnxwT69",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_140_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_140_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_58",
+          "slug" : "input_port_58"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_58",
+          "slug" : "output_port_58"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "140_inner" : {
+      "id" : "140_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_140_inner",
+        "x" : 14426.400390625,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.TradeID = in1.`Trade id`) AND (in0.Curve = in1.Curve))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Concat`, `Trade id`, `Curve`, `Ratio`, `Trade`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "0tP08sn9SkVnQxk5klgE4",
+          "slug" : "in0"
+        }, {
+          "id" : "sAEyWl_kEIuNnYLKsX7qN",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "f2jkXEp8I6vFHKbnxwT69",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_139_139_Output" : {
+      "id" : "Summarize_139_139_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_139"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_57",
+          "id" : "output_port_57",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing_v1_13__Summarize_139') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_57",
+          "slug" : "input_port_57"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_57",
+          "slug" : "output_port_57"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DynamicInput_215_215_Output" : {
+      "id" : "DynamicInput_215_215_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DynamicInput_215"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing_v1_13', 'DynamicInput_215') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_140_inner_f2jkXEp8I6vFHKbnxwT69_Join_140_inner_f2jkXEp8I6vFHKbnxwT69",
+    "source" : "140_inner",
+    "sourcePort" : "f2jkXEp8I6vFHKbnxwT69",
+    "target" : "Join_140_inner_f2jkXEp8I6vFHKbnxwT69",
+    "targetPort" : "input_port_58",
+    "isWireless" : false
+  }, {
+    "id" : "edge_149",
+    "source" : "Summarize_139_139_Output",
+    "sourcePort" : "output_port_57",
+    "target" : "140_inner",
+    "targetPort" : "0tP08sn9SkVnQxk5klgE4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_150",
+    "source" : "DynamicInput_215_215_Output",
+    "sourcePort" : "output_port_3",
+    "target" : "140_inner",
+    "targetPort" : "sAEyWl_kEIuNnYLKsX7qN",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
