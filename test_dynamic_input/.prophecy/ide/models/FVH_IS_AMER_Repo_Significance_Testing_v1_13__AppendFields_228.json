@@ -1,0 +1,243 @@
+{
+  "id" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13__AppendFields_228",
+  "metainfo" : {
+    "label" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13__AppendFields_228",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Union_36_postRename_r69KqfvWj_zE7EWqF219F" : {
+      "id" : "Union_36_postRename_r69KqfvWj_zE7EWqF219F",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_36_postRename"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_22",
+          "id" : "output_port_22",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing_v1_13__Union_36_postRename') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_22",
+          "slug" : "input_port_22"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_22",
+          "slug" : "output_port_22"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AppendFields_228_228_Output" : {
+      "id" : "AppendFields_228_228_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AppendFields_228"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AppendFields_228\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_28",
+          "slug" : "input_port_28"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_28",
+          "slug" : "output_port_28"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "228" : {
+      "id" : "228",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_228",
+        "x" : 11366.400390625,
+        "y" : 1152,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Field1`, `RawPath`, ` TabName`, `Output Raw Path`, `Month`, `Totem Tested`, `Backtested Trades`, `TOTEM Map`, `Fvo trades vcg`, `GEM PNL Repo Dashboard`, `AMER MTD PNL Repo Dashboard`, `PLATO_UCN_Data`, `OfficialTRisk_FIF_EM_DL`, `OfficialTRisk_NA - Repos DL`, `Athena FVO`, `MTM Ratio`, `CurveMap`, `Charges`, `Exclusions`, `Curve Exclusions`, `Totem RepoSpecials`, `Additional Field`, `TradeCurveList`, `MTM Mismatch`, `VA Curve to Map`, `Missing Threshold`, `Missing MTM`, `Notional Ratio Missing`, `Significance Test Missed Trades`, `Adjusted Curve Risk`, `Special ISIN Adjusted Risk`, `Check Totem Tested Curve`, `MTM in reporting`, `mtm`, `Reporting`, `Result`, `Sig test output`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "228_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "228_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "228_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "126" : {
+      "id" : "126",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_126",
+        "x" : 13706.400390625,
+        "y" : 1440,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Source System`",
+            "_row_id" : null
+          },
+          "alias" : "`Source System`",
+          "description" : null,
+          "_row_id" : "RU7ZKsntKw0NJxsXHN21a"
+        }, {
+          "expression" : {
+            "expression" : "`Risk Type`",
+            "_row_id" : null
+          },
+          "alias" : "`Risk Type`",
+          "description" : null,
+          "_row_id" : "Y02lJC0nmmPWpi6bpSPNs"
+        }, {
+          "expression" : {
+            "expression" : "CURVE_TYPE",
+            "_row_id" : null
+          },
+          "alias" : "CURVE_TYPE",
+          "description" : null,
+          "_row_id" : "jnJmFmsB8GrFyPNrZulPh"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "126_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "126_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_235_0_RZKljrEMwWWD9EJYbKB54" : {
+      "id" : "Formula_235_0_RZKljrEMwWWD9EJYbKB54",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_235_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing_v1_13__Formula_235_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_228_228_Output_AppendFields_228_228_Output",
+    "source" : "228",
+    "sourcePort" : "228_Output",
+    "target" : "AppendFields_228_228_Output",
+    "targetPort" : "input_port_28",
+    "isWireless" : false
+  }, {
+    "id" : "edge_119",
+    "source" : "126",
+    "sourcePort" : "126_Output",
+    "target" : "228",
+    "targetPort" : "228_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_297",
+    "source" : "Formula_235_0_RZKljrEMwWWD9EJYbKB54",
+    "sourcePort" : "output_port_2",
+    "target" : "228",
+    "targetPort" : "228_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_206",
+    "source" : "Union_36_postRename_r69KqfvWj_zE7EWqF219F",
+    "sourcePort" : "output_port_22",
+    "target" : "126",
+    "targetPort" : "126_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
