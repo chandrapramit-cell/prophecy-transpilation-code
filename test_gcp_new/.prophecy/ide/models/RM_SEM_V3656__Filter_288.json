@@ -1,0 +1,188 @@
+{
+  "id" : "RM_SEM_V3656__Filter_288",
+  "metainfo" : {
+    "label" : "RM_SEM_V3656__Filter_288",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"anubhav\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_288_288_True" : {
+      "id" : "Filter_288_288_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_288"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_288\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "288" : {
+      "id" : "288",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_288",
+        "x" : 1920,
+        "y" : 1551,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(TTL_BKGS > 0)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "288_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "288_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "285" : {
+      "id" : "285",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_285",
+        "x" : 1200,
+        "y" : 1551,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(`SUM(REV.LEG_PAX_CNT)`)",
+            "_row_id" : null
+          },
+          "alias" : "TTL_BKGS",
+          "description" : null,
+          "_row_id" : "HLuTjqwFPRUxKEDqSYPbu"
+        }, {
+          "expression" : {
+            "expression" : "LEG_NDOD",
+            "_row_id" : null
+          },
+          "alias" : "LEG_NDOD",
+          "description" : null,
+          "_row_id" : "czFxArxOjHctuDjQGjGRP"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "LEG_NDOD",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "KABWsH8lI6mtsDcd9JII7"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "285_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "285_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Database__LOADI_283_283_Output" : {
+      "id" : "Database__LOADI_283_283_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Database__LOADI_283"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_7",
+          "id" : "output_port_7",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('RM_SEM_V3656', 'Database__LOADI_283') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_288_288_True_Filter_288_288_True",
+    "source" : "288",
+    "sourcePort" : "288_True",
+    "target" : "Filter_288_288_True",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_910",
+    "source" : "285",
+    "sourcePort" : "285_Output",
+    "target" : "288",
+    "targetPort" : "288_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_909",
+    "source" : "Database__LOADI_283_283_Output",
+    "sourcePort" : "output_port_7",
+    "target" : "285",
+    "targetPort" : "285_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

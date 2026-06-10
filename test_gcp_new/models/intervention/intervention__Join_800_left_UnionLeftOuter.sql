@@ -6,19 +6,19 @@
   })
 }}
 
-WITH Join_798_left_UnionLeftOuter AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Join_798_left_UnionLeftOuter')}}
-
-),
-
-ENROLLMENT_EXPE_1672 AS (
+WITH ENROLLMENT_EXPE_1672 AS (
 
   SELECT *
   
   FROM {{ prophecy_tmp_source('intervention', 'ENROLLMENT_EXPE_1672') }}
+
+),
+
+Join_798_left_UnionLeftOuter AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Join_798_left_UnionLeftOuter')}}
 
 ),
 

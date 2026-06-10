@@ -49,8 +49,8 @@ Union_320 AS (
     prophecy_basics.UnionByName(
       ['Formula_319_0', 'Formula_321_0'], 
       [
-        '[{"name": "variableTYPE", "dataType": "String"}, {"name": "Support", "dataType": "String"}, {"name": "NDOD", "dataType": "String"}]', 
-        '[{"name": "variableTYPE", "dataType": "String"}, {"name": "SUPPORT", "dataType": "String"}, {"name": "NEW_MARKET", "dataType": "String"}, {"name": "AS_QSI", "dataType": "Double"}, {"name": "Right_NDOD", "dataType": "String"}, {"name": "NDOD", "dataType": "String"}, {"name": "MILES", "dataType": "Double"}, {"name": "AS_QSI_PTS", "dataType": "Double"}, {"name": "TTL_QSI_PTS", "dataType": "Double"}, {"name": "PCT_SYS_ASMS", "dataType": "Double"}]'
+        '[{"name": "NDOD", "dataType": "String"}, {"name": "variableTYPE", "dataType": "String"}, {"name": "Support", "dataType": "String"}]', 
+        '[{"name": "variableTYPE", "dataType": "String"}, {"name": "NDOD", "dataType": "String"}, {"name": "MILES", "dataType": "Double"}, {"name": "NEW_MARKET", "dataType": "String"}, {"name": "Right_NDOD", "dataType": "String"}, {"name": "TTL_QSI_PTS", "dataType": "Double"}, {"name": "AS_QSI_PTS", "dataType": "Double"}, {"name": "SUPPORT", "dataType": "String"}, {"name": "AS_QSI", "dataType": "Double"}, {"name": "PCT_SYS_ASMS", "dataType": "Double"}]'
       ], 
       'allowMissingColumns'
     )
@@ -89,14 +89,6 @@ Formula_326_0 AS (
     * EXCEPT (`od`)
   
   FROM AlteryxSelect_325 AS in0
-
-),
-
-Database__LOADI_330 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('RM_SEM_V3', 'Database__LOADI_330') }}
 
 ),
 
@@ -144,6 +136,14 @@ Formula_357_to_Formula_474_1 AS (
 
 ),
 
+Database__LOADI_330 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('RM_SEM_V3', 'Database__LOADI_330') }}
+
+),
+
 AlteryxSelect_318 AS (
 
   SELECT 
@@ -176,8 +176,8 @@ Union_327 AS (
     prophecy_basics.UnionByName(
       ['AlteryxSelect_325', 'Formula_326_0'], 
       [
-        '[{"name": "OD", "dataType": "String"}, {"name": "variableTYPE", "dataType": "String"}, {"name": "Support", "dataType": "String"}, {"name": "NEW_MARKET", "dataType": "String"}, {"name": "AS_QSI", "dataType": "Double"}, {"name": "Right_NDOD", "dataType": "String"}, {"name": "MILES", "dataType": "Double"}, {"name": "AS_QSI_PTS", "dataType": "Double"}, {"name": "TTL_QSI_PTS", "dataType": "Double"}, {"name": "PCT_SYS_ASMS", "dataType": "Double"}]', 
-        '[{"name": "OD", "dataType": "String"}, {"name": "variableTYPE", "dataType": "String"}, {"name": "Support", "dataType": "String"}, {"name": "NEW_MARKET", "dataType": "String"}, {"name": "AS_QSI", "dataType": "Double"}, {"name": "Right_NDOD", "dataType": "String"}, {"name": "MILES", "dataType": "Double"}, {"name": "AS_QSI_PTS", "dataType": "Double"}, {"name": "TTL_QSI_PTS", "dataType": "Double"}, {"name": "PCT_SYS_ASMS", "dataType": "Double"}]'
+        '[{"name": "OD", "dataType": "String"}, {"name": "variableTYPE", "dataType": "String"}, {"name": "Support", "dataType": "String"}, {"name": "MILES", "dataType": "Double"}, {"name": "NEW_MARKET", "dataType": "String"}, {"name": "Right_NDOD", "dataType": "String"}, {"name": "TTL_QSI_PTS", "dataType": "Double"}, {"name": "AS_QSI_PTS", "dataType": "Double"}, {"name": "AS_QSI", "dataType": "Double"}, {"name": "PCT_SYS_ASMS", "dataType": "Double"}]', 
+        '[{"name": "OD", "dataType": "String"}, {"name": "variableTYPE", "dataType": "String"}, {"name": "Support", "dataType": "String"}, {"name": "MILES", "dataType": "Double"}, {"name": "NEW_MARKET", "dataType": "String"}, {"name": "Right_NDOD", "dataType": "String"}, {"name": "TTL_QSI_PTS", "dataType": "Double"}, {"name": "AS_QSI_PTS", "dataType": "Double"}, {"name": "AS_QSI", "dataType": "Double"}, {"name": "PCT_SYS_ASMS", "dataType": "Double"}]'
       ], 
       'allowMissingColumns'
     )

@@ -79,39 +79,6 @@ Union_345_0 AS (
 
 ),
 
-Join_438_inner AS (
-
-  SELECT 
-    in0.*,
-    in1.* EXCEPT (`LEG_NDOD`)
-  
-  FROM Summarize_436 AS in0
-  INNER JOIN Filter_288 AS in1
-     ON (in0.LEG_NDOD = in1.LEG_NDOD)
-
-),
-
-Filter_439 AS (
-
-  SELECT * 
-  
-  FROM Join_438_inner AS in0
-  
-  WHERE (PAX >= 365)
-
-),
-
-Formula_442_0 AS (
-
-  SELECT 
-    CAST((SUBSTRING(TT_NDOD, 1, 3)) AS string) AS TRIP_ORIG,
-    CAST((SUBSTRING(TT_NDOD, (((LENGTH(TT_NDOD)) - 3) + 1), 3)) AS string) AS TRIP_DEST,
-    *
-  
-  FROM Filter_439 AS in0
-
-),
-
 AlteryxSelect_347 AS (
 
   SELECT * EXCEPT (`NDOD`, `DEST`)
@@ -156,6 +123,39 @@ Summarize_348 AS (
   SELECT DISTINCT ORIG AS ORIG
   
   FROM Union_345_postRename AS in0
+
+),
+
+Join_438_inner AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCEPT (`LEG_NDOD`)
+  
+  FROM Summarize_436 AS in0
+  INNER JOIN Filter_288 AS in1
+     ON (in0.LEG_NDOD = in1.LEG_NDOD)
+
+),
+
+Filter_439 AS (
+
+  SELECT * 
+  
+  FROM Join_438_inner AS in0
+  
+  WHERE (PAX >= 365)
+
+),
+
+Formula_442_0 AS (
+
+  SELECT 
+    CAST((SUBSTRING(TT_NDOD, 1, 3)) AS string) AS TRIP_ORIG,
+    CAST((SUBSTRING(TT_NDOD, (((LENGTH(TT_NDOD)) - 3) + 1), 3)) AS string) AS TRIP_DEST,
+    *
+  
+  FROM Filter_439 AS in0
 
 ),
 

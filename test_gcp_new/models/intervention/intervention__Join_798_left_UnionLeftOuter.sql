@@ -6,15 +6,7 @@
   })
 }}
 
-WITH Join_792_left_UnionLeftOuter AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Join_792_left_UnionLeftOuter')}}
-
-),
-
-PCMH_csv_1671 AS (
+WITH PCMH_csv_1671 AS (
 
   SELECT *
   
@@ -48,6 +40,14 @@ Unique_794 AS (
   PROV_REL_GRP_PROV_NM, 
   LATEST_PCP_VISIT_DT, 
   MAX_ROW_EFF_DT ORDER BY INDV_BE_KEY, PROV_SK, MED_HOME_GRP_DESC, MED_HOME_LOC_DESC, PCMH_ATTRIBUTED, ATTRIBUTED, PROV_NM, PROV_REL_GRP_PROV_NM, LATEST_PCP_VISIT_DT, MAX_ROW_EFF_DT) = 1
+
+),
+
+Join_792_left_UnionLeftOuter AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Join_792_left_UnionLeftOuter')}}
 
 ),
 

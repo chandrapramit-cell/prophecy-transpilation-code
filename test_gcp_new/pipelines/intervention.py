@@ -471,6 +471,10 @@ with Pipeline(args) as pipeline:
         name = "intervention__MultiFieldFormula_772",
         properties = ModelTransform(modelName = "intervention__MultiFieldFormula_772")
     )
+    intervention__sample_1 = Process(
+        name = "intervention__Sample_1",
+        properties = ModelTransform(modelName = "intervention__Sample_1")
+    )
     intervention__summarize_771 = Process(
         name = "intervention__Summarize_771",
         properties = ModelTransform(modelName = "intervention__Summarize_771")
@@ -572,16 +576,11 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    (
-        intervention__join_792_left_unionleftouter._out(0)
-        >> [intervention__filter_871._in(0), intervention__filter_871_reject._in(0),
-              intervention__join_798_left_unionleftouter._in(1)]
-    )
     past_120_rx_cou_1678 >> intervention__alteryxselect_890._in(0)
     (
-        intervention__join_834_left_unionleftouter._out(0)
-        >> [intervention__filter_876._in(0), intervention__filter_876_reject._in(0), intervention__filter_816._in(0),
-              intervention__join_815_inner._in(0)]
+        intervention__join_805_left_unionleftouter._out(0)
+        >> [intervention__summarize_801._in(0), intervention__filter_873._in(0),
+              intervention__filter_873_reject._in(0), intervention__join_822_left_unionleftouter._in(1)]
     )
     pcmh_csv_1671 >> intervention__join_798_left_unionleftouter._in(0)
     (
@@ -591,26 +590,27 @@ with Pipeline(args) as pipeline:
     )
     intervention__alteryxselect_860._out(0) >> [intervention__union_866._in(0), intervention__join_864_inner._in(0)]
     (
-        intervention__join_850_left_unionleftouter._out(0)
-        >> [intervention__filter_1649._in(0), intervention__filter_1649_reject._in(0),
-              intervention__multifieldformula_772._in(0)]
-    )
-    providerdetailr_1677 >> intervention__formula_814_0._in(1)
-    (
-        intervention__alteryxselect_838._out(0)
-        >> [intervention__alteryxselect_890._in(1), intervention__filter_878._in(0),
-              intervention__filter_878_reject._in(0)]
+        intervention__join_822_left_unionleftouter._out(0)
+        >> [intervention__summarize_825._in(0), intervention__filter_875._in(0),
+              intervention__filter_875_reject._in(0), intervention__join_834_left_unionleftouter._in(1)]
     )
     (
         intervention__formula_1021_0._out(0)
         >> [intervention__alteryxselect_1022._in(0), intervention__filter_1659._in(0),
               intervention__filter_1659_reject._in(0)]
     )
-    enrollment_expe_1672 >> intervention__join_800_left_unionleftouter._in(0)
     (
-        intervention__formula_782_0._out(0)
-        >> [intervention__union_784._in(2), intervention__union_784._in(3), intervention__summarize_786._in(0)]
+        intervention__join_798_left_unionleftouter._out(0)
+        >> [intervention__filter_872._in(0), intervention__filter_872_reject._in(0),
+              intervention__join_800_left_unionleftouter._in(1)]
     )
+    providerdetailr_1677 >> intervention__formula_814_0._in(1)
+    (
+        intervention__alteryxselect_838._out(0)
+        >> [intervention__filter_878._in(0), intervention__filter_878_reject._in(0),
+              intervention__alteryxselect_890._in(1)]
+    )
+    enrollment_expe_1672._out(0) >> [intervention__join_800_left_unionleftouter._in(0), intervention__sample_1._in(0)]
     vulnerability_s_1670 >> intervention__join_792_left_unionleftouter._in(0)
     experianmappedt_1673 >> intervention__join_805_left_unionleftouter._in(0)
     total_inf_condi_1674 >> intervention__join_834_left_unionleftouter._in(0)
@@ -620,6 +620,16 @@ with Pipeline(args) as pipeline:
         >> [intervention__filter_1019._in(0), intervention__filter_1019_reject._in(0),
               intervention__filter_1650._in(0), intervention__filter_1650_reject._in(0),
               intervention__union_866._in(1), intervention__join_864_inner._in(1)]
+    )
+    (
+        intervention__join_792_left_unionleftouter._out(0)
+        >> [intervention__filter_871._in(0), intervention__filter_871_reject._in(0),
+              intervention__join_798_left_unionleftouter._in(1)]
+    )
+    (
+        intervention__join_834_left_unionleftouter._out(0)
+        >> [intervention__filter_876._in(0), intervention__filter_876_reject._in(0), intervention__filter_816._in(0),
+              intervention__join_815_inner._in(0)]
     )
     (
         intervention__alteryxselect_890._out(0)
@@ -635,11 +645,6 @@ with Pipeline(args) as pipeline:
               intervention__alteryxselect_838._in(0)]
     )
     (
-        intervention__join_822_left_unionleftouter._out(0)
-        >> [intervention__summarize_825._in(0), intervention__filter_875._in(0),
-              intervention__filter_875_reject._in(0), intervention__join_834_left_unionleftouter._in(1)]
-    )
-    (
         ckd_risk_list_c_1675._out(0)
         >> [intervention__join_822_left_unionleftouter._in(0), intervention__summarize_824._in(0)]
     )
@@ -650,10 +655,6 @@ with Pipeline(args) as pipeline:
     )
     providerdetailr_1661 >> intervention__join_850_left_unionleftouter._in(2)
     edw_prod_csv_1664 >> intervention__unique_1018._in(0)
-    (
-        intervention__join_864_inner._out(0)
-        >> [intervention__union_866._in(2), intervention__filter_884._in(0), intervention__filter_884_reject._in(0)]
-    )
     production_xlsx_1668 >> intervention__join_776_left_unionfullouter._in(0)
     total_inf_condi_1676 >> intervention__formula_814_0._in(0)
     intervention__alteryxselect_1022 >> intervention_li_765
@@ -664,30 +665,18 @@ with Pipeline(args) as pipeline:
               intervention__filter_870_reject._in(0), intervention__join_792_left_unionleftouter._in(1)]
     )
     (
-        intervention__join_798_left_unionleftouter._out(0)
-        >> [intervention__filter_872._in(0), intervention__filter_872_reject._in(0),
-              intervention__join_800_left_unionleftouter._in(1)]
-    )
-    (
         intervention__multifieldformula_772._out(0)
         >> [intervention__unique_1018._in(2), intervention__summarize_771._in(0)]
     )
-    (
-        intervention__formula_814_0._out(0)
-        >> [intervention__filter_816._in(1), intervention__join_815_inner._in(1), intervention__filter_1652._in(0),
-              intervention__filter_1652_reject._in(0)]
-    )
     selectsum_csv_1667 >> intervention__alteryxselect_860
+    (
+        intervention__join_815_inner._out(0)
+        >> [intervention__union_817._in(1), intervention__filter_880._in(0), intervention__filter_880_reject._in(0)]
+    )
     total_inf_condi_1662 >> intervention__join_850_left_unionleftouter._in(0)
     (
-        intervention__join_805_left_unionleftouter._out(0)
-        >> [intervention__summarize_801._in(0), intervention__filter_873._in(0),
-              intervention__filter_873_reject._in(0), intervention__join_822_left_unionleftouter._in(1)]
-    )
-    (
-        intervention__join_800_left_unionleftouter._out(0)
-        >> [intervention__filter_874._in(0), intervention__filter_874_reject._in(0),
-              intervention__join_805_left_unionleftouter._in(1)]
+        intervention__join_864_inner._out(0)
+        >> [intervention__union_866._in(2), intervention__filter_884._in(0), intervention__filter_884_reject._in(0)]
     )
     (
         intervention__join_776_left_unionfullouter._out(0)
@@ -695,8 +684,23 @@ with Pipeline(args) as pipeline:
               intervention__filter_869_reject._in(0), intervention__union_784._in(0),
               intervention__union_784._in(1)]
     )
+    (
+        intervention__formula_782_0._out(0)
+        >> [intervention__union_784._in(2), intervention__union_784._in(3), intervention__summarize_786._in(0)]
+    )
+    (
+        intervention__formula_814_0._out(0)
+        >> [intervention__filter_816._in(1), intervention__join_815_inner._in(1), intervention__filter_1652._in(0),
+              intervention__filter_1652_reject._in(0)]
+    )
+    (
+        intervention__join_850_left_unionleftouter._out(0)
+        >> [intervention__filter_1649._in(0), intervention__filter_1649_reject._in(0),
+              intervention__multifieldformula_772._in(0)]
+    )
     selectdistinct__1663 >> intervention__join_850_left_unionleftouter._in(1)
     (
-        intervention__join_815_inner._out(0)
-        >> [intervention__union_817._in(1), intervention__filter_880._in(0), intervention__filter_880_reject._in(0)]
+        intervention__join_800_left_unionleftouter._out(0)
+        >> [intervention__filter_874._in(0), intervention__filter_874_reject._in(0),
+              intervention__join_805_left_unionleftouter._in(1)]
     )

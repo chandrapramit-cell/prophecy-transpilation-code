@@ -6,19 +6,19 @@
   })
 }}
 
-WITH Join_834_left_UnionLeftOuter AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Join_834_left_UnionLeftOuter')}}
-
-),
-
-Formula_814_0 AS (
+WITH Formula_814_0 AS (
 
   SELECT *
   
   FROM {{ ref('intervention__Formula_814_0')}}
+
+),
+
+Join_834_left_UnionLeftOuter AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Join_834_left_UnionLeftOuter')}}
 
 ),
 

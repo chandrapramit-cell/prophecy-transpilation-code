@@ -34,7 +34,9 @@ HRHCReportLive__1679 AS (
 
 AlteryxSelect_1000 AS (
 
-  SELECT *
+  SELECT 
+    CAST(NULL AS string) AS `FEP Member ID`,
+    *
   
   FROM HRHCReportLive__1679 AS in0
 
@@ -55,7 +57,8 @@ Join_997_inner AS (
 
 AlteryxSelect_1002 AS (
 
-  SELECT * EXCEPT (`Name - Last`, 
+  SELECT * EXCEPT (`FEP Member ID`, 
+         `Name - Last`, 
          `Name - First`, 
          `Addr - Street1`, 
          `Addr - Street2`, 

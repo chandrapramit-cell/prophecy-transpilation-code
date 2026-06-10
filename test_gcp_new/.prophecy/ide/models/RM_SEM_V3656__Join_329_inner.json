@@ -1,0 +1,186 @@
+{
+  "id" : "RM_SEM_V3656__Join_329_inner",
+  "metainfo" : {
+    "label" : "RM_SEM_V3656__Join_329_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"anubhav\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_329_inner_QkR00Mt0ZZ61cV3E6FLD8" : {
+      "id" : "Join_329_inner_QkR00Mt0ZZ61cV3E6FLD8",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_329_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_329_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_20",
+          "slug" : "input_port_20"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_20",
+          "slug" : "output_port_20"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "329_inner" : {
+      "id" : "329_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_329_inner",
+        "x" : 17730,
+        "y" : 1299,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.NDOD = in1.NDOD)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`NDOD`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "5yW5-SCYbViuj1fXjxg48",
+          "slug" : "in0"
+        }, {
+          "id" : "Xkz2JpojsoKzq3rZhLeRj",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "QkR00Mt0ZZ61cV3E6FLD8",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_321_0_bk7yv9qrqTSrgj6O8ihqq" : {
+      "id" : "Formula_321_0_bk7yv9qrqTSrgj6O8ihqq",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_321_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_18",
+          "id" : "output_port_18",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('RM_SEM_V3656__Formula_321_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_323_323_Output" : {
+      "id" : "Summarize_323_323_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_323"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_19",
+          "id" : "output_port_19",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('RM_SEM_V3656__Summarize_323') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_329_inner_QkR00Mt0ZZ61cV3E6FLD8_Join_329_inner_QkR00Mt0ZZ61cV3E6FLD8",
+    "source" : "329_inner",
+    "sourcePort" : "QkR00Mt0ZZ61cV3E6FLD8",
+    "target" : "Join_329_inner_QkR00Mt0ZZ61cV3E6FLD8",
+    "targetPort" : "input_port_20",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1002",
+    "source" : "Formula_321_0_bk7yv9qrqTSrgj6O8ihqq",
+    "sourcePort" : "output_port_18",
+    "target" : "329_inner",
+    "targetPort" : "Xkz2JpojsoKzq3rZhLeRj",
+    "isWireless" : false
+  }, {
+    "id" : "edge_933",
+    "source" : "Summarize_323_323_Output",
+    "sourcePort" : "output_port_19",
+    "target" : "329_inner",
+    "targetPort" : "5yW5-SCYbViuj1fXjxg48",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

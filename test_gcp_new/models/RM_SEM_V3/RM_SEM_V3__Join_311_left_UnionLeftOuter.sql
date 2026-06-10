@@ -6,55 +6,11 @@
   })
 }}
 
-WITH Filter_288 AS (
+WITH Join_373_inner AS (
 
   SELECT *
   
-  FROM {{ ref('RM_SEM_V3__Filter_288')}}
-
-),
-
-Database__LOADI_283 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('RM_SEM_V3', 'Database__LOADI_283') }}
-
-),
-
-Summarize_284 AS (
-
-  SELECT 
-    SUM(`SUM(REV.LEG_PAX_CNT)`) AS BKGS,
-    LEG_NDOD AS NDOD,
-    DPTR_WEEK AS DPTR_WEEK
-  
-  FROM Database__LOADI_283 AS in0
-  
-  GROUP BY 
-    LEG_NDOD, DPTR_WEEK
-
-),
-
-Join_286_inner AS (
-
-  SELECT 
-    in0.*,
-    in1.* EXCEPT (`LEG_NDOD`)
-  
-  FROM Summarize_284 AS in0
-  INNER JOIN Filter_288 AS in1
-     ON (in0.NDOD = in1.LEG_NDOD)
-
-),
-
-Formula_287_0 AS (
-
-  SELECT 
-    CAST(((100 * BKGS) / TTL_BKGS) AS DOUBLE) AS INTAKE_SHARE,
-    *
-  
-  FROM Join_286_inner AS in0
+  FROM {{ ref('RM_SEM_V3__Join_373_inner')}}
 
 ),
 
@@ -104,14 +60,6 @@ Join_374_inner AS (
   FROM Database__LOADI_363 AS in0
   INNER JOIN Filter_375 AS in1
      ON (in0.NDOD = in1.NDOD)
-
-),
-
-Join_373_inner AS (
-
-  SELECT *
-  
-  FROM {{ ref('RM_SEM_V3__Join_373_inner')}}
 
 ),
 
@@ -180,6 +128,22 @@ Join_364_left_UnionFullOuter AS (
 
 ),
 
+MultiRowFormula_440 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('RM_SEM_V3', 'MultiRowFormula_440') }}
+
+),
+
+MultiRowFormula_440_row_id_drop_0 AS (
+
+  SELECT * EXCEPT (`prophecy_row_id`)
+  
+  FROM MultiRowFormula_440 AS in0
+
+),
+
 Formula_366_0 AS (
 
   SELECT 
@@ -215,6 +179,58 @@ Summarize_281 AS (
   
   GROUP BY 
     DPTR_WEEK_START_DATE, NDOD, SEAT_INDEX_CURR, MILES, DPTR_DAY_OF_WEEK, DPTR_DATE, OD, CAP, PLNG_REG_SHORT_NAME
+
+),
+
+Filter_288 AS (
+
+  SELECT *
+  
+  FROM {{ ref('RM_SEM_V3__Filter_288')}}
+
+),
+
+Database__LOADI_283 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('RM_SEM_V3', 'Database__LOADI_283') }}
+
+),
+
+Summarize_284 AS (
+
+  SELECT 
+    SUM(`SUM(REV.LEG_PAX_CNT)`) AS BKGS,
+    LEG_NDOD AS NDOD,
+    DPTR_WEEK AS DPTR_WEEK
+  
+  FROM Database__LOADI_283 AS in0
+  
+  GROUP BY 
+    LEG_NDOD, DPTR_WEEK
+
+),
+
+Join_286_inner AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCEPT (`LEG_NDOD`)
+  
+  FROM Summarize_284 AS in0
+  INNER JOIN Filter_288 AS in1
+     ON (in0.NDOD = in1.LEG_NDOD)
+
+),
+
+Formula_287_0 AS (
+
+  SELECT 
+    CAST(((100 * BKGS) / TTL_BKGS) AS DOUBLE) AS INTAKE_SHARE,
+    *
+  
+  FROM Join_286_inner AS in0
 
 ),
 
@@ -410,22 +426,6 @@ Summarize_296 AS (
 
 ),
 
-MultiRowFormula_440 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('RM_SEM_V3', 'MultiRowFormula_440') }}
-
-),
-
-MultiRowFormula_440_row_id_drop_0 AS (
-
-  SELECT * EXCEPT (`prophecy_row_id`)
-  
-  FROM MultiRowFormula_440 AS in0
-
-),
-
 Join_297_inner AS (
 
   SELECT 
@@ -446,26 +446,6 @@ AlteryxSelect_298 AS (
     TT_NDOD AS TT_NDOD
   
   FROM Join_297_inner AS in0
-
-),
-
-Database__LOADI_341 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('RM_SEM_V3', 'Database__LOADI_341') }}
-
-),
-
-Join_342_inner AS (
-
-  SELECT 
-    in0.*,
-    in1.* EXCEPT (`NDOD`)
-  
-  FROM RecordID_295 AS in0
-  INNER JOIN Database__LOADI_341 AS in1
-     ON (in0.NDOD = in1.NDOD)
 
 ),
 
@@ -494,6 +474,26 @@ Formula_385_0 AS (
     *
   
   FROM Summarize_386 AS in0
+
+),
+
+Database__LOADI_341 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('RM_SEM_V3', 'Database__LOADI_341') }}
+
+),
+
+Join_342_inner AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCEPT (`NDOD`)
+  
+  FROM RecordID_295 AS in0
+  INNER JOIN Database__LOADI_341 AS in1
+     ON (in0.NDOD = in1.NDOD)
 
 ),
 
@@ -570,7 +570,7 @@ CrossTab_307 AS (
     FIRST(TT_NDOD) AS First
     FOR FLOW_RANK
     IN (
-      1, 2, 3
+      '1', '2', '3'
     )
   )
 

@@ -57,7 +57,10 @@ AlteryxSelect_790 AS (
     TOTAL_TX_SCORE AS TOTAL_TX_SCORE,
     TOTAL_AS_SCORE AS TOTAL_AS_SCORE,
     VULNERABILITY_INDEX AS VULNERABILITY_INDEX,
-    DOB AS DOB
+    DOB AS DOB,
+    CAST(NULL AS string) AS `Likelihood Factor`,
+    CAST(NULL AS string) AS `Comprehensive Risk Score`,
+    CAST(NULL AS string) AS Population
   
   FROM vulnerability_s_1670 AS in0
 

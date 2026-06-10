@@ -1,0 +1,128 @@
+{
+  "id" : "RM_SEM_V3656__Sort_377",
+  "metainfo" : {
+    "label" : "RM_SEM_V3656__Sort_377",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"anubhav\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Sort_377_N2EYeglWXGojqJ1NrWQ_g" : {
+      "id" : "Sort_377_N2EYeglWXGojqJ1NrWQ_g",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Sort_377"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Sort_377\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "377" : {
+      "id" : "377",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "Sort_377",
+        "x" : 1200,
+        "y" : 3,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "(ENCODE(CAST(Count AS string), 'utf-8'))",
+            "_row_id" : null
+          },
+          "sortType" : "asc",
+          "nullsType" : ""
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "377_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "N2EYeglWXGojqJ1NrWQ_g",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_370_370_Output" : {
+      "id" : "Summarize_370_370_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_370"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_12",
+          "id" : "output_port_12",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('RM_SEM_V3656__Summarize_370') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_12",
+          "slug" : "input_port_12"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_12",
+          "slug" : "output_port_12"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_377_N2EYeglWXGojqJ1NrWQ_g_Sort_377_N2EYeglWXGojqJ1NrWQ_g",
+    "source" : "377",
+    "sourcePort" : "N2EYeglWXGojqJ1NrWQ_g",
+    "target" : "Sort_377_N2EYeglWXGojqJ1NrWQ_g",
+    "targetPort" : "input_port_13",
+    "isWireless" : false
+  }, {
+    "id" : "edge_924",
+    "source" : "Summarize_370_370_Output",
+    "sourcePort" : "output_port_12",
+    "target" : "377",
+    "targetPort" : "377_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

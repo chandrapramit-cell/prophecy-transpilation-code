@@ -462,10 +462,9 @@ with Pipeline(args) as pipeline:
     sem_support_lis_475 = Process(
         name = "SEM_Support_Lis_475",
         properties = SFTPTarget(
-          compression = SFTPTarget.Compression(kind = "uncompressed"),
           connector = {
-            "id": "transpiled_connection",
             "kind": "sftp",
+            "id": "transpiled_connection",
             "properties": {
               "authMethod": "password",
               "username": "transpiled_username",
@@ -481,41 +480,45 @@ with Pipeline(args) as pipeline:
             },
             "type": "connector"
           },
-          format = SFTPTarget.XLSXWriteFormat(),
-          properties = SFTPTarget.SFTPTargetInternal(filePath = "_externals\\1\\SEM_Support_List.xlsx")
+          properties = SFTPTarget.SFTPTargetInternal(filePath = "_externals\\1\\SEM_Support_List.xlsx"),
+          format = SFTPTarget.XLSXWriteFormat()
         )
     )
     database__loadi_330 >> rm_sem_v3__alteryxselect_338._in(1)
-    database__repor_351 >> rm_sem_v3__join_311_left_unionleftouter._in(5)
+    database__repor_351 >> rm_sem_v3__join_311_left_unionleftouter._in(9)
+    (
+        rm_sem_v3__join_311_left_unionleftouter._out(0)
+        >> [rm_sem_v3__summarize_323._in(0), rm_sem_v3__formula_321_0._in(0)]
+    )
+    database__loadi_395 >> rm_sem_v3__join_311_left_unionleftouter._in(8)
+    rm_sem_v3__summarize_370._out(0) >> [rm_sem_v3__join_373_inner._in(0), rm_sem_v3__sort_377._in(0)]
+    (
+        database__loadi_363._out(0)
+        >> [rm_sem_v3__join_311_left_unionleftouter._in(1), rm_sem_v3__join_311_left_unionleftouter._in(4)]
+    )
+    rm_sem_v3__multirowformula_440_row_id_0 >> multirowformula_440
+    database__loadi_394 >> rm_sem_v3__join_311_left_unionleftouter._in(7)
+    (
+        rm_sem_v3__filter_288._out(0)
+        >> [rm_sem_v3__join_311_left_unionleftouter._in(2), rm_sem_v3__multirowformula_440_row_id_0._in(2)]
+    )
+    multirowformula_440 >> rm_sem_v3__join_311_left_unionleftouter._in(12)
     (
         rm_sem_v3__formula_321_0._out(0)
         >> [rm_sem_v3__alteryxselect_338._in(3), rm_sem_v3__alteryxselect_338._in(4), rm_sem_v3__join_329_inner._in(1)]
     )
-    rm_sem_v3__multirowformula_440_row_id_0 >> multirowformula_440
-    database__loadi_395 >> rm_sem_v3__join_311_left_unionleftouter._in(10)
-    rm_sem_v3__summarize_370._out(0) >> [rm_sem_v3__join_373_inner._in(0), rm_sem_v3__sort_377._in(0)]
-    (
-        database__loadi_363._out(0)
-        >> [rm_sem_v3__join_311_left_unionleftouter._in(0), rm_sem_v3__join_311_left_unionleftouter._in(2)]
-    )
-    database__loadi_394 >> rm_sem_v3__join_311_left_unionleftouter._in(11)
-    (
-        rm_sem_v3__filter_288._out(0)
-        >> [rm_sem_v3__join_311_left_unionleftouter._in(12), rm_sem_v3__multirowformula_440_row_id_0._in(2)]
-    )
-    multirowformula_440 >> rm_sem_v3__join_311_left_unionleftouter._in(8)
-    rm_sem_v3__summarize_323._out(0) >> [rm_sem_v3__alteryxselect_338._in(0), rm_sem_v3__join_329_inner._in(0)]
-    database__loadi_292._out(0) >> [rm_sem_v3__join_311_left_unionleftouter._in(6), rm_sem_v3__summarize_379._in(0)]
-    (
-        database__loadi_283._out(0)
-        >> [rm_sem_v3__join_311_left_unionleftouter._in(3), rm_sem_v3__join_311_left_unionleftouter._in(9),
-              rm_sem_v3__multirowformula_440_row_id_0._in(0), rm_sem_v3__join_384_inner._in(0),
-              rm_sem_v3__filter_288._in(0)]
-    )
     (
         rm_sem_v3__join_373_inner._out(0)
-        >> [rm_sem_v3__join_311_left_unionleftouter._in(4), rm_sem_v3__join_311_left_unionleftouter._in(7),
+        >> [rm_sem_v3__join_311_left_unionleftouter._in(6), rm_sem_v3__join_311_left_unionleftouter._in(11),
               rm_sem_v3__join_384_inner._in(1)]
+    )
+    rm_sem_v3__summarize_323._out(0) >> [rm_sem_v3__alteryxselect_338._in(0), rm_sem_v3__join_329_inner._in(0)]
+    database__loadi_292._out(0) >> [rm_sem_v3__join_311_left_unionleftouter._in(10), rm_sem_v3__summarize_379._in(0)]
+    (
+        database__loadi_283._out(0)
+        >> [rm_sem_v3__join_311_left_unionleftouter._in(0), rm_sem_v3__join_311_left_unionleftouter._in(5),
+              rm_sem_v3__multirowformula_440_row_id_0._in(0), rm_sem_v3__join_384_inner._in(0),
+              rm_sem_v3__filter_288._in(0)]
     )
     database__loadi_403 >> rm_sem_v3__alteryxselect_338._in(2)
     database__loadi_313 >> rm_sem_v3__alteryxselect_338._in(5)
@@ -525,10 +528,6 @@ with Pipeline(args) as pipeline:
     )
     (
         database__loadi_341._out(0)
-        >> [rm_sem_v3__join_311_left_unionleftouter._in(1), rm_sem_v3__multirowformula_440_row_id_0._in(1)]
-    )
-    (
-        rm_sem_v3__join_311_left_unionleftouter._out(0)
-        >> [rm_sem_v3__summarize_323._in(0), rm_sem_v3__formula_321_0._in(0)]
+        >> [rm_sem_v3__join_311_left_unionleftouter._in(3), rm_sem_v3__multirowformula_440_row_id_0._in(1)]
     )
     database__loadi_280._out(0) >> [rm_sem_v3__join_373_inner._in(1), rm_sem_v3__summarize_370._in(0)]

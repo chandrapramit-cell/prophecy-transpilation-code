@@ -6,15 +6,7 @@
   })
 }}
 
-WITH Join_800_left_UnionLeftOuter AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Join_800_left_UnionLeftOuter')}}
-
-),
-
-experianMappedT_1673 AS (
+WITH experianMappedT_1673 AS (
 
   SELECT *
   
@@ -49,6 +41,14 @@ Sample_808 AS (
       []
     )
   }}
+
+),
+
+Join_800_left_UnionLeftOuter AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Join_800_left_UnionLeftOuter')}}
 
 ),
 

@@ -14,6 +14,14 @@ WITH TOTAL_INF_CONDI_1674 AS (
 
 ),
 
+Join_822_left_UnionLeftOuter AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Join_822_left_UnionLeftOuter')}}
+
+),
+
 AlteryxSelect_828 AS (
 
   SELECT 
@@ -71,14 +79,6 @@ Formula_832_to_Formula_833_0 AS (
     *
   
   FROM Sample_830 AS in0
-
-),
-
-Join_822_left_UnionLeftOuter AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Join_822_left_UnionLeftOuter')}}
 
 ),
 

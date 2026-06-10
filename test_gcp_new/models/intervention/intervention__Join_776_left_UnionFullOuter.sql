@@ -14,14 +14,6 @@ WITH Production_xlsx_1668 AS (
 
 ),
 
-Union_866 AS (
-
-  SELECT *
-  
-  FROM {{ ref('intervention__Union_866')}}
-
-),
-
 AlteryxSelect_774 AS (
 
   SELECT 
@@ -43,6 +35,14 @@ Formula_775_0 AS (
     *
   
   FROM AlteryxSelect_774 AS in0
+
+),
+
+Union_866 AS (
+
+  SELECT *
+  
+  FROM {{ ref('intervention__Union_866')}}
 
 ),
 
