@@ -1,0 +1,130 @@
+{
+  "id" : "intervention__Summarize_771",
+  "metainfo" : {
+    "label" : "intervention__Summarize_771",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_771_dCM-6gxml_7zaFliAKgPe" : {
+      "id" : "Summarize_771_dCM-6gxml_7zaFliAKgPe",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_771"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_771\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_25",
+          "slug" : "input_port_25"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_25",
+          "slug" : "output_port_25"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "771" : {
+      "id" : "771",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_771",
+        "x" : 31600,
+        "y" : 2840,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`"
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "_row_id" : "pgTsMAueS7B8GO4H9nxbG"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ "771_Input##Member Individual Business Entity Key" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "771_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "dCM-6gxml_7zaFliAKgPe",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MultiFieldFormula_772_772_Output" : {
+      "id" : "MultiFieldFormula_772_772_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "MultiFieldFormula_772"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_24",
+          "id" : "output_port_24",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__MultiFieldFormula_772') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_24",
+          "slug" : "input_port_24"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_24",
+          "slug" : "output_port_24"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_771_dCM-6gxml_7zaFliAKgPe_Summarize_771_dCM-6gxml_7zaFliAKgPe",
+    "source" : "771",
+    "sourcePort" : "dCM-6gxml_7zaFliAKgPe",
+    "target" : "Summarize_771_dCM-6gxml_7zaFliAKgPe",
+    "targetPort" : "input_port_25",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1866",
+    "source" : "MultiFieldFormula_772_772_Output",
+    "sourcePort" : "output_port_24",
+    "target" : "771",
+    "targetPort" : "771_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,144 @@
+{
+  "id" : "intervention__Summarize_826",
+  "metainfo" : {
+    "label" : "intervention__Summarize_826",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_826_5wItMkN-VML62G10cWtQo" : {
+      "id" : "Summarize_826_5wItMkN-VML62G10cWtQo",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_826"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_826\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_68",
+          "slug" : "input_port_68"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_68",
+          "slug" : "output_port_68"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "826" : {
+      "id" : "826",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_826",
+        "x" : 35000,
+        "y" : 3440,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT `Member Individual Business Entity Key`)"
+          },
+          "alias" : "`CountDistinct_Member Individual Business Entity Key`",
+          "_row_id" : "LnCsj3GUFnPJAZcZsM8Rn"
+        }, {
+          "expression" : {
+            "expression" : "AdvancedCKD_Risk"
+          },
+          "alias" : "AdvancedCKD_Risk",
+          "_row_id" : "2S6fn0BiZzccrYzsNmHIv"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "826_Input##AdvancedCKD_Risk", "826_Input##Member Individual Business Entity Key" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "AdvancedCKD_Risk"
+          },
+          "_row_id" : "aZ4SOy5oFkZ6w1Zg-AelL"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "826_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "5wItMkN-VML62G10cWtQo",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_817_817_Output" : {
+      "id" : "Union_817_817_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_817"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_50",
+          "id" : "output_port_50",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Union_817') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_50",
+          "slug" : "input_port_50"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_50",
+          "slug" : "output_port_50"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_826_5wItMkN-VML62G10cWtQo_Summarize_826_5wItMkN-VML62G10cWtQo",
+    "source" : "826",
+    "sourcePort" : "5wItMkN-VML62G10cWtQo",
+    "target" : "Summarize_826_5wItMkN-VML62G10cWtQo",
+    "targetPort" : "input_port_68",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1868",
+    "source" : "Union_817_817_Output",
+    "sourcePort" : "output_port_50",
+    "target" : "826",
+    "targetPort" : "826_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

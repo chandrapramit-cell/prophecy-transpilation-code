@@ -1,0 +1,533 @@
+{
+  "id" : "intervention__Unique_1018",
+  "metainfo" : {
+    "label" : "intervention__Unique_1018",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "1010_left" : {
+      "id" : "1010_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_1010_left_UnionFullOuter",
+        "x" : 31600,
+        "y" : 2240,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Member Individual Business Entity Key` = in1.MBR_INDV_BE_KEY)"
+          },
+          "joinType" : "full"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (in0.`Member Individual Business Entity Key` = in1.MBR_INDV_BE_KEY) THEN NULL ELSE in1.MBR_INDV_BE_KEY END)"
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "_row_id" : "8e9SuKuMJ2YD_qVbydwNr"
+        }, {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "1805013557"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`MBR_INDV_BE_KEY`)"
+          },
+          "_row_id" : "384608908"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "CwjT9xGDaM6c2hds8sYGi##Member Individual Business Entity Key", "i4RbLtl0Uz2_27tX7xRTq##MBR_INDV_BE_KEY", "CwjT9xGDaM6c2hds8sYGi##Member Individual Business Entity Key", "i4RbLtl0Uz2_27tX7xRTq##MBR_INDV_BE_KEY" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CwjT9xGDaM6c2hds8sYGi",
+          "slug" : "in0"
+        }, {
+          "id" : "i4RbLtl0Uz2_27tX7xRTq",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "4VaGlYreSgaap_LX21FC3",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "997_inner" : {
+      "id" : "997_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_997_inner",
+        "x" : 31000,
+        "y" : 2240,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.MBR_INDV_BE_KEY = in1.MBR_INDV_BE_KEY)"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.MBR_INDV_BE_KEY"
+          },
+          "alias" : "Right_MBR_INDV_BE_KEY",
+          "_row_id" : "gB8R3hWIi6E9uz2Fh8UhV"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`FEP_Member_ID`)"
+          },
+          "_row_id" : "504197771"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`MBR_INDV_BE_KEY`)"
+          },
+          "_row_id" : "318198628"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "gLRgIxgRBrp-rrPIVIx1t##MBR_INDV_BE_KEY", "9gA8nfp32HKE14tc34l1_##MBR_INDV_BE_KEY", "9gA8nfp32HKE14tc34l1_##MBR_INDV_BE_KEY" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "gLRgIxgRBrp-rrPIVIx1t",
+          "slug" : "in0"
+        }, {
+          "id" : "9gA8nfp32HKE14tc34l1_",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "PXcghXgEFo8y_H7D1Q83i",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EDW_PROD_csv_1664_1664_Output" : {
+      "id" : "EDW_PROD_csv_1664_1664_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "EDW_PROD_csv_1664"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_15",
+          "id" : "output_port_15",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('intervention', 'EDW_PROD_csv_1664') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_15",
+          "slug" : "input_port_15"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_15",
+          "slug" : "output_port_15"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "HRHCReportLive__1679_1679_Output" : {
+      "id" : "HRHCReportLive__1679_1679_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "HRHCReportLive__1679"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_28",
+          "id" : "output_port_28",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('intervention', 'HRHCReportLive__1679') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_28",
+          "slug" : "input_port_28"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_28",
+          "slug" : "output_port_28"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "E7HhDaRw5B_5x4p7fYVAP" : {
+      "id" : "E7HhDaRw5B_5x4p7fYVAP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1006_0",
+        "x" : 31400,
+        "y" : 2240,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('FEP' AS string)"
+          },
+          "alias" : "SOURCE_ID",
+          "_row_id" : "c3yV2dR8MavgA_cOz0CHq"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "945482366"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "6qj4MOAvuQ69JqdpxIK6f",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "LLYiOozV1lrFhgaYuWEhF",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1002" : {
+      "id" : "1002",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1002",
+        "x" : 31200,
+        "y" : 2240,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`FEP Member ID`, `Name - Last`, `Name - First`, `Addr - Street1`, `Addr - Street2`, `Addr - City`, `Addr - ZIP`, `Subscriber Telephone`, `Age Year Number`)"
+          },
+          "_row_id" : "1841534173"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1002_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1002_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1018" : {
+      "id" : "1018",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_1018",
+        "x" : 31800,
+        "y" : 2240,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`"
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "_row_id" : "ydYnleNrdJulcnRfBFltJ"
+        }, {
+          "expression" : {
+            "expression" : "`Risk Cost Code`"
+          },
+          "alias" : "`Risk Cost Code`",
+          "_row_id" : "bAGQQ46T4JHD4edWUwMbj"
+        }, {
+          "expression" : {
+            "expression" : "`Concurrent Normalized Risk Score`"
+          },
+          "alias" : "`Concurrent Normalized Risk Score`",
+          "_row_id" : "Pbym6ylJJfQxXp_E3zC98"
+        }, {
+          "expression" : {
+            "expression" : "`Prospective Normalized Risk Score`"
+          },
+          "alias" : "`Prospective Normalized Risk Score`",
+          "_row_id" : "0pWlXNuOoMhC_q9_fGIR4"
+        }, {
+          "expression" : {
+            "expression" : "`Recent 3 Months Total Allowable Amount`"
+          },
+          "alias" : "`Recent 3 Months Total Allowable Amount`",
+          "_row_id" : "HWPM1kJ3ZtDTt-IvAz0Qb"
+        }, {
+          "expression" : {
+            "expression" : "`Current 12 Months Total Allowable Amount`"
+          },
+          "alias" : "`Current 12 Months Total Allowable Amount`",
+          "_row_id" : "_Pbd0gxJjFoj-rnjCXHi9"
+        }, {
+          "expression" : {
+            "expression" : "SOURCE_ID"
+          },
+          "alias" : "SOURCE_ID",
+          "_row_id" : "aeUl5_jJu6pkCNevw8pPn"
+        }, {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "_row_id" : "Z5fKJdsDkg8FHExi0ukLh"
+        } ],
+        "dedupType" : "first",
+        "columnsSelector" : [ "1018_Input##Member Individual Business Entity Key", "1018_Input##Risk Cost Code", "1018_Input##Concurrent Normalized Risk Score", "1018_Input##Prospective Normalized Risk Score", "1018_Input##Recent 3 Months Total Allowable Amount", "1018_Input##Current 12 Months Total Allowable Amount", "1018_Input##SOURCE_ID", "1018_Input##MBR_INDV_BE_KEY" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1018_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1018_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Unique_1018_1018_Unique" : {
+      "id" : "Unique_1018_1018_Unique",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Unique_1018"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Unique_1018\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_29",
+          "slug" : "input_port_29"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_29",
+          "slug" : "output_port_29"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "998" : {
+      "id" : "998",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_998",
+        "x" : 30800,
+        "y" : 2140,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "998_Input##FEP_Member_ID", "998_Input##MBR_INDV_BE_KEY" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "FEP_Member_ID"
+          },
+          "alias" : "FEP_Member_ID",
+          "_row_id" : "3RhFjLZw1QNY2G9vqM-GJ"
+        }, {
+          "expression" : {
+            "expression" : "MBR_INDV_BE_KEY"
+          },
+          "alias" : "MBR_INDV_BE_KEY",
+          "_row_id" : "ZVNBcN2gnB5GEwIrZURnu"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "998_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "998_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1000" : {
+      "id" : "1000",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1000",
+        "x" : 30800,
+        "y" : 2340,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(NULL AS string)"
+          },
+          "alias" : "`FEP Member ID`",
+          "_row_id" : "P2YW7MeK3uJa4QlC2Qyoa"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "996150896"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1000_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1000_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MultiFieldFormula_772_772_Output" : {
+      "id" : "MultiFieldFormula_772_772_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "MultiFieldFormula_772"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_24",
+          "id" : "output_port_24",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__MultiFieldFormula_772') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_24",
+          "slug" : "input_port_24"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_24",
+          "slug" : "output_port_24"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_1018_1018_Unique_Unique_1018_1018_Unique",
+    "source" : "1018",
+    "sourcePort" : "1018_Unique",
+    "target" : "Unique_1018_1018_Unique",
+    "targetPort" : "input_port_29",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1976",
+    "source" : "1010_left",
+    "sourcePort" : "4VaGlYreSgaap_LX21FC3",
+    "target" : "1018",
+    "targetPort" : "1018_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1983",
+    "source" : "E7HhDaRw5B_5x4p7fYVAP",
+    "sourcePort" : "LLYiOozV1lrFhgaYuWEhF",
+    "target" : "1010_left",
+    "targetPort" : "i4RbLtl0Uz2_27tX7xRTq",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1975",
+    "source" : "MultiFieldFormula_772_772_Output",
+    "sourcePort" : "output_port_24",
+    "target" : "1010_left",
+    "targetPort" : "CwjT9xGDaM6c2hds8sYGi",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1984",
+    "source" : "1002",
+    "sourcePort" : "1002_Output",
+    "target" : "E7HhDaRw5B_5x4p7fYVAP",
+    "targetPort" : "6qj4MOAvuQ69JqdpxIK6f",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1920",
+    "source" : "997_inner",
+    "sourcePort" : "PXcghXgEFo8y_H7D1Q83i",
+    "target" : "1002",
+    "targetPort" : "1002_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1918",
+    "source" : "1000",
+    "sourcePort" : "1000_Output",
+    "target" : "997_inner",
+    "targetPort" : "9gA8nfp32HKE14tc34l1_",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1919",
+    "source" : "998",
+    "sourcePort" : "998_Output",
+    "target" : "997_inner",
+    "targetPort" : "gLRgIxgRBrp-rrPIVIx1t",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1894",
+    "source" : "HRHCReportLive__1679_1679_Output",
+    "sourcePort" : "output_port_28",
+    "target" : "1000",
+    "targetPort" : "1000_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1853",
+    "source" : "EDW_PROD_csv_1664_1664_Output",
+    "sourcePort" : "output_port_15",
+    "target" : "998",
+    "targetPort" : "998_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
