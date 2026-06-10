@@ -1,0 +1,144 @@
+{
+  "id" : "RM_SEM_V3__Summarize_370",
+  "metainfo" : {
+    "label" : "RM_SEM_V3__Summarize_370",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"anubhav\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_370_370_Output" : {
+      "id" : "Summarize_370_370_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_370"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_370\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "370" : {
+      "id" : "370",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_370",
+        "x" : 480,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((DPTR_DATE IS NULL) OR (CAST(DPTR_DATE AS string) = '')) THEN NULL ELSE 1 END))"
+          },
+          "alias" : "`Count`",
+          "_row_id" : "wG5xgEn0YHOKzi-JdJdzg"
+        }, {
+          "expression" : {
+            "expression" : "NDOD"
+          },
+          "alias" : "NDOD",
+          "_row_id" : "1VTRekRTzjGBFyDk4cEfl"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "370_Input##NDOD", "370_Input##DPTR_DATE" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "NDOD"
+          },
+          "_row_id" : "8oEPDXb3ETWy1NAgjKN-f"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "370_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "370_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Database__LOADI_280_280_Output" : {
+      "id" : "Database__LOADI_280_280_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Database__LOADI_280"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_9",
+          "id" : "output_port_9",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('RM_SEM_V3', 'Database__LOADI_280') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_9",
+          "slug" : "input_port_9"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_9",
+          "slug" : "output_port_9"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_370_370_Output_Summarize_370_370_Output",
+    "source" : "370",
+    "sourcePort" : "370_Output",
+    "target" : "Summarize_370_370_Output",
+    "targetPort" : "input_port_10",
+    "isWireless" : false
+  }, {
+    "id" : "edge_383",
+    "source" : "Database__LOADI_280_280_Output",
+    "sourcePort" : "output_port_9",
+    "target" : "370",
+    "targetPort" : "370_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
