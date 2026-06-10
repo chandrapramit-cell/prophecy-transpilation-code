@@ -1,0 +1,123 @@
+{
+  "id" : "intervention__Filter_883",
+  "metainfo" : {
+    "label" : "intervention__Filter_883",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_883_EEXGicxDKuBxJHAh5Q5sN" : {
+      "id" : "Filter_883_EEXGicxDKuBxJHAh5Q5sN",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_883"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_883\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_91",
+          "slug" : "input_port_91"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_91",
+          "slug" : "output_port_91"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "883" : {
+      "id" : "883",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_883",
+        "x" : 32400,
+        "y" : 2980,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "883_Input##SOURCE_ID" ],
+        "condition" : {
+          "expression" : "(SOURCE_ID = 'FEP')"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "883_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EEXGicxDKuBxJHAh5Q5sN",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_866_866_Output" : {
+      "id" : "Union_866_866_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_866"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_33",
+          "id" : "output_port_33",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Union_866') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_33",
+          "slug" : "input_port_33"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_33",
+          "slug" : "output_port_33"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_883_EEXGicxDKuBxJHAh5Q5sN_Filter_883_EEXGicxDKuBxJHAh5Q5sN",
+    "source" : "883",
+    "sourcePort" : "EEXGicxDKuBxJHAh5Q5sN",
+    "target" : "Filter_883_EEXGicxDKuBxJHAh5Q5sN",
+    "targetPort" : "input_port_91",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1898",
+    "source" : "Union_866_866_Output",
+    "sourcePort" : "output_port_33",
+    "target" : "883",
+    "targetPort" : "883_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

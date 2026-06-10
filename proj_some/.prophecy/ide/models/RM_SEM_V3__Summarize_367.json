@@ -1,0 +1,168 @@
+{
+  "id" : "RM_SEM_V3__Summarize_367",
+  "metainfo" : {
+    "label" : "RM_SEM_V3__Summarize_367",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_367_GKfE7J5JbRH4zxKq0avMs" : {
+      "id" : "Summarize_367_GKfE7J5JbRH4zxKq0avMs",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_367"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_367\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_22",
+          "slug" : "input_port_22"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_22",
+          "slug" : "output_port_22"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "367" : {
+      "id" : "367",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_367",
+        "x" : 22360,
+        "y" : 1300,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((OD IS NULL) OR (CAST(OD AS string) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "`Count`",
+          "description" : null,
+          "_row_id" : "1haCf4wtK3gZjbRANhElX"
+        }, {
+          "expression" : {
+            "expression" : "Support",
+            "_row_id" : null
+          },
+          "alias" : "Support",
+          "description" : null,
+          "_row_id" : "U5TlcZtYUL5UoW7AdX1bS"
+        }, {
+          "expression" : {
+            "expression" : "variableTYPE",
+            "_row_id" : null
+          },
+          "alias" : "variableTYPE",
+          "description" : null,
+          "_row_id" : "1ySNAWMpox8p5GJoF_ch7"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Support",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "IPIIaRptvIS5bpxDDFHuc"
+        }, {
+          "expression" : {
+            "expression" : "variableTYPE",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "WQgeYfZnaCBeueTCzkTKe"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "367_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "GKfE7J5JbRH4zxKq0avMs",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_338_338_Output" : {
+      "id" : "AlteryxSelect_338_338_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_338"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_20",
+          "id" : "output_port_20",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('RM_SEM_V3__AlteryxSelect_338') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_20",
+          "slug" : "input_port_20"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_20",
+          "slug" : "output_port_20"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_367_GKfE7J5JbRH4zxKq0avMs_Summarize_367_GKfE7J5JbRH4zxKq0avMs",
+    "source" : "367",
+    "sourcePort" : "GKfE7J5JbRH4zxKq0avMs",
+    "target" : "Summarize_367_GKfE7J5JbRH4zxKq0avMs",
+    "targetPort" : "input_port_22",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2018",
+    "source" : "AlteryxSelect_338_338_Output",
+    "sourcePort" : "output_port_20",
+    "target" : "367",
+    "targetPort" : "367_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,123 @@
+{
+  "id" : "intervention__Filter_877_reject",
+  "metainfo" : {
+    "label" : "intervention__Filter_877_reject",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_877_reject_x9kZcR66PPPbvHadsFAuI" : {
+      "id" : "Filter_877_reject_x9kZcR66PPPbvHadsFAuI",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_877_reject"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_877_reject\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_63",
+          "slug" : "input_port_63"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_63",
+          "slug" : "output_port_63"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "877_reject" : {
+      "id" : "877_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_877_reject",
+        "x" : 35000,
+        "y" : 2840,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "xDCGON-pYAw8jtB8E-DcO##SOURCE_ID" ],
+        "condition" : {
+          "expression" : "(((NOT (SOURCE_ID = 'FEP')) OR (SOURCE_ID IS NULL)) OR ((SOURCE_ID = 'FEP') IS NULL))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "xDCGON-pYAw8jtB8E-DcO",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "x9kZcR66PPPbvHadsFAuI",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_817_817_Output" : {
+      "id" : "Union_817_817_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_817"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_50",
+          "id" : "output_port_50",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('intervention__Union_817') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_50",
+          "slug" : "input_port_50"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_50",
+          "slug" : "output_port_50"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_877_reject_x9kZcR66PPPbvHadsFAuI_Filter_877_reject_x9kZcR66PPPbvHadsFAuI",
+    "source" : "877_reject",
+    "sourcePort" : "x9kZcR66PPPbvHadsFAuI",
+    "target" : "Filter_877_reject_x9kZcR66PPPbvHadsFAuI",
+    "targetPort" : "input_port_63",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1905",
+    "source" : "Union_817_817_Output",
+    "sourcePort" : "output_port_50",
+    "target" : "877_reject",
+    "targetPort" : "xDCGON-pYAw8jtB8E-DcO",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

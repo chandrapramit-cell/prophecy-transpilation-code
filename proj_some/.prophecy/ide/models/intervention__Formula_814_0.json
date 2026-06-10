@@ -1,0 +1,553 @@
+{
+  "id" : "intervention__Formula_814_0",
+  "metainfo" : {
+    "label" : "intervention__Formula_814_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "813" : {
+      "id" : "813",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_813",
+        "x" : 33600,
+        "y" : 3740,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "813_Input##Inflected Indicator CY", "813_Input##Inflected Indicator Pred" ],
+        "condition" : {
+          "expression" : "((`Inflected Indicator CY` = 'Y') OR (`Inflected Indicator Pred` = 'Y'))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "813_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "813_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1647" : {
+      "id" : "1647",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_1647",
+        "x" : 33600,
+        "y" : 3940,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`"
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "_row_id" : "AdDqrbrcmnoCCgwW3r1Qm"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ "1647_Input##Member Individual Business Entity Key" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1647_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1647_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "ProviderDetailR_1677_1677_Output" : {
+      "id" : "ProviderDetailR_1677_1677_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "ProviderDetailR_1677"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_17",
+          "id" : "output_port_17",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('intervention', 'ProviderDetailR_1677') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1646" : {
+      "id" : "1646",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1646",
+        "x" : 33400,
+        "y" : 3940,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "1646_Input##Member Individual BE Key" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Member Individual BE Key`"
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "_row_id" : "wRbQE9pkfcwL-DogLYDvc"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1646_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1646_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "812" : {
+      "id" : "812",
+      "component" : "Sample",
+      "metadata" : {
+        "label" : "Sample_812",
+        "x" : 34000,
+        "y" : 3840,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Union_1648" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Sample",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Union_1648\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"Member Individual Business Entity Key\", \"dataType\": \"String\"}, {\"name\": \"YearMonthDay_\", \"dataType\": \"String\"}, {\"name\": \"V\", \"dataType\": \"String\"}, {\"name\": \"Inflection Index CY\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator CY\", \"dataType\": \"String\"}, {\"name\": \"Avg_6_w_2monthRunout\", \"dataType\": \"Double\"}, {\"name\": \"Avg_3_w_2monthRunout\", \"dataType\": \"String\"}, {\"name\": \"AVG_6_MONTH_BIN\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator CM\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Last 90 Days\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Last 60 Days\", \"dataType\": \"String\"}, {\"name\": \"AVG_12_MONTH_BIN_PRED\", \"dataType\": \"String\"}, {\"name\": \"Inflection Index Pred\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Pred\", \"dataType\": \"String\"}]"
+          }, {
+            "name" : "sampleLevelSelection",
+            "value" : "sampleGroup"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[\"Member Individual Business Entity Key\"]"
+          }, {
+            "name" : "randomSeed",
+            "value" : "1002"
+          }, {
+            "name" : "currentModeSelection",
+            "value" : "firstN"
+          }, {
+            "name" : "numberN",
+            "value" : "1"
+          }, {
+            "name" : "orderByColumns",
+            "value" : "[]"
+          } ]
+        },
+        "currentModeSelection" : "firstN",
+        "dataColumns" : [ "Member Individual Business Entity Key" ],
+        "numberN" : 1,
+        "randomSeed" : 1002,
+        "schema" : "[{\"name\": \"Member Individual Business Entity Key\", \"dataType\": \"String\"}, {\"name\": \"YearMonthDay_\", \"dataType\": \"String\"}, {\"name\": \"V\", \"dataType\": \"String\"}, {\"name\": \"Inflection Index CY\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator CY\", \"dataType\": \"String\"}, {\"name\": \"Avg_6_w_2monthRunout\", \"dataType\": \"Double\"}, {\"name\": \"Avg_3_w_2monthRunout\", \"dataType\": \"String\"}, {\"name\": \"AVG_6_MONTH_BIN\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator CM\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Last 90 Days\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Last 60 Days\", \"dataType\": \"String\"}, {\"name\": \"AVG_12_MONTH_BIN_PRED\", \"dataType\": \"String\"}, {\"name\": \"Inflection Index Pred\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Pred\", \"dataType\": \"String\"}]",
+        "sampleLevelSelection" : "sampleGroup",
+        "orderByColumns" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "812_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "812_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "TOTAL_INF_CONDI_1676_1676_Output" : {
+      "id" : "TOTAL_INF_CONDI_1676_1676_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "TOTAL_INF_CONDI_1676"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('intervention', 'TOTAL_INF_CONDI_1676') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "W8giOaFfwSG6ISsNAnhFk" : {
+      "id" : "W8giOaFfwSG6ISsNAnhFk",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_814_0",
+        "x" : 34200,
+        "y" : 3840,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(1 AS DOUBLE)"
+          },
+          "alias" : "`MARA INDICATOR`",
+          "_row_id" : "4jPNV8XOlWgFu0TOhBtfv"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "2041977944"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vdOsZ6TXBnpHol_Q4OspF",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "PrWTUAfjA605ZQkUv13i3",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1648" : {
+      "id" : "1648",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_1648",
+        "x" : 33800,
+        "y" : 3840,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Filter_813", "Summarize_1647" ],
+        "schemas" : [ "[{\"name\": \"Member Individual Business Entity Key\", \"dataType\": \"String\"}, {\"name\": \"YearMonthDay_\", \"dataType\": \"String\"}, {\"name\": \"V\", \"dataType\": \"String\"}, {\"name\": \"Inflection Index CY\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator CY\", \"dataType\": \"String\"}, {\"name\": \"Avg_6_w_2monthRunout\", \"dataType\": \"Double\"}, {\"name\": \"Avg_3_w_2monthRunout\", \"dataType\": \"String\"}, {\"name\": \"AVG_6_MONTH_BIN\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator CM\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Last 90 Days\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Last 60 Days\", \"dataType\": \"String\"}, {\"name\": \"AVG_12_MONTH_BIN_PRED\", \"dataType\": \"String\"}, {\"name\": \"Inflection Index Pred\", \"dataType\": \"String\"}, {\"name\": \"Inflected Indicator Pred\", \"dataType\": \"String\"}]", "[{\"name\": \"Member Individual Business Entity Key\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Filter_813\", \"Summarize_1647\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"Member Individual Business Entity Key\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"YearMonthDay_\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"V\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflection Index CY\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflected Indicator CY\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Avg_6_w_2monthRunout\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Avg_3_w_2monthRunout\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AVG_6_MONTH_BIN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflected Indicator CM\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflected Indicator Last 90 Days\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflected Indicator Last 60 Days\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"AVG_12_MONTH_BIN_PRED\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflection Index Pred\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflected Indicator Pred\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"Member Individual Business Entity Key\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1648_#2_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "1648_#1_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "1648_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1645" : {
+      "id" : "1645",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1645",
+        "x" : 33200,
+        "y" : 3940,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "1645_Input##Recapture Flag" ],
+        "condition" : {
+          "expression" : "(`Recapture Flag` = 'Not Captured')"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1645_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1645_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_814_0_PrWTUAfjA605ZQkUv13i3" : {
+      "id" : "Formula_814_0_PrWTUAfjA605ZQkUv13i3",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_814_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_814_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "810" : {
+      "id" : "810",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_810",
+        "x" : 33400,
+        "y" : 3740,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "810_Input##Member Individual Business Entity Key", "810_Input##YearMonthDay_", "810_Input##V", "810_Input##Inflection Index CY", "810_Input##Inflected Indicator CY", "810_Input##Avg_6_w_2monthRunout", "810_Input##Avg_3_w_2monthRunout", "810_Input##AVG_6_MONTH_BIN", "810_Input##Inflected Indicator CM", "810_Input##Inflected Indicator Last 90 Days", "810_Input##Inflected Indicator Last 60 Days", "810_Input##AVG_12_MONTH_BIN_PRED", "810_Input##Inflection Index Pred", "810_Input##Inflected Indicator Pred" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Member Individual Business Entity Key`"
+          },
+          "alias" : "`Member Individual Business Entity Key`",
+          "_row_id" : "FMPiHy_QhVxr4mJ8sQi7X"
+        }, {
+          "expression" : {
+            "expression" : "YearMonthDay_"
+          },
+          "alias" : "YearMonthDay_",
+          "_row_id" : "9mpwTMhdelEmHLtd7EQaa"
+        }, {
+          "expression" : {
+            "expression" : "V"
+          },
+          "alias" : "V",
+          "_row_id" : "Gyd3yUuUiSnCVv5fQLK27"
+        }, {
+          "expression" : {
+            "expression" : "`Inflection Index CY`"
+          },
+          "alias" : "`Inflection Index CY`",
+          "_row_id" : "L_nnqOorrbw5NAoJYHQEk"
+        }, {
+          "expression" : {
+            "expression" : "`Inflected Indicator CY`"
+          },
+          "alias" : "`Inflected Indicator CY`",
+          "_row_id" : "d7SXEcDifpNET7HdOw07Q"
+        }, {
+          "expression" : {
+            "expression" : "CAST(Avg_6_w_2monthRunout AS DOUBLE)"
+          },
+          "alias" : "Avg_6_w_2monthRunout",
+          "_row_id" : "j0vs3f36GNSBP-CRGTQ5x"
+        }, {
+          "expression" : {
+            "expression" : "Avg_3_w_2monthRunout"
+          },
+          "alias" : "Avg_3_w_2monthRunout",
+          "_row_id" : "BBO5qMMzZoNKDR4-uO2dl"
+        }, {
+          "expression" : {
+            "expression" : "AVG_6_MONTH_BIN"
+          },
+          "alias" : "AVG_6_MONTH_BIN",
+          "_row_id" : "yebaVPEEJyo21m8Q7sYwV"
+        }, {
+          "expression" : {
+            "expression" : "`Inflected Indicator CM`"
+          },
+          "alias" : "`Inflected Indicator CM`",
+          "_row_id" : "l2VBQPM-bjF8QmvGU1yL2"
+        }, {
+          "expression" : {
+            "expression" : "`Inflected Indicator Last 90 Days`"
+          },
+          "alias" : "`Inflected Indicator Last 90 Days`",
+          "_row_id" : "CZz2AUuIouObWTIGMr1bb"
+        }, {
+          "expression" : {
+            "expression" : "`Inflected Indicator Last 60 Days`"
+          },
+          "alias" : "`Inflected Indicator Last 60 Days`",
+          "_row_id" : "ll6D1ZcJCErNyoJPG3_Qz"
+        }, {
+          "expression" : {
+            "expression" : "AVG_12_MONTH_BIN_PRED"
+          },
+          "alias" : "AVG_12_MONTH_BIN_PRED",
+          "_row_id" : "lpF-C79jSkWfYzGfq9oHa"
+        }, {
+          "expression" : {
+            "expression" : "`Inflection Index Pred`"
+          },
+          "alias" : "`Inflection Index Pred`",
+          "_row_id" : "Fy_VXwN3lY7vCXayN6Tpa"
+        }, {
+          "expression" : {
+            "expression" : "`Inflected Indicator Pred`"
+          },
+          "alias" : "`Inflected Indicator Pred`",
+          "_row_id" : "S8yQJiNFJb0gqrnpJVOx1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "810_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "810_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_W8giOaFfwSG6ISsNAnhFk_PrWTUAfjA605ZQkUv13i3_Formula_814_0_PrWTUAfjA605ZQkUv13i3",
+    "source" : "W8giOaFfwSG6ISsNAnhFk",
+    "sourcePort" : "PrWTUAfjA605ZQkUv13i3",
+    "target" : "Formula_814_0_PrWTUAfjA605ZQkUv13i3",
+    "targetPort" : "input_port_18",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1993",
+    "source" : "812",
+    "sourcePort" : "812_Output",
+    "target" : "W8giOaFfwSG6ISsNAnhFk",
+    "targetPort" : "vdOsZ6TXBnpHol_Q4OspF",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2004",
+    "source" : "1648",
+    "sourcePort" : "1648_Output",
+    "target" : "812",
+    "targetPort" : "812_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1873",
+    "source" : "813",
+    "sourcePort" : "813_True",
+    "target" : "1648",
+    "targetPort" : "1648_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1874",
+    "source" : "1647",
+    "sourcePort" : "1647_Output",
+    "target" : "1648",
+    "targetPort" : "1648_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1875",
+    "source" : "810",
+    "sourcePort" : "810_Output",
+    "target" : "813",
+    "targetPort" : "813_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1890",
+    "source" : "1646",
+    "sourcePort" : "1646_Output",
+    "target" : "1647",
+    "targetPort" : "1647_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1862",
+    "source" : "TOTAL_INF_CONDI_1676_1676_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "810",
+    "targetPort" : "810_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1889",
+    "source" : "1645",
+    "sourcePort" : "1645_True",
+    "target" : "1646",
+    "targetPort" : "1646_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1893",
+    "source" : "ProviderDetailR_1677_1677_Output",
+    "sourcePort" : "output_port_17",
+    "target" : "1645",
+    "targetPort" : "1645_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
