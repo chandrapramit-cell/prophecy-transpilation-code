@@ -1,0 +1,222 @@
+{
+  "id" : "RM_SEM_V3__Join_373_inner",
+  "metainfo" : {
+    "label" : "RM_SEM_V3__Join_373_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "373_inner" : {
+      "id" : "373_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_373_inner",
+        "x" : 960,
+        "y" : 440,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.NDOD = in1.NDOD)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`NDOD`, `Count`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "kobp9-DgqJHuPhaYHaIvH",
+          "slug" : "in0"
+        }, {
+          "id" : "8Z1rOMUTsrM3yGzNS0awh",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "p-s-Zg5IzQYgMDUxc-w1G",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_370_370_Output" : {
+      "id" : "Summarize_370_370_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_370"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_9",
+          "id" : "output_port_9",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('RM_SEM_V3__Summarize_370') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_9",
+          "slug" : "input_port_9"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_9",
+          "slug" : "output_port_9"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "372" : {
+      "id" : "372",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_372",
+        "x" : 1440,
+        "y" : 220,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(Count >= 10)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "372_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "372_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Database__LOADI_280_280_Output" : {
+      "id" : "Database__LOADI_280_280_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Database__LOADI_280"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_8",
+          "id" : "output_port_8",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('RM_SEM_V3', 'Database__LOADI_280') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_373_inner_p-s-Zg5IzQYgMDUxc-w1G" : {
+      "id" : "Join_373_inner_p-s-Zg5IzQYgMDUxc-w1G",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_373_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_373_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_373_inner_p-s-Zg5IzQYgMDUxc-w1G_Join_373_inner_p-s-Zg5IzQYgMDUxc-w1G",
+    "source" : "373_inner",
+    "sourcePort" : "p-s-Zg5IzQYgMDUxc-w1G",
+    "target" : "Join_373_inner_p-s-Zg5IzQYgMDUxc-w1G",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2037",
+    "source" : "372",
+    "sourcePort" : "372_True",
+    "target" : "373_inner",
+    "targetPort" : "kobp9-DgqJHuPhaYHaIvH",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2036",
+    "source" : "Database__LOADI_280_280_Output",
+    "sourcePort" : "output_port_8",
+    "target" : "373_inner",
+    "targetPort" : "8Z1rOMUTsrM3yGzNS0awh",
+    "isWireless" : false
+  }, {
+    "id" : "edge_2023",
+    "source" : "Summarize_370_370_Output",
+    "sourcePort" : "output_port_9",
+    "target" : "372",
+    "targetPort" : "372_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
