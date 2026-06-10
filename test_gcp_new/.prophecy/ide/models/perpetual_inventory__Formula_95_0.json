@@ -1,0 +1,138 @@
+{
+  "id" : "perpetual_inventory__Formula_95_0",
+  "metainfo" : {
+    "label" : "perpetual_inventory__Formula_95_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"anubhav\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_95_0_S8f16inbKXXJmzCaraFnQ" : {
+      "id" : "Formula_95_0_S8f16inbKXXJmzCaraFnQ",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_95_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_95_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "xj2Sk9sXFZyLycY54hbGL" : {
+      "id" : "xj2Sk9sXFZyLycY54hbGL",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_95_0",
+        "x" : 708,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(\n  TO_DATE(\n    (\n      CASE\n        WHEN CAST((\n          CAST((\n            coalesce(\n              CAST(EXTRACT(MONTH FROM EndDate) AS DOUBLE), \n              CAST((REGEXP_EXTRACT(EXTRACT(MONTH FROM EndDate), '^[0-9]+', 0)) AS INTEGER), \n              0)\n          ) AS DOUBLE) IN (CAST(2 AS DOUBLE), CAST(5 AS DOUBLE), CAST(8 AS DOUBLE), CAST(11 AS DOUBLE))\n        ) AS BOOLEAN)\n          THEN (ADD_MONTHS(EndDate, -1))\n        WHEN CAST((\n          CAST((\n            coalesce(\n              CAST(EXTRACT(MONTH FROM EndDate) AS DOUBLE), \n              CAST((REGEXP_EXTRACT(EXTRACT(MONTH FROM EndDate), '^[0-9]+', 0)) AS INTEGER), \n              0)\n          ) AS DOUBLE) IN (CAST(3 AS DOUBLE), CAST(6 AS DOUBLE), CAST(9 AS DOUBLE), CAST(12 AS DOUBLE))\n        ) AS BOOLEAN)\n          THEN (ADD_MONTHS(EndDate, -2))\n        ELSE (ADD_MONTHS(EndDate, -3))\n      END\n    ), \n    'yyyy-MM-dd')\n)",
+            "_row_id" : null
+          },
+          "alias" : "PreviousQuarterClosingDate",
+          "description" : null,
+          "_row_id" : "M496JsuhxxYbvB6Gj8nan"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "hOdVDrai-e7v2YUt5aOVT",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "S8f16inbKXXJmzCaraFnQ",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Dates"
+    },
+    "Formula_2_0_TuVnfXsUAaYp6o0DZ3Gri" : {
+      "id" : "Formula_2_0_TuVnfXsUAaYp6o0DZ3Gri",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_2_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_6",
+          "id" : "output_port_6",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('perpetual_inventory__Formula_2_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_xj2Sk9sXFZyLycY54hbGL_S8f16inbKXXJmzCaraFnQ_Formula_95_0_S8f16inbKXXJmzCaraFnQ",
+    "source" : "xj2Sk9sXFZyLycY54hbGL",
+    "sourcePort" : "S8f16inbKXXJmzCaraFnQ",
+    "target" : "Formula_95_0_S8f16inbKXXJmzCaraFnQ",
+    "targetPort" : "input_port_7",
+    "isWireless" : false
+  }, {
+    "id" : "edge_698",
+    "source" : "Formula_2_0_TuVnfXsUAaYp6o0DZ3Gri",
+    "sourcePort" : "output_port_6",
+    "target" : "xj2Sk9sXFZyLycY54hbGL",
+    "targetPort" : "hOdVDrai-e7v2YUt5aOVT",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,153 @@
+{
+  "id" : "intervention__Summarize_824",
+  "metainfo" : {
+    "label" : "intervention__Summarize_824",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"anubhav\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_824_EN_qrk3QPYzlRaucqdE_b" : {
+      "id" : "Summarize_824_EN_qrk3QPYzlRaucqdE_b",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_824"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_824\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "824" : {
+      "id" : "824",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_824",
+        "x" : 60,
+        "y" : 1540,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT UNIVERSALMEMBERID)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinct_UNIVERSALMEMBERID",
+          "description" : null,
+          "_row_id" : "yI7RdY6vg_Khq6zPiTCG4"
+        }, {
+          "expression" : {
+            "expression" : "AdvancedCKD_Risk",
+            "_row_id" : null
+          },
+          "alias" : "AdvancedCKD_Risk",
+          "description" : null,
+          "_row_id" : "tv1eE8Owaw-wDWon0jK7W"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "AdvancedCKD_Risk",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "h16ZhOpSzKk79MU7mmVhx"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "824_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "EN_qrk3QPYzlRaucqdE_b",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "STEP1"
+    },
+    "CKD_Risk_List_c_1675_1675_Output" : {
+      "id" : "CKD_Risk_List_c_1675_1675_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "CKD_Risk_List_c_1675"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_2",
+          "id" : "output_port_2",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('intervention', 'CKD_Risk_List_c_1675') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_824_EN_qrk3QPYzlRaucqdE_b_Summarize_824_EN_qrk3QPYzlRaucqdE_b",
+    "source" : "824",
+    "sourcePort" : "EN_qrk3QPYzlRaucqdE_b",
+    "target" : "Summarize_824_EN_qrk3QPYzlRaucqdE_b",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_727",
+    "source" : "CKD_Risk_List_c_1675_1675_Output",
+    "sourcePort" : "output_port_2",
+    "target" : "824",
+    "targetPort" : "824_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
