@@ -570,7 +570,7 @@ CrossTab_307 AS (
     FIRST(TT_NDOD) AS First
     FOR FLOW_RANK
     IN (
-      '1', '2', '3'
+      1, 2, 3
     )
   )
 
