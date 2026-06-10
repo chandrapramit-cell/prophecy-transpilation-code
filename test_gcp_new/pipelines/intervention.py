@@ -61,9 +61,10 @@ with Pipeline(args) as pipeline:
     intervention_li_765 = Process(
         name = "INTERVENTION_LI_765",
         properties = SFTPTarget(
+          compression = SFTPTarget.Compression(kind = "uncompressed"),
           connector = {
-            "kind": "sftp",
             "id": "transpiled_connection",
+            "kind": "sftp",
             "properties": {
               "authMethod": "password",
               "username": "transpiled_username",
@@ -79,10 +80,10 @@ with Pipeline(args) as pipeline:
             },
             "type": "connector"
           },
+          format = SFTPTarget.CsvWriteFormat(),
           properties = SFTPTarget.SFTPTargetInternal(
             filePath = "O:\\library\\Alteryx\\Advanced Analytics\\AA011RISING_RISK_CLIENT\\Prophecy\\OUTPUT/INTERVENTION_LIVE.csv"
-          ),
-          format = SFTPTarget.CsvWriteFormat()
+          )
         )
     )
     pcmh_csv_1671 = Process(
