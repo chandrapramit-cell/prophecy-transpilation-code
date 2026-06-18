@@ -1,6 +1,7 @@
 {{
   config({    
-    "materialized": "ephemeral",
+    "materialized": "table",
+    "alias": var('BarrierBendingM_74'),
     "database": "sony",
     "schema": "orch_test"
   })
@@ -16,9 +17,9 @@ WITH Formula_85_0 AS (
 
 BarReport_APAC__1 AS (
 
-  SELECT *
+  SELECT * 
   
-  FROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_', 'BarReport_APAC__1') }}
+  FROM {{ source('transpiled_sources', 'BarReport_APAC__1_ref') }}
 
 ),
 

@@ -6,11 +6,12 @@
   })
 }}
 
-WITH SmartBendingRep_79 AS (
+WITH `GUARATEE_KO$` AS (
 
-  SELECT *
+  {#Overwrites the BarrierBendingM_5_ref table from transpiled_sources to publish updated barrier-bending reference data for downstream analysis.#}
+  SELECT * 
   
-  FROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_', 'SmartBendingRep_79') }}
+  FROM {{ source('transpiled_sources', 'BarrierBendingM_5_ref') }}
 
 ),
 
@@ -20,7 +21,7 @@ Formula_81_0 AS (
     CAST('GUARATEE_KO' AS string) AS `Smart Bending`,
     *
   
-  FROM SmartBendingRep_79 AS in0
+  FROM `GUARATEE_KO$` AS in0
 
 ),
 

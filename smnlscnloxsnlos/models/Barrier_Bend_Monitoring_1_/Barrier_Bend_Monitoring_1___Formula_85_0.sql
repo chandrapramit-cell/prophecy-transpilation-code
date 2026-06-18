@@ -8,9 +8,9 @@
 
 WITH BarReport_APAC__1 AS (
 
-  SELECT *
+  SELECT * 
   
-  FROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_', 'BarReport_APAC__1') }}
+  FROM {{ source('transpiled_sources', 'BarReport_APAC__1_ref') }}
 
 ),
 
@@ -198,9 +198,9 @@ AlteryxSelect_15 AS (
 
 BarrierBendingM_5 AS (
 
-  SELECT *
+  SELECT * 
   
-  FROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_', 'BarrierBendingM_5') }}
+  FROM {{ source('transpiled_sources', 'BarrierBendingM_5_ref') }}
 
 ),
 
@@ -360,6 +360,24 @@ Formula_46_0 AS (
 
 ),
 
+Formula_72_3 AS (
+
+  SELECT *
+  
+  FROM {{ ref('Barrier_Bend_Monitoring_1___Formula_72_3')}}
+
+),
+
+Unique_104 AS (
+
+  SELECT * 
+  
+  FROM Formula_72_3 AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY `Inmt Id` ORDER BY `Inmt Id`) = 1
+
+),
+
 Formula_46_1 AS (
 
   SELECT 
@@ -377,24 +395,6 @@ Formula_46_1 AS (
     *
   
   FROM Formula_46_0 AS in0
-
-),
-
-Formula_72_3 AS (
-
-  SELECT *
-  
-  FROM {{ ref('Barrier_Bend_Monitoring_1___Formula_72_3')}}
-
-),
-
-Unique_104 AS (
-
-  SELECT * 
-  
-  FROM Formula_72_3 AS in0
-  
-  QUALIFY ROW_NUMBER() OVER (PARTITION BY `Inmt Id` ORDER BY `Inmt Id`) = 1
 
 ),
 

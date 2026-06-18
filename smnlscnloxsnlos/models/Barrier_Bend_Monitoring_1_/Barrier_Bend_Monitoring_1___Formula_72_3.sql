@@ -6,11 +6,11 @@
   })
 }}
 
-WITH SmartBendingRep_67 AS (
+WITH `PUT2FWD_NOKO$` AS (
 
-  SELECT *
+  SELECT * 
   
-  FROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_', 'SmartBendingRep_67') }}
+  FROM {{ source('transpiled_sources', '`PUT2FWD_NOKO$`_ref') }}
 
 ),
 
@@ -20,7 +20,7 @@ Formula_71_0 AS (
     CAST('PUT2FWD_NOKO' AS string) AS `Smart Bending`,
     *
   
-  FROM SmartBendingRep_67 AS in0
+  FROM `PUT2FWD_NOKO$` AS in0
 
 ),
 
@@ -39,11 +39,11 @@ AlteryxSelect_68 AS (
 
 ),
 
-SmartBendingRep_64 AS (
+`ASSET_FILTERING$` AS (
 
-  SELECT *
+  SELECT * 
   
-  FROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_', 'SmartBendingRep_64') }}
+  FROM {{ source('transpiled_sources', '`ASSET_FILTERING$`_ref') }}
 
 ),
 
@@ -53,7 +53,7 @@ Formula_70_0 AS (
     CAST('ASSET_FILTERING' AS string) AS `Smart Bending`,
     *
   
-  FROM SmartBendingRep_64 AS in0
+  FROM `ASSET_FILTERING$` AS in0
 
 ),
 
@@ -79,8 +79,8 @@ Union_69 AS (
     prophecy_basics.UnionByName(
       ['AlteryxSelect_65', 'AlteryxSelect_68'], 
       [
-        '[{"name": "Smart Bending", "dataType": "String"}, {"name": "Inmt Id", "dataType": "String"}, {"name": "Position", "dataType": "Double"}, {"name": "$FV Legal", "dataType": "Double"}, {"name": "$FV Bent", "dataType": "Double"}, {"name": "$FV Unbent", "dataType": "Double"}, {"name": "$FV Bent(Rainbow)", "dataType": "Double"}, {"name": "Exit?", "dataType": "Boolean"}]', 
-        '[{"name": "Smart Bending", "dataType": "String"}, {"name": "Inmt Id", "dataType": "String"}, {"name": "Position", "dataType": "Double"}, {"name": "$FV Legal", "dataType": "Double"}, {"name": "$FV Bent", "dataType": "Double"}, {"name": "$FV Unbent", "dataType": "Double"}, {"name": "Exit?", "dataType": "Boolean"}]'
+        '[{"name": "Smart Bending", "dataType": "String"}, {"name": "Inmt Id", "dataType": "String"}, {"name": "$FV Bent", "dataType": "Double"}, {"name": "Position", "dataType": "Double"}, {"name": "$FV Legal", "dataType": "Double"}, {"name": "Exit?", "dataType": "Boolean"}, {"name": "$FV Bent(Rainbow)", "dataType": "Double"}, {"name": "$FV Unbent", "dataType": "Double"}]', 
+        '[{"name": "Smart Bending", "dataType": "String"}, {"name": "Inmt Id", "dataType": "String"}, {"name": "$FV Bent", "dataType": "Double"}, {"name": "Position", "dataType": "Double"}, {"name": "$FV Legal", "dataType": "Double"}, {"name": "Exit?", "dataType": "Boolean"}, {"name": "$FV Unbent", "dataType": "Double"}]'
       ], 
       'allowMissingColumns'
     )
