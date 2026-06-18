@@ -8,10 +8,9 @@
 
 WITH `GUARATEE_KO$` AS (
 
-  {#Overwrites the BarrierBendingM_5_ref table from transpiled_sources to publish updated barrier-bending reference data for downstream analysis.#}
   SELECT * 
   
-  FROM {{ source('transpiled_sources', 'BarrierBendingM_5_ref') }}
+  FROM {{ source('transpiled_sources', '`GUARATEE_KO$`_ref') }}
 
 ),
 

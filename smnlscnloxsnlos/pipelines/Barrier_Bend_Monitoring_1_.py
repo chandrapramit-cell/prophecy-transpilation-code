@@ -61,7 +61,8 @@ with Pipeline(args) as pipeline:
           writeOptions = {"writeMode" : "overwrite"},
           table = Dataset.DBTSource(name = "seed_Barrier_Bend_Monitoring_1__9", sourceType = "Seed")
         ),
-        input_ports = None
+        input_ports = None,
+        comment = "Overwrites the Barrier Bend Monitoring seed dataset to refresh the monitoring baseline."
     )
     barrier_bend_monitoring_1___barrierbendingm_74 >> portfoliocomposertable_98
     textinput_9 >> barrier_bend_monitoring_1___formula_85_0._in(4)

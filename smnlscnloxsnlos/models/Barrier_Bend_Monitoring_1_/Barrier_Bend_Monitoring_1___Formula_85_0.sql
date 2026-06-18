@@ -6,11 +6,54 @@
   })
 }}
 
-WITH BarReport_APAC__1 AS (
+WITH Formula_72_3 AS (
+
+  SELECT *
+  
+  FROM {{ ref('Barrier_Bend_Monitoring_1___Formula_72_3')}}
+
+),
+
+TextInput_9 AS (
+
+  {#Overwrites the Barrier Bend Monitoring seed dataset to refresh the monitoring baseline.#}
+  SELECT * 
+  
+  FROM {{ ref('seed_Barrier_Bend_Monitoring_1__9')}}
+
+),
+
+TextInput_9_cast AS (
+
+  SELECT 
+    (
+      CASE
+        WHEN ((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) IS NOT NULL)
+          THEN CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) AS DATE)
+        WHEN ((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss')) IS NOT NULL)
+          THEN CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss')) AS DATE)
+        ELSE CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd')) AS DATE)
+      END
+    ) AS variableDate,
+    CAST(Days AS INTEGER) AS Days
+  
+  FROM TextInput_9 AS in0
+
+),
+
+BarReport_APAC__1 AS (
 
   SELECT * 
   
   FROM {{ source('transpiled_sources', 'BarReport_APAC__1_ref') }}
+
+),
+
+AlteryxSelect_4 AS (
+
+  SELECT `Imnt Id` AS `Imnt Id`
+  
+  FROM BarReport_APAC__1 AS in0
 
 ),
 
@@ -33,14 +76,6 @@ Summarize_29 AS (
   
   GROUP BY 
     `Imnt Id`, `Imnt Name`, `Option Class`, MultiAssetMonitoringType
-
-),
-
-AlteryxSelect_4 AS (
-
-  SELECT `Imnt Id` AS `Imnt Id`
-  
-  FROM BarReport_APAC__1 AS in0
 
 ),
 
@@ -160,32 +195,6 @@ AlteryxSelect_40 AS (
 
 ),
 
-TextInput_9 AS (
-
-  SELECT * 
-  
-  FROM {{ ref('seed_Barrier_Bend_Monitoring_1__9')}}
-
-),
-
-TextInput_9_cast AS (
-
-  SELECT 
-    (
-      CASE
-        WHEN ((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) IS NOT NULL)
-          THEN CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) AS DATE)
-        WHEN ((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss')) IS NOT NULL)
-          THEN CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss')) AS DATE)
-        ELSE CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd')) AS DATE)
-      END
-    ) AS variableDate,
-    CAST(Days AS INTEGER) AS Days
-  
-  FROM TextInput_9 AS in0
-
-),
-
 AlteryxSelect_15 AS (
 
   SELECT 
@@ -193,6 +202,16 @@ AlteryxSelect_15 AS (
     CAST(Days AS string) AS Days
   
   FROM TextInput_9_cast AS in0
+
+),
+
+Unique_104 AS (
+
+  SELECT * 
+  
+  FROM Formula_72_3 AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY `Inmt Id` ORDER BY `Inmt Id`) = 1
 
 ),
 
@@ -215,7 +234,9 @@ AlteryxSelect_6 AS (
     `Barrier at max disc vs Current Spot` AS `Barrier at max disc vs Current Spot`,
     `VCG Accepted` AS `VCG Accepted`,
     Comment AS Comment,
-    `Review Date` AS `Review Date`
+    `Review Date` AS `Review Date`,
+    CAST(NULL AS string) AS variableDate,
+    CAST(NULL AS string) AS Days
   
   FROM BarrierBendingM_5 AS in0
 
@@ -227,7 +248,7 @@ AppendFields_24 AS (
     in0.variableDate AS Source_Date,
     in0.Days AS Source_Days,
     in0.* EXCEPT (`variableDate`, `Days`),
-    in1.*
+    in1.* EXCEPT (`variableDate`, `Days`)
   
   FROM AlteryxSelect_15 AS in0
   INNER JOIN AlteryxSelect_6 AS in1
@@ -357,24 +378,6 @@ Formula_46_0 AS (
     *
   
   FROM Join_41_left_UnionLeftOuter AS in0
-
-),
-
-Formula_72_3 AS (
-
-  SELECT *
-  
-  FROM {{ ref('Barrier_Bend_Monitoring_1___Formula_72_3')}}
-
-),
-
-Unique_104 AS (
-
-  SELECT * 
-  
-  FROM Formula_72_3 AS in0
-  
-  QUALIFY ROW_NUMBER() OVER (PARTITION BY `Inmt Id` ORDER BY `Inmt Id`) = 1
 
 ),
 

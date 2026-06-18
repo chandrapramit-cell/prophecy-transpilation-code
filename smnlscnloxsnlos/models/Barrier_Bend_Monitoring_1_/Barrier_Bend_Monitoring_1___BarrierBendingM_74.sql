@@ -7,19 +7,19 @@
   })
 }}
 
-WITH Formula_85_0 AS (
-
-  SELECT *
-  
-  FROM {{ ref('Barrier_Bend_Monitoring_1___Formula_85_0')}}
-
-),
-
-BarReport_APAC__1 AS (
+WITH BarReport_APAC__1 AS (
 
   SELECT * 
   
   FROM {{ source('transpiled_sources', 'BarReport_APAC__1_ref') }}
+
+),
+
+Formula_85_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('Barrier_Bend_Monitoring_1___Formula_85_0')}}
 
 ),
 
@@ -150,7 +150,7 @@ Formula_63_0 AS (
 
   SELECT 
     CAST(((`Legal Barrier Next` / CAST(`Asset Spot` AS DOUBLE)) * 100) AS DOUBLE) AS `Next Barrier vs Current Spot`,
-    CAST((MODULO(`Legal Barrier At Max Disc`, `Asset Spot`)) AS DOUBLE) AS `Barrier at max disc vs Current Spot`,
+    CAST((MOD(CAST(`Legal Barrier At Max Disc` AS DECIMAL (19, 9)), CAST(`Asset Spot` AS DECIMAL (19, 9)))) AS DOUBLE) AS `Barrier at max disc vs Current Spot`,
     CAST(NULL AS string) AS `VCG Accepted`,
     CAST((
       CONCAT(
