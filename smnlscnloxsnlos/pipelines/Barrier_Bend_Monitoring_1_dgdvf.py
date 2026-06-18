@@ -205,18 +205,11 @@ with Pipeline(args) as pipeline:
           properties = DatabricksVolumeSource.DatabricksVolumeSourceInternal(
             filePath = "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Input files BB\\SmartBendingReport*.xls"
           ),
-          format = DatabricksVolumeSource.XLSXReadFormat(
-            ignoreCellFormatting = True,
-            allNullRowsPeekLimit = 10000,
-            schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/SmartBendingRep_79.yml",
-            sheetName = "GUARATEE_KO",
-            allowAllNullRows = True,
-            defaultColumnPrefix = "F",
-            OutputSheetColumnName = "jsgifbisbikcsb"
-          )
+          format = DatabricksVolumeSource.XLSXReadFormat(sheetName = "Sheet45"),
+          compression = DatabricksVolumeSource.Compression(kind = "uncompressed")
         ),
         input_ports = None,
-        comment = "Imports SmartBendingReport Excel from Databricks path, delivering instrument IDs and bent/unbent values for downstream automation and reporting."
+        comment = "Loads SmartBendingReport Excel files to supply bending metrics for APAC equity controllers' automated reporting and processing."
     )
     textinput_9 = Process(
         name = "TextInput_9",
