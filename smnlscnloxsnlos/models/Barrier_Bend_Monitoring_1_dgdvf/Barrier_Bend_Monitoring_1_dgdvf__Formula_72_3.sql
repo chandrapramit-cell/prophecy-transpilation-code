@@ -6,11 +6,29 @@
   })
 }}
 
-WITH fgfgffvfbvfv AS (
+WITH SmartBendingRep_64 AS (
 
-  SELECT * 
+  SELECT *
   
-  FROM {{ source('transpiled_sources', '`PUT2FWD_NOKO$`_ref') }}
+  FROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_dgdvf', 'SmartBendingRep_64') }}
+
+),
+
+Formula_70_0 AS (
+
+  SELECT 
+    CAST('ASSET_FILTERING' AS string) AS `Smart Bending`,
+    *
+  
+  FROM SmartBendingRep_64 AS in0
+
+),
+
+SmartBendingRep_67 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('Barrier_Bend_Monitoring_1_dgdvf', 'SmartBendingRep_67') }}
 
 ),
 
@@ -20,7 +38,7 @@ Formula_71_0 AS (
     CAST('PUT2FWD_NOKO' AS string) AS `Smart Bending`,
     *
   
-  FROM fgfgffvfbvfv AS in0
+  FROM SmartBendingRep_67 AS in0
 
 ),
 
@@ -36,24 +54,6 @@ AlteryxSelect_68 AS (
     `Exit?` AS `Exit?`
   
   FROM Formula_71_0 AS in0
-
-),
-
-`ASSET_FILTERING$` AS (
-
-  SELECT * 
-  
-  FROM {{ source('transpiled_sources', '`ASSET_FILTERING$`_ref') }}
-
-),
-
-Formula_70_0 AS (
-
-  SELECT 
-    CAST('ASSET_FILTERING' AS string) AS `Smart Bending`,
-    *
-  
-  FROM `ASSET_FILTERING$` AS in0
 
 ),
 
