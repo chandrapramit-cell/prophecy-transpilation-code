@@ -14,14 +14,6 @@ WITH BarReport_APAC__1 AS (
 
 ),
 
-AlteryxSelect_4 AS (
-
-  SELECT `Imnt Id` AS `Imnt Id`
-  
-  FROM BarReport_APAC__1 AS in0
-
-),
-
 Summarize_29 AS (
 
   SELECT 
@@ -41,6 +33,14 @@ Summarize_29 AS (
   
   GROUP BY 
     `Imnt Id`, `Imnt Name`, `Option Class`, MultiAssetMonitoringType
+
+),
+
+AlteryxSelect_4 AS (
+
+  SELECT `Imnt Id` AS `Imnt Id`
+  
+  FROM BarReport_APAC__1 AS in0
 
 ),
 
@@ -162,9 +162,10 @@ AlteryxSelect_40 AS (
 
 TextInput_9 AS (
 
+  {#Overwrites the Barrier Bend Monitoring seed dataset to refresh the monitoring baseline.#}
   SELECT * 
   
-  FROM {{ ref('seed_Barrier_Bend_Monitoring_1_dgdvf_9')}}
+  FROM {{ ref('seed_Barrier_Bend_Monitoring_1__9')}}
 
 ),
 
@@ -196,6 +197,24 @@ AlteryxSelect_15 AS (
 
 ),
 
+Formula_72_3 AS (
+
+  SELECT *
+  
+  FROM {{ ref('Barrier_Bend_Monitoring_1_dgdvf__Formula_72_3')}}
+
+),
+
+Unique_104 AS (
+
+  SELECT * 
+  
+  FROM Formula_72_3 AS in0
+  
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY `Inmt Id` ORDER BY `Inmt Id`) = 1
+
+),
+
 BarrierBendingM_5 AS (
 
   SELECT *
@@ -215,7 +234,9 @@ AlteryxSelect_6 AS (
     `Barrier at max disc vs Current Spot` AS `Barrier at max disc vs Current Spot`,
     `VCG Accepted` AS `VCG Accepted`,
     Comment AS Comment,
-    `Review Date` AS `Review Date`
+    `Review Date` AS `Review Date`,
+    CAST(NULL AS string) AS variableDate,
+    CAST(NULL AS string) AS Days
   
   FROM BarrierBendingM_5 AS in0
 
@@ -227,7 +248,7 @@ AppendFields_24 AS (
     in0.variableDate AS Source_Date,
     in0.Days AS Source_Days,
     in0.* EXCEPT (`variableDate`, `Days`),
-    in1.*
+    in1.* EXCEPT (`variableDate`, `Days`)
   
   FROM AlteryxSelect_15 AS in0
   INNER JOIN AlteryxSelect_6 AS in1
@@ -377,24 +398,6 @@ Formula_46_1 AS (
     *
   
   FROM Formula_46_0 AS in0
-
-),
-
-Formula_72_3 AS (
-
-  SELECT *
-  
-  FROM {{ ref('Barrier_Bend_Monitoring_1_dgdvf__Formula_72_3')}}
-
-),
-
-Unique_104 AS (
-
-  SELECT * 
-  
-  FROM Formula_72_3 AS in0
-  
-  QUALIFY ROW_NUMBER() OVER (PARTITION BY `Inmt Id` ORDER BY `Inmt Id`) = 1
 
 ),
 

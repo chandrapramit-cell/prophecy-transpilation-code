@@ -43,9 +43,10 @@ with Pipeline(args) as pipeline:
     barrierbendingm_102 = Process(
         name = "BarrierBendingM_102",
         properties = SFTPTarget(
+          compression = SFTPTarget.Compression(kind = "uncompressed"),
           connector = {
-            "kind": "sftp",
             "id": "transpiled_connection",
+            "kind": "sftp",
             "properties": {
               "authMethod": "password",
               "username": "transpiled_username",
@@ -61,10 +62,10 @@ with Pipeline(args) as pipeline:
             },
             "type": "connector"
           },
+          format = SFTPTarget.XLSXWriteFormat(),
           properties = SFTPTarget.SFTPTargetInternal(
             filePath = "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Output files BB\\Barrier Bending  Monitoring -APAC.xlsx"
-          ),
-          format = SFTPTarget.XLSXWriteFormat()
+          )
         )
     )
     barrierbendingm_5 = Process(
@@ -78,6 +79,7 @@ with Pipeline(args) as pipeline:
             ignoreCellFormatting = True,
             allNullRowsPeekLimit = 10000,
             schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/BarrierBendingM_5.yml",
+            sheetName = "Accepted",
             allowAllNullRows = True,
             defaultColumnPrefix = "F"
           )
@@ -87,9 +89,10 @@ with Pipeline(args) as pipeline:
     barrierbendingm_73 = Process(
         name = "BarrierBendingM_73",
         properties = SFTPTarget(
+          compression = SFTPTarget.Compression(kind = "uncompressed"),
           connector = {
-            "kind": "sftp",
             "id": "transpiled_connection",
+            "kind": "sftp",
             "properties": {
               "authMethod": "password",
               "username": "transpiled_username",
@@ -105,18 +108,19 @@ with Pipeline(args) as pipeline:
             },
             "type": "connector"
           },
+          format = SFTPTarget.XLSXWriteFormat(),
           properties = SFTPTarget.SFTPTargetInternal(
             filePath = "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Output files BB\\Barrier Bending  Monitoring -APAC.xlsx"
-          ),
-          format = SFTPTarget.XLSXWriteFormat()
+          )
         )
     )
     barrierbendingm_74 = Process(
         name = "BarrierBendingM_74",
         properties = SFTPTarget(
+          compression = SFTPTarget.Compression(kind = "uncompressed"),
           connector = {
-            "kind": "sftp",
             "id": "transpiled_connection",
+            "kind": "sftp",
             "properties": {
               "authMethod": "password",
               "username": "transpiled_username",
@@ -132,10 +136,10 @@ with Pipeline(args) as pipeline:
             },
             "type": "connector"
           },
+          format = SFTPTarget.XLSXWriteFormat(),
           properties = SFTPTarget.SFTPTargetInternal(
             filePath = "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Output files BB\\Barrier Bending  Monitoring -APAC.xlsx"
-          ),
-          format = SFTPTarget.XLSXWriteFormat()
+          )
         )
     )
     barrier_bend_monitoring_1_dgdvf__alteryxselect_80 = Process(
@@ -160,109 +164,77 @@ with Pipeline(args) as pipeline:
     portfoliocomposertable_98 = Process(name = "PortfolioComposerTable_98", properties = Visualize(), output_ports = None)
     smartbendingrep_64 = Process(
         name = "SmartBendingRep_64",
-        properties = OracleSource(
-          connector = {
-            "kind": "oracle",
-            "id": "transpiled_connection",
-            "properties": {
-              "database": "dbName",
-              "server": "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Input files BB\\SmartBendingReport*.xls",
-              "username": "${username_SmartBendingRep_64}",
-              "id": "transpiled_connection",
-              "port": "1521",
-              "password": {
-                "kind": "prophecy",
-                "properties": {"name" : "transpiled_secret", "value" : "transpiled_secret"},
-                "subKind": "text",
-                "type": "secret"
-              }
-            },
-            "type": "connector"
-          },
-          properties = OracleSource.OracleSourceInternal(
-            pathSelection = "warehouseQuery",
-            tableFullName = OracleSource.WarehouseTableName(schema = "schema", name = "SmartBendingRep_64"),
-            warehouseQuery = OracleSource.WarehouseQuery(query = "`ASSET_FILTERING$`")
+        properties = DatabricksVolumeSource(
+          connector = "transpiled_connection",
+          properties = DatabricksVolumeSource.DatabricksVolumeSourceInternal(
+            filePath = "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Input files BB\\SmartBendingReport*.xls"
           ),
-          format = OracleSource.OracleReadFormat(
-            schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/SmartBendingRep_64.yml"
+          format = DatabricksVolumeSource.XLSXReadFormat(
+            ignoreCellFormatting = True,
+            allNullRowsPeekLimit = 10000,
+            schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/SmartBendingRep_64.yml",
+            sheetName = "ASSET_FILTERING",
+            allowAllNullRows = True,
+            defaultColumnPrefix = "F"
           )
         ),
         input_ports = None
     )
     smartbendingrep_67 = Process(
         name = "SmartBendingRep_67",
-        properties = OracleSource(
-          connector = {
-            "kind": "oracle",
-            "id": "transpiled_connection",
-            "properties": {
-              "database": "dbName",
-              "server": "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Input files BB\\SmartBendingReport*.xls",
-              "username": "${username_SmartBendingRep_67}",
-              "id": "transpiled_connection",
-              "port": "1521",
-              "password": {
-                "kind": "prophecy",
-                "properties": {"name" : "transpiled_secret", "value" : "transpiled_secret"},
-                "subKind": "text",
-                "type": "secret"
-              }
-            },
-            "type": "connector"
-          },
-          properties = OracleSource.OracleSourceInternal(
-            pathSelection = "warehouseQuery",
-            tableFullName = OracleSource.WarehouseTableName(schema = "schema", name = "SmartBendingRep_67"),
-            warehouseQuery = OracleSource.WarehouseQuery(query = "`PUT2FWD_NOKO$`")
+        properties = DatabricksVolumeSource(
+          connector = "transpiled_connection",
+          properties = DatabricksVolumeSource.DatabricksVolumeSourceInternal(
+            filePath = "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Input files BB\\SmartBendingReport*.xls"
           ),
-          format = OracleSource.OracleReadFormat(
-            schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/SmartBendingRep_67.yml"
+          format = DatabricksVolumeSource.XLSXReadFormat(
+            FilterValue = "'ABC'",
+            ignoreCellFormatting = True,
+            allNullRowsPeekLimit = 10000,
+            FilterOption = "IsIn",
+            schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/SmartBendingRep_67.yml",
+            sheetName = "PUT2FWD_NOKO",
+            allowAllNullRows = True,
+            defaultColumnPrefix = "F"
           )
         ),
-        input_ports = None
+        input_ports = None,
+        comment = "Reads SmartBendingReport Excel files to assemble option positions, valuation and risk metrics for APAC equity portfolios to support P&L and risk analysis."
     )
     smartbendingrep_79 = Process(
         name = "SmartBendingRep_79",
-        properties = OracleSource(
-          connector = {
-            "kind": "oracle",
-            "id": "transpiled_connection",
-            "properties": {
-              "database": "dbName",
-              "server": "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Input files BB\\SmartBendingReport*.xls",
-              "username": "${username_SmartBendingRep_79}",
-              "id": "transpiled_connection",
-              "port": "1521",
-              "password": {
-                "kind": "prophecy",
-                "properties": {"name" : "transpiled_secret", "value" : "transpiled_secret"},
-                "subKind": "text",
-                "type": "secret"
-              }
-            },
-            "type": "connector"
-          },
-          properties = OracleSource.OracleSourceInternal(
-            pathSelection = "warehouseQuery",
-            tableFullName = OracleSource.WarehouseTableName(schema = "schema", name = "SmartBendingRep_79"),
-            warehouseQuery = OracleSource.WarehouseQuery(query = "`GUARATEE_KO$`")
+        properties = DatabricksVolumeSource(
+          connector = "transpiled_connection",
+          properties = DatabricksVolumeSource.DatabricksVolumeSourceInternal(
+            filePath = "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Input files BB\\SmartBendingReport*.xls"
           ),
-          format = OracleSource.OracleReadFormat(
-            schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/SmartBendingRep_79.yml"
+          format = DatabricksVolumeSource.XLSXReadFormat(
+            ignoreCellFormatting = True,
+            allNullRowsPeekLimit = 10000,
+            schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/SmartBendingRep_79.yml",
+            sheetName = "GUARATEE_KO",
+            allowAllNullRows = True,
+            defaultColumnPrefix = "F",
+            OutputSheetColumnName = "jsgifbisbikcsb"
           )
         ),
-        input_ports = None
+        input_ports = None,
+        comment = "Imports SmartBendingReport Excel from Databricks path, delivering instrument IDs and bent/unbent values for downstream automation and reporting."
     )
     textinput_9 = Process(
         name = "TextInput_9",
         properties = Dataset(
           writeOptions = {"writeMode" : "overwrite"},
-          table = Dataset.DBTSource(name = "seed_Barrier_Bend_Monitoring_1_dgdvf_9", sourceType = "Seed")
+          table = Dataset.DBTSource(name = "seed_Barrier_Bend_Monitoring_1__9", sourceType = "Seed")
         ),
-        input_ports = None
+        input_ports = None,
+        comment = "Overwrites the Barrier Bend Monitoring seed dataset to refresh the monitoring baseline."
     )
     smartbendingrep_79 >> barrier_bend_monitoring_1_dgdvf__alteryxselect_80
+    (
+        barrier_bend_monitoring_1_dgdvf__formula_72_3._out(0)
+        >> [barrierbendingm_73._in(0), barrier_bend_monitoring_1_dgdvf__formula_85_0._in(5)]
+    )
     (
         barrier_bend_monitoring_1_dgdvf__alteryxselect_84._out(0)
         >> [portfoliocomposertable_98._in(0), barrierbendingm_74._in(0)]
@@ -278,10 +250,6 @@ with Pipeline(args) as pipeline:
     barrierbendingm_5 >> barrier_bend_monitoring_1_dgdvf__formula_85_0._in(3)
     smartbendingrep_64 >> barrier_bend_monitoring_1_dgdvf__formula_72_3._in(0)
     textinput_9 >> barrier_bend_monitoring_1_dgdvf__formula_85_0._in(4)
-    (
-        barrier_bend_monitoring_1_dgdvf__formula_72_3._out(0)
-        >> [barrierbendingm_73._in(0), barrier_bend_monitoring_1_dgdvf__formula_85_0._in(5)]
-    )
     (
         barrier_bend_monitoring_1_dgdvf__formula_85_0._out(0)
         >> [barrierbendingm_102._in(0), barrier_bend_monitoring_1_dgdvf__alteryxselect_84._in(1),
