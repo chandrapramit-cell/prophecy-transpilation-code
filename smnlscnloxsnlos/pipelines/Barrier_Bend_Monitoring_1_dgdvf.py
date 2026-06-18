@@ -36,7 +36,8 @@ with Pipeline(args) as pipeline:
           ),
           format = DatabricksVolumeSource.CsvReadFormat(
             schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/BarReport_APAC__1.yml"
-          )
+          ),
+          compression = DatabricksVolumeSource.Compression(kind = "uncompressed")
         ),
         input_ports = None
     )
@@ -75,16 +76,11 @@ with Pipeline(args) as pipeline:
           properties = DatabricksVolumeSource.DatabricksVolumeSourceInternal(
             filePath = "B:\\Equity\\Controllers\\Saurabh\\APAC - Local\\Altryx\\Barrier Bend Automation\\Input files BB\\Barrier Bending  Monitoring -APAC.xlsx"
           ),
-          format = DatabricksVolumeSource.XLSXReadFormat(
-            ignoreCellFormatting = True,
-            allNullRowsPeekLimit = 10000,
-            schema = "external_sources/Barrier_Bend_Monitoring_1_dgdvf/BarrierBendingM_5.yml",
-            sheetName = "Accepted",
-            allowAllNullRows = True,
-            defaultColumnPrefix = "F"
-          )
+          format = DatabricksVolumeSource.XLSXReadFormat(sheetName = "Sheet24"),
+          compression = DatabricksVolumeSource.Compression(kind = "uncompressed")
         ),
-        input_ports = None
+        input_ports = None,
+        comment = "Loads APAC Barrier Bending monitoring Excel to provide trade-level barrier metrics, review dates, desk assignments, and acceptance/comments for downstream risk and operational monitoring."
     )
     barrierbendingm_73 = Process(
         name = "BarrierBendingM_73",
@@ -196,10 +192,11 @@ with Pipeline(args) as pipeline:
             sheetName = "PUT2FWD_NOKO",
             allowAllNullRows = True,
             defaultColumnPrefix = "F"
-          )
+          ),
+          compression = DatabricksVolumeSource.Compression(kind = "uncompressed")
         ),
         input_ports = None,
-        comment = "Reads SmartBendingReport Excel files to assemble option positions, valuation and risk metrics for APAC equity portfolios to support P&L and risk analysis."
+        comment = "Loads SmartBendingReport Excel files to capture instrument valuations, knock-out levels, positions and portfolio fair\u2011value impacts for APAC equity risk reporting."
     )
     smartbendingrep_79 = Process(
         name = "SmartBendingRep_79",
