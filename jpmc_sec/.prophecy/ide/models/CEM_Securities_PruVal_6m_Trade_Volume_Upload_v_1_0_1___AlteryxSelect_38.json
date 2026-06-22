@@ -1,0 +1,434 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_38",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_38",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "44" : {
+      "id" : "44",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_44",
+        "x" : 3110,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(Weighted_Sum)"
+          },
+          "alias" : "`Daily volume`",
+          "_row_id" : "CH8fzvBDoFt_uCd7BG578"
+        }, {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "alias" : "Region",
+          "_row_id" : "-gTAuC9hfR29cFox9NN1J"
+        }, {
+          "expression" : {
+            "expression" : "ISIN"
+          },
+          "alias" : "ISIN",
+          "_row_id" : "QU8EshAM2alxg6QXrvd1r"
+        }, {
+          "expression" : {
+            "expression" : "CUSIP"
+          },
+          "alias" : "CUSIP",
+          "_row_id" : "GBfnoyTlmLHkwkJTXJUhi"
+        }, {
+          "expression" : {
+            "expression" : "`PRODUCT TYPE`"
+          },
+          "alias" : "`PRODUCT TYPE`",
+          "_row_id" : "fk8qXu1VhBERkixOWjSRx"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ "44_Input##Region", "44_Input##ISIN", "44_Input##CUSIP", "44_Input##PRODUCT TYPE", "44_Input##Weighted_Sum" ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "_row_id" : "-SVulI9c3BqCykU5sYzq5"
+        }, {
+          "expression" : {
+            "expression" : "ISIN"
+          },
+          "_row_id" : "D6fpJJgnZLbT6UvEffUvs"
+        }, {
+          "expression" : {
+            "expression" : "CUSIP"
+          },
+          "_row_id" : "UcYRQdrUHvSuS8LIDb3nd"
+        }, {
+          "expression" : {
+            "expression" : "`PRODUCT TYPE`"
+          },
+          "_row_id" : "AJy8XfRJUUpFBO87Me0uC"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "44_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "44_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "XZZPp2EQD2gmPuVx5BUZi" : {
+      "id" : "XZZPp2EQD2gmPuVx5BUZi",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_37_0",
+        "x" : 4070,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "baedjUa2A06dbT6-uWRpi##Region" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Daily_trade_Volume_Credit_DM', ' ', Region)) AS string)"
+          },
+          "alias" : "Name",
+          "_row_id" : "o6cwBBxO6CTxjVD6nOCTf"
+        }, {
+          "expression" : {
+            "expression" : "CAST('Upload' AS string)"
+          },
+          "alias" : "ACTION",
+          "_row_id" : "-Zp8psu3LBjcSQ4Y4VIQH"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "2073853783"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "baedjUa2A06dbT6-uWRpi",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "hG_APvgyXRwnxpt39Zhyg",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "48" : {
+      "id" : "48",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_48",
+        "x" : 3590,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "48_Input##ISIN" ],
+        "condition" : {
+          "expression" : "(NOT (ISIN IS NULL))"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "48_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "48_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "Formula_50_0_RxFNzfLZZjhmJ-I-XSuD7" : {
+      "id" : "Formula_50_0_RxFNzfLZZjhmJ-I-XSuD7",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_50_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_10",
+          "id" : "output_port_10",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_50_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_10",
+          "slug" : "input_port_10"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_10",
+          "slug" : "output_port_10"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_38_38_Output" : {
+      "id" : "AlteryxSelect_38_38_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_38"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_38\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "38" : {
+      "id" : "38",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_38",
+        "x" : 4310,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "38_Input##ACTION", "38_Input##ISIN", "38_Input##CUSIP", "38_Input##Daily volume", "38_Input##PRODUCT TYPE", "38_Input##Name" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACTION"
+          },
+          "alias" : "ACTION",
+          "_row_id" : "8XFFclAll9iTEsvLEhrM9"
+        }, {
+          "expression" : {
+            "expression" : "ISIN"
+          },
+          "alias" : "ISIN",
+          "_row_id" : "Ek9EpTk-YtqKNhcF3HoOW"
+        }, {
+          "expression" : {
+            "expression" : "CUSIP"
+          },
+          "alias" : "CUSIP",
+          "_row_id" : "qP7wX-gWlNFX0t5-rLcv_"
+        }, {
+          "expression" : {
+            "expression" : "`Daily volume`"
+          },
+          "alias" : "`Daily volume`",
+          "_row_id" : "EAEGPgpYlSM4MuzxhpDjx"
+        }, {
+          "expression" : {
+            "expression" : "`PRODUCT TYPE`"
+          },
+          "alias" : "Product_type",
+          "_row_id" : "eOH6FVj1pX48MwTyMFe3b"
+        }, {
+          "expression" : {
+            "expression" : "Name"
+          },
+          "alias" : "Name",
+          "_row_id" : "UtCWTCC7fmtVa1c1Tg2bL"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`ACTION`, `ISIN`, `CUSIP`, `Daily volume`, `Name`, `PRODUCT TYPE`)"
+          },
+          "_row_id" : "1418654864"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "38_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "38_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "35_inner" : {
+      "id" : "35_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_35_inner",
+        "x" : 2630,
+        "y" : 327,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.INSTRUMENTCODE = in1.`INSTRUMENT CODE`)"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "1057130874"
+        }, {
+          "expression" : {
+            "expression" : "in1.*"
+          },
+          "_row_id" : "1211009773"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "MJcuqGHuFsKmSDBs_xYRt##INSTRUMENTCODE", "epzXiregUuiUQCyP-nBAu##INSTRUMENT CODE" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "MJcuqGHuFsKmSDBs_xYRt",
+          "slug" : "in0"
+        }, {
+          "id" : "epzXiregUuiUQCyP-nBAu",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "QlX_guG-KJK8hRUatwQb5",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "28" : {
+      "id" : "28",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "Configuration_t_28",
+        "x" : 50,
+        "y" : 1082.999755859375,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "Configuration_t_28_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "28_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_38_38_Output_AlteryxSelect_38_38_Output",
+    "source" : "38",
+    "sourcePort" : "38_Output",
+    "target" : "AlteryxSelect_38_38_Output",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_134",
+    "source" : "XZZPp2EQD2gmPuVx5BUZi",
+    "sourcePort" : "hG_APvgyXRwnxpt39Zhyg",
+    "target" : "38",
+    "targetPort" : "38_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_135",
+    "source" : "48",
+    "sourcePort" : "48_True",
+    "target" : "XZZPp2EQD2gmPuVx5BUZi",
+    "targetPort" : "baedjUa2A06dbT6-uWRpi",
+    "isWireless" : false
+  }, {
+    "id" : "edge_23",
+    "source" : "44",
+    "sourcePort" : "44_Output",
+    "target" : "48",
+    "targetPort" : "48_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_65",
+    "source" : "35_inner",
+    "sourcePort" : "QlX_guG-KJK8hRUatwQb5",
+    "target" : "44",
+    "targetPort" : "44_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_64",
+    "source" : "28",
+    "sourcePort" : "28_Output",
+    "target" : "35_inner",
+    "targetPort" : "epzXiregUuiUQCyP-nBAu",
+    "isWireless" : false
+  }, {
+    "id" : "edge_132",
+    "source" : "Formula_50_0_RxFNzfLZZjhmJ-I-XSuD7",
+    "sourcePort" : "output_port_10",
+    "target" : "35_inner",
+    "targetPort" : "MJcuqGHuFsKmSDBs_xYRt",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

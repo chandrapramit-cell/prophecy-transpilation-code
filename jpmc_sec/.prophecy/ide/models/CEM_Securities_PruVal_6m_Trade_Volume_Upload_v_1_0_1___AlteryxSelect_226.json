@@ -1,0 +1,135 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_226",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_226",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_226_226_Output" : {
+      "id" : "AlteryxSelect_226_226_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_226"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_226\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "226" : {
+      "id" : "226",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_226",
+        "x" : 1260,
+        "y" : 1280,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "226_Input##variableDate" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) IS NOT NULL) THEN CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) AS DATE) WHEN ((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss')) IS NOT NULL) THEN CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss')) AS DATE) ELSE CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd')) AS DATE) END)"
+          },
+          "alias" : "variableDate",
+          "_row_id" : "U0g2MIM9oxGqw8MlXJ-xj"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`variableDate`)"
+          },
+          "_row_id" : "1393254892"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "226_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "226_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "89" : {
+      "id" : "89",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "Configuration_t_89",
+        "x" : 360,
+        "y" : 1280,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "Configuration_t_89_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "89_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_226_226_Output_AlteryxSelect_226_226_Output",
+    "source" : "226",
+    "sourcePort" : "226_Output",
+    "target" : "AlteryxSelect_226_226_Output",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_10",
+    "source" : "89",
+    "sourcePort" : "89_Output",
+    "target" : "226",
+    "targetPort" : "226_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

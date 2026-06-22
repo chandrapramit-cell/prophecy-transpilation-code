@@ -1,0 +1,264 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_200_0",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_200_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_200_0__RkccMfRIGMysfbt2Sy0T" : {
+      "id" : "Formula_200_0__RkccMfRIGMysfbt2Sy0T",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_200_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_200_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_124_124_Output" : {
+      "id" : "Summarize_124_124_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_124"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_13",
+          "id" : "output_port_13",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Summarize_124') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "190" : {
+      "id" : "190",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_190",
+        "x" : 8980,
+        "y" : 1000,
+        "phase" : 2
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Trade Date`"
+          },
+          "alias" : "`Trade Date`",
+          "_row_id" : "1fHcsbIehymWtZCN-gUVS"
+        }, {
+          "expression" : {
+            "expression" : "Denominated"
+          },
+          "alias" : "Denominated",
+          "_row_id" : "gKS7q3joXRVSKaiOo96BY"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ "190_Input##Trade Date", "190_Input##Denominated" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "190_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "190_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "107_left" : {
+      "id" : "107_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_107_left",
+        "x" : 7740,
+        "y" : 340,
+        "phase" : 2
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((CAST(in0.Date_fx AS DATE) = in1.variableDate) AND (in0.Denominated = in1.Currency))"
+          },
+          "joinType" : "anti"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "784023331"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ "1tNLAXyyHfRXXkt1ZsYyl##Date_fx", "dQ2WMXJyXGAVyuJi4vAN-##variableDate", "1tNLAXyyHfRXXkt1ZsYyl##Denominated", "dQ2WMXJyXGAVyuJi4vAN-##Currency" ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1tNLAXyyHfRXXkt1ZsYyl",
+          "slug" : "in0"
+        }, {
+          "id" : "dQ2WMXJyXGAVyuJi4vAN-",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "Q3rW-oGYAZ0G3SHycbawG",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "j-CJ1vncEvgiUyphlMH8c" : {
+      "id" : "j-CJ1vncEvgiUyphlMH8c",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_200_0",
+        "x" : 9460,
+        "y" : 1000,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('Trade date with missing FX Rate' AS string)"
+          },
+          "alias" : "Name",
+          "_row_id" : "KYhavOTu0DVf_uvsDpZsB"
+        }, {
+          "expression" : {
+            "expression" : "*"
+          },
+          "_row_id" : "1012229062"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "gDA4O7URZcc1gadaLOisU",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "_RkccMfRIGMysfbt2Sy0T",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_206_206_True" : {
+      "id" : "Filter_206_206_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_206"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_19",
+          "id" : "output_port_19",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Filter_206') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_j-CJ1vncEvgiUyphlMH8c__RkccMfRIGMysfbt2Sy0T_Formula_200_0__RkccMfRIGMysfbt2Sy0T",
+    "source" : "j-CJ1vncEvgiUyphlMH8c",
+    "sourcePort" : "_RkccMfRIGMysfbt2Sy0T",
+    "target" : "Formula_200_0__RkccMfRIGMysfbt2Sy0T",
+    "targetPort" : "input_port_21",
+    "isWireless" : false
+  }, {
+    "id" : "edge_174",
+    "source" : "190",
+    "sourcePort" : "190_Output",
+    "target" : "j-CJ1vncEvgiUyphlMH8c",
+    "targetPort" : "gDA4O7URZcc1gadaLOisU",
+    "isWireless" : false
+  }, {
+    "id" : "edge_51",
+    "source" : "107_left",
+    "sourcePort" : "Q3rW-oGYAZ0G3SHycbawG",
+    "target" : "190",
+    "targetPort" : "190_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_49",
+    "source" : "Summarize_124_124_Output",
+    "sourcePort" : "output_port_13",
+    "target" : "107_left",
+    "targetPort" : "dQ2WMXJyXGAVyuJi4vAN-",
+    "isWireless" : false
+  }, {
+    "id" : "edge_50",
+    "source" : "Filter_206_206_True",
+    "sourcePort" : "output_port_19",
+    "target" : "107_left",
+    "targetPort" : "1tNLAXyyHfRXXkt1ZsYyl",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
