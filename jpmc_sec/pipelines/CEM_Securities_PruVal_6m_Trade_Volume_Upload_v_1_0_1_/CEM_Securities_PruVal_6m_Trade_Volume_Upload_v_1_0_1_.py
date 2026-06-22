@@ -158,6 +158,12 @@ with Pipeline(args) as pipeline:
         properties = ModelTransform(modelName = "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Union_197"),
         input_ports = ["in_0", "in_1", "in_2", "in_3"]
     )
+    cem_securities_pruval_6m_trade_volume_upload_v_1_0_1___monthly_working_days_and_weights = Process(
+        name = "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___monthly_working_days_and_weights",
+        properties = ModelTransform(
+          modelName = "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___monthly_working_days_and_weights"
+        )
+    )
     cem_securities_pruval_6m_trade_volume_upload_v_1_0_1___unknown_format_untyped_databricks = Process(
         name = "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___unknown_format_untyped_databricks",
         properties = ModelTransform(
@@ -350,6 +356,18 @@ with Pipeline(args) as pipeline:
         name = "PortfolioComposerTable_66",
         properties = Visualize(),
         is_custom_output_schema = True
+    )
+    untyped_ingest_risk = Process(
+        name = "untyped_ingest_risk",
+        properties = Dataset(
+          table = Dataset.DBTSource(
+            name = "catalog_privileges",
+            sourceType = "Table",
+            sourceName = "agent_testing_information_schema"
+          ),
+          writeOptions = {"writeMode" : "overwrite"}
+        ),
+        comment = "Refreshes catalog privileges from the agent testing information schema, overwriting the existing table."
     )
     cem_securities_pruval_6m_trade_volume_upload_v_1_0_1___formula_213_0 >> portfoliocomposertable_214
     cem_securities_pruval_6m_trade_volume_upload_v_1_0_1___alteryxselect_38 >> portfoliocomposertable_39
