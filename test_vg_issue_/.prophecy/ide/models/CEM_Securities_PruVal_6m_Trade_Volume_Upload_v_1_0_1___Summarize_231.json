@@ -1,0 +1,1470 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Summarize_231",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Summarize_231",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "59DnT6znFl9CSuFyFfZrK" : {
+      "id" : "59DnT6znFl9CSuFyFfZrK",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextToColumns_181_dropGem_0",
+        "x" : 2749.999755859375,
+        "y" : 219.00030517578125,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "FileName2_1_FileName2",
+            "_row_id" : null
+          },
+          "alias" : "FileName21",
+          "description" : null,
+          "_row_id" : "UwHozBs84MHt3cl1KYX18"
+        }, {
+          "expression" : {
+            "expression" : "FileName2_2_FileName2",
+            "_row_id" : null
+          },
+          "alias" : "FileName22",
+          "description" : null,
+          "_row_id" : "wNCbcC9VnM_oXTdQMDUme"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`FileName2_1_FileName2`, `FileName2_2_FileName2`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "hPEhfFrPXeBAd4gVAINhk",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "unlE_-7RM1k1RZrjwMXci",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "qtw2HMrnsS2JrjQtT_YHj" : {
+      "id" : "qtw2HMrnsS2JrjQtT_YHj",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_73_0",
+        "x" : 4430,
+        "y" : 327,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((ABS_Notional * Weights) / `Number of working Days`) AS DECIMAL(19, 4))",
+            "_row_id" : null
+          },
+          "alias" : "Weighted_Sum",
+          "description" : null,
+          "_row_id" : "YWHtZ6mFJ08QquJ5lgTbh"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "mfkiGvULf-lHvdTee9Z9T",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "QXLImZMji3LqsjKIHQQKd",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "59_inner" : {
+      "id" : "59_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_59_inner",
+        "x" : 3949.999755859375,
+        "y" : 255,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.Month = in1.Month)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Month`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "r5kfvh3ZBB7vuuOr3xhAB",
+          "slug" : "in0"
+        }, {
+          "id" : "I7-ZU9FEwDo1nzR77UEtU",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "pg0NxXMewamna54hkP7wD",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "62" : {
+      "id" : "62",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_62",
+        "x" : 4190,
+        "y" : 327,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.ISIN",
+            "_row_id" : null
+          },
+          "alias" : "ISIN",
+          "description" : null,
+          "_row_id" : "OKRjTMlZc3E8WB4vFhulu"
+        }, {
+          "expression" : {
+            "expression" : "in1.Weights",
+            "_row_id" : null
+          },
+          "alias" : "Weights",
+          "description" : null,
+          "_row_id" : "wW5PxiYHmB6N-vFxJHNrF"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Number of working Days`",
+            "_row_id" : null
+          },
+          "alias" : "`Number of working Days`",
+          "description" : null,
+          "_row_id" : "m8EscMmJeBAbysd-s-RP7"
+        }, {
+          "expression" : {
+            "expression" : "in1.Region",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "7JHu_7j0UmUkQv7B3g8ob"
+        }, {
+          "expression" : {
+            "expression" : "in1.ABS_Notional",
+            "_row_id" : null
+          },
+          "alias" : "ABS_Notional",
+          "description" : null,
+          "_row_id" : "oTy3ZtwBnwBZ_nsEkDlv8"
+        }, {
+          "expression" : {
+            "expression" : "in1.Instrument",
+            "_row_id" : null
+          },
+          "alias" : "Instrument",
+          "description" : null,
+          "_row_id" : "nXSQMW_Sk7o82sZIjf1Da"
+        }, {
+          "expression" : {
+            "expression" : "in1.Month",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "L2Rfme1ZGa3IYgUwmNbLk"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "62_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "62_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "62_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "181" : {
+      "id" : "181",
+      "component" : "TextToColumns",
+      "metadata" : {
+        "label" : "TextToColumns_181",
+        "x" : 2569.999755859375,
+        "y" : 219.00030517578125,
+        "phase" : 0
+      },
+      "properties" : {
+        "split_strategy" : "splitColumns",
+        "splitColumnPrefix" : "FileName2",
+        "relation_name" : [ "Formula_182_0" ],
+        "columnNames" : "FileName2",
+        "noOfColumns" : 2,
+        "_oldMacroProperties" : {
+          "macroName" : "TextToColumns",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Formula_182_0\"]"
+          }, {
+            "name" : "columnNames",
+            "value" : "FileName2"
+          }, {
+            "name" : "delimiter",
+            "value" : "[_]"
+          }, {
+            "name" : "split_strategy",
+            "value" : "splitColumns"
+          }, {
+            "name" : "noOfColumns",
+            "value" : "2"
+          }, {
+            "name" : "leaveExtraCharLastCol",
+            "value" : "leaveExtraCharLastCol"
+          }, {
+            "name" : "splitColumnPrefix",
+            "value" : "FileName2"
+          }, {
+            "name" : "splitColumnSuffix",
+            "value" : "FileName2"
+          }, {
+            "name" : "splitRowsColumnName",
+            "value" : "generatedColumnName"
+          } ]
+        },
+        "splitColumnSuffix" : "FileName2",
+        "splitRowsColumnName" : "generatedColumnName",
+        "leaveExtraCharLastCol" : "leaveExtraCharLastCol",
+        "delimiter" : "[_]"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "181_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "181_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "LnzmEnE3AVro27RxLSvJQ" : {
+      "id" : "LnzmEnE3AVro27RxLSvJQ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DateTime_183_0",
+        "x" : 3229.999755859375,
+        "y" : 219.00030517578125,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(DATE_FORMAT((TO_TIMESTAMP(Month_1, 'yyyyMMdd')), 'yyyy-MM-dd'))",
+            "_row_id" : null
+          },
+          "alias" : "variableDate",
+          "description" : null,
+          "_row_id" : "Olejkh39ZUlfkaMBeO8NQ"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "8V2kmcVTbOTp0VSGicNds",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "F4Da-90DV-AzxIB7tVeHo",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "2iIMsdstiB-NFU2D9DV46" : {
+      "id" : "2iIMsdstiB-NFU2D9DV46",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextToColumns_180_dropGem_0",
+        "x" : 1609.999755859375,
+        "y" : 219.00030517578125,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "FileName_1_FileName",
+            "_row_id" : null
+          },
+          "alias" : "FileName1",
+          "description" : null,
+          "_row_id" : "dpgJpLDOYxAvfYsKvGj4g"
+        }, {
+          "expression" : {
+            "expression" : "FileName_2_FileName",
+            "_row_id" : null
+          },
+          "alias" : "FileName2",
+          "description" : null,
+          "_row_id" : "vVlrqM0UpuWZWmmF-leyn"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`FileName_1_FileName`, `FileName_2_FileName`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "n7x6u-CQxX5qWQSko7FN8",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "s6Biwx7ZK_cy98vjEuFuE",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "56" : {
+      "id" : "56",
+      "component" : "Sample",
+      "metadata" : {
+        "label" : "Sample_56",
+        "x" : 1189.999755859375,
+        "y" : 687.0003051757812,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Configuration_t_58" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Sample",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Configuration_t_58\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"Month\", \"dataType\": \"Date\"}, {\"name\": \"Weights\", \"dataType\": \"Double\"}, {\"name\": \"Number of working Days\", \"dataType\": \"Double\"}, {\"name\": \"F4\", \"dataType\": \"Double\"}]"
+          }, {
+            "name" : "sampleLevelSelection",
+            "value" : "sampleDataset"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[]"
+          }, {
+            "name" : "randomSeed",
+            "value" : "1002"
+          }, {
+            "name" : "currentModeSelection",
+            "value" : "firstN"
+          }, {
+            "name" : "numberN",
+            "value" : "1"
+          }, {
+            "name" : "orderByColumns",
+            "value" : "[]"
+          } ]
+        },
+        "currentModeSelection" : "firstN",
+        "dataColumns" : [ ],
+        "numberN" : 1,
+        "randomSeed" : 1002,
+        "schema" : "[{\"name\": \"Month\", \"dataType\": \"Date\"}, {\"name\": \"Weights\", \"dataType\": \"Double\"}, {\"name\": \"Number of working Days\", \"dataType\": \"Double\"}, {\"name\": \"F4\", \"dataType\": \"Double\"}]",
+        "sampleLevelSelection" : "sampleDataset",
+        "orderByColumns" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "56_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "56_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "61" : {
+      "id" : "61",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_61",
+        "x" : 1849.999755859375,
+        "y" : 687.0003051757812,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Number of working Days`",
+            "_row_id" : null
+          },
+          "alias" : "`Number of working Days`",
+          "description" : null,
+          "_row_id" : "RncjRp4P-hNLXVDTSIdvn"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "61_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "61_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "KM_24W7cLUsN_gLyG4U3l" : {
+      "id" : "KM_24W7cLUsN_gLyG4U3l",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_69_0",
+        "x" : 2089.999755859375,
+        "y" : 471,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(month(Month) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "tAG1_-EVdxQW-CvVkdEmh"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`month`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "lN7VGXxW2VDX_OXxGrJg1",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "xLywDWX1V-6k5b9RveTEf",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "DFPOQj12kdImwoUwHxylL" : {
+      "id" : "DFPOQj12kdImwoUwHxylL",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_186_0",
+        "x" : 3709.999755859375,
+        "y" : 219.00030517578125,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(month(variableDate) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "dBeAaUOqtwcdGzFeWEMbq"
+        }, {
+          "expression" : {
+            "expression" : "CAST(ABS(`Notional USD`) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "ABS_Notional",
+          "description" : null,
+          "_row_id" : "0G5KlAozUce3cT7HuKFoc"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "e9dlgF4tmtX-vNx9Tw4Uu",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "MFEdmBzKvsPdFA5iWsFUm",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "231" : {
+      "id" : "231",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_231",
+        "x" : 4910,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(Weighted_Sum)",
+            "_row_id" : null
+          },
+          "alias" : "Weighted_Sum",
+          "description" : null,
+          "_row_id" : "xyG9iHVfWQe6vS2__Bda8"
+        }, {
+          "expression" : {
+            "expression" : "ISIN",
+            "_row_id" : null
+          },
+          "alias" : "ISIN",
+          "description" : null,
+          "_row_id" : "QO7esQPBMHY408Ywzk7HV"
+        }, {
+          "expression" : {
+            "expression" : "Instrument",
+            "_row_id" : null
+          },
+          "alias" : "Instrument",
+          "description" : null,
+          "_row_id" : "HVYEuFGku9W_9K5GPLwO0"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "ISIN",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "HCsmkfNyLzi-AWAqF_YNp"
+        }, {
+          "expression" : {
+            "expression" : "Instrument",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "f6-DMWGXIqxi2JMWh4XsH"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "231_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "231_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "Directory_51_51_Output" : {
+      "id" : "Directory_51_51_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Directory_51"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_5",
+          "id" : "output_port_5",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_', 'Directory_51') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "51_reformat" : {
+      "id" : "51_reformat",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Directory_51_reformat",
+        "x" : 469.9997863769531,
+        "y" : 218.99969482421875,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "PATH",
+            "_row_id" : null
+          },
+          "alias" : "FullPath",
+          "description" : null,
+          "_row_id" : "an321r0Rj1_ddLbjfxQL7"
+        }, {
+          "expression" : {
+            "expression" : "PARENT_DIRECTORY",
+            "_row_id" : null
+          },
+          "alias" : "Directory",
+          "description" : null,
+          "_row_id" : "BFIT6hr2l1UYJvEKlgn1L"
+        }, {
+          "expression" : {
+            "expression" : "NAME",
+            "_row_id" : null
+          },
+          "alias" : "FileName",
+          "description" : null,
+          "_row_id" : "bxQ6khQqd7K8fPrrCYwMF"
+        }, {
+          "expression" : {
+            "expression" : "NAME",
+            "_row_id" : null
+          },
+          "alias" : "ShortFileName",
+          "description" : null,
+          "_row_id" : "8NUsAb_zLtZhuqILJVk4U"
+        }, {
+          "expression" : {
+            "expression" : "CREATION_TIME",
+            "_row_id" : null
+          },
+          "alias" : "CreationTime",
+          "description" : null,
+          "_row_id" : "U3g0SpUzUNAOuBnToXhzy"
+        }, {
+          "expression" : {
+            "expression" : "MODIFICATION_TIME",
+            "_row_id" : null
+          },
+          "alias" : "LastAccessTime",
+          "description" : null,
+          "_row_id" : "CVIh9Zrq5W-6DMJBE8sek"
+        }, {
+          "expression" : {
+            "expression" : "MODIFICATION_TIME",
+            "_row_id" : null
+          },
+          "alias" : "LastWriteTime",
+          "description" : null,
+          "_row_id" : "pkdBe6OSKPnVzhT1aTsIK"
+        }, {
+          "expression" : {
+            "expression" : "SIZE_IN_BYTES",
+            "_row_id" : null
+          },
+          "alias" : "Size",
+          "description" : null,
+          "_row_id" : "8oBXcf-hNejJK_WHWojFc"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeArchive",
+          "description" : null,
+          "_row_id" : "NHArPg43riY7APtl6m8Md"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeCompressed",
+          "description" : null,
+          "_row_id" : "e470ud7UBc8Hfs3q66sNs"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeEncrypted",
+          "description" : null,
+          "_row_id" : "XWGssM1bX3DcghT76bFXl"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeHidden",
+          "description" : null,
+          "_row_id" : "bYF3O5Zd8fXvDm6DD2IjO"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeReadOnly",
+          "description" : null,
+          "_row_id" : "NXxBir--QGwm-2K6zcuWz"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeSystem",
+          "description" : null,
+          "_row_id" : "m9_vlAJmH4erGeG2Okbd0"
+        }, {
+          "expression" : {
+            "expression" : "CAST(NULL AS BOOLEAN)",
+            "_row_id" : null
+          },
+          "alias" : "AttributeTemporary",
+          "description" : null,
+          "_row_id" : "Ds24pOc64ssndQm3xqAte"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Q_zzIj2LiAt3pl9lpg_a8",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "YAPYeuZW-Xp11bfOs4iEn",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "76" : {
+      "id" : "76",
+      "component" : "ToDo",
+      "metadata" : {
+        "label" : "Macro_76",
+        "x" : 1189.999755859375,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "AlteryxSelect_52" ],
+        "_oldMacroProperties" : {
+          "macroName" : "ToDo",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "diag_message",
+            "value" : "Failed to parse Macro. Please upload the file 2.Systems/CSV_load.yxmc to resolve it."
+          } ]
+        },
+        "code_string" : "<Node ToolID=\"76\">\n          <GuiSettings>\n            <Position y=\"318\" x=\"1110\"/>\n          </GuiSettings>\n          <Properties>\n            <Configuration>\n              <Value name=\"ControlParams\">Control Parameter (5)=FullPath\n</Value>\n            </Configuration>\n            <Annotation DisplayMode=\"0\">\n              <Name/>\n              <DefaultAnnotationText/>\n              <Left value=\"False\"/>\n            </Annotation>\n            <MetaInfo connection=\"Output4\">\n              <RecordInfo>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"TradeID\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Product\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"SPN\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"CustomerDescription\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"ISIN\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Instrument\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"TradeDate\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"SettlementDate\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"BuySell\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"MaturityDate\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"TradePriceInDecimal\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Currency\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"FXRate\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"SettlementCurrency\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Notional Local\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Notional USD\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Market Value Local\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Market Value USD\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Trader\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"SalesPerson\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"LegalEntity\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"CleanPrice\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"IssuerName\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Portfolio\"/>\n                <Field type=\"V_String\" source=\"File: \\\\Asiapac.ad.jpmorganchase.com\\corp$\\INCORP\\CorpShare02\\VCG BLR\\ART\\Shilpa\\5.Daily Trade Volume\\Trade_Volume\\1.Inputs\\Credits_EM\\NaN_GEM_Credit_Trades_20220701.csv\" size=\"254\" name=\"Field_25\"/>\n                <Field type=\"V_WString\" source=\"File: FileName\" size=\"254\" name=\"FileName\"/>\n              </RecordInfo>\n            </MetaInfo>\n          </Properties>\n          <EngineSettings Macro=\"..\\2.Systems\\CSV_load.yxmc\"/>\n        </Node>",
+        "diag_message" : "Failed to parse Macro. Please upload the file 2.Systems/CSV_load.yxmc to resolve it.",
+        "error_string" : "Failed to parse Macro. Please upload the file 2.Systems/CSV_load.yxmc to resolve it."
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "76_Control",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "76_Output4",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "180" : {
+      "id" : "180",
+      "component" : "TextToColumns",
+      "metadata" : {
+        "label" : "TextToColumns_180",
+        "x" : 1429.999755859375,
+        "y" : 219.00030517578125,
+        "phase" : 0
+      },
+      "properties" : {
+        "split_strategy" : "splitColumns",
+        "splitColumnPrefix" : "FileName",
+        "relation_name" : [ "Macro_76" ],
+        "columnNames" : "FileName",
+        "noOfColumns" : 2,
+        "_oldMacroProperties" : {
+          "macroName" : "TextToColumns",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Macro_76\"]"
+          }, {
+            "name" : "columnNames",
+            "value" : "FileName"
+          }, {
+            "name" : "delimiter",
+            "value" : "[_]"
+          }, {
+            "name" : "split_strategy",
+            "value" : "splitColumns"
+          }, {
+            "name" : "noOfColumns",
+            "value" : "2"
+          }, {
+            "name" : "leaveExtraCharLastCol",
+            "value" : "leaveExtraCharLastCol"
+          }, {
+            "name" : "splitColumnPrefix",
+            "value" : "FileName"
+          }, {
+            "name" : "splitColumnSuffix",
+            "value" : "FileName"
+          }, {
+            "name" : "splitRowsColumnName",
+            "value" : "generatedColumnName"
+          } ]
+        },
+        "splitColumnSuffix" : "FileName",
+        "splitRowsColumnName" : "generatedColumnName",
+        "leaveExtraCharLastCol" : "leaveExtraCharLastCol",
+        "delimiter" : "[_]"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "180_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "180_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "60" : {
+      "id" : "60",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_60",
+        "x" : 1189.999755859375,
+        "y" : 471,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Month AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "OVCyYddZg50a9_0VsIaHs"
+        }, {
+          "expression" : {
+            "expression" : "Weights",
+            "_row_id" : null
+          },
+          "alias" : "Weights",
+          "description" : null,
+          "_row_id" : "Ggt40TDmU-G03SqJxpYml"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "60_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "60_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "184" : {
+      "id" : "184",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_184",
+        "x" : 3469.999755859375,
+        "y" : 219,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(ISIN AS string)",
+            "_row_id" : null
+          },
+          "alias" : "ISIN",
+          "description" : null,
+          "_row_id" : "3n0g1373KZcHkdM5UxxuN"
+        }, {
+          "expression" : {
+            "expression" : "Instrument",
+            "_row_id" : null
+          },
+          "alias" : "Instrument",
+          "description" : null,
+          "_row_id" : "-WTNap4vm-jjGzYt17Fqq"
+        }, {
+          "expression" : {
+            "expression" : "TradeDate",
+            "_row_id" : null
+          },
+          "alias" : "TradeDate",
+          "description" : null,
+          "_row_id" : "4341blFdnIxHOzuiI2NR5"
+        }, {
+          "expression" : {
+            "expression" : "CAST(`Notional USD` AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`Notional USD`",
+          "description" : null,
+          "_row_id" : "Ab6R6uKkcwf-3K8YOVMaB"
+        }, {
+          "expression" : {
+            "expression" : "FileName1",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "3xw1cjXLJAa0MkqhlOAJG"
+        }, {
+          "expression" : {
+            "expression" : "CAST(variableDate AS string)",
+            "_row_id" : null
+          },
+          "alias" : "variableDate",
+          "description" : null,
+          "_row_id" : "zSxwvriQMJ3_HBBv2jbCb"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "184_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "184_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "Summarize_231_231_Output" : {
+      "id" : "Summarize_231_231_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_231"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_231\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "gubWXAqIZMNifUn7YhJj1" : {
+      "id" : "gubWXAqIZMNifUn7YhJj1",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_182_0",
+        "x" : 2329.999755859375,
+        "y" : 219.00030517578125,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REVERSE(FileName2)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "FileName2",
+          "description" : null,
+          "_row_id" : "_uLxlFcUQ4XoXYVguvSdD"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`filename2`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SSAUcOwZXCFiU056RV2qh",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "5TmRcvvaclDLOZ7YtYxjo",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "232" : {
+      "id" : "232",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_232",
+        "x" : 4670,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(NOT (ISIN IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "232_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "232_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "Configuration_t_58_58_Output" : {
+      "id" : "Configuration_t_58_58_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Configuration_t_58"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_', 'Configuration_t_58') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "52" : {
+      "id" : "52",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_52",
+        "x" : 949.9998168945312,
+        "y" : 219.00059509277344,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "FullPath",
+            "_row_id" : null
+          },
+          "alias" : "FullPath",
+          "description" : null,
+          "_row_id" : "v-_X2S1CRGhfLJPwwaV2g"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "52_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "52_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    },
+    "5QjpC5BcriR8XWlVK0-xY" : {
+      "id" : "5QjpC5BcriR8XWlVK0-xY",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_185_0",
+        "x" : 2989.999755859375,
+        "y" : 218.99969482421875,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((REVERSE(FileName21)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Month_1",
+          "description" : null,
+          "_row_id" : "WE4B9iHyzM_zXsQhIDD34"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "BSiOv6eSmtrR24gDFWQ-L",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "yK9GFzrJ6L-WcCelL9L2N",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSEM"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_231_231_Output_Summarize_231_231_Output",
+    "source" : "231",
+    "sourcePort" : "231_Output",
+    "target" : "Summarize_231_231_Output",
+    "targetPort" : "input_port_11",
+    "isWireless" : false
+  }, {
+    "id" : "edge_41",
+    "source" : "232",
+    "sourcePort" : "232_True",
+    "target" : "231",
+    "targetPort" : "231_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_147",
+    "source" : "qtw2HMrnsS2JrjQtT_YHj",
+    "sourcePort" : "QXLImZMji3LqsjKIHQQKd",
+    "target" : "232",
+    "targetPort" : "232_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_148",
+    "source" : "62",
+    "sourcePort" : "62_Output",
+    "target" : "qtw2HMrnsS2JrjQtT_YHj",
+    "targetPort" : "mfkiGvULf-lHvdTee9Z9T",
+    "isWireless" : false
+  }, {
+    "id" : "edge_35",
+    "source" : "61",
+    "sourcePort" : "61_Output",
+    "target" : "62",
+    "targetPort" : "62_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_83",
+    "source" : "59_inner",
+    "sourcePort" : "pg0NxXMewamna54hkP7wD",
+    "target" : "62",
+    "targetPort" : "62_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_38",
+    "source" : "56",
+    "sourcePort" : "56_Output",
+    "target" : "61",
+    "targetPort" : "61_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_136",
+    "source" : "KM_24W7cLUsN_gLyG4U3l",
+    "sourcePort" : "xLywDWX1V-6k5b9RveTEf",
+    "target" : "59_inner",
+    "targetPort" : "I7-ZU9FEwDo1nzR77UEtU",
+    "isWireless" : false
+  }, {
+    "id" : "edge_145",
+    "source" : "DFPOQj12kdImwoUwHxylL",
+    "sourcePort" : "MFEdmBzKvsPdFA5iWsFUm",
+    "target" : "59_inner",
+    "targetPort" : "r5kfvh3ZBB7vuuOr3xhAB",
+    "isWireless" : false
+  }, {
+    "id" : "edge_37",
+    "source" : "Configuration_t_58_58_Output",
+    "sourcePort" : "output_port_4",
+    "target" : "56",
+    "targetPort" : "56_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_137",
+    "source" : "60",
+    "sourcePort" : "60_Output",
+    "target" : "KM_24W7cLUsN_gLyG4U3l",
+    "targetPort" : "lN7VGXxW2VDX_OXxGrJg1",
+    "isWireless" : false
+  }, {
+    "id" : "edge_146",
+    "source" : "184",
+    "sourcePort" : "184_Output",
+    "target" : "DFPOQj12kdImwoUwHxylL",
+    "targetPort" : "e9dlgF4tmtX-vNx9Tw4Uu",
+    "isWireless" : false
+  }, {
+    "id" : "edge_36",
+    "source" : "Configuration_t_58_58_Output",
+    "sourcePort" : "output_port_4",
+    "target" : "60",
+    "targetPort" : "60_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_143",
+    "source" : "LnzmEnE3AVro27RxLSvJQ",
+    "sourcePort" : "F4Da-90DV-AzxIB7tVeHo",
+    "target" : "184",
+    "targetPort" : "184_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_144",
+    "source" : "5QjpC5BcriR8XWlVK0-xY",
+    "sourcePort" : "yK9GFzrJ6L-WcCelL9L2N",
+    "target" : "LnzmEnE3AVro27RxLSvJQ",
+    "targetPort" : "8V2kmcVTbOTp0VSGicNds",
+    "isWireless" : false
+  }, {
+    "id" : "edge_142",
+    "source" : "59DnT6znFl9CSuFyFfZrK",
+    "sourcePort" : "unlE_-7RM1k1RZrjwMXci",
+    "target" : "5QjpC5BcriR8XWlVK0-xY",
+    "targetPort" : "BSiOv6eSmtrR24gDFWQ-L",
+    "isWireless" : false
+  }, {
+    "id" : "edge_141",
+    "source" : "181",
+    "sourcePort" : "181_Output",
+    "target" : "59DnT6znFl9CSuFyFfZrK",
+    "targetPort" : "hPEhfFrPXeBAd4gVAINhk",
+    "isWireless" : false
+  }, {
+    "id" : "edge_139",
+    "source" : "gubWXAqIZMNifUn7YhJj1",
+    "sourcePort" : "5TmRcvvaclDLOZ7YtYxjo",
+    "target" : "181",
+    "targetPort" : "181_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_140",
+    "source" : "2iIMsdstiB-NFU2D9DV46",
+    "sourcePort" : "s6Biwx7ZK_cy98vjEuFuE",
+    "target" : "gubWXAqIZMNifUn7YhJj1",
+    "targetPort" : "SSAUcOwZXCFiU056RV2qh",
+    "isWireless" : false
+  }, {
+    "id" : "edge_138",
+    "source" : "180",
+    "sourcePort" : "180_Output",
+    "target" : "2iIMsdstiB-NFU2D9DV46",
+    "targetPort" : "n7x6u-CQxX5qWQSko7FN8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_40",
+    "source" : "76",
+    "sourcePort" : "76_Output4",
+    "target" : "180",
+    "targetPort" : "180_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_39",
+    "source" : "52",
+    "sourcePort" : "52_Output",
+    "target" : "76",
+    "targetPort" : "76_Control",
+    "isWireless" : false
+  }, {
+    "id" : "edge_102",
+    "source" : "51_reformat",
+    "sourcePort" : "YAPYeuZW-Xp11bfOs4iEn",
+    "target" : "52",
+    "targetPort" : "52_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_103",
+    "source" : "Directory_51_51_Output",
+    "sourcePort" : "output_port_5",
+    "target" : "51_reformat",
+    "targetPort" : "Q_zzIj2LiAt3pl9lpg_a8",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

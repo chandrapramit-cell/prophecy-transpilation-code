@@ -1,0 +1,327 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_21",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_21",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "CrXEVfQZfHmaCKkfRyM51" : {
+      "id" : "CrXEVfQZfHmaCKkfRyM51",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_20_0",
+        "x" : 5030,
+        "y" : 471.0001525878906,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('Upload' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "ACTION",
+          "description" : null,
+          "_row_id" : "wwy7Xdcn2BOhoZP98qgtl"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Daily_trade_Volume_Rates', Region)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Name",
+          "description" : null,
+          "_row_id" : "OuZMUOulj7_pHyohi5qWt"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "zotFcaERIjU7MQRFbqaRG",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ZJOgWQLgpX5N2UF9fC6E8",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "RATES"
+    },
+    "Summarize_16_16_Output" : {
+      "id" : "Summarize_16_16_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_16"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_38",
+          "id" : "output_port_38",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Summarize_16') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_38",
+          "slug" : "input_port_38"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_38",
+          "slug" : "output_port_38"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "15_inner" : {
+      "id" : "15_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_15_inner",
+        "x" : 4550,
+        "y" : 291.0001525878906,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.ISIN = in1.ISIN)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`ISIN`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Bp0Y9jeWcTfCTaafeHwrg",
+          "slug" : "in0"
+        }, {
+          "id" : "rcqhZMNF7WHkkJQ9BIXGZ",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "2bMzfooE52PK_7bEz-B60",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "RATES"
+    },
+    "21" : {
+      "id" : "21",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_21",
+        "x" : 5510,
+        "y" : 471.0001525878906,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACTION",
+            "_row_id" : null
+          },
+          "alias" : "ACTION",
+          "description" : null,
+          "_row_id" : "_ukQsx7MALFKOAKNSojJt"
+        }, {
+          "expression" : {
+            "expression" : "ISIN",
+            "_row_id" : null
+          },
+          "alias" : "ISIN",
+          "description" : null,
+          "_row_id" : "gET9fIVG-9gIkSJiR2qXU"
+        }, {
+          "expression" : {
+            "expression" : "`Sum_Weighted AverageNotionalTradedUSD`",
+            "_row_id" : null
+          },
+          "alias" : "Sum_Daily_Volume",
+          "description" : null,
+          "_row_id" : "36sGWg6r0iWAk3Nwa-mmK"
+        }, {
+          "expression" : {
+            "expression" : "Mapping",
+            "_row_id" : null
+          },
+          "alias" : "Product_Type",
+          "description" : null,
+          "_row_id" : "avaT1950FOzdCfEEHz8Eo"
+        }, {
+          "expression" : {
+            "expression" : "Name",
+            "_row_id" : null
+          },
+          "alias" : "Name",
+          "description" : null,
+          "_row_id" : "uzlDnLJPcVl7zjkNkXbnE"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`ACTION`, `ISIN`, `Name`, `Sum_Weighted AverageNotionalTradedUSD`, `Mapping`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "21_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "21_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "RATES"
+    },
+    "AlteryxSelect_21_21_Output" : {
+      "id" : "AlteryxSelect_21_21_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_21"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_21\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_40",
+          "slug" : "input_port_40"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_40",
+          "slug" : "output_port_40"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Configuration_t_14_14_Output" : {
+      "id" : "Configuration_t_14_14_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Configuration_t_14"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_39",
+          "id" : "output_port_39",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_', 'Configuration_t_14') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_39",
+          "slug" : "input_port_39"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_39",
+          "slug" : "output_port_39"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_21_21_Output_AlteryxSelect_21_21_Output",
+    "source" : "21",
+    "sourcePort" : "21_Output",
+    "target" : "AlteryxSelect_21_21_Output",
+    "targetPort" : "input_port_40",
+    "isWireless" : false
+  }, {
+    "id" : "edge_181",
+    "source" : "CrXEVfQZfHmaCKkfRyM51",
+    "sourcePort" : "ZJOgWQLgpX5N2UF9fC6E8",
+    "target" : "21",
+    "targetPort" : "21_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_182",
+    "source" : "15_inner",
+    "sourcePort" : "2bMzfooE52PK_7bEz-B60",
+    "target" : "CrXEVfQZfHmaCKkfRyM51",
+    "targetPort" : "zotFcaERIjU7MQRFbqaRG",
+    "isWireless" : false
+  }, {
+    "id" : "edge_75",
+    "source" : "Summarize_16_16_Output",
+    "sourcePort" : "output_port_38",
+    "target" : "15_inner",
+    "targetPort" : "Bp0Y9jeWcTfCTaafeHwrg",
+    "isWireless" : false
+  }, {
+    "id" : "edge_76",
+    "source" : "Configuration_t_14_14_Output",
+    "sourcePort" : "output_port_39",
+    "target" : "15_inner",
+    "targetPort" : "rcqhZMNF7WHkkJQ9BIXGZ",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
