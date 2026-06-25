@@ -1,7 +1,7 @@
 {{
   config({    
     "materialized": "incremental",
-    "alias": var('table_76_Output4_macro_op'),
+    "alias": "table_76_Output4_macro_op",
     "database": var('db_name'),
     "incremental_strategy": "append",
     "schema": var('schema_name')

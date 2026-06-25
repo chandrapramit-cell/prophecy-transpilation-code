@@ -1,0 +1,184 @@
+{
+  "id" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13_1___Summarize_60",
+  "metainfo" : {
+    "label" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13_1___Summarize_60",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_60_60_Output" : {
+      "id" : "Summarize_60_60_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_60"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_60\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_47",
+          "slug" : "input_port_47"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_47",
+          "slug" : "output_port_47"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "60" : {
+      "id" : "60",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_60",
+        "x" : 10820,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(Impact)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_Impact",
+          "description" : null,
+          "_row_id" : "zz_lfsf7qi-MVp-vRKFxq"
+        }, {
+          "expression" : {
+            "expression" : "Region",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "6QFv85Q0R62NPQWHWGiXl"
+        }, {
+          "expression" : {
+            "expression" : "TradeID",
+            "_row_id" : null
+          },
+          "alias" : "TradeID",
+          "description" : null,
+          "_row_id" : "6h6tQoiYUoyK9MMexmTZs"
+        }, {
+          "expression" : {
+            "expression" : "Portfolio",
+            "_row_id" : null
+          },
+          "alias" : "Portfolio",
+          "description" : null,
+          "_row_id" : "OUBMDl8TY6F7dZkF9FIsH"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Region",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "E55AXiSKzk8K4FEx38Vmy"
+        }, {
+          "expression" : {
+            "expression" : "TradeID",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "zjcjkzmC969l-pYYQELDP"
+        }, {
+          "expression" : {
+            "expression" : "Portfolio",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "RmdtIyXKvXmSIDUZdLa30"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "60_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "60_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_170_to_Formula_59_2_y_LydM1CjSnTreqme85Lw" : {
+      "id" : "Formula_170_to_Formula_59_2_y_LydM1CjSnTreqme85Lw",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_170_to_Formula_59_2"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_45",
+          "id" : "output_port_45",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing_v1_13_1___Formula_170_to_Formula_59_2') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_45",
+          "slug" : "input_port_45"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_45",
+          "slug" : "output_port_45"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_60_60_Output_Summarize_60_60_Output",
+    "source" : "60",
+    "sourcePort" : "60_Output",
+    "target" : "Summarize_60_60_Output",
+    "targetPort" : "input_port_47",
+    "isWireless" : false
+  }, {
+    "id" : "edge_572",
+    "source" : "Formula_170_to_Formula_59_2_y_LydM1CjSnTreqme85Lw",
+    "sourcePort" : "output_port_45",
+    "target" : "60",
+    "targetPort" : "60_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

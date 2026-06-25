@@ -164,12 +164,6 @@ with Pipeline(args) as pipeline:
           modelName = "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___monthly_working_days_and_weights"
         )
     )
-    cem_securities_pruval_6m_trade_volume_upload_v_1_0_1___unknown_format_untyped_databricks = Process(
-        name = "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___unknown_format_untyped_databricks",
-        properties = ModelTransform(
-          modelName = "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___unknown_format_untyped_databricks"
-        )
-    )
     directory_1 = Process(
         name = "Directory_1",
         properties = Directory(
@@ -356,6 +350,14 @@ with Pipeline(args) as pipeline:
         name = "PortfolioComposerTable_66",
         properties = Visualize(),
         is_custom_output_schema = True
+    )
+    unknown_format_untyped_databricks = Process(
+        name = "unknown_format_untyped_databricks",
+        properties = Dataset(
+          table = Dataset.DBTSource(name = "r1", sourceType = "Table", sourceName = "agent_testing_information_schema"),
+          writeOptions = {"writeMode" : "overwrite"}
+        ),
+        comment = "Overwrites the r1 table with the latest agent testing information to keep the agent dataset current and consistent."
     )
     untyped_ingest_risk = Process(
         name = "untyped_ingest_risk",

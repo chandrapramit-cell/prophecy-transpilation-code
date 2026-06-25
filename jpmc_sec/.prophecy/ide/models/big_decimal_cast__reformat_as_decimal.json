@@ -1,0 +1,131 @@
+{
+  "id" : "big_decimal_cast__reformat_as_decimal",
+  "metainfo" : {
+    "label" : "big_decimal_cast__reformat_as_decimal",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "reformat_as_decimal_HvSYcSNX" : {
+      "id" : "reformat_as_decimal_HvSYcSNX",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "reformat_as_decimal"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM reformat_as_decimal\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "reformat_as_deci##NcAotsk8" : {
+      "id" : "reformat_as_deci##NcAotsk8",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "reformat_as_decimal",
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "id"
+          },
+          "_row_id" : "229455305"
+        }, {
+          "expression" : {
+            "expression" : "big_decimal_value"
+          },
+          "_row_id" : "1337534991"
+        }, {
+          "expression" : {
+            "expression" : "CAST(big_decimal_value AS DECIMAL (38, 10))"
+          },
+          "alias" : "big_decimal_as_decimal_38_10",
+          "_row_id" : "460851331"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "KaL6kob4",
+          "slug" : "big_decimal_strings"
+        } ],
+        "outputs" : [ {
+          "id" : "HvSYcSNX",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "tdxp82am1d" : {
+      "id" : "tdxp82am1d",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "big_decimal_strings",
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "big_decimal_strings",
+          "sourceType" : "Seed"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "yrBkJw684g",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_reformat_as_deci##NcAotsk8_HvSYcSNX_reformat_as_decimal_HvSYcSNX",
+    "source" : "reformat_as_deci##NcAotsk8",
+    "sourcePort" : "HvSYcSNX",
+    "target" : "reformat_as_decimal_HvSYcSNX",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "yrBkJw684g_to_UdCV1M4ONE##a4ffDeoG",
+    "source" : "tdxp82am1d",
+    "sourcePort" : "yrBkJw684g",
+    "target" : "reformat_as_deci##NcAotsk8",
+    "targetPort" : "KaL6kob4",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

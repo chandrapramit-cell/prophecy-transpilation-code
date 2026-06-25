@@ -1,0 +1,145 @@
+{
+  "id" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13_1___DynamicInput_219_readListPathSheet_0",
+  "metainfo" : {
+    "label" : "FVH_IS_AMER_Repo_Significance_Testing_v1_13_1___DynamicInput_219_readListPathSheet_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "DynamicInput_219_readListPathSheet_0_D7dQ-YkLq_U8REGp70pfN" : {
+      "id" : "DynamicInput_219_readListPathSheet_0_D7dQ-YkLq_U8REGp70pfN",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "DynamicInput_219_readListPathSheet_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM DynamicInput_219_readListPathSheet_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2RT5eIAvoBdYb1abRuQMP" : {
+      "id" : "2RT5eIAvoBdYb1abRuQMP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DynamicInput_219_readListPathSheet_0",
+        "x" : 880,
+        "y" : 340,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((coalesce((CONTAINS(LOWER(`AMER MTD PNL Repo Dashboard`), LOWER('|||'))), FALSE)) AS BOOLEAN) THEN CAST((ELEMENT_AT((SPLIT(`AMER MTD PNL Repo Dashboard`, '[|||]')), 1)) AS string) ELSE `AMER MTD PNL Repo Dashboard` END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "file_path",
+          "description" : null,
+          "_row_id" : "HoWswSHjIFwFnqf1YY4Wd"
+        }, {
+          "expression" : {
+            "expression" : "CAST((REGEXP_REPLACE((REGEXP_REPLACE((CASE WHEN CAST((coalesce((CONTAINS(LOWER(`AMER MTD PNL Repo Dashboard`), LOWER('|||'))), FALSE)) AS BOOLEAN) THEN CAST((ELEMENT_AT((SPLIT(`AMER MTD PNL Repo Dashboard`, '[|||]')), 2)) AS string) ELSE 'Athena Data 1' END), '\"', '')), '$', '')) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "sheet_name",
+          "description" : null,
+          "_row_id" : "l71MoV6iDus2MVNoKIPWi"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "hp1eLjnZcFQlKotmBsCto",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "D7dQ-YkLq_U8REGp70pfN",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_204_1_LsMX6m7bgMIUb4olNEJcZ" : {
+      "id" : "Formula_204_1_LsMX6m7bgMIUb4olNEJcZ",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_204_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing_v1_13_1___Formula_204_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_2RT5eIAvoBdYb1abRuQMP_D7dQ-YkLq_U8REGp70pfN_DynamicInput_219_readListPathSheet_0_D7dQ-YkLq_U8REGp70pfN",
+    "source" : "2RT5eIAvoBdYb1abRuQMP",
+    "sourcePort" : "D7dQ-YkLq_U8REGp70pfN",
+    "target" : "DynamicInput_219_readListPathSheet_0_D7dQ-YkLq_U8REGp70pfN",
+    "targetPort" : "input_port_13",
+    "isWireless" : false
+  }, {
+    "id" : "edge_532",
+    "source" : "Formula_204_1_LsMX6m7bgMIUb4olNEJcZ",
+    "sourcePort" : "output_port_1",
+    "target" : "2RT5eIAvoBdYb1abRuQMP",
+    "targetPort" : "hp1eLjnZcFQlKotmBsCto",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
