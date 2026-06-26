@@ -1,0 +1,179 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Join_94_left",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Join_94_left",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_94_left_MHN7Q-o3HwexF2TzTMVOj" : {
+      "id" : "Join_94_left_MHN7Q-o3HwexF2TzTMVOj",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_94_left"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_94_left\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_27",
+          "slug" : "input_port_27"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_27",
+          "slug" : "output_port_27"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "94_left" : {
+      "id" : "94_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_94_left",
+        "x" : 5808,
+        "y" : 72,
+        "phase" : 2
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Instrument Description` = in1.`Instrument Description`)",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "adm1y3CHDcF4lY94GBlzd",
+          "slug" : "in0"
+        }, {
+          "id" : "t5I-qHdUVwRaW1xdp0DTm",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "MHN7Q-o3HwexF2TzTMVOj",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CEM"
+    },
+    "AlteryxSelect_96_96_Output" : {
+      "id" : "AlteryxSelect_96_96_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_96"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_96') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_93_93_True" : {
+      "id" : "Filter_93_93_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_93"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_26",
+          "id" : "output_port_26",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Filter_93') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_26",
+          "slug" : "input_port_26"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_26",
+          "slug" : "output_port_26"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_94_left_MHN7Q-o3HwexF2TzTMVOj_Join_94_left_MHN7Q-o3HwexF2TzTMVOj",
+    "source" : "94_left",
+    "sourcePort" : "MHN7Q-o3HwexF2TzTMVOj",
+    "target" : "Join_94_left_MHN7Q-o3HwexF2TzTMVOj",
+    "targetPort" : "input_port_27",
+    "isWireless" : false
+  }, {
+    "id" : "edge_248",
+    "source" : "AlteryxSelect_96_96_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "94_left",
+    "targetPort" : "t5I-qHdUVwRaW1xdp0DTm",
+    "isWireless" : false
+  }, {
+    "id" : "edge_249",
+    "source" : "Filter_93_93_True",
+    "sourcePort" : "output_port_26",
+    "target" : "94_left",
+    "targetPort" : "adm1y3CHDcF4lY94GBlzd",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

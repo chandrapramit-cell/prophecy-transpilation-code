@@ -1,0 +1,146 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Summarize_124",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Summarize_124",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_124_124_Output" : {
+      "id" : "Summarize_124_124_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_124"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_124\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_23",
+          "slug" : "input_port_23"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_23",
+          "slug" : "output_port_23"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "124" : {
+      "id" : "124",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_124",
+        "x" : 2088,
+        "y" : 1008,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "variableDate",
+            "_row_id" : null
+          },
+          "alias" : "variableDate",
+          "description" : null,
+          "_row_id" : "lQBbm8aE1IuO5wZDA9qFL"
+        }, {
+          "expression" : {
+            "expression" : "Currency",
+            "_row_id" : null
+          },
+          "alias" : "Currency",
+          "description" : null,
+          "_row_id" : "uU99qlsm3mzHPmUjJBSFu"
+        }, {
+          "expression" : {
+            "expression" : "FX",
+            "_row_id" : null
+          },
+          "alias" : "FX",
+          "description" : null,
+          "_row_id" : "TBpvhY52Ih0DErPaZiNKR"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "124_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "124_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CEM"
+    },
+    "AlteryxSelect_226_226_Output" : {
+      "id" : "AlteryxSelect_226_226_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_226"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_11",
+          "id" : "output_port_11",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_226') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_124_124_Output_Summarize_124_124_Output",
+    "source" : "124",
+    "sourcePort" : "124_Output",
+    "target" : "Summarize_124_124_Output",
+    "targetPort" : "input_port_23",
+    "isWireless" : false
+  }, {
+    "id" : "edge_209",
+    "source" : "AlteryxSelect_226_226_Output",
+    "sourcePort" : "output_port_11",
+    "target" : "124",
+    "targetPort" : "124_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

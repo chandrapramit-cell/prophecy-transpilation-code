@@ -1,0 +1,125 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Filter_93",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Filter_93",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_93_93_True" : {
+      "id" : "Filter_93_93_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_93"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_93\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_26",
+          "slug" : "input_port_26"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_26",
+          "slug" : "output_port_26"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "93" : {
+      "id" : "93",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_93",
+        "x" : 5568,
+        "y" : 72,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(((ISIN IS NULL) OR (ISIN IS NULL)) OR ((LENGTH(ISIN)) = 0))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "93_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "93_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CEM"
+    },
+    "Formula_82_0_1to1hhUXwXLQuHTvgw4kJ" : {
+      "id" : "Formula_82_0_1to1hhUXwXLQuHTvgw4kJ",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_82_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_25",
+          "id" : "output_port_25",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_82_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_25",
+          "slug" : "input_port_25"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_25",
+          "slug" : "output_port_25"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_93_93_True_Filter_93_93_True",
+    "source" : "93",
+    "sourcePort" : "93_True",
+    "target" : "Filter_93_93_True",
+    "targetPort" : "input_port_26",
+    "isWireless" : false
+  }, {
+    "id" : "edge_308",
+    "source" : "Formula_82_0_1to1hhUXwXLQuHTvgw4kJ",
+    "sourcePort" : "output_port_25",
+    "target" : "93",
+    "targetPort" : "93_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

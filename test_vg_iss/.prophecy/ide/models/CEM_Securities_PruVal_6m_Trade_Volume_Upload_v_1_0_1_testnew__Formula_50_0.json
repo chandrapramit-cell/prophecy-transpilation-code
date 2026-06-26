@@ -1,0 +1,851 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_testnew__Formula_50_0",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_testnew__Formula_50_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "UXzXb1s8y97cD5h8VgxJy" : {
+      "id" : "UXzXb1s8y97cD5h8VgxJy",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_42_0",
+        "x" : 620,
+        "y" : 2560,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(EXTRACT(MONTH FROM TRADEDATE) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "blRh7k6R6TVPY313VYUAO"
+        }, {
+          "expression" : {
+            "expression" : "CAST((ABS(USD_DERAMOUNTTOREPORT_MM) * 1000000) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`ABS U$ Notional`",
+          "description" : null,
+          "_row_id" : "Y3TMsSuIHqIqqKXAK8l3y"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (FileName1 = 'NaN') THEN NULL ELSE FileName1 END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "rfVTUUXO7O6H6rY9Kqfaq"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "xd7fAxZiOe4Lu7zBZ7lIs",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ueRl7X6ghckOjGXvVyVnK",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "R6O5-rnWTVt37EKYCKy7E" : {
+      "id" : "R6O5-rnWTVt37EKYCKy7E",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_43_0",
+        "x" : 820,
+        "y" : 2960,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(month(Month) AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "G64Y8aqFkDbbYyD42BQbs"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`month`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Z87QNFprtlxKbTFGltGDt",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Shr2Q-ug64eC7hvXi11T2",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "33" : {
+      "id" : "33",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_33",
+        "x" : 1220,
+        "y" : 2940,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "TRUE",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.`ABS U$ Notional`",
+            "_row_id" : null
+          },
+          "alias" : "`ABS U$ Notional`",
+          "description" : null,
+          "_row_id" : "u_Df1dK34QwmSnnV-2MeD"
+        }, {
+          "expression" : {
+            "expression" : "in1.Weights",
+            "_row_id" : null
+          },
+          "alias" : "Weights",
+          "description" : null,
+          "_row_id" : "PKEO-ttMgqgFZJpcURNc7"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Number of working Days`",
+            "_row_id" : null
+          },
+          "alias" : "`Number of working Days`",
+          "description" : null,
+          "_row_id" : "2TEvNQSCj8HGD6eUNZtoD"
+        }, {
+          "expression" : {
+            "expression" : "in1.Region",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "FGLXOHVbEJ8BwrIyMYs7X"
+        }, {
+          "expression" : {
+            "expression" : "in1.INSTRUMENTCODE",
+            "_row_id" : null
+          },
+          "alias" : "INSTRUMENTCODE",
+          "description" : null,
+          "_row_id" : "Z7OSjRLun5oyupkb-z4qL"
+        }, {
+          "expression" : {
+            "expression" : "in1.Month",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "BwN9OZPaqCGjUSnX5bkPK"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "33_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "33_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "33_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_50_0_vUXb8UWj5Xy6g11BWPbPE" : {
+      "id" : "Formula_50_0_vUXb8UWj5Xy6g11BWPbPE",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_50_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_50_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Configuration_t_29_29_Output" : {
+      "id" : "Configuration_t_29_29_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Configuration_t_29"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_9",
+          "id" : "output_port_9",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_testnew', 'Configuration_t_29') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_9",
+          "slug" : "input_port_9"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_9",
+          "slug" : "output_port_9"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "NaN_Credit_DM_x_26_26_Output" : {
+      "id" : "NaN_Credit_DM_x_26_26_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "NaN_Credit_DM_x_26"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_17",
+          "id" : "output_port_17",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_testnew', 'NaN_Credit_DM_x_26') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "148" : {
+      "id" : "148",
+      "component" : "TextToColumns",
+      "metadata" : {
+        "label" : "TextToColumns_148",
+        "x" : 220,
+        "y" : 2560,
+        "phase" : 0
+      },
+      "properties" : {
+        "split_strategy" : "splitColumns",
+        "splitColumnPrefix" : "FileName",
+        "relation_name" : [ "NaN_Credit_DM_x_26" ],
+        "columnNames" : "FileName",
+        "noOfColumns" : 2,
+        "_oldMacroProperties" : {
+          "macroName" : "TextToColumns",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"NaN_Credit_DM_x_26\"]"
+          }, {
+            "name" : "columnNames",
+            "value" : "FileName"
+          }, {
+            "name" : "delimiter",
+            "value" : "[_]"
+          }, {
+            "name" : "split_strategy",
+            "value" : "splitColumns"
+          }, {
+            "name" : "noOfColumns",
+            "value" : "2"
+          }, {
+            "name" : "leaveExtraCharLastCol",
+            "value" : "leaveExtraCharLastCol"
+          }, {
+            "name" : "splitColumnPrefix",
+            "value" : "FileName"
+          }, {
+            "name" : "splitColumnSuffix",
+            "value" : "FileName"
+          }, {
+            "name" : "splitRowsColumnName",
+            "value" : "generatedColumnName"
+          } ]
+        },
+        "splitColumnSuffix" : "FileName",
+        "splitRowsColumnName" : "generatedColumnName",
+        "leaveExtraCharLastCol" : "leaveExtraCharLastCol",
+        "delimiter" : "[_]"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "148_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "148_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "32" : {
+      "id" : "32",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_32",
+        "x" : 1020,
+        "y" : 2760,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Number of working Days`",
+            "_row_id" : null
+          },
+          "alias" : "`Number of working Days`",
+          "description" : null,
+          "_row_id" : "D8KAvNKqKOvSZfT-s7Gla"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "32_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "32_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "QA7bSVEC-4_YruvZDglxa" : {
+      "id" : "QA7bSVEC-4_YruvZDglxa",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "TextToColumns_148_dropGem_0",
+        "x" : 420,
+        "y" : 2560,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "FileName_1_FileName",
+            "_row_id" : null
+          },
+          "alias" : "FileName1",
+          "description" : null,
+          "_row_id" : "OJcRiubp6Z6chKuTL3n0f"
+        }, {
+          "expression" : {
+            "expression" : "FileName_2_FileName",
+            "_row_id" : null
+          },
+          "alias" : "FileName2",
+          "description" : null,
+          "_row_id" : "HzpaFBFlhy6N2w6T7YO0t"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`FileName_1_FileName`, `FileName_2_FileName`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "_Tx7LVD0xNJuRypuQRECF",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2s_SMBR0n9X9i6p8UlWY8",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "8iPdiOVRoheLkxU3Gkt8_" : {
+      "id" : "8iPdiOVRoheLkxU3Gkt8_",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_50_0",
+        "x" : 1420,
+        "y" : 2940,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((`ABS U$ Notional` * Weights) / `Number of working Days`) AS DECIMAL(19, 4))",
+            "_row_id" : null
+          },
+          "alias" : "Weighted_Sum",
+          "description" : null,
+          "_row_id" : "DdhirEysZMw0KMuckWqdL"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1XmOiY_BKfpz0vI6w_cuO",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "vUXb8UWj5Xy6g11BWPbPE",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "31" : {
+      "id" : "31",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_31",
+        "x" : 620,
+        "y" : 2960,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(Month AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "eWyjqVPXOdK4ee63LPE-M"
+        }, {
+          "expression" : {
+            "expression" : "Weights",
+            "_row_id" : null
+          },
+          "alias" : "Weights",
+          "description" : null,
+          "_row_id" : "8x2TfpiR3hNAf6JAp4U1s"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "31_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "31_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "27" : {
+      "id" : "27",
+      "component" : "Sample",
+      "metadata" : {
+        "label" : "Sample_27",
+        "x" : 620,
+        "y" : 2760,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "Configuration_t_29" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Sample",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Configuration_t_29\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"Month\", \"dataType\": \"Date\"}, {\"name\": \"Weights\", \"dataType\": \"Double\"}, {\"name\": \"Number of working Days\", \"dataType\": \"Double\"}, {\"name\": \"F4\", \"dataType\": \"Double\"}]"
+          }, {
+            "name" : "sampleLevelSelection",
+            "value" : "sampleDataset"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[]"
+          }, {
+            "name" : "randomSeed",
+            "value" : "1002"
+          }, {
+            "name" : "currentModeSelection",
+            "value" : "firstN"
+          }, {
+            "name" : "numberN",
+            "value" : "1"
+          }, {
+            "name" : "orderByColumns",
+            "value" : "[]"
+          } ]
+        },
+        "currentModeSelection" : "firstN",
+        "dataColumns" : [ ],
+        "numberN" : 1,
+        "randomSeed" : 1002,
+        "schema" : "[{\"name\": \"Month\", \"dataType\": \"Date\"}, {\"name\": \"Weights\", \"dataType\": \"Double\"}, {\"name\": \"Number of working Days\", \"dataType\": \"Double\"}, {\"name\": \"F4\", \"dataType\": \"Double\"}]",
+        "sampleLevelSelection" : "sampleDataset",
+        "orderByColumns" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "27_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "27_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "30_inner" : {
+      "id" : "30_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_30_inner",
+        "x" : 1020,
+        "y" : 2960,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.Month = in1.Month)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Month`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "usumiVyBM3jWv_LaRthoC",
+          "slug" : "in0"
+        }, {
+          "id" : "9DNcufwVNW6LIRaQHxqD9",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "voVWnlMMhGxAvj4X9LJWx",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "150" : {
+      "id" : "150",
+      "component" : "DataCleansing",
+      "metadata" : {
+        "label" : "Cleanse_150",
+        "x" : 820,
+        "y" : 2560,
+        "phase" : 0
+      },
+      "properties" : {
+        "trimWhiteSpace" : true,
+        "replaceNullForNumericFields" : false,
+        "cleanLetters" : false,
+        "replaceNullTextWith" : "",
+        "removeRowNullAllCols" : false,
+        "replaceNullTextFields" : false,
+        "relation_name" : [ "Formula_42_0" ],
+        "replaceNullDateWith" : "1970-01-01",
+        "columnNames" : [ "ACTUALDATE", "BUSINESSCOLLECTIONNAME", "DERAMOUNTTOREPORT_MM", "DESKGROUPNAME", "INSTRUMENTCODE", "ISSUERCTPNAME", "MISSTATUS", "PORTFOLIO", "PRODUCTCATEGORY", "TRADEDATE", "USD_DERAMOUNTTOREPORT_MM", "Month", "ABS U$ Notional", "Region" ],
+        "replaceNullTimeFields" : false,
+        "_oldMacroProperties" : {
+          "macroName" : "DataCleansing",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Formula_42_0\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"Month\", \"dataType\": \"String\"}, {\"name\": \"ABS U$ Notional\", \"dataType\": \"Double\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"FileName1\", \"dataType\": \"String\"}, {\"name\": \"FileName2\", \"dataType\": \"String\"}, {\"name\": \"DERAMOUNTTOREPORT_MM\", \"dataType\": \"Double\"}, {\"name\": \"ACTUALDATE\", \"dataType\": \"Date\"}, {\"name\": \"ISSUERCTPNAME\", \"dataType\": \"String\"}, {\"name\": \"PORTFOLIO\", \"dataType\": \"String\"}, {\"name\": \"DESKGROUPNAME\", \"dataType\": \"String\"}, {\"name\": \"TRADEDATE\", \"dataType\": \"Date\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"BUSINESSCOLLECTIONNAME\", \"dataType\": \"String\"}, {\"name\": \"INSTRUMENTCODE\", \"dataType\": \"String\"}, {\"name\": \"PRODUCTCATEGORY\", \"dataType\": \"String\"}, {\"name\": \"MISSTATUS\", \"dataType\": \"String\"}, {\"name\": \"USD_DERAMOUNTTOREPORT_MM\", \"dataType\": \"Double\"}]"
+          }, {
+            "name" : "modifyCase",
+            "value" : "keepOriginal"
+          }, {
+            "name" : "columnNames",
+            "value" : "[\"ACTUALDATE\", \"BUSINESSCOLLECTIONNAME\", \"DERAMOUNTTOREPORT_MM\", \"DESKGROUPNAME\", \"INSTRUMENTCODE\", \"ISSUERCTPNAME\", \"MISSTATUS\", \"PORTFOLIO\", \"PRODUCTCATEGORY\", \"TRADEDATE\", \"USD_DERAMOUNTTOREPORT_MM\", \"Month\", \"ABS U$ Notional\", \"Region\"]"
+          }, {
+            "name" : "replaceNullTextFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullTextWith",
+            "value" : ""
+          }, {
+            "name" : "replaceNullForNumericFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullNumericWith",
+            "value" : "0"
+          }, {
+            "name" : "trimWhiteSpace",
+            "value" : "true"
+          }, {
+            "name" : "removeTabsLineBreaksAndDuplicateWhitespace",
+            "value" : "false"
+          }, {
+            "name" : "allWhiteSpace",
+            "value" : "false"
+          }, {
+            "name" : "cleanLetters",
+            "value" : "false"
+          }, {
+            "name" : "cleanPunctuations",
+            "value" : "false"
+          }, {
+            "name" : "cleanNumbers",
+            "value" : "false"
+          }, {
+            "name" : "removeRowNullAllCols",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullDateWith",
+            "value" : "1970-01-01"
+          }, {
+            "name" : "replaceNullTimeFields",
+            "value" : "false"
+          }, {
+            "name" : "replaceNullTimeWith",
+            "value" : "1970-01-01 00:00:00.0"
+          } ]
+        },
+        "replaceNullTimeWith" : "1970-01-01 00:00:00.0",
+        "schema" : "[{\"name\": \"Month\", \"dataType\": \"String\"}, {\"name\": \"ABS U$ Notional\", \"dataType\": \"Double\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"FileName1\", \"dataType\": \"String\"}, {\"name\": \"FileName2\", \"dataType\": \"String\"}, {\"name\": \"DERAMOUNTTOREPORT_MM\", \"dataType\": \"Double\"}, {\"name\": \"ACTUALDATE\", \"dataType\": \"Date\"}, {\"name\": \"ISSUERCTPNAME\", \"dataType\": \"String\"}, {\"name\": \"PORTFOLIO\", \"dataType\": \"String\"}, {\"name\": \"DESKGROUPNAME\", \"dataType\": \"String\"}, {\"name\": \"TRADEDATE\", \"dataType\": \"Date\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"BUSINESSCOLLECTIONNAME\", \"dataType\": \"String\"}, {\"name\": \"INSTRUMENTCODE\", \"dataType\": \"String\"}, {\"name\": \"PRODUCTCATEGORY\", \"dataType\": \"String\"}, {\"name\": \"MISSTATUS\", \"dataType\": \"String\"}, {\"name\": \"USD_DERAMOUNTTOREPORT_MM\", \"dataType\": \"Double\"}]",
+        "allWhiteSpace" : false,
+        "removeTabsLineBreaksAndDuplicateWhitespace" : false,
+        "modifyCase" : "keepOriginal",
+        "cleanPunctuations" : false,
+        "replaceNullDateFields" : false,
+        "cleanNumbers" : false,
+        "replaceNullNumericWith" : 0
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "150_Input2",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "150_Output26",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_8iPdiOVRoheLkxU3Gkt8__vUXb8UWj5Xy6g11BWPbPE_Formula_50_0_vUXb8UWj5Xy6g11BWPbPE",
+    "source" : "8iPdiOVRoheLkxU3Gkt8_",
+    "sourcePort" : "vUXb8UWj5Xy6g11BWPbPE",
+    "target" : "Formula_50_0_vUXb8UWj5Xy6g11BWPbPE",
+    "targetPort" : "input_port_18",
+    "isWireless" : false
+  }, {
+    "id" : "edge_519",
+    "source" : "33",
+    "sourcePort" : "33_Output",
+    "target" : "8iPdiOVRoheLkxU3Gkt8_",
+    "targetPort" : "1XmOiY_BKfpz0vI6w_cuO",
+    "isWireless" : false
+  }, {
+    "id" : "edge_407",
+    "source" : "32",
+    "sourcePort" : "32_Output",
+    "target" : "33",
+    "targetPort" : "33_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_447",
+    "source" : "30_inner",
+    "sourcePort" : "voVWnlMMhGxAvj4X9LJWx",
+    "target" : "33",
+    "targetPort" : "33_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_404",
+    "source" : "27",
+    "sourcePort" : "27_Output",
+    "target" : "32",
+    "targetPort" : "32_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_446",
+    "source" : "150",
+    "sourcePort" : "150_Output26",
+    "target" : "30_inner",
+    "targetPort" : "usumiVyBM3jWv_LaRthoC",
+    "isWireless" : false
+  }, {
+    "id" : "edge_512",
+    "source" : "R6O5-rnWTVt37EKYCKy7E",
+    "sourcePort" : "Shr2Q-ug64eC7hvXi11T2",
+    "target" : "30_inner",
+    "targetPort" : "9DNcufwVNW6LIRaQHxqD9",
+    "isWireless" : false
+  }, {
+    "id" : "edge_406",
+    "source" : "Configuration_t_29_29_Output",
+    "sourcePort" : "output_port_9",
+    "target" : "27",
+    "targetPort" : "27_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_515",
+    "source" : "UXzXb1s8y97cD5h8VgxJy",
+    "sourcePort" : "ueRl7X6ghckOjGXvVyVnK",
+    "target" : "150",
+    "targetPort" : "150_Input2",
+    "isWireless" : false
+  }, {
+    "id" : "edge_513",
+    "source" : "31",
+    "sourcePort" : "31_Output",
+    "target" : "R6O5-rnWTVt37EKYCKy7E",
+    "targetPort" : "Z87QNFprtlxKbTFGltGDt",
+    "isWireless" : false
+  }, {
+    "id" : "edge_516",
+    "source" : "QA7bSVEC-4_YruvZDglxa",
+    "sourcePort" : "2s_SMBR0n9X9i6p8UlWY8",
+    "target" : "UXzXb1s8y97cD5h8VgxJy",
+    "targetPort" : "xd7fAxZiOe4Lu7zBZ7lIs",
+    "isWireless" : false
+  }, {
+    "id" : "edge_405",
+    "source" : "Configuration_t_29_29_Output",
+    "sourcePort" : "output_port_9",
+    "target" : "31",
+    "targetPort" : "31_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_514",
+    "source" : "148",
+    "sourcePort" : "148_Output",
+    "target" : "QA7bSVEC-4_YruvZDglxa",
+    "targetPort" : "_Tx7LVD0xNJuRypuQRECF",
+    "isWireless" : false
+  }, {
+    "id" : "edge_403",
+    "source" : "NaN_Credit_DM_x_26_26_Output",
+    "sourcePort" : "output_port_17",
+    "target" : "148",
+    "targetPort" : "148_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

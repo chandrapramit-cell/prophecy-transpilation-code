@@ -1,0 +1,271 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_213_0",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_213_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_213_0_azK-elBarHMxtk-clkFyf" : {
+      "id" : "Formula_213_0_azK-elBarHMxtk-clkFyf",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_213_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_213_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_50_0_8G-wl1AUUvhb0101FtgwO" : {
+      "id" : "Formula_50_0_8G-wl1AUUvhb0101FtgwO",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_50_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_18",
+          "id" : "output_port_18",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_50_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "35_left" : {
+      "id" : "35_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_35_left",
+        "x" : 2630,
+        "y" : 72,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.INSTRUMENTCODE = in1.`INSTRUMENT CODE`)",
+            "_row_id" : null
+          },
+          "joinType" : "anti",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "UmFrCS89Gj3C7-OaDZRUb",
+          "slug" : "in0"
+        }, {
+          "id" : "zczrBs6khA3WQKjEqLDMh",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "HtbbR-v1TIYBJzUmwZBR2",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "Configuration_t_28_28_Output" : {
+      "id" : "Configuration_t_28_28_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Configuration_t_28"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_19",
+          "id" : "output_port_19",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_', 'Configuration_t_28') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "212" : {
+      "id" : "212",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_212",
+        "x" : 2870,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "INSTRUMENTCODE",
+            "_row_id" : null
+          },
+          "alias" : "INSTRUMENTCODE",
+          "description" : null,
+          "_row_id" : "jBQnCfNTgFPAvm-FtYUyu"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "212_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "212_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "f5Us2bGBAu1nsoG1MZAXQ" : {
+      "id" : "f5Us2bGBAu1nsoG1MZAXQ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_213_0",
+        "x" : 3350,
+        "y" : 147,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('Missing Product type' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Name",
+          "description" : null,
+          "_row_id" : "0AYy7Aw7agb2nEyJKn-jT"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "GSTKRbWIqEyVhmQD7sWuT",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "azK-elBarHMxtk-clkFyf",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_f5Us2bGBAu1nsoG1MZAXQ_azK-elBarHMxtk-clkFyf_Formula_213_0_azK-elBarHMxtk-clkFyf",
+    "source" : "f5Us2bGBAu1nsoG1MZAXQ",
+    "sourcePort" : "azK-elBarHMxtk-clkFyf",
+    "target" : "Formula_213_0_azK-elBarHMxtk-clkFyf",
+    "targetPort" : "input_port_21",
+    "isWireless" : false
+  }, {
+    "id" : "edge_363",
+    "source" : "212",
+    "sourcePort" : "212_Output",
+    "target" : "f5Us2bGBAu1nsoG1MZAXQ",
+    "targetPort" : "GSTKRbWIqEyVhmQD7sWuT",
+    "isWireless" : false
+  }, {
+    "id" : "edge_256",
+    "source" : "35_left",
+    "sourcePort" : "HtbbR-v1TIYBJzUmwZBR2",
+    "target" : "212",
+    "targetPort" : "212_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_324",
+    "source" : "Formula_50_0_8G-wl1AUUvhb0101FtgwO",
+    "sourcePort" : "output_port_18",
+    "target" : "35_left",
+    "targetPort" : "UmFrCS89Gj3C7-OaDZRUb",
+    "isWireless" : false
+  }, {
+    "id" : "edge_255",
+    "source" : "Configuration_t_28_28_Output",
+    "sourcePort" : "output_port_19",
+    "target" : "35_left",
+    "targetPort" : "zczrBs6khA3WQKjEqLDMh",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
