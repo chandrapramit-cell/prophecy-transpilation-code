@@ -1,0 +1,945 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Union_103",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Union_103",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Union_103_103_Output" : {
+      "id" : "Union_103_103_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Union_103"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Union_103\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_28",
+          "slug" : "input_port_28"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_28",
+          "slug" : "output_port_28"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_94_left_58O1Z0HIOnJlzPJDXa435" : {
+      "id" : "Join_94_left_58O1Z0HIOnJlzPJDXa435",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_94_left"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_27",
+          "id" : "output_port_27",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Join_94_left') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_27",
+          "slug" : "input_port_27"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_27",
+          "slug" : "output_port_27"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "vGwE5qW6CD6uWG6-2K2IY" : {
+      "id" : "vGwE5qW6CD6uWG6-2K2IY",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_101_0",
+        "x" : 4260,
+        "y" : 360,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('N' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Y/N?`",
+          "description" : null,
+          "_row_id" : "BW1MW8aI-GrmXn2L6DlRf"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "sd2AvyE3A4XQfrQLFzbNh",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "H8TQ7JLbogAmUXAtLHlAQ",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "123" : {
+      "id" : "123",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_123",
+        "x" : 4060,
+        "y" : 760,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "Counterparty",
+            "_row_id" : null
+          },
+          "alias" : "Counterparty",
+          "description" : null,
+          "_row_id" : "AV8-FFsyek4yH6peyUkC9"
+        }, {
+          "expression" : {
+            "expression" : "`Y/N?`",
+            "_row_id" : null
+          },
+          "alias" : "`Y/N?`",
+          "description" : null,
+          "_row_id" : "D9E75BDCK-7ibwzkBS4ws"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "123_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "123_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "99" : {
+      "id" : "99",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_99",
+        "x" : 4060,
+        "y" : 360,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(((`Counterparty Name` IS NULL) OR (`Counterparty Name` IS NULL)) OR ((LENGTH(`Counterparty Name`)) = 0))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "99_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "99_True",
+          "slug" : "out1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "103" : {
+      "id" : "103",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_103",
+        "x" : 4460,
+        "y" : 540,
+        "phase" : 2
+      },
+      "properties" : {
+        "relation_name" : [ "Formula_101_0", "Join_100_inner_UnionLeftOuter" ],
+        "schemas" : [ "[{\"name\": \"Y/N?\", \"dataType\": \"String\"}, {\"name\": \"ISIN in Scope?\", \"dataType\": \"String\"}, {\"name\": \"Month\", \"dataType\": \"String\"}, {\"name\": \"Date_fx\", \"dataType\": \"String\"}, {\"name\": \"variableDate\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Name\", \"dataType\": \"String\"}, {\"name\": \"Denominated\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ISIN\", \"dataType\": \"String\"}, {\"name\": \"Instrument Description\", \"dataType\": \"String\"}, {\"name\": \"Notional\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"Revision Date\", \"dataType\": \"String\"}, {\"name\": \"Trade Date\", \"dataType\": \"String\"}, {\"name\": \"Accrual\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Id\", \"dataType\": \"String\"}, {\"name\": \"DV01\", \"dataType\": \"String\"}, {\"name\": \"Deal ID\", \"dataType\": \"String\"}, {\"name\": \"Debt Type\", \"dataType\": \"String\"}, {\"name\": \"FileName1\", \"dataType\": \"String\"}, {\"name\": \"FileName2\", \"dataType\": \"String\"}, {\"name\": \"Inflation Index Ratio\", \"dataType\": \"String\"}, {\"name\": \"Instrument Name\", \"dataType\": \"String\"}, {\"name\": \"Legal Entity\", \"dataType\": \"String\"}, {\"name\": \"Maturity Date\", \"dataType\": \"String\"}, {\"name\": \"Portfolio\", \"dataType\": \"String\"}, {\"name\": \"Trade Date EOD Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Clean Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price Type\", \"dataType\": \"String\"}, {\"name\": \"Traded Yield\", \"dataType\": \"String\"}]", "[{\"name\": \"Y/N?\", \"dataType\": \"String\"}, {\"name\": \"ISIN in Scope?\", \"dataType\": \"String\"}, {\"name\": \"Month\", \"dataType\": \"String\"}, {\"name\": \"Date_fx\", \"dataType\": \"String\"}, {\"name\": \"variableDate\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Name\", \"dataType\": \"String\"}, {\"name\": \"Denominated\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ISIN\", \"dataType\": \"String\"}, {\"name\": \"Instrument Description\", \"dataType\": \"String\"}, {\"name\": \"Notional\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"Revision Date\", \"dataType\": \"String\"}, {\"name\": \"Trade Date\", \"dataType\": \"String\"}, {\"name\": \"Accrual\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Id\", \"dataType\": \"String\"}, {\"name\": \"DV01\", \"dataType\": \"String\"}, {\"name\": \"Deal ID\", \"dataType\": \"String\"}, {\"name\": \"Debt Type\", \"dataType\": \"String\"}, {\"name\": \"FileName1\", \"dataType\": \"String\"}, {\"name\": \"FileName2\", \"dataType\": \"String\"}, {\"name\": \"Inflation Index Ratio\", \"dataType\": \"String\"}, {\"name\": \"Instrument Name\", \"dataType\": \"String\"}, {\"name\": \"Legal Entity\", \"dataType\": \"String\"}, {\"name\": \"Maturity Date\", \"dataType\": \"String\"}, {\"name\": \"Portfolio\", \"dataType\": \"String\"}, {\"name\": \"Trade Date EOD Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Clean Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price Type\", \"dataType\": \"String\"}, {\"name\": \"Traded Yield\", \"dataType\": \"String\"}, {\"name\": \"Counterparty\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Formula_101_0\", \"Join_100_inner_UnionLeftOuter\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"Y/N?\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ISIN in Scope?\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Month\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Date_fx\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"variableDate\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Denominated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ISIN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Description\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Notional\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Region\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Revision Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Accrual\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Id\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"DV01\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Deal ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Debt Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName2\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflation Index Ratio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Legal Entity\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Maturity Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Portfolio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date EOD Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Clean Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Yield\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"Y/N?\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ISIN in Scope?\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Month\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Date_fx\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"variableDate\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Denominated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ISIN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Description\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Notional\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Region\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Revision Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Accrual\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Id\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"DV01\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Deal ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Debt Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName2\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflation Index Ratio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Legal Entity\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Maturity Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Portfolio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date EOD Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Clean Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Yield\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "103_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "p5wxFv25H9VVrxBskP6so",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "103_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "TZT7jRuG3V1s5-DLfGgh4" : {
+      "id" : "TZT7jRuG3V1s5-DLfGgh4",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_120_0",
+        "x" : 3660,
+        "y" : 260,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('Y' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`ISIN in Scope?`",
+          "description" : null,
+          "_row_id" : "phQa6EJDBlzyCRGLpNEPn"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "7G6Flgd5PJmCt5_4m2y-j",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "35RojLyMdwZYmQPNU3uEQ",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "eYqgm9ZIMVollHxQJh0D8" : {
+      "id" : "eYqgm9ZIMVollHxQJh0D8",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_95_split",
+        "x" : 3660,
+        "y" : 740,
+        "phase" : 2
+      },
+      "properties" : {
+        "relation_name" : [ "Formula_119_0", "Formula_118_0" ],
+        "schemas" : [ "[{\"name\": \"ISIN in Scope?\", \"dataType\": \"String\"}, {\"name\": \"Trade Date\", \"dataType\": \"String\"}, {\"name\": \"Denominated\", \"dataType\": \"String\"}, {\"name\": \"ISIN\", \"dataType\": \"String\"}, {\"name\": \"Notional\", \"dataType\": \"String\"}, {\"name\": \"Revision Date\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Name\", \"dataType\": \"String\"}, {\"name\": \"Date_fx\", \"dataType\": \"String\"}, {\"name\": \"variableDate\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"Instrument Description\", \"dataType\": \"String\"}, {\"name\": \"Month\", \"dataType\": \"String\"}]", "[{\"name\": \"ISIN in Scope?\", \"dataType\": \"String\"}, {\"name\": \"Month\", \"dataType\": \"String\"}, {\"name\": \"Date_fx\", \"dataType\": \"String\"}, {\"name\": \"variableDate\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Name\", \"dataType\": \"String\"}, {\"name\": \"Denominated\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ISIN\", \"dataType\": \"String\"}, {\"name\": \"Instrument Description\", \"dataType\": \"String\"}, {\"name\": \"Notional\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"Revision Date\", \"dataType\": \"String\"}, {\"name\": \"Trade Date\", \"dataType\": \"String\"}, {\"name\": \"Accrual\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Id\", \"dataType\": \"String\"}, {\"name\": \"DV01\", \"dataType\": \"String\"}, {\"name\": \"Deal ID\", \"dataType\": \"String\"}, {\"name\": \"Debt Type\", \"dataType\": \"String\"}, {\"name\": \"FileName1\", \"dataType\": \"String\"}, {\"name\": \"FileName2\", \"dataType\": \"String\"}, {\"name\": \"Inflation Index Ratio\", \"dataType\": \"String\"}, {\"name\": \"Instrument Name\", \"dataType\": \"String\"}, {\"name\": \"Legal Entity\", \"dataType\": \"String\"}, {\"name\": \"Maturity Date\", \"dataType\": \"String\"}, {\"name\": \"Portfolio\", \"dataType\": \"String\"}, {\"name\": \"Trade Date EOD Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Clean Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price Type\", \"dataType\": \"String\"}, {\"name\": \"Traded Yield\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Formula_119_0\", \"Formula_118_0\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"ISIN in Scope?\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Denominated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ISIN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Notional\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Revision Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Date_fx\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"variableDate\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Region\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Description\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Month\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"ISIN in Scope?\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Month\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Date_fx\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"variableDate\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Denominated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ISIN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Description\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Notional\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Region\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Revision Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Accrual\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Id\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"DV01\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Deal ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Debt Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName2\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflation Index Ratio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Legal Entity\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Maturity Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Portfolio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date EOD Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Clean Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Yield\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ff2RJj7urz-YJj3AC-210",
+          "slug" : "in0"
+        }, {
+          "id" : "EfbsiaUHGAE9R-qz0q05b",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "UeMGY5zYdhfzqrmBirqHV",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "NZKg0xwOPvEpRDRTpbPkB" : {
+      "id" : "NZKg0xwOPvEpRDRTpbPkB",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_119_0",
+        "x" : 3460,
+        "y" : 640,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('Y' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`ISIN in Scope?`",
+          "description" : null,
+          "_row_id" : "VoVNSGHiSjVE6yIPOA5Oo"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "VifKKaxRWZ2M23vdeWN0H",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "t3JIZw6ebOTB6J9hxhDMU",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_82_0_NuwWofDeUBs7TvBtM0ERD" : {
+      "id" : "Formula_82_0_NuwWofDeUBs7TvBtM0ERD",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_82_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_25",
+          "id" : "output_port_25",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_82_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_25",
+          "slug" : "input_port_25"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_25",
+          "slug" : "output_port_25"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Configuration_t_90_90_Output" : {
+      "id" : "Configuration_t_90_90_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Configuration_t_90"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_24",
+          "id" : "output_port_24",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1_', 'Configuration_t_90') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_24",
+          "slug" : "input_port_24"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_24",
+          "slug" : "output_port_24"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "RsTn9H2xZRVGqJi6ufbvQ" : {
+      "id" : "RsTn9H2xZRVGqJi6ufbvQ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_118_0",
+        "x" : 3460,
+        "y" : 840,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('N' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`ISIN in Scope?`",
+          "description" : null,
+          "_row_id" : "jNzF6TwkEX5RlIJFzfBMW"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2HPY5TgHchI5-Op2zOIav",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "j_vn3SBOfIr5xUyBzv-5f",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "95" : {
+      "id" : "95",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_95",
+        "x" : 3860,
+        "y" : 460,
+        "phase" : 2
+      },
+      "properties" : {
+        "relation_name" : [ "Formula_120_0", "Union_95_split" ],
+        "schemas" : [ "[{\"name\": \"ISIN in Scope?\", \"dataType\": \"String\"}, {\"name\": \"Month\", \"dataType\": \"String\"}, {\"name\": \"Date_fx\", \"dataType\": \"String\"}, {\"name\": \"variableDate\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Name\", \"dataType\": \"String\"}, {\"name\": \"Denominated\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"ISIN\", \"dataType\": \"String\"}, {\"name\": \"Instrument Description\", \"dataType\": \"String\"}, {\"name\": \"Notional\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"Revision Date\", \"dataType\": \"String\"}, {\"name\": \"Trade Date\", \"dataType\": \"String\"}, {\"name\": \"Accrual\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Id\", \"dataType\": \"String\"}, {\"name\": \"DV01\", \"dataType\": \"String\"}, {\"name\": \"Deal ID\", \"dataType\": \"String\"}, {\"name\": \"Debt Type\", \"dataType\": \"String\"}, {\"name\": \"FileName1\", \"dataType\": \"String\"}, {\"name\": \"FileName2\", \"dataType\": \"String\"}, {\"name\": \"Inflation Index Ratio\", \"dataType\": \"String\"}, {\"name\": \"Instrument Name\", \"dataType\": \"String\"}, {\"name\": \"Legal Entity\", \"dataType\": \"String\"}, {\"name\": \"Maturity Date\", \"dataType\": \"String\"}, {\"name\": \"Portfolio\", \"dataType\": \"String\"}, {\"name\": \"Trade Date EOD Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Clean Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price Type\", \"dataType\": \"String\"}, {\"name\": \"Traded Yield\", \"dataType\": \"String\"}]", "[{\"name\": \"ISIN in Scope?\", \"dataType\": \"String\"}, {\"name\": \"Trade Date\", \"dataType\": \"String\"}, {\"name\": \"Denominated\", \"dataType\": \"String\"}, {\"name\": \"ISIN\", \"dataType\": \"String\"}, {\"name\": \"Notional\", \"dataType\": \"String\"}, {\"name\": \"Revision Date\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Name\", \"dataType\": \"String\"}, {\"name\": \"Date_fx\", \"dataType\": \"String\"}, {\"name\": \"variableDate\", \"dataType\": \"String\"}, {\"name\": \"Region\", \"dataType\": \"String\"}, {\"name\": \"Instrument Description\", \"dataType\": \"String\"}, {\"name\": \"Month\", \"dataType\": \"String\"}, {\"name\": \"FileName\", \"dataType\": \"String\"}, {\"name\": \"Accrual\", \"dataType\": \"String\"}, {\"name\": \"Counterparty Id\", \"dataType\": \"String\"}, {\"name\": \"DV01\", \"dataType\": \"String\"}, {\"name\": \"Deal ID\", \"dataType\": \"String\"}, {\"name\": \"Debt Type\", \"dataType\": \"String\"}, {\"name\": \"FileName1\", \"dataType\": \"String\"}, {\"name\": \"FileName2\", \"dataType\": \"String\"}, {\"name\": \"Inflation Index Ratio\", \"dataType\": \"String\"}, {\"name\": \"Instrument Name\", \"dataType\": \"String\"}, {\"name\": \"Legal Entity\", \"dataType\": \"String\"}, {\"name\": \"Maturity Date\", \"dataType\": \"String\"}, {\"name\": \"Portfolio\", \"dataType\": \"String\"}, {\"name\": \"Trade Date EOD Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Clean Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price\", \"dataType\": \"String\"}, {\"name\": \"Traded Price Type\", \"dataType\": \"String\"}, {\"name\": \"Traded Yield\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Formula_120_0\", \"Union_95_split\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"ISIN in Scope?\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Month\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Date_fx\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"variableDate\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Denominated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ISIN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Description\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Notional\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Region\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Revision Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Accrual\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Id\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"DV01\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Deal ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Debt Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName2\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflation Index Ratio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Legal Entity\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Maturity Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Portfolio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date EOD Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Clean Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Yield\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"ISIN in Scope?\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Denominated\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ISIN\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Notional\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Revision Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Date_fx\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"variableDate\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Region\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Description\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Month\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Accrual\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Counterparty Id\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"DV01\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Deal ID\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Debt Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"FileName2\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Inflation Index Ratio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Instrument Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Legal Entity\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Maturity Date\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Portfolio\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Trade Date EOD Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Clean Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Price Type\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Traded Yield\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "95_#2_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "-BLIYX6eLIEUe-CTd6awt",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "95_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "100_inner_outer" : {
+      "id" : "100_inner_outer",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_100_inner_UnionLeftOuter",
+        "x" : 4260,
+        "y" : 660,
+        "phase" : 2
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Counterparty Name` = in1.Counterparty)",
+            "_row_id" : null
+          },
+          "joinType" : "left",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN (in0.`Counterparty Name` = in1.Counterparty) THEN NULL ELSE 'N' END)",
+            "_row_id" : null
+          },
+          "alias" : "`Y/N?`",
+          "description" : null,
+          "_row_id" : "AfPY-WlyaZbtTH4QEnFwj"
+        }, {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Y/N?`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "tjolsCwaW2brnp13KVx7R",
+          "slug" : "in0"
+        }, {
+          "id" : "KMwaQDExPEHFVBB22h8pN",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "9ae_vHOgUYUB9Z6dd9T4g",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "99_reject" : {
+      "id" : "99_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_99_reject",
+        "x" : 4060,
+        "y" : 560,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((NOT (((`Counterparty Name` IS NULL) OR (`Counterparty Name` IS NULL)) OR ((LENGTH(`Counterparty Name`)) = 0))) OR ((((`Counterparty Name` IS NULL) OR (`Counterparty Name` IS NULL)) OR ((LENGTH(`Counterparty Name`)) = 0)) IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "uJRHm5QCR-7WmDrRVnR53",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "TRHdLqxBoK6nvPr9T4qAw",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_93_93_True" : {
+      "id" : "Filter_93_93_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_93"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_26",
+          "id" : "output_port_26",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Filter_93') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_26",
+          "slug" : "input_port_26"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_26",
+          "slug" : "output_port_26"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "93_reject" : {
+      "id" : "93_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_93_reject",
+        "x" : 3260,
+        "y" : 260,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((NOT (((ISIN IS NULL) OR (ISIN IS NULL)) OR ((LENGTH(ISIN)) = 0))) OR ((((ISIN IS NULL) OR (ISIN IS NULL)) OR ((LENGTH(ISIN)) = 0)) IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "uH1LSmzdiUHh-VgiAfpsN",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ehkz8G6qjkwU9qHxPikoe",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "94_inner" : {
+      "id" : "94_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_94_inner",
+        "x" : 3260,
+        "y" : 640,
+        "phase" : 2
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Instrument Description` = in1.`Instrument Description`)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.`Trade Date`",
+            "_row_id" : null
+          },
+          "alias" : "`Trade Date`",
+          "description" : null,
+          "_row_id" : "9pNLXGrRAtqn1Pi-K84qv"
+        }, {
+          "expression" : {
+            "expression" : "in0.Denominated",
+            "_row_id" : null
+          },
+          "alias" : "Denominated",
+          "description" : null,
+          "_row_id" : "DsF6sIKrqY-5wSrNttLQ1"
+        }, {
+          "expression" : {
+            "expression" : "in1.ISIN",
+            "_row_id" : null
+          },
+          "alias" : "ISIN",
+          "description" : null,
+          "_row_id" : "HX6eSHrNakR9cc-cbw7ks"
+        }, {
+          "expression" : {
+            "expression" : "in0.Notional",
+            "_row_id" : null
+          },
+          "alias" : "Notional",
+          "description" : null,
+          "_row_id" : "wK0tmB4yB-NAJoqcRLLX7"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Revision Date`",
+            "_row_id" : null
+          },
+          "alias" : "`Revision Date`",
+          "description" : null,
+          "_row_id" : "28fdC5KYKb4AOLgjenDE1"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Counterparty Name`",
+            "_row_id" : null
+          },
+          "alias" : "`Counterparty Name`",
+          "description" : null,
+          "_row_id" : "gk2q8fLX9pcDuOUS4ndtd"
+        }, {
+          "expression" : {
+            "expression" : "in0.Date_fx",
+            "_row_id" : null
+          },
+          "alias" : "Date_fx",
+          "description" : null,
+          "_row_id" : "G6yrmadHn9D4xqM940CGY"
+        }, {
+          "expression" : {
+            "expression" : "in0.variableDate",
+            "_row_id" : null
+          },
+          "alias" : "variableDate",
+          "description" : null,
+          "_row_id" : "lA3FJse-ikSBihS-j5SSP"
+        }, {
+          "expression" : {
+            "expression" : "in0.Region",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "CH1mogZlp78gQZRWiLLJM"
+        }, {
+          "expression" : {
+            "expression" : "in0.`Instrument Description`",
+            "_row_id" : null
+          },
+          "alias" : "`Instrument Description`",
+          "description" : null,
+          "_row_id" : "Rl6-Io4EGx44DYcJ2b074"
+        }, {
+          "expression" : {
+            "expression" : "in0.Month",
+            "_row_id" : null
+          },
+          "alias" : "Month",
+          "description" : null,
+          "_row_id" : "kNaqvnwLWoooop-JB9FYl"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "9zx-3sWlVT-Q8aqvE-xgy",
+          "slug" : "in0"
+        }, {
+          "id" : "AQrcC6T2JRQuWwz-6GiDV",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "fpOPJqP1GWmlZROnAVXC0",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_96_96_Output" : {
+      "id" : "AlteryxSelect_96_96_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_96"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_96') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_103_103_Output_Union_103_103_Output",
+    "source" : "103",
+    "sourcePort" : "103_Output",
+    "target" : "Union_103_103_Output",
+    "targetPort" : "input_port_28",
+    "isWireless" : false
+  }, {
+    "id" : "edge_92",
+    "source" : "100_inner_outer",
+    "sourcePort" : "9ae_vHOgUYUB9Z6dd9T4g",
+    "target" : "103",
+    "targetPort" : "p5wxFv25H9VVrxBskP6so",
+    "isWireless" : false
+  }, {
+    "id" : "edge_124",
+    "source" : "vGwE5qW6CD6uWG6-2K2IY",
+    "sourcePort" : "H8TQ7JLbogAmUXAtLHlAQ",
+    "target" : "103",
+    "targetPort" : "103_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_90",
+    "source" : "123",
+    "sourcePort" : "123_Output",
+    "target" : "100_inner_outer",
+    "targetPort" : "KMwaQDExPEHFVBB22h8pN",
+    "isWireless" : false
+  }, {
+    "id" : "edge_91",
+    "source" : "99_reject",
+    "sourcePort" : "TRHdLqxBoK6nvPr9T4qAw",
+    "target" : "100_inner_outer",
+    "targetPort" : "tjolsCwaW2brnp13KVx7R",
+    "isWireless" : false
+  }, {
+    "id" : "edge_125",
+    "source" : "99",
+    "sourcePort" : "99_True",
+    "target" : "vGwE5qW6CD6uWG6-2K2IY",
+    "targetPort" : "sd2AvyE3A4XQfrQLFzbNh",
+    "isWireless" : false
+  }, {
+    "id" : "edge_9",
+    "source" : "Configuration_t_90_90_Output",
+    "sourcePort" : "output_port_24",
+    "target" : "123",
+    "targetPort" : "123_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_40",
+    "source" : "95",
+    "sourcePort" : "95_Output",
+    "target" : "99_reject",
+    "targetPort" : "uJRHm5QCR-7WmDrRVnR53",
+    "isWireless" : false
+  }, {
+    "id" : "edge_39",
+    "source" : "95",
+    "sourcePort" : "95_Output",
+    "target" : "99",
+    "targetPort" : "99_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_89",
+    "source" : "eYqgm9ZIMVollHxQJh0D8",
+    "sourcePort" : "UeMGY5zYdhfzqrmBirqHV",
+    "target" : "95",
+    "targetPort" : "-BLIYX6eLIEUe-CTd6awt",
+    "isWireless" : false
+  }, {
+    "id" : "edge_118",
+    "source" : "TZT7jRuG3V1s5-DLfGgh4",
+    "sourcePort" : "35RojLyMdwZYmQPNU3uEQ",
+    "target" : "95",
+    "targetPort" : "95_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_120",
+    "source" : "NZKg0xwOPvEpRDRTpbPkB",
+    "sourcePort" : "t3JIZw6ebOTB6J9hxhDMU",
+    "target" : "eYqgm9ZIMVollHxQJh0D8",
+    "targetPort" : "ff2RJj7urz-YJj3AC-210",
+    "isWireless" : false
+  }, {
+    "id" : "edge_122",
+    "source" : "RsTn9H2xZRVGqJi6ufbvQ",
+    "sourcePort" : "j_vn3SBOfIr5xUyBzv-5f",
+    "target" : "eYqgm9ZIMVollHxQJh0D8",
+    "targetPort" : "EfbsiaUHGAE9R-qz0q05b",
+    "isWireless" : false
+  }, {
+    "id" : "edge_119",
+    "source" : "93_reject",
+    "sourcePort" : "ehkz8G6qjkwU9qHxPikoe",
+    "target" : "TZT7jRuG3V1s5-DLfGgh4",
+    "targetPort" : "7G6Flgd5PJmCt5_4m2y-j",
+    "isWireless" : false
+  }, {
+    "id" : "edge_121",
+    "source" : "94_inner",
+    "sourcePort" : "fpOPJqP1GWmlZROnAVXC0",
+    "target" : "NZKg0xwOPvEpRDRTpbPkB",
+    "targetPort" : "VifKKaxRWZ2M23vdeWN0H",
+    "isWireless" : false
+  }, {
+    "id" : "edge_123",
+    "source" : "Join_94_left_58O1Z0HIOnJlzPJDXa435",
+    "sourcePort" : "output_port_27",
+    "target" : "RsTn9H2xZRVGqJi6ufbvQ",
+    "targetPort" : "2HPY5TgHchI5-Op2zOIav",
+    "isWireless" : false
+  }, {
+    "id" : "edge_116",
+    "source" : "Formula_82_0_NuwWofDeUBs7TvBtM0ERD",
+    "sourcePort" : "output_port_25",
+    "target" : "93_reject",
+    "targetPort" : "uH1LSmzdiUHh-VgiAfpsN",
+    "isWireless" : false
+  }, {
+    "id" : "edge_58",
+    "source" : "AlteryxSelect_96_96_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "94_inner",
+    "targetPort" : "AQrcC6T2JRQuWwz-6GiDV",
+    "isWireless" : false
+  }, {
+    "id" : "edge_59",
+    "source" : "Filter_93_93_True",
+    "sourcePort" : "output_port_26",
+    "target" : "94_inner",
+    "targetPort" : "9zx-3sWlVT-Q8aqvE-xgy",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
