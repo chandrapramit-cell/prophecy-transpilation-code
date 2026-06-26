@@ -727,7 +727,7 @@ CreatePoints_602_cast_lonlat AS (
 CreatePoints_602 AS (
 
   {{
-    DatabricksSqlSpatial.CreatePoint(
+    prophecy_spatial.CreatePoint(
       'CreatePoints_602_cast_lonlat', 
       [['Right_lot', 'Right_lat', 'Centroid']]
     )
@@ -748,7 +748,7 @@ CreatePoints_601_cast_lonlat AS (
 
 CreatePoints_601 AS (
 
-  {{ DatabricksSqlSpatial.CreatePoint('CreatePoints_601_cast_lonlat', [['lot', 'lat', 'Centroid']]) }}
+  {{ prophecy_spatial.CreatePoint('CreatePoints_601_cast_lonlat', [['lot', 'lat', 'Centroid']]) }}
 
 ),
 
@@ -779,7 +779,7 @@ Join_603_inner AS (
 Distance_605 AS (
 
   {{
-    DatabricksSqlSpatial.Distance(
+    prophecy_spatial.Distance(
       'Join_603_inner', 
       'Centroid', 
       'Right_Centroid', 

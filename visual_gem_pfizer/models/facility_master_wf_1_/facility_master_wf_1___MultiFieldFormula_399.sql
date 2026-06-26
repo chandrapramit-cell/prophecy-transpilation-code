@@ -331,7 +331,7 @@ CreatePoints_199_cast_lonlat AS (
 CreatePoints_199 AS (
 
   {{
-    DatabricksSqlSpatial.CreatePoint(
+    prophecy_spatial.CreatePoint(
       'CreatePoints_199_cast_lonlat', 
       [['longitude', 'latitude', 'Centroid']]
     )
