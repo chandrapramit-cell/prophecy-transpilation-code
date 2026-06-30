@@ -1,0 +1,489 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_38",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___AlteryxSelect_38",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "voDO9CB3lRVBRN3p1GLiF" : {
+      "id" : "voDO9CB3lRVBRN3p1GLiF",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_37_0",
+        "x" : 4070,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('Daily_trade_Volume_Credit_DM', ' ', Region)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Name",
+          "description" : null,
+          "_row_id" : "2BPpBAvEDx3anp7HEcspq"
+        }, {
+          "expression" : {
+            "expression" : "CAST('Upload' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "ACTION",
+          "description" : null,
+          "_row_id" : "FOaF2_Vg8Ug4WiLuCVzKg"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CDXXHKtHCQoUl4KFVEAke",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "XijiVQw29TmdQh6umA-fn",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "Formula_50_0_gn7R9vXJIJcLKdEoG4lsZ" : {
+      "id" : "Formula_50_0_gn7R9vXJIJcLKdEoG4lsZ",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_50_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_16",
+          "id" : "output_port_16",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_50_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_16",
+          "slug" : "input_port_16"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_16",
+          "slug" : "output_port_16"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "44" : {
+      "id" : "44",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_44",
+        "x" : 3110,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(Weighted_Sum)",
+            "_row_id" : null
+          },
+          "alias" : "`Daily volume`",
+          "description" : null,
+          "_row_id" : "3e2dRWZx1seRVUolPNNGJ"
+        }, {
+          "expression" : {
+            "expression" : "Region",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "kenIVLS34gE15fl3YWGMm"
+        }, {
+          "expression" : {
+            "expression" : "ISIN",
+            "_row_id" : null
+          },
+          "alias" : "ISIN",
+          "description" : null,
+          "_row_id" : "N-Voikrrtx5QW3MsBEEsQ"
+        }, {
+          "expression" : {
+            "expression" : "CUSIP",
+            "_row_id" : null
+          },
+          "alias" : "CUSIP",
+          "description" : null,
+          "_row_id" : "AYYlHsxPhI3Yn9iuuobdp"
+        }, {
+          "expression" : {
+            "expression" : "`PRODUCT TYPE`",
+            "_row_id" : null
+          },
+          "alias" : "`PRODUCT TYPE`",
+          "description" : null,
+          "_row_id" : "AWYFvi85VhB7IakuE6FpD"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Region",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "TA58SfnJ3TOEibsJqcF65"
+        }, {
+          "expression" : {
+            "expression" : "ISIN",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "yxWwo0_455LYd0aZdmB2Q"
+        }, {
+          "expression" : {
+            "expression" : "CUSIP",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "VqCmR4kR5DNMbYbrM0kVJ"
+        }, {
+          "expression" : {
+            "expression" : "`PRODUCT TYPE`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "pxsIVOFhpHWtu0q5EGczd"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "44_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "44_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "48" : {
+      "id" : "48",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_48",
+        "x" : 3590,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(NOT (ISIN IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "48_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "48_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "AlteryxSelect_38_38_Output" : {
+      "id" : "AlteryxSelect_38_38_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_38"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_38\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "38" : {
+      "id" : "38",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_38",
+        "x" : 4310,
+        "y" : 507,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "ACTION",
+            "_row_id" : null
+          },
+          "alias" : "ACTION",
+          "description" : null,
+          "_row_id" : "au5V4sDfzZ0RSTMT_e8UN"
+        }, {
+          "expression" : {
+            "expression" : "ISIN",
+            "_row_id" : null
+          },
+          "alias" : "ISIN",
+          "description" : null,
+          "_row_id" : "QUITXEPKVX2TZ2W7l4no3"
+        }, {
+          "expression" : {
+            "expression" : "CUSIP",
+            "_row_id" : null
+          },
+          "alias" : "CUSIP",
+          "description" : null,
+          "_row_id" : "4Hv8Kt3IxNSFWxm4FQGFm"
+        }, {
+          "expression" : {
+            "expression" : "`Daily volume`",
+            "_row_id" : null
+          },
+          "alias" : "`Daily volume`",
+          "description" : null,
+          "_row_id" : "aK_A9688Fmc5wdGTmJZBi"
+        }, {
+          "expression" : {
+            "expression" : "`PRODUCT TYPE`",
+            "_row_id" : null
+          },
+          "alias" : "Product_type",
+          "description" : null,
+          "_row_id" : "7IX0gyQDbprnIwGzxmkG-"
+        }, {
+          "expression" : {
+            "expression" : "Name",
+            "_row_id" : null
+          },
+          "alias" : "Name",
+          "description" : null,
+          "_row_id" : "20agxztD8tDjYTOMb96RB"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`ACTION`, `ISIN`, `CUSIP`, `Daily volume`, `Name`, `PRODUCT TYPE`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "38_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "38_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "35_inner" : {
+      "id" : "35_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_35_inner",
+        "x" : 2630,
+        "y" : 327,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.INSTRUMENTCODE = in1.`INSTRUMENT CODE`)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "qiu8UbV5pKljRJg9GPO1C",
+          "slug" : "in0"
+        }, {
+          "id" : "T7QAQRqWCAkH1uC98dbWm",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "P4vNDVBa_wbVDxkp7yp8O",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    },
+    "28" : {
+      "id" : "28",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "Configuration_t_28",
+        "x" : 50,
+        "y" : 1082.999755859375,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "Configuration_t_28_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "28_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CREDITSDM"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_38_38_Output_AlteryxSelect_38_38_Output",
+    "source" : "38",
+    "sourcePort" : "38_Output",
+    "target" : "AlteryxSelect_38_38_Output",
+    "targetPort" : "input_port_17",
+    "isWireless" : false
+  }, {
+    "id" : "edge_134",
+    "source" : "voDO9CB3lRVBRN3p1GLiF",
+    "sourcePort" : "XijiVQw29TmdQh6umA-fn",
+    "target" : "38",
+    "targetPort" : "38_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_135",
+    "source" : "48",
+    "sourcePort" : "48_True",
+    "target" : "voDO9CB3lRVBRN3p1GLiF",
+    "targetPort" : "CDXXHKtHCQoUl4KFVEAke",
+    "isWireless" : false
+  }, {
+    "id" : "edge_23",
+    "source" : "44",
+    "sourcePort" : "44_Output",
+    "target" : "48",
+    "targetPort" : "48_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_65",
+    "source" : "35_inner",
+    "sourcePort" : "P4vNDVBa_wbVDxkp7yp8O",
+    "target" : "44",
+    "targetPort" : "44_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_64",
+    "source" : "28",
+    "sourcePort" : "28_Output",
+    "target" : "35_inner",
+    "targetPort" : "T7QAQRqWCAkH1uC98dbWm",
+    "isWireless" : false
+  }, {
+    "id" : "edge_132",
+    "source" : "Formula_50_0_gn7R9vXJIJcLKdEoG4lsZ",
+    "sourcePort" : "output_port_16",
+    "target" : "35_inner",
+    "targetPort" : "qiu8UbV5pKljRJg9GPO1C",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

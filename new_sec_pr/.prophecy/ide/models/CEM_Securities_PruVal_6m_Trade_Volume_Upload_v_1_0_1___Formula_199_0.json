@@ -1,0 +1,188 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_199_0",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Formula_199_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_199_0_mDlpUt5-NBgcBj2O0gosh" : {
+      "id" : "Formula_199_0_mDlpUt5-NBgcBj2O0gosh",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_199_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_199_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_26",
+          "slug" : "input_port_26"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_26",
+          "slug" : "output_port_26"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "W78er7ECh5srt4W-h1TLG" : {
+      "id" : "W78er7ECh5srt4W-h1TLG",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_199_0",
+        "x" : 528,
+        "y" : 360,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('Counterparty Mapping' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Name",
+          "description" : null,
+          "_row_id" : "BBiTU_qkRc9itqz7B0NOP"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CiJhdF0kA00q4j-gWmEyY",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "mDlpUt5-NBgcBj2O0gosh",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Container191"
+    },
+    "189" : {
+      "id" : "189",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_189",
+        "x" : 48,
+        "y" : 360,
+        "phase" : 2
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Counterparty Name`",
+            "_row_id" : null
+          },
+          "alias" : "`Counterparty Name`",
+          "description" : null,
+          "_row_id" : "M4TxiMStcRBNS0XX6wXai"
+        }, {
+          "expression" : {
+            "expression" : "`Y/N?`",
+            "_row_id" : null
+          },
+          "alias" : "`Y/N?`",
+          "description" : null,
+          "_row_id" : "lWGUQG0zjJ6dIVpmTGVoa"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "189_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "189_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Container191"
+    },
+    "Union_103_103_Output" : {
+      "id" : "Union_103_103_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_103"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_22",
+          "id" : "output_port_22",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1___Union_103') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_22",
+          "slug" : "input_port_22"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_22",
+          "slug" : "output_port_22"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_W78er7ECh5srt4W-h1TLG_mDlpUt5-NBgcBj2O0gosh_Formula_199_0_mDlpUt5-NBgcBj2O0gosh",
+    "source" : "W78er7ECh5srt4W-h1TLG",
+    "sourcePort" : "mDlpUt5-NBgcBj2O0gosh",
+    "target" : "Formula_199_0_mDlpUt5-NBgcBj2O0gosh",
+    "targetPort" : "input_port_26",
+    "isWireless" : false
+  }, {
+    "id" : "edge_156",
+    "source" : "189",
+    "sourcePort" : "189_Output",
+    "target" : "W78er7ECh5srt4W-h1TLG",
+    "targetPort" : "CiJhdF0kA00q4j-gWmEyY",
+    "isWireless" : false
+  }, {
+    "id" : "edge_8",
+    "source" : "Union_103_103_Output",
+    "sourcePort" : "output_port_22",
+    "target" : "189",
+    "targetPort" : "189_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

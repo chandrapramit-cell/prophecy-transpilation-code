@@ -1,0 +1,94 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1__75__table_75_Output4_macro_op",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_Upload_v_1_0_1__75__table_75_Output4_macro_op",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "var('table_75_Output4_macro_op')",
+        "materialized" : "incremental",
+        "database" : "var('db_name')",
+        "schema" : "var('schema_name')",
+        "incremental_strategy" : "\"append\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "1_75" : {
+      "id" : "1_75",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "VCGBondVolumesR_1_75",
+        "x" : 0,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "VCGBondVolumesR_1_75_ref",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "1_75_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "4_75" : {
+      "id" : "4_75",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "table_75_Output4_macro_op",
+        "phase" : 0
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM VCGBondVolumesR_1_75\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "4_75_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "180UB198_zfyZR3gwDEqC",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_193",
+    "source" : "1_75",
+    "sourcePort" : "1_75_Output",
+    "target" : "4_75",
+    "targetPort" : "4_75_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
