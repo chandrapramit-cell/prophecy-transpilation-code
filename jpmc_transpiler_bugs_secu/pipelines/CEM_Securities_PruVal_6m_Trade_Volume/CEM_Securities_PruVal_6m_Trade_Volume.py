@@ -110,7 +110,8 @@ with Pipeline(args) as pipeline:
         properties = DatabricksVolumeSource(
           connector = "transpiled_connection",
           properties = DatabricksVolumeSource.DatabricksVolumeSourceInternal(
-            filePath = "C:\\Users\\prophecy\\Documents\\vcg\\Tushar-team-transpiler-project-1\\Securities\\Fake_Data\\Configuration_template_CEM.xlsx"
+            filePath = "C:\\Users\\prophecy\\Documents\\vcg\\Tushar-team-transpiler-project-1\\Securities\\Fake_Data\\Configuration_template_CEM.xlsx",
+            fileOperationProperties = DatabricksVolumeSource.SourceFileOperation(includeSheetNameColumn = True)
           ),
           format = DatabricksVolumeSource.XLSXReadFormat(
             ignoreCellFormatting = True,
@@ -119,9 +120,11 @@ with Pipeline(args) as pipeline:
             sheetName = "Instrument Mapping",
             allowAllNullRows = True,
             defaultColumnPrefix = "F"
-          )
+          ),
+          compression = DatabricksVolumeSource.Compression(kind = "uncompressed")
         ),
-        input_ports = None
+        input_ports = None,
+        comment = "Reads instrument mapping (bond descriptions and ISINs) from an Excel file to provide security identifiers for downstream processes."
     )
     configuration_t_38 = Process(
         name = "Configuration_t_38",
