@@ -1,0 +1,91 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_57__table_57_Output4_macro_op",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_57__table_57_Output4_macro_op",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"table_57_Output4_macro_op\"",
+        "materialized" : "incremental",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "incremental_strategy" : "\"append\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "GEM_Credit_Trad_1_57_1_57_Output" : {
+      "id" : "GEM_Credit_Trad_1_57_1_57_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GEM_Credit_Trad_1_57"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_57', 'GEM_Credit_Trad_1_57') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "4_57" : {
+      "id" : "4_57",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "table_57_Output4_macro_op",
+        "phase" : 0
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM GEM_Credit_Trad_1_57\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "4_57_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "FafcMAci-2leZxXYAt56Y",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_285",
+    "source" : "GEM_Credit_Trad_1_57_1_57_Output",
+    "sourcePort" : "output_port_0",
+    "target" : "4_57",
+    "targetPort" : "4_57_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

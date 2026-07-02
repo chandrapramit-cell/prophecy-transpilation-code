@@ -1,0 +1,132 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume__AlteryxSelect_31",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume__AlteryxSelect_31",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_31_31_Output" : {
+      "id" : "AlteryxSelect_31_31_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_31"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_31\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "31" : {
+      "id" : "31",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_31",
+        "x" : 1140,
+        "y" : 396,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ "31_Input##Bond Description" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Bond Description`"
+          },
+          "alias" : "`Instrument Description`",
+          "_row_id" : "4LBVhMHXHxzjYwAzlWLni"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Bond description`)"
+          },
+          "_row_id" : "425831203"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "31_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "31_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Configuration_t_37_37_Output" : {
+      "id" : "Configuration_t_37_37_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Configuration_t_37"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_5",
+          "id" : "output_port_5",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume', 'Configuration_t_37') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_31_31_Output_AlteryxSelect_31_31_Output",
+    "source" : "31",
+    "sourcePort" : "31_Output",
+    "target" : "AlteryxSelect_31_31_Output",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_199",
+    "source" : "Configuration_t_37_37_Output",
+    "sourcePort" : "output_port_5",
+    "target" : "31",
+    "targetPort" : "31_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

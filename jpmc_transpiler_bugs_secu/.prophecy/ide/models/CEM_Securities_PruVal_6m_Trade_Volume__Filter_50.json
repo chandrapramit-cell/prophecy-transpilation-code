@@ -1,0 +1,123 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume__Filter_50",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume__Filter_50",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_50_50_True" : {
+      "id" : "Filter_50_50_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_50"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_50\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "50" : {
+      "id" : "50",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_50",
+        "x" : 7380,
+        "y" : 612,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ "50_Input##Region" ],
+        "condition" : {
+          "expression" : "(Region = 'ASIA')"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "50_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "50_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_26_26_Output" : {
+      "id" : "Union_26_26_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_26"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_13",
+          "id" : "output_port_13",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('CEM_Securities_PruVal_6m_Trade_Volume__Union_26') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_50_50_True_Filter_50_50_True",
+    "source" : "50",
+    "sourcePort" : "50_True",
+    "target" : "Filter_50_50_True",
+    "targetPort" : "input_port_14",
+    "isWireless" : false
+  }, {
+    "id" : "edge_210",
+    "source" : "Union_26_26_Output",
+    "sourcePort" : "output_port_13",
+    "target" : "50",
+    "targetPort" : "50_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,142 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume__Summarize_13",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume__Summarize_13",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_13_13_Output" : {
+      "id" : "Summarize_13_13_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_13"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_13\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_8",
+          "slug" : "input_port_8"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_8",
+          "slug" : "output_port_8"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "13" : {
+      "id" : "13",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_13",
+        "x" : 2040,
+        "y" : 792,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "variableDate"
+          },
+          "alias" : "variableDate",
+          "_row_id" : "tboyFXLlxLNaLqqFW3Of8"
+        }, {
+          "expression" : {
+            "expression" : "Currency"
+          },
+          "alias" : "Currency",
+          "_row_id" : "sJAeObd2kZfSpulgpI3cP"
+        }, {
+          "expression" : {
+            "expression" : "FX"
+          },
+          "alias" : "FX",
+          "_row_id" : "3xzkrt7Ph6VTs-yUIQq3i"
+        } ],
+        "dedupType" : "distinct",
+        "columnsSelector" : [ "13_Input##variableDate", "13_Input##Currency", "13_Input##FX" ],
+        "orders" : [ ],
+        "useOrderBy" : false
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "13_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "13_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Configuration_t_36_36_Output" : {
+      "id" : "Configuration_t_36_36_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Configuration_t_36"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_4",
+          "id" : "output_port_4",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume', 'Configuration_t_36') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_13_13_Output_Summarize_13_13_Output",
+    "source" : "13",
+    "sourcePort" : "13_Output",
+    "target" : "Summarize_13_13_Output",
+    "targetPort" : "input_port_8",
+    "isWireless" : false
+  }, {
+    "id" : "edge_231",
+    "source" : "Configuration_t_36_36_Output",
+    "sourcePort" : "output_port_4",
+    "target" : "13",
+    "targetPort" : "13_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
