@@ -1,0 +1,233 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_57__scatter_data_projection_002",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_57__scatter_data_projection_002",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "scatter_data_pro##oL8PrjQP" : {
+      "id" : "scatter_data_pro##oL8PrjQP",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "scatter_data_projection_002",
+        "x" : 860,
+        "y" : -300,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "trade_id"
+          },
+          "_row_id" : "1855646381"
+        }, {
+          "expression" : {
+            "expression" : "notional_usd"
+          },
+          "_row_id" : "1939050398"
+        }, {
+          "expression" : {
+            "expression" : "consideration_usd"
+          },
+          "_row_id" : "821766707"
+        }, {
+          "expression" : {
+            "expression" : "clean_price"
+          },
+          "_row_id" : "1199039931"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vPoN9OMA",
+          "slug" : "scatter_data_filter_001"
+        } ],
+        "outputs" : [ {
+          "id" : "x5zybYUo",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GEM_Credit_Trad_1_57_JJhwJg2sbV" : {
+      "id" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GEM_Credit_Trad_1_57"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_57', 'GEM_Credit_Trad_1_57') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "scatter_data_fil##LJdGXkuJ" : {
+      "id" : "scatter_data_fil##LJdGXkuJ",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "scatter_data_filter_001",
+        "x" : 660,
+        "y" : -300,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "notional_usd IS NOT NULL AND consideration_usd IS NOT NULL"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "LlbhbPiG",
+          "slug" : "scatter_data_from_000"
+        } ],
+        "outputs" : [ {
+          "id" : "AGFNrdEF",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "scatter_data_fro##RTezxhX9" : {
+      "id" : "scatter_data_fro##RTezxhX9",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "scatter_data_from_000",
+        "x" : 460,
+        "y" : -300,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Trade ID`"
+          },
+          "alias" : "trade_id",
+          "_row_id" : "317851295"
+        }, {
+          "expression" : {
+            "expression" : "CAST(REPLACE(REPLACE(`Notional (USD)`, ',', ''), '$', '') AS DOUBLE)"
+          },
+          "alias" : "notional_usd",
+          "_row_id" : "1012271223"
+        }, {
+          "expression" : {
+            "expression" : "CAST(REPLACE(REPLACE(`Consideration (USD)`, ',', ''), '$', '') AS DOUBLE)"
+          },
+          "alias" : "consideration_usd",
+          "_row_id" : "1594776863"
+        }, {
+          "expression" : {
+            "expression" : "CAST(REPLACE(REPLACE(`Clean Price`, ',', ''), '$', '') AS DOUBLE)"
+          },
+          "alias" : "clean_price",
+          "_row_id" : "1898319804"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "JzLJNyu7",
+          "slug" : "source_data"
+        } ],
+        "outputs" : [ {
+          "id" : "SCplZEWj",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "scatter_data_projection_002_x5zybYUo" : {
+      "id" : "scatter_data_projection_002_x5zybYUo",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "scatter_data_projection_002"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM scatter_data_projection_002\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_scatter_data_pro##oL8PrjQP_x5zybYUo_scatter_data_projection_002_x5zybYUo",
+    "source" : "scatter_data_pro##oL8PrjQP",
+    "sourcePort" : "x5zybYUo",
+    "target" : "scatter_data_projection_002_x5zybYUo",
+    "targetPort" : "input_port_1",
+    "isWireless" : false
+  }, {
+    "id" : "rG9gKZLG",
+    "source" : "scatter_data_fil##LJdGXkuJ",
+    "sourcePort" : "AGFNrdEF",
+    "target" : "scatter_data_pro##oL8PrjQP",
+    "targetPort" : "vPoN9OMA",
+    "isWireless" : false
+  }, {
+    "id" : "Kqy6fno2",
+    "source" : "scatter_data_fro##RTezxhX9",
+    "sourcePort" : "SCplZEWj",
+    "target" : "scatter_data_fil##LJdGXkuJ",
+    "targetPort" : "LlbhbPiG",
+    "isWireless" : false
+  }, {
+    "id" : "JJhwJg2sbV_to_oCadybAotG##HjTy0Ofe",
+    "source" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+    "sourcePort" : "output_port_0",
+    "target" : "scatter_data_fro##RTezxhX9",
+    "targetPort" : "JzLJNyu7",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

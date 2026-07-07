@@ -1,0 +1,139 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_57__metrics_summary",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_57__metrics_summary",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "metrics_summary_GjonuZAI" : {
+      "id" : "metrics_summary_GjonuZAI",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "metrics_summary"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM metrics_summary\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_5",
+          "slug" : "input_port_5"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_5",
+          "slug" : "output_port_5"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "metrics_summary##VGvf1C92" : {
+      "id" : "metrics_summary##VGvf1C92",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "metrics_summary",
+        "x" : 120,
+        "y" : 340,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "SUM(CAST(REPLACE(REPLACE(`Notional (USD)`, ',', ''), '$', '') AS DOUBLE))"
+          },
+          "alias" : "total_notional",
+          "_row_id" : "1955828085"
+        }, {
+          "expression" : {
+            "expression" : "SUM(CAST(REPLACE(REPLACE(`Consideration (USD)`, ',', ''), '$', '') AS DOUBLE))"
+          },
+          "alias" : "total_consideration",
+          "_row_id" : "72706174"
+        }, {
+          "expression" : {
+            "expression" : "COUNT(*)"
+          },
+          "alias" : "total_trades",
+          "_row_id" : "265194421"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "z957M62z",
+          "slug" : "source_data"
+        } ],
+        "outputs" : [ {
+          "id" : "GjonuZAI",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GEM_Credit_Trad_1_57_JJhwJg2sbV" : {
+      "id" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GEM_Credit_Trad_1_57"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_57', 'GEM_Credit_Trad_1_57') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_metrics_summary##VGvf1C92_GjonuZAI_metrics_summary_GjonuZAI",
+    "source" : "metrics_summary##VGvf1C92",
+    "sourcePort" : "GjonuZAI",
+    "target" : "metrics_summary_GjonuZAI",
+    "targetPort" : "input_port_5",
+    "isWireless" : false
+  }, {
+    "id" : "JJhwJg2sbV_to_OMpaXcJQfD##DX10XsTN",
+    "source" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+    "sourcePort" : "output_port_0",
+    "target" : "metrics_summary##VGvf1C92",
+    "targetPort" : "z957M62z",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

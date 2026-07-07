@@ -1,0 +1,154 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_57__region_product_heatmap",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_57__region_product_heatmap",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "region_product_heatmap_XOnLXUdI" : {
+      "id" : "region_product_heatmap_XOnLXUdI",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "region_product_heatmap"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM region_product_heatmap\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_6",
+          "slug" : "input_port_6"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_6",
+          "slug" : "output_port_6"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "region_product_h##CqggErBs" : {
+      "id" : "region_product_h##CqggErBs",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "region_product_heatmap",
+        "x" : 120,
+        "y" : -140,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "_row_id" : "561718452"
+        }, {
+          "expression" : {
+            "expression" : "`Product Type`"
+          },
+          "alias" : "product_type",
+          "_row_id" : "168887216"
+        }, {
+          "expression" : {
+            "expression" : "COUNT(*)"
+          },
+          "alias" : "trade_count",
+          "_row_id" : "1739439003"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "_row_id" : "713764114"
+        }, {
+          "expression" : {
+            "expression" : "`Product Type`"
+          },
+          "_row_id" : "2104281059"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "iBPxFWKb",
+          "slug" : "source_data"
+        } ],
+        "outputs" : [ {
+          "id" : "XOnLXUdI",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GEM_Credit_Trad_1_57_JJhwJg2sbV" : {
+      "id" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GEM_Credit_Trad_1_57"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_57', 'GEM_Credit_Trad_1_57') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_region_product_h##CqggErBs_XOnLXUdI_region_product_heatmap_XOnLXUdI",
+    "source" : "region_product_h##CqggErBs",
+    "sourcePort" : "XOnLXUdI",
+    "target" : "region_product_heatmap_XOnLXUdI",
+    "targetPort" : "input_port_6",
+    "isWireless" : false
+  }, {
+    "id" : "JJhwJg2sbV_to_AKKWnuvTYu##OM7VdUSM",
+    "source" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+    "sourcePort" : "output_port_0",
+    "target" : "region_product_h##CqggErBs",
+    "targetPort" : "iBPxFWKb",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

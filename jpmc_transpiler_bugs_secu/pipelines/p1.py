@@ -18,12 +18,15 @@ with Pipeline(args) as pipeline:
         ),
         input_ports = None
     )
-    p1__formula_22_1 = Process(name = "p1__Formula_22_1", properties = ModelTransform(modelName = "p1__Formula_22_1"))
     p1__recordid_1 = Process(name = "p1__RecordID_1", properties = ModelTransform(modelName = "p1__RecordID_1"))
+    p1__remove_all_null_rows = Process(
+        name = "p1__remove_all_null_rows",
+        properties = ModelTransform(modelName = "p1__remove_all_null_rows")
+    )
     p1_input_data = Process(
         name = "p1_input_data",
         properties = Dataset(table = Dataset.DBTSource(name = "p1_input_data", sourceType = "Seed")),
         input_ports = None
     )
     newmachinesample_xlsx_1 >> p1__recordid_1
-    p1_input_data >> p1__formula_22_1
+    p1_input_data >> p1__remove_all_null_rows

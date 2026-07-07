@@ -1,0 +1,155 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_57__trades_by_region",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_57__trades_by_region",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "trades_by_region_FoPhbXJM" : {
+      "id" : "trades_by_region_FoPhbXJM",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "trades_by_region"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM trades_by_region\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "trades_by_region##vgSkhRP0" : {
+      "id" : "trades_by_region##vgSkhRP0",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "trades_by_region",
+        "x" : 120,
+        "y" : 140,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "_row_id" : "1843607642"
+        }, {
+          "expression" : {
+            "expression" : "COUNT(*)"
+          },
+          "alias" : "trade_count",
+          "_row_id" : "557016157"
+        }, {
+          "expression" : {
+            "expression" : "SUM(CAST(REPLACE(REPLACE(`Notional (USD)`, ',', ''), '$', '') AS DOUBLE))"
+          },
+          "alias" : "total_notional_usd",
+          "_row_id" : "1902393801"
+        }, {
+          "expression" : {
+            "expression" : "SUM(CAST(REPLACE(REPLACE(`Consideration (USD)`, ',', ''), '$', '') AS DOUBLE))"
+          },
+          "alias" : "total_consideration_usd",
+          "_row_id" : "1952355889"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "_row_id" : "691130942"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "cJdLCcMi",
+          "slug" : "source_data"
+        } ],
+        "outputs" : [ {
+          "id" : "FoPhbXJM",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GEM_Credit_Trad_1_57_JJhwJg2sbV" : {
+      "id" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GEM_Credit_Trad_1_57"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_57', 'GEM_Credit_Trad_1_57') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_trades_by_region##vgSkhRP0_FoPhbXJM_trades_by_region_FoPhbXJM",
+    "source" : "trades_by_region##vgSkhRP0",
+    "sourcePort" : "FoPhbXJM",
+    "target" : "trades_by_region_FoPhbXJM",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "JJhwJg2sbV_to_xrq4JzBbkG##CJi2LZtq",
+    "source" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+    "sourcePort" : "output_port_0",
+    "target" : "trades_by_region##vgSkhRP0",
+    "targetPort" : "cJdLCcMi",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

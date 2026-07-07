@@ -1,0 +1,188 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_57__sorted_by_date",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_57__sorted_by_date",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "sorted_by_date_jiXuM6y6" : {
+      "id" : "sorted_by_date_jiXuM6y6",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "sorted_by_date"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM sorted_by_date\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_2",
+          "slug" : "input_port_2"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_2",
+          "slug" : "output_port_2"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "sorted_by_date##NLriswV8" : {
+      "id" : "sorted_by_date##NLriswV8",
+      "component" : "OrderBy",
+      "metadata" : {
+        "label" : "sorted_by_date",
+        "x" : 720,
+        "y" : 40,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "orders" : [ {
+          "expression" : {
+            "expression" : "trade_date"
+          },
+          "sortType" : "asc"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "agNh6wxA",
+          "slug" : "trades_by_date"
+        } ],
+        "outputs" : [ {
+          "id" : "jiXuM6y6",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "trades_by_date##He0FeZxf" : {
+      "id" : "trades_by_date##He0FeZxf",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "trades_by_date",
+        "x" : 520,
+        "y" : 40,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "`Trade Date`"
+          },
+          "alias" : "trade_date",
+          "_row_id" : "2097430020"
+        }, {
+          "expression" : {
+            "expression" : "COUNT(*)"
+          },
+          "alias" : "trade_count",
+          "_row_id" : "986055513"
+        }, {
+          "expression" : {
+            "expression" : "SUM(CAST(REPLACE(REPLACE(`Notional (USD)`, ',', ''), '$', '') AS DOUBLE))"
+          },
+          "alias" : "total_notional_usd",
+          "_row_id" : "1457343223"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Trade Date`"
+          },
+          "_row_id" : "429206470"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "pc7hfokc",
+          "slug" : "source_data"
+        } ],
+        "outputs" : [ {
+          "id" : "Dxdpoq1R",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GEM_Credit_Trad_1_57_JJhwJg2sbV" : {
+      "id" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GEM_Credit_Trad_1_57"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_57', 'GEM_Credit_Trad_1_57') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_sorted_by_date##NLriswV8_jiXuM6y6_sorted_by_date_jiXuM6y6",
+    "source" : "sorted_by_date##NLriswV8",
+    "sourcePort" : "jiXuM6y6",
+    "target" : "sorted_by_date_jiXuM6y6",
+    "targetPort" : "input_port_2",
+    "isWireless" : false
+  }, {
+    "id" : "yzk4gas9",
+    "source" : "trades_by_date##He0FeZxf",
+    "sourcePort" : "Dxdpoq1R",
+    "target" : "sorted_by_date##NLriswV8",
+    "targetPort" : "agNh6wxA",
+    "isWireless" : false
+  }, {
+    "id" : "JJhwJg2sbV_to_A7J1LGGF9D##wVXDB294",
+    "source" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+    "sourcePort" : "output_port_0",
+    "target" : "trades_by_date##He0FeZxf",
+    "targetPort" : "pc7hfokc",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

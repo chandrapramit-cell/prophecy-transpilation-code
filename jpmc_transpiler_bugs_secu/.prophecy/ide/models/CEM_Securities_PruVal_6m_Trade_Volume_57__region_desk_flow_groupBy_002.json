@@ -1,0 +1,233 @@
+{
+  "id" : "CEM_Securities_PruVal_6m_Trade_Volume_57__region_desk_flow_groupBy_002",
+  "metainfo" : {
+    "label" : "CEM_Securities_PruVal_6m_Trade_Volume_57__region_desk_flow_groupBy_002",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "region_desk_flow_groupBy_002_AyknOJNT" : {
+      "id" : "region_desk_flow_groupBy_002_AyknOJNT",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "region_desk_flow_groupBy_002"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM region_desk_flow_groupBy_002\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_7",
+          "slug" : "input_port_7"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_7",
+          "slug" : "output_port_7"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "region_desk_flow##qqtLf41G" : {
+      "id" : "region_desk_flow##qqtLf41G",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "region_desk_flow_from_000",
+        "x" : 120,
+        "y" : -480,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "_row_id" : "1337750045"
+        }, {
+          "expression" : {
+            "expression" : "Desk"
+          },
+          "_row_id" : "1435794125"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "GvIRIOv0",
+          "slug" : "source_data"
+        } ],
+        "outputs" : [ {
+          "id" : "uOq5QVao",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "GEM_Credit_Trad_1_57_JJhwJg2sbV" : {
+      "id" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "GEM_Credit_Trad_1_57"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_0",
+          "id" : "output_port_0",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('CEM_Securities_PruVal_6m_Trade_Volume_57', 'GEM_Credit_Trad_1_57') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "region_desk_flow##fBBe2BSD" : {
+      "id" : "region_desk_flow##fBBe2BSD",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "region_desk_flow_filter_001",
+        "x" : 320,
+        "y" : -480,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "Region IS NOT NULL AND Desk IS NOT NULL"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "FPTsFN0E",
+          "slug" : "region_desk_flow_from_000"
+        } ],
+        "outputs" : [ {
+          "id" : "J5SbU0S3",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "region_desk_flow##n9FwBt8n" : {
+      "id" : "region_desk_flow##n9FwBt8n",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "region_desk_flow_groupBy_002",
+        "x" : 520,
+        "y" : -480,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "alias" : "source_node",
+          "_row_id" : "182483528"
+        }, {
+          "expression" : {
+            "expression" : "Desk"
+          },
+          "alias" : "target_node",
+          "_row_id" : "1314835887"
+        }, {
+          "expression" : {
+            "expression" : "COUNT(*)"
+          },
+          "alias" : "flow_value",
+          "_row_id" : "1592025423"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Region"
+          },
+          "_row_id" : "2119243560"
+        }, {
+          "expression" : {
+            "expression" : "Desk"
+          },
+          "_row_id" : "961917359"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Hjq0xUOb",
+          "slug" : "region_desk_flow_filter_001"
+        } ],
+        "outputs" : [ {
+          "id" : "AyknOJNT",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_region_desk_flow##n9FwBt8n_AyknOJNT_region_desk_flow_groupBy_002_AyknOJNT",
+    "source" : "region_desk_flow##n9FwBt8n",
+    "sourcePort" : "AyknOJNT",
+    "target" : "region_desk_flow_groupBy_002_AyknOJNT",
+    "targetPort" : "input_port_7",
+    "isWireless" : false
+  }, {
+    "id" : "vKLs71gM",
+    "source" : "region_desk_flow##fBBe2BSD",
+    "sourcePort" : "J5SbU0S3",
+    "target" : "region_desk_flow##n9FwBt8n",
+    "targetPort" : "Hjq0xUOb",
+    "isWireless" : false
+  }, {
+    "id" : "vBdyWk4k",
+    "source" : "region_desk_flow##qqtLf41G",
+    "sourcePort" : "uOq5QVao",
+    "target" : "region_desk_flow##fBBe2BSD",
+    "targetPort" : "FPTsFN0E",
+    "isWireless" : false
+  }, {
+    "id" : "JJhwJg2sbV_to_ABPI2Ln7P3##PLNElxN9",
+    "source" : "GEM_Credit_Trad_1_57_JJhwJg2sbV",
+    "sourcePort" : "output_port_0",
+    "target" : "region_desk_flow##qqtLf41G",
+    "targetPort" : "GvIRIOv0",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
