@@ -1,0 +1,153 @@
+{
+  "id" : "FVH_IS_AMER_Repo_Significance_Testing__Summarize_175",
+  "metainfo" : {
+    "label" : "FVH_IS_AMER_Repo_Significance_Testing__Summarize_175",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_175_175_Output" : {
+      "id" : "Summarize_175_175_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_175"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_175\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_40",
+          "slug" : "input_port_40"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_40",
+          "slug" : "output_port_40"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "175" : {
+      "id" : "175",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_175",
+        "x" : 4800,
+        "y" : 2180,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "TradeID",
+            "_row_id" : null
+          },
+          "alias" : "TradeID",
+          "description" : null,
+          "_row_id" : "bJD5Nbo36PluJ-JBYUsLI"
+        }, {
+          "expression" : {
+            "expression" : "Curve",
+            "_row_id" : null
+          },
+          "alias" : "Curve",
+          "description" : null,
+          "_row_id" : "Xh7_2nLDoklJ0qBHXjWpN"
+        }, {
+          "expression" : {
+            "expression" : "Portfolio",
+            "_row_id" : null
+          },
+          "alias" : "Portfolio",
+          "description" : null,
+          "_row_id" : "axl_b4IgZjxrQeY_ga6ng"
+        }, {
+          "expression" : {
+            "expression" : "Tenor",
+            "_row_id" : null
+          },
+          "alias" : "Tenor",
+          "description" : null,
+          "_row_id" : "t3VPlKkbwX0lV-PtOxFqg"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "175_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "175_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_36_postRename_aOyH3hT_g5Y2guU6Y1E2k" : {
+      "id" : "Union_36_postRename_aOyH3hT_g5Y2guU6Y1E2k",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_36_postRename"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_38",
+          "id" : "output_port_38",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Union_36_postRename') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_38",
+          "slug" : "input_port_38"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_38",
+          "slug" : "output_port_38"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_175_175_Output_Summarize_175_175_Output",
+    "source" : "175",
+    "sourcePort" : "175_Output",
+    "target" : "Summarize_175_175_Output",
+    "targetPort" : "input_port_40",
+    "isWireless" : false
+  }, {
+    "id" : "edge_94",
+    "source" : "Union_36_postRename_aOyH3hT_g5Y2guU6Y1E2k",
+    "sourcePort" : "output_port_38",
+    "target" : "175",
+    "targetPort" : "175_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,734 @@
+{
+  "id" : "FVH_IS_AMER_Repo_Significance_Testing__Join_142_inner",
+  "metainfo" : {
+    "label" : "FVH_IS_AMER_Repo_Significance_Testing__Join_142_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "142_inner" : {
+      "id" : "142_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_142_inner",
+        "x" : 16520,
+        "y" : 5560,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(((((in0.`Asset Or Liability` = in1.`Asset or Liability`) AND (in0.Region = in1.Region)) AND (in0.Product = in1.Product)) AND (in0.Level = in1.Level)) AND (in0.Curve = in1.Curve))",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Asset or Liability`, `Region`, `Product`, `Level`, `Curve`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vElUuA9IXWDXhMf7RR_Cp",
+          "slug" : "in0"
+        }, {
+          "id" : "reqVuzXjwQQ9LcjYgzfXp",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "CFdgYn6bCEB03vk8MJzjC",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CBxbhZzU0ddF7ObSFQKdY" : {
+      "id" : "CBxbhZzU0ddF7ObSFQKdY",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_78_0",
+        "x" : 15340,
+        "y" : 5660,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((`Sum_Stdev Weighed` / `Sum_Abs Risk`) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "StdevCalc",
+          "description" : null,
+          "_row_id" : "4tZ3w4L62gMiJtAuPcfG0"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((-1 * Sum_Impact) / `Sum_Abs Risk`) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`Uncertainty Tweak`",
+          "description" : null,
+          "_row_id" : "8Jpti58r35oq4nU2tNTks"
+        }, {
+          "expression" : {
+            "expression" : "CAST((Sum_Impact / 1000000) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`Impact in MM`",
+          "description" : null,
+          "_row_id" : "UdjsfX9S7aDNn8TsN_dCq"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EJpQD1dE1qYNni822turL",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ax_bYT4CU_bxguW_8Mv38",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_90_1_rBffMcJWbm6e7JHdEW2W8" : {
+      "id" : "Formula_90_1_rBffMcJWbm6e7JHdEW2W8",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_90_1"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_55",
+          "id" : "output_port_55",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_90_1') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_55",
+          "slug" : "input_port_55"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_55",
+          "slug" : "output_port_55"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "94" : {
+      "id" : "94",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_94",
+        "x" : 16320,
+        "y" : 5460,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(MTM)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_MTM",
+          "description" : null,
+          "_row_id" : "S34vBR8CgvgfMUMAAKtc4"
+        }, {
+          "expression" : {
+            "expression" : "Level",
+            "_row_id" : null
+          },
+          "alias" : "Level",
+          "description" : null,
+          "_row_id" : "PVZ9HLwYmtuXm2ePnCcEa"
+        }, {
+          "expression" : {
+            "expression" : "Region",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "T6sb7CHA7CgAuHjHJ30mY"
+        }, {
+          "expression" : {
+            "expression" : "Curve",
+            "_row_id" : null
+          },
+          "alias" : "Curve",
+          "description" : null,
+          "_row_id" : "K4NMjAN3al3pt6mKTufYe"
+        }, {
+          "expression" : {
+            "expression" : "`Asset Or Liability`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset Or Liability`",
+          "description" : null,
+          "_row_id" : "b22tLOLcIQ7_N6XMIC2Qh"
+        }, {
+          "expression" : {
+            "expression" : "Product",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "5ZP_0wUFKf5NNJ_4D8EhZ"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Level",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "h1KdVkfV_9EZS9p0wnlqo"
+        }, {
+          "expression" : {
+            "expression" : "Region",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "u6aMHli5wkMYSD9Mzkst5"
+        }, {
+          "expression" : {
+            "expression" : "Curve",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "1d-bHGbwpZlVXL9UH5lco"
+        }, {
+          "expression" : {
+            "expression" : "`Asset Or Liability`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "1rcGVtoFDohvB8Fiqo560"
+        }, {
+          "expression" : {
+            "expression" : "Product",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "q5-JPLoSLm8tiHXoBtQN8"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "94_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "94_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_197_postRename_J1NK0U2MlIXoQVX-sao_R" : {
+      "id" : "Union_197_postRename_J1NK0U2MlIXoQVX-sao_R",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_197_postRename"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_52",
+          "id" : "output_port_52",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Union_197_postRename') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_52",
+          "slug" : "input_port_52"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_52",
+          "slug" : "output_port_52"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_170_to_Formula_59_2_Zc5KJpljeVr7C4kWlknZd" : {
+      "id" : "Formula_170_to_Formula_59_2_Zc5KJpljeVr7C4kWlknZd",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_170_to_Formula_59_2"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_48",
+          "id" : "output_port_48",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_170_to_Formula_59_2') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_48",
+          "slug" : "input_port_48"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_48",
+          "slug" : "output_port_48"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "75" : {
+      "id" : "75",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_75",
+        "x" : 14940,
+        "y" : 5660,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(`Amount Total`)",
+            "_row_id" : null
+          },
+          "alias" : "`Sum_Amount Total`",
+          "description" : null,
+          "_row_id" : "7JUh3LRwinyoC46ffvaFj"
+        }, {
+          "expression" : {
+            "expression" : "SUM(`Abs Risk`)",
+            "_row_id" : null
+          },
+          "alias" : "`Sum_Abs Risk`",
+          "description" : null,
+          "_row_id" : "7vydeN66wNQjVwwv2KYR5"
+        }, {
+          "expression" : {
+            "expression" : "AVG(Std)",
+            "_row_id" : null
+          },
+          "alias" : "Avg_Std",
+          "description" : null,
+          "_row_id" : "_0O1z-W50WTK1xtXnYoO3"
+        }, {
+          "expression" : {
+            "expression" : "AVG(`Effective Mult`)",
+            "_row_id" : null
+          },
+          "alias" : "`Avg_Effective Mult`",
+          "description" : null,
+          "_row_id" : "Yw1rvxyQgMY7uf8QJs2xi"
+        }, {
+          "expression" : {
+            "expression" : "SUM(Impact)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_Impact",
+          "description" : null,
+          "_row_id" : "Qo0I3keYR2w_dwHV4dq70"
+        }, {
+          "expression" : {
+            "expression" : "AVG(SignificanceTest)",
+            "_row_id" : null
+          },
+          "alias" : "Avg_SignificanceTest",
+          "description" : null,
+          "_row_id" : "0t8uY_4gAzk_kNKCHbSOA"
+        }, {
+          "expression" : {
+            "expression" : "SUM(`Stdev Weighed`)",
+            "_row_id" : null
+          },
+          "alias" : "`Sum_Stdev Weighed`",
+          "description" : null,
+          "_row_id" : "kiFoDKNmH-Je2WKbj7Jz9"
+        }, {
+          "expression" : {
+            "expression" : "Level",
+            "_row_id" : null
+          },
+          "alias" : "Level",
+          "description" : null,
+          "_row_id" : "_WgXkpxeKDRohXp6c4DjG"
+        }, {
+          "expression" : {
+            "expression" : "`Asset or Liability`",
+            "_row_id" : null
+          },
+          "alias" : "`Asset or Liability`",
+          "description" : null,
+          "_row_id" : "1xzXKuauqmKI33TAYjzPV"
+        }, {
+          "expression" : {
+            "expression" : "Region",
+            "_row_id" : null
+          },
+          "alias" : "Region",
+          "description" : null,
+          "_row_id" : "jVPPMSXhDlNzJrO2Xl2VU"
+        }, {
+          "expression" : {
+            "expression" : "Curve",
+            "_row_id" : null
+          },
+          "alias" : "Curve",
+          "description" : null,
+          "_row_id" : "oYo7DMMFmVZHrmQY6x5gK"
+        }, {
+          "expression" : {
+            "expression" : "Product",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "BamTTafVbBEBe3KREG0P_"
+        }, {
+          "expression" : {
+            "expression" : "TradeID",
+            "_row_id" : null
+          },
+          "alias" : "TradeID",
+          "description" : null,
+          "_row_id" : "M5xZjktRe-Z8KcphTJ2YO"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "Level",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "fa2Y9fF2l7fM8N2mj48Jr"
+        }, {
+          "expression" : {
+            "expression" : "`Asset or Liability`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "6b7WBXQgsy8MDuo9QukEy"
+        }, {
+          "expression" : {
+            "expression" : "Region",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "rldm4wyibV9Wi2tcZHMfC"
+        }, {
+          "expression" : {
+            "expression" : "Curve",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "RoLINEKHm_mCGDAb8aspD"
+        }, {
+          "expression" : {
+            "expression" : "Product",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "uNdnBcOxUIkA46Nm-61IK"
+        }, {
+          "expression" : {
+            "expression" : "TradeID",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "DHoDGAjNT3xNlWbALOVH7"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "75_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "75_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_142_inner_CFdgYn6bCEB03vk8MJzjC" : {
+      "id" : "Join_142_inner_CFdgYn6bCEB03vk8MJzjC",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_142_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_142_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_57",
+          "slug" : "input_port_57"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_57",
+          "slug" : "output_port_57"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "TMpzK5AQYv0KbKXaFludh" : {
+      "id" : "TMpzK5AQYv0KbKXaFludh",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_118_0",
+        "x" : 14740,
+        "y" : 5660,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((coalesce((CONTAINS(LOWER(Portfolio), LOWER('FPA'))), FALSE)) AS BOOLEAN) THEN 'FPA' ELSE 'Repo' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "Ez0hXXBiIHLyGaMiQmVao"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (MTM >= 0) THEN 'Asset' ELSE 'Liability' END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Asset or Liability`",
+          "description" : null,
+          "_row_id" : "hsFAw099N5kQLTOliTsnZ"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "oDhKdP0dQK8frS3cKZ-R3",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "0MpYv3Get_b3mjW7I_t3b",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "74_inner" : {
+      "id" : "74_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_74_inner",
+        "x" : 14340,
+        "y" : 5660,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.TradeID = in1.TradeID)",
+            "_row_id" : null
+          },
+          "joinType" : "inner",
+          "rightAlias" : null
+        } ],
+        "allowSelection" : false,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.Region",
+            "_row_id" : null
+          },
+          "alias" : "Right_Region",
+          "description" : null,
+          "_row_id" : "1Ds-haI2HIOOOIm_CQmDh"
+        }, {
+          "expression" : {
+            "expression" : "in0.*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Region`, `TradeID`, `Sum_Impact`, `Portfolio`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "9djMU3fMSMhYtrXjAjxwX",
+          "slug" : "in0"
+        }, {
+          "id" : "EYMZ3yVCckIGM8F9n9eZH",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "8UC4oOvCXBM6OOTV565io",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_142_inner_CFdgYn6bCEB03vk8MJzjC_Join_142_inner_CFdgYn6bCEB03vk8MJzjC",
+    "source" : "142_inner",
+    "sourcePort" : "CFdgYn6bCEB03vk8MJzjC",
+    "target" : "Join_142_inner_CFdgYn6bCEB03vk8MJzjC",
+    "targetPort" : "input_port_57",
+    "isWireless" : false
+  }, {
+    "id" : "edge_36",
+    "source" : "94",
+    "sourcePort" : "94_Output",
+    "target" : "142_inner",
+    "targetPort" : "vElUuA9IXWDXhMf7RR_Cp",
+    "isWireless" : false
+  }, {
+    "id" : "edge_239",
+    "source" : "CBxbhZzU0ddF7ObSFQKdY",
+    "sourcePort" : "ax_bYT4CU_bxguW_8Mv38",
+    "target" : "142_inner",
+    "targetPort" : "reqVuzXjwQQ9LcjYgzfXp",
+    "isWireless" : false
+  }, {
+    "id" : "edge_247",
+    "source" : "Formula_90_1_rBffMcJWbm6e7JHdEW2W8",
+    "sourcePort" : "output_port_55",
+    "target" : "94",
+    "targetPort" : "94_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_240",
+    "source" : "75",
+    "sourcePort" : "75_Output",
+    "target" : "CBxbhZzU0ddF7ObSFQKdY",
+    "targetPort" : "EJpQD1dE1qYNni822turL",
+    "isWireless" : false
+  }, {
+    "id" : "edge_237",
+    "source" : "TMpzK5AQYv0KbKXaFludh",
+    "sourcePort" : "0MpYv3Get_b3mjW7I_t3b",
+    "target" : "75",
+    "targetPort" : "75_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_238",
+    "source" : "74_inner",
+    "sourcePort" : "8UC4oOvCXBM6OOTV565io",
+    "target" : "TMpzK5AQYv0KbKXaFludh",
+    "targetPort" : "oDhKdP0dQK8frS3cKZ-R3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_219",
+    "source" : "Formula_170_to_Formula_59_2_Zc5KJpljeVr7C4kWlknZd",
+    "sourcePort" : "output_port_48",
+    "target" : "74_inner",
+    "targetPort" : "9djMU3fMSMhYtrXjAjxwX",
+    "isWireless" : false
+  }, {
+    "id" : "edge_127",
+    "source" : "Union_197_postRename_J1NK0U2MlIXoQVX-sao_R",
+    "sourcePort" : "output_port_52",
+    "target" : "74_inner",
+    "targetPort" : "EYMZ3yVCckIGM8F9n9eZH",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
