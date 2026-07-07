@@ -6,32 +6,7 @@
   })
 }}
 
-WITH Formula_90_1 AS (
-
-  SELECT *
-  
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_90_1')}}
-
-),
-
-Summarize_94 AS (
-
-  SELECT 
-    SUM(MTM) AS Sum_MTM,
-    Level AS Level,
-    Region AS Region,
-    Curve AS Curve,
-    `Asset Or Liability` AS `Asset Or Liability`,
-    Product AS Product
-  
-  FROM Formula_90_1 AS in0
-  
-  GROUP BY 
-    Level, Region, Curve, `Asset Or Liability`, Product
-
-),
-
-Union_197_postRename AS (
+WITH Union_197_postRename AS (
 
   SELECT *
   
@@ -116,6 +91,31 @@ Formula_78_0 AS (
     *
   
   FROM Summarize_75 AS in0
+
+),
+
+Formula_90_1 AS (
+
+  SELECT *
+  
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_90_1')}}
+
+),
+
+Summarize_94 AS (
+
+  SELECT 
+    SUM(MTM) AS Sum_MTM,
+    Level AS Level,
+    Region AS Region,
+    Curve AS Curve,
+    `Asset Or Liability` AS `Asset Or Liability`,
+    Product AS Product
+  
+  FROM Formula_90_1 AS in0
+  
+  GROUP BY 
+    Level, Region, Curve, `Asset Or Liability`, Product
 
 ),
 

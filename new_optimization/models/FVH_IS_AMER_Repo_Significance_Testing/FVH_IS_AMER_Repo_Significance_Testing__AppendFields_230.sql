@@ -6,11 +6,11 @@
   })
 }}
 
-WITH Formula_235_0 AS (
+WITH Join_190_left AS (
 
   SELECT *
   
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Join_190_left')}}
 
 ),
 
@@ -22,14 +22,6 @@ Union_41_postRename AS (
 
 ),
 
-Join_190_left AS (
-
-  SELECT *
-  
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Join_190_left')}}
-
-),
-
 Join_43_left AS (
 
   SELECT in0.*
@@ -37,6 +29,14 @@ Join_43_left AS (
   FROM Join_190_left AS in0
   ANTI JOIN Union_41_postRename AS in1
      ON (in0.Curve = in1.F1)
+
+),
+
+Formula_235_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
 
 ),
 

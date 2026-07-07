@@ -91,22 +91,6 @@ Join_185_inner AS (
 
 ),
 
-DynamicInput_209 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing', 'DynamicInput_209') }}
-
-),
-
-Union_191_1 AS (
-
-  SELECT CAST(TradeID AS string) AS prophecy_column_1
-  
-  FROM DynamicInput_209 AS in0
-
-),
-
 Formula_184_0 AS (
 
   SELECT 
@@ -138,6 +122,22 @@ Formula_184_1 AS (
     * EXCEPT (`backtested trades`)
   
   FROM Formula_184_0 AS in0
+
+),
+
+DynamicInput_209 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing', 'DynamicInput_209') }}
+
+),
+
+Union_191_1 AS (
+
+  SELECT CAST(TradeID AS string) AS prophecy_column_1
+  
+  FROM DynamicInput_209 AS in0
 
 ),
 

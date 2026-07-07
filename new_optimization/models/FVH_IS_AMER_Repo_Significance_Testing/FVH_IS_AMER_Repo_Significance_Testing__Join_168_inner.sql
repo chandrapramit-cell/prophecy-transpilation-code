@@ -218,24 +218,6 @@ Formula_173_0 AS (
 
 ),
 
-TextInput_166 AS (
-
-  SELECT * 
-  
-  FROM {{ ref('seed_FVH_IS_AMER_Repo_Significance_Testing_166')}}
-
-),
-
-TextInput_166_cast AS (
-
-  SELECT 
-    CAST(UCN AS string) AS UCN,
-    CAST(CP_TYPE AS string) AS CP_TYPE
-  
-  FROM TextInput_166 AS in0
-
-),
-
 Formula_173_1 AS (
 
   SELECT 
@@ -249,6 +231,25 @@ Formula_173_1 AS (
     * EXCEPT (`ucn credit rating obligor`)
   
   FROM Formula_173_0 AS in0
+
+),
+
+TextInput_166 AS (
+
+  {#Loads a seed dataset into the specified AMER repository test table, overwriting existing data to provide fresh inputs for significance testing.#}
+  SELECT * 
+  
+  FROM {{ ref('seed_FVH_IS_AMER_Repo_Significance_Testingneww_166')}}
+
+),
+
+TextInput_166_cast AS (
+
+  SELECT 
+    CAST(UCN AS string) AS UCN,
+    CAST(CP_TYPE AS string) AS CP_TYPE
+  
+  FROM TextInput_166 AS in0
 
 ),
 

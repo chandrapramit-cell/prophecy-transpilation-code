@@ -6,15 +6,7 @@
   })
 }}
 
-WITH Formula_235_0 AS (
-
-  SELECT *
-  
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
-
-),
-
-Summarize_60 AS (
+WITH Summarize_60 AS (
 
   SELECT *
   
@@ -37,6 +29,14 @@ Join_30_left AS (
   FROM Summarize_60 AS in0
   ANTI JOIN Unique_65 AS in1
      ON (in0.TradeID = in1.TradeID)
+
+),
+
+Formula_235_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
 
 ),
 

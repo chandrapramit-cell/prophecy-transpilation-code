@@ -6,19 +6,19 @@
   })
 }}
 
-WITH Union_36_postRename AS (
-
-  SELECT *
-  
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Union_36_postRename')}}
-
-),
-
-Formula_235_0 AS (
+WITH Formula_235_0 AS (
 
   SELECT *
   
   FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
+
+),
+
+Union_36_postRename AS (
+
+  SELECT *
+  
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Union_36_postRename')}}
 
 ),
 

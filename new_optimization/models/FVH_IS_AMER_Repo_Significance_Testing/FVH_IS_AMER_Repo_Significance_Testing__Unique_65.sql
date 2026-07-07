@@ -46,6 +46,64 @@ AlteryxSelect_153 AS (
 
 ),
 
+DynamicInput_208 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing', 'DynamicInput_208') }}
+
+),
+
+AlteryxSelect_25 AS (
+
+  SELECT 
+    F1 AS F1,
+    MTM AS MTM
+  
+  FROM DynamicInput_208 AS in0
+
+),
+
+Union_26_1 AS (
+
+  SELECT 
+    CAST(F1 AS string) AS prophecy_column_1,
+    CAST(MTM AS DOUBLE) AS prophecy_column_2
+  
+  FROM AlteryxSelect_25 AS in0
+
+),
+
+Formula_66_0 AS (
+
+  SELECT 
+    CAST(((start_cash * sign) + discounted_npv) AS DOUBLE) AS MTM,
+    *
+  
+  FROM AlteryxSelect_67 AS in0
+
+),
+
+AlteryxSelect_20 AS (
+
+  SELECT 
+    TradeId AS TradeId,
+    MTM AS MTM
+  
+  FROM Formula_66_0 AS in0
+
+),
+
+Union_26_0 AS (
+
+  SELECT 
+    CAST(TradeId AS string) AS prophecy_column_1,
+    CAST(MTM AS DOUBLE) AS prophecy_column_2
+  
+  FROM AlteryxSelect_20 AS in0
+
+),
+
 Formula_154_0 AS (
 
   SELECT 
@@ -53,6 +111,26 @@ Formula_154_0 AS (
     *
   
   FROM AlteryxSelect_153 AS in0
+
+),
+
+AlteryxSelect_155 AS (
+
+  SELECT 
+    TradeId AS TradeId,
+    MTM AS MTM
+  
+  FROM Formula_154_0 AS in0
+
+),
+
+Union_26_3 AS (
+
+  SELECT 
+    CAST(TradeId AS string) AS prophecy_column_1,
+    CAST(MTM AS DOUBLE) AS prophecy_column_2
+  
+  FROM AlteryxSelect_155 AS in0
 
 ),
 
@@ -74,7 +152,7 @@ AlteryxSelect_64 AS (
 
 ),
 
-Union_26_1 AS (
+Union_26_2 AS (
 
   SELECT 
     CAST(TradeID AS string) AS prophecy_column_1,
@@ -84,69 +162,11 @@ Union_26_1 AS (
 
 ),
 
-DynamicInput_208 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing', 'DynamicInput_208') }}
-
-),
-
-AlteryxSelect_25 AS (
-
-  SELECT 
-    F1 AS F1,
-    MTM AS MTM
-  
-  FROM DynamicInput_208 AS in0
-
-),
-
-Union_26_0 AS (
-
-  SELECT 
-    CAST(F1 AS string) AS prophecy_column_1,
-    CAST(MTM AS DOUBLE) AS prophecy_column_2
-  
-  FROM AlteryxSelect_25 AS in0
-
-),
-
-Union_26_3 AS (
-
-  SELECT 
-    CAST(TradeId AS string) AS prophecy_column_1,
-    CAST(MTM AS DOUBLE) AS prophecy_column_2
-  
-  FROM Formula_154_0 AS in0
-
-),
-
-Formula_66_0 AS (
-
-  SELECT 
-    CAST(((start_cash * sign) + discounted_npv) AS DOUBLE) AS MTM,
-    *
-  
-  FROM AlteryxSelect_67 AS in0
-
-),
-
-Union_26_2 AS (
-
-  SELECT 
-    CAST(TradeId AS string) AS prophecy_column_1,
-    CAST(MTM AS DOUBLE) AS prophecy_column_2
-  
-  FROM Formula_66_0 AS in0
-
-),
-
 Union_26 AS (
 
   {{
     prophecy_basics.UnionByName(
-      ['Union_26_2', 'Union_26_0', 'Union_26_1', 'Union_26_3'], 
+      ['Union_26_0', 'Union_26_1', 'Union_26_2', 'Union_26_3'], 
       [
         '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "Double"}]', 
         '[{"name": "prophecy_column_1", "dataType": "String"}, {"name": "prophecy_column_2", "dataType": "Double"}]', 

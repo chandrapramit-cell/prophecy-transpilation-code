@@ -6,19 +6,19 @@
   })
 }}
 
-WITH Union_41_postRename AS (
-
-  SELECT *
-  
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Union_41_postRename')}}
-
-),
-
-Join_190_left AS (
+WITH Join_190_left AS (
 
   SELECT *
   
   FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Join_190_left')}}
+
+),
+
+Union_41_postRename AS (
+
+  SELECT *
+  
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Union_41_postRename')}}
 
 ),
 

@@ -8,9 +8,10 @@
 
 WITH TextInput_51 AS (
 
+  {#Overwrites the seed table for FVH IS AMER repository significance testing to refresh baseline data used for downstream analyses and validation.#}
   SELECT * 
   
-  FROM {{ ref('seed_FVH_IS_AMER_Repo_Significance_Testing_51')}}
+  FROM {{ ref('seed_FVH_IS_AMER_Repo_Significance_Testingneww_51')}}
 
 ),
 

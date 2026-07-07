@@ -6,19 +6,19 @@
   })
 }}
 
-WITH Formula_56_0 AS (
-
-  SELECT *
-  
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_56_0')}}
-
-),
-
-Formula_235_0 AS (
+WITH Formula_235_0 AS (
 
   SELECT *
   
   FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
+
+),
+
+Formula_56_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_56_0')}}
 
 ),
 

@@ -6,7 +6,15 @@
   })
 }}
 
-WITH Join_142_inner AS (
+WITH Formula_235_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
+
+),
+
+Join_142_inner AS (
 
   SELECT *
   
@@ -57,14 +65,6 @@ Formula_146_0 AS (
     *
   
   FROM AppendFields_148 AS in0
-
-),
-
-Formula_235_0 AS (
-
-  SELECT *
-  
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
 
 ),
 

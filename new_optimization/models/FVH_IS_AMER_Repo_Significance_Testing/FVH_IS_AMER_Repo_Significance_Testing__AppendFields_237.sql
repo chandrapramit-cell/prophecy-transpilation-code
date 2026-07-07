@@ -6,15 +6,7 @@
   })
 }}
 
-WITH Formula_235_0 AS (
-
-  SELECT *
-  
-  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
-
-),
-
-Summarize_175 AS (
+WITH Summarize_175 AS (
 
   SELECT *
   
@@ -37,6 +29,14 @@ Join_179_left AS (
   FROM Summarize_175 AS in0
   ANTI JOIN DynamicInput_214 AS in1
      ON (in0.Curve = in1.Curve)
+
+),
+
+Formula_235_0 AS (
+
+  SELECT *
+  
+  FROM {{ ref('FVH_IS_AMER_Repo_Significance_Testing__Formula_235_0')}}
 
 ),
 

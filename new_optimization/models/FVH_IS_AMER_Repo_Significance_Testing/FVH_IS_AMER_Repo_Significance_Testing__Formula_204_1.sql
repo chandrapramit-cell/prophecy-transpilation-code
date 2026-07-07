@@ -8,9 +8,10 @@
 
 WITH TextInput_203 AS (
 
+  {#Overwrites the seeded AMER repository significance testing dataset to refresh repository significance test data.#}
   SELECT * 
   
-  FROM {{ ref('seed_FVH_IS_AMER_Repo_Significance_Testing_203')}}
+  FROM {{ ref('seed_FVH_IS_AMER_Repo_Significance_Testingneww_203')}}
 
 ),
 

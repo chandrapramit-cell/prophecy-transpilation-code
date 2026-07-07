@@ -30,6 +30,18 @@ AlteryxSelect_42 AS (
 
 ),
 
+Join_34_inner AS (
+
+  SELECT 
+    in0.*,
+    in1.* EXCEPT (`F1`)
+  
+  FROM AlteryxSelect_45 AS in0
+  INNER JOIN AlteryxSelect_42 AS in1
+     ON (in0.ISIN = in1.F1)
+
+),
+
 Join_34_left AS (
 
   SELECT in0.*
@@ -62,18 +74,6 @@ Union_36_1 AS (
     CAST(Region AS string) AS prophecy_column_15
   
   FROM Join_34_left AS in0
-
-),
-
-Join_34_inner AS (
-
-  SELECT 
-    in0.*,
-    in1.* EXCEPT (`F1`)
-  
-  FROM AlteryxSelect_45 AS in0
-  INNER JOIN AlteryxSelect_42 AS in1
-     ON (in0.ISIN = in1.F1)
 
 ),
 

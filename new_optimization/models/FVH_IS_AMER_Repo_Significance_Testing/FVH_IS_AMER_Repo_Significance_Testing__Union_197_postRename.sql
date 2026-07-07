@@ -6,15 +6,7 @@
   })
 }}
 
-WITH DynamicInput_262 AS (
-
-  SELECT *
-  
-  FROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing', 'DynamicInput_262') }}
-
-),
-
-Summarize_60 AS (
+WITH Summarize_60 AS (
 
   SELECT *
   
@@ -70,6 +62,14 @@ Formula_61_1 AS (
     *
   
   FROM Formula_61_0 AS in0
+
+),
+
+DynamicInput_262 AS (
+
+  SELECT *
+  
+  FROM {{ prophecy_tmp_source('FVH_IS_AMER_Repo_Significance_Testing', 'DynamicInput_262') }}
 
 ),
 
