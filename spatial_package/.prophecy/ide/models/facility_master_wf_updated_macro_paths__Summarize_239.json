@@ -1,0 +1,177 @@
+{
+  "id" : "facility_master_wf_updated_macro_paths__Summarize_239",
+  "metainfo" : {
+    "label" : "facility_master_wf_updated_macro_paths__Summarize_239",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_239_239_Output" : {
+      "id" : "Summarize_239_239_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_239"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_239\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_15",
+          "slug" : "input_port_15"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_15",
+          "slug" : "output_port_15"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "239" : {
+      "id" : "239",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_239",
+        "x" : 530,
+        "y" : 759,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((latitude IS NULL) OR (CAST(latitude AS string) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "Count_lat",
+          "description" : null,
+          "_row_id" : "idhrRmXhCUyr2yPXRLI5t"
+        }, {
+          "expression" : {
+            "expression" : "COUNT((CASE WHEN ((longitude IS NULL) OR (CAST(longitude AS string) = '')) THEN NULL ELSE 1 END))",
+            "_row_id" : null
+          },
+          "alias" : "Count_long",
+          "description" : null,
+          "_row_id" : "Ux0LutcozSaGtBVHonBL5"
+        }, {
+          "expression" : {
+            "expression" : "latitude1",
+            "_row_id" : null
+          },
+          "alias" : "latitude1",
+          "description" : null,
+          "_row_id" : "IxDcxn5qK7aTrT8iW4e2S"
+        }, {
+          "expression" : {
+            "expression" : "longitude1",
+            "_row_id" : null
+          },
+          "alias" : "longitude1",
+          "description" : null,
+          "_row_id" : "P-ZnI6kWcpKMO6VIKSg_W"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "latitude1",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "Y4sbE97IgyAbmdf6wcsZw"
+        }, {
+          "expression" : {
+            "expression" : "longitude1",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "-r7EXySXmTb-cCzUGvL32"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "239_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "239_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "grouporgnamewithgeotag"
+    },
+    "Filter_221_221_True" : {
+      "id" : "Filter_221_221_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_221"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_14",
+          "id" : "output_port_14",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('facility_master_wf_updated_macro_paths__Filter_221') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_239_239_Output_Summarize_239_239_Output",
+    "source" : "239",
+    "sourcePort" : "239_Output",
+    "target" : "Summarize_239_239_Output",
+    "targetPort" : "input_port_15",
+    "isWireless" : false
+  }, {
+    "id" : "edge_182",
+    "source" : "Filter_221_221_True",
+    "sourcePort" : "output_port_14",
+    "target" : "239",
+    "targetPort" : "239_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

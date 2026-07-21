@@ -1,0 +1,125 @@
+{
+  "id" : "facility_master_wf_updated_macro_paths__Filter_867",
+  "metainfo" : {
+    "label" : "facility_master_wf_updated_macro_paths__Filter_867",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_867_867_True" : {
+      "id" : "Filter_867_867_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_867"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_867\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_24",
+          "slug" : "input_port_24"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_24",
+          "slug" : "output_port_24"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "867" : {
+      "id" : "867",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_867",
+        "x" : 866,
+        "y" : 327,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(CountDistinctNonNull_organization_name > 1)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "867_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "867_True",
+          "slug" : "out1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "GroupCorrdinates"
+    },
+    "Summarize_866_866_Output" : {
+      "id" : "Summarize_866_866_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_866"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_19",
+          "id" : "output_port_19",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('facility_master_wf_updated_macro_paths__Summarize_866') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_867_867_True_Filter_867_867_True",
+    "source" : "867",
+    "sourcePort" : "867_True",
+    "target" : "Filter_867_867_True",
+    "targetPort" : "input_port_24",
+    "isWireless" : false
+  }, {
+    "id" : "edge_96",
+    "source" : "Summarize_866_866_Output",
+    "sourcePort" : "output_port_19",
+    "target" : "867",
+    "targetPort" : "867_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,203 @@
+{
+  "id" : "facility_master_wf_updated_macro_paths__Summarize_1020",
+  "metainfo" : {
+    "label" : "facility_master_wf_updated_macro_paths__Summarize_1020",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_1020_1020_Output" : {
+      "id" : "Summarize_1020_1020_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_1020"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_1020\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1020" : {
+      "id" : "1020",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1020",
+        "x" : 482,
+        "y" : 183,
+        "phase" : 2
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT new_org_name_alteryx)",
+            "_row_id" : null
+          },
+          "alias" : "CountDistinctNonNull_new_org_name_alteryx",
+          "description" : null,
+          "_row_id" : "_d1rGJXVh8PTSQhq0OEcS"
+        }, {
+          "expression" : {
+            "expression" : "GroupID",
+            "_row_id" : null
+          },
+          "alias" : "GroupID",
+          "description" : null,
+          "_row_id" : "NIH_muBDGHzsDHs8FZy40"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : "",
+          "_row_id" : null
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "GroupID",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "pylLsYgSVcHGwltXTrh2l"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1020_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1020_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "keywordmatch"
+    },
+    "1021" : {
+      "id" : "1021",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_1021",
+        "x" : 242,
+        "y" : 219,
+        "phase" : 2
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "GroupID",
+            "_row_id" : null
+          },
+          "alias" : "GroupID",
+          "description" : null,
+          "_row_id" : "BkgftSEX2FNo9GAef4YgB"
+        }, {
+          "expression" : {
+            "expression" : "new_org_name_alteryx",
+            "_row_id" : null
+          },
+          "alias" : "new_org_name_alteryx",
+          "description" : null,
+          "_row_id" : "2XUQMrZqAeH_-LQtUKpAF"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1021_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1021_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "keywordmatch"
+    },
+    "Union_897_897_Output" : {
+      "id" : "Union_897_897_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_897"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_20",
+          "id" : "output_port_20",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('facility_master_wf_updated_macro_paths__Union_897') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_20",
+          "slug" : "input_port_20"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_20",
+          "slug" : "output_port_20"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_1020_1020_Output_Summarize_1020_1020_Output",
+    "source" : "1020",
+    "sourcePort" : "1020_Output",
+    "target" : "Summarize_1020_1020_Output",
+    "targetPort" : "input_port_21",
+    "isWireless" : false
+  }, {
+    "id" : "edge_72",
+    "source" : "1021",
+    "sourcePort" : "1021_Unique",
+    "target" : "1020",
+    "targetPort" : "1020_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_183",
+    "source" : "Union_897_897_Output",
+    "sourcePort" : "output_port_20",
+    "target" : "1021",
+    "targetPort" : "1021_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
