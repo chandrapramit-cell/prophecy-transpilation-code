@@ -1,6 +1,6 @@
 from prophecy_pipeline_sdk.graph import *
 from prophecy_pipeline_sdk.properties import *
-args = PipelineArgs(label = "double_formats_pipeline", version = 1)
+args = PipelineArgs(label = "double_formats_pipeline", version = 1, auto_layout = False)
 
 with Pipeline(args) as pipeline:
     double_formats_pipeline__reformat_doubles = Process(

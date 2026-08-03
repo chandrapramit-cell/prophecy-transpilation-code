@@ -17,7 +17,7 @@ WITH double_formats_seed AS (
 
 reformat_doubles AS (
 
-  {#Converts messy numeric strings into a standardized numeric value (defaults to 0 when non-numeric), enabling consistent financial calculations and reporting.#}
+  {#Normalizes inconsistent numeric strings into a clean numeric column so finance and analytics can calculate totals and averages reliably and replaces non-numeric or invalid values with zero.#}
   SELECT 
     id,
     double_value,
@@ -30,7 +30,10 @@ reformat_doubles AS (
         '^[0-9]*\\.?[0-9]+', 
         -- leading number, one optional '.'                                                                                                                                  
         0) AS DOUBLE), 
-      0) AS doubled_value
+      0) AS doubled_value1,
+    coalesce(
+      TRY_CAST(REGEXP_EXTRACT(REGEXP_REPLACE(double_value, '[ ,\\x27]', ''), '^[0-9]*\\.?[0-9]+', 0) AS DOUBLE), 
+      0) AS new_col
   
   FROM double_formats_seed
 
