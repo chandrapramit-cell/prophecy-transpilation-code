@@ -1,0 +1,144 @@
+{
+  "id" : "double_formats_pipeline__reformat_doubles",
+  "metainfo" : {
+    "label" : "double_formats_pipeline__reformat_doubles",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "reformat_doubles_He2mlWnB" : {
+      "id" : "reformat_doubles_He2mlWnB",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "reformat_doubles"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM reformat_doubles\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "reformat_doubles##NRkHvuyO" : {
+      "id" : "reformat_doubles##NRkHvuyO",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "reformat_doubles",
+        "x" : 220,
+        "y" : 20,
+        "phase" : 0,
+        "comment" : "Cleans and standardizes numeric fields stored as text so revenue and metric calculations are accurate and reliable, converting misformatted numbers into usable values and defaulting invalid entries to zero to avoid reporting errors.",
+        "autoUpdateComment" : true
+      },
+      "properties" : {
+        "columnsSelector" : [ "NVb3xLul##id", "NVb3xLul##double_value" ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "id"
+          },
+          "_row_id" : "329395959"
+        }, {
+          "expression" : {
+            "expression" : "double_value"
+          },
+          "_row_id" : "1195724138"
+        }, {
+          "expression" : {
+            "expression" : "-- Clean the double_value by removing commas and cast to double\nCAST(REPLACE(double_value, ',', '') AS DOUBLE)"
+          },
+          "alias" : "cleaned_double",
+          "_row_id" : "1365335649"
+        }, {
+          "expression" : {
+            "expression" : " coalesce(                                                                                                                                                                                                           \n    TRY_CAST(                                                                                                                                                                                                         \n      REGEXP_EXTRACT(                                                                                                                                                                                                 \n        REGEXP_REPLACE(double_value, '[ ,\\\\x27]', ''),   -- strip space, comma, apostrophe                                                                                                                                     \n        '^[0-9]*\\\\.?[0-9]+',                     -- leading number, one optional '.'                                                                                                                                  \n        0                                                                                                                                                                                                             \n      ) AS DOUBLE                                -- always DOUBLE                                                                                                                                                     \n    ),                                                                                                                                                                                                                \n    0                                            -- non-numeric → 0                                                                                                                                                   \n  )  "
+          },
+          "alias" : "doubled_value",
+          "_row_id" : "1435195235"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "NVb3xLul",
+          "slug" : "double_formats_seed"
+        } ],
+        "outputs" : [ {
+          "id" : "He2mlWnB",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MiWdjobEog" : {
+      "id" : "MiWdjobEog",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "double_formats_seed",
+        "x" : 20,
+        "y" : 20,
+        "phase" : 0,
+        "comment" : "Provides a seeded double_formats table as a stable reference for downstream transformations, validations, and reporting."
+      },
+      "properties" : {
+        "table" : {
+          "name" : "double_formats",
+          "sourceType" : "Seed"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "eQRMZYqhYw",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_reformat_doubles##NRkHvuyO_He2mlWnB_reformat_doubles_He2mlWnB",
+    "source" : "reformat_doubles##NRkHvuyO",
+    "sourcePort" : "He2mlWnB",
+    "target" : "reformat_doubles_He2mlWnB",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "eQRMZYqhYw_to_22jgiB0aHz##vqIK0Nk2",
+    "source" : "MiWdjobEog",
+    "sourcePort" : "eQRMZYqhYw",
+    "target" : "reformat_doubles##NRkHvuyO",
+    "targetPort" : "NVb3xLul",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
