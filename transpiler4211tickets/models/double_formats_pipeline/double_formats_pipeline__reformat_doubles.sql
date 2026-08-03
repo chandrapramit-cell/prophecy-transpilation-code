@@ -17,12 +17,10 @@ WITH double_formats_seed AS (
 
 reformat_doubles AS (
 
-  {#Cleans and standardizes numeric fields stored as text so revenue and metric calculations are accurate and reliable, converting misformatted numbers into usable values and defaulting invalid entries to zero to avoid reporting errors.#}
+  {#Converts messy numeric strings into a standardized numeric value (defaults to 0 when non-numeric), enabling consistent financial calculations and reporting.#}
   SELECT 
     id,
     double_value,
-    -- Clean the double_value by removing commas and cast to double
-    CAST(REPLACE(double_value, ',', '') AS DOUBLE) AS cleaned_double,
     -- non-numeric → 0                                                                                                                                                   
     coalesce(
       -- always DOUBLE                                                                                                                                                     
