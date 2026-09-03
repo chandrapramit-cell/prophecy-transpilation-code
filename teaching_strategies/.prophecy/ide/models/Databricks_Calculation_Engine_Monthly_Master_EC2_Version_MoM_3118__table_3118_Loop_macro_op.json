@@ -1,0 +1,167 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3118__table_3118_Loop_macro_op",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3118__table_3118_Loop_macro_op",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"table_3118_Loop_macro_op\"",
+        "materialized" : "table",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "1260_3118" : {
+      "id" : "1260_3118",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "table_3118_Loop_macro_op",
+        "phase" : 0
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_850_3118\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1260_3118_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "amfXz5j_fVoj5UbfBv4i3",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "850_3118" : {
+      "id" : "850_3118",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_850_3118",
+        "x" : 2948,
+        "y" : 0,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`StaticHistoryMonth`, `MaxIteration`, `StaticHistoryYearEnd`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "850_3118_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "850_3118_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "851_3118" : {
+      "id" : "851_3118",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_851_3118",
+        "x" : 2708,
+        "y" : 36,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(CAST('{{ var('iteration_number') }}' AS DOUBLE) < (MaxIteration - 1))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "851_3118_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "851_3118_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AppendFields_842_3118_842_3118_Output" : {
+      "id" : "AppendFields_842_3118_842_3118_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AppendFields_842_3118"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3118__AppendFields_842_3118') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_1144",
+    "source" : "850_3118",
+    "sourcePort" : "850_3118_Output",
+    "target" : "1260_3118",
+    "targetPort" : "1260_3118_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1145",
+    "source" : "851_3118",
+    "sourcePort" : "851_3118_True",
+    "target" : "850_3118",
+    "targetPort" : "850_3118_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1141",
+    "source" : "AppendFields_842_3118_842_3118_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "851_3118",
+    "targetPort" : "851_3118_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

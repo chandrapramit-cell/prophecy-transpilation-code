@@ -1,0 +1,145 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_1893_0",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_1893_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_1893_0_sy7ven75ucdZmMXzBXpDC" : {
+      "id" : "Formula_1893_0_sy7ven75ucdZmMXzBXpDC",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_1893_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_1893_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_49",
+          "slug" : "input_port_49"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_49",
+          "slug" : "output_port_49"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "pocoAjjXjRM_0pVoLthqq" : {
+      "id" : "pocoAjjXjRM_0pVoLthqq",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1893_0",
+        "x" : 35780,
+        "y" : 5020,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "last_day(CASE WHEN (((CAST(Origin AS STRING) IN ('Manual Plug In', 'Orders&OrdersProcessed - Fall 2020 Early Renewals')) OR coalesce(contains(lower(Stage), lower('Closed')), false)) AND (StartDate_Annualization < `Actual Closed Date`)) THEN StartDate_Annualization WHEN CAST(isnull(`Actual Closed Date`) AS BOOLEAN) THEN `Created Date` ELSE `Actual Closed Date` END)",
+            "_row_id" : null
+          },
+          "alias" : "`ARR Period`",
+          "description" : null,
+          "_row_id" : "mqTN9MnlJ-Ztch-egwdOk"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((Quantity IS NULL) AS BOOLEAN) THEN 0 WHEN ((Quantity IS NULL) OR ((LENGTH(CAST(Quantity AS string))) = 0)) THEN 0 ELSE Quantity END) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Quantity",
+          "description" : null,
+          "_row_id" : "aopver84NIx0oZ0jo_6g5"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`quantity`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Oxq5823u3p4uJ2Cw4kVWB",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "sy7ven75ucdZmMXzBXpDC",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MultiFieldFormula_1895_1895_Output" : {
+      "id" : "MultiFieldFormula_1895_1895_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "MultiFieldFormula_1895"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_48",
+          "id" : "output_port_48",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__MultiFieldFormula_1895') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_48",
+          "slug" : "input_port_48"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_48",
+          "slug" : "output_port_48"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_pocoAjjXjRM_0pVoLthqq_sy7ven75ucdZmMXzBXpDC_Formula_1893_0_sy7ven75ucdZmMXzBXpDC",
+    "source" : "pocoAjjXjRM_0pVoLthqq",
+    "sourcePort" : "sy7ven75ucdZmMXzBXpDC",
+    "target" : "Formula_1893_0_sy7ven75ucdZmMXzBXpDC",
+    "targetPort" : "input_port_49",
+    "isWireless" : false
+  }, {
+    "id" : "edge_702",
+    "source" : "MultiFieldFormula_1895_1895_Output",
+    "sourcePort" : "output_port_48",
+    "target" : "pocoAjjXjRM_0pVoLthqq",
+    "targetPort" : "Oxq5823u3p4uJ2Cw4kVWB",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

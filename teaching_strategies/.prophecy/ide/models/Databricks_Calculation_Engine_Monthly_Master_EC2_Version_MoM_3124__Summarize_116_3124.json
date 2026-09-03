@@ -1,0 +1,213 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Summarize_116_3124",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Summarize_116_3124",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_116_3124_116_3124_Output" : {
+      "id" : "Summarize_116_3124_116_3124_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_116_3124"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_116_3124\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_4",
+          "slug" : "input_port_4"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_4",
+          "slug" : "output_port_4"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "116_3124" : {
+      "id" : "116_3124",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_116_3124",
+        "x" : 2304,
+        "y" : 1188,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Mas90 Customer Number`",
+            "_row_id" : null
+          },
+          "alias" : "`Mas90 Customer Number`",
+          "description" : null,
+          "_row_id" : "U-pEGGF4bdwt7vZTTGuoj"
+        }, {
+          "expression" : {
+            "expression" : "Product",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "macNddNYOVnh_S6uRf6xs"
+        }, {
+          "expression" : {
+            "expression" : "ARRMonth",
+            "_row_id" : null
+          },
+          "alias" : "ARRMonth",
+          "description" : null,
+          "_row_id" : "5oNhjUrC4uqEhN78zrzsB"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "116_3124_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "116_3124_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "115_3124" : {
+      "id" : "115_3124",
+      "component" : "GenerateRows",
+      "metadata" : {
+        "label" : "GenerateRows_115_3124",
+        "x" : 1584,
+        "y" : 1188,
+        "phase" : 0
+      },
+      "properties" : {
+        "max_rows" : "100",
+        "init_expr" : "last_day(payload.StartDate_Annualization)",
+        "column_name" : "ARRMonth",
+        "relation_name" : [ "Summarize_114_3124" ],
+        "_oldMacroProperties" : {
+          "macroName" : "GenerateRows",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Summarize_114_3124\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"StartDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"EndDate_Annualization\", \"dataType\": \"Date\"}]"
+          }, {
+            "name" : "init_expr",
+            "value" : "last_day(payload.StartDate_Annualization)"
+          }, {
+            "name" : "condition_expr",
+            "value" : "(ARRMonth <= payload.EndDate_Annualization)"
+          }, {
+            "name" : "loop_expr",
+            "value" : "last_day(add_months(ARRMonth, 1))"
+          }, {
+            "name" : "column_name",
+            "value" : "ARRMonth"
+          }, {
+            "name" : "max_rows",
+            "value" : "100"
+          }, {
+            "name" : "force_mode",
+            "value" : "recursive"
+          } ]
+        },
+        "force_mode" : "recursive",
+        "schema" : "[{\"name\": \"Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"StartDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"EndDate_Annualization\", \"dataType\": \"Date\"}]",
+        "loop_expr" : "last_day(add_months(ARRMonth, 1))",
+        "condition_expr" : "(ARRMonth <= payload.EndDate_Annualization)"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "115_3124_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "115_3124_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_114_3124_114_3124_Output" : {
+      "id" : "Summarize_114_3124_114_3124_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_114_3124"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_3",
+          "id" : "output_port_3",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Summarize_114_3124') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_116_3124_116_3124_Output_Summarize_116_3124_116_3124_Output",
+    "source" : "116_3124",
+    "sourcePort" : "116_3124_Output",
+    "target" : "Summarize_116_3124_116_3124_Output",
+    "targetPort" : "input_port_4",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1013",
+    "source" : "115_3124",
+    "sourcePort" : "115_3124_Output",
+    "target" : "116_3124",
+    "targetPort" : "116_3124_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1012",
+    "source" : "Summarize_114_3124_114_3124_Output",
+    "sourcePort" : "output_port_3",
+    "target" : "115_3124",
+    "targetPort" : "115_3124_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

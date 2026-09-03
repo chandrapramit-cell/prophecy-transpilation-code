@@ -1,0 +1,338 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_2616_to_Formula_2612_1",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_2616_to_Formula_2612_1",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_2616_to_Formula_2612_1_lSwAK1x_uJDMt1vRyGksa" : {
+      "id" : "Formula_2616_to_Formula_2612_1_lSwAK1x_uJDMt1vRyGksa",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_2616_to_Formula_2612_1"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_2616_to_Formula_2612_1\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_125",
+          "slug" : "input_port_125"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_125",
+          "slug" : "output_port_125"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2610" : {
+      "id" : "2610",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_2610",
+        "x" : 85660,
+        "y" : 6380,
+        "phase" : 2
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(Revenue)"
+          },
+          "alias" : "Sum_Revenue",
+          "_row_id" : "XFDSTzuKGYis8X2kwS7S6"
+        }, {
+          "expression" : {
+            "expression" : "`Customer Level Flag`"
+          },
+          "alias" : "`Customer Level Flag`",
+          "_row_id" : "EBHYF3Zkn9NzwqRKKVteV"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Customer Level Flag`"
+          },
+          "_row_id" : "awnRDxTi1Bmu68Tx_iOuE"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2610_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2610_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "36usm9_zrH0_JYv7aSab-" : {
+      "id" : "36usm9_zrH0_JYv7aSab-",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_2616_to_Formula_2612_0",
+        "x" : 93820,
+        "y" : 6360,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((CASE WHEN (((Sum_Revenue / 0.01) < 0) AND (((Sum_Revenue / 0.01) - FLOOR((Sum_Revenue / 0.01))) = 0.5)) THEN CEIL((Sum_Revenue / 0.01)) ELSE ROUND((Sum_Revenue / 0.01)) END) * 0.01) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Sum_Revenue",
+          "description" : null,
+          "_row_id" : "Te_5D0cowRRbRavIPxBvy"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`sum_revenue`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "xSg0quMxS6fOHtmpVv_uU",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "XkDbOQz3-RBFiha9e7k47",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_2609_2609_Output" : {
+      "id" : "AlteryxSelect_2609_2609_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_2609"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_113",
+          "id" : "output_port_113",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_2609') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_113",
+          "slug" : "input_port_113"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_113",
+          "slug" : "output_port_113"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1199" : {
+      "id" : "1199",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1199",
+        "x" : 85660,
+        "y" : 6180,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(REVENUE)"
+          },
+          "alias" : "Sum_Revenue",
+          "_row_id" : "V-mlFwJHNF6cOiZM9MTIh"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1199_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1199_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "DGxI5LFhEI0b_cBPSmyyd" : {
+      "id" : "DGxI5LFhEI0b_cBPSmyyd",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_2616_to_Formula_2612_1",
+        "x" : 94020,
+        "y" : 6360,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CASE WHEN (Sum_Revenue = Source_Sum_Revenue) THEN 'PASS' ELSE 'FAIL' END AS STRING)",
+            "_row_id" : null
+          },
+          "alias" : "`Check`",
+          "description" : null,
+          "_row_id" : "U0oGIPOrIP-HD4LPNrQaE"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "0NGxgllhfLSWgCNnQ2P1q",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "lSwAK1x_uJDMt1vRyGksa",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2611" : {
+      "id" : "2611",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "AppendFields_2611",
+        "x" : 91840,
+        "y" : 6360,
+        "phase" : 2
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "true"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.Sum_Revenue"
+          },
+          "alias" : "Source_Sum_Revenue",
+          "_row_id" : "oNxFEFW4wBp-XLKCyQ2yH"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2611_Source",
+          "slug" : "in0"
+        }, {
+          "id" : "2611_Targets",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "2611_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_DGxI5LFhEI0b_cBPSmyyd_lSwAK1x_uJDMt1vRyGksa_Formula_2616_to_Formula_2612_1_lSwAK1x_uJDMt1vRyGksa",
+    "source" : "DGxI5LFhEI0b_cBPSmyyd",
+    "sourcePort" : "lSwAK1x_uJDMt1vRyGksa",
+    "target" : "Formula_2616_to_Formula_2612_1_lSwAK1x_uJDMt1vRyGksa",
+    "targetPort" : "input_port_125",
+    "isWireless" : false
+  }, {
+    "id" : "edge_948",
+    "source" : "36usm9_zrH0_JYv7aSab-",
+    "sourcePort" : "XkDbOQz3-RBFiha9e7k47",
+    "target" : "DGxI5LFhEI0b_cBPSmyyd",
+    "targetPort" : "0NGxgllhfLSWgCNnQ2P1q",
+    "isWireless" : false
+  }, {
+    "id" : "edge_950",
+    "source" : "2611",
+    "sourcePort" : "2611_Output",
+    "target" : "36usm9_zrH0_JYv7aSab-",
+    "targetPort" : "xSg0quMxS6fOHtmpVv_uU",
+    "isWireless" : false
+  }, {
+    "id" : "edge_45",
+    "source" : "2610",
+    "sourcePort" : "2610_Output",
+    "target" : "2611",
+    "targetPort" : "2611_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_46",
+    "source" : "1199",
+    "sourcePort" : "1199_Output",
+    "target" : "2611",
+    "targetPort" : "2611_Source",
+    "isWireless" : false
+  }, {
+    "id" : "edge_44",
+    "source" : "AlteryxSelect_2609_2609_Output",
+    "sourcePort" : "output_port_113",
+    "target" : "2610",
+    "targetPort" : "2610_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

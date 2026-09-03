@@ -1,0 +1,344 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_3076_inner",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_3076_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_1893_0_sy7ven75ucdZmMXzBXpDC" : {
+      "id" : "Formula_1893_0_sy7ven75ucdZmMXzBXpDC",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_1893_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_49",
+          "id" : "output_port_49",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_1893_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_49",
+          "slug" : "input_port_49"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_49",
+          "slug" : "output_port_49"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3077" : {
+      "id" : "3077",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_3077",
+        "x" : 36040,
+        "y" : 4860,
+        "phase" : 2
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "RecordID",
+            "_row_id" : null
+          },
+          "alias" : "RecordID",
+          "description" : null,
+          "_row_id" : "0bmfXGuoFknGBKWgbLSGU"
+        }, {
+          "expression" : {
+            "expression" : "`ARR Period`",
+            "_row_id" : null
+          },
+          "alias" : "`ARR Period`",
+          "description" : null,
+          "_row_id" : "EBA4Nv6ebDaFKWtBdhG75"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3077_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3077_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "MultiFieldFormula_1895_1895_Output" : {
+      "id" : "MultiFieldFormula_1895_1895_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "MultiFieldFormula_1895"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_48",
+          "id" : "output_port_48",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__MultiFieldFormula_1895') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_48",
+          "slug" : "input_port_48"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_48",
+          "slug" : "output_port_48"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_3076_inner_PNXJrI3_w_ov_OSqYx7-4" : {
+      "id" : "Join_3076_inner_PNXJrI3_w_ov_OSqYx7-4",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_3076_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_3076_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_50",
+          "slug" : "input_port_50"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_50",
+          "slug" : "output_port_50"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3076_inner" : {
+      "id" : "3076_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_3076_inner",
+        "x" : 36240,
+        "y" : 4660,
+        "phase" : 2
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.RecordID = in1.RecordID) AND (in0.`ARR Period` = in1.`ARR Period`))"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.RecordID"
+          },
+          "alias" : "Right_RecordID",
+          "_row_id" : "vjpk6snxoxMSyWYDTxghl"
+        }, {
+          "expression" : {
+            "expression" : "in1.`ARR Period`"
+          },
+          "alias" : "`Right_ARR Period`",
+          "_row_id" : "8NhkAELh9cZl8As6zRY-I"
+        }, {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "1022677495"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`RecordID`, `ARR Period`)"
+          },
+          "_row_id" : "2099575954"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Lto0ncl4sdTmdG-78yvbl",
+          "slug" : "in0"
+        }, {
+          "id" : "iE9Md9MGP2Vr_o2U-odDq",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "PNXJrI3_w_ov_OSqYx7-4",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1sHaSW3O5hbBFVhfPsutx" : {
+      "id" : "1sHaSW3O5hbBFVhfPsutx",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_3073_0",
+        "x" : 35780,
+        "y" : 5320,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(LAST_DAY ( CAST ( (CASE WHEN CAST((CAST(Origin AS string) IN ('Manual Plug In', 'Orders&OrdersProcessed - Fall 2020 Early Renewals')) AS BOOLEAN) THEN CAST(StartDate_Annualization AS string) WHEN CAST((`Order: Activated Date` IS NULL) AS BOOLEAN) THEN CAST(`Expected Renewal Date` AS string) ELSE `Order: Activated Date` END)  AS DATE ) ))",
+            "_row_id" : null
+          },
+          "alias" : "`ARR Period`",
+          "description" : null,
+          "_row_id" : "qoaUZocaTJT4mBEBBuiYT"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN CAST((Quantity IS NULL) AS BOOLEAN) THEN 0 WHEN ((Quantity IS NULL) OR ((LENGTH(CAST(Quantity AS string))) = 0)) THEN 0 ELSE Quantity END) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Quantity",
+          "description" : null,
+          "_row_id" : "8NK5FE0Rw775OT3SpmkBs"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`quantity`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "XZjCn3s_5t6nT0tEA4t8w",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2rk1E0gyK6NF-0s8aDd3d",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3075" : {
+      "id" : "3075",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_3075",
+        "x" : 36040,
+        "y" : 4460,
+        "phase" : 2
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "RecordID",
+            "_row_id" : null
+          },
+          "alias" : "RecordID",
+          "description" : null,
+          "_row_id" : "VCcQvY9ModrLiyC0oOSyY"
+        }, {
+          "expression" : {
+            "expression" : "`ARR Period`",
+            "_row_id" : null
+          },
+          "alias" : "`ARR Period`",
+          "description" : null,
+          "_row_id" : "9istdCSBchBc82mEvxWde"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3075_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3075_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3076_inner_PNXJrI3_w_ov_OSqYx7-4_Join_3076_inner_PNXJrI3_w_ov_OSqYx7-4",
+    "source" : "3076_inner",
+    "sourcePort" : "PNXJrI3_w_ov_OSqYx7-4",
+    "target" : "Join_3076_inner_PNXJrI3_w_ov_OSqYx7-4",
+    "targetPort" : "input_port_50",
+    "isWireless" : false
+  }, {
+    "id" : "edge_332",
+    "source" : "3075",
+    "sourcePort" : "3075_Output",
+    "target" : "3076_inner",
+    "targetPort" : "Lto0ncl4sdTmdG-78yvbl",
+    "isWireless" : false
+  }, {
+    "id" : "edge_333",
+    "source" : "3077",
+    "sourcePort" : "3077_Output",
+    "target" : "3076_inner",
+    "targetPort" : "iE9Md9MGP2Vr_o2U-odDq",
+    "isWireless" : false
+  }, {
+    "id" : "edge_701",
+    "source" : "Formula_1893_0_sy7ven75ucdZmMXzBXpDC",
+    "sourcePort" : "output_port_49",
+    "target" : "3075",
+    "targetPort" : "3075_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_942",
+    "source" : "1sHaSW3O5hbBFVhfPsutx",
+    "sourcePort" : "2rk1E0gyK6NF-0s8aDd3d",
+    "target" : "3077",
+    "targetPort" : "3077_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_943",
+    "source" : "MultiFieldFormula_1895_1895_Output",
+    "sourcePort" : "output_port_48",
+    "target" : "1sHaSW3O5hbBFVhfPsutx",
+    "targetPort" : "XZjCn3s_5t6nT0tEA4t8w",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

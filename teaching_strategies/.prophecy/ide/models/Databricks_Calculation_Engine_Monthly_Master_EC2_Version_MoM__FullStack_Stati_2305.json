@@ -1,0 +1,133 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__FullStack_Stati_2305",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__FullStack_Stati_2305",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "alias" : "\"FullStack_Stati_2305\"",
+        "materialized" : "table",
+        "database" : "\"sony\"",
+        "schema" : "\"orch_test\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "2305" : {
+      "id" : "2305",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "FullStack_Stati_2305",
+        "phase" : 2
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_2306\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2305_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "xMC6qN7G52zjklF1qBW6i",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "FullStaticHistoryOutput"
+    },
+    "2306" : {
+      "id" : "2306",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_2306",
+        "x" : 60,
+        "y" : 120,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2306_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2306_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "FullStaticHistoryOutput"
+    },
+    "Union_1980_1980_Output" : {
+      "id" : "Union_1980_1980_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_1980"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_80",
+          "id" : "output_port_80",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Union_1980') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_80",
+          "slug" : "input_port_80"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_80",
+          "slug" : "output_port_80"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "edge_80",
+    "source" : "2306",
+    "sourcePort" : "2306_Output",
+    "target" : "2305",
+    "targetPort" : "2305_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_438",
+    "source" : "Union_1980_1980_Output",
+    "sourcePort" : "output_port_80",
+    "target" : "2306",
+    "targetPort" : "2306_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

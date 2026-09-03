@@ -1,0 +1,178 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_3162_inner",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_3162_inner",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_3162_inner_Y_MKZTwD9WVFWVrba9TZL" : {
+      "id" : "Join_3162_inner_Y_MKZTwD9WVFWVrba9TZL",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Join_3162_inner"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Join_3162_inner\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_31",
+          "slug" : "input_port_31"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_31",
+          "slug" : "output_port_31"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3162_inner" : {
+      "id" : "3162_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_3162_inner",
+        "x" : 780,
+        "y" : 140,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Loser Mas90 Customer Number` = in1.`Loser Mas90 Customer Number`)"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "1194443414"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Loser Mas90 Customer Number`, `Winner Mas90 Customer Number`)"
+          },
+          "_row_id" : "77139177"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "evCkJulKebUBd0r0Wo-HN",
+          "slug" : "in0"
+        }, {
+          "id" : "fIp1uqyZIhac2aK70vmEI",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "Y_MKZTwD9WVFWVrba9TZL",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "MergedMAS90"
+    },
+    "AlteryxSelect_3090_3090_Output" : {
+      "id" : "AlteryxSelect_3090_3090_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_3090"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_17",
+          "id" : "output_port_17",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3090') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_121_121_Output" : {
+      "id" : "Summarize_121_121_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_121"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_30",
+          "id" : "output_port_30",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_121') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_30",
+          "slug" : "input_port_30"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_30",
+          "slug" : "output_port_30"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3162_inner_Y_MKZTwD9WVFWVrba9TZL_Join_3162_inner_Y_MKZTwD9WVFWVrba9TZL",
+    "source" : "3162_inner",
+    "sourcePort" : "Y_MKZTwD9WVFWVrba9TZL",
+    "target" : "Join_3162_inner_Y_MKZTwD9WVFWVrba9TZL",
+    "targetPort" : "input_port_31",
+    "isWireless" : false
+  }, {
+    "id" : "edge_352",
+    "source" : "AlteryxSelect_3090_3090_Output",
+    "sourcePort" : "output_port_17",
+    "target" : "3162_inner",
+    "targetPort" : "fIp1uqyZIhac2aK70vmEI",
+    "isWireless" : false
+  }, {
+    "id" : "edge_351",
+    "source" : "Summarize_121_121_Output",
+    "sourcePort" : "output_port_30",
+    "target" : "3162_inner",
+    "targetPort" : "evCkJulKebUBd0r0Wo-HN",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

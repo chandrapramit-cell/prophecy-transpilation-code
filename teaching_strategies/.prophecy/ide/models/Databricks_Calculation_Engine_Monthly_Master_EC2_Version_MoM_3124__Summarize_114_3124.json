@@ -1,0 +1,153 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Summarize_114_3124",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Summarize_114_3124",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_114_3124_114_3124_Output" : {
+      "id" : "Summarize_114_3124_114_3124_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_114_3124"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_114_3124\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_3",
+          "slug" : "input_port_3"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_3",
+          "slug" : "output_port_3"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "114_3124" : {
+      "id" : "114_3124",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_114_3124",
+        "x" : 864,
+        "y" : 1188,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Mas90 Customer Number`",
+            "_row_id" : null
+          },
+          "alias" : "`Mas90 Customer Number`",
+          "description" : null,
+          "_row_id" : "72fzIlCHM-JOXhFORf-j4"
+        }, {
+          "expression" : {
+            "expression" : "Product",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "eiL6FPQU8IcVdRMADG_5A"
+        }, {
+          "expression" : {
+            "expression" : "StartDate_Annualization",
+            "_row_id" : null
+          },
+          "alias" : "StartDate_Annualization",
+          "description" : null,
+          "_row_id" : "Otmv0XyMQ6wC1zt2AgSCR"
+        }, {
+          "expression" : {
+            "expression" : "EndDate_Annualization",
+            "_row_id" : null
+          },
+          "alias" : "EndDate_Annualization",
+          "description" : null,
+          "_row_id" : "1Ae1PbHixAVIdW60d2fvT"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "114_3124_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "114_3124_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Filter_107_3124_reject_osmbloQ798XcdUkAYqcfN" : {
+      "id" : "Filter_107_3124_reject_osmbloQ798XcdUkAYqcfN",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_107_3124_reject"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Filter_107_3124_reject') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_114_3124_114_3124_Output_Summarize_114_3124_114_3124_Output",
+    "source" : "114_3124",
+    "sourcePort" : "114_3124_Output",
+    "target" : "Summarize_114_3124_114_3124_Output",
+    "targetPort" : "input_port_3",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1027",
+    "source" : "Filter_107_3124_reject_osmbloQ798XcdUkAYqcfN",
+    "sourcePort" : "output_port_1",
+    "target" : "114_3124",
+    "targetPort" : "114_3124_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

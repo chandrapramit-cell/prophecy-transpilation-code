@@ -1,0 +1,228 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_2940",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_2940",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Join_595_left_w-sxWwmBEKUv57BPhGvs-" : {
+      "id" : "Join_595_left_w-sxWwmBEKUv57BPhGvs-",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_595_left"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_20",
+          "id" : "output_port_20",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_595_left') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_20",
+          "slug" : "input_port_20"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_20",
+          "slug" : "output_port_20"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_608_608_Output" : {
+      "id" : "Summarize_608_608_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_608"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_1",
+          "id" : "output_port_1",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_608') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_1",
+          "slug" : "input_port_1"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_1",
+          "slug" : "output_port_1"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "594_left" : {
+      "id" : "594_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_594_left",
+        "x" : 10860,
+        "y" : 2140,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Product Code` = in1.`Item/Product`)"
+          },
+          "joinType" : "anti"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "1215108347"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "T6GL15E4YTFAJLOHYy2uk",
+          "slug" : "in0"
+        }, {
+          "id" : "ITtMxJ2BP3CrNa5mYQ4Oo",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "m4sSZ2CRZPuuNiYJdXo6W",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_2940_2940_Output" : {
+      "id" : "Summarize_2940_2940_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_2940"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_2940\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_21",
+          "slug" : "input_port_21"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_21",
+          "slug" : "output_port_21"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2940" : {
+      "id" : "2940",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_2940",
+        "x" : 11620,
+        "y" : 2140,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(`Sum_Total Price (new)`)"
+          },
+          "alias" : "`Sum_Sum_Total Price (new)`",
+          "_row_id" : "HBKblYk4hSzJQ8ayj89FZ"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "alias" : "`Product Code`",
+          "_row_id" : "Z1BiqjOKyGqGaXeSmPDPL"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "_row_id" : "bDcnboVRhmT7V4bXGoHIe"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2940_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2940_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_2940_2940_Output_Summarize_2940_2940_Output",
+    "source" : "2940",
+    "sourcePort" : "2940_Output",
+    "target" : "Summarize_2940_2940_Output",
+    "targetPort" : "input_port_21",
+    "isWireless" : false
+  }, {
+    "id" : "edge_292",
+    "source" : "594_left",
+    "sourcePort" : "m4sSZ2CRZPuuNiYJdXo6W",
+    "target" : "2940",
+    "targetPort" : "2940_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_291",
+    "source" : "Summarize_608_608_Output",
+    "sourcePort" : "output_port_1",
+    "target" : "594_left",
+    "targetPort" : "ITtMxJ2BP3CrNa5mYQ4Oo",
+    "isWireless" : false
+  }, {
+    "id" : "edge_298",
+    "source" : "Join_595_left_w-sxWwmBEKUv57BPhGvs-",
+    "sourcePort" : "output_port_20",
+    "target" : "594_left",
+    "targetPort" : "T6GL15E4YTFAJLOHYy2uk",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

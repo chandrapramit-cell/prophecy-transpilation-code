@@ -1,0 +1,619 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3233",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3233",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "DbFileInput_323_3230_3230_Output" : {
+      "id" : "DbFileInput_323_3230_3230_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DbFileInput_323_3230"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_11",
+          "id" : "output_port_11",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM', 'DbFileInput_323_3230') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_11",
+          "slug" : "input_port_11"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_11",
+          "slug" : "output_port_11"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "wfhmJXgSd3U0MmXc8fqaB" : {
+      "id" : "wfhmJXgSd3U0MmXc8fqaB",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DynamicRename_3232_drop_0",
+        "x" : 1260,
+        "y" : 700,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`prophecy_row_id`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Xhl_t1hGlKFkDhJVLFDjT",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "xMbAeoS7LdzGE_guEyKTe",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TadpolesNonSFDCData"
+    },
+    "3233" : {
+      "id" : "3233",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_3233",
+        "x" : 1460,
+        "y" : 700,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`Transaction Type`, `Num`, `Customer Name`, `Memo/Description`, `Split`, `Amount`, `Stripe`, `Center Name`, `SF Date`, `Customer ID`, `Customer`, `Sale Date`, `Start Date`, `Expiration Date`, `Order #`, `SF Rev`, `Column1`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3233_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3233_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TadpolesNonSFDCData"
+    },
+    "HistoricalTadpo_3330_3330_Output" : {
+      "id" : "HistoricalTadpo_3330_3330_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "HistoricalTadpo_3330"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_12",
+          "id" : "output_port_12",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM', 'HistoricalTadpo_3330') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_12",
+          "slug" : "input_port_12"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_12",
+          "slug" : "output_port_12"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3329" : {
+      "id" : "3329",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_3329",
+        "x" : 260,
+        "y" : 700,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "DbFileInput_323_3230", "HistoricalTadpo_3330" ],
+        "schemas" : [ "[{\"name\": \"F16\", \"dataType\": \"String\"}, {\"name\": \"F12\", \"dataType\": \"String\"}, {\"name\": \"F9\", \"dataType\": \"String\"}, {\"name\": \"F4\", \"dataType\": \"String\"}, {\"name\": \"F20\", \"dataType\": \"String\"}, {\"name\": \"F10\", \"dataType\": \"String\"}, {\"name\": \"F13\", \"dataType\": \"String\"}, {\"name\": \"F19\", \"dataType\": \"String\"}, {\"name\": \"F3\", \"dataType\": \"String\"}, {\"name\": \"F7\", \"dataType\": \"String\"}, {\"name\": \"F2\", \"dataType\": \"String\"}, {\"name\": \"F22\", \"dataType\": \"String\"}, {\"name\": \"F11\", \"dataType\": \"String\"}, {\"name\": \"F15\", \"dataType\": \"String\"}, {\"name\": \"F18\", \"dataType\": \"String\"}, {\"name\": \"F6\", \"dataType\": \"String\"}, {\"name\": \"F1\", \"dataType\": \"String\"}, {\"name\": \"F21\", \"dataType\": \"String\"}, {\"name\": \"F17\", \"dataType\": \"String\"}, {\"name\": \"F8\", \"dataType\": \"String\"}, {\"name\": \"F14\", \"dataType\": \"String\"}, {\"name\": \"F5\", \"dataType\": \"String\"}]", "[{\"name\": \"F16\", \"dataType\": \"String\"}, {\"name\": \"F12\", \"dataType\": \"String\"}, {\"name\": \"F9\", \"dataType\": \"String\"}, {\"name\": \"F4\", \"dataType\": \"String\"}, {\"name\": \"F20\", \"dataType\": \"String\"}, {\"name\": \"F10\", \"dataType\": \"String\"}, {\"name\": \"F13\", \"dataType\": \"String\"}, {\"name\": \"F19\", \"dataType\": \"String\"}, {\"name\": \"F3\", \"dataType\": \"String\"}, {\"name\": \"F7\", \"dataType\": \"String\"}, {\"name\": \"F2\", \"dataType\": \"String\"}, {\"name\": \"F11\", \"dataType\": \"String\"}, {\"name\": \"F15\", \"dataType\": \"String\"}, {\"name\": \"F18\", \"dataType\": \"String\"}, {\"name\": \"F6\", \"dataType\": \"String\"}, {\"name\": \"F1\", \"dataType\": \"String\"}, {\"name\": \"F21\", \"dataType\": \"String\"}, {\"name\": \"F17\", \"dataType\": \"String\"}, {\"name\": \"F8\", \"dataType\": \"String\"}, {\"name\": \"F14\", \"dataType\": \"String\"}, {\"name\": \"F5\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"DbFileInput_323_3230\", \"HistoricalTadpo_3330\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"F16\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F12\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F9\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F4\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F20\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F10\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F13\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F19\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F3\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F7\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F2\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F22\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F11\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F15\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F18\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F6\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F21\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F17\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F8\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F14\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F5\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"F16\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F12\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F9\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F4\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F20\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F10\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F13\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F19\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F3\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F7\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F2\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F11\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F15\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F18\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F6\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F1\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F21\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F17\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F8\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F14\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"F5\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3329_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "3329_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "3329_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TadpolesNonSFDCData"
+    },
+    "3232_filter" : {
+      "id" : "3232_filter",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "DynamicRename_3232_filter",
+        "x" : 1060,
+        "y" : 700,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((NOT (prophecy_row_id = 1)) OR (prophecy_row_id IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "l92-2ceM77qNCifXs0C8L",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "05YIUxqhCFn37YscSVLBa",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TadpolesNonSFDCData"
+    },
+    "3232_row_number" : {
+      "id" : "3232_row_number",
+      "component" : "RecordID",
+      "metadata" : {
+        "label" : "DynamicRename_3232_row_number",
+        "x" : 860,
+        "y" : 700,
+        "phase" : 0
+      },
+      "properties" : {
+        "incremental_id_type" : "integer",
+        "incremental_id_starting_val" : 1,
+        "method" : "incremental_id",
+        "relation_name" : [ "DynamicRename_3232" ],
+        "generationMethod" : "tableLevel",
+        "_oldMacroProperties" : {
+          "macroName" : "RecordID",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"DynamicRename_3232\"]"
+          }, {
+            "name" : "method",
+            "value" : "incremental_id"
+          }, {
+            "name" : "incremental_id_column_name",
+            "value" : "prophecy_row_id"
+          }, {
+            "name" : "incremental_id_type",
+            "value" : "integer"
+          }, {
+            "name" : "incremental_id_size",
+            "value" : "6"
+          }, {
+            "name" : "incremental_id_starting_val",
+            "value" : "1"
+          }, {
+            "name" : "generationMethod",
+            "value" : "tableLevel"
+          }, {
+            "name" : "position",
+            "value" : "first_column"
+          }, {
+            "name" : "groupByColumnNames",
+            "value" : "[]"
+          }, {
+            "name" : "orders",
+            "value" : "[]"
+          } ]
+        },
+        "incremental_id_column_name" : "prophecy_row_id",
+        "orders" : [ ],
+        "position" : "first_column",
+        "incremental_id_size" : 6,
+        "groupByColumnNames" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "5fH0LN7qQaSMUMEoOYXS_",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "fGHUg3Rh3UoPaOomCejHj",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TadpolesNonSFDCData"
+    },
+    "AlteryxSelect_3233_3233_Output" : {
+      "id" : "AlteryxSelect_3233_3233_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_3233"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_3233\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3232" : {
+      "id" : "3232",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "DynamicRename_3232",
+        "x" : 660,
+        "y" : 700,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "F1",
+            "_row_id" : null
+          },
+          "alias" : "`QB Date`",
+          "description" : null,
+          "_row_id" : "FKzHNOxUJxpUSyrqO_pNu"
+        }, {
+          "expression" : {
+            "expression" : "F2",
+            "_row_id" : null
+          },
+          "alias" : "`Transaction Type`",
+          "description" : null,
+          "_row_id" : "wCiCANd58WuLu-56ulVDL"
+        }, {
+          "expression" : {
+            "expression" : "F3",
+            "_row_id" : null
+          },
+          "alias" : "Num",
+          "description" : null,
+          "_row_id" : "X6Gnw69wjknT6jYCLK40F"
+        }, {
+          "expression" : {
+            "expression" : "F4",
+            "_row_id" : null
+          },
+          "alias" : "`Customer Name`",
+          "description" : null,
+          "_row_id" : "BfR9OLRBnPzMo9TW5j8IF"
+        }, {
+          "expression" : {
+            "expression" : "F5",
+            "_row_id" : null
+          },
+          "alias" : "`Memo/Description`",
+          "description" : null,
+          "_row_id" : "tprU6IkPiP9-edCK-4jIQ"
+        }, {
+          "expression" : {
+            "expression" : "F6",
+            "_row_id" : null
+          },
+          "alias" : "Split",
+          "description" : null,
+          "_row_id" : "XDyUEcCNLzKe_xMND0Pbs"
+        }, {
+          "expression" : {
+            "expression" : "F7",
+            "_row_id" : null
+          },
+          "alias" : "Amount",
+          "description" : null,
+          "_row_id" : "buxGCnXFySOivxT327QJg"
+        }, {
+          "expression" : {
+            "expression" : "F8",
+            "_row_id" : null
+          },
+          "alias" : "Stripe",
+          "description" : null,
+          "_row_id" : "313YJz64mEn7M0j65IJLd"
+        }, {
+          "expression" : {
+            "expression" : "F9",
+            "_row_id" : null
+          },
+          "alias" : "`Center Name`",
+          "description" : null,
+          "_row_id" : "ANkFXok-2HxIUbq9gwK9o"
+        }, {
+          "expression" : {
+            "expression" : "F10",
+            "_row_id" : null
+          },
+          "alias" : "`SF Date`",
+          "description" : null,
+          "_row_id" : "M0nUQUAntaDk6NTcGgi88"
+        }, {
+          "expression" : {
+            "expression" : "F11",
+            "_row_id" : null
+          },
+          "alias" : "`Customer ID`",
+          "description" : null,
+          "_row_id" : "Fq0OZPqLLCYfW0jjGcGFp"
+        }, {
+          "expression" : {
+            "expression" : "F12",
+            "_row_id" : null
+          },
+          "alias" : "Customer",
+          "description" : null,
+          "_row_id" : "OOEQcKhXtrwQJiSKYsSrF"
+        }, {
+          "expression" : {
+            "expression" : "F13",
+            "_row_id" : null
+          },
+          "alias" : "`Sale Date`",
+          "description" : null,
+          "_row_id" : "C_VLrPZf_4tvleQqk9FUZ"
+        }, {
+          "expression" : {
+            "expression" : "F14",
+            "_row_id" : null
+          },
+          "alias" : "`Start Date`",
+          "description" : null,
+          "_row_id" : "NQpTJD-b-DURtX0wFcqZO"
+        }, {
+          "expression" : {
+            "expression" : "F15",
+            "_row_id" : null
+          },
+          "alias" : "`Expiration Date`",
+          "description" : null,
+          "_row_id" : "KVZsKVh8C1p5VJo4yCUI5"
+        }, {
+          "expression" : {
+            "expression" : "F16",
+            "_row_id" : null
+          },
+          "alias" : "`Order #`",
+          "description" : null,
+          "_row_id" : "BfGak-A-ZqLtlAch1vWr3"
+        }, {
+          "expression" : {
+            "expression" : "F17",
+            "_row_id" : null
+          },
+          "alias" : "`SF Rev`",
+          "description" : null,
+          "_row_id" : "g4qJSnLMHbLKsqcX2sglh"
+        }, {
+          "expression" : {
+            "expression" : "F18",
+            "_row_id" : null
+          },
+          "alias" : "variableDate",
+          "description" : null,
+          "_row_id" : "rSe0AcRA_4aMX46X8j5gB"
+        }, {
+          "expression" : {
+            "expression" : "F19",
+            "_row_id" : null
+          },
+          "alias" : "Mas90",
+          "description" : null,
+          "_row_id" : "EE_XzoTMjjHC79INXo3mg"
+        }, {
+          "expression" : {
+            "expression" : "F20",
+            "_row_id" : null
+          },
+          "alias" : "`Customer Name2`",
+          "description" : null,
+          "_row_id" : "qZ5WNJnHSmtQeKco7Fq7e"
+        }, {
+          "expression" : {
+            "expression" : "F21",
+            "_row_id" : null
+          },
+          "alias" : "Revenue",
+          "description" : null,
+          "_row_id" : "_7hMO18fhEGeeXLw4QNKb"
+        }, {
+          "expression" : {
+            "expression" : "F22",
+            "_row_id" : null
+          },
+          "alias" : "Column1",
+          "description" : null,
+          "_row_id" : "bkzanBLlRKrXjRhdsPWe1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3232_Targets",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3232_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TadpolesNonSFDCData"
+    },
+    "3231" : {
+      "id" : "3231",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_3231",
+        "x" : 460,
+        "y" : 700,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(NOT (F1 IS NULL))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3231_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3231_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TadpolesNonSFDCData"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3233_3233_Output_AlteryxSelect_3233_3233_Output",
+    "source" : "3233",
+    "sourcePort" : "3233_Output",
+    "target" : "AlteryxSelect_3233_3233_Output",
+    "targetPort" : "input_port_13",
+    "isWireless" : false
+  }, {
+    "id" : "edge_743",
+    "source" : "wfhmJXgSd3U0MmXc8fqaB",
+    "sourcePort" : "xMbAeoS7LdzGE_guEyKTe",
+    "target" : "3233",
+    "targetPort" : "3233_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_744",
+    "source" : "3232_filter",
+    "sourcePort" : "05YIUxqhCFn37YscSVLBa",
+    "target" : "wfhmJXgSd3U0MmXc8fqaB",
+    "targetPort" : "Xhl_t1hGlKFkDhJVLFDjT",
+    "isWireless" : false
+  }, {
+    "id" : "edge_232",
+    "source" : "3232_row_number",
+    "sourcePort" : "fGHUg3Rh3UoPaOomCejHj",
+    "target" : "3232_filter",
+    "targetPort" : "l92-2ceM77qNCifXs0C8L",
+    "isWireless" : false
+  }, {
+    "id" : "edge_231",
+    "source" : "3232",
+    "sourcePort" : "3232_Output",
+    "target" : "3232_row_number",
+    "targetPort" : "5fH0LN7qQaSMUMEoOYXS_",
+    "isWireless" : false
+  }, {
+    "id" : "edge_117",
+    "source" : "3231",
+    "sourcePort" : "3231_True",
+    "target" : "3232",
+    "targetPort" : "3232_Targets",
+    "isWireless" : false
+  }, {
+    "id" : "edge_124",
+    "source" : "3329",
+    "sourcePort" : "3329_Output",
+    "target" : "3231",
+    "targetPort" : "3231_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_115",
+    "source" : "DbFileInput_323_3230_3230_Output",
+    "sourcePort" : "output_port_11",
+    "target" : "3329",
+    "targetPort" : "3329_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_116",
+    "source" : "HistoricalTadpo_3330_3330_Output",
+    "sourcePort" : "output_port_12",
+    "target" : "3329",
+    "targetPort" : "3329_#2_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

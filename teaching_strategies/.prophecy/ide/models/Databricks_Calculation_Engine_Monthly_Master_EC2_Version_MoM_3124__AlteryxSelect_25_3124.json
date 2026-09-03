@@ -1,0 +1,165 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__AlteryxSelect_25_3124",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__AlteryxSelect_25_3124",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_25_3124_25_3124_Output" : {
+      "id" : "AlteryxSelect_25_3124_25_3124_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_25_3124"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_25_3124\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_16",
+          "slug" : "input_port_16"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_16",
+          "slug" : "output_port_16"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "25_3124" : {
+      "id" : "25_3124",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_25_3124",
+        "x" : 13332,
+        "y" : 1116,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "25_3124_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "25_3124_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "146_3124" : {
+      "id" : "146_3124",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_146_3124",
+        "x" : 12852,
+        "y" : 1764,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(`Date Overlap Flag` = TRUE)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "146_3124_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "146_3124_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_145_3124_0_OTnvBFBKPcPfv4LSmb0az" : {
+      "id" : "Formula_145_3124_0_OTnvBFBKPcPfv4LSmb0az",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_145_3124_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_14",
+          "id" : "output_port_14",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Formula_145_3124_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_25_3124_25_3124_Output_AlteryxSelect_25_3124_25_3124_Output",
+    "source" : "25_3124",
+    "sourcePort" : "25_3124_Output",
+    "target" : "AlteryxSelect_25_3124_25_3124_Output",
+    "targetPort" : "input_port_16",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1034",
+    "source" : "146_3124",
+    "sourcePort" : "146_3124_True",
+    "target" : "25_3124",
+    "targetPort" : "25_3124_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1121",
+    "source" : "Formula_145_3124_0_OTnvBFBKPcPfv4LSmb0az",
+    "sourcePort" : "output_port_14",
+    "target" : "146_3124",
+    "targetPort" : "146_3124_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

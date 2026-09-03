@@ -1,0 +1,482 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Filter_3315",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Filter_3315",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "3315" : {
+      "id" : "3315",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_3315",
+        "x" : 1620,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(`Expected Year Renewals` < `Next Year`)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3315_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3315_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "YettoRenewLogic"
+    },
+    "3311" : {
+      "id" : "3311",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_3311",
+        "x" : 260,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((NOT (ContractStartDate IS NULL)) AND (NOT (ContractEndDate IS NULL)))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3311_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3311_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SpreadRevenueEndofperiodSnapshots"
+    },
+    "vCb8HZW2fMaOnZJFhU8Fu" : {
+      "id" : "vCb8HZW2fMaOnZJFhU8Fu",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_3309_to_Formula_3314_1",
+        "x" : 860,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (ContractTermDays <= 0) THEN 0 ELSE ((CASE WHEN (((((TCV / ContractTermDays) * 365.25) / 0.01) < 0) AND (((((TCV / ContractTermDays) * 365.25) / 0.01) - FLOOR((((TCV / ContractTermDays) * 365.25) / 0.01))) = 0.5)) THEN CEIL((((TCV / ContractTermDays) * 365.25) / 0.01)) ELSE ROUND((((TCV / ContractTermDays) * 365.25) / 0.01)) END) * 0.01) END) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "ARR",
+          "description" : null,
+          "_row_id" : "591xQdjsGoKpGP-tX5MD0"
+        }, {
+          "expression" : {
+            "expression" : "CAST(((CASE WHEN ((((ContractTermDays / 30.4375) / 0.1) < 0) AND ((((ContractTermDays / 30.4375) / 0.1) - FLOOR(((ContractTermDays / 30.4375) / 0.1))) = 0.5)) THEN CEIL(((ContractTermDays / 30.4375) / 0.1)) ELSE ROUND(((ContractTermDays / 30.4375) / 0.1)) END) * 0.1) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "ContractTermMonths",
+          "description" : null,
+          "_row_id" : "j3eeGltrSQpKeegMil7my"
+        }, {
+          "expression" : {
+            "expression" : "CAST((SUBSTRING( CAST(`Expected Renewal Date` AS string), 1, 4)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Expected Year Renewals`",
+          "description" : null,
+          "_row_id" : "sjOR9nsHn0ATsJ7qDArSj"
+        }, {
+          "expression" : {
+            "expression" : "CAST(UPPER(`Product Code`) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Product Code`",
+          "description" : null,
+          "_row_id" : "SkMRvjsJBaXC0OEaD-iQf"
+        }, {
+          "expression" : {
+            "expression" : "CAST((SUBSTRING( CAST(ContractStartDate AS string), 1, 4)) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Expected Year Renewals Quote`",
+          "description" : null,
+          "_row_id" : "Cb3Doh5ws885tmDjA5Ohu"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`product code`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "HtS4yj2hGilyK74wT5m6Q",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "dKsWsrjCZ0m1I1iOSIqGF",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SpreadRevenueEndofperiodSnapshots"
+    },
+    "3308" : {
+      "id" : "3308",
+      "component" : "RecordID",
+      "metadata" : {
+        "label" : "RecordID_3308",
+        "x" : 460,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "incremental_id_type" : "integer",
+        "incremental_id_starting_val" : 1,
+        "method" : "incremental_id",
+        "relation_name" : [ "Filter_3311" ],
+        "generationMethod" : "tableLevel",
+        "incremental_id_column_name" : "RecordID",
+        "schema" : "[{\"name\": \"Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Actual Closed Date\", \"dataType\": \"Date\"}, {\"name\": \"Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Created Date\", \"dataType\": \"Date\"}, {\"name\": \"Origin\", \"dataType\": \"String\"}, {\"name\": \"ContractEndDate\", \"dataType\": \"Date\"}, {\"name\": \"Order: End Date (Calculated)\", \"dataType\": \"Date\"}, {\"name\": \"Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"ACV\", \"dataType\": \"Double\"}, {\"name\": \"TCV\", \"dataType\": \"Double\"}, {\"name\": \"Expected Renewal Date\", \"dataType\": \"Date\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"Order: Start Date\", \"dataType\": \"Date\"}, {\"name\": \"ContractStartDate\", \"dataType\": \"Date\"}]",
+        "orders" : [ ],
+        "position" : "first_column",
+        "incremental_id_size" : 6,
+        "groupByColumnNames" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3308_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3308_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SpreadRevenueEndofperiodSnapshots"
+    },
+    "3260" : {
+      "id" : "3260",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_3260",
+        "x" : 60,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "not(contains(Stage, 'Close'))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3260_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3260_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "YettoRenewLogic"
+    },
+    "Filter_3315_3315_True" : {
+      "id" : "Filter_3315_3315_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_3315"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_3315\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_71",
+          "slug" : "input_port_71"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_71",
+          "slug" : "output_port_71"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "uYIFMWw6eT-7LVREIHXV-" : {
+      "id" : "uYIFMWw6eT-7LVREIHXV-",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_3261_0",
+        "x" : 260,
+        "y" : 420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(UPPER(`Product Code`) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Product Code`",
+          "description" : null,
+          "_row_id" : "m7gK5BDp2X8UY_lAsP4qX"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`product code`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "a75SOZrTVU4OhoOiTxjGb",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "q2fxuQb9kbjTzfb8N5a7G",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "YettoRenewLogic"
+    },
+    "5cqxNQX0A8C-TdITv67Sb" : {
+      "id" : "5cqxNQX0A8C-TdITv67Sb",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_3309_to_Formula_3314_0",
+        "x" : 660,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CASE\n  WHEN ((ContractStartDate <= to_date('2016-02-28')) AND (ContractEndDate >= to_date('2016-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2020-02-28')) AND (ContractEndDate >= to_date('2020-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2024-02-28')) AND (ContractEndDate >= to_date('2024-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2028-02-28')) AND (ContractEndDate >= to_date('2028-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  ELSE (CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT) + 1)\nEND AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "ContractTermDays",
+          "description" : null,
+          "_row_id" : "8GnGgHGvx0LXefgbpBww6"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Vdpsz8cr4emVaTrYvYSaK",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "bX6ATWOwtMG0rYFmqDS95",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SpreadRevenueEndofperiodSnapshots"
+    },
+    "3310" : {
+      "id" : "3310",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_3310",
+        "x" : 60,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "StartDate_Annualization",
+            "_row_id" : null
+          },
+          "alias" : "ContractStartDate",
+          "description" : null,
+          "_row_id" : "BVppgVyRBciwaAb6fck-Z"
+        }, {
+          "expression" : {
+            "expression" : "EndDate_Annualization",
+            "_row_id" : null
+          },
+          "alias" : "ContractEndDate",
+          "description" : null,
+          "_row_id" : "gdezT1dErGnjLhQEOaYFt"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`StartDate_Annualization`, `EndDate_Annualization`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3310_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3310_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "SpreadRevenueEndofperiodSnapshots"
+    },
+    "Summarize_1067_1067_Output" : {
+      "id" : "Summarize_1067_1067_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_1067"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_70",
+          "id" : "output_port_70",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_1067') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_70",
+          "slug" : "input_port_70"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_70",
+          "slug" : "output_port_70"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3315_3315_True_Filter_3315_3315_True",
+    "source" : "3315",
+    "sourcePort" : "3315_True",
+    "target" : "Filter_3315_3315_True",
+    "targetPort" : "input_port_71",
+    "isWireless" : false
+  }, {
+    "id" : "edge_920",
+    "source" : "vCb8HZW2fMaOnZJFhU8Fu",
+    "sourcePort" : "dKsWsrjCZ0m1I1iOSIqGF",
+    "target" : "3315",
+    "targetPort" : "3315_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_919",
+    "source" : "5cqxNQX0A8C-TdITv67Sb",
+    "sourcePort" : "bX6ATWOwtMG0rYFmqDS95",
+    "target" : "vCb8HZW2fMaOnZJFhU8Fu",
+    "targetPort" : "HtS4yj2hGilyK74wT5m6Q",
+    "isWireless" : false
+  }, {
+    "id" : "edge_921",
+    "source" : "3308",
+    "sourcePort" : "3308_Output",
+    "target" : "5cqxNQX0A8C-TdITv67Sb",
+    "targetPort" : "Vdpsz8cr4emVaTrYvYSaK",
+    "isWireless" : false
+  }, {
+    "id" : "edge_223",
+    "source" : "3311",
+    "sourcePort" : "3311_True",
+    "target" : "3308",
+    "targetPort" : "3308_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_222",
+    "source" : "3310",
+    "sourcePort" : "3310_Output",
+    "target" : "3311",
+    "targetPort" : "3311_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_917",
+    "source" : "uYIFMWw6eT-7LVREIHXV-",
+    "sourcePort" : "q2fxuQb9kbjTzfb8N5a7G",
+    "target" : "3310",
+    "targetPort" : "3310_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_918",
+    "source" : "3260",
+    "sourcePort" : "3260_True",
+    "target" : "uYIFMWw6eT-7LVREIHXV-",
+    "targetPort" : "a75SOZrTVU4OhoOiTxjGb",
+    "isWireless" : false
+  }, {
+    "id" : "edge_15",
+    "source" : "Summarize_1067_1067_Output",
+    "sourcePort" : "output_port_70",
+    "target" : "3260",
+    "targetPort" : "3260_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

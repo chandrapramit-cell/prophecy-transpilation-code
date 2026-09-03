@@ -1,0 +1,146 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3256",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3256",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_3256_MJzy-EWL0UDOy3rOjlJ8p" : {
+      "id" : "AlteryxSelect_3256_MJzy-EWL0UDOy3rOjlJ8p",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_3256"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_3256\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_14",
+          "slug" : "input_port_14"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_14",
+          "slug" : "output_port_14"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3256" : {
+      "id" : "3256",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_3256",
+        "x" : 1660,
+        "y" : 800,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) IS NOT NULL) THEN CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss.SSSS')) AS DATE) WHEN ((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss')) IS NOT NULL) THEN CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd HH:mm:ss')) AS DATE) ELSE CAST((TRY_TO_TIMESTAMP(CAST(variableDate AS string), 'yyyy-MM-dd')) AS DATE) END)",
+            "_row_id" : null
+          },
+          "alias" : "variableDate",
+          "description" : null,
+          "_row_id" : "sXf6pI85arT8sd4is_G-g"
+        }, {
+          "expression" : {
+            "expression" : "CAST(Revenue AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Revenue",
+          "description" : null,
+          "_row_id" : "wpWHWcd5iFLsAcrJtB9OI"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`variableDate`, `Revenue`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3256_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "MJzy-EWL0UDOy3rOjlJ8p",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "TadpolesNonSFDCData"
+    },
+    "AlteryxSelect_3233_3233_Output" : {
+      "id" : "AlteryxSelect_3233_3233_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_3233"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_13",
+          "id" : "output_port_13",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3233') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_13",
+          "slug" : "input_port_13"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_13",
+          "slug" : "output_port_13"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3256_MJzy-EWL0UDOy3rOjlJ8p_AlteryxSelect_3256_MJzy-EWL0UDOy3rOjlJ8p",
+    "source" : "3256",
+    "sourcePort" : "MJzy-EWL0UDOy3rOjlJ8p",
+    "target" : "AlteryxSelect_3256_MJzy-EWL0UDOy3rOjlJ8p",
+    "targetPort" : "input_port_14",
+    "isWireless" : false
+  }, {
+    "id" : "edge_118",
+    "source" : "AlteryxSelect_3233_3233_Output",
+    "sourcePort" : "output_port_13",
+    "target" : "3256",
+    "targetPort" : "3256_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

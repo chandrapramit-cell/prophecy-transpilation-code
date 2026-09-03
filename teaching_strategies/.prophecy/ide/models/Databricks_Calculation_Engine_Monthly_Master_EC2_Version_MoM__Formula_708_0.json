@@ -1,0 +1,480 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_708_0",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_708_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "E4hBC0afz6XimbXP8rtVv" : {
+      "id" : "E4hBC0afz6XimbXP8rtVv",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1167_0",
+        "x" : 3260,
+        "y" : 580,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CASE\n  WHEN (\n    (StartDate_Annualization <= to_date('2016-02-28'))\n    AND (EndDate_Annualization >= to_date('2016-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2020-02-28'))\n    AND (EndDate_Annualization >= to_date('2020-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2024-02-28'))\n    AND (EndDate_Annualization >= to_date('2024-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2028-02-28'))\n    AND (EndDate_Annualization >= to_date('2028-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  ELSE (CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT) + 1)\nEND AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Engine_ContractDays",
+          "description" : null,
+          "_row_id" : "zfV5TelEp7M0Afa1AXaUd"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "DtIodsX8VAipU4AK1GOIf",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "4buEeAwRVOu-H7AomZl-a",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CCCloud2020FallEarlyRenewals"
+    },
+    "Join_884_inner_9vVCrWUTu0L7wjRTZxwW1" : {
+      "id" : "Join_884_inner_9vVCrWUTu0L7wjRTZxwW1",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_884_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_36",
+          "id" : "output_port_36",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_884_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_36",
+          "slug" : "input_port_36"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_36",
+          "slug" : "output_port_36"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "x7aXZizBtTNk1VmBwNFef" : {
+      "id" : "x7aXZizBtTNk1VmBwNFef",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1167_2",
+        "x" : 3660,
+        "y" : 580,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((ACV / 365.25) * Engine_ContractDays) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "TCV",
+          "description" : null,
+          "_row_id" : "f1nsZzU2WvyDtS3McgAes"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "Xpe8rxOOJdUhBYIrteFRk",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "HQGDzoYXtzRJrSv88CaoM",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CCCloud2020FallEarlyRenewals"
+    },
+    "927" : {
+      "id" : "927",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_927",
+        "x" : 3860,
+        "y" : 580,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Order: Account Name: Mas90 Customer Number`",
+            "_row_id" : null
+          },
+          "alias" : "`Mas90 Customer Number`",
+          "description" : null,
+          "_row_id" : "pyPiGIF8rV7tEJyjygJKl"
+        }, {
+          "expression" : {
+            "expression" : "Quantity",
+            "_row_id" : null
+          },
+          "alias" : "Quantity",
+          "description" : null,
+          "_row_id" : "lhRMHlXhFTgZaW34HJaj7"
+        }, {
+          "expression" : {
+            "expression" : "StartDate_Annualization",
+            "_row_id" : null
+          },
+          "alias" : "StartDate_Annualization",
+          "description" : null,
+          "_row_id" : "ZThzr2Z6gBNF_88_Ju8Jh"
+        }, {
+          "expression" : {
+            "expression" : "EndDate_Annualization",
+            "_row_id" : null
+          },
+          "alias" : "EndDate_Annualization",
+          "description" : null,
+          "_row_id" : "6f4TZcXVXjBqQYIKX-uzQ"
+        }, {
+          "expression" : {
+            "expression" : "TCV",
+            "_row_id" : null
+          },
+          "alias" : "TCV",
+          "description" : null,
+          "_row_id" : "fKT8O-84VjqL-bC5NQC9d"
+        }, {
+          "expression" : {
+            "expression" : "`Updated Term`",
+            "_row_id" : null
+          },
+          "alias" : "`Updated Term`",
+          "description" : null,
+          "_row_id" : "nuEmJVLv-r7svoW_-GsoU"
+        }, {
+          "expression" : {
+            "expression" : "Engine_ContractDays",
+            "_row_id" : null
+          },
+          "alias" : "Engine_ContractDays",
+          "description" : null,
+          "_row_id" : "oEy8wEbTcx8Cgh8gItDv-"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Sum_Total Price (new)`, `ACV`, `Quantity`, `StartDate_Annualization`, `EndDate_Annualization`, `TCV`, `Updated Term`, `Engine_ContractDays`, `Order: Account Name: Mas90 Customer Number`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "927_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "927_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CCCloud2020FallEarlyRenewals"
+    },
+    "Formula_708_0_-FgK7oEBmJakYymzlqOOs" : {
+      "id" : "Formula_708_0_-FgK7oEBmJakYymzlqOOs",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_708_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_708_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_37",
+          "slug" : "input_port_37"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_37",
+          "slug" : "output_port_37"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Of0yyUOJobuNfQKBTGDVK" : {
+      "id" : "Of0yyUOJobuNfQKBTGDVK",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_708_0",
+        "x" : 4060,
+        "y" : 580,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('Orders&OrdersProcessed - Fall 2020 Early Renewals' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Origin",
+          "description" : null,
+          "_row_id" : "85ZoF7OyM4M3LQh18sy3g"
+        }, {
+          "expression" : {
+            "expression" : "CAST('CC Cloud' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "JCJS-Bwa-IU3F7ctVv-G_"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "05OOAFS82tM5F6LtfEqFs",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "-FgK7oEBmJakYymzlqOOs",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CCCloud2020FallEarlyRenewals"
+    },
+    "926" : {
+      "id" : "926",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_926",
+        "x" : 3060,
+        "y" : 580,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(`Sum_Total Price (new)`)"
+          },
+          "alias" : "`Sum_Total Price (new)`",
+          "_row_id" : "VjA8l3P8LpwoJ_C6eL88w"
+        }, {
+          "expression" : {
+            "expression" : "MIN(StartDate_Annualization)"
+          },
+          "alias" : "StartDate_Annualization",
+          "_row_id" : "LqmK-qZMv_Fh6P7kFPAo2"
+        }, {
+          "expression" : {
+            "expression" : "MAX(EndDate_Annualization)"
+          },
+          "alias" : "EndDate_Annualization",
+          "_row_id" : "bsOLSeJGn-dJdLuVFQnwY"
+        }, {
+          "expression" : {
+            "expression" : "SUM(CAST(Sum_Quantity AS DECIMAL(19, 9)))"
+          },
+          "alias" : "Quantity",
+          "_row_id" : "vUwj1S84orG2mQl4Vauao"
+        }, {
+          "expression" : {
+            "expression" : "`Order: Account Name: Mas90 Customer Number`"
+          },
+          "alias" : "`Order: Account Name: Mas90 Customer Number`",
+          "_row_id" : "F0-aIvTJqLoYskx1v-66X"
+        }, {
+          "expression" : {
+            "expression" : "`Updated Term`"
+          },
+          "alias" : "`Updated Term`",
+          "_row_id" : "0iOlbHYmAhEbY5nP03bPJ"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Order: Account Name: Mas90 Customer Number`"
+          },
+          "_row_id" : "1pGj3wHP-relxWKqIyrv9"
+        }, {
+          "expression" : {
+            "expression" : "`Updated Term`"
+          },
+          "_row_id" : "wotFqPbFSBDi55_323hoK"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "926_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "926_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CCCloud2020FallEarlyRenewals"
+    },
+    "fo1VM5IyAPWr5iaivFEGm" : {
+      "id" : "fo1VM5IyAPWr5iaivFEGm",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1167_1",
+        "x" : 3460,
+        "y" : 580,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((`Sum_Total Price (new)` / Engine_ContractDays) * 365.25) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "ACV",
+          "description" : null,
+          "_row_id" : "EOfYGXdoQ4DPF956VNOTz"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "o6XIPH_a-EpH8UyXx6bhs",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "DBc_qNzIBBCZL03ejaXWg",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CCCloud2020FallEarlyRenewals"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_Of0yyUOJobuNfQKBTGDVK_-FgK7oEBmJakYymzlqOOs_Formula_708_0_-FgK7oEBmJakYymzlqOOs",
+    "source" : "Of0yyUOJobuNfQKBTGDVK",
+    "sourcePort" : "-FgK7oEBmJakYymzlqOOs",
+    "target" : "Formula_708_0_-FgK7oEBmJakYymzlqOOs",
+    "targetPort" : "input_port_37",
+    "isWireless" : false
+  }, {
+    "id" : "edge_656",
+    "source" : "927",
+    "sourcePort" : "927_Output",
+    "target" : "Of0yyUOJobuNfQKBTGDVK",
+    "targetPort" : "05OOAFS82tM5F6LtfEqFs",
+    "isWireless" : false
+  }, {
+    "id" : "edge_651",
+    "source" : "x7aXZizBtTNk1VmBwNFef",
+    "sourcePort" : "HQGDzoYXtzRJrSv88CaoM",
+    "target" : "927",
+    "targetPort" : "927_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_650",
+    "source" : "fo1VM5IyAPWr5iaivFEGm",
+    "sourcePort" : "DBc_qNzIBBCZL03ejaXWg",
+    "target" : "x7aXZizBtTNk1VmBwNFef",
+    "targetPort" : "Xpe8rxOOJdUhBYIrteFRk",
+    "isWireless" : false
+  }, {
+    "id" : "edge_649",
+    "source" : "E4hBC0afz6XimbXP8rtVv",
+    "sourcePort" : "4buEeAwRVOu-H7AomZl-a",
+    "target" : "fo1VM5IyAPWr5iaivFEGm",
+    "targetPort" : "o6XIPH_a-EpH8UyXx6bhs",
+    "isWireless" : false
+  }, {
+    "id" : "edge_652",
+    "source" : "926",
+    "sourcePort" : "926_Output",
+    "target" : "E4hBC0afz6XimbXP8rtVv",
+    "targetPort" : "DtIodsX8VAipU4AK1GOIf",
+    "isWireless" : false
+  }, {
+    "id" : "edge_987",
+    "source" : "Join_884_inner_9vVCrWUTu0L7wjRTZxwW1",
+    "sourcePort" : "output_port_36",
+    "target" : "926",
+    "targetPort" : "926_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,146 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3090",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3090",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_3090_3090_Output" : {
+      "id" : "AlteryxSelect_3090_3090_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_3090"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_3090\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3090" : {
+      "id" : "3090",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_3090",
+        "x" : 460,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "`Loser MAS90`",
+            "_row_id" : null
+          },
+          "alias" : "`Loser Mas90 Customer Number`",
+          "description" : null,
+          "_row_id" : "Agaie-H3nYV3OEA5MtI-k"
+        }, {
+          "expression" : {
+            "expression" : "`Winner MAS90`",
+            "_row_id" : null
+          },
+          "alias" : "`Winner Mas90 Customer Number`",
+          "description" : null,
+          "_row_id" : "x_VrQsBcuP707pY8NzWcy"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Loser MAS90`, `Winner MAS90`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3090_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3090_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "MergedMAS90"
+    },
+    "DbFileInput_308_3089_3089_Output" : {
+      "id" : "DbFileInput_308_3089_3089_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "DbFileInput_308_3089"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_16",
+          "id" : "output_port_16",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ prophecy_tmp_source('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM', 'DbFileInput_308_3089') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_16",
+          "slug" : "input_port_16"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_16",
+          "slug" : "output_port_16"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3090_3090_Output_AlteryxSelect_3090_3090_Output",
+    "source" : "3090",
+    "sourcePort" : "3090_Output",
+    "target" : "AlteryxSelect_3090_3090_Output",
+    "targetPort" : "input_port_17",
+    "isWireless" : false
+  }, {
+    "id" : "edge_90",
+    "source" : "DbFileInput_308_3089_3089_Output",
+    "sourcePort" : "output_port_16",
+    "target" : "3090",
+    "targetPort" : "3090_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,766 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_2840",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_2840",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_2840_2840_Output" : {
+      "id" : "AlteryxSelect_2840_2840_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_2840"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_2840\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_115",
+          "slug" : "input_port_115"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_115",
+          "slug" : "output_port_115"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "43nI3Ds9hTU-hN7jl-O13" : {
+      "id" : "43nI3Ds9hTU-hN7jl-O13",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_2837_row_id_0",
+        "x" : 460,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "RecordID",
+            "_row_id" : null
+          },
+          "alias" : "prophecy_row_id",
+          "description" : null,
+          "_row_id" : "rCyDWyRg61j_hE3WOLebU"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vbi-Imn4ys-uQqiX5rq4b",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "D8ynGbR1xWxISKK9Ojq1w",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    },
+    "XZMtVxm_MaFfukoOLHzW_" : {
+      "id" : "XZMtVxm_MaFfukoOLHzW_",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_2837_row_id_drop_0",
+        "x" : 1060,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`prophecy_row_id`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "fsVNh8b2RjgxPnH2rdqTJ",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1oT_8YcOHbezvMZjlNNLa",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    },
+    "YCu8zMQOkJo063Z60u2LO" : {
+      "id" : "YCu8zMQOkJo063Z60u2LO",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_2837_1",
+        "x" : 860,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(CASE WHEN ((`Customer Name` = `Customer Name_lag1`) AND (`Revenue Period` = CAST(`Revenue Period_lag1` AS DATE))) THEN RecordID_lag1 ELSE CAST((CAST(RecordID_lag1 AS INTEGER) + 1) AS string) END)",
+            "_row_id" : null
+          },
+          "alias" : "RecordID",
+          "description" : null,
+          "_row_id" : "NyevQl94ZXDKUqoG9WJjq"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Customer Name_lag1`, `Revenue Period_lag1`, `RecordID_lag1`, `recordid`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "At-D0gsiYhLVvgPRrAMvP",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "KM1P7q2UWmzmh66epoVVl",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    },
+    "NGKTb601ogvbHkXazyDtD" : {
+      "id" : "NGKTb601ogvbHkXazyDtD",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_2838_0",
+        "x" : 1460,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CONCAT('1', (REVERSE((RPAD((REVERSE(RecordID)), 7, '0')))))) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "CustIDMonthKey",
+          "description" : null,
+          "_row_id" : "o8fdy-1PXJTy3hzGxeS9R"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "U2A5VrLF5RP2CpbjUUieK",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "o0lrfjGoDcD6XcR7i_rn3",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    },
+    "2840" : {
+      "id" : "2840",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_2840",
+        "x" : 1660,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(RecordID AS INTEGER)",
+            "_row_id" : null
+          },
+          "alias" : "RecordID",
+          "description" : null,
+          "_row_id" : "APYqcRK0aisShV1cp3HrY"
+        }, {
+          "expression" : {
+            "expression" : "`Customer Name`",
+            "_row_id" : null
+          },
+          "alias" : "`Customer Name`",
+          "description" : null,
+          "_row_id" : "d-eeJo6F-TH4yGXe78dJc"
+        }, {
+          "expression" : {
+            "expression" : "Product",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "dbTWx8ex3eC3tq52BM3td"
+        }, {
+          "expression" : {
+            "expression" : "`Revenue Period`",
+            "_row_id" : null
+          },
+          "alias" : "`Revenue Period`",
+          "description" : null,
+          "_row_id" : "tN9BT7Rfxa06m1fCyVKj8"
+        }, {
+          "expression" : {
+            "expression" : "Revenue",
+            "_row_id" : null
+          },
+          "alias" : "Revenue",
+          "description" : null,
+          "_row_id" : "cknZXf758B9A7-Pc6EF_Y"
+        }, {
+          "expression" : {
+            "expression" : "`Initial Revenue`",
+            "_row_id" : null
+          },
+          "alias" : "`Initial Revenue`",
+          "description" : null,
+          "_row_id" : "lKYYmdDLGySIAbGo7-Jx6"
+        }, {
+          "expression" : {
+            "expression" : "`Raw Change Category`",
+            "_row_id" : null
+          },
+          "alias" : "`Raw Change Category`",
+          "description" : null,
+          "_row_id" : "iINpwAXDOHpWXHaezIlfV"
+        }, {
+          "expression" : {
+            "expression" : "`Change Category`",
+            "_row_id" : null
+          },
+          "alias" : "`Change Category`",
+          "description" : null,
+          "_row_id" : "yl48mtFzsD927Df6vWVvK"
+        }, {
+          "expression" : {
+            "expression" : "`Cust Active Flag`",
+            "_row_id" : null
+          },
+          "alias" : "`Cust Active Flag`",
+          "description" : null,
+          "_row_id" : "bvPqRif1m4bCU7Aymm02K"
+        }, {
+          "expression" : {
+            "expression" : "Cohort",
+            "_row_id" : null
+          },
+          "alias" : "Cohort",
+          "description" : null,
+          "_row_id" : "h8JZCajdD6T0xyOCu-beO"
+        }, {
+          "expression" : {
+            "expression" : "`Cohort Tenure`",
+            "_row_id" : null
+          },
+          "alias" : "`Cohort Tenure`",
+          "description" : null,
+          "_row_id" : "2DIrMvxNJvxPBGdtDsibC"
+        }, {
+          "expression" : {
+            "expression" : "`Cust Level Cohort`",
+            "_row_id" : null
+          },
+          "alias" : "`Cust Level Cohort`",
+          "description" : null,
+          "_row_id" : "_K7uDRpXaIgGOWB4l_3lW"
+        }, {
+          "expression" : {
+            "expression" : "`Cust Level Cohort Tenure`",
+            "_row_id" : null
+          },
+          "alias" : "`Cust Level Cohort Tenure`",
+          "description" : null,
+          "_row_id" : "keNWpX5Devb7krcMs5fD-"
+        }, {
+          "expression" : {
+            "expression" : "`Cohort Gross Retention`",
+            "_row_id" : null
+          },
+          "alias" : "`Cohort Gross Retention`",
+          "description" : null,
+          "_row_id" : "wVhTJhW0ni3XbPvm0Hdup"
+        }, {
+          "expression" : {
+            "expression" : "`Cohort Gross Customer Retention`",
+            "_row_id" : null
+          },
+          "alias" : "`Cohort Gross Customer Retention`",
+          "description" : null,
+          "_row_id" : "PmrPTWEld_s6FIh2HOmJz"
+        }, {
+          "expression" : {
+            "expression" : "`Customer Level Flag`",
+            "_row_id" : null
+          },
+          "alias" : "`Customer Level Flag`",
+          "description" : null,
+          "_row_id" : "KFH4Z7r3x3gFeBOOMHJMb"
+        }, {
+          "expression" : {
+            "expression" : "`Customer Segment`",
+            "_row_id" : null
+          },
+          "alias" : "`Customer Segment`",
+          "description" : null,
+          "_row_id" : "7u8mnJtIS88JOiAwFdkJL"
+        }, {
+          "expression" : {
+            "expression" : "SubCustSeg1",
+            "_row_id" : null
+          },
+          "alias" : "SubCustSeg1",
+          "description" : null,
+          "_row_id" : "W6NhgCXBhZszQOMw13JXc"
+        }, {
+          "expression" : {
+            "expression" : "SubCustSeg3",
+            "_row_id" : null
+          },
+          "alias" : "SubCustSeg3",
+          "description" : null,
+          "_row_id" : "Unr0mhghX9QyVI2ynQDHu"
+        }, {
+          "expression" : {
+            "expression" : "SubCustSeg4",
+            "_row_id" : null
+          },
+          "alias" : "SubCustSeg4",
+          "description" : null,
+          "_row_id" : "LtWPyVc85DtYFXNL18Ej9"
+        }, {
+          "expression" : {
+            "expression" : "SubCustSeg5",
+            "_row_id" : null
+          },
+          "alias" : "SubCustSeg5",
+          "description" : null,
+          "_row_id" : "wnYyi9-uj04wpyol19AHW"
+        }, {
+          "expression" : {
+            "expression" : "SubCustSeg6",
+            "_row_id" : null
+          },
+          "alias" : "SubCustSeg6",
+          "description" : null,
+          "_row_id" : "kWxqpfynuEZmaYInNWSlT"
+        }, {
+          "expression" : {
+            "expression" : "`Cust_Prod Active Flag`",
+            "_row_id" : null
+          },
+          "alias" : "`Cust_Prod Active Flag`",
+          "description" : null,
+          "_row_id" : "Q6NcIpzVt1zhighalX98C"
+        }, {
+          "expression" : {
+            "expression" : "Volume",
+            "_row_id" : null
+          },
+          "alias" : "Volume",
+          "description" : null,
+          "_row_id" : "4NDE7tMMEAJ7_LQl4YFXq"
+        }, {
+          "expression" : {
+            "expression" : "`Product Category`",
+            "_row_id" : null
+          },
+          "alias" : "`Product Category`",
+          "description" : null,
+          "_row_id" : "HlR96SK9ZKuh0BD0ciMdR"
+        }, {
+          "expression" : {
+            "expression" : "Extra",
+            "_row_id" : null
+          },
+          "alias" : "Extra",
+          "description" : null,
+          "_row_id" : "0jH6gwC23N9B8b-a9apuT"
+        }, {
+          "expression" : {
+            "expression" : "Extra2",
+            "_row_id" : null
+          },
+          "alias" : "Extra2",
+          "description" : null,
+          "_row_id" : "GOK1ssU3gFTmpRSEEkqeM"
+        }, {
+          "expression" : {
+            "expression" : "Extra3",
+            "_row_id" : null
+          },
+          "alias" : "Extra3",
+          "description" : null,
+          "_row_id" : "Yfx0ZgbtQLOe4mUPB8mXl"
+        }, {
+          "expression" : {
+            "expression" : "CustProdKeyStr",
+            "_row_id" : null
+          },
+          "alias" : "CustProdKeyStr",
+          "description" : null,
+          "_row_id" : "XcyRIqKVOmgBnsh4b-b7S"
+        }, {
+          "expression" : {
+            "expression" : "`Recurring Flag`",
+            "_row_id" : null
+          },
+          "alias" : "`Recurring Flag`",
+          "description" : null,
+          "_row_id" : "pwvpaIj45nbAFr4E7UsAH"
+        }, {
+          "expression" : {
+            "expression" : "CustIDMonthKey",
+            "_row_id" : null
+          },
+          "alias" : "CustIDMonthKey",
+          "description" : null,
+          "_row_id" : "osmZc3OwstPc6O7uZDzlt"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`RecordID`, `Customer Name`, `Product`, `Revenue Period`, `Revenue`, `Initial Revenue`, `Raw Change Category`, `Change Category`, `Cust Active Flag`, `Cohort`, `Cohort Tenure`, `Cust Level Cohort`, `Cust Level Cohort Tenure`, `Cohort Gross Retention`, `Cohort Gross Customer Retention`, `Customer Level Flag`, `Customer Segment`, `SubCustSeg1`, `SubCustSeg3`, `SubCustSeg4`, `SubCustSeg5`, `SubCustSeg6`, `Cust_Prod Active Flag`, `Volume`, `Product Category`, `Extra`, `Extra2`, `Extra3`, `CustProdKeyStr`, `Recurring Flag`, `CustIDMonthKey`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2840_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2840_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    },
+    "2836" : {
+      "id" : "2836",
+      "component" : "RecordID",
+      "metadata" : {
+        "label" : "RecordID_2836",
+        "x" : 260,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "incremental_id_type" : "integer",
+        "incremental_id_starting_val" : 1,
+        "method" : "incremental_id",
+        "relation_name" : [ "Filter_2828_reject" ],
+        "generationMethod" : "tableLevel",
+        "incremental_id_column_name" : "RecordID",
+        "schema" : "[{\"name\": \"SubCustSeg5\", \"dataType\": \"String\"}, {\"name\": \"Previous YetToRenew\", \"dataType\": \"Double\"}, {\"name\": \"Customer Level Flag\", \"dataType\": \"String\"}, {\"name\": \"CustProdKeyStr\", \"dataType\": \"String\"}, {\"name\": \"Cohort Gross Customer Retention\", \"dataType\": \"Double\"}, {\"name\": \"First_Date of First Activated Order\", \"dataType\": \"Date\"}, {\"name\": \"Cohort\", \"dataType\": \"Date\"}, {\"name\": \"Recurring Flag\", \"dataType\": \"String\"}, {\"name\": \"Volume\", \"dataType\": \"Double\"}, {\"name\": \"SubCustSeg1\", \"dataType\": \"String\"}, {\"name\": \"First_Revenue Period\", \"dataType\": \"Date\"}, {\"name\": \"SubCustSeg6\", \"dataType\": \"String\"}, {\"name\": \"Customer Segment\", \"dataType\": \"String\"}, {\"name\": \"Raw Change Category\", \"dataType\": \"String\"}, {\"name\": \"Initial Revenue\", \"dataType\": \"Double\"}, {\"name\": \"Cohort Gross Retention\", \"dataType\": \"Double\"}, {\"name\": \"Cust Level Cohort Tenure\", \"dataType\": \"Integer\"}, {\"name\": \"Customer Name\", \"dataType\": \"String\"}, {\"name\": \"Change Category\", \"dataType\": \"String\"}, {\"name\": \"Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Revenue\", \"dataType\": \"Double\"}, {\"name\": \"Extra2\", \"dataType\": \"String\"}, {\"name\": \"Cust_Prod Active Flag\", \"dataType\": \"Integer\"}, {\"name\": \"Extra\", \"dataType\": \"String\"}, {\"name\": \"SubCustSeg3\", \"dataType\": \"String\"}, {\"name\": \"Cust Active Flag\", \"dataType\": \"Integer\"}, {\"name\": \"SubCustSeg4\", \"dataType\": \"String\"}, {\"name\": \"YetToRenew\", \"dataType\": \"Double\"}, {\"name\": \"Revenue Period\", \"dataType\": \"Date\"}, {\"name\": \"Product Category\", \"dataType\": \"String\"}, {\"name\": \"Extra3\", \"dataType\": \"String\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"Cust Level Cohort\", \"dataType\": \"Date\"}, {\"name\": \"Cohort Tenure\", \"dataType\": \"Integer\"}]",
+        "orders" : [ ],
+        "position" : "first_column",
+        "incremental_id_size" : 6,
+        "groupByColumnNames" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2836_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2836_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    },
+    "bg3r9yHE5c5q0U1aAptjl" : {
+      "id" : "bg3r9yHE5c5q0U1aAptjl",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "MultiRowFormula_2837_0",
+        "x" : 660,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(LAG(`Customer Name`, 1) OVER (PARTITION BY 1 ORDER BY prophecy_row_id NULLS FIRST))",
+            "_row_id" : null
+          },
+          "alias" : "`Customer Name_lag1`",
+          "description" : null,
+          "_row_id" : "6g4mEw3MuY7NlGtMvNMJQ"
+        }, {
+          "expression" : {
+            "expression" : "(LAG(`Revenue Period`, 1) OVER (PARTITION BY 1 ORDER BY prophecy_row_id NULLS FIRST))",
+            "_row_id" : null
+          },
+          "alias" : "`Revenue Period_lag1`",
+          "description" : null,
+          "_row_id" : "OaFQI5PUOu-_-6q6f4-uP"
+        }, {
+          "expression" : {
+            "expression" : "(LAG(RecordID, 1) OVER (PARTITION BY 1 ORDER BY prophecy_row_id NULLS FIRST))",
+            "_row_id" : null
+          },
+          "alias" : "RecordID_lag1",
+          "description" : null,
+          "_row_id" : "fhXdp27Mq21qJ_7calIOB"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "IwX4yN95uTJ6zTIoICppg",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2620IYj9FUKKwdbvOBk0p",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    },
+    "AlteryxSelect_2718_2718_Output" : {
+      "id" : "AlteryxSelect_2718_2718_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_2718"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_114",
+          "id" : "output_port_114",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_2718') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_114",
+          "slug" : "input_port_114"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_114",
+          "slug" : "output_port_114"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2828_reject" : {
+      "id" : "2828_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_2828_reject",
+        "x" : 60,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(not((`Comparison Method` = 'Year to date')) OR isnull((`Comparison Method` = 'Year to date')))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "XNbX2jMQOZaxPewC22kAe",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "W46qTk2rrWsjqvYd8k1HH",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    },
+    "2839" : {
+      "id" : "2839",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_2839",
+        "x" : 1260,
+        "y" : 160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(RecordID AS string)",
+            "_row_id" : null
+          },
+          "alias" : "RecordID",
+          "description" : null,
+          "_row_id" : "PAidSQGKGPS3IsU1lucs_"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`RecordID`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2839_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2839_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "Additionalfields"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_2840_2840_Output_AlteryxSelect_2840_2840_Output",
+    "source" : "2840",
+    "sourcePort" : "2840_Output",
+    "target" : "AlteryxSelect_2840_2840_Output",
+    "targetPort" : "input_port_115",
+    "isWireless" : false
+  }, {
+    "id" : "edge_900",
+    "source" : "NGKTb601ogvbHkXazyDtD",
+    "sourcePort" : "o0lrfjGoDcD6XcR7i_rn3",
+    "target" : "2840",
+    "targetPort" : "2840_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_901",
+    "source" : "2839",
+    "sourcePort" : "2839_Output",
+    "target" : "NGKTb601ogvbHkXazyDtD",
+    "targetPort" : "U2A5VrLF5RP2CpbjUUieK",
+    "isWireless" : false
+  }, {
+    "id" : "edge_898",
+    "source" : "XZMtVxm_MaFfukoOLHzW_",
+    "sourcePort" : "1oT_8YcOHbezvMZjlNNLa",
+    "target" : "2839",
+    "targetPort" : "2839_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_899",
+    "source" : "YCu8zMQOkJo063Z60u2LO",
+    "sourcePort" : "KM1P7q2UWmzmh66epoVVl",
+    "target" : "XZMtVxm_MaFfukoOLHzW_",
+    "targetPort" : "fsVNh8b2RjgxPnH2rdqTJ",
+    "isWireless" : false
+  }, {
+    "id" : "edge_896",
+    "source" : "bg3r9yHE5c5q0U1aAptjl",
+    "sourcePort" : "2620IYj9FUKKwdbvOBk0p",
+    "target" : "YCu8zMQOkJo063Z60u2LO",
+    "targetPort" : "At-D0gsiYhLVvgPRrAMvP",
+    "isWireless" : false
+  }, {
+    "id" : "edge_897",
+    "source" : "43nI3Ds9hTU-hN7jl-O13",
+    "sourcePort" : "D8ynGbR1xWxISKK9Ojq1w",
+    "target" : "bg3r9yHE5c5q0U1aAptjl",
+    "targetPort" : "IwX4yN95uTJ6zTIoICppg",
+    "isWireless" : false
+  }, {
+    "id" : "edge_895",
+    "source" : "2836",
+    "sourcePort" : "2836_Output",
+    "target" : "43nI3Ds9hTU-hN7jl-O13",
+    "targetPort" : "vbi-Imn4ys-uQqiX5rq4b",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1002",
+    "source" : "2828_reject",
+    "sourcePort" : "W46qTk2rrWsjqvYd8k1HH",
+    "target" : "2836",
+    "targetPort" : "2836_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_275",
+    "source" : "AlteryxSelect_2718_2718_Output",
+    "sourcePort" : "output_port_114",
+    "target" : "2828_reject",
+    "targetPort" : "XNbX2jMQOZaxPewC22kAe",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

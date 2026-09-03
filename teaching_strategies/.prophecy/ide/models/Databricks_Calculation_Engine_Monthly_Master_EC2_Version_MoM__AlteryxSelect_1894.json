@@ -1,0 +1,145 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_1894",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_1894",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_1894_1894_Output" : {
+      "id" : "AlteryxSelect_1894_1894_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_1894"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_1894\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_51",
+          "slug" : "input_port_51"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_51",
+          "slug" : "output_port_51"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1894" : {
+      "id" : "1894",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1894",
+        "x" : 36040,
+        "y" : 5160,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "StartDate_Annualization",
+            "_row_id" : null
+          },
+          "alias" : "ContractStartDate",
+          "description" : null,
+          "_row_id" : "paXnKvFJZXekJKxteGnl-"
+        }, {
+          "expression" : {
+            "expression" : "EndDate_Annualization",
+            "_row_id" : null
+          },
+          "alias" : "ContractEndDate",
+          "description" : null,
+          "_row_id" : "0a_iD52vCyCEprpR-UkKO"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Order: Order`, `Order: Opportunity: Renewed Contract: Order: Order`, `Order: Activated Date`, `Order: Start Date`, `Order: End Date (Calculated)`, `Expected Renewal Date`, `StartDate_Annualization`, `EndDate_Annualization`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1894_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1894_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Formula_1893_0_sy7ven75ucdZmMXzBXpDC" : {
+      "id" : "Formula_1893_0_sy7ven75ucdZmMXzBXpDC",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_1893_0"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_49",
+          "id" : "output_port_49",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_1893_0') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_49",
+          "slug" : "input_port_49"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_49",
+          "slug" : "output_port_49"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_1894_1894_Output_AlteryxSelect_1894_1894_Output",
+    "source" : "1894",
+    "sourcePort" : "1894_Output",
+    "target" : "AlteryxSelect_1894_1894_Output",
+    "targetPort" : "input_port_51",
+    "isWireless" : false
+  }, {
+    "id" : "edge_700",
+    "source" : "Formula_1893_0_sy7ven75ucdZmMXzBXpDC",
+    "sourcePort" : "output_port_49",
+    "target" : "1894",
+    "targetPort" : "1894_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

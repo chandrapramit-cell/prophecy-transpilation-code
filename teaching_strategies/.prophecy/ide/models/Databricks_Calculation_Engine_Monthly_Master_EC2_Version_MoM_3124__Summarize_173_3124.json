@@ -1,0 +1,182 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Summarize_173_3124",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Summarize_173_3124",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_173_3124_bBt7OarddzDEC39u_c61D" : {
+      "id" : "Summarize_173_3124_bBt7OarddzDEC39u_c61D",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_173_3124"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_173_3124\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_19",
+          "slug" : "input_port_19"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_19",
+          "slug" : "output_port_19"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "173_3124" : {
+      "id" : "173_3124",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_173_3124",
+        "x" : 15252,
+        "y" : 1800,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(`Dec-23`)"
+          },
+          "alias" : "`Sum_Dec-23`",
+          "_row_id" : "wkSu58WbDbGC6_ZCh_K__"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "173_3124_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "bBt7OarddzDEC39u_c61D",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "z661LIVI-SYTxBsvP7r_o" : {
+      "id" : "z661LIVI-SYTxBsvP7r_o",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_172_3124_0",
+        "x" : 14772,
+        "y" : 1800,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CASE WHEN ((StartDate_Annualization <= to_date('2023-12-31')) AND (EndDate_Annualization >= to_date('2023-12-31'))) THEN ((TCV / CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)) * 365.25) ELSE 0 END AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`Dec-23`",
+          "description" : null,
+          "_row_id" : "l2mIP7peimjI_9Zqnp69j"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "c_XC4_ZuUzZnQ6G9rbRjv",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "DxbJhPu55HVJwLfqDfdB-",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_156_3124_156_3124_Output" : {
+      "id" : "Summarize_156_3124_156_3124_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_156_3124"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_18",
+          "id" : "output_port_18",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3124__Summarize_156_3124') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_18",
+          "slug" : "input_port_18"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_18",
+          "slug" : "output_port_18"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_173_3124_bBt7OarddzDEC39u_c61D_Summarize_173_3124_bBt7OarddzDEC39u_c61D",
+    "source" : "173_3124",
+    "sourcePort" : "bBt7OarddzDEC39u_c61D",
+    "target" : "Summarize_173_3124_bBt7OarddzDEC39u_c61D",
+    "targetPort" : "input_port_19",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1125",
+    "source" : "z661LIVI-SYTxBsvP7r_o",
+    "sourcePort" : "DxbJhPu55HVJwLfqDfdB-",
+    "target" : "173_3124",
+    "targetPort" : "173_3124_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1126",
+    "source" : "Summarize_156_3124_156_3124_Output",
+    "sourcePort" : "output_port_18",
+    "target" : "z661LIVI-SYTxBsvP7r_o",
+    "targetPort" : "c_XC4_ZuUzZnQ6G9rbRjv",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

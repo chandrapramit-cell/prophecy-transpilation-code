@@ -1,0 +1,429 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__CrossTab_3266",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__CrossTab_3266",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "3266" : {
+      "id" : "3266",
+      "component" : "DbPivot",
+      "metadata" : {
+        "label" : "CrossTab_3266",
+        "x" : 860,
+        "y" : 220,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnGroups" : [ "Stage", "Product" ],
+        "separator" : {
+          "expression" : {
+            "expression" : "', '"
+          },
+          "_row_id" : "889477445"
+        },
+        "isConcatWsSelected" : false,
+        "inputAlias" : "in0",
+        "allowSelection" : true,
+        "pivotColumnValues" : [ {
+          "expression" : {
+            "expression" : "2024"
+          },
+          "_row_id" : "HuCSn6bZsdV2wTTpyKiGu"
+        }, {
+          "expression" : {
+            "expression" : "2025"
+          },
+          "_row_id" : "H0cwnA4CRI893tI0_XRfm"
+        }, {
+          "expression" : {
+            "expression" : "2023"
+          },
+          "_row_id" : "xC_0P_9vpjzsAQWCRnmeJ"
+        }, {
+          "expression" : {
+            "expression" : "2026"
+          },
+          "_row_id" : "mZWA79Ua2-M7hVIKqfDbn"
+        } ],
+        "pivotColumn" : {
+          "expression" : {
+            "expression" : "Expected Year Renewals"
+          },
+          "_row_id" : "HsCOWo4hbRGYJBazdEghn"
+        },
+        "isValueColumnString" : true,
+        "isPivotColumnString" : true,
+        "aggregateFunctions" : [ {
+          "expression" : {
+            "expression" : "SUM"
+          },
+          "alias" : "Sum",
+          "_row_id" : "1653905135"
+        } ],
+        "valueColumn" : {
+          "expression" : {
+            "expression" : "ARR"
+          },
+          "_row_id" : "NNle07ML886l3z_JHtHiD"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3266_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3266_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "DynamicPeriodRefresh"
+    },
+    "3298" : {
+      "id" : "3298",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_3298",
+        "x" : 260,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(ARR)"
+          },
+          "alias" : "ARR",
+          "_row_id" : "gQpq1iSMlKGChMqqFQWSQ"
+        }, {
+          "expression" : {
+            "expression" : "`Expected Year Renewals`"
+          },
+          "alias" : "`Expected Year Renewals`",
+          "_row_id" : "LGmjqzyWIMX8g90IuT7Kc"
+        }, {
+          "expression" : {
+            "expression" : "Stage"
+          },
+          "alias" : "Stage",
+          "_row_id" : "sLschBl_LI81HvY_ezefn"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Expected Year Renewals`"
+          },
+          "_row_id" : "fPpF019pp3u5LLBCuwY_p"
+        }, {
+          "expression" : {
+            "expression" : "Stage"
+          },
+          "_row_id" : "wBIlYp8IaE5F_PfbXvKE5"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3298_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3298_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "DynamicPeriodRefresh"
+    },
+    "1iAli5ZmplshOJh-ajuQZ" : {
+      "id" : "1iAli5ZmplshOJh-ajuQZ",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_3299_0",
+        "x" : 460,
+        "y" : 120,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST('Total' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Product",
+          "description" : null,
+          "_row_id" : "2vkq-1hU1UEE-G5I8_ukx"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "QG5X6jO4YN0EMAvLPMlpB",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "JgwHo2gGNHdrx31yBsZUY",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "DynamicPeriodRefresh"
+    },
+    "3302" : {
+      "id" : "3302",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_3302",
+        "x" : 660,
+        "y" : 220,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Formula_3299_0", "Summarize_3301" ],
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Formula_3299_0\",\"Summarize_3301\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"Expected Year Renewals\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Stage\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ARR\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Product\\\", \\\"dataType\\\": \\\"String\\\"}]\",\"[{\\\"name\\\": \\\"Expected Year Renewals\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Product\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Stage\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ARR\\\", \\\"dataType\\\": \\\"Double\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        },
+        "schema" : "[{\"name\": \"Expected Year Renewals\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"ARR\", \"dataType\": \"Double\"}, {\"name\": \"Product\", \"dataType\": \"String\"}]",
+        "schemas" : [ "[{\"name\": \"Expected Year Renewals\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"ARR\", \"dataType\": \"Double\"}, {\"name\": \"Product\", \"dataType\": \"String\"}]", "[{\"name\": \"Expected Year Renewals\", \"dataType\": \"String\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"ARR\", \"dataType\": \"Double\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3302_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "3302_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "3302_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "DynamicPeriodRefresh"
+    },
+    "Filter_3315_3315_True" : {
+      "id" : "Filter_3315_3315_True",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Filter_3315"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_71",
+          "id" : "output_port_71",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Filter_3315') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_71",
+          "slug" : "input_port_71"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_71",
+          "slug" : "output_port_71"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3301" : {
+      "id" : "3301",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_3301",
+        "x" : 460,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(ARR)"
+          },
+          "alias" : "ARR",
+          "_row_id" : "ZYjh-TkgT0SVRvXakZ7bO"
+        }, {
+          "expression" : {
+            "expression" : "`Expected Year Renewals`"
+          },
+          "alias" : "`Expected Year Renewals`",
+          "_row_id" : "LpnTZWdNNLFh1zU0C8hc1"
+        }, {
+          "expression" : {
+            "expression" : "Product"
+          },
+          "alias" : "Product",
+          "_row_id" : "WbknUl1wR_R5OKOmQIdc7"
+        }, {
+          "expression" : {
+            "expression" : "Stage"
+          },
+          "alias" : "Stage",
+          "_row_id" : "Z-WlL_vZkxJprTx0CmqJR"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Expected Year Renewals`"
+          },
+          "_row_id" : "0GdjdmodN-dW_nP_lijql"
+        }, {
+          "expression" : {
+            "expression" : "Product"
+          },
+          "_row_id" : "xI0tCBL7FYC6A4gEeGUMk"
+        }, {
+          "expression" : {
+            "expression" : "Stage"
+          },
+          "_row_id" : "rlUlB-zUl5DjF1owuYa7w"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3301_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3301_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "DynamicPeriodRefresh"
+    },
+    "CrossTab_3266_3266_Output" : {
+      "id" : "CrossTab_3266_3266_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "CrossTab_3266"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM CrossTab_3266\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_72",
+          "slug" : "input_port_72"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_72",
+          "slug" : "output_port_72"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3266_3266_Output_CrossTab_3266_3266_Output",
+    "source" : "3266",
+    "sourcePort" : "3266_Output",
+    "target" : "CrossTab_3266_3266_Output",
+    "targetPort" : "input_port_72",
+    "isWireless" : false
+  }, {
+    "id" : "edge_220",
+    "source" : "3302",
+    "sourcePort" : "3302_Output",
+    "target" : "3266",
+    "targetPort" : "3266_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_219",
+    "source" : "3301",
+    "sourcePort" : "3301_Output",
+    "target" : "3302",
+    "targetPort" : "3302_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_922",
+    "source" : "1iAli5ZmplshOJh-ajuQZ",
+    "sourcePort" : "JgwHo2gGNHdrx31yBsZUY",
+    "target" : "3302",
+    "targetPort" : "3302_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_449",
+    "source" : "Filter_3315_3315_True",
+    "sourcePort" : "output_port_71",
+    "target" : "3301",
+    "targetPort" : "3301_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_923",
+    "source" : "3298",
+    "sourcePort" : "3298_Output",
+    "target" : "1iAli5ZmplshOJh-ajuQZ",
+    "targetPort" : "QG5X6jO4YN0EMAvLPMlpB",
+    "isWireless" : false
+  }, {
+    "id" : "edge_448",
+    "source" : "Filter_3315_3315_True",
+    "sourcePort" : "output_port_71",
+    "target" : "3298",
+    "targetPort" : "3298_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

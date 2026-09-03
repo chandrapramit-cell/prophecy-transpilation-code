@@ -1,0 +1,129 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_2960",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_2960",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "AlteryxSelect_2960_2960_Output" : {
+      "id" : "AlteryxSelect_2960_2960_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_2960"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_2960\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_122",
+          "slug" : "input_port_122"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_122",
+          "slug" : "output_port_122"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2960" : {
+      "id" : "2960",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_2960",
+        "x" : 94220,
+        "y" : 8740,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "* EXCEPT(`CustProdKeyStr`, `YetToRenew`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2960_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2960_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_2621_inner_hj_WFARKfR9OaVMJQ8Ban" : {
+      "id" : "Join_2621_inner_hj_WFARKfR9OaVMJQ8Ban",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_2621_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_118",
+          "id" : "output_port_118",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_2621_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_118",
+          "slug" : "input_port_118"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_118",
+          "slug" : "output_port_118"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_2960_2960_Output_AlteryxSelect_2960_2960_Output",
+    "source" : "2960",
+    "sourcePort" : "2960_Output",
+    "target" : "AlteryxSelect_2960_2960_Output",
+    "targetPort" : "input_port_122",
+    "isWireless" : false
+  }, {
+    "id" : "edge_336",
+    "source" : "Join_2621_inner_hj_WFARKfR9OaVMJQ8Ban",
+    "sourcePort" : "output_port_118",
+    "target" : "2960",
+    "targetPort" : "2960_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,311 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Unique_123",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Unique_123",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_121_121_Output" : {
+      "id" : "Summarize_121_121_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_121"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_30",
+          "id" : "output_port_30",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_121') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_30",
+          "slug" : "input_port_30"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_30",
+          "slug" : "output_port_30"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "123" : {
+      "id" : "123",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Unique_123",
+        "x" : 1380,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "`Loser Mas90 Customer Number`",
+            "_row_id" : null
+          },
+          "alias" : "`Loser Mas90 Customer Number`",
+          "description" : null,
+          "_row_id" : "5VQCBuG6cyx92orMmGQdS"
+        } ],
+        "dedupType" : "first"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "123_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "123_Unique",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "MergedMAS90"
+    },
+    "3091" : {
+      "id" : "3091",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_3091",
+        "x" : 980,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "AlteryxSelect_3090", "Join_3162_left" ],
+        "schemas" : [ "[{\"name\": \"Loser Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Winner Mas90 Customer Number\", \"dataType\": \"String\"}]", "[{\"name\": \"Loser Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Winner Mas90 Customer Number\", \"dataType\": \"String\"}]" ],
+        "missingColumnOps" : "allowMissingColumns",
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"AlteryxSelect_3090\", \"Join_3162_left\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"Loser Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Winner Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}]\", \"[{\\\"name\\\": \\\"Loser Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Winner Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3091_#2_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "3091_#1_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "3091_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "MergedMAS90"
+    },
+    "122" : {
+      "id" : "122",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_122",
+        "x" : 1180,
+        "y" : 320,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(((NOT ((`Loser Mas90 Customer Number` IS NULL) OR ((LENGTH(`Loser Mas90 Customer Number`)) = 0))) AND (NOT ((`Winner Mas90 Customer Number` IS NULL) OR ((LENGTH(`Winner Mas90 Customer Number`)) = 0)))) AND (((NOT (UPPER(`Winner Mas90 Customer Number`) = UPPER(`Loser Mas90 Customer Number`))) OR (`Winner Mas90 Customer Number` IS NULL)) OR (`Loser Mas90 Customer Number` IS NULL)))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "122_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "122_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "MergedMAS90"
+    },
+    "AlteryxSelect_3090_3090_Output" : {
+      "id" : "AlteryxSelect_3090_3090_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_3090"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_17",
+          "id" : "output_port_17",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3090') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_17",
+          "slug" : "input_port_17"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_17",
+          "slug" : "output_port_17"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3162_left" : {
+      "id" : "3162_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_3162_left",
+        "x" : 780,
+        "y" : 360,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Loser Mas90 Customer Number` = in1.`Loser Mas90 Customer Number`)"
+          },
+          "joinType" : "anti"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "2133119071"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "r86on8veUAStTbJPcb5SJ",
+          "slug" : "in0"
+        }, {
+          "id" : "qTuzLsxSMMi6A1N0Oyrtt",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "eHP56zHDLwsJpthraaXWB",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "MergedMAS90"
+    },
+    "Unique_123_123_Unique" : {
+      "id" : "Unique_123_123_Unique",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Unique_123"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Unique_123\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_32",
+          "slug" : "input_port_32"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_32",
+          "slug" : "output_port_32"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_123_123_Unique_Unique_123_123_Unique",
+    "source" : "123",
+    "sourcePort" : "123_Unique",
+    "target" : "Unique_123_123_Unique",
+    "targetPort" : "input_port_32",
+    "isWireless" : false
+  }, {
+    "id" : "edge_89",
+    "source" : "122",
+    "sourcePort" : "122_True",
+    "target" : "123",
+    "targetPort" : "123_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_92",
+    "source" : "3091",
+    "sourcePort" : "3091_Output",
+    "target" : "122",
+    "targetPort" : "122_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_350",
+    "source" : "3162_left",
+    "sourcePort" : "eHP56zHDLwsJpthraaXWB",
+    "target" : "3091",
+    "targetPort" : "3091_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_91",
+    "source" : "AlteryxSelect_3090_3090_Output",
+    "sourcePort" : "output_port_17",
+    "target" : "3091",
+    "targetPort" : "3091_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_349",
+    "source" : "AlteryxSelect_3090_3090_Output",
+    "sourcePort" : "output_port_17",
+    "target" : "3162_left",
+    "targetPort" : "qTuzLsxSMMi6A1N0Oyrtt",
+    "isWireless" : false
+  }, {
+    "id" : "edge_348",
+    "source" : "Summarize_121_121_Output",
+    "sourcePort" : "output_port_30",
+    "target" : "3162_left",
+    "targetPort" : "r86on8veUAStTbJPcb5SJ",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,1385 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_1046",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_1046",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "1022_inner" : {
+      "id" : "1022_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_1022_inner",
+        "x" : 36840,
+        "y" : 1420,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.`Order: Account Name: Mas90 Customer Number` = in1.`Account Name: Mas90 Customer Number`) AND (in0.`Product Code` = in1.`Product Code`))"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in1.`Product Code`"
+          },
+          "alias" : "`Right_Product Code`",
+          "_row_id" : "RPyf7kxyfnDCdF0i_mh_Z"
+        }, {
+          "expression" : {
+            "expression" : "in1.Quantity"
+          },
+          "alias" : "Right_Quantity",
+          "_row_id" : "DegC4Uq9089_J80MZbMX7"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Order: Account Name: Mas90 Customer Number`, `Product Code`)"
+          },
+          "_row_id" : "1558126844"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Product Code`, `Quantity`)"
+          },
+          "_row_id" : "1435183897"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "v3Yx0AhlIcOiTiIbo4FHI",
+          "slug" : "in0"
+        }, {
+          "id" : "ExLZ0F3Cl4MO5Um9weHTW",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "Ic4Qj5cxSO2UdVwpeMFJe",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "JncuhuY86pLl_fKfiYWF8" : {
+      "id" : "JncuhuY86pLl_fKfiYWF8",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1040_to_Formula_1170_0",
+        "x" : 37040,
+        "y" : 1420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(TO_DATE((DATE_TRUNC('month', `Primary Quote: Start Date`)), 'yyyy-MM-dd'))",
+            "_row_id" : null
+          },
+          "alias" : "StartDate_Annualization",
+          "description" : null,
+          "_row_id" : "3NfqpsfmlL0QkGKTvG4qL"
+        }, {
+          "expression" : {
+            "expression" : "to_date(\n  CASE\n    WHEN (substring(CAST(`Primary Quote: Start Date` AS STRING), 1, 7) = substring(CAST(`Primary Quote: End Date (Calculated)` AS STRING), 1, 7))\n      THEN to_date(last_day(`Primary Quote: End Date (Calculated)`))\n    WHEN (\n      (to_date(date_trunc('month', `Primary Quote: Start Date`)) = `Primary Quote: Start Date`)\n      AND (to_date(last_day(`Primary Quote: End Date (Calculated)`)) = `Primary Quote: End Date (Calculated)`)\n    )\n      THEN `Primary Quote: End Date (Calculated)`\n    ELSE date_add(date_trunc('month', `Primary Quote: End Date (Calculated)`), CAST(-1 AS INT))\n  END, \n  'yyyy-MM-dd')",
+            "_row_id" : null
+          },
+          "alias" : "EndDate_Annualization",
+          "description" : null,
+          "_row_id" : "ok2dWqYU_fTeB0L-UWF_N"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "7l-BG-cnszh7HzXJM26hd",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "as7xouojzAb6zUdnh0teu",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_1046_1046_Output" : {
+      "id" : "AlteryxSelect_1046_1046_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_1046"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_1046\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_68",
+          "slug" : "input_port_68"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_68",
+          "slug" : "output_port_68"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1020" : {
+      "id" : "1020",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1020",
+        "x" : 36440,
+        "y" : 1680,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(`Primary Quote: Start Date` <= to_date(concat(regexp_replace(regexp_replace(format_number(CAST(year(current_date()) AS DOUBLE), 0), ',', '__THS__'), '__THS__', ''), '-12-31')))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1020_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1020_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_1012_inner_p_W9_ODc8e6VoAeeOpq_8" : {
+      "id" : "Join_1012_inner_p_W9_ODc8e6VoAeeOpq_8",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_1012_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_67",
+          "id" : "output_port_67",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_1012_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_67",
+          "slug" : "input_port_67"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_67",
+          "slug" : "output_port_67"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1126" : {
+      "id" : "1126",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1126",
+        "x" : 35000,
+        "y" : 1400,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(TotalDistinct_Stage = ClosedDistinct_Stage)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1126_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1126_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1012_left" : {
+      "id" : "1012_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_1012_left",
+        "x" : 27560,
+        "y" : 1160,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(((in0.`Order: Account Name: Mas90 Customer Number` = in1.`Account Name: Mas90 Customer Number`) AND (in0.`Product Code` = in1.`Product Code`)) AND (in0.`Order: Sales Order Number` = in1.`Renewed Contract: Order: Sales Order Number`))"
+          },
+          "joinType" : "anti"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "1564142305"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "JQ_uwdd3FAeBRKkvuXmn-",
+          "slug" : "in0"
+        }, {
+          "id" : "guxDHMN-iuYWj02aTY6DT",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "R5mqGu2cQChFNbCJsuypM",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1129" : {
+      "id" : "1129",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_1129",
+        "x" : 27820,
+        "y" : 1500,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "coalesce(contains(lower(Stage), lower('Closed')), false)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1129_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1129_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "H2YmTx2rESw_70bXEsGgg" : {
+      "id" : "H2YmTx2rESw_70bXEsGgg",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1040_to_Formula_1170_3",
+        "x" : 37700,
+        "y" : 1420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CASE\n  WHEN (\n    (StartDate_Annualization <= to_date('2016-02-28'))\n    AND (EndDate_Annualization >= to_date('2016-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2020-02-28'))\n    AND (EndDate_Annualization >= to_date('2020-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2024-02-28'))\n    AND (EndDate_Annualization >= to_date('2024-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2028-02-28'))\n    AND (EndDate_Annualization >= to_date('2028-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  ELSE (CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT) + 1)\nEND AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Engine_ContractDays",
+          "description" : null,
+          "_row_id" : "LsXQTP237ePivFgzmTQgm"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "JGeARc3RctemC7f5uysQk",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ABSfiAZ14bt-t4NY70UKm",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1132" : {
+      "id" : "1132",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_1132",
+        "x" : 35780,
+        "y" : 1320,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "Join_1012_left", "Join_1131_inner" ],
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Join_1012_left\",\"Join_1131_inner\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"Original_StartDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Order: Account Name: Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Sum_Quantity\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Order: Sales Order Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Product Code\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Orders ACV\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Original_EndDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Product\\\", \\\"dataType\\\": \\\"String\\\"}]\",\"[{\\\"name\\\": \\\"Original_StartDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Order: Account Name: Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Sum_Quantity\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Order: Sales Order Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Product Code\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Orders ACV\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Original_EndDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Product\\\", \\\"dataType\\\": \\\"String\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        },
+        "schema" : "[{\"name\": \"Original_StartDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Order: Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Sum_Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Orders ACV\", \"dataType\": \"Double\"}, {\"name\": \"Original_EndDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Product\", \"dataType\": \"String\"}]",
+        "schemas" : [ "[{\"name\": \"Original_StartDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Order: Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Sum_Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Orders ACV\", \"dataType\": \"Double\"}, {\"name\": \"Original_EndDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Product\", \"dataType\": \"String\"}]", "[{\"name\": \"Original_StartDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Order: Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Sum_Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Orders ACV\", \"dataType\": \"Double\"}, {\"name\": \"Original_EndDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Product\", \"dataType\": \"String\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1132_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "1132_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "1132_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AdAXm_i2IPExXIRsCogHS" : {
+      "id" : "AdAXm_i2IPExXIRsCogHS",
+      "component" : "WindowFunction",
+      "metadata" : {
+        "label" : "Summarize_1030",
+        "x" : 36040,
+        "y" : 1320,
+        "phase" : 0
+      },
+      "properties" : {
+        "frameEndType" : null,
+        "frameEndValue" : null,
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "MAX(Original_EndDate_Annualization)",
+            "_row_id" : null
+          },
+          "alias" : "Max_Original_EndDate_Annualization",
+          "description" : null,
+          "_row_id" : "Jk4rBZg039zT4N4E9WikX"
+        } ],
+        "frameType" : null,
+        "activeTab" : "partitionTab",
+        "columnsSelector" : [ ],
+        "partitionExpressions" : [ {
+          "expression" : {
+            "expression" : "`Order: Account Name: Mas90 Customer Number`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "F-n3UBL0xJMj0Gc7HLlYX"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : "unbT77vwOLIfdts9lSdru"
+        } ],
+        "frameStartValue" : null,
+        "frameStartType" : null,
+        "ordersBy" : [ {
+          "expression" : {
+            "expression" : {
+              "expression" : "1",
+              "_row_id" : null
+            },
+            "alias" : null,
+            "description" : null,
+            "_row_id" : "cWT1LrjS86s0T0ApoBAqV"
+          },
+          "sortType" : "asc",
+          "nullsType" : "nulls first"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "SwEdS3687T7Mvc3a9odn5",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "sSWJBNX9K4ZFcW4HkOlUY",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2942" : {
+      "id" : "2942",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_2942",
+        "x" : 36640,
+        "y" : 1320,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(Sum_Quantity)"
+          },
+          "alias" : "Quantity",
+          "_row_id" : "yJi5ON8RF-wL_rs6i924Q"
+        }, {
+          "expression" : {
+            "expression" : "SUM(`Orders ACV`)"
+          },
+          "alias" : "`Orders ACV`",
+          "_row_id" : "cQUe2d73yo93EdMBSPZmK"
+        }, {
+          "expression" : {
+            "expression" : "`Order: Account Name: Mas90 Customer Number`"
+          },
+          "alias" : "`Order: Account Name: Mas90 Customer Number`",
+          "_row_id" : "Io-EFFXYyadI6uQhChjX_"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "alias" : "`Product Code`",
+          "_row_id" : "r0Le_FNo3V4xD9ipxmVQ2"
+        }, {
+          "expression" : {
+            "expression" : "Original_EndDate_Annualization"
+          },
+          "alias" : "Original_EndDate_Annualization",
+          "_row_id" : "_5jK4D9sWfOzu2C47Iiay"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Order: Account Name: Mas90 Customer Number`"
+          },
+          "_row_id" : "fhPcarYb0KpAZuwgG0n72"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "_row_id" : "FhniAF__2lHWIdRufKa8o"
+        }, {
+          "expression" : {
+            "expression" : "Original_EndDate_Annualization"
+          },
+          "_row_id" : "YaenTQpY1vZ8nq4Naj_C1"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2942_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2942_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1046" : {
+      "id" : "1046",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_1046",
+        "x" : 38740,
+        "y" : 1420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "Quantity",
+            "_row_id" : null
+          },
+          "alias" : "`Orders Quantity`",
+          "description" : null,
+          "_row_id" : "QV7RJeDocWwLrL9X8qNj0"
+        }, {
+          "expression" : {
+            "expression" : "`Right_Product Code`",
+            "_row_id" : null
+          },
+          "alias" : "`Product Code`",
+          "description" : null,
+          "_row_id" : "iyBy7IrL5NKaJ2en9ZX7U"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`Quantity`, `Right_Product Code`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1046_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1046_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "EssdebUbxBsVefeJncoCM" : {
+      "id" : "EssdebUbxBsVefeJncoCM",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Summarize_1030_filter",
+        "x" : 36240,
+        "y" : 1320,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(Original_EndDate_Annualization = Max_Original_EndDate_Annualization)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "CoF02EFQkUCP0q5uwm6Xf",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ShhlOXBm8oU_ijoFmG2VB",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1130_inner" : {
+      "id" : "1130_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_1130_inner",
+        "x" : 32320,
+        "y" : 1400,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.`Renewed Contract: Order: Sales Order Number` = in1.`Renewed Contract: Order: Sales Order Number`) AND (in0.`Product Code` = in1.`Product Code`))"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.CountDistinct_Stage"
+          },
+          "alias" : "TotalDistinct_Stage",
+          "_row_id" : "J2TBnP0reV8A3fV7gvtJ6"
+        }, {
+          "expression" : {
+            "expression" : "in1.CountDistinct_Stage"
+          },
+          "alias" : "ClosedDistinct_Stage",
+          "_row_id" : "-d7GMNiCpLOuvGUDUwckA"
+        }, {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`CountDistinct_Stage`)"
+          },
+          "_row_id" : "1116040730"
+        }, {
+          "expression" : {
+            "expression" : "in1.* EXCEPT(`Product Code`, `Renewed Contract: Order: Sales Order Number`, `CountDistinct_Stage`)"
+          },
+          "_row_id" : "1596613283"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "45VJE4gHcxFdwXILoo18u",
+          "slug" : "in0"
+        }, {
+          "id" : "tmNFaP9tKmukLuGIL7ImG",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "AAw21mKbUa5jSZvqebyzU",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "JpkfCrvExt8b78JOC3aJ7" : {
+      "id" : "JpkfCrvExt8b78JOC3aJ7",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1040_to_Formula_1170_1",
+        "x" : 37300,
+        "y" : 1420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "to_date(CASE WHEN (Original_EndDate_Annualization > to_date(date_trunc('month', `Primary Quote: Start Date`))) THEN date_add(Original_EndDate_Annualization, CAST(1 AS INT)) ELSE StartDate_Annualization END, 'yyyy-MM-dd')",
+            "_row_id" : null
+          },
+          "alias" : "StartDate_Annualization",
+          "description" : null,
+          "_row_id" : "LnBRfHAAoltd25gMWKL4k"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`startdate_annualization`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "l40wfLwKgYgY7rA8PfoPT",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "RfikyW2xm6FyvhgV_JmSx",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_3128_3128_Output" : {
+      "id" : "Summarize_3128_3128_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_3128"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_45",
+          "id" : "output_port_45",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_3128') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_45",
+          "slug" : "input_port_45"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_45",
+          "slug" : "output_port_45"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1128" : {
+      "id" : "1128",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1128",
+        "x" : 28700,
+        "y" : 1500,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT Stage)"
+          },
+          "alias" : "CountDistinct_Stage",
+          "_row_id" : "w5b3jraOStBthYxSYIJWZ"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "alias" : "`Product Code`",
+          "_row_id" : "B1qQR06kpLeH1aSnf48dC"
+        }, {
+          "expression" : {
+            "expression" : "`Renewed Contract: Order: Sales Order Number`"
+          },
+          "alias" : "`Renewed Contract: Order: Sales Order Number`",
+          "_row_id" : "1OKky_KFADDS1EkUgSr9b"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "_row_id" : "UBwofhcMcchqEn64mlrFx"
+        }, {
+          "expression" : {
+            "expression" : "`Renewed Contract: Order: Sales Order Number`"
+          },
+          "_row_id" : "_iF-H-DORXGWzZAT8mgjz"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1128_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1128_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "A4nEHxWIv-3Fj7vabJvc6" : {
+      "id" : "A4nEHxWIv-3Fj7vabJvc6",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Join_1031_inner_formula",
+        "x" : 36440,
+        "y" : 1320,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "vpVC9p-utz5ueNChVuuBe",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "QxPKz5gjbckvKu_U8Dkv9",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_2437_left_UnionLeftOuter_isft50r8cP21DnIvPI5zh" : {
+      "id" : "Join_2437_left_UnionLeftOuter_isft50r8cP21DnIvPI5zh",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_2437_left_UnionLeftOuter"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_60",
+          "id" : "output_port_60",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_2437_left_UnionLeftOuter') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_60",
+          "slug" : "input_port_60"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_60",
+          "slug" : "output_port_60"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "7QLQIjA2XgpsY_kW8icNA" : {
+      "id" : "7QLQIjA2XgpsY_kW8icNA",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1040_to_Formula_1170_2",
+        "x" : 37500,
+        "y" : 1420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "to_date(CASE WHEN (Original_EndDate_Annualization > to_date(date_trunc('month', `Primary Quote: Start Date`))) THEN date_add(date_trunc('month', date_add(StartDate_Annualization, CAST((CAST(datediff(to_date(`Primary Quote: End Date (Calculated)`), to_date(`Primary Quote: Start Date`)) AS INT) + 1) AS INT))), CAST(-1 AS INT)) ELSE EndDate_Annualization END, 'yyyy-MM-dd')",
+            "_row_id" : null
+          },
+          "alias" : "EndDate_Annualization",
+          "description" : null,
+          "_row_id" : "sOMSjd_6r5-FlOUAMgihL"
+        }, {
+          "expression" : {
+            "expression" : "CAST(`Orders ACV` AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "ACV",
+          "description" : null,
+          "_row_id" : "Rdq_3AUS74JzWTCcwM6D9"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`enddate_annualization`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ELMnLKFczU2te3SjVLZZO",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "lH5ca8QXtBLRtvy93Lrv6",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "ecZ1IvsyxPZKxw1XA3RpC" : {
+      "id" : "ecZ1IvsyxPZKxw1XA3RpC",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1040_to_Formula_1170_4",
+        "x" : 37960,
+        "y" : 1420,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((ACV / 365.25) * Engine_ContractDays) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "TCV",
+          "description" : null,
+          "_row_id" : "PTF_3YmvAREfCrDnKH49E"
+        }, {
+          "expression" : {
+            "expression" : "CAST('Renewals' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Origin",
+          "description" : null,
+          "_row_id" : "FTbHJ97q1TVpClLq00TH-"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EaYTli9Pseio7EKQX2_YP",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "SvWRQDq38JtZrp66vledz",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1127" : {
+      "id" : "1127",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1127",
+        "x" : 28700,
+        "y" : 1300,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "COUNT(DISTINCT Stage)"
+          },
+          "alias" : "CountDistinct_Stage",
+          "_row_id" : "ZjIifgDSov4t5SIbksRsT"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "alias" : "`Product Code`",
+          "_row_id" : "Hw4H_JYemgOE8WTK03Any"
+        }, {
+          "expression" : {
+            "expression" : "`Renewed Contract: Order: Sales Order Number`"
+          },
+          "alias" : "`Renewed Contract: Order: Sales Order Number`",
+          "_row_id" : "1Q4omhE3t2I50Y9yXCHb1"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "_row_id" : "xvyZG8VwzY70rGMA3oXq6"
+        }, {
+          "expression" : {
+            "expression" : "`Renewed Contract: Order: Sales Order Number`"
+          },
+          "_row_id" : "FD36DB9gqaA9g0NDxnqB-"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1127_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1127_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2969_left" : {
+      "id" : "2969_left",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_2969_left",
+        "x" : 27820,
+        "y" : 1680,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "(in0.`Account Name: Mas90 Customer Number` = in1.`Mas90 Customer Number`)"
+          },
+          "joinType" : "anti"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.*"
+          },
+          "_row_id" : "1112546305"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ZhNKjsKflEXUtnxG-da7w",
+          "slug" : "in0"
+        }, {
+          "id" : "Xv92htob88b0f8ZxoHm9Y",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "_s0IUbfI3_rIOLCQaUKq2",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_1012_right_ngWXrJCPOE9n8k6VkaCKi" : {
+      "id" : "Join_1012_right_ngWXrJCPOE9n8k6VkaCKi",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_1012_right"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_65",
+          "id" : "output_port_65",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_1012_right') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_65",
+          "slug" : "input_port_65"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_65",
+          "slug" : "output_port_65"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_1027_1027_Output" : {
+      "id" : "Summarize_1027_1027_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Summarize_1027"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_56",
+          "id" : "output_port_56",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_1027') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_56",
+          "slug" : "input_port_56"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_56",
+          "slug" : "output_port_56"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1131_inner" : {
+      "id" : "1131_inner",
+      "component" : "Join",
+      "metadata" : {
+        "label" : "Join_1131_inner",
+        "x" : 35360,
+        "y" : 1440,
+        "phase" : 0
+      },
+      "properties" : {
+        "conditions" : [ {
+          "alias" : "in1",
+          "expression" : {
+            "expression" : "((in0.`Product Code` = in1.`Product Code`) AND (in0.`Renewed Contract: Order: Sales Order Number` = in1.`Order: Sales Order Number`))"
+          },
+          "joinType" : "inner"
+        } ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "in0.* EXCEPT(`Product Code`, `Renewed Contract: Order: Sales Order Number`, `TotalDistinct_Stage`, `ClosedDistinct_Stage`)"
+          },
+          "_row_id" : "584241043"
+        }, {
+          "expression" : {
+            "expression" : "in1.*"
+          },
+          "_row_id" : "1399602400"
+        } ],
+        "activeTab" : "conditions",
+        "columnsSelector" : [ ],
+        "headAlias" : "in0"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "r2crGjkEr0anJnZ-s06sf",
+          "slug" : "in0"
+        }, {
+          "id" : "xAh8lVcji2PqwsuXKN-WF",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "PzDy8jizrMQ1v6k4bdt_P",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_1046_1046_Output_AlteryxSelect_1046_1046_Output",
+    "source" : "1046",
+    "sourcePort" : "1046_Output",
+    "target" : "AlteryxSelect_1046_1046_Output",
+    "targetPort" : "input_port_68",
+    "isWireless" : false
+  }, {
+    "id" : "edge_670",
+    "source" : "ecZ1IvsyxPZKxw1XA3RpC",
+    "sourcePort" : "SvWRQDq38JtZrp66vledz",
+    "target" : "1046",
+    "targetPort" : "1046_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_669",
+    "source" : "H2YmTx2rESw_70bXEsGgg",
+    "sourcePort" : "ABSfiAZ14bt-t4NY70UKm",
+    "target" : "ecZ1IvsyxPZKxw1XA3RpC",
+    "targetPort" : "EaYTli9Pseio7EKQX2_YP",
+    "isWireless" : false
+  }, {
+    "id" : "edge_668",
+    "source" : "7QLQIjA2XgpsY_kW8icNA",
+    "sourcePort" : "lH5ca8QXtBLRtvy93Lrv6",
+    "target" : "H2YmTx2rESw_70bXEsGgg",
+    "targetPort" : "JGeARc3RctemC7f5uysQk",
+    "isWireless" : false
+  }, {
+    "id" : "edge_667",
+    "source" : "JpkfCrvExt8b78JOC3aJ7",
+    "sourcePort" : "RfikyW2xm6FyvhgV_JmSx",
+    "target" : "7QLQIjA2XgpsY_kW8icNA",
+    "targetPort" : "ELMnLKFczU2te3SjVLZZO",
+    "isWireless" : false
+  }, {
+    "id" : "edge_666",
+    "source" : "JncuhuY86pLl_fKfiYWF8",
+    "sourcePort" : "as7xouojzAb6zUdnh0teu",
+    "target" : "JpkfCrvExt8b78JOC3aJ7",
+    "targetPort" : "l40wfLwKgYgY7rA8PfoPT",
+    "isWireless" : false
+  }, {
+    "id" : "edge_671",
+    "source" : "1022_inner",
+    "sourcePort" : "Ic4Qj5cxSO2UdVwpeMFJe",
+    "target" : "JncuhuY86pLl_fKfiYWF8",
+    "targetPort" : "7l-BG-cnszh7HzXJM26hd",
+    "isWireless" : false
+  }, {
+    "id" : "edge_312",
+    "source" : "1020",
+    "sourcePort" : "1020_True",
+    "target" : "1022_inner",
+    "targetPort" : "ExLZ0F3Cl4MO5Um9weHTW",
+    "isWireless" : false
+  }, {
+    "id" : "edge_313",
+    "source" : "2942",
+    "sourcePort" : "2942_Output",
+    "target" : "1022_inner",
+    "targetPort" : "v3Yx0AhlIcOiTiIbo4FHI",
+    "isWireless" : false
+  }, {
+    "id" : "edge_322",
+    "source" : "2969_left",
+    "sourcePort" : "_s0IUbfI3_rIOLCQaUKq2",
+    "target" : "1020",
+    "targetPort" : "1020_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_564",
+    "source" : "A4nEHxWIv-3Fj7vabJvc6",
+    "sourcePort" : "QxPKz5gjbckvKu_U8Dkv9",
+    "target" : "2942",
+    "targetPort" : "2942_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_320",
+    "source" : "Summarize_3128_3128_Output",
+    "sourcePort" : "output_port_45",
+    "target" : "2969_left",
+    "targetPort" : "Xv92htob88b0f8ZxoHm9Y",
+    "isWireless" : false
+  }, {
+    "id" : "edge_321",
+    "source" : "Join_1012_right_ngWXrJCPOE9n8k6VkaCKi",
+    "sourcePort" : "output_port_65",
+    "target" : "2969_left",
+    "targetPort" : "ZhNKjsKflEXUtnxG-da7w",
+    "isWireless" : false
+  }, {
+    "id" : "edge_562",
+    "source" : "EssdebUbxBsVefeJncoCM",
+    "sourcePort" : "ShhlOXBm8oU_ijoFmG2VB",
+    "target" : "A4nEHxWIv-3Fj7vabJvc6",
+    "targetPort" : "vpVC9p-utz5ueNChVuuBe",
+    "isWireless" : false
+  }, {
+    "id" : "edge_561",
+    "source" : "AdAXm_i2IPExXIRsCogHS",
+    "sourcePort" : "sSWJBNX9K4ZFcW4HkOlUY",
+    "target" : "EssdebUbxBsVefeJncoCM",
+    "targetPort" : "CoF02EFQkUCP0q5uwm6Xf",
+    "isWireless" : false
+  }, {
+    "id" : "edge_563",
+    "source" : "1132",
+    "sourcePort" : "1132_Output",
+    "target" : "AdAXm_i2IPExXIRsCogHS",
+    "targetPort" : "SwEdS3687T7Mvc3a9odn5",
+    "isWireless" : false
+  }, {
+    "id" : "edge_307",
+    "source" : "1012_left",
+    "sourcePort" : "R5mqGu2cQChFNbCJsuypM",
+    "target" : "1132",
+    "targetPort" : "1132_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_319",
+    "source" : "1131_inner",
+    "sourcePort" : "PzDy8jizrMQ1v6k4bdt_P",
+    "target" : "1132",
+    "targetPort" : "1132_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_306",
+    "source" : "Summarize_1027_1027_Output",
+    "sourcePort" : "output_port_56",
+    "target" : "1012_left",
+    "targetPort" : "JQ_uwdd3FAeBRKkvuXmn-",
+    "isWireless" : false
+  }, {
+    "id" : "edge_476",
+    "source" : "Join_2437_left_UnionLeftOuter_isft50r8cP21DnIvPI5zh",
+    "sourcePort" : "output_port_60",
+    "target" : "1012_left",
+    "targetPort" : "guxDHMN-iuYWj02aTY6DT",
+    "isWireless" : false
+  }, {
+    "id" : "edge_318",
+    "source" : "1126",
+    "sourcePort" : "1126_True",
+    "target" : "1131_inner",
+    "targetPort" : "r2crGjkEr0anJnZ-s06sf",
+    "isWireless" : false
+  }, {
+    "id" : "edge_317",
+    "source" : "Summarize_1027_1027_Output",
+    "sourcePort" : "output_port_56",
+    "target" : "1131_inner",
+    "targetPort" : "xAh8lVcji2PqwsuXKN-WF",
+    "isWireless" : false
+  }, {
+    "id" : "edge_316",
+    "source" : "1130_inner",
+    "sourcePort" : "AAw21mKbUa5jSZvqebyzU",
+    "target" : "1126",
+    "targetPort" : "1126_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_314",
+    "source" : "1127",
+    "sourcePort" : "1127_Output",
+    "target" : "1130_inner",
+    "targetPort" : "45VJE4gHcxFdwXILoo18u",
+    "isWireless" : false
+  }, {
+    "id" : "edge_315",
+    "source" : "1128",
+    "sourcePort" : "1128_Output",
+    "target" : "1130_inner",
+    "targetPort" : "tmNFaP9tKmukLuGIL7ImG",
+    "isWireless" : false
+  }, {
+    "id" : "edge_310",
+    "source" : "Join_1012_inner_p_W9_ODc8e6VoAeeOpq_8",
+    "sourcePort" : "output_port_67",
+    "target" : "1127",
+    "targetPort" : "1127_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_17",
+    "source" : "1129",
+    "sourcePort" : "1129_True",
+    "target" : "1128",
+    "targetPort" : "1128_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_311",
+    "source" : "Join_1012_inner_p_W9_ODc8e6VoAeeOpq_8",
+    "sourcePort" : "output_port_67",
+    "target" : "1129",
+    "targetPort" : "1129_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

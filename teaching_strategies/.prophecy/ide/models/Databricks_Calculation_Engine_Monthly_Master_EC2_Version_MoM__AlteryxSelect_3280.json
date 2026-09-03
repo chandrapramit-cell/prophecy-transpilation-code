@@ -1,0 +1,226 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3280",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_3280",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "p-VPJ72_e4ckeUVmER7cA" : {
+      "id" : "p-VPJ72_e4ckeUVmER7cA",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_3279_0",
+        "x" : 1260,
+        "y" : 520,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST((CASE WHEN (UPPER(variableType) = UPPER('Int64')) THEN CAST((CONCAT(Name, ' Count')) AS string) ELSE Name END) AS string)",
+            "_row_id" : null
+          },
+          "alias" : "`Updated Name`",
+          "description" : null,
+          "_row_id" : "tjZUU-GX9W7QbOI-XvGbq"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "JGnoh3THAma8nJPe2tt8G",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "MAr6uoi0s53gWNPejwVry",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "DynamicPeriodRefresh"
+    },
+    "3280" : {
+      "id" : "3280",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "AlteryxSelect_3280",
+        "x" : 1460,
+        "y" : 520,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "Name",
+            "_row_id" : null
+          },
+          "alias" : "Name",
+          "description" : null,
+          "_row_id" : "DcaJgrPPVkxVbyUe7ji8_"
+        }, {
+          "expression" : {
+            "expression" : "`Updated Name`",
+            "_row_id" : null
+          },
+          "alias" : "`Updated Name`",
+          "description" : null,
+          "_row_id" : "i2zF0VfdNpabKRDehdtN7"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3280_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3280_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "DynamicPeriodRefresh"
+    },
+    "AlteryxSelect_3280_3280_Output" : {
+      "id" : "AlteryxSelect_3280_3280_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "AlteryxSelect_3280"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM AlteryxSelect_3280\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_75",
+          "slug" : "input_port_75"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_75",
+          "slug" : "output_port_75"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "CrossTab_3267_3267_Output" : {
+      "id" : "CrossTab_3267_3267_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "CrossTab_3267"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_74",
+          "id" : "output_port_74",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__CrossTab_3267') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_74",
+          "slug" : "input_port_74"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_74",
+          "slug" : "output_port_74"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3278" : {
+      "id" : "3278",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "FieldInfo_3278",
+        "x" : 1060,
+        "y" : 520,
+        "phase" : 0
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "out0",
+          "id" : "out0",
+          "language" : "sql",
+          "content" : "\n{{\n    SchemaInfo('CrossTab_3267')\n}}\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "3278_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "3278_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "DynamicPeriodRefresh"
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3280_3280_Output_AlteryxSelect_3280_3280_Output",
+    "source" : "3280",
+    "sourcePort" : "3280_Output",
+    "target" : "AlteryxSelect_3280_3280_Output",
+    "targetPort" : "input_port_75",
+    "isWireless" : false
+  }, {
+    "id" : "edge_928",
+    "source" : "p-VPJ72_e4ckeUVmER7cA",
+    "sourcePort" : "MAr6uoi0s53gWNPejwVry",
+    "target" : "3280",
+    "targetPort" : "3280_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_929",
+    "source" : "3278",
+    "sourcePort" : "3278_Output",
+    "target" : "p-VPJ72_e4ckeUVmER7cA",
+    "targetPort" : "JGnoh3THAma8nJPe2tt8G",
+    "isWireless" : false
+  }, {
+    "id" : "edge_212",
+    "source" : "CrossTab_3267_3267_Output",
+    "sourcePort" : "output_port_74",
+    "target" : "3278",
+    "targetPort" : "3278_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

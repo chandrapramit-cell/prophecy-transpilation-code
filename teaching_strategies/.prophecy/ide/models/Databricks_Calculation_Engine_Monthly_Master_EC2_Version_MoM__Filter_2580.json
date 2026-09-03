@@ -1,0 +1,384 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Filter_2580",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Filter_2580",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_2580_2580_True" : {
+      "id" : "Filter_2580_2580_True",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_2580"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_2580\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_43",
+          "slug" : "input_port_43"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_43",
+          "slug" : "output_port_43"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_677_677_Output" : {
+      "id" : "Union_677_677_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_677"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_33",
+          "id" : "output_port_33",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Union_677') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_33",
+          "slug" : "input_port_33"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_33",
+          "slug" : "output_port_33"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2580" : {
+      "id" : "2580",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_2580",
+        "x" : 32320,
+        "y" : 1880,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(Original_StartDate_Annualization >= to_date(`Start of Current Month`))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2580_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2580_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2440" : {
+      "id" : "2440",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_2440",
+        "x" : 27820,
+        "y" : 1880,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "((CAST(`Order: Subscription Term` AS INTEGER) < 12) AND (`Value Increase %` > 1))",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2440_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2440_True",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "zJlAIejFGSv5ZemAtfUAd" : {
+      "id" : "zJlAIejFGSv5ZemAtfUAd",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_2441_0",
+        "x" : 27560,
+        "y" : 1880,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((`Orders ACV` / `PreReductions_Total Price`) - 1) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "`Value Increase %`",
+          "description" : null,
+          "_row_id" : "VpRZ74jfYCLc68bjdkju6"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "o5TQjTKvuOBmLXZgesYw-",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "OdGuywsjwJL4GC0kFZz2V",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2439" : {
+      "id" : "2439",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_2439",
+        "x" : 24940,
+        "y" : 1840,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(CAST(Sum_Quantity AS DECIMAL(19, 9)))"
+          },
+          "alias" : "Sum_Quantity",
+          "_row_id" : "kOmfpewPEi2NXy1OHkDp3"
+        }, {
+          "expression" : {
+            "expression" : "SUM(`PreReductions_Total Price`)"
+          },
+          "alias" : "`PreReductions_Total Price`",
+          "_row_id" : "c4zh1xo6LyFJQYRYebRyM"
+        }, {
+          "expression" : {
+            "expression" : "SUM(ACV)"
+          },
+          "alias" : "`Orders ACV`",
+          "_row_id" : "SJIS2256LkWK4Vk5a7NjT"
+        }, {
+          "expression" : {
+            "expression" : "`Order: Account Name: Mas90 Customer Number`"
+          },
+          "alias" : "`Order: Account Name: Mas90 Customer Number`",
+          "_row_id" : "MPXx1bdGpwOGffykOnWHS"
+        }, {
+          "expression" : {
+            "expression" : "`Order: Sales Order Number`"
+          },
+          "alias" : "`Order: Sales Order Number`",
+          "_row_id" : "gqiXTGm3be8BmWtBz0JgQ"
+        }, {
+          "expression" : {
+            "expression" : "`Order: Subscription Term`"
+          },
+          "alias" : "`Order: Subscription Term`",
+          "_row_id" : "Wa5MJSQPxrrBvZj0L7BaV"
+        }, {
+          "expression" : {
+            "expression" : "StartDate_Annualization"
+          },
+          "alias" : "Original_StartDate_Annualization",
+          "_row_id" : "blkGCFKPIDEfcFcy6Gp0m"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "alias" : "`Product Code`",
+          "_row_id" : "8xXTf2KhUJuKMb_Z3y_lc"
+        }, {
+          "expression" : {
+            "expression" : "Product"
+          },
+          "alias" : "Product",
+          "_row_id" : "g4DgnAGzQBrvlUxmBsBJe"
+        }, {
+          "expression" : {
+            "expression" : "EndDate_Annualization"
+          },
+          "alias" : "Original_EndDate_Annualization",
+          "_row_id" : "-DdNS5vVitMsW0S8jiJwe"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Order: Account Name: Mas90 Customer Number`"
+          },
+          "_row_id" : "WIPPoS17ewITIcufJTOJM"
+        }, {
+          "expression" : {
+            "expression" : "`Order: Sales Order Number`"
+          },
+          "_row_id" : "kBNdF36VzT-ePYLLssaGf"
+        }, {
+          "expression" : {
+            "expression" : "`Order: Subscription Term`"
+          },
+          "_row_id" : "l69RQ2w6Oes1HBD50rrWu"
+        }, {
+          "expression" : {
+            "expression" : "StartDate_Annualization"
+          },
+          "_row_id" : "fl88sXPQh1qjrYuaAVIfi"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "_row_id" : "b8_9iqi45wPQ-QKxKO0OA"
+        }, {
+          "expression" : {
+            "expression" : "Product"
+          },
+          "_row_id" : "8rKuDVzbNIzGC9QLXTDAv"
+        }, {
+          "expression" : {
+            "expression" : "EndDate_Annualization"
+          },
+          "_row_id" : "JVhMO_GeYRAbcgcpl4c7d"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2439_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2439_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2598" : {
+      "id" : "2598",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_2598",
+        "x" : 28700,
+        "y" : 1880,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2598_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "2598_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_2580_2580_True_Filter_2580_2580_True",
+    "source" : "2580",
+    "sourcePort" : "2580_True",
+    "target" : "Filter_2580_2580_True",
+    "targetPort" : "input_port_43",
+    "isWireless" : false
+  }, {
+    "id" : "edge_24",
+    "source" : "2598",
+    "sourcePort" : "2598_Output",
+    "target" : "2580",
+    "targetPort" : "2580_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_22",
+    "source" : "2440",
+    "sourcePort" : "2440_True",
+    "target" : "2598",
+    "targetPort" : "2598_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_951",
+    "source" : "zJlAIejFGSv5ZemAtfUAd",
+    "sourcePort" : "OdGuywsjwJL4GC0kFZz2V",
+    "target" : "2440",
+    "targetPort" : "2440_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_952",
+    "source" : "2439",
+    "sourcePort" : "2439_Output",
+    "target" : "zJlAIejFGSv5ZemAtfUAd",
+    "targetPort" : "o5TQjTKvuOBmLXZgesYw-",
+    "isWireless" : false
+  }, {
+    "id" : "edge_8",
+    "source" : "Union_677_677_Output",
+    "sourcePort" : "output_port_33",
+    "target" : "2439",
+    "targetPort" : "2439_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

@@ -1,0 +1,181 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_1972_0",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_1972_0",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Formula_1972_0_0bBD_9dnuGACnq4s6-59B" : {
+      "id" : "Formula_1972_0_0bBD_9dnuGACnq4s6-59B",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Formula_1972_0"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Formula_1972_0\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_52",
+          "slug" : "input_port_52"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_52",
+          "slug" : "output_port_52"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "9yxSevDXW4zr0Ta-InPbT" : {
+      "id" : "9yxSevDXW4zr0Ta-InPbT",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1972_0",
+        "x" : 36440,
+        "y" : 5060,
+        "phase" : 2
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "to_date(concat(regexp_replace(regexp_replace(format_number(CAST(year(StaticHistoryMonth) AS DOUBLE), 0), ',', '__THS__'), '__THS__', ''), '-12-31'))",
+            "_row_id" : null
+          },
+          "alias" : "StaticHistoryYearEnd",
+          "description" : null,
+          "_row_id" : "1NSy8DV493sMKYxBSUleY"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "JeYbIK7KPtCq0tEC2zIl6",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "0bBD_9dnuGACnq4s6-59B",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1973" : {
+      "id" : "1973",
+      "component" : "Sample",
+      "metadata" : {
+        "label" : "Sample_1973",
+        "x" : 36240,
+        "y" : 5060,
+        "phase" : 2
+      },
+      "properties" : {
+        "relation_name" : [ "AlteryxSelect_1894" ],
+        "currentModeSelection" : "firstN",
+        "dataColumns" : [ ],
+        "numberN" : 1,
+        "schema" : "[{\"name\": \"Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Actual Closed Date\", \"dataType\": \"Date\"}, {\"name\": \"Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Sector\", \"dataType\": \"String\"}, {\"name\": \"ARR Period\", \"dataType\": \"Date\"}, {\"name\": \"Territory Name\", \"dataType\": \"String\"}, {\"name\": \"CustomerName\", \"dataType\": \"String\"}, {\"name\": \"variableType\", \"dataType\": \"String\"}, {\"name\": \"Created Date\", \"dataType\": \"Date\"}, {\"name\": \"Origin\", \"dataType\": \"String\"}, {\"name\": \"ContractEndDate\", \"dataType\": \"Date\"}, {\"name\": \"TCV\", \"dataType\": \"Double\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Account Owner\", \"dataType\": \"String\"}, {\"name\": \"Engine_ContractDays\", \"dataType\": \"Double\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"State\", \"dataType\": \"String\"}, {\"name\": \"RecordID\", \"dataType\": \"Integer\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"Partner Success Owner\", \"dataType\": \"String\"}, {\"name\": \"ContractStartDate\", \"dataType\": \"Date\"}]",
+        "sampleLevelSelection" : "sampleDataset",
+        "orderByColumns" : [ {
+          "expression" : {
+            "format" : "",
+            "expression" : "RecordID"
+          },
+          "sortType" : "asc"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1973_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1973_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_1894_1894_Output" : {
+      "id" : "AlteryxSelect_1894_1894_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_1894"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_51",
+          "id" : "output_port_51",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_1894') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_51",
+          "slug" : "input_port_51"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_51",
+          "slug" : "output_port_51"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_9yxSevDXW4zr0Ta-InPbT_0bBD_9dnuGACnq4s6-59B_Formula_1972_0_0bBD_9dnuGACnq4s6-59B",
+    "source" : "9yxSevDXW4zr0Ta-InPbT",
+    "sourcePort" : "0bBD_9dnuGACnq4s6-59B",
+    "target" : "Formula_1972_0_0bBD_9dnuGACnq4s6-59B",
+    "targetPort" : "input_port_52",
+    "isWireless" : false
+  }, {
+    "id" : "edge_705",
+    "source" : "1973",
+    "sourcePort" : "1973_Output",
+    "target" : "9yxSevDXW4zr0Ta-InPbT",
+    "targetPort" : "JeYbIK7KPtCq0tEC2zIl6",
+    "isWireless" : false
+  }, {
+    "id" : "edge_39",
+    "source" : "AlteryxSelect_1894_1894_Output",
+    "sourcePort" : "output_port_51",
+    "target" : "1973",
+    "targetPort" : "1973_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

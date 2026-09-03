@@ -1,0 +1,643 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_1067",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_1067",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "T6CKycPwFWaRrM6YoCXY7" : {
+      "id" : "T6CKycPwFWaRrM6YoCXY7",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1013_to_Formula_1169_1",
+        "x" : 28700,
+        "y" : 1040,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "to_date(CASE WHEN (Original_EndDate_Annualization > to_date(date_trunc('month', `Primary Quote: Start Date`))) THEN date_add(Original_EndDate_Annualization, CAST(1 AS INT)) ELSE StartDate_Annualization END, 'yyyy-MM-dd')",
+            "_row_id" : null
+          },
+          "alias" : "StartDate_Annualization",
+          "description" : null,
+          "_row_id" : "ypXLr9BoFSxNtUshZv1o0"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`startdate_annualization`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "PZL0BmisUnTJreO59cePy",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "L7NmLJPgl1bXw01jzMNym",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3n-KKmmMFgMTfpAJKMY3K" : {
+      "id" : "3n-KKmmMFgMTfpAJKMY3K",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1013_to_Formula_1169_2",
+        "x" : 32320,
+        "y" : 1040,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "to_date(CASE WHEN (Original_EndDate_Annualization > to_date(date_trunc('month', `Primary Quote: Start Date`))) THEN date_add(date_trunc('month', date_add(StartDate_Annualization, CAST((CAST(datediff(to_date(`Primary Quote: End Date (Calculated)`), to_date(`Primary Quote: Start Date`)) AS INT) + 1) AS INT))), CAST(-1 AS INT)) ELSE EndDate_Annualization END, 'yyyy-MM-dd')",
+            "_row_id" : null
+          },
+          "alias" : "EndDate_Annualization",
+          "description" : null,
+          "_row_id" : "ms_q5pExPkUVol2GnkTC2"
+        }, {
+          "expression" : {
+            "expression" : "CAST(`Orders ACV` AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "ACV",
+          "description" : null,
+          "_row_id" : "kD-N3OPg28aGLtim4fhsi"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`enddate_annualization`)",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "xnCt9yHuqRG0NSnceCNPd",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "CEfbK41xGmYBpKZnEfKsK",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "AlteryxSelect_1046_1046_Output" : {
+      "id" : "AlteryxSelect_1046_1046_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "AlteryxSelect_1046"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_68",
+          "id" : "output_port_68",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__AlteryxSelect_1046') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_68",
+          "slug" : "input_port_68"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_68",
+          "slug" : "output_port_68"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Join_1012_inner_p_W9_ODc8e6VoAeeOpq_8" : {
+      "id" : "Join_1012_inner_p_W9_ODc8e6VoAeeOpq_8",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Join_1012_inner"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_67",
+          "id" : "output_port_67",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Join_1012_inner') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_67",
+          "slug" : "input_port_67"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_67",
+          "slug" : "output_port_67"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1067" : {
+      "id" : "1067",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_1067",
+        "x" : 39780,
+        "y" : 1020,
+        "phase" : 0
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(ACV)"
+          },
+          "alias" : "ACV",
+          "_row_id" : "0JVcWhzcieSvTWDhTNH6T"
+        }, {
+          "expression" : {
+            "expression" : "SUM(TCV)"
+          },
+          "alias" : "TCV",
+          "_row_id" : "prbvvSwPQ5AnV3z7pNVbt"
+        }, {
+          "expression" : {
+            "expression" : "SUM(Quantity)"
+          },
+          "alias" : "Quantity",
+          "_row_id" : "0-B4E9Z0CQi_Z3aMvOyC_"
+        }, {
+          "expression" : {
+            "expression" : "`Actual Closed Date`"
+          },
+          "alias" : "`Actual Closed Date`",
+          "_row_id" : "eFoXyDq_pCvN3zV_ZEHKF"
+        }, {
+          "expression" : {
+            "expression" : "`Primary Quote: End Date (Calculated)`"
+          },
+          "alias" : "`Order: End Date (Calculated)`",
+          "_row_id" : "jKVPmeR4nuHD_Cc5j16rr"
+        }, {
+          "expression" : {
+            "expression" : "`Renewed Contract: Order: Sales Order Number`"
+          },
+          "alias" : "`Order: Sales Order Number`",
+          "_row_id" : "fpOc9Dce_LAa5sjGVgHWy"
+        }, {
+          "expression" : {
+            "expression" : "`Created Date`"
+          },
+          "alias" : "`Created Date`",
+          "_row_id" : "KU4MfT6l0dGFgq6TOhCd7"
+        }, {
+          "expression" : {
+            "expression" : "StartDate_Annualization"
+          },
+          "alias" : "StartDate_Annualization",
+          "_row_id" : "nue580mpgAODoH6fBC6T6"
+        }, {
+          "expression" : {
+            "expression" : "Origin"
+          },
+          "alias" : "Origin",
+          "_row_id" : "ELYCpVc0gpk1-uJXpFwrL"
+        }, {
+          "expression" : {
+            "expression" : "`Primary Quote: Start Date`"
+          },
+          "alias" : "`Order: Start Date`",
+          "_row_id" : "5bBHZCQEulP8vcFyyshm1"
+        }, {
+          "expression" : {
+            "expression" : "`Account Name: Mas90 Customer Number`"
+          },
+          "alias" : "`Mas90 Customer Number`",
+          "_row_id" : "CSVnsAslt8E82mSJ-lq42"
+        }, {
+          "expression" : {
+            "expression" : "`Expected Renewal Date`"
+          },
+          "alias" : "`Expected Renewal Date`",
+          "_row_id" : "F-RbqXAqoXirtlzOaDGPd"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "alias" : "`Product Code`",
+          "_row_id" : "vUWbvCUbIZ5teXKsRWhdu"
+        }, {
+          "expression" : {
+            "expression" : "Product"
+          },
+          "alias" : "Product",
+          "_row_id" : "98JXub0U1cwSZDdzuknQY"
+        }, {
+          "expression" : {
+            "expression" : "Stage"
+          },
+          "alias" : "Stage",
+          "_row_id" : "chRkCD0rdtqLc5TLkA8RI"
+        }, {
+          "expression" : {
+            "expression" : "EndDate_Annualization"
+          },
+          "alias" : "EndDate_Annualization",
+          "_row_id" : "pW90co79FzYM08XncSeV0"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ {
+          "expression" : {
+            "expression" : "`Actual Closed Date`"
+          },
+          "_row_id" : "FMioJBa71kp7ZgigFrSAP"
+        }, {
+          "expression" : {
+            "expression" : "`Primary Quote: End Date (Calculated)`"
+          },
+          "_row_id" : "132T-J9jXOVjNqnK-spgJ"
+        }, {
+          "expression" : {
+            "expression" : "`Renewed Contract: Order: Sales Order Number`"
+          },
+          "_row_id" : "3Qzolq1n1AfQlBJKuzUBz"
+        }, {
+          "expression" : {
+            "expression" : "`Created Date`"
+          },
+          "_row_id" : "LWF03r3GikQ9g0vVkCVvg"
+        }, {
+          "expression" : {
+            "expression" : "StartDate_Annualization"
+          },
+          "_row_id" : "DNZL7cHXnU27f8rpLL46I"
+        }, {
+          "expression" : {
+            "expression" : "Origin"
+          },
+          "_row_id" : "U5KNH3VcXC6xdYMoMfwT7"
+        }, {
+          "expression" : {
+            "expression" : "`Primary Quote: Start Date`"
+          },
+          "_row_id" : "FswOgLezRlZy9r1oJbomq"
+        }, {
+          "expression" : {
+            "expression" : "`Account Name: Mas90 Customer Number`"
+          },
+          "_row_id" : "uRF9OlEpc0mvbnwD6AmQ2"
+        }, {
+          "expression" : {
+            "expression" : "`Expected Renewal Date`"
+          },
+          "_row_id" : "npt76O_FCB31HBkEtfx4e"
+        }, {
+          "expression" : {
+            "expression" : "`Product Code`"
+          },
+          "_row_id" : "Q2Y8EXUgWWcu9zKLepn0p"
+        }, {
+          "expression" : {
+            "expression" : "Product"
+          },
+          "_row_id" : "whH9SPqFfo23FpZ_Trsce"
+        }, {
+          "expression" : {
+            "expression" : "Stage"
+          },
+          "_row_id" : "S02U1SxGggoHrPvuWGFPl"
+        }, {
+          "expression" : {
+            "expression" : "EndDate_Annualization"
+          },
+          "_row_id" : "MU9rFtYDtOIek2Ezaj0qX"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1067_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "1067_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "1045" : {
+      "id" : "1045",
+      "component" : "UnionByName",
+      "metadata" : {
+        "label" : "Union_1045",
+        "x" : 39580,
+        "y" : 1020,
+        "phase" : 0
+      },
+      "properties" : {
+        "missingColumnOps" : "allowMissingColumns",
+        "relation_name" : [ "AlteryxSelect_1046", "Formula_1013_to_Formula_1169_4" ],
+        "_oldMacroProperties" : {
+          "macroName" : "UnionByName",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"AlteryxSelect_1046\",\"Formula_1013_to_Formula_1169_4\"]"
+          }, {
+            "name" : "schemas",
+            "value" : "[\"[{\\\"name\\\": \\\"Orders Quantity\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Actual Closed Date\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Primary Quote: End Date (Calculated)\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Right_Quantity\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Renewed Contract: Order: Sales Order Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Created Date\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"StartDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Origin\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Primary Quote: Start Date\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Account Name: Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACV\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"TCV\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Expected Renewal Date\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Left_Left_Account Name: Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Renewed Contract: Contract Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Product Code\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Orders ACV\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Original_EndDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Opportunity Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Engine_ContractDays\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Product\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Stage\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"EndDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}]\",\"[{\\\"name\\\": \\\"Orders Quantity\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Quantity\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Actual Closed Date\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Primary Quote: End Date (Calculated)\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Renewed Contract: Order: Sales Order Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Created Date\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"StartDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Origin\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Primary Quote: Start Date\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Account Name: Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"ACV\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"TCV\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Expected Renewal Date\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Left_Left_Account Name: Mas90 Customer Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Renewed Contract: Contract Number\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Product Code\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Orders ACV\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Original_EndDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}, {\\\"name\\\": \\\"Opportunity Name\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Engine_ContractDays\\\", \\\"dataType\\\": \\\"Double\\\"}, {\\\"name\\\": \\\"Product\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"Stage\\\", \\\"dataType\\\": \\\"String\\\"}, {\\\"name\\\": \\\"EndDate_Annualization\\\", \\\"dataType\\\": \\\"Date\\\"}]\"]"
+          }, {
+            "name" : "missingColumnOps",
+            "value" : "allowMissingColumns"
+          } ]
+        },
+        "schema" : "[{\"name\": \"Orders Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Actual Closed Date\", \"dataType\": \"Date\"}, {\"name\": \"Primary Quote: End Date (Calculated)\", \"dataType\": \"Date\"}, {\"name\": \"Right_Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Renewed Contract: Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Created Date\", \"dataType\": \"Date\"}, {\"name\": \"StartDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Origin\", \"dataType\": \"String\"}, {\"name\": \"Primary Quote: Start Date\", \"dataType\": \"Date\"}, {\"name\": \"Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"ACV\", \"dataType\": \"Double\"}, {\"name\": \"TCV\", \"dataType\": \"Double\"}, {\"name\": \"Expected Renewal Date\", \"dataType\": \"Date\"}, {\"name\": \"Left_Left_Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Renewed Contract: Contract Number\", \"dataType\": \"String\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Orders ACV\", \"dataType\": \"Double\"}, {\"name\": \"Original_EndDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Opportunity Name\", \"dataType\": \"String\"}, {\"name\": \"Engine_ContractDays\", \"dataType\": \"Double\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"EndDate_Annualization\", \"dataType\": \"Date\"}]",
+        "schemas" : [ "[{\"name\": \"Orders Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Actual Closed Date\", \"dataType\": \"Date\"}, {\"name\": \"Primary Quote: End Date (Calculated)\", \"dataType\": \"Date\"}, {\"name\": \"Right_Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Renewed Contract: Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Created Date\", \"dataType\": \"Date\"}, {\"name\": \"StartDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Origin\", \"dataType\": \"String\"}, {\"name\": \"Primary Quote: Start Date\", \"dataType\": \"Date\"}, {\"name\": \"Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"ACV\", \"dataType\": \"Double\"}, {\"name\": \"TCV\", \"dataType\": \"Double\"}, {\"name\": \"Expected Renewal Date\", \"dataType\": \"Date\"}, {\"name\": \"Left_Left_Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Renewed Contract: Contract Number\", \"dataType\": \"String\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Orders ACV\", \"dataType\": \"Double\"}, {\"name\": \"Original_EndDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Opportunity Name\", \"dataType\": \"String\"}, {\"name\": \"Engine_ContractDays\", \"dataType\": \"Double\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"EndDate_Annualization\", \"dataType\": \"Date\"}]", "[{\"name\": \"Orders Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Actual Closed Date\", \"dataType\": \"Date\"}, {\"name\": \"Primary Quote: End Date (Calculated)\", \"dataType\": \"Date\"}, {\"name\": \"Renewed Contract: Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Created Date\", \"dataType\": \"Date\"}, {\"name\": \"StartDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Origin\", \"dataType\": \"String\"}, {\"name\": \"Primary Quote: Start Date\", \"dataType\": \"Date\"}, {\"name\": \"Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"ACV\", \"dataType\": \"Double\"}, {\"name\": \"TCV\", \"dataType\": \"Double\"}, {\"name\": \"Expected Renewal Date\", \"dataType\": \"Date\"}, {\"name\": \"Left_Left_Account Name: Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"Renewed Contract: Contract Number\", \"dataType\": \"String\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Orders ACV\", \"dataType\": \"Double\"}, {\"name\": \"Original_EndDate_Annualization\", \"dataType\": \"Date\"}, {\"name\": \"Opportunity Name\", \"dataType\": \"String\"}, {\"name\": \"Engine_ContractDays\", \"dataType\": \"Double\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"EndDate_Annualization\", \"dataType\": \"Date\"}]" ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "1045_#1_Input",
+          "slug" : "in0"
+        }, {
+          "id" : "1045_#2_Input",
+          "slug" : "in1"
+        } ],
+        "outputs" : [ {
+          "id" : "1045_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Dim_bVFRaHjziS1y-btz_" : {
+      "id" : "Dim_bVFRaHjziS1y-btz_",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1013_to_Formula_1169_3",
+        "x" : 35000,
+        "y" : 1040,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(CASE\n  WHEN (\n    (StartDate_Annualization <= to_date('2016-02-28'))\n    AND (EndDate_Annualization >= to_date('2016-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2020-02-28'))\n    AND (EndDate_Annualization >= to_date('2020-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2024-02-28'))\n    AND (EndDate_Annualization >= to_date('2024-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  WHEN (\n    (StartDate_Annualization <= to_date('2028-02-28'))\n    AND (EndDate_Annualization >= to_date('2028-02-29'))\n  )\n    THEN CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT)\n  ELSE (CAST(datediff(to_date(EndDate_Annualization), to_date(StartDate_Annualization)) AS INT) + 1)\nEND AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "Engine_ContractDays",
+          "description" : null,
+          "_row_id" : "k6QnEHCIi4neCRJB1F9rR"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "DA9VQzrPdho4OcWHFlTpv",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ZImutuhPQk29MKuvjKlaq",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "d8QvFdkSju4gGIYV16KXj" : {
+      "id" : "d8QvFdkSju4gGIYV16KXj",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1013_to_Formula_1169_4",
+        "x" : 37500,
+        "y" : 1040,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "CAST(((ACV / 365.25) * Engine_ContractDays) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "TCV",
+          "description" : null,
+          "_row_id" : "qj-as8jQ4UgG1vRDuDPyS"
+        }, {
+          "expression" : {
+            "expression" : "CAST('Renewals' AS string)",
+            "_row_id" : null
+          },
+          "alias" : "Origin",
+          "description" : null,
+          "_row_id" : "16ak-sS-HrjXtPkKfZ8Bq"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "EB-jOFgTKYJ0AvlBeFoFy",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "laDyVr4j6oaMt_Lm_R3_Z",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "zYB6H64rlVzQ5GNV9EBeM" : {
+      "id" : "zYB6H64rlVzQ5GNV9EBeM",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_1013_to_Formula_1169_0",
+        "x" : 27820,
+        "y" : 1040,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(TO_DATE((DATE_TRUNC('month', `Primary Quote: Start Date`)), 'yyyy-MM-dd'))",
+            "_row_id" : null
+          },
+          "alias" : "StartDate_Annualization",
+          "description" : null,
+          "_row_id" : "XQWxyvqrQx_CKMI-30M2W"
+        }, {
+          "expression" : {
+            "expression" : "to_date(\n  CASE\n    WHEN (substring(CAST(`Primary Quote: Start Date` AS STRING), 1, 7) = substring(CAST(`Primary Quote: End Date (Calculated)` AS STRING), 1, 7))\n      THEN to_date(last_day(`Primary Quote: End Date (Calculated)`))\n    WHEN (\n      (to_date(date_trunc('month', `Primary Quote: Start Date`)) = `Primary Quote: Start Date`)\n      AND (to_date(last_day(`Primary Quote: End Date (Calculated)`)) = `Primary Quote: End Date (Calculated)`)\n    )\n      THEN `Primary Quote: End Date (Calculated)`\n    ELSE date_add(date_trunc('month', `Primary Quote: End Date (Calculated)`), CAST(-1 AS INT))\n  END, \n  'yyyy-MM-dd')",
+            "_row_id" : null
+          },
+          "alias" : "EndDate_Annualization",
+          "description" : null,
+          "_row_id" : "TFQkQ0Bvgvs4_D8PGcBtG"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "deBscUUlMm-RMJbY3HpTp",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "pgMl5gG2JtQbUuq2VN9wV",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_1067_1067_Output" : {
+      "id" : "Summarize_1067_1067_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_1067"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_1067\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_70",
+          "slug" : "input_port_70"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_70",
+          "slug" : "output_port_70"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_1067_1067_Output_Summarize_1067_1067_Output",
+    "source" : "1067",
+    "sourcePort" : "1067_Output",
+    "target" : "Summarize_1067_1067_Output",
+    "targetPort" : "input_port_70",
+    "isWireless" : false
+  }, {
+    "id" : "edge_11",
+    "source" : "1045",
+    "sourcePort" : "1045_Output",
+    "target" : "1067",
+    "targetPort" : "1067_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_676",
+    "source" : "d8QvFdkSju4gGIYV16KXj",
+    "sourcePort" : "laDyVr4j6oaMt_Lm_R3_Z",
+    "target" : "1045",
+    "targetPort" : "1045_#2_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_12",
+    "source" : "AlteryxSelect_1046_1046_Output",
+    "sourcePort" : "output_port_68",
+    "target" : "1045",
+    "targetPort" : "1045_#1_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_675",
+    "source" : "Dim_bVFRaHjziS1y-btz_",
+    "sourcePort" : "ZImutuhPQk29MKuvjKlaq",
+    "target" : "d8QvFdkSju4gGIYV16KXj",
+    "targetPort" : "EB-jOFgTKYJ0AvlBeFoFy",
+    "isWireless" : false
+  }, {
+    "id" : "edge_674",
+    "source" : "3n-KKmmMFgMTfpAJKMY3K",
+    "sourcePort" : "CEfbK41xGmYBpKZnEfKsK",
+    "target" : "Dim_bVFRaHjziS1y-btz_",
+    "targetPort" : "DA9VQzrPdho4OcWHFlTpv",
+    "isWireless" : false
+  }, {
+    "id" : "edge_673",
+    "source" : "T6CKycPwFWaRrM6YoCXY7",
+    "sourcePort" : "L7NmLJPgl1bXw01jzMNym",
+    "target" : "3n-KKmmMFgMTfpAJKMY3K",
+    "targetPort" : "xnCt9yHuqRG0NSnceCNPd",
+    "isWireless" : false
+  }, {
+    "id" : "edge_672",
+    "source" : "zYB6H64rlVzQ5GNV9EBeM",
+    "sourcePort" : "pgMl5gG2JtQbUuq2VN9wV",
+    "target" : "T6CKycPwFWaRrM6YoCXY7",
+    "targetPort" : "PZL0BmisUnTJreO59cePy",
+    "isWireless" : false
+  }, {
+    "id" : "edge_677",
+    "source" : "Join_1012_inner_p_W9_ODc8e6VoAeeOpq_8",
+    "sourcePort" : "output_port_67",
+    "target" : "zYB6H64rlVzQ5GNV9EBeM",
+    "targetPort" : "deBscUUlMm-RMJbY3HpTp",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

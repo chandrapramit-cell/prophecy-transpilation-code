@@ -1,0 +1,124 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Filter_3079_reject",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Filter_3079_reject",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Filter_3079_reject_Pwj13c3I_fnzdp80_kJ1I" : {
+      "id" : "Filter_3079_reject_Pwj13c3I_fnzdp80_kJ1I",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Filter_3079_reject"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Filter_3079_reject\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_39",
+          "slug" : "input_port_39"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_39",
+          "slug" : "output_port_39"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "3079_reject" : {
+      "id" : "3079_reject",
+      "component" : "Filter",
+      "metadata" : {
+        "label" : "Filter_3079_reject",
+        "x" : 24940,
+        "y" : 3220,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "condition" : {
+          "expression" : "(\n  NOT (\n    (\n      (\n        (`Order: Business Subtype` IN ('New', 'New-ATE'))\n        AND (to_date(array_min(array(`Order: Opportunity: Actual Closed Date`, `Order: Start Date`))) = `Order: Opportunity: Actual Closed Date`)\n      )\n      AND (\n            (\n              (\n                NOT(\n                  `Order: Opportunity: Actual Closed Date` = to_date(`Order: Start Date`))\n              )\n              OR isnull(`Order: Opportunity: Actual Closed Date`)\n            )\n            OR isnull(`Order: Start Date`)\n          )\n    )\n  )\n  OR isnull(\n       (\n         (\n           (`Order: Business Subtype` IN ('New', 'New-ATE'))\n           AND (to_date(array_min(array(`Order: Opportunity: Actual Closed Date`, `Order: Start Date`))) = `Order: Opportunity: Actual Closed Date`)\n         )\n         AND (\n               (\n                 (\n                   NOT(\n                     `Order: Opportunity: Actual Closed Date` = to_date(`Order: Start Date`))\n                 )\n                 OR isnull(`Order: Opportunity: Actual Closed Date`)\n               )\n               OR isnull(`Order: Start Date`)\n             )\n       ))\n)",
+          "_row_id" : null
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "8X7f1MGPM7NAm2eN-E_Cj",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "Pwj13c3I_fnzdp80_kJ1I",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Union_677_677_Output" : {
+      "id" : "Union_677_677_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Union_677"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_33",
+          "id" : "output_port_33",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Union_677') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_33",
+          "slug" : "input_port_33"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_33",
+          "slug" : "output_port_33"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_3079_reject_Pwj13c3I_fnzdp80_kJ1I_Filter_3079_reject_Pwj13c3I_fnzdp80_kJ1I",
+    "source" : "3079_reject",
+    "sourcePort" : "Pwj13c3I_fnzdp80_kJ1I",
+    "target" : "Filter_3079_reject_Pwj13c3I_fnzdp80_kJ1I",
+    "targetPort" : "input_port_39",
+    "isWireless" : false
+  }, {
+    "id" : "edge_237",
+    "source" : "Union_677_677_Output",
+    "sourcePort" : "output_port_33",
+    "target" : "3079_reject",
+    "targetPort" : "8X7f1MGPM7NAm2eN-E_Cj",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

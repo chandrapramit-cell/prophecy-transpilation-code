@@ -1,0 +1,134 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_2816",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Summarize_2816",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "Summarize_2816_FlGHUfJLvtZv2y3zgyczy" : {
+      "id" : "Summarize_2816_FlGHUfJLvtZv2y3zgyczy",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_2816"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_2816\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_105",
+          "slug" : "input_port_105"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_105",
+          "slug" : "output_port_105"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "2816" : {
+      "id" : "2816",
+      "component" : "Aggregate",
+      "metadata" : {
+        "label" : "Summarize_2816",
+        "x" : 1920,
+        "y" : 1340,
+        "phase" : 2
+      },
+      "properties" : {
+        "aggregate" : [ {
+          "expression" : {
+            "expression" : "SUM(Revenue)"
+          },
+          "alias" : "`After Change Categories`",
+          "_row_id" : "NAnzQq8w3GISTxR8wNlpf"
+        } ],
+        "allowSelection" : true,
+        "condition" : {
+          "expression" : ""
+        },
+        "activeTab" : "aggregate",
+        "columnsSelector" : [ ],
+        "groupBy" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "2816_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "FlGHUfJLvtZv2y3zgyczy",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      },
+      "parent" : "CustomerLevel"
+    },
+    "Formula_2787_2787_Output" : {
+      "id" : "Formula_2787_2787_Output",
+      "component" : "SQLStatement",
+      "metadata" : {
+        "label" : "Formula_2787"
+      },
+      "properties" : {
+        "fileTabs" : [ {
+          "path" : "output_port_99",
+          "id" : "output_port_99",
+          "language" : "sql",
+          "content" : "\nSELECT *\n\nFROM {{ ref('Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM__Formula_2787') }}\n\n"
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_99",
+          "slug" : "input_port_99"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_99",
+          "slug" : "output_port_99"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_2816_FlGHUfJLvtZv2y3zgyczy_Summarize_2816_FlGHUfJLvtZv2y3zgyczy",
+    "source" : "2816",
+    "sourcePort" : "FlGHUfJLvtZv2y3zgyczy",
+    "target" : "Summarize_2816_FlGHUfJLvtZv2y3zgyczy",
+    "targetPort" : "input_port_105",
+    "isWireless" : false
+  }, {
+    "id" : "edge_154",
+    "source" : "Formula_2787_2787_Output",
+    "sourcePort" : "output_port_99",
+    "target" : "2816",
+    "targetPort" : "2816_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}

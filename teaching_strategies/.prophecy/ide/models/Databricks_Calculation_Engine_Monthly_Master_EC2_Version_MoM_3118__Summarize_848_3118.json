@@ -1,0 +1,322 @@
+{
+  "id" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3118__Summarize_848_3118",
+  "metainfo" : {
+    "label" : "Databricks_Calculation_Engine_Monthly_Master_EC2_Version_MoM_3118__Summarize_848_3118",
+    "autoLayout" : true,
+    "staleState" : "none",
+    "sourceSuggestions" : {
+      "sources" : [ ]
+    },
+    "graphConfig" : {
+      "entityConfig" : {
+        "materialized" : "ephemeral",
+        "database" : "\"hive_metastore\"",
+        "schema" : "\"default\"",
+        "type" : "ModelConfig"
+      }
+    },
+    "version" : 3
+  },
+  "processes" : {
+    "7f4bvlp1FgYiPoSV6jSp-" : {
+      "id" : "7f4bvlp1FgYiPoSV6jSp-",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_846_3118_1",
+        "x" : 1748,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(TO_DATE((CONCAT((REGEXP_REPLACE((REGEXP_REPLACE((FORMAT_NUMBER(CAST(EXTRACT(YEAR FROM StaticHistoryMonth) AS DOUBLE), 0)), ',', '__THS__')), '__THS__', '')), '-12-31'))))",
+            "_row_id" : null
+          },
+          "alias" : "StaticHistoryYearEnd",
+          "description" : null,
+          "_row_id" : "zYNPzXF7GH3ztdzap9Nrx"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "amgFZCq2Nv1dyFty8p0nN",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "ofBLukoqRQSRukuwIEbfy",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "Summarize_848_3118_848_3118_Output" : {
+      "id" : "Summarize_848_3118_848_3118_Output",
+      "component" : "TargetModel",
+      "metadata" : {
+        "label" : "Summarize_848_3118"
+      },
+      "properties" : {
+        "customQueryDisabled" : true,
+        "customQuery" : false,
+        "incrementalEditorDisabled" : true,
+        "query" : "\nSELECT *\n\nFROM Summarize_848_3118\n\n",
+        "isModel" : true,
+        "incrementalKey" : false,
+        "incremental" : {
+          "expression" : "true"
+        }
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "input_port_0",
+          "slug" : "input_port_0"
+        } ],
+        "outputs" : [ {
+          "id" : "output_port_0",
+          "slug" : "output_port_0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "UJUjZL0BRC1eaHXqbVNAR" : {
+      "id" : "UJUjZL0BRC1eaHXqbVNAR",
+      "component" : "Reformat",
+      "metadata" : {
+        "label" : "Formula_846_3118_0",
+        "x" : 1568,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "columnsSelector" : [ ],
+        "expressions" : [ {
+          "expression" : {
+            "expression" : "(LAST_DAY ( CAST ( (ADD_MONTHS('2018-01-31', '{{ var('iteration_number') }}'))  AS DATE ) ))",
+            "_row_id" : null
+          },
+          "alias" : "StaticHistoryMonth",
+          "description" : null,
+          "_row_id" : "pETOijFVF7ZP0D1vn5X0o"
+        }, {
+          "expression" : {
+            "expression" : "CAST((CAST((MONTHS_BETWEEN((TO_DATE((DATE_ADD((DATE_TRUNC('month', CURRENT_DATE)), CAST(-1 AS INTEGER))))), (TO_DATE('2018-01-01')))) AS INTEGER) + 1) AS DOUBLE)",
+            "_row_id" : null
+          },
+          "alias" : "MaxIteration",
+          "description" : null,
+          "_row_id" : "_xun3glfxAyjwpWvaBuvS"
+        }, {
+          "expression" : {
+            "expression" : "*",
+            "_row_id" : null
+          },
+          "alias" : null,
+          "description" : null,
+          "_row_id" : null
+        } ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "ysi79HC6GSOiaFFZuTmjS",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "tafI1zAOhE1_Z30Gz3Zes",
+          "slug" : "out"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "841_3118" : {
+      "id" : "841_3118",
+      "component" : "Source",
+      "metadata" : {
+        "label" : "table_3118_Input_macro_ip",
+        "x" : 848,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "table" : {
+          "name" : "table_3118_Input_macro_ip",
+          "sourceType" : "Table",
+          "sourceName" : "transpiled_sources",
+          "alias" : ""
+        },
+        "writeOptions" : {
+          "writeMode" : "overwrite"
+        }
+      },
+      "ports" : {
+        "inputs" : [ ],
+        "outputs" : [ {
+          "id" : "841_3118_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "848_3118" : {
+      "id" : "848_3118",
+      "component" : "Deduplicate",
+      "metadata" : {
+        "label" : "Summarize_848_3118",
+        "x" : 1988,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "dedupColumns" : [ {
+          "expression" : {
+            "expression" : "StaticHistoryMonth",
+            "_row_id" : null
+          },
+          "alias" : "StaticHistoryMonth",
+          "description" : null,
+          "_row_id" : "LnMZztRDoAMLgEd56DWKv"
+        }, {
+          "expression" : {
+            "expression" : "MaxIteration",
+            "_row_id" : null
+          },
+          "alias" : "MaxIteration",
+          "description" : null,
+          "_row_id" : "Ey1BzZAlmiAI9zQ2Mm1Gi"
+        }, {
+          "expression" : {
+            "expression" : "StaticHistoryYearEnd",
+            "_row_id" : null
+          },
+          "alias" : "StaticHistoryYearEnd",
+          "description" : null,
+          "_row_id" : "6O_-oJCWGW9oDfHtTvvC9"
+        } ],
+        "dedupType" : "distinct"
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "848_3118_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "848_3118_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    },
+    "847_3118" : {
+      "id" : "847_3118",
+      "component" : "Sample",
+      "metadata" : {
+        "label" : "Sample_847_3118",
+        "x" : 1328,
+        "y" : 828,
+        "phase" : 0
+      },
+      "properties" : {
+        "relation_name" : [ "table_3118_Input_macro_ip" ],
+        "_oldMacroProperties" : {
+          "macroName" : "Sample",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"table_3118_Input_macro_ip\"]"
+          }, {
+            "name" : "schema",
+            "value" : "[{\"name\": \"Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Actual Closed Date\", \"dataType\": \"Date\"}, {\"name\": \"Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Sector\", \"dataType\": \"String\"}, {\"name\": \"ARR Period\", \"dataType\": \"Date\"}, {\"name\": \"Territory Name\", \"dataType\": \"String\"}, {\"name\": \"CustomerName\", \"dataType\": \"String\"}, {\"name\": \"variableType\", \"dataType\": \"String\"}, {\"name\": \"Created Date\", \"dataType\": \"Date\"}, {\"name\": \"Origin\", \"dataType\": \"String\"}, {\"name\": \"ContractEndDate\", \"dataType\": \"Date\"}, {\"name\": \"Amount\", \"dataType\": \"Double\"}, {\"name\": \"ACV\", \"dataType\": \"Double\"}, {\"name\": \"TCV\", \"dataType\": \"Double\"}, {\"name\": \"Activated Date\", \"dataType\": \"Date\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"TS_ContractDays\", \"dataType\": \"Double\"}, {\"name\": \"Account Size\", \"dataType\": \"String\"}, {\"name\": \"Account Owner\", \"dataType\": \"String\"}, {\"name\": \"Engine_ContractDays\", \"dataType\": \"Double\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"State\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"Partner Success Owner\", \"dataType\": \"String\"}, {\"name\": \"ContractStartDate\", \"dataType\": \"Date\"}]"
+          }, {
+            "name" : "sampleLevelSelection",
+            "value" : "sampleDataset"
+          }, {
+            "name" : "dataColumns",
+            "value" : "[]"
+          }, {
+            "name" : "randomSeed",
+            "value" : "1002"
+          }, {
+            "name" : "currentModeSelection",
+            "value" : "firstN"
+          }, {
+            "name" : "numberN",
+            "value" : "1"
+          }, {
+            "name" : "orderByColumns",
+            "value" : "[]"
+          } ]
+        },
+        "currentModeSelection" : "firstN",
+        "dataColumns" : [ ],
+        "numberN" : 1,
+        "randomSeed" : 1002,
+        "schema" : "[{\"name\": \"Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Actual Closed Date\", \"dataType\": \"Date\"}, {\"name\": \"Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Sector\", \"dataType\": \"String\"}, {\"name\": \"ARR Period\", \"dataType\": \"Date\"}, {\"name\": \"Territory Name\", \"dataType\": \"String\"}, {\"name\": \"CustomerName\", \"dataType\": \"String\"}, {\"name\": \"variableType\", \"dataType\": \"String\"}, {\"name\": \"Created Date\", \"dataType\": \"Date\"}, {\"name\": \"Origin\", \"dataType\": \"String\"}, {\"name\": \"ContractEndDate\", \"dataType\": \"Date\"}, {\"name\": \"Amount\", \"dataType\": \"Double\"}, {\"name\": \"ACV\", \"dataType\": \"Double\"}, {\"name\": \"TCV\", \"dataType\": \"Double\"}, {\"name\": \"Activated Date\", \"dataType\": \"Date\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"TS_ContractDays\", \"dataType\": \"Double\"}, {\"name\": \"Account Size\", \"dataType\": \"String\"}, {\"name\": \"Account Owner\", \"dataType\": \"String\"}, {\"name\": \"Engine_ContractDays\", \"dataType\": \"Double\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"State\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"Partner Success Owner\", \"dataType\": \"String\"}, {\"name\": \"ContractStartDate\", \"dataType\": \"Date\"}]",
+        "sampleLevelSelection" : "sampleDataset",
+        "orderByColumns" : [ ]
+      },
+      "ports" : {
+        "inputs" : [ {
+          "id" : "847_3118_Input",
+          "slug" : "in0"
+        } ],
+        "outputs" : [ {
+          "id" : "847_3118_Output",
+          "slug" : "out0"
+        } ],
+        "isCustomOutputSchema" : false,
+        "autoUpdateOnRun" : false
+      }
+    }
+  },
+  "connections" : [ {
+    "id" : "conn_848_3118_848_3118_Output_Summarize_848_3118_848_3118_Output",
+    "source" : "848_3118",
+    "sourcePort" : "848_3118_Output",
+    "target" : "Summarize_848_3118_848_3118_Output",
+    "targetPort" : "input_port_0",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1171",
+    "source" : "7f4bvlp1FgYiPoSV6jSp-",
+    "sourcePort" : "ofBLukoqRQSRukuwIEbfy",
+    "target" : "848_3118",
+    "targetPort" : "848_3118_Input",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1170",
+    "source" : "UJUjZL0BRC1eaHXqbVNAR",
+    "sourcePort" : "tafI1zAOhE1_Z30Gz3Zes",
+    "target" : "7f4bvlp1FgYiPoSV6jSp-",
+    "targetPort" : "amgFZCq2Nv1dyFty8p0nN",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1172",
+    "source" : "847_3118",
+    "sourcePort" : "847_3118_Output",
+    "target" : "UJUjZL0BRC1eaHXqbVNAR",
+    "targetPort" : "ysi79HC6GSOiaFFZuTmjS",
+    "isWireless" : false
+  }, {
+    "id" : "edge_1139",
+    "source" : "841_3118",
+    "sourcePort" : "841_3118_Output",
+    "target" : "847_3118",
+    "targetPort" : "847_3118_Input",
+    "isWireless" : false
+  } ],
+  "component" : "Model"
+}
