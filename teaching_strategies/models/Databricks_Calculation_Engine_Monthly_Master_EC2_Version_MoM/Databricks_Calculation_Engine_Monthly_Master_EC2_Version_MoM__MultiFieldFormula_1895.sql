@@ -88,8 +88,8 @@ Union_709 AS (
     prophecy_basics.UnionByName(
       ['Summarize_1072', 'AlteryxSelect_1073'], 
       [
-        '[{"name": "Quantity", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Order: Order", "dataType": "String"}, {"name": "Order: Opportunity: Renewed Contract: Order: Order", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "StartDate_Annualization", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Order: End Date (Calculated)", "dataType": "String"}, {"name": "Mas90 Customer Number", "dataType": "String"}, {"name": "Order: Activated Date", "dataType": "String"}, {"name": "TCV", "dataType": "Double"}, {"name": "Expected Renewal Date", "dataType": "Date"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "EndDate_Annualization", "dataType": "Date"}, {"name": "Order: Start Date", "dataType": "String"}]', 
-        '[{"name": "Quantity", "dataType": "Double"}, {"name": "StartDate_Annualization", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Mas90 Customer Number", "dataType": "String"}, {"name": "TCV", "dataType": "Double"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "EndDate_Annualization", "dataType": "Date"}]'
+        '[{"name": "TCV", "dataType": "Double"}, {"name": "Quantity", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Order: Order", "dataType": "String"}, {"name": "Order: Opportunity: Renewed Contract: Order: Order", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "StartDate_Annualization", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Order: End Date (Calculated)", "dataType": "String"}, {"name": "Mas90 Customer Number", "dataType": "String"}, {"name": "Order: Activated Date", "dataType": "String"}, {"name": "Expected Renewal Date", "dataType": "Date"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "EndDate_Annualization", "dataType": "Date"}, {"name": "Order: Start Date", "dataType": "String"}]', 
+        '[{"name": "Origin", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Mas90 Customer Number", "dataType": "String"}, {"name": "Quantity", "dataType": "Decimal(29, 9)"}, {"name": "StartDate_Annualization", "dataType": "Date"}, {"name": "EndDate_Annualization", "dataType": "Date"}, {"name": "TCV", "dataType": "Double"}, {"name": "Engine_ContractDays", "dataType": "Double"}]'
       ], 
       'allowMissingColumns'
     )
@@ -145,32 +145,32 @@ MultiFieldFormula_1895 AS (
       ['RecordID_3074'], 
       "CASE WHEN (isnull(column_value) OR (length(column_value) = 0)) THEN 'N/A' ELSE column_value END", 
       [
+        'RecordID', 
+        'CustomerName', 
+        'TCV', 
         'Quantity', 
         'Actual Closed Date', 
         'Order: Sales Order Number', 
-        'Sector', 
-        'Territory Name', 
         'Order: Order', 
-        'CustomerName', 
-        'variableType', 
         'Order: Opportunity: Renewed Contract: Order: Order', 
         'Created Date', 
         'StartDate_Annualization', 
         'Origin', 
         'Order: End Date (Calculated)', 
         'Order: Activated Date', 
-        'TCV', 
         'Expected Renewal Date', 
         'Product Code', 
-        'Account Owner', 
-        'Engine_ContractDays', 
         'Product', 
-        'State', 
-        'RecordID', 
         'Stage', 
-        'Partner Success Owner', 
         'EndDate_Annualization', 
-        'Order: Start Date'
+        'Order: Start Date', 
+        'Engine_ContractDays', 
+        'Sector', 
+        'Territory Name', 
+        'Account Owner', 
+        'State', 
+        'Partner Success Owner', 
+        'variableType'
       ], 
       ['Sector', 'variableType', 'Territory Name', 'State', 'Account Owner', 'Partner Success Owner'], 
       false, 

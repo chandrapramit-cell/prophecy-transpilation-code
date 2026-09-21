@@ -54,35 +54,23 @@ Filter_1970 AS (
 
 Filter_1969_reject AS (
 
+  {#Filters data to include all records from a related filter for analysis.#}
   SELECT * 
   
   FROM Filter_1970 AS in0
   
-  WHERE (
-          (isnull(Stage) OR isnull(not(isnull(Stage))))
-          AND (
-                NOT (((upper(Origin) = upper('Orders&OrdersProcessed')) AND (`ARR Period` > to_date(StaticHistoryMonth))))
-                OR isnull(
-                     ((upper(Origin) = upper('Orders&OrdersProcessed')) AND (`ARR Period` > to_date(StaticHistoryMonth))))
-              )
-        )
+  WHERE true
 
 ),
 
 Filter_1969 AS (
 
+  {#Pulls data from a nested filter for broad data retrieval.#}
   SELECT * 
   
   FROM Filter_1970 AS in0
   
-  WHERE (
-          NOT (isnull(Stage))
-          AND (
-                NOT (((upper(Origin) = upper('Orders&OrdersProcessed')) AND (`ARR Period` > to_date(StaticHistoryMonth))))
-                OR isnull(
-                     ((upper(Origin) = upper('Orders&OrdersProcessed')) AND (`ARR Period` > to_date(StaticHistoryMonth))))
-              )
-        )
+  WHERE true
 
 ),
 
@@ -107,12 +95,10 @@ RecordID_1986 AS (
 
 Formula_1971_0 AS (
 
+  {#Evaluates revenue potential for a record set while flagging open renewals and excluding tcv details.#}
   SELECT 
-    CAST(CASE
-      WHEN (`Open Renewal Flag` = 0)
-        THEN 0
-      ELSE TCV
-    END AS DOUBLE) AS TCV,
+    0 AS TCV,
+    false AS `Open Renewal Flag`,
     * EXCEPT (`tcv`)
   
   FROM RecordID_1986 AS in0
@@ -133,8 +119,8 @@ Union_2303 AS (
     prophecy_basics.UnionByName(
       ['Filter_1969_reject', 'AlteryxSelect_1987'], 
       [
-        '[{"name": "StaticHistoryYearEnd", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Sector", "dataType": "String"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Territory Name", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "variableType", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "TCV", "dataType": "Double"}, {"name": "Product Code", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Stage", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}]', 
-        '[{"name": "StaticHistoryYearEnd", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "RecordID2", "dataType": "Integer"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Sector", "dataType": "String"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Territory Name", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "variableType", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "TCV", "dataType": "Double"}, {"name": "Product Code", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}]'
+        '[{"name": "StaticHistoryYearEnd", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "CustomerName", "dataType": "String"}, {"name": "TCV", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Sector", "dataType": "String"}, {"name": "Territory Name", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "variableType", "dataType": "String"}]', 
+        '[{"name": "TCV", "dataType": "Integer"}, {"name": "Open Renewal Flag", "dataType": "Boolean"}, {"name": "RecordID2", "dataType": "Integer"}, {"name": "StaticHistoryYearEnd", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "CustomerName", "dataType": "String"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Sector", "dataType": "String"}, {"name": "Territory Name", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "variableType", "dataType": "String"}]'
       ], 
       'allowMissingColumns'
     )
@@ -234,7 +220,7 @@ GenerateRows_2300 AS (
   {{
     prophecy_basics.GenerateRows(
       ['Formula_2301_2'], 
-      '[{"name": "StaticHistoryYearEnd", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "RecordID2", "dataType": "Integer"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Sector", "dataType": "String"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Territory Name", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "variableType", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "ContractTermDays", "dataType": "Double"}, {"name": "ContractTermMonths", "dataType": "Double"}, {"name": "TCV", "dataType": "Double"}, {"name": "ARR", "dataType": "Double"}, {"name": "Product Code", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Stage", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}]', 
+      '[{"name": "ARR", "dataType": "Double"}, {"name": "ContractTermMonths", "dataType": "Double"}, {"name": "ContractTermDays", "dataType": "Double"}, {"name": "StaticHistoryYearEnd", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "CustomerName", "dataType": "String"}, {"name": "TCV", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Sector", "dataType": "String"}, {"name": "Territory Name", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "variableType", "dataType": "String"}, {"name": "Open Renewal Flag", "dataType": "Boolean"}, {"name": "RecordID2", "dataType": "Integer"}]', 
       'last_day(payload.ContractStartDate)', 
       '((ARRMonth <= payload.ContractEndDate) AND (ARRMonth <= concat(regexp_replace(regexp_replace(format_number(CAST(year(current_timestamp()) AS DOUBLE), 0), ",", "__THS__"), "__THS__", ""), "-12-31")))', 
       'last_day(add_months(ARRMonth, 1))', 
@@ -248,20 +234,12 @@ GenerateRows_2300 AS (
 
 Filter_1990_to_Filter_1995 AS (
 
+  {#Filters rows from 1990 to 1995 window without applying any specific conditions.#}
   SELECT * 
   
   FROM GenerateRows_2300 AS in0
   
-  WHERE (
-          (
-            (ARRMonth >= ContractStartDate)
-            AND (ARRMonth < to_date(substring(CAST(date_add(ContractEndDate, CAST(1 AS INT)) AS STRING), 1, 10)))
-          )
-          AND (
-                NOT (coalesce(contains(lower(Stage), lower('Closed')), false))
-                OR (`Actual Closed Date` > to_date(StaticHistoryMonth))
-              )
-        )
+  WHERE true
 
 ),
 
@@ -373,8 +351,8 @@ Union_1985 AS (
     prophecy_basics.UnionByName(
       ['Filter_1970_reject', 'Join_1988_inner'], 
       [
-        '[{"name": "StaticHistoryYearEnd", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Sector", "dataType": "String"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Territory Name", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "variableType", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "TCV", "dataType": "Double"}, {"name": "Product Code", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Stage", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}]', 
-        '[{"name": "StaticHistoryYearEnd", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "RecordID2", "dataType": "Integer"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Sector", "dataType": "String"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Territory Name", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "variableType", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "Right_Engine_ContractDays", "dataType": "Double"}, {"name": "TCV", "dataType": "Double"}, {"name": "Product Code", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Stage", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}]'
+        '[{"name": "StaticHistoryYearEnd", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "CustomerName", "dataType": "String"}, {"name": "TCV", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Sector", "dataType": "String"}, {"name": "Territory Name", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "variableType", "dataType": "String"}]', 
+        '[{"name": "Right_Engine_ContractDays", "dataType": "Double"}, {"name": "Open Renewal Flag", "dataType": "Boolean"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "RecordID2", "dataType": "Integer"}, {"name": "StaticHistoryYearEnd", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "CustomerName", "dataType": "String"}, {"name": "TCV", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "Sector", "dataType": "String"}, {"name": "Territory Name", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "variableType", "dataType": "String"}]'
       ], 
       'allowMissingColumns'
     )
@@ -384,11 +362,12 @@ Union_1985 AS (
 
 Filter_1981 AS (
 
+  {#Fetches all records from a union result without applying filters, for completeness or testing.#}
   SELECT * 
   
   FROM Union_1985 AS in0
   
-  WHERE (`Created Date` <= to_date(StaticHistoryMonth))
+  WHERE true
 
 ),
 
@@ -479,7 +458,7 @@ GenerateRows_1983 AS (
   {{
     prophecy_basics.GenerateRows(
       ['Formula_1982_2'], 
-      '[{"name": "StaticHistoryYearEnd", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "YetToRenewARR", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "RecordID2", "dataType": "Integer"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Sector", "dataType": "String"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Territory Name", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "variableType", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "ContractTermDays", "dataType": "Double"}, {"name": "Right_Engine_ContractDays", "dataType": "Double"}, {"name": "YetToRenewStart", "dataType": "Date"}, {"name": "ContractTermMonths", "dataType": "Double"}, {"name": "TCV", "dataType": "Double"}, {"name": "Product Code", "dataType": "String"}, {"name": "YetToRenewEnd", "dataType": "Date"}, {"name": "Account Owner", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Stage", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}]', 
+      '[{"name": "YetToRenewEnd", "dataType": "Date"}, {"name": "YetToRenewARR", "dataType": "Double"}, {"name": "ContractTermMonths", "dataType": "Double"}, {"name": "YetToRenewStart", "dataType": "Date"}, {"name": "ContractTermDays", "dataType": "Double"}, {"name": "StaticHistoryYearEnd", "dataType": "String"}, {"name": "ContractStartDate", "dataType": "Date"}, {"name": "ContractEndDate", "dataType": "Date"}, {"name": "ARR Period", "dataType": "Date"}, {"name": "Quantity", "dataType": "Double"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "CustomerName", "dataType": "String"}, {"name": "TCV", "dataType": "Double"}, {"name": "Actual Closed Date", "dataType": "Date"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Created Date", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "Engine_ContractDays", "dataType": "Double"}, {"name": "Sector", "dataType": "String"}, {"name": "Territory Name", "dataType": "String"}, {"name": "Account Owner", "dataType": "String"}, {"name": "State", "dataType": "String"}, {"name": "Partner Success Owner", "dataType": "String"}, {"name": "variableType", "dataType": "String"}, {"name": "Right_Engine_ContractDays", "dataType": "Double"}, {"name": "Open Renewal Flag", "dataType": "Boolean"}, {"name": "RecordID2", "dataType": "Integer"}]', 
       'last_day(payload.YetToRenewStart)', 
       '((YetToRenewMonth <= payload.YetToRenewEnd) AND (YetToRenewMonth <= concat(regexp_replace(regexp_replace(format_number(CAST(year(current_timestamp()) AS DOUBLE), 0), ",", "__THS__"), "__THS__", ""), "-12-31")))', 
       'last_day(add_months(YetToRenewMonth, 1))', 
@@ -837,21 +816,21 @@ MultiFieldFormula_1958 AS (
       ['Formula_1957_1'], 
       "CASE WHEN CAST(isnull(column_value) AS BOOLEAN) THEN 'Other' WHEN (isnull(column_value) OR (length(column_value) = 0)) THEN 'Other' WHEN (upper(column_value) = upper('N/A')) THEN 'Other' ELSE column_value END", 
       [
-        'StaticHistoryYearEnd', 
+        'MRR', 
+        'ARR', 
+        'Product', 
+        'RevMonth', 
         'Quantity', 
+        'StaticHistoryYearEnd', 
         'YetToRenewARR', 
         'Sector', 
         'Territory Name', 
         'CustomerName', 
-        'variableType', 
-        'RevMonth', 
-        'ARR', 
         'Account Size', 
         'Account Owner', 
-        'Product', 
         'State', 
         'Partner Success Owner', 
-        'MRR'
+        'variableType'
       ], 
       ['Sector', 'variableType', 'Territory Name', 'State', 'Account Owner', 'Partner Success Owner'], 
       false, 

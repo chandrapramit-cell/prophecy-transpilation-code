@@ -176,8 +176,8 @@ Union_1132 AS (
     prophecy_basics.UnionByName(
       ['Join_1012_left', 'Join_1131_inner'], 
       [
-        '[{"name": "Original_StartDate_Annualization", "dataType": "Date"}, {"name": "Order: Account Name: Mas90 Customer Number", "dataType": "String"}, {"name": "Sum_Quantity", "dataType": "Double"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Product Code", "dataType": "String"}, {"name": "Orders ACV", "dataType": "Double"}, {"name": "Original_EndDate_Annualization", "dataType": "Date"}, {"name": "Product", "dataType": "String"}]', 
-        '[{"name": "Original_StartDate_Annualization", "dataType": "Date"}, {"name": "Order: Account Name: Mas90 Customer Number", "dataType": "String"}, {"name": "Sum_Quantity", "dataType": "Double"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Product Code", "dataType": "String"}, {"name": "Orders ACV", "dataType": "Double"}, {"name": "Original_EndDate_Annualization", "dataType": "Date"}, {"name": "Product", "dataType": "String"}]'
+        '[{"name": "Sum_Quantity", "dataType": "Decimal(29, 9)"}, {"name": "Orders ACV", "dataType": "Double"}, {"name": "Order: Account Name: Mas90 Customer Number", "dataType": "String"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Original_StartDate_Annualization", "dataType": "Date"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Original_EndDate_Annualization", "dataType": "Date"}]', 
+        '[{"name": "Sum_Quantity", "dataType": "Decimal(29, 9)"}, {"name": "Orders ACV", "dataType": "Double"}, {"name": "Order: Account Name: Mas90 Customer Number", "dataType": "String"}, {"name": "Order: Sales Order Number", "dataType": "String"}, {"name": "Original_StartDate_Annualization", "dataType": "Date"}, {"name": "Product Code", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Original_EndDate_Annualization", "dataType": "Date"}]'
       ], 
       'allowMissingColumns'
     )

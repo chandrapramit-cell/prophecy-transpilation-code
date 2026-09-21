@@ -693,12 +693,7 @@ DynamicRename_2743 AS (
       ], 
       'Suffix', 
       '', 
-      "
-      CASE
-        WHEN column_name LIKE 'Right_%' THEN SUBSTRING(column_name, LENGTH('Right_') + 1, LENGTH(column_name) - LENGTH('Right_'))
-        ELSE column_name
-      END
-      "
+      "\nCASE\n  WHEN column_name LIKE 'Right_%' THEN SUBSTRING(column_name, LENGTH('Right_') + 1, LENGTH(column_name) - LENGTH('Right_'))\n  ELSE column_name\nEND\n"
     )
   }}
 
@@ -1642,12 +1637,7 @@ DynamicRename_2754 AS (
       ], 
       'Suffix', 
       '', 
-      "
-      CASE
-        WHEN column_name LIKE 'Right_%' THEN SUBSTRING(column_name, LENGTH('Right_') + 1, LENGTH(column_name) - LENGTH('Right_'))
-        ELSE column_name
-      END
-      "
+      "\nCASE\n  WHEN column_name LIKE 'Right_%' THEN SUBSTRING(column_name, LENGTH('Right_') + 1, LENGTH(column_name) - LENGTH('Right_'))\n  ELSE column_name\nEND\n"
     )
   }}
 

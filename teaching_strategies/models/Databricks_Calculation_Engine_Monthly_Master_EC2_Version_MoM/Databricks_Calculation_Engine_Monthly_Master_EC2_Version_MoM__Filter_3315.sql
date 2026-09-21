@@ -96,6 +96,7 @@ Formula_3309_to_Formula_3314_0 AS (
 
 Formula_3309_to_Formula_3314_1 AS (
 
+  {#Calculates refined financial projections from contract terms and term-based conversions while preparing renewal and product data for next-year forecasting.#}
   SELECT 
     CAST((
       CASE
@@ -132,6 +133,7 @@ Formula_3309_to_Formula_3314_1 AS (
     CAST((SUBSTRING(CAST(`Expected Renewal Date` AS string), 1, 4)) AS string) AS `Expected Year Renewals`,
     CAST(UPPER(`Product Code`) AS string) AS `Product Code`,
     CAST((SUBSTRING(CAST(ContractStartDate AS string), 1, 4)) AS string) AS `Expected Year Renewals Quote`,
+    '1' AS `Next Year`,
     * EXCEPT (`product code`)
   
   FROM Formula_3309_to_Formula_3314_0 AS in0

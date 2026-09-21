@@ -71,11 +71,12 @@ Formula_2598 AS (
 
 Filter_2580 AS (
 
+  {#Returns all records from Formula_2598 without filtering.#}
   SELECT * 
   
   FROM Formula_2598 AS in0
   
-  WHERE (Original_StartDate_Annualization >= to_date(`Start of Current Month`))
+  WHERE true
 
 )
 

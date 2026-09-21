@@ -1029,7 +1029,8 @@ with Pipeline(args) as pipeline:
           properties = DatabricksVolumeTarget.DatabricksVolumeTargetInternal(
             filePath = "C:\\Users\\Public\\Calculation Engine\\Calculation Engine - Monthly_Master - EC2 Version\\Outputs\\Open Renewals_DB.csv"
           ),
-          format = DatabricksVolumeTarget.CsvWriteFormat()
+          format = DatabricksVolumeTarget.CsvWriteFormat(),
+          compression = DatabricksVolumeTarget.Compression(kind = "uncompressed")
         ),
         output_ports = None
     )
@@ -1129,24 +1130,24 @@ with Pipeline(args) as pipeline:
     test_1949 = Process(
         name = "Test_1949",
         properties = Script(
-          scriptMethodHeader = "def Script(spark: SparkSession, in0: Dataframe) -> (Dataframe):",
-          scriptMethodFooter = "return (out0)",
+          scriptMethodHeader = "def Script(spark: SparkSession, in0: DataFrame) -> DataFrame:",
+          scriptMethodFooter = "return out0",
           script = "assert ( in0.count()  == 0 )"
         )
     )
     test_2308 = Process(
         name = "Test_2308",
         properties = Script(
-          scriptMethodHeader = "def Script(spark: SparkSession, in0: Dataframe) -> (Dataframe):",
-          scriptMethodFooter = "return (out0)",
+          scriptMethodHeader = "def Script(spark: SparkSession, in0: DataFrame) -> DataFrame:",
+          scriptMethodFooter = "return out0",
           script = "assert ( in0.count()  == 0 )"
         )
     )
     test_2443 = Process(
         name = "Test_2443",
         properties = Script(
-          scriptMethodHeader = "def Script(spark: SparkSession, in0: Dataframe) -> (Dataframe):",
-          scriptMethodFooter = "return (out0)",
+          scriptMethodHeader = "def Script(spark: SparkSession, in0: DataFrame) -> DataFrame:",
+          scriptMethodFooter = "return out0",
           script = "assert ( in0.count()  == 0 )"
         )
     )
@@ -1256,11 +1257,12 @@ with Pipeline(args) as pipeline:
     yettorenewarr_d_3263 = Process(
         name = "YettoRenewARR_D_3263",
         properties = DatabricksVolumeTarget(
+          compression = DatabricksVolumeTarget.Compression(kind = "uncompressed"),
           connector = "databricks_default",
+          format = DatabricksVolumeTarget.CsvWriteFormat(),
           properties = DatabricksVolumeTarget.DatabricksVolumeTargetInternal(
             filePath = "C:\\Users\\Public\\Calculation Engine\\Calculation Engine - Monthly_Master - EC2 Version\\Outputs\\Yet to Renew ARR_DB.csv"
-          ),
-          format = DatabricksVolumeTarget.CsvWriteFormat()
+          )
         ),
         output_ports = None
     )

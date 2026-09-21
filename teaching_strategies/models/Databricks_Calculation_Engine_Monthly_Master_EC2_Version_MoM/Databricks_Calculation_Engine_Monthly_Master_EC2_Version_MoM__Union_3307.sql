@@ -121,7 +121,10 @@ Formula_3282 AS (
 
 AlteryxSelect_3283 AS (
 
-  SELECT *
+  {#Returns a single fixed date record alongside all fields from Formula_3282 for data augmentation.#}
+  SELECT 
+    '1' AS Date,
+    *
   
   FROM Formula_3282 AS in0
 
@@ -139,12 +142,14 @@ CrossTab_3284_sanitize_0 AS (
 
 CrossTab_3284 AS (
 
+  {#Consolidates multiple metrics into a single view by pivoting yearly amounts and counts for each product stage and date.#}
   SELECT *
   
   FROM (
     SELECT 
       Product,
       Stage,
+      Date,
       Name,
       VALUE
     
@@ -169,6 +174,7 @@ CrossTab_3284 AS (
 
 Transpose_3285_cast_to_string AS (
 
+  {#Converts numeric yearly amount and count fields to text for the cross-tabulated product data.#}
   SELECT 
     CAST(`2023_Amount` AS STRING) AS `2023_Amount`,
     CAST(`2023_Count` AS STRING) AS `2023_Count`,
@@ -178,9 +184,9 @@ Transpose_3285_cast_to_string AS (
     CAST(`2025_Count` AS STRING) AS `2025_Count`,
     CAST(`2026_Amount` AS STRING) AS `2026_Amount`,
     CAST(`2026_Count` AS STRING) AS `2026_Count`,
-    CAST(variableDate AS string) AS variableDate,
     Product AS Product,
-    Stage AS Stage
+    Stage AS Stage,
+    Date AS Date
   
   FROM CrossTab_3284 AS in0
 
@@ -188,10 +194,11 @@ Transpose_3285_cast_to_string AS (
 
 Transpose_3285 AS (
 
+  {#Transforms wide product-stage-date data into a row-based format to analyze amounts and counts across multiple years.#}
   SELECT 
     Product,
     Stage,
-    variableDate,
+    Date,
     Name,
     Value
   
@@ -199,7 +206,6 @@ Transpose_3285 AS (
   UNPIVOT INCLUDE NULLS (
     Value
     FOR Name IN (
-      variableDate, 
       `2023_Amount`, 
       `2023_Count`, 
       `2024_Amount`, 
@@ -298,16 +304,17 @@ AlteryxSelect_3288 AS (
 
 Summarize_3303 AS (
 
+  {#Summarizes ARR amount, counts, and grouping by product and date for analysis.#}
   SELECT 
     SUM(`ARR Amount`) AS `ARR Amount`,
     SUM(Count) AS `Count`,
     Product AS Product,
-    variableDate AS variableDate
+    Date AS Date
   
   FROM AlteryxSelect_3288 AS in0
   
   GROUP BY 
-    Product, variableDate
+    Product, Date
 
 ),
 
@@ -327,8 +334,8 @@ Union_3326 AS (
     prophecy_basics.UnionByName(
       ['AlteryxSelect_3288', 'Formula_3327_0'], 
       [
-        '[{"name": "variableDate", "dataType": "Date"}, {"name": "ARR Amount", "dataType": "Double"}, {"name": "Count", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}]', 
-        '[{"name": "variableDate", "dataType": "Date"}, {"name": "ARR Amount", "dataType": "Double"}, {"name": "Count", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}]'
+        '[{"name": "ARR Amount", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "Date", "dataType": "String"}, {"name": "Count", "dataType": "Double"}]', 
+        '[{"name": "Stage", "dataType": "String"}, {"name": "ARR Amount", "dataType": "Double"}, {"name": "Count", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "Date", "dataType": "String"}]'
       ], 
       'allowMissingColumns'
     )
@@ -366,13 +373,14 @@ TextInput_3324_cast AS (
 
 AlteryxSelect_3306 AS (
 
+  {#Aggregates a filtered dataset into a new view, preserving key fields and including remaining attributes for comprehensive analysis.#}
   SELECT 
     Stage AS Stage,
     Product AS Product,
-    variableDate AS variableDate,
+    `Date` AS `Date`,
     `ARR Amount` AS `ARR Amount`,
     Count AS `Count`,
-    * EXCEPT (`Stage`, `Product`, `variableDate`, `ARR Amount`, `Count`)
+    * EXCEPT (`Stage`, `Product`, `Date`, `ARR Amount`, `Count`)
   
   FROM Filter_3265 AS in0
 
@@ -380,13 +388,14 @@ AlteryxSelect_3306 AS (
 
 Join_3264_inner AS (
 
+  {#Combines cleaned product data with related input attributes to produce a consolidated dataset for analysis.#}
   SELECT 
     in1.`Clean Product` AS Product,
-    in0.variableDate AS variableDate,
+    in0.`Date` AS `Date`,
     in0.Stage AS Stage,
     in0.`ARR Amount` AS `ARR Amount`,
     in0.Count AS `Count`,
-    in0.* EXCEPT (`Product`, `variableDate`, `Stage`, `ARR Amount`, `Count`),
+    in0.* EXCEPT (`Product`, `Date`, `Stage`, `ARR Amount`, `Count`),
     in1.* EXCEPT (`Clean Product`, `Product`)
   
   FROM AlteryxSelect_3306 AS in0
@@ -397,11 +406,12 @@ Join_3264_inner AS (
 
 Filter_3325 AS (
 
+  {#Filters recent records from a joined dataset to include only entries after 2023-11-30.#}
   SELECT * 
   
   FROM Join_3264_inner AS in0
   
-  WHERE (variableDate > to_date('2023-11-30'))
+  WHERE (`Date` > '2023-11-30')
 
 ),
 
@@ -493,8 +503,8 @@ Union_3307 AS (
     prophecy_basics.UnionByName(
       ['Formula_3317_0', 'Formula_3322_0'], 
       [
-        '[{"name": "variableDate", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "ARR Amount", "dataType": "Double"}, {"name": "Count", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}]', 
-        '[{"name": "variableDate", "dataType": "Date"}, {"name": "Origin", "dataType": "String"}, {"name": "ARR Amount", "dataType": "Double"}, {"name": "Count", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}]'
+        '[{"name": "Origin", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Date", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "ARR Amount", "dataType": "Double"}, {"name": "Count", "dataType": "Double"}]', 
+        '[{"name": "Origin", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "variableDate", "dataType": "Date"}, {"name": "Stage", "dataType": "String"}, {"name": "ARR Amount", "dataType": "Double"}, {"name": "Count", "dataType": "Double"}]'
       ], 
       'allowMissingColumns'
     )

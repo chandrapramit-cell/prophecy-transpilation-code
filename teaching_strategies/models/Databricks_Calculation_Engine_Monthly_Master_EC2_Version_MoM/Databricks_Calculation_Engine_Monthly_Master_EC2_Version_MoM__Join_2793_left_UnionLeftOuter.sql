@@ -24,11 +24,12 @@ Summarize_2780 AS (
 
 Filter_2807 AS (
 
+  {#Filters a pre-joined dataset to keep all records, preserving rows from the left-side join.#}
   SELECT * 
   
   FROM Join_2786_left_UnionLeftOuter AS in0
   
-  WHERE ((RevMonth >= First_NonZeroRevMonth) OR (to_date(`Previous Period`) <= Last_NonZeroRevMonth))
+  WHERE true
 
 ),
 

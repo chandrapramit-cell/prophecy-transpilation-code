@@ -190,8 +190,8 @@ Union_835 AS (
     prophecy_basics.UnionByName(
       ['Formula_837_0', 'Formula_841_0'], 
       [
-        '[{"name": "Order: Account Name: Mas90 Customer Number", "dataType": "String"}, {"name": "Order: End Date (Calculated)", "dataType": "String"}, {"name": "Order: Activated Date", "dataType": "String"}, {"name": "Start Date - 1", "dataType": "Date"}, {"name": "Promotion Flag", "dataType": "Boolean"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Order: Start Date", "dataType": "String"}]', 
-        '[{"name": "Order: Account Name: Mas90 Customer Number", "dataType": "String"}, {"name": "Order: End Date (Calculated)", "dataType": "String"}, {"name": "Order: Activated Date", "dataType": "String"}, {"name": "Start Date - 1", "dataType": "Date"}, {"name": "Promotion Flag", "dataType": "Boolean"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Order: Start Date", "dataType": "String"}]'
+        '[{"name": "Promotion Flag", "dataType": "Boolean"}, {"name": "Order: Account Name: Mas90 Customer Number", "dataType": "String"}, {"name": "Order: End Date (Calculated)", "dataType": "Date"}, {"name": "Order: Activated Date", "dataType": "Date"}, {"name": "Start Date - 1", "dataType": "Date"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Order: Start Date", "dataType": "Date"}]', 
+        '[{"name": "Promotion Flag", "dataType": "Boolean"}, {"name": "Order: Account Name: Mas90 Customer Number", "dataType": "String"}, {"name": "Order: End Date (Calculated)", "dataType": "Date"}, {"name": "Order: Activated Date", "dataType": "Date"}, {"name": "Start Date - 1", "dataType": "Date"}, {"name": "RecordID", "dataType": "Integer"}, {"name": "Order: Start Date", "dataType": "Date"}]'
       ], 
       'allowMissingColumns'
     )

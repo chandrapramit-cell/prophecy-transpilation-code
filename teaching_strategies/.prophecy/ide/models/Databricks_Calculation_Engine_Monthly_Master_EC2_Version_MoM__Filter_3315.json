@@ -28,10 +28,9 @@
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "3315_Input##Expected Year Renewals", "3315_Input##Next Year" ],
         "condition" : {
-          "expression" : "(`Expected Year Renewals` < `Next Year`)",
-          "_row_id" : null
+          "expression" : "(`Expected Year Renewals` < `Next Year`)"
         }
       },
       "ports" : {
@@ -58,10 +57,9 @@
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "3311_Input##ContractStartDate", "3311_Input##ContractEndDate" ],
         "condition" : {
-          "expression" : "((NOT (ContractStartDate IS NULL)) AND (NOT (ContractEndDate IS NULL)))",
-          "_row_id" : null
+          "expression" : "((NOT (ContractStartDate IS NULL)) AND (NOT (ContractEndDate IS NULL)))"
         }
       },
       "ports" : {
@@ -85,58 +83,54 @@
         "label" : "Formula_3309_to_Formula_3314_1",
         "x" : 860,
         "y" : 120,
-        "phase" : 0
+        "phase" : 0,
+        "comment" : "Calculates refined financial projections from contract terms and term-based conversions while preparing renewal and product data for next-year forecasting.",
+        "autoUpdateComment" : true
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "HtS4yj2hGilyK74wT5m6Q##ContractTermDays", "HtS4yj2hGilyK74wT5m6Q##TCV", "HtS4yj2hGilyK74wT5m6Q##Expected Renewal Date", "HtS4yj2hGilyK74wT5m6Q##Product Code", "HtS4yj2hGilyK74wT5m6Q##ContractStartDate" ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "CAST((CASE WHEN (ContractTermDays <= 0) THEN 0 ELSE ((CASE WHEN (((((TCV / ContractTermDays) * 365.25) / 0.01) < 0) AND (((((TCV / ContractTermDays) * 365.25) / 0.01) - FLOOR((((TCV / ContractTermDays) * 365.25) / 0.01))) = 0.5)) THEN CEIL((((TCV / ContractTermDays) * 365.25) / 0.01)) ELSE ROUND((((TCV / ContractTermDays) * 365.25) / 0.01)) END) * 0.01) END) AS DOUBLE)",
-            "_row_id" : null
+            "expression" : "CAST((CASE WHEN (ContractTermDays <= 0) THEN 0 ELSE ((CASE WHEN (((((TCV / ContractTermDays) * 365.25) / 0.01) < 0) AND (((((TCV / ContractTermDays) * 365.25) / 0.01) - FLOOR((((TCV / ContractTermDays) * 365.25) / 0.01))) = 0.5)) THEN CEIL((((TCV / ContractTermDays) * 365.25) / 0.01)) ELSE ROUND((((TCV / ContractTermDays) * 365.25) / 0.01)) END) * 0.01) END) AS DOUBLE)"
           },
           "alias" : "ARR",
-          "description" : null,
           "_row_id" : "591xQdjsGoKpGP-tX5MD0"
         }, {
           "expression" : {
-            "expression" : "CAST(((CASE WHEN ((((ContractTermDays / 30.4375) / 0.1) < 0) AND ((((ContractTermDays / 30.4375) / 0.1) - FLOOR(((ContractTermDays / 30.4375) / 0.1))) = 0.5)) THEN CEIL(((ContractTermDays / 30.4375) / 0.1)) ELSE ROUND(((ContractTermDays / 30.4375) / 0.1)) END) * 0.1) AS DOUBLE)",
-            "_row_id" : null
+            "expression" : "CAST(((CASE WHEN ((((ContractTermDays / 30.4375) / 0.1) < 0) AND ((((ContractTermDays / 30.4375) / 0.1) - FLOOR(((ContractTermDays / 30.4375) / 0.1))) = 0.5)) THEN CEIL(((ContractTermDays / 30.4375) / 0.1)) ELSE ROUND(((ContractTermDays / 30.4375) / 0.1)) END) * 0.1) AS DOUBLE)"
           },
           "alias" : "ContractTermMonths",
-          "description" : null,
           "_row_id" : "j3eeGltrSQpKeegMil7my"
         }, {
           "expression" : {
-            "expression" : "CAST((SUBSTRING( CAST(`Expected Renewal Date` AS string), 1, 4)) AS string)",
-            "_row_id" : null
+            "expression" : "CAST((SUBSTRING( CAST(`Expected Renewal Date` AS string), 1, 4)) AS string)"
           },
           "alias" : "`Expected Year Renewals`",
-          "description" : null,
           "_row_id" : "sjOR9nsHn0ATsJ7qDArSj"
         }, {
           "expression" : {
-            "expression" : "CAST(UPPER(`Product Code`) AS string)",
-            "_row_id" : null
+            "expression" : "CAST(UPPER(`Product Code`) AS string)"
           },
           "alias" : "`Product Code`",
-          "description" : null,
           "_row_id" : "SkMRvjsJBaXC0OEaD-iQf"
         }, {
           "expression" : {
-            "expression" : "CAST((SUBSTRING( CAST(ContractStartDate AS string), 1, 4)) AS string)",
-            "_row_id" : null
+            "expression" : "CAST((SUBSTRING( CAST(ContractStartDate AS string), 1, 4)) AS string)"
           },
           "alias" : "`Expected Year Renewals Quote`",
-          "description" : null,
           "_row_id" : "Cb3Doh5ws885tmDjA5Ohu"
         }, {
           "expression" : {
-            "expression" : "* EXCEPT(`product code`)",
-            "_row_id" : null
+            "expression" : "'1'"
           },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "alias" : "`Next Year`",
+          "_row_id" : "BTRTd8XnIL"
+        }, {
+          "expression" : {
+            "expression" : "* EXCEPT(`product code`)"
+          },
+          "alias" : "",
+          "_row_id" : "HMe72Otlg5"
         } ]
       },
       "ports" : {
@@ -168,8 +162,42 @@
         "method" : "incremental_id",
         "relation_name" : [ "Filter_3311" ],
         "generationMethod" : "tableLevel",
+        "_oldMacroProperties" : {
+          "macroName" : "RecordID",
+          "projectName" : "prophecy_basics",
+          "parameters" : [ {
+            "name" : "relation_name",
+            "value" : "[\"Filter_3311\"]"
+          }, {
+            "name" : "method",
+            "value" : "incremental_id"
+          }, {
+            "name" : "incremental_id_column_name",
+            "value" : "RecordID"
+          }, {
+            "name" : "incremental_id_type",
+            "value" : "integer"
+          }, {
+            "name" : "incremental_id_size",
+            "value" : "6"
+          }, {
+            "name" : "incremental_id_starting_val",
+            "value" : "1"
+          }, {
+            "name" : "generationMethod",
+            "value" : "tableLevel"
+          }, {
+            "name" : "position",
+            "value" : "first_column"
+          }, {
+            "name" : "groupByColumnNames",
+            "value" : "[]"
+          }, {
+            "name" : "orders",
+            "value" : "[]"
+          } ]
+        },
         "incremental_id_column_name" : "RecordID",
-        "schema" : "[{\"name\": \"Quantity\", \"dataType\": \"Double\"}, {\"name\": \"Actual Closed Date\", \"dataType\": \"Date\"}, {\"name\": \"Order: Sales Order Number\", \"dataType\": \"String\"}, {\"name\": \"Created Date\", \"dataType\": \"Date\"}, {\"name\": \"Origin\", \"dataType\": \"String\"}, {\"name\": \"ContractEndDate\", \"dataType\": \"Date\"}, {\"name\": \"Order: End Date (Calculated)\", \"dataType\": \"Date\"}, {\"name\": \"Mas90 Customer Number\", \"dataType\": \"String\"}, {\"name\": \"ACV\", \"dataType\": \"Double\"}, {\"name\": \"TCV\", \"dataType\": \"Double\"}, {\"name\": \"Expected Renewal Date\", \"dataType\": \"Date\"}, {\"name\": \"Product Code\", \"dataType\": \"String\"}, {\"name\": \"Product\", \"dataType\": \"String\"}, {\"name\": \"Stage\", \"dataType\": \"String\"}, {\"name\": \"Order: Start Date\", \"dataType\": \"Date\"}, {\"name\": \"ContractStartDate\", \"dataType\": \"Date\"}]",
         "orders" : [ ],
         "position" : "first_column",
         "incremental_id_size" : 6,
@@ -199,10 +227,9 @@
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "3260_Input##Stage" ],
         "condition" : {
-          "expression" : "not(contains(Stage, 'Close'))",
-          "_row_id" : null
+          "expression" : "not(contains(Stage, 'Close'))"
         }
       },
       "ports" : {
@@ -259,23 +286,18 @@
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "a75SOZrTVU4OhoOiTxjGb##Product Code" ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "CAST(UPPER(`Product Code`) AS string)",
-            "_row_id" : null
+            "expression" : "CAST(UPPER(`Product Code`) AS string)"
           },
           "alias" : "`Product Code`",
-          "description" : null,
           "_row_id" : "m7gK5BDp2X8UY_lAsP4qX"
         }, {
           "expression" : {
-            "expression" : "* EXCEPT(`product code`)",
-            "_row_id" : null
+            "expression" : "* EXCEPT(`product code`)"
           },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "_row_id" : "1953031014"
         } ]
       },
       "ports" : {
@@ -302,23 +324,18 @@
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "Vdpsz8cr4emVaTrYvYSaK##ContractStartDate", "Vdpsz8cr4emVaTrYvYSaK##ContractEndDate" ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "CAST(CASE\n  WHEN ((ContractStartDate <= to_date('2016-02-28')) AND (ContractEndDate >= to_date('2016-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2020-02-28')) AND (ContractEndDate >= to_date('2020-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2024-02-28')) AND (ContractEndDate >= to_date('2024-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2028-02-28')) AND (ContractEndDate >= to_date('2028-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  ELSE (CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT) + 1)\nEND AS DOUBLE)",
-            "_row_id" : null
+            "expression" : "CAST(CASE\n  WHEN ((ContractStartDate <= to_date('2016-02-28')) AND (ContractEndDate >= to_date('2016-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2020-02-28')) AND (ContractEndDate >= to_date('2020-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2024-02-28')) AND (ContractEndDate >= to_date('2024-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  WHEN ((ContractStartDate <= to_date('2028-02-28')) AND (ContractEndDate >= to_date('2028-02-29')))\n    THEN CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT)\n  ELSE (CAST(datediff(to_date(ContractEndDate), to_date(ContractStartDate)) AS INT) + 1)\nEND AS DOUBLE)"
           },
           "alias" : "ContractTermDays",
-          "description" : null,
           "_row_id" : "8GnGgHGvx0LXefgbpBww6"
         }, {
           "expression" : {
-            "expression" : "*",
-            "_row_id" : null
+            "expression" : "*"
           },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "_row_id" : "1733525417"
         } ]
       },
       "ports" : {
@@ -345,31 +362,24 @@
         "phase" : 0
       },
       "properties" : {
-        "columnsSelector" : [ ],
+        "columnsSelector" : [ "3310_Input##StartDate_Annualization", "3310_Input##EndDate_Annualization" ],
         "expressions" : [ {
           "expression" : {
-            "expression" : "StartDate_Annualization",
-            "_row_id" : null
+            "expression" : "StartDate_Annualization"
           },
           "alias" : "ContractStartDate",
-          "description" : null,
           "_row_id" : "BVppgVyRBciwaAb6fck-Z"
         }, {
           "expression" : {
-            "expression" : "EndDate_Annualization",
-            "_row_id" : null
+            "expression" : "EndDate_Annualization"
           },
           "alias" : "ContractEndDate",
-          "description" : null,
           "_row_id" : "gdezT1dErGnjLhQEOaYFt"
         }, {
           "expression" : {
-            "expression" : "* EXCEPT(`StartDate_Annualization`, `EndDate_Annualization`)",
-            "_row_id" : null
+            "expression" : "* EXCEPT(`StartDate_Annualization`, `EndDate_Annualization`)"
           },
-          "alias" : null,
-          "description" : null,
-          "_row_id" : null
+          "_row_id" : "1446148445"
         } ]
       },
       "ports" : {

@@ -67,8 +67,8 @@ Union_3297 AS (
     prophecy_basics.UnionByName(
       ['Summarize_3270', 'Formula_3296_0'], 
       [
-        '[{"name": "Expected Year Renewals", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "CountDistinct_Mas90 Customer Number", "dataType": "Double"}]', 
-        '[{"name": "Expected Year Renewals", "dataType": "String"}, {"name": "Stage", "dataType": "String"}, {"name": "CountDistinct_Mas90 Customer Number", "dataType": "Double"}, {"name": "Product", "dataType": "String"}]'
+        '[{"name": "CountDistinct_Mas90 Customer Number", "dataType": "Bigint"}, {"name": "Expected Year Renewals", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "Stage", "dataType": "String"}]', 
+        '[{"name": "Product", "dataType": "String"}, {"name": "CountDistinct_Mas90 Customer Number", "dataType": "Bigint"}, {"name": "Expected Year Renewals", "dataType": "String"}, {"name": "Stage", "dataType": "String"}]'
       ], 
       'allowMissingColumns'
     )

@@ -32,12 +32,13 @@ Formula_1192 AS (
 
 GenerateRows_1189 AS (
 
+  {#Generates up to 100 rows to support iterative data preparation for the next stage.#}
   {{
     prophecy_basics.GenerateRows(
       ['Formula_1192'], 
       '[{"name": "Placeholder", "dataType": "String"}]', 
       '1', 
-      '(RowCount <= payload.`Number of Periods`)', 
+      '(RowCount <= 1000)', 
       '(RowCount + 1)', 
       'RowCount', 
       '100', 
@@ -153,8 +154,8 @@ Union_1195 AS (
     prophecy_basics.UnionByName(
       ['Union_1195_reformat_1', 'Union_1195_reformat_0'], 
       [
-        '[{"name": "SubCustSeg5", "dataType": "String"}, {"name": "Volume", "dataType": "Double"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}, {"name": "Customer Segment", "dataType": "String"}, {"name": "RevMonth", "dataType": "Date"}, {"name": "Revenue", "dataType": "Double"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "YetToRenew", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}]', 
-        '[{"name": "SubCustSeg5", "dataType": "String"}, {"name": "Volume", "dataType": "Double"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}, {"name": "Customer Segment", "dataType": "String"}, {"name": "RevMonth", "dataType": "Date"}, {"name": "Revenue", "dataType": "Decimal"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}]'
+        '[{"name": "Customer Segment", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "RevMonth", "dataType": "Date"}, {"name": "Revenue", "dataType": "Double"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "SubCustSeg5", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}, {"name": "Volume", "dataType": "Double"}, {"name": "YetToRenew", "dataType": "Double"}]', 
+        '[{"name": "Customer Segment", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "RevMonth", "dataType": "Date"}, {"name": "Revenue", "dataType": "Double"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "SubCustSeg5", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}, {"name": "Volume", "dataType": "Double"}]'
       ], 
       'allowMissingColumns'
     )
@@ -275,7 +276,7 @@ Sample_1496 AS (
   {{
     prophecy_basics.Sample(
       ['Filter_1497'], 
-      '[{"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}, {"name": "Sum_Revenue", "dataType": "Double"}]', 
+      '[{"name": "Sum_Revenue", "dataType": "Double"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}]', 
       'sampleGroup', 
       ['CustomerName'], 
       1002, 
@@ -319,7 +320,7 @@ Sample_1508 AS (
   {{
     prophecy_basics.Sample(
       ['Filter_1509'], 
-      '[{"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg5", "dataType": "String"}, {"name": "Sum_Revenue", "dataType": "Double"}]', 
+      '[{"name": "Sum_Revenue", "dataType": "Double"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg5", "dataType": "String"}]', 
       'sampleGroup', 
       ['CustomerName'], 
       1002, 
@@ -363,7 +364,7 @@ Sample_1504 AS (
   {{
     prophecy_basics.Sample(
       ['Filter_1505'], 
-      '[{"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "Sum_Revenue", "dataType": "Double"}]', 
+      '[{"name": "Sum_Revenue", "dataType": "Double"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg4", "dataType": "String"}]', 
       'sampleGroup', 
       ['CustomerName'], 
       1002, 
@@ -407,7 +408,7 @@ Sample_1488 AS (
   {{
     prophecy_basics.Sample(
       ['Filter_1489'], 
-      '[{"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "Sum_Revenue", "dataType": "Double"}]', 
+      '[{"name": "Sum_Revenue", "dataType": "Double"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg1", "dataType": "String"}]', 
       'sampleGroup', 
       ['CustomerName'], 
       1002, 
@@ -451,7 +452,7 @@ Sample_1500 AS (
   {{
     prophecy_basics.Sample(
       ['Filter_1501'], 
-      '[{"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "Sum_Revenue", "dataType": "Double"}]', 
+      '[{"name": "Sum_Revenue", "dataType": "Double"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg3", "dataType": "String"}]', 
       'sampleGroup', 
       ['CustomerName'], 
       1002, 
@@ -495,7 +496,7 @@ Sample_1514 AS (
   {{
     prophecy_basics.Sample(
       ['Filter_1515'], 
-      '[{"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}, {"name": "Sum_Revenue", "dataType": "Double"}]', 
+      '[{"name": "Sum_Revenue", "dataType": "Double"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}]', 
       'sampleGroup', 
       ['CustomerName'], 
       1002, 
@@ -549,13 +550,13 @@ MultiFieldFormula_1511 AS (
       ['JoinMultiple_1510'], 
       "CASE WHEN CAST(isnull(column_value) AS BOOLEAN) THEN 'Other' WHEN (isnull(column_value) OR (length(column_value) = 0)) THEN 'Other' ELSE column_value END", 
       [
+        'SubCustSeg2', 
         'SubCustSeg5', 
-        'SubCustSeg1', 
-        'CustomerName', 
-        'SubCustSeg6', 
-        'SubCustSeg3', 
         'SubCustSeg4', 
-        'SubCustSeg2'
+        'CustomerName', 
+        'SubCustSeg3', 
+        'SubCustSeg1', 
+        'SubCustSeg6'
       ], 
       ['SubCustSeg1', 'SubCustSeg2', 'SubCustSeg3', 'SubCustSeg4', 'SubCustSeg5', 'SubCustSeg6'], 
       false, 
@@ -595,19 +596,19 @@ MultiFieldFormula_1491 AS (
       ['Join_1490_left'], 
       "'Other'", 
       [
-        'SubCustSeg5', 
-        'Volume', 
-        'SubCustSeg1', 
         'Min_RevMonth', 
+        'Max_RevMonth', 
+        'Revenue', 
+        'YetToRenew', 
+        'Volume', 
+        'SubCustSeg5', 
+        'SubCustSeg1', 
         'CustomerName', 
         'SubCustSeg6', 
         'Customer Segment', 
         'RevMonth', 
-        'Revenue', 
         'SubCustSeg3', 
-        'Max_RevMonth', 
         'SubCustSeg4', 
-        'YetToRenew', 
         'Product', 
         'SubCustSeg2'
       ], 
@@ -636,8 +637,8 @@ Union_1492 AS (
     prophecy_basics.UnionByName(
       ['Join_1490_inner', 'MultiFieldFormula_1491'], 
       [
-        '[{"name": "SubCustSeg5", "dataType": "String"}, {"name": "Volume", "dataType": "Double"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "Min_RevMonth", "dataType": "Date"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}, {"name": "Customer Segment", "dataType": "String"}, {"name": "RevMonth", "dataType": "Date"}, {"name": "Revenue", "dataType": "Double"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "Max_RevMonth", "dataType": "Date"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "YetToRenew", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}]', 
-        '[{"name": "SubCustSeg5", "dataType": "String"}, {"name": "Volume", "dataType": "Double"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "Min_RevMonth", "dataType": "Date"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}, {"name": "Customer Segment", "dataType": "String"}, {"name": "RevMonth", "dataType": "Date"}, {"name": "Revenue", "dataType": "Double"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "Max_RevMonth", "dataType": "Date"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "YetToRenew", "dataType": "Double"}, {"name": "Product", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}]'
+        '[{"name": "Min_RevMonth", "dataType": "Date"}, {"name": "Max_RevMonth", "dataType": "Date"}, {"name": "Revenue", "dataType": "Double"}, {"name": "YetToRenew", "dataType": "Double"}, {"name": "Volume", "dataType": "Double"}, {"name": "CustomerName", "dataType": "String"}, {"name": "Customer Segment", "dataType": "String"}, {"name": "RevMonth", "dataType": "Date"}, {"name": "Product", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}, {"name": "SubCustSeg5", "dataType": "String"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}]', 
+        '[{"name": "Min_RevMonth", "dataType": "Date"}, {"name": "Max_RevMonth", "dataType": "Date"}, {"name": "Revenue", "dataType": "Double"}, {"name": "YetToRenew", "dataType": "Double"}, {"name": "Volume", "dataType": "Double"}, {"name": "SubCustSeg5", "dataType": "String"}, {"name": "SubCustSeg1", "dataType": "String"}, {"name": "CustomerName", "dataType": "String"}, {"name": "SubCustSeg6", "dataType": "String"}, {"name": "Customer Segment", "dataType": "String"}, {"name": "RevMonth", "dataType": "Date"}, {"name": "SubCustSeg3", "dataType": "String"}, {"name": "SubCustSeg4", "dataType": "String"}, {"name": "Product", "dataType": "String"}, {"name": "SubCustSeg2", "dataType": "String"}]'
       ], 
       'allowMissingColumns'
     )
@@ -976,20 +977,20 @@ Cleanse_1281 AS (
     prophecy_basics.DataCleansing(
       ['Join_1277_inner_UnionLeftOuter'], 
       [
-        { "name": "SubCustSeg5", "dataType": "String" }, 
         { "name": "Right_Product", "dataType": "String" }, 
+        { "name": "Right_YetToRenew", "dataType": "Double" }, 
+        { "name": "YetToRenew", "dataType": "Double" }, 
+        { "name": "Product", "dataType": "String" }, 
+        { "name": "RevMonth", "dataType": "Date" }, 
+        { "name": "Revenue", "dataType": "Double" }, 
         { "name": "Volume", "dataType": "Double" }, 
+        { "name": "SubCustSeg5", "dataType": "String" }, 
         { "name": "SubCustSeg1", "dataType": "String" }, 
         { "name": "CustomerName", "dataType": "String" }, 
         { "name": "SubCustSeg6", "dataType": "String" }, 
         { "name": "Customer Segment", "dataType": "String" }, 
-        { "name": "RevMonth", "dataType": "Date" }, 
-        { "name": "Revenue", "dataType": "Double" }, 
         { "name": "SubCustSeg3", "dataType": "String" }, 
         { "name": "SubCustSeg4", "dataType": "String" }, 
-        { "name": "YetToRenew", "dataType": "Double" }, 
-        { "name": "Right_YetToRenew", "dataType": "Double" }, 
-        { "name": "Product", "dataType": "String" }, 
         { "name": "SubCustSeg2", "dataType": "String" }
       ], 
       'keepOriginal', 
